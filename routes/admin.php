@@ -19,5 +19,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('users/{user}',                       [\App\Http\Controllers\Admin\UserController::class, 'show'])->name('users.show');
         Route::post('users/{user}/grant-premium',        [\App\Http\Controllers\Admin\UserController::class, 'grantPremium'])->name('users.grant-premium');
         Route::post('users/{user}/revoke-premium',       [\App\Http\Controllers\Admin\UserController::class, 'revokePremium'])->name('users.revoke-premium');
+
+        Route::get('subscriptions',                      [\App\Http\Controllers\Admin\SubscriptionController::class, 'index'])->name('subscriptions.index');
+        Route::post('subscriptions/{sub}/extend',        [\App\Http\Controllers\Admin\SubscriptionController::class, 'extend'])->name('subscriptions.extend');
+        Route::post('subscriptions/{sub}/cancel',        [\App\Http\Controllers\Admin\SubscriptionController::class, 'cancel'])->name('subscriptions.cancel');
     });
 });
