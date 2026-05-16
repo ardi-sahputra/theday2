@@ -38,6 +38,13 @@ return Application::configure(basePath: dirname(__DIR__))
             'logout',
         ]);
 
+        $middleware->redirectGuestsTo(function (\Illuminate\Http\Request $request) {
+            if ($request->is('admin') || $request->is('admin/*')) {
+                return route('admin.login');
+            }
+            return route('login');
+        });
+
         $middleware->alias([
             'onboarding'         => \App\Http\Middleware\EnsureOnboardingComplete::class,
             'invitation.access'  => \App\Http\Middleware\CheckInvitationAccess::class,

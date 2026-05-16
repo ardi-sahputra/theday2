@@ -13,6 +13,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     // Authenticated admin only
     Route::middleware('auth:admin')->group(function () {
+        Route::get('/', fn () => response('Admin area', 200));
         Route::post('logout', [\App\Http\Controllers\Admin\Auth\LoginController::class, 'logout'])->name('logout');
     });
 });
