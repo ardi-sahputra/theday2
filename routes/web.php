@@ -24,7 +24,6 @@ use App\Http\Controllers\Dashboard\TemplateController;
 use App\Http\Controllers\PaymentReturnController;
 use App\Http\Controllers\WebhookController;
 use App\Http\Controllers\Dashboard\WhatsAppTemplateController;
-use App\Http\Controllers\Admin\ArticleController;
 use App\Http\Controllers\Blog\BlogController;
 use App\Http\Controllers\OnboardingController;
 use App\Http\Controllers\ProfileController;

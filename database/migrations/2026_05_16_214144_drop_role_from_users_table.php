@@ -16,7 +16,7 @@ return new class extends Migration
             // Drop the index before dropping the column (required for SQLite compatibility)
             try {
                 $table->dropIndex('users_role_index');
-            } catch (\Throwable) {
+            } catch (\Illuminate\Database\QueryException) {
                 // Index may not exist
             }
             $table->dropColumn('role');

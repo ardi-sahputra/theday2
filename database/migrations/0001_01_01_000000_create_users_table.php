@@ -18,9 +18,12 @@ return new class extends Migration
             $table->string('password');
             $table->string('phone', 20)->nullable();
             $table->string('avatar_url')->nullable();
+            $table->enum('role', ['admin', 'user'])->default('user');
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
+
+            $table->index('role');
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
