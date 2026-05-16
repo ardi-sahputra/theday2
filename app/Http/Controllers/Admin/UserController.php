@@ -49,4 +49,35 @@ class UserController extends Controller
             'filters' => $request->only(['search', 'plan', 'sort']),
         ]);
     }
+
+    public function show(User $user): Response
+    {
+        $user->load([
+            'subscriptions:id,user_id,plan_id,status,expires_at',
+            'subscriptions.plan:id,name,slug',
+            'invitations:id,user_id,title,slug,status,created_at',
+            'transactions:id,user_id,amount,status,created_at',
+        ]);
+
+        return Inertia::render('Admin/Users/Show', [
+            'user' => $user,
+        ]);
+    }
+
+    public function grantPremium(
+        \App\Http\Requests\Admin\GrantPremiumRequest $request,
+        User $user,
+        \App\Services\SubscriptionOverrideService $svc,
+    ): \Illuminate\Http\RedirectResponse {
+        $svc->grantPremium($user, (int) $request->input('months'), $request->input('reason'));
+        return back()->with('success', 'Premium granted.');
+    }
+
+    public function revokePremium(
+        User $user,
+        \App\Services\SubscriptionOverrideService $svc,
+    ): \Illuminate\Http\RedirectResponse {
+        $svc->revokePremium($user);
+        return back()->with('success', 'Premium revoked.');
+    }
 }

@@ -16,5 +16,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
         Route::post('logout', [\App\Http\Controllers\Admin\Auth\LoginController::class, 'logout'])->name('logout');
         Route::get('users', [\App\Http\Controllers\Admin\UserController::class, 'index'])->name('users.index');
+        Route::get('users/{user}',                       [\App\Http\Controllers\Admin\UserController::class, 'show'])->name('users.show');
+        Route::post('users/{user}/grant-premium',        [\App\Http\Controllers\Admin\UserController::class, 'grantPremium'])->name('users.grant-premium');
+        Route::post('users/{user}/revoke-premium',       [\App\Http\Controllers\Admin\UserController::class, 'revokePremium'])->name('users.revoke-premium');
     });
 });
