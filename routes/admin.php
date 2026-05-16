@@ -7,11 +7,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     // Guest only (login)
     Route::middleware('guest:admin')->group(function () {
-        // Phase 3 — Admin\Auth\LoginController endpoints
+        Route::get('login',  [\App\Http\Controllers\Admin\Auth\LoginController::class, 'show'])->name('login');
+        Route::post('login', [\App\Http\Controllers\Admin\Auth\LoginController::class, 'authenticate']);
     });
 
     // Authenticated admin only
     Route::middleware('auth:admin')->group(function () {
-        // Phase 3-8 — admin endpoints
+        Route::post('logout', [\App\Http\Controllers\Admin\Auth\LoginController::class, 'logout'])->name('logout');
     });
 });
