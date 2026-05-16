@@ -82,7 +82,7 @@ const breadcrumb = computed(() =>
 
             <!-- Header -->
             <div class="flex items-center gap-3">
-                <Button variant="ghost" size="icon" as-child>
+                <Button variant="ghost" size="icon" as-child aria-label="Kembali ke daftar artikel">
                     <Link href="/admin/articles">
                         <ArrowLeft class="w-5 h-5" />
                     </Link>

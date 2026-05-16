@@ -132,7 +132,7 @@ function destroy(id, title) {
                                 <td class="px-4 py-3">
                                     <div class="flex items-center justify-end gap-1">
                                         <!-- Preview -->
-                                        <Button variant="ghost" size="icon" as-child title="Lihat artikel">
+                                        <Button variant="ghost" size="icon" as-child title="Lihat artikel" :aria-label="`Lihat artikel: ${article.title}`">
                                             <a :href="`/blog/${article.slug}`" target="_blank">
                                                 <Eye class="w-4 h-4" />
                                             </a>
@@ -144,6 +144,7 @@ function destroy(id, title) {
                                             size="icon"
                                             :class="article.featured ? 'text-amber-500 hover:text-amber-600' : 'text-muted-foreground'"
                                             title="Toggle Unggulan"
+                                            :aria-label="article.featured ? `Hapus dari unggulan: ${article.title}` : `Jadikan unggulan: ${article.title}`"
                                             @click="toggleFeatured(article.id)"
                                         >
                                             <Star class="w-4 h-4" :fill="article.featured ? 'currentColor' : 'none'" />
@@ -156,6 +157,7 @@ function destroy(id, title) {
                                             size="icon"
                                             class="text-emerald-600 hover:text-emerald-700"
                                             title="Publikasi"
+                                            :aria-label="`Publikasi artikel: ${article.title}`"
                                             @click="publish(article.id)"
                                         >
                                             <CheckCircle class="w-4 h-4" />
@@ -166,13 +168,14 @@ function destroy(id, title) {
                                             size="icon"
                                             class="text-muted-foreground hover:text-destructive"
                                             title="Kembalikan ke Draft"
+                                            :aria-label="`Kembalikan ke draft: ${article.title}`"
                                             @click="unpublish(article.id)"
                                         >
                                             <XCircle class="w-4 h-4" />
                                         </Button>
 
                                         <!-- Edit -->
-                                        <Button variant="ghost" size="icon" as-child title="Edit">
+                                        <Button variant="ghost" size="icon" as-child title="Edit" :aria-label="`Edit artikel: ${article.title}`">
                                             <Link :href="`/admin/articles/${article.id}/edit`">
                                                 <Pencil class="w-4 h-4" />
                                             </Link>
@@ -184,6 +187,7 @@ function destroy(id, title) {
                                             size="icon"
                                             class="text-muted-foreground hover:text-destructive"
                                             title="Hapus"
+                                            :aria-label="`Hapus artikel: ${article.title}`"
                                             @click="destroy(article.id, article.title)"
                                         >
                                             <Trash2 class="w-4 h-4" />

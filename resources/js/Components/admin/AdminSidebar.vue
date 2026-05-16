@@ -42,7 +42,7 @@ function isActive(href) {
     >
         <div class="h-14 flex items-center justify-between px-4 border-b border-border">
             <Link href="/admin" class="font-semibold text-sm tracking-tight">TheDay Admin</Link>
-            <button @click="emit('close')" class="lg:hidden text-muted-foreground hover:text-foreground">
+            <button @click="emit('close')" class="lg:hidden text-muted-foreground hover:text-foreground" aria-label="Close sidebar">
                 <X class="w-5 h-5" />
             </button>
         </div>
