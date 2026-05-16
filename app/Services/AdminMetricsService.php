@@ -43,10 +43,10 @@ class AdminMetricsService
         });
     }
 
-    public function conversionRate(): float
+    public function conversionRate(?Carbon $month = null): float
     {
-        $totalUsers = User::count();
-        $premium = Subscription::where('status', 'active')->count();
+        $totalUsers = $this->totalUsers();
+        $premium = $this->premiumActiveCount();
 
         return $totalUsers === 0 ? 0.0 : round(($premium / $totalUsers) * 100, 1);
     }

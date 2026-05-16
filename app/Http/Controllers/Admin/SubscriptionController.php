@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Subscription;
 use App\Services\SubscriptionOverrideService;
 use Illuminate\Http\RedirectResponse;
+use App\Http\Requests\Admin\ExtendSubscriptionRequest;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -34,11 +35,11 @@ class SubscriptionController extends Controller
     }
 
     public function extend(
-        Request $request,
+        ExtendSubscriptionRequest $request,
         Subscription $sub,
         SubscriptionOverrideService $svc,
     ): RedirectResponse {
-        $months = (int) $request->input('months', 1);
+        $months = (int) $request->input('months');
         $svc->extend($sub, $months);
         return back()->with('success', "Extended by {$months} month(s).");
     }

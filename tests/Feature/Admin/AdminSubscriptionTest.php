@@ -59,6 +59,19 @@ class AdminSubscriptionTest extends TestCase
         $this->assertSame('2026-07-01 00:00:00', $sub->expires_at->toDateTimeString());
     }
 
+    public function test_extend_rejects_invalid_months(): void
+    {
+        $plan = Plan::where('slug', 'premium')->first();
+        $sub = Subscription::factory()->create(['plan_id' => $plan->id, 'status' => 'active']);
+        $admin = $this->asAdmin();
+
+        $admin->post("/admin/subscriptions/{$sub->id}/extend", ['months' => 999])
+            ->assertSessionHasErrors('months');
+
+        $admin->post("/admin/subscriptions/{$sub->id}/extend", ['months' => -1])
+            ->assertSessionHasErrors('months');
+    }
+
     public function test_cancel_sets_status_cancelled(): void
     {
         $plan = Plan::where('slug', 'premium')->first();
