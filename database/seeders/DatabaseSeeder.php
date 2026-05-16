@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             TemplateSeeder::class,
             ChecklistTemplateSeeder::class,
             BlogSeeder::class,
+            AdminSeeder::class,
         ]);
 
         // // ── Admin user ────────────────────────────────────────────
