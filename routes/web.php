@@ -260,22 +260,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// Admin routes — protected by role:admin middleware
-Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
-    // Route::get('/', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
-
-    // ── Articles ──────────────────────────────────────────────────────
-    Route::get(   '/articles',                         [ArticleController::class, 'index'])->name('articles.index');
-    Route::get(   '/articles/create',                  [ArticleController::class, 'create'])->name('articles.create');
-    Route::post(  '/articles',                         [ArticleController::class, 'store'])->name('articles.store');
-    Route::get(   '/articles/{article}/edit',          [ArticleController::class, 'edit'])->name('articles.edit');
-    Route::patch( '/articles/{article}',               [ArticleController::class, 'update'])->name('articles.update');
-    Route::delete('/articles/{article}',               [ArticleController::class, 'destroy'])->name('articles.destroy');
-    Route::patch( '/articles/{article}/publish',       [ArticleController::class, 'publish'])->name('articles.publish');
-    Route::patch( '/articles/{article}/unpublish',     [ArticleController::class, 'unpublish'])->name('articles.unpublish');
-    Route::patch( '/articles/{article}/featured',      [ArticleController::class, 'toggleFeatured'])->name('articles.featured');
-});
-
 // ── Webhooks (no auth) ──────────────────────────────────────────────────
 Route::post('/webhooks/mayar', [WebhookController::class, 'mayar'])->name('webhooks.mayar');
 
