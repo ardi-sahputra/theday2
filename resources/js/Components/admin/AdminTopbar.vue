@@ -23,7 +23,7 @@ const initials = computed(() => (admin.value?.name ?? 'A').split(' ').map(w => w
         </div>
 
         <div class="flex items-center gap-3">
-            <button class="hidden md:flex items-center gap-2 px-3 py-1.5 text-xs text-muted-foreground border border-border rounded-md hover:bg-accent/50 transition-colors">
+            <button class="hidden md:flex items-center gap-2 px-3 py-1.5 text-xs text-muted-foreground border border-border rounded-md hover:bg-accent/50 transition-colors duration-[150ms] ease-out cursor-pointer">
                 <Search class="w-3.5 h-3.5" />
                 <span>Search…</span>
                 <kbd class="ml-4 px-1.5 py-0.5 bg-muted rounded text-[10px]">⌘K</kbd>

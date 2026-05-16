@@ -28,6 +28,11 @@ export default {
                     text: '#2C2417',
                     bg: '#FFFCF7',
                 },
+                // Admin data accent — blue per ui-ux-pro-max recommendation
+                admin: {
+                    accent: '#2563EB',
+                    'accent-hover': '#1D4ED8',
+                },
                 border: 'hsl(var(--border))',
                 input: 'hsl(var(--input))',
                 ring: 'hsl(var(--ring))',
@@ -66,6 +71,13 @@ export default {
                 lg: 'var(--radius)',
                 md: 'calc(var(--radius) - 2px)',
                 sm: 'calc(var(--radius) - 4px)',
+            },
+            // Admin-tuned transition timing (ui-ux-pro-max: 150-300ms ease-out)
+            transitionTimingFunction: {
+                'admin': 'cubic-bezier(0.16, 1, 0.3, 1)',
+            },
+            transitionDuration: {
+                '180': '180ms',
             },
         },
     },

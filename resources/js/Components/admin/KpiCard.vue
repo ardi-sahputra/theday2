@@ -21,7 +21,8 @@ function formatValue(value, format) {
     <Card>
         <CardContent class="p-4">
             <p class="text-xs text-muted-foreground uppercase tracking-wider font-medium mb-1">{{ label }}</p>
-            <p class="text-2xl font-semibold">{{ formatValue(value, format) }}</p>
+            <!-- text-xl (vs text-2xl) tighter for dense data dashboard per ui-ux-pro-max rec -->
+            <p class="text-xl font-semibold tabular-nums">{{ formatValue(value, format) }}</p>
             <div v-if="delta !== null" class="flex items-center gap-1 mt-1.5 text-xs">
                 <TrendingUp v-if="delta > 0" class="w-3.5 h-3.5 text-emerald-500" />
                 <TrendingDown v-else-if="delta < 0" class="w-3.5 h-3.5 text-red-500" />

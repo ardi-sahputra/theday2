@@ -36,7 +36,7 @@ function isActive(href) {
     <aside
         :class="[
             'w-60 shrink-0 border-r border-border bg-card text-card-foreground flex flex-col font-admin',
-            'fixed inset-y-0 left-0 z-40 transition-transform duration-200 lg:static lg:translate-x-0',
+            'fixed inset-y-0 left-0 z-40 transition-transform duration-[180ms] ease-out lg:static lg:translate-x-0',
             mobileOpen ? 'translate-x-0' : '-translate-x-full',
         ]"
     >
@@ -55,7 +55,7 @@ function isActive(href) {
                     :key="item.href"
                     :href="item.href"
                     :class="[
-                        'flex items-center gap-3 px-3 py-2 rounded-md text-sm transition-colors',
+                        'flex items-center gap-3 px-3 py-2 rounded-md text-sm transition-colors duration-[150ms] ease-out',
                         isActive(item.href)
                             ? 'bg-accent text-accent-foreground font-medium'
                             : 'text-muted-foreground hover:bg-accent/50 hover:text-foreground',
@@ -73,7 +73,7 @@ function isActive(href) {
                     :key="item.href"
                     :href="item.href"
                     :class="[
-                        'flex items-center gap-3 px-3 py-2 rounded-md text-sm transition-colors',
+                        'flex items-center gap-3 px-3 py-2 rounded-md text-sm transition-colors duration-[150ms] ease-out',
                         isActive(item.href)
                             ? 'bg-accent text-accent-foreground font-medium'
                             : 'text-muted-foreground hover:bg-accent/50 hover:text-foreground',
@@ -88,7 +88,7 @@ function isActive(href) {
         <div class="border-t border-border p-3 space-y-1">
             <button
                 @click="cycleTheme"
-                class="w-full flex items-center gap-3 px-3 py-2 rounded-md text-sm text-muted-foreground hover:bg-accent/50 hover:text-foreground transition-colors"
+                class="w-full flex items-center gap-3 px-3 py-2 rounded-md text-sm text-muted-foreground hover:bg-accent/50 hover:text-foreground transition-colors duration-[150ms] ease-out"
                 :aria-label="`Cycle theme (current: ${theme})`"
             >
                 <Sun v-if="theme === 'light'" class="w-4 h-4" />
@@ -101,7 +101,7 @@ function isActive(href) {
                 <input type="hidden" name="_token" :value="page.props.csrf_token ?? ''">
                 <button
                     type="submit"
-                    class="w-full flex items-center gap-3 px-3 py-2 rounded-md text-sm text-muted-foreground hover:bg-accent/50 hover:text-foreground transition-colors"
+                    class="w-full flex items-center gap-3 px-3 py-2 rounded-md text-sm text-muted-foreground hover:bg-accent/50 hover:text-foreground transition-colors duration-[150ms] ease-out"
                 >
                     <LogOut class="w-4 h-4" />
                     Logout
