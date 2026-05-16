@@ -23,5 +23,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('subscriptions',                      [\App\Http\Controllers\Admin\SubscriptionController::class, 'index'])->name('subscriptions.index');
         Route::post('subscriptions/{sub}/extend',        [\App\Http\Controllers\Admin\SubscriptionController::class, 'extend'])->name('subscriptions.extend');
         Route::post('subscriptions/{sub}/cancel',        [\App\Http\Controllers\Admin\SubscriptionController::class, 'cancel'])->name('subscriptions.cancel');
+
+        Route::resource('articles', \App\Http\Controllers\Admin\ArticleController::class);
+        Route::patch('articles/{article}/publish',   [\App\Http\Controllers\Admin\ArticleController::class, 'publish'])->name('articles.publish');
+        Route::patch('articles/{article}/unpublish', [\App\Http\Controllers\Admin\ArticleController::class, 'unpublish'])->name('articles.unpublish');
+        Route::patch('articles/{article}/featured',  [\App\Http\Controllers\Admin\ArticleController::class, 'toggleFeatured'])->name('articles.featured');
     });
 });
