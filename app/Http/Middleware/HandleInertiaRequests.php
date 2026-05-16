@@ -50,7 +50,7 @@ class HandleInertiaRequests extends Middleware
                     'avatar_url'              => $user->avatar_url,
                     'onboarding_completed'    => $user->hasCompletedOnboarding(),
                 ] : null,
-                'subscription' => $user ? (function () use ($user) {
+                'subscription' => ($user instanceof \App\Models\User) ? (function () use ($user) {
                     $sub = $user->activeSubscription;
                     if (! $sub) return null;
                     return [
@@ -69,7 +69,7 @@ class HandleInertiaRequests extends Middleware
                 })() : null,
                 'isGuest' => ! $user,
             ],
-            'can_create_invitation' => fn () => $user ? (function () use ($user) {
+            'can_create_invitation' => fn () => ($user instanceof \App\Models\User) ? (function () use ($user) {
                 $base   = $user->currentPlan()?->max_invitations
                     ?? \App\Models\Plan::where('slug', 'free')->value('max_invitations')
                     ?? 1;
@@ -78,7 +78,7 @@ class HandleInertiaRequests extends Middleware
                     ->sum('quantity');
                 return $user->invitations()->count() < ($base + $addons);
             })() : true,
-            'checklist_todo' => fn () => $user
+            'checklist_todo' => fn () => ($user instanceof \App\Models\User)
                 ? ChecklistTask::whereHas('weddingPlan', fn ($q) => $q->where('user_id', $user->id))
                     ->todo()
                     ->count()

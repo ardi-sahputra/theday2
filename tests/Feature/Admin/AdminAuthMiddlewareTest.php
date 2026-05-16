@@ -32,7 +32,8 @@ class AdminAuthMiddlewareTest extends TestCase
             'name' => 'A', 'email' => 'a@a.com', 'password' => Hash::make('password123'),
         ]);
 
-        // Dashboard route is added in Phase 4; this test will be unskipped then.
-        $this->markTestSkipped('Dashboard route added in Phase 4');
+        $this->actingAs($admin, 'admin')
+            ->get('/admin')
+            ->assertOk();
     }
 }
