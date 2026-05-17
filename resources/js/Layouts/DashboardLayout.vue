@@ -92,6 +92,14 @@ const navItems = computed(() => [
             d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>`,
     },
     {
+        id: 'gifts',
+        label: 'Gift Premium',
+        route: 'dashboard.gifts.index',
+        activePattern: 'dashboard.gifts.*',
+        icon: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/>`,
+    },
+    {
         id: 'transactions',
         label: t('nav.transactions'),
         route: 'dashboard.transactions.index',
