@@ -31,13 +31,18 @@ class GiftController extends Controller
     public function create(): Response
     {
         $plan = Plan::where('slug', 'premium')->firstOrFail();
+        $discount = $plan->currentDiscount();
 
         return Inertia::render('Dashboard/Gifts/Create', [
             'plan' => [
-                'id'            => $plan->id,
-                'name'          => $plan->name,
-                'price'         => $plan->price,
-                'duration_days' => $plan->duration_days,
+                'id'               => $plan->id,
+                'name'             => $plan->name,
+                'duration_days'    => $plan->duration_days,
+                'price'            => (int) $plan->price,
+                'effective_price'  => $plan->effectivePrice(),
+                'has_discount'     => $discount !== null,
+                'discount_percent' => $discount?->percent,
+                'discount_label'   => $discount?->label,
             ],
         ]);
     }
