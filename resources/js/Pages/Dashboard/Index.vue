@@ -73,51 +73,6 @@ async function doDuplicate() {
     }
 }
 
-const statCards = computed(() => [
-    {
-        label: t('dashboard.index.stats.totalInvitations'),
-        value: props.stats.total_invitations,
-        sub: t('dashboard.index.stats.totalInvitationsSub', {
-            draft: props.stats.draft_count,
-            published: props.stats.published_count,
-        }),
-        icon: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>`,
-        bg: '#EFF2F0',
-        iconColor: '#73877C',
-    },
-    {
-        label: t('dashboard.index.stats.totalViews'),
-        value: props.stats.total_views.toLocaleString('id-ID'),
-        sub: t('dashboard.index.stats.totalViewsSub'),
-        icon: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>`,
-        bg: '#EDE9FE',
-        iconColor: '#7C3AED',
-    },
-    {
-        label: t('dashboard.index.stats.totalRsvp'),
-        value: props.stats.total_rsvps.toLocaleString('id-ID'),
-        sub: t('dashboard.index.stats.totalRsvpSub'),
-        icon: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>`,
-        bg: '#D1FAE5',
-        iconColor: '#059669',
-    },
-    {
-        label: t('dashboard.index.stats.activePlan'),
-        value: props.activePlan.name,
-        sub: props.activePlan.max_invitations === 9999
-            ? t('dashboard.index.stats.activePlanSubUnlimited')
-            : t('dashboard.index.stats.activePlanSub', { max: props.activePlan.max_invitations }),
-        icon: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>`,
-        bg: '#FEE2E2',
-        iconColor: '#DC2626',
-    },
-]);
 
 const statusConfig = computed(() => ({
     draft:    { label: t('dashboard.index.status.draft'),    bg: '#F3F4F6', color: '#6B7280' },
@@ -152,47 +107,71 @@ const priorityDot = {
 
         <div class="max-w-6xl mx-auto space-y-6">
 
-            <!-- ── Greeting ──────────────────────────────────────── -->
-            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                <div>
-                    <h2 class="text-xl font-semibold text-stone-800">
-                        {{ t('dashboard.index.greeting') }}
-                    </h2>
-                    <p class="hidden sm:block text-sm text-stone-400 mt-0.5">
-                        {{ t('dashboard.index.greetingSubtitle') }}
-                    </p>
-                </div>
-                <Link
-                    :href="route('dashboard.templates')"
-                    class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white shadow-sm transition-all hover:opacity-90 hover:-translate-y-px"
-                    style="background-color: #92A89C"
-                >
-                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/>
-                    </svg>
-                    {{ t('dashboard.index.createNew') }}
-                </Link>
-            </div>
+            <!-- ── Hero Summary ─────────────────────────────────── -->
+            <section class="relative overflow-hidden rounded-3xl border border-brand-primary-soft/40 bg-gradient-to-br from-brand-primary-soft/[0.15] via-brand-bg to-white p-5 sm:p-8">
 
-            <!-- ── Stat Cards ─────────────────────────────────────── -->
-            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                <div
-                    v-for="card in statCards"
-                    :key="card.label"
-                    class="bg-white rounded-2xl p-5 border border-stone-100 shadow-sm hover:shadow-md transition-shadow"
-                >
-                    <div class="flex items-start justify-between mb-3">
-                        <p class="text-xs font-medium text-stone-400 uppercase tracking-wide">{{ card.label }}</p>
-                        <div class="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
-                             :style="{ backgroundColor: card.bg }">
-                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                                 :style="{ color: card.iconColor }" v-html="card.icon"/>
+                <!-- decorative ring -->
+                <span aria-hidden="true"
+                      class="absolute -top-16 -right-16 w-48 h-48 rounded-full border border-brand-primary/15"/>
+                <span aria-hidden="true"
+                      class="absolute -bottom-20 -left-10 w-40 h-40 rounded-full border border-brand-primary/10"/>
+
+                <div class="relative flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-5 sm:mb-6">
+                    <div class="min-w-0">
+                        <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/70 border border-brand-primary-soft/40 mb-2">
+                            <span class="w-1.5 h-1.5 rounded-full bg-brand-primary"/>
+                            <span class="text-[11px] font-semibold uppercase tracking-wider text-brand-primary-hover">
+                                {{ activePlan.name }}
+                            </span>
                         </div>
+                        <h2 class="text-2xl sm:text-3xl font-semibold text-brand-text leading-tight"
+                            style="font-family: 'Playfair Display', serif">
+                            {{ t('dashboard.index.greeting') }}
+                        </h2>
+                        <p class="text-sm text-stone-500 mt-1">{{ t('dashboard.index.greetingSubtitle') }}</p>
                     </div>
-                    <p class="text-2xl font-bold text-stone-800">{{ card.value }}</p>
-                    <p class="text-xs text-stone-400 mt-1">{{ card.sub }}</p>
+                    <Link
+                        :href="route('dashboard.templates')"
+                        class="shrink-0 inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white bg-brand-primary hover:bg-brand-primary-hover shadow-sm transition-all hover:-translate-y-px"
+                    >
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/>
+                        </svg>
+                        {{ t('dashboard.index.createNew') }}
+                    </Link>
                 </div>
-            </div>
+
+                <!-- inline stats -->
+                <div class="relative grid grid-cols-3 gap-px rounded-2xl bg-brand-primary-soft/30 overflow-hidden">
+                    <div class="bg-white/90 backdrop-blur-sm p-3 sm:p-4 text-center">
+                        <p class="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-brand-primary-hover/80">
+                            {{ t('dashboard.index.stats.totalInvitations') }}
+                        </p>
+                        <p class="text-xl sm:text-2xl font-bold text-brand-text mt-1 tabular-nums">{{ stats.total_invitations }}</p>
+                        <p class="text-[10px] text-stone-400 mt-0.5 hidden sm:block">
+                            {{ t('dashboard.index.stats.totalInvitationsSub', { draft: stats.draft_count, published: stats.published_count }) }}
+                        </p>
+                    </div>
+                    <div class="bg-white/90 backdrop-blur-sm p-3 sm:p-4 text-center">
+                        <p class="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-brand-primary-hover/80">
+                            {{ t('dashboard.index.stats.totalViews') }}
+                        </p>
+                        <p class="text-xl sm:text-2xl font-bold text-brand-text mt-1 tabular-nums">{{ stats.total_views.toLocaleString('id-ID') }}</p>
+                        <p class="text-[10px] text-stone-400 mt-0.5 hidden sm:block">
+                            {{ t('dashboard.index.stats.totalViewsSub') }}
+                        </p>
+                    </div>
+                    <div class="bg-white/90 backdrop-blur-sm p-3 sm:p-4 text-center">
+                        <p class="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-brand-primary-hover/80">
+                            {{ t('dashboard.index.stats.totalRsvp') }}
+                        </p>
+                        <p class="text-xl sm:text-2xl font-bold text-brand-text mt-1 tabular-nums">{{ stats.total_rsvps.toLocaleString('id-ID') }}</p>
+                        <p class="text-[10px] text-stone-400 mt-0.5 hidden sm:block">
+                            {{ t('dashboard.index.stats.totalRsvpSub') }}
+                        </p>
+                    </div>
+                </div>
+            </section>
 
             <!-- ── Budget Widget ──────────────────────────────────── -->
             <Link
