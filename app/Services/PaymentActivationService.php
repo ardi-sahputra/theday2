@@ -7,6 +7,7 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Enums\PaymentStatus;
+use App\Mail\GiftReceivedMail;
 use App\Mail\PaymentSuccessMail;
 use App\Models\InvitationAddon;
 use App\Models\Subscription;
@@ -51,7 +52,9 @@ class PaymentActivationService
                 'paid_at'          => now(),
             ]);
 
-            if ($transaction->isAddonPurchase()) {
+            if ($transaction->gift_id) {
+                $this->activateGift($transaction);
+            } elseif ($transaction->isAddonPurchase()) {
                 $this->activateAddon($transaction);
             } else {
                 $this->activatePremium($transaction);
@@ -100,6 +103,24 @@ class PaymentActivationService
             'subscription_id' => $subscription->id,
             'expires_at'      => $subscription->expires_at->toDateString(),
         ]);
+    }
+
+    public function activateGift(Transaction $transaction): void
+    {
+        $gift = $transaction->gift;
+        if (! $gift) {
+            return;
+        }
+
+        if ($gift->status === 'awaiting_payment') {
+            $gift->update(['status' => 'pending']);
+
+            if ($gift->delivery_mode === 'email' && $gift->recipient_email) {
+                Mail::to($gift->recipient_email)->queue(new GiftReceivedMail($gift->fresh()));
+            }
+
+            Log::info('gift.paid', ['gift_id' => $gift->id]);
+        }
     }
 
     public function activateAddon(Transaction $transaction): void
