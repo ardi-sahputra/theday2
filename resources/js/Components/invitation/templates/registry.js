@@ -7,6 +7,7 @@ import NightSkyTemplate           from './NightSkyTemplate.vue'
 import NetflixTemplate            from './NetflixTemplate.vue'
 import ArtDecoGatsbyTemplate      from './ArtDecoGatsbyTemplate.vue'
 import AstronomyCelestialTemplate from './AstronomyCelestialTemplate.vue'
+import BelleEpoqueTemplate        from './BelleEpoqueTemplate.vue'
 
 export const TEMPLATE_MAP = {
     'nusantara':           NusantaraTemplate,
@@ -17,4 +18,5 @@ export const TEMPLATE_MAP = {
     'netflix':             NetflixTemplate,
     'art-deco-gatsby':     ArtDecoGatsbyTemplate,
     'astronomy-celestial': AstronomyCelestialTemplate,
+    'belle-epoque':        BelleEpoqueTemplate,
 }

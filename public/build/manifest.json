@@ -1,11 +1,15 @@
 {
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> feat/template-belle-epoque
   "../../../node_modules/vue3-apexcharts/dist/apexcharts.ssr.esm-fe46cd2d.js": {
     "file": "assets/apexcharts.ssr.esm-fe46cd2d-CHmRg-9z.js",
     "name": "apexcharts.ssr.esm-fe46cd2d",
     "src": "../../../node_modules/vue3-apexcharts/dist/apexcharts.ssr.esm-fe46cd2d.js",
     "isDynamicEntry": true
   },
+<<<<<<< HEAD
   "_AdminLayout-mthTTLl0.js": {
     "file": "assets/AdminLayout-mthTTLl0.js",
     "name": "AdminLayout",
@@ -42,12 +46,32 @@
   "_ApplicationLogo-BDx5dnZ2.js": {
     "file": "assets/ApplicationLogo-BDx5dnZ2.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+  "_AdminLayout-B6syM544.js": {
+    "file": "assets/AdminLayout-B6syM544.js",
+    "name": "AdminLayout",
+    "imports": [
+      "resources/js/app.js",
+      "_index-CI_Knltq.js",
+      "_createLucideIcon-CTJwoIlG.js",
+      "_chevron-right-DnM6zDDU.js",
+      "_credit-card-DVLhSlC2.js",
+      "_gift-D1Bl_XJN.js",
+      "_loader-circle-C4mPZGZ8.js",
+      "_info-DW_yZ0Lg.js",
+      "_circle-check-DY99ORx5.js"
+    ]
+  },
+  "_ApplicationLogo-lJA9ydb0.js": {
+    "file": "assets/ApplicationLogo-lJA9ydb0.js",
+>>>>>>> feat/template-belle-epoque
     "name": "ApplicationLogo",
     "imports": [
       "__plugin-vue_export-helper-DlAUqK2U.js",
       "resources/js/app.js"
     ]
   },
+<<<<<<< HEAD
 <<<<<<< HEAD
   "_CardContent-Dq3hQe7Q.js": {
     "file": "assets/CardContent-Dq3hQe7Q.js",
@@ -99,6 +123,32 @@
       "_Primitive-Bsi6nM2e.js",
       "_VisuallyHidden-ClNj62RH.js"
 >>>>>>> feat/template-astronomy-celestial
+=======
+  "_CardContent-Bf7ao1lg.js": {
+    "file": "assets/CardContent-Bf7ao1lg.js",
+    "name": "CardContent",
+    "imports": [
+      "_Primitive-C_m8NDVQ.js",
+      "resources/js/app.js"
+    ]
+  },
+  "_CardTitle-jDOsFDfq.js": {
+    "file": "assets/CardTitle-jDOsFDfq.js",
+    "name": "CardTitle",
+    "imports": [
+      "_Primitive-C_m8NDVQ.js",
+      "resources/js/app.js"
+    ]
+  },
+  "_Collection-Ba0ZtSdm.js": {
+    "file": "assets/Collection-Ba0ZtSdm.js",
+    "name": "Collection",
+    "imports": [
+      "_Presence-OknBI-k5.js",
+      "resources/js/app.js",
+      "_Primitive-C_m8NDVQ.js",
+      "_VisuallyHidden-BY_uaNDd.js"
+>>>>>>> feat/template-belle-epoque
     ]
   },
   "_DashboardLayout-CRDK3Q5q.css": {
@@ -106,16 +156,22 @@
     "src": "_DashboardLayout-CRDK3Q5q.css"
   },
 <<<<<<< HEAD
+<<<<<<< HEAD
   "_DashboardLayout-DKwtjJcy.js": {
     "file": "assets/DashboardLayout-DKwtjJcy.js",
 =======
   "_DashboardLayout-Dg3A-7x2.js": {
     "file": "assets/DashboardLayout-Dg3A-7x2.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+  "_DashboardLayout-D2GgBnVw.js": {
+    "file": "assets/DashboardLayout-D2GgBnVw.js",
+>>>>>>> feat/template-belle-epoque
     "name": "DashboardLayout",
     "imports": [
       "resources/js/app.js",
       "__plugin-vue_export-helper-DlAUqK2U.js",
+<<<<<<< HEAD
 <<<<<<< HEAD
       "_LanguageSwitcher-Dq5LOWxO.js",
       "_useLocale-u67sMLNS.js"
@@ -123,11 +179,16 @@
       "_LanguageSwitcher-BauF5QiD.js",
       "_useLocale-BmZ4D7y4.js"
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_LanguageSwitcher-BwsBaRhU.js",
+      "_useLocale-D-UH27hp.js"
+>>>>>>> feat/template-belle-epoque
     ],
     "css": [
       "assets/DashboardLayout-CRDK3Q5q.css"
     ]
   },
+<<<<<<< HEAD
 <<<<<<< HEAD
   "_DialogTitle-BV5QwGQY.js": {
     "file": "assets/DialogTitle-BV5QwGQY.js",
@@ -179,6 +240,32 @@
   "_InvitationRenderer-DhTZtYyz.js": {
     "file": "assets/InvitationRenderer-DhTZtYyz.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+  "_DialogTitle-Cc_v0B9g.js": {
+    "file": "assets/DialogTitle-Cc_v0B9g.js",
+    "name": "DialogTitle",
+    "imports": [
+      "_useForwardPropsEmits-5jgiFtBb.js",
+      "resources/js/app.js",
+      "_Primitive-C_m8NDVQ.js",
+      "_Presence-OknBI-k5.js",
+      "_Teleport-EjEOyX7C.js",
+      "_index-CI_Knltq.js",
+      "_AdminLayout-B6syM544.js"
+    ]
+  },
+  "_Input-C6hvvsCK.js": {
+    "file": "assets/Input-C6hvvsCK.js",
+    "name": "Input",
+    "imports": [
+      "resources/js/app.js",
+      "_useForwardPropsEmits-5jgiFtBb.js",
+      "_Primitive-C_m8NDVQ.js"
+    ]
+  },
+  "_InvitationRenderer-CKfJa2GT.js": {
+    "file": "assets/InvitationRenderer-CKfJa2GT.js",
+>>>>>>> feat/template-belle-epoque
     "name": "InvitationRenderer",
     "imports": [
       "resources/js/app.js",
@@ -189,6 +276,7 @@
       "resources/js/Pages/Invitation/Sections/SectionRsvp.vue",
       "resources/js/Pages/Invitation/Sections/SectionMessages.vue",
       "resources/js/Pages/Invitation/Sections/SectionClosing.vue",
+<<<<<<< HEAD
 <<<<<<< HEAD
       "_registry-Cc-2kECF.js"
     ]
@@ -228,6 +316,26 @@
     "imports": [
       "_useLocale-BmZ4D7y4.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_registry-Dht9kGhi.js"
+    ]
+  },
+  "_Label-Dt6a8OIv.js": {
+    "file": "assets/Label-Dt6a8OIv.js",
+    "name": "Label",
+    "imports": [
+      "_useForwardPropsEmits-5jgiFtBb.js",
+      "_Primitive-C_m8NDVQ.js",
+      "resources/js/app.js",
+      "_index-CI_Knltq.js"
+    ]
+  },
+  "_LanguageSwitcher-BwsBaRhU.js": {
+    "file": "assets/LanguageSwitcher-BwsBaRhU.js",
+    "name": "LanguageSwitcher",
+    "imports": [
+      "_useLocale-D-UH27hp.js",
+>>>>>>> feat/template-belle-epoque
       "resources/js/app.js"
     ]
   },
@@ -236,12 +344,17 @@
     "src": "_PhoneMockup-BVEjf29C.css"
   },
 <<<<<<< HEAD
+<<<<<<< HEAD
   "_PhoneMockup-BaD7Ty0O.js": {
     "file": "assets/PhoneMockup-BaD7Ty0O.js",
 =======
   "_PhoneMockup-CyKvlnpe.js": {
     "file": "assets/PhoneMockup-CyKvlnpe.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+  "_PhoneMockup-C3njdrKs.js": {
+    "file": "assets/PhoneMockup-C3njdrKs.js",
+>>>>>>> feat/template-belle-epoque
     "name": "PhoneMockup",
     "imports": [
       "__plugin-vue_export-helper-DlAUqK2U.js",
@@ -251,6 +364,7 @@
       "assets/PhoneMockup-BVEjf29C.css"
     ]
   },
+<<<<<<< HEAD
 <<<<<<< HEAD
   "_Presence-Cf_fIyl0.js": {
     "file": "assets/Presence-Cf_fIyl0.js",
@@ -276,11 +390,25 @@
   "_Primitive-Bsi6nM2e.js": {
     "file": "assets/Primitive-Bsi6nM2e.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+  "_Presence-OknBI-k5.js": {
+    "file": "assets/Presence-OknBI-k5.js",
+    "name": "Presence",
+    "imports": [
+      "_useForwardPropsEmits-5jgiFtBb.js",
+      "resources/js/app.js",
+      "_Primitive-C_m8NDVQ.js"
+    ]
+  },
+  "_Primitive-C_m8NDVQ.js": {
+    "file": "assets/Primitive-C_m8NDVQ.js",
+>>>>>>> feat/template-belle-epoque
     "name": "Primitive",
     "imports": [
       "resources/js/app.js"
     ]
   },
+<<<<<<< HEAD
 <<<<<<< HEAD
   "_PublicLayout-DncEDS7N.js": {
     "file": "assets/PublicLayout-DncEDS7N.js",
@@ -328,11 +456,36 @@
   "_SectionAccordionCard-RjbVAhrE.js": {
     "file": "assets/SectionAccordionCard-RjbVAhrE.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+  "_PublicLayout-CWzvH6cE.js": {
+    "file": "assets/PublicLayout-CWzvH6cE.js",
+    "name": "PublicLayout",
+    "imports": [
+      "resources/js/app.js",
+      "_LanguageSwitcher-BwsBaRhU.js",
+      "_useLocale-D-UH27hp.js"
+    ]
+  },
+  "_RovingFocusItem-BsgKJOJf.js": {
+    "file": "assets/RovingFocusItem-BsgKJOJf.js",
+    "name": "RovingFocusItem",
+    "imports": [
+      "_Presence-OknBI-k5.js",
+      "_Primitive-C_m8NDVQ.js",
+      "_Collection-Ba0ZtSdm.js",
+      "_useForwardPropsEmits-5jgiFtBb.js",
+      "resources/js/app.js"
+    ]
+  },
+  "_SectionAccordionCard-B4buTCsV.js": {
+    "file": "assets/SectionAccordionCard-B4buTCsV.js",
+>>>>>>> feat/template-belle-epoque
     "name": "SectionAccordionCard",
     "imports": [
       "resources/js/app.js"
     ]
   },
+<<<<<<< HEAD
 <<<<<<< HEAD
   "_SelectValue-gyaG1Q_R.js": {
     "file": "assets/SelectValue-gyaG1Q_R.js",
@@ -396,11 +549,44 @@
   "_TemplatePicker-YrFHTQXb.js": {
     "file": "assets/TemplatePicker-YrFHTQXb.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+  "_SelectValue-BDLoXivU.js": {
+    "file": "assets/SelectValue-BDLoXivU.js",
+    "name": "SelectValue",
+    "imports": [
+      "_useForwardPropsEmits-5jgiFtBb.js",
+      "resources/js/app.js",
+      "_Presence-OknBI-k5.js",
+      "_Teleport-EjEOyX7C.js",
+      "_Primitive-C_m8NDVQ.js",
+      "_index-CI_Knltq.js",
+      "_AdminLayout-B6syM544.js",
+      "_Collection-Ba0ZtSdm.js",
+      "_check-CEFMwhai.js",
+      "_createLucideIcon-CTJwoIlG.js",
+      "_VisuallyHidden-BY_uaNDd.js"
+    ]
+  },
+  "_Teleport-EjEOyX7C.js": {
+    "file": "assets/Teleport-EjEOyX7C.js",
+    "name": "Teleport",
+    "imports": [
+      "_Presence-OknBI-k5.js",
+      "_useForwardPropsEmits-5jgiFtBb.js",
+      "_index-CI_Knltq.js",
+      "resources/js/app.js",
+      "_Primitive-C_m8NDVQ.js"
+    ]
+  },
+  "_TemplatePicker-1DwDDZmo.js": {
+    "file": "assets/TemplatePicker-1DwDDZmo.js",
+>>>>>>> feat/template-belle-epoque
     "name": "TemplatePicker",
     "imports": [
       "resources/js/app.js"
     ]
   },
+<<<<<<< HEAD
 <<<<<<< HEAD
   "_VisuallyHidden-CUZ9hhzy.js": {
     "file": "assets/VisuallyHidden-CUZ9hhzy.js",
@@ -432,6 +618,22 @@
     "imports": [
       "_VisuallyHidden-ClNj62RH.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+  "_VisuallyHidden-BY_uaNDd.js": {
+    "file": "assets/VisuallyHidden-BY_uaNDd.js",
+    "name": "VisuallyHidden",
+    "imports": [
+      "_useForwardPropsEmits-5jgiFtBb.js",
+      "resources/js/app.js",
+      "_Primitive-C_m8NDVQ.js"
+    ]
+  },
+  "_VisuallyHiddenInput-aPxCVWZe.js": {
+    "file": "assets/VisuallyHiddenInput-aPxCVWZe.js",
+    "name": "VisuallyHiddenInput",
+    "imports": [
+      "_VisuallyHidden-BY_uaNDd.js",
+>>>>>>> feat/template-belle-epoque
       "resources/js/app.js"
     ]
   },
@@ -439,6 +641,7 @@
     "file": "assets/_plugin-vue_export-helper-DlAUqK2U.js",
     "name": "_plugin-vue_export-helper"
   },
+<<<<<<< HEAD
 <<<<<<< HEAD
   "_arrow-left-CUAF1K6B.js": {
     "file": "assets/arrow-left-CUAF1K6B.js",
@@ -600,11 +803,93 @@
   "_createLucideIcon-B12BGXib.js": {
     "file": "assets/createLucideIcon-B12BGXib.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+  "_arrow-left-DU1JZj8j.js": {
+    "file": "assets/arrow-left-DU1JZj8j.js",
+    "name": "arrow-left",
+    "imports": [
+      "_createLucideIcon-CTJwoIlG.js"
+    ]
+  },
+  "_arrow-right-Csg4BbK4.js": {
+    "file": "assets/arrow-right-Csg4BbK4.js",
+    "name": "arrow-right",
+    "imports": [
+      "_createLucideIcon-CTJwoIlG.js"
+    ]
+  },
+  "_calendar-P6BTIJSF.js": {
+    "file": "assets/calendar-P6BTIJSF.js",
+    "name": "calendar",
+    "imports": [
+      "_createLucideIcon-CTJwoIlG.js"
+    ]
+  },
+  "_check-CEFMwhai.js": {
+    "file": "assets/check-CEFMwhai.js",
+    "name": "check",
+    "imports": [
+      "_createLucideIcon-CTJwoIlG.js"
+    ]
+  },
+  "_chevron-left-Dx6iz2C6.js": {
+    "file": "assets/chevron-left-Dx6iz2C6.js",
+    "name": "chevron-left",
+    "imports": [
+      "_createLucideIcon-CTJwoIlG.js"
+    ]
+  },
+  "_chevron-right-DnM6zDDU.js": {
+    "file": "assets/chevron-right-DnM6zDDU.js",
+    "name": "chevron-right",
+    "imports": [
+      "_createLucideIcon-CTJwoIlG.js"
+    ]
+  },
+  "_circle-alert-D3MGxL4n.js": {
+    "file": "assets/circle-alert-D3MGxL4n.js",
+    "name": "circle-alert",
+    "imports": [
+      "_createLucideIcon-CTJwoIlG.js"
+    ]
+  },
+  "_circle-check-DY99ORx5.js": {
+    "file": "assets/circle-check-DY99ORx5.js",
+    "name": "circle-check",
+    "imports": [
+      "_createLucideIcon-CTJwoIlG.js"
+    ]
+  },
+  "_circle-x-AnJ6ghRd.js": {
+    "file": "assets/circle-x-AnJ6ghRd.js",
+    "name": "circle-x",
+    "imports": [
+      "_createLucideIcon-CTJwoIlG.js"
+    ]
+  },
+  "_clock-C-3Rhmt_.js": {
+    "file": "assets/clock-C-3Rhmt_.js",
+    "name": "clock",
+    "imports": [
+      "_createLucideIcon-CTJwoIlG.js"
+    ]
+  },
+  "_copy-DMNW8iKN.js": {
+    "file": "assets/copy-DMNW8iKN.js",
+    "name": "copy",
+    "imports": [
+      "_createLucideIcon-CTJwoIlG.js"
+    ]
+  },
+  "_createLucideIcon-CTJwoIlG.js": {
+    "file": "assets/createLucideIcon-CTJwoIlG.js",
+>>>>>>> feat/template-belle-epoque
     "name": "createLucideIcon",
     "imports": [
       "resources/js/app.js"
     ]
   },
+<<<<<<< HEAD
 <<<<<<< HEAD
   "_credit-card-B_jZmIM1.js": {
     "file": "assets/credit-card-B_jZmIM1.js",
@@ -662,11 +947,46 @@
   "_index-C1v5Yssb.js": {
     "file": "assets/index-C1v5Yssb.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+  "_credit-card-DVLhSlC2.js": {
+    "file": "assets/credit-card-DVLhSlC2.js",
+    "name": "credit-card",
+    "imports": [
+      "_createLucideIcon-CTJwoIlG.js"
+    ]
+  },
+  "_eye-Di4hVDSe.js": {
+    "file": "assets/eye-Di4hVDSe.js",
+    "name": "eye",
+    "imports": [
+      "_createLucideIcon-CTJwoIlG.js"
+    ]
+  },
+  "_gift-D1Bl_XJN.js": {
+    "file": "assets/gift-D1Bl_XJN.js",
+    "name": "gift",
+    "imports": [
+      "_createLucideIcon-CTJwoIlG.js"
+    ]
+  },
+  "_index-CEF7n2QL.js": {
+    "file": "assets/index-CEF7n2QL.js",
+    "name": "index",
+    "imports": [
+      "_Primitive-C_m8NDVQ.js",
+      "_index-EniJ1hQ5.js",
+      "resources/js/app.js"
+    ]
+  },
+  "_index-CI_Knltq.js": {
+    "file": "assets/index-CI_Knltq.js",
+>>>>>>> feat/template-belle-epoque
     "name": "index",
     "imports": [
       "resources/js/app.js"
     ]
   },
+<<<<<<< HEAD
 <<<<<<< HEAD
   "_index-DlRx6fdF.js": {
     "file": "assets/index-DlRx6fdF.js",
@@ -820,10 +1140,87 @@
       "resources/js/app.js",
       "_useReveal-BJp6Mhxj.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+  "_index-EniJ1hQ5.js": {
+    "file": "assets/index-EniJ1hQ5.js",
+    "name": "index",
+    "imports": [
+      "_Primitive-C_m8NDVQ.js",
+      "resources/js/app.js"
+    ]
+  },
+  "_info-DW_yZ0Lg.js": {
+    "file": "assets/info-DW_yZ0Lg.js",
+    "name": "info",
+    "imports": [
+      "_createLucideIcon-CTJwoIlG.js"
+    ]
+  },
+  "_link-2-tuXkb3un.js": {
+    "file": "assets/link-2-tuXkb3un.js",
+    "name": "link-2",
+    "imports": [
+      "_createLucideIcon-CTJwoIlG.js"
+    ]
+  },
+  "_loader-circle-C4mPZGZ8.js": {
+    "file": "assets/loader-circle-C4mPZGZ8.js",
+    "name": "loader-circle",
+    "imports": [
+      "_createLucideIcon-CTJwoIlG.js"
+    ]
+  },
+  "_mail-wcQqVLTw.js": {
+    "file": "assets/mail-wcQqVLTw.js",
+    "name": "mail",
+    "imports": [
+      "_createLucideIcon-CTJwoIlG.js"
+    ]
+  },
+  "_message-circle-LlTR_csy.js": {
+    "file": "assets/message-circle-LlTR_csy.js",
+    "name": "message-circle",
+    "imports": [
+      "_createLucideIcon-CTJwoIlG.js"
+    ]
+  },
+  "_message-square-1Qak8zWf.js": {
+    "file": "assets/message-square-1Qak8zWf.js",
+    "name": "message-square",
+    "imports": [
+      "_createLucideIcon-CTJwoIlG.js"
+    ]
+  },
+  "_pencil-CW-eIrAl.js": {
+    "file": "assets/pencil-CW-eIrAl.js",
+    "name": "pencil",
+    "imports": [
+      "_createLucideIcon-CTJwoIlG.js"
+    ]
+  },
+  "_plus-paUQcxFK.js": {
+    "file": "assets/plus-paUQcxFK.js",
+    "name": "plus",
+    "imports": [
+      "_createLucideIcon-CTJwoIlG.js"
+    ]
+  },
+  "_registry-CztMO3Ku.css": {
+    "file": "assets/registry-CztMO3Ku.css",
+    "src": "_registry-CztMO3Ku.css"
+  },
+  "_registry-Dht9kGhi.js": {
+    "file": "assets/registry-Dht9kGhi.js",
+    "name": "registry",
+    "imports": [
+      "resources/js/app.js",
+      "_useReveal-Co09--hC.js",
+>>>>>>> feat/template-belle-epoque
       "__plugin-vue_export-helper-DlAUqK2U.js",
       "resources/js/Pages/Invitation/Sections/SectionGallery.vue"
     ],
     "css": [
+<<<<<<< HEAD
 <<<<<<< HEAD
       "assets/registry-Duz5cQyu.css"
     ]
@@ -889,11 +1286,41 @@
   "_useLocale-BmZ4D7y4.js": {
     "file": "assets/useLocale-BmZ4D7y4.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "assets/registry-CztMO3Ku.css"
+    ]
+  },
+  "_sparkles-CoSl4BK_.js": {
+    "file": "assets/sparkles-CoSl4BK_.js",
+    "name": "sparkles",
+    "imports": [
+      "_createLucideIcon-CTJwoIlG.js"
+    ]
+  },
+  "_trash-2-CEsf1i6e.js": {
+    "file": "assets/trash-2-CEsf1i6e.js",
+    "name": "trash-2",
+    "imports": [
+      "_createLucideIcon-CTJwoIlG.js"
+    ]
+  },
+  "_useForwardPropsEmits-5jgiFtBb.js": {
+    "file": "assets/useForwardPropsEmits-5jgiFtBb.js",
+    "name": "useForwardPropsEmits",
+    "imports": [
+      "resources/js/app.js",
+      "_index-CI_Knltq.js"
+    ]
+  },
+  "_useLocale-D-UH27hp.js": {
+    "file": "assets/useLocale-D-UH27hp.js",
+>>>>>>> feat/template-belle-epoque
     "name": "useLocale",
     "imports": [
       "resources/js/app.js"
     ]
   },
+<<<<<<< HEAD
 <<<<<<< HEAD
   "_useReveal-DjGD4XPI.js": {
     "file": "assets/useReveal-DjGD4XPI.js",
@@ -901,6 +1328,10 @@
   "_useReveal-BJp6Mhxj.js": {
     "file": "assets/useReveal-BJp6Mhxj.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+  "_useReveal-Co09--hC.js": {
+    "file": "assets/useReveal-Co09--hC.js",
+>>>>>>> feat/template-belle-epoque
     "name": "useReveal",
     "imports": [
       "resources/js/app.js"
@@ -917,15 +1348,20 @@
   },
   "resources/js/Pages/Admin/Articles/Form.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/Form-CDmvkJFL.js",
 =======
     "file": "assets/Form-Z1Cdsw9M.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/Form-BbyrNyoP.js",
+>>>>>>> feat/template-belle-epoque
     "name": "Form",
     "src": "resources/js/Pages/Admin/Articles/Form.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
 <<<<<<< HEAD
       "_AdminLayout-mthTTLl0.js",
       "_CardContent-Dq3hQe7Q.js",
@@ -965,6 +1401,26 @@
       "_info-B474s3bG.js",
       "_circle-check-CTIPLs0r.js"
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_AdminLayout-B6syM544.js",
+      "_CardContent-Bf7ao1lg.js",
+      "_index-EniJ1hQ5.js",
+      "_Input-C6hvvsCK.js",
+      "_Label-Dt6a8OIv.js",
+      "_useForwardPropsEmits-5jgiFtBb.js",
+      "_VisuallyHidden-BY_uaNDd.js",
+      "_Primitive-C_m8NDVQ.js",
+      "_VisuallyHiddenInput-aPxCVWZe.js",
+      "_index-CI_Knltq.js",
+      "_arrow-left-DU1JZj8j.js",
+      "_createLucideIcon-CTJwoIlG.js",
+      "_chevron-right-DnM6zDDU.js",
+      "_credit-card-DVLhSlC2.js",
+      "_gift-D1Bl_XJN.js",
+      "_loader-circle-C4mPZGZ8.js",
+      "_info-DW_yZ0Lg.js",
+      "_circle-check-DY99ORx5.js"
+>>>>>>> feat/template-belle-epoque
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
@@ -972,15 +1428,20 @@
   },
   "resources/js/Pages/Admin/Articles/Index.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/Index-mpCmsKRf.js",
 =======
     "file": "assets/Index-XGYMGTXM.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/Index-07iE5P_T.js",
+>>>>>>> feat/template-belle-epoque
     "name": "Index",
     "src": "resources/js/Pages/Admin/Articles/Index.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
 <<<<<<< HEAD
       "_AdminLayout-mthTTLl0.js",
       "_CardContent-Dq3hQe7Q.js",
@@ -1020,6 +1481,26 @@
       "_circle-check-CTIPLs0r.js",
       "_Primitive-Bsi6nM2e.js"
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_AdminLayout-B6syM544.js",
+      "_CardContent-Bf7ao1lg.js",
+      "_index-EniJ1hQ5.js",
+      "_index-CEF7n2QL.js",
+      "_plus-paUQcxFK.js",
+      "_eye-Di4hVDSe.js",
+      "_createLucideIcon-CTJwoIlG.js",
+      "_circle-x-AnJ6ghRd.js",
+      "_pencil-CW-eIrAl.js",
+      "_trash-2-CEsf1i6e.js",
+      "_index-CI_Knltq.js",
+      "_chevron-right-DnM6zDDU.js",
+      "_credit-card-DVLhSlC2.js",
+      "_gift-D1Bl_XJN.js",
+      "_loader-circle-C4mPZGZ8.js",
+      "_info-DW_yZ0Lg.js",
+      "_circle-check-DY99ORx5.js",
+      "_Primitive-C_m8NDVQ.js"
+>>>>>>> feat/template-belle-epoque
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
@@ -1027,15 +1508,20 @@
   },
   "resources/js/Pages/Admin/Auth/Login.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/Login-E8hK3b3F.js",
 =======
     "file": "assets/Login-CwfCbgV-.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/Login-BfJr3zVM.js",
+>>>>>>> feat/template-belle-epoque
     "name": "Login",
     "src": "resources/js/Pages/Admin/Auth/Login.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
 <<<<<<< HEAD
       "_index-Bgizl7-m.js",
       "_index-B3QZkD5P.js",
@@ -1071,6 +1557,24 @@
       "_createLucideIcon-B12BGXib.js",
       "_loader-circle-jLfpp1nO.js"
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_index-CI_Knltq.js",
+      "_index-EniJ1hQ5.js",
+      "_Input-C6hvvsCK.js",
+      "_Label-Dt6a8OIv.js",
+      "_useForwardPropsEmits-5jgiFtBb.js",
+      "_Presence-OknBI-k5.js",
+      "_Collection-Ba0ZtSdm.js",
+      "_VisuallyHidden-BY_uaNDd.js",
+      "_Primitive-C_m8NDVQ.js",
+      "_VisuallyHiddenInput-aPxCVWZe.js",
+      "_RovingFocusItem-BsgKJOJf.js",
+      "_check-CEFMwhai.js",
+      "__plugin-vue_export-helper-DlAUqK2U.js",
+      "_eye-Di4hVDSe.js",
+      "_createLucideIcon-CTJwoIlG.js",
+      "_loader-circle-C4mPZGZ8.js"
+>>>>>>> feat/template-belle-epoque
     ],
     "css": [
       "assets/Login-Bx90eeSm.css",
@@ -1079,15 +1583,20 @@
   },
   "resources/js/Pages/Admin/Dashboard.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/Dashboard-CzCiEFqY.js",
 =======
     "file": "assets/Dashboard-f7ctlVUj.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/Dashboard-C_oxTmmX.js",
+>>>>>>> feat/template-belle-epoque
     "name": "Dashboard",
     "src": "resources/js/Pages/Admin/Dashboard.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
 <<<<<<< HEAD
       "_AdminLayout-mthTTLl0.js",
       "_CardContent-Dq3hQe7Q.js",
@@ -1121,6 +1630,23 @@
       "_circle-check-CTIPLs0r.js",
       "_Primitive-Bsi6nM2e.js"
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_AdminLayout-B6syM544.js",
+      "_CardContent-Bf7ao1lg.js",
+      "_createLucideIcon-CTJwoIlG.js",
+      "_CardTitle-jDOsFDfq.js",
+      "_index-EniJ1hQ5.js",
+      "_credit-card-DVLhSlC2.js",
+      "_sparkles-CoSl4BK_.js",
+      "_arrow-right-Csg4BbK4.js",
+      "_index-CI_Knltq.js",
+      "_chevron-right-DnM6zDDU.js",
+      "_gift-D1Bl_XJN.js",
+      "_loader-circle-C4mPZGZ8.js",
+      "_info-DW_yZ0Lg.js",
+      "_circle-check-DY99ORx5.js",
+      "_Primitive-C_m8NDVQ.js"
+>>>>>>> feat/template-belle-epoque
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
@@ -1128,15 +1654,20 @@
   },
   "resources/js/Pages/Admin/Discounts/Create.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/Create-BuK-WXK5.js",
 =======
     "file": "assets/Create-D1EZU5ae.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/Create-zjUSP55v.js",
+>>>>>>> feat/template-belle-epoque
     "name": "Create",
     "src": "resources/js/Pages/Admin/Discounts/Create.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
 <<<<<<< HEAD
       "_AdminLayout-mthTTLl0.js",
       "_useLocale-u67sMLNS.js",
@@ -1168,6 +1699,22 @@
       "_info-B474s3bG.js",
       "_circle-check-CTIPLs0r.js"
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_AdminLayout-B6syM544.js",
+      "_useLocale-D-UH27hp.js",
+      "__plugin-vue_export-helper-DlAUqK2U.js",
+      "_arrow-left-DU1JZj8j.js",
+      "_calendar-P6BTIJSF.js",
+      "_loader-circle-C4mPZGZ8.js",
+      "_chevron-left-Dx6iz2C6.js",
+      "_chevron-right-DnM6zDDU.js",
+      "_index-CI_Knltq.js",
+      "_createLucideIcon-CTJwoIlG.js",
+      "_credit-card-DVLhSlC2.js",
+      "_gift-D1Bl_XJN.js",
+      "_info-DW_yZ0Lg.js",
+      "_circle-check-DY99ORx5.js"
+>>>>>>> feat/template-belle-epoque
     ],
     "css": [
       "assets/Create-Bpskp6-J.css",
@@ -1176,15 +1723,20 @@
   },
   "resources/js/Pages/Admin/Discounts/Edit.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/Edit-U9q8WGkp.js",
 =======
     "file": "assets/Edit-BPhFU6Uc.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/Edit-dJdpfolp.js",
+>>>>>>> feat/template-belle-epoque
     "name": "Edit",
     "src": "resources/js/Pages/Admin/Discounts/Edit.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
 <<<<<<< HEAD
       "_AdminLayout-mthTTLl0.js",
       "_useLocale-u67sMLNS.js",
@@ -1216,6 +1768,22 @@
       "_info-B474s3bG.js",
       "_circle-check-CTIPLs0r.js"
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_AdminLayout-B6syM544.js",
+      "_useLocale-D-UH27hp.js",
+      "__plugin-vue_export-helper-DlAUqK2U.js",
+      "_arrow-left-DU1JZj8j.js",
+      "_calendar-P6BTIJSF.js",
+      "_loader-circle-C4mPZGZ8.js",
+      "_chevron-left-Dx6iz2C6.js",
+      "_chevron-right-DnM6zDDU.js",
+      "_index-CI_Knltq.js",
+      "_createLucideIcon-CTJwoIlG.js",
+      "_credit-card-DVLhSlC2.js",
+      "_gift-D1Bl_XJN.js",
+      "_info-DW_yZ0Lg.js",
+      "_circle-check-DY99ORx5.js"
+>>>>>>> feat/template-belle-epoque
     ],
     "css": [
       "assets/Edit-DszkKoAk.css",
@@ -1224,15 +1792,20 @@
   },
   "resources/js/Pages/Admin/Discounts/Index.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/Index-CTg0VRiL.js",
 =======
     "file": "assets/Index-DCX04t55.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/Index-Duw1AErP.js",
+>>>>>>> feat/template-belle-epoque
     "name": "Index",
     "src": "resources/js/Pages/Admin/Discounts/Index.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
 <<<<<<< HEAD
       "_AdminLayout-mthTTLl0.js",
       "_useLocale-u67sMLNS.js",
@@ -1262,6 +1835,21 @@
       "_info-B474s3bG.js",
       "_circle-check-CTIPLs0r.js"
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_AdminLayout-B6syM544.js",
+      "_useLocale-D-UH27hp.js",
+      "_plus-paUQcxFK.js",
+      "_pencil-CW-eIrAl.js",
+      "_trash-2-CEsf1i6e.js",
+      "_index-CI_Knltq.js",
+      "_createLucideIcon-CTJwoIlG.js",
+      "_chevron-right-DnM6zDDU.js",
+      "_credit-card-DVLhSlC2.js",
+      "_gift-D1Bl_XJN.js",
+      "_loader-circle-C4mPZGZ8.js",
+      "_info-DW_yZ0Lg.js",
+      "_circle-check-DY99ORx5.js"
+>>>>>>> feat/template-belle-epoque
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
@@ -1269,15 +1857,20 @@
   },
   "resources/js/Pages/Admin/Gifts/Create.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/Create-BdUVdL6D.js",
 =======
     "file": "assets/Create-xEDv8UbN.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/Create-BPha32Bd.js",
+>>>>>>> feat/template-belle-epoque
     "name": "Create",
     "src": "resources/js/Pages/Admin/Gifts/Create.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
 <<<<<<< HEAD
       "_AdminLayout-mthTTLl0.js",
       "_CardContent-Dq3hQe7Q.js",
@@ -1331,6 +1924,33 @@
       "_VisuallyHidden-ClNj62RH.js",
       "_check-COdm6bhx.js"
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_AdminLayout-B6syM544.js",
+      "_CardContent-Bf7ao1lg.js",
+      "_index-EniJ1hQ5.js",
+      "_Input-C6hvvsCK.js",
+      "_Label-Dt6a8OIv.js",
+      "_SelectValue-BDLoXivU.js",
+      "_useLocale-D-UH27hp.js",
+      "_arrow-left-DU1JZj8j.js",
+      "_gift-D1Bl_XJN.js",
+      "_link-2-tuXkb3un.js",
+      "_mail-wcQqVLTw.js",
+      "_info-DW_yZ0Lg.js",
+      "_loader-circle-C4mPZGZ8.js",
+      "_index-CI_Knltq.js",
+      "_createLucideIcon-CTJwoIlG.js",
+      "_chevron-right-DnM6zDDU.js",
+      "_credit-card-DVLhSlC2.js",
+      "_circle-check-DY99ORx5.js",
+      "_Primitive-C_m8NDVQ.js",
+      "_useForwardPropsEmits-5jgiFtBb.js",
+      "_Presence-OknBI-k5.js",
+      "_Teleport-EjEOyX7C.js",
+      "_Collection-Ba0ZtSdm.js",
+      "_VisuallyHidden-BY_uaNDd.js",
+      "_check-CEFMwhai.js"
+>>>>>>> feat/template-belle-epoque
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
@@ -1338,15 +1958,20 @@
   },
   "resources/js/Pages/Admin/Gifts/Index.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/Index-BOKlPMIr.js",
 =======
     "file": "assets/Index-d_BI8Bsw.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/Index-BIIPhS4o.js",
+>>>>>>> feat/template-belle-epoque
     "name": "Index",
     "src": "resources/js/Pages/Admin/Gifts/Index.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
 <<<<<<< HEAD
       "_AdminLayout-mthTTLl0.js",
       "_CardContent-Dq3hQe7Q.js",
@@ -1398,6 +2023,32 @@
       "_Collection-D9nOylm2.js",
       "_VisuallyHidden-ClNj62RH.js"
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_AdminLayout-B6syM544.js",
+      "_CardContent-Bf7ao1lg.js",
+      "_index-EniJ1hQ5.js",
+      "_SelectValue-BDLoXivU.js",
+      "_useLocale-D-UH27hp.js",
+      "_gift-D1Bl_XJN.js",
+      "_plus-paUQcxFK.js",
+      "_check-CEFMwhai.js",
+      "_copy-DMNW8iKN.js",
+      "_eye-Di4hVDSe.js",
+      "_trash-2-CEsf1i6e.js",
+      "_index-CI_Knltq.js",
+      "_createLucideIcon-CTJwoIlG.js",
+      "_chevron-right-DnM6zDDU.js",
+      "_credit-card-DVLhSlC2.js",
+      "_loader-circle-C4mPZGZ8.js",
+      "_info-DW_yZ0Lg.js",
+      "_circle-check-DY99ORx5.js",
+      "_Primitive-C_m8NDVQ.js",
+      "_useForwardPropsEmits-5jgiFtBb.js",
+      "_Presence-OknBI-k5.js",
+      "_Teleport-EjEOyX7C.js",
+      "_Collection-Ba0ZtSdm.js",
+      "_VisuallyHidden-BY_uaNDd.js"
+>>>>>>> feat/template-belle-epoque
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
@@ -1405,15 +2056,20 @@
   },
   "resources/js/Pages/Admin/Gifts/Show.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/Show-DBROZBpR.js",
 =======
     "file": "assets/Show-Dn7QEnvf.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/Show-Fxg5OPu_.js",
+>>>>>>> feat/template-belle-epoque
     "name": "Show",
     "src": "resources/js/Pages/Admin/Gifts/Show.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
 <<<<<<< HEAD
       "_AdminLayout-mthTTLl0.js",
       "_CardContent-Dq3hQe7Q.js",
@@ -1471,6 +2127,35 @@
       "_info-B474s3bG.js",
       "_Teleport-XMNCPaEW.js"
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_AdminLayout-B6syM544.js",
+      "_CardContent-Bf7ao1lg.js",
+      "_index-EniJ1hQ5.js",
+      "_DialogTitle-Cc_v0B9g.js",
+      "_useForwardPropsEmits-5jgiFtBb.js",
+      "_Primitive-C_m8NDVQ.js",
+      "_index-CI_Knltq.js",
+      "_Presence-OknBI-k5.js",
+      "_useLocale-D-UH27hp.js",
+      "_arrow-left-DU1JZj8j.js",
+      "_gift-D1Bl_XJN.js",
+      "_check-CEFMwhai.js",
+      "_copy-DMNW8iKN.js",
+      "_circle-check-DY99ORx5.js",
+      "_circle-alert-D3MGxL4n.js",
+      "_mail-wcQqVLTw.js",
+      "_link-2-tuXkb3un.js",
+      "_calendar-P6BTIJSF.js",
+      "_clock-C-3Rhmt_.js",
+      "_message-circle-LlTR_csy.js",
+      "_trash-2-CEsf1i6e.js",
+      "_createLucideIcon-CTJwoIlG.js",
+      "_chevron-right-DnM6zDDU.js",
+      "_credit-card-DVLhSlC2.js",
+      "_loader-circle-C4mPZGZ8.js",
+      "_info-DW_yZ0Lg.js",
+      "_Teleport-EjEOyX7C.js"
+>>>>>>> feat/template-belle-epoque
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
@@ -1478,15 +2163,20 @@
   },
   "resources/js/Pages/Admin/Notifications/Create.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/Create-T1app8Gx.js",
 =======
     "file": "assets/Create-qBxS-Juu.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/Create-rJkQznfi.js",
+>>>>>>> feat/template-belle-epoque
     "name": "Create",
     "src": "resources/js/Pages/Admin/Notifications/Create.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
 <<<<<<< HEAD
       "_AdminLayout-mthTTLl0.js",
       "_useLocale-u67sMLNS.js",
@@ -1510,6 +2200,18 @@
       "_info-B474s3bG.js",
       "_circle-check-CTIPLs0r.js"
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_AdminLayout-B6syM544.js",
+      "_useLocale-D-UH27hp.js",
+      "_index-CI_Knltq.js",
+      "_createLucideIcon-CTJwoIlG.js",
+      "_chevron-right-DnM6zDDU.js",
+      "_credit-card-DVLhSlC2.js",
+      "_gift-D1Bl_XJN.js",
+      "_loader-circle-C4mPZGZ8.js",
+      "_info-DW_yZ0Lg.js",
+      "_circle-check-DY99ORx5.js"
+>>>>>>> feat/template-belle-epoque
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
@@ -1517,15 +2219,20 @@
   },
   "resources/js/Pages/Admin/Notifications/Edit.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/Edit-DdlKGKqp.js",
 =======
     "file": "assets/Edit-CfNuBhO-.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/Edit-7S8FFSxY.js",
+>>>>>>> feat/template-belle-epoque
     "name": "Edit",
     "src": "resources/js/Pages/Admin/Notifications/Edit.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
 <<<<<<< HEAD
       "_AdminLayout-mthTTLl0.js",
       "_useLocale-u67sMLNS.js",
@@ -1549,6 +2256,18 @@
       "_info-B474s3bG.js",
       "_circle-check-CTIPLs0r.js"
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_AdminLayout-B6syM544.js",
+      "_useLocale-D-UH27hp.js",
+      "_index-CI_Knltq.js",
+      "_createLucideIcon-CTJwoIlG.js",
+      "_chevron-right-DnM6zDDU.js",
+      "_credit-card-DVLhSlC2.js",
+      "_gift-D1Bl_XJN.js",
+      "_loader-circle-C4mPZGZ8.js",
+      "_info-DW_yZ0Lg.js",
+      "_circle-check-DY99ORx5.js"
+>>>>>>> feat/template-belle-epoque
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
@@ -1556,15 +2275,20 @@
   },
   "resources/js/Pages/Admin/Notifications/Index.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/Index-BMME8h0b.js",
 =======
     "file": "assets/Index-nuHiPBGn.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/Index-KKTnAFWA.js",
+>>>>>>> feat/template-belle-epoque
     "name": "Index",
     "src": "resources/js/Pages/Admin/Notifications/Index.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
 <<<<<<< HEAD
       "_AdminLayout-mthTTLl0.js",
       "_useLocale-u67sMLNS.js",
@@ -1588,6 +2312,18 @@
       "_info-B474s3bG.js",
       "_circle-check-CTIPLs0r.js"
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_AdminLayout-B6syM544.js",
+      "_useLocale-D-UH27hp.js",
+      "_index-CI_Knltq.js",
+      "_createLucideIcon-CTJwoIlG.js",
+      "_chevron-right-DnM6zDDU.js",
+      "_credit-card-DVLhSlC2.js",
+      "_gift-D1Bl_XJN.js",
+      "_loader-circle-C4mPZGZ8.js",
+      "_info-DW_yZ0Lg.js",
+      "_circle-check-DY99ORx5.js"
+>>>>>>> feat/template-belle-epoque
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
@@ -1595,15 +2331,20 @@
   },
   "resources/js/Pages/Admin/Notifications/Show.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/Show-Xospa2Ha.js",
 =======
     "file": "assets/Show-Cv61CD_X.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/Show-CnWOG4jH.js",
+>>>>>>> feat/template-belle-epoque
     "name": "Show",
     "src": "resources/js/Pages/Admin/Notifications/Show.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
 <<<<<<< HEAD
       "_AdminLayout-mthTTLl0.js",
       "_useLocale-u67sMLNS.js",
@@ -1627,6 +2368,18 @@
       "_info-B474s3bG.js",
       "_circle-check-CTIPLs0r.js"
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_AdminLayout-B6syM544.js",
+      "_useLocale-D-UH27hp.js",
+      "_index-CI_Knltq.js",
+      "_createLucideIcon-CTJwoIlG.js",
+      "_chevron-right-DnM6zDDU.js",
+      "_credit-card-DVLhSlC2.js",
+      "_gift-D1Bl_XJN.js",
+      "_loader-circle-C4mPZGZ8.js",
+      "_info-DW_yZ0Lg.js",
+      "_circle-check-DY99ORx5.js"
+>>>>>>> feat/template-belle-epoque
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
@@ -1634,15 +2387,20 @@
   },
   "resources/js/Pages/Admin/Plans/Edit.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/Edit-Di7ocFtM.js",
 =======
     "file": "assets/Edit-BuZJN6Ox.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/Edit-RS5aVWCJ.js",
+>>>>>>> feat/template-belle-epoque
     "name": "Edit",
     "src": "resources/js/Pages/Admin/Plans/Edit.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
 <<<<<<< HEAD
       "_AdminLayout-mthTTLl0.js",
       "_useLocale-u67sMLNS.js",
@@ -1672,6 +2430,21 @@
       "_info-B474s3bG.js",
       "_circle-check-CTIPLs0r.js"
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_AdminLayout-B6syM544.js",
+      "_useLocale-D-UH27hp.js",
+      "_arrow-left-DU1JZj8j.js",
+      "_trash-2-CEsf1i6e.js",
+      "_plus-paUQcxFK.js",
+      "_loader-circle-C4mPZGZ8.js",
+      "_index-CI_Knltq.js",
+      "_createLucideIcon-CTJwoIlG.js",
+      "_chevron-right-DnM6zDDU.js",
+      "_credit-card-DVLhSlC2.js",
+      "_gift-D1Bl_XJN.js",
+      "_info-DW_yZ0Lg.js",
+      "_circle-check-DY99ORx5.js"
+>>>>>>> feat/template-belle-epoque
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
@@ -1679,15 +2452,20 @@
   },
   "resources/js/Pages/Admin/Plans/Index.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/Index-BB-dIP_K.js",
 =======
     "file": "assets/Index-C5qAeMjo.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/Index-Bkbh_11T.js",
+>>>>>>> feat/template-belle-epoque
     "name": "Index",
     "src": "resources/js/Pages/Admin/Plans/Index.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
 <<<<<<< HEAD
       "_AdminLayout-mthTTLl0.js",
       "_useLocale-u67sMLNS.js",
@@ -1715,6 +2493,20 @@
       "_loader-circle-jLfpp1nO.js",
       "_info-B474s3bG.js"
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_AdminLayout-B6syM544.js",
+      "_useLocale-D-UH27hp.js",
+      "_circle-check-DY99ORx5.js",
+      "_circle-x-AnJ6ghRd.js",
+      "_pencil-CW-eIrAl.js",
+      "_index-CI_Knltq.js",
+      "_createLucideIcon-CTJwoIlG.js",
+      "_chevron-right-DnM6zDDU.js",
+      "_credit-card-DVLhSlC2.js",
+      "_gift-D1Bl_XJN.js",
+      "_loader-circle-C4mPZGZ8.js",
+      "_info-DW_yZ0Lg.js"
+>>>>>>> feat/template-belle-epoque
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
@@ -1722,15 +2514,20 @@
   },
   "resources/js/Pages/Admin/Subscriptions/Index.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/Index-UvaCgi-_.js",
 =======
     "file": "assets/Index-CU3wGBbL.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/Index-2VTV0lFE.js",
+>>>>>>> feat/template-belle-epoque
     "name": "Index",
     "src": "resources/js/Pages/Admin/Subscriptions/Index.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
 <<<<<<< HEAD
       "_AdminLayout-mthTTLl0.js",
       "_CardContent-Dq3hQe7Q.js",
@@ -1778,6 +2575,30 @@
       "_VisuallyHidden-ClNj62RH.js",
       "_check-COdm6bhx.js"
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_AdminLayout-B6syM544.js",
+      "_CardContent-Bf7ao1lg.js",
+      "_index-EniJ1hQ5.js",
+      "_SelectValue-BDLoXivU.js",
+      "_credit-card-DVLhSlC2.js",
+      "_sparkles-CoSl4BK_.js",
+      "_clock-C-3Rhmt_.js",
+      "_circle-x-AnJ6ghRd.js",
+      "_index-CI_Knltq.js",
+      "_createLucideIcon-CTJwoIlG.js",
+      "_chevron-right-DnM6zDDU.js",
+      "_gift-D1Bl_XJN.js",
+      "_loader-circle-C4mPZGZ8.js",
+      "_info-DW_yZ0Lg.js",
+      "_circle-check-DY99ORx5.js",
+      "_Primitive-C_m8NDVQ.js",
+      "_useForwardPropsEmits-5jgiFtBb.js",
+      "_Presence-OknBI-k5.js",
+      "_Teleport-EjEOyX7C.js",
+      "_Collection-Ba0ZtSdm.js",
+      "_VisuallyHidden-BY_uaNDd.js",
+      "_check-CEFMwhai.js"
+>>>>>>> feat/template-belle-epoque
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
@@ -1785,15 +2606,20 @@
   },
   "resources/js/Pages/Admin/Users/Index.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/Index-Bv1jK34V.js",
 =======
     "file": "assets/Index-DhWduZyu.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/Index-BjbW7ph4.js",
+>>>>>>> feat/template-belle-epoque
     "name": "Index",
     "src": "resources/js/Pages/Admin/Users/Index.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
 <<<<<<< HEAD
       "_AdminLayout-mthTTLl0.js",
       "_CardContent-Dq3hQe7Q.js",
@@ -1835,6 +2661,27 @@
       "_VisuallyHidden-ClNj62RH.js",
       "_check-COdm6bhx.js"
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_AdminLayout-B6syM544.js",
+      "_CardContent-Bf7ao1lg.js",
+      "_Input-C6hvvsCK.js",
+      "_SelectValue-BDLoXivU.js",
+      "_index-CI_Knltq.js",
+      "_createLucideIcon-CTJwoIlG.js",
+      "_chevron-right-DnM6zDDU.js",
+      "_credit-card-DVLhSlC2.js",
+      "_gift-D1Bl_XJN.js",
+      "_loader-circle-C4mPZGZ8.js",
+      "_info-DW_yZ0Lg.js",
+      "_circle-check-DY99ORx5.js",
+      "_Primitive-C_m8NDVQ.js",
+      "_useForwardPropsEmits-5jgiFtBb.js",
+      "_Presence-OknBI-k5.js",
+      "_Teleport-EjEOyX7C.js",
+      "_Collection-Ba0ZtSdm.js",
+      "_VisuallyHidden-BY_uaNDd.js",
+      "_check-CEFMwhai.js"
+>>>>>>> feat/template-belle-epoque
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
@@ -1842,15 +2689,20 @@
   },
   "resources/js/Pages/Admin/Users/Show.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/Show-D5DsDcjD.js",
 =======
     "file": "assets/Show-JqcQHfes.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/Show-C91Yn-wX.js",
+>>>>>>> feat/template-belle-epoque
     "name": "Show",
     "src": "resources/js/Pages/Admin/Users/Show.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
 <<<<<<< HEAD
       "_AdminLayout-mthTTLl0.js",
       "_DialogTitle-BV5QwGQY.js",
@@ -1904,6 +2756,33 @@
       "_check-COdm6bhx.js",
       "_VisuallyHidden-ClNj62RH.js"
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_AdminLayout-B6syM544.js",
+      "_DialogTitle-Cc_v0B9g.js",
+      "_index-EniJ1hQ5.js",
+      "_Label-Dt6a8OIv.js",
+      "_SelectValue-BDLoXivU.js",
+      "_CardContent-Bf7ao1lg.js",
+      "_CardTitle-jDOsFDfq.js",
+      "_index-CEF7n2QL.js",
+      "_useForwardPropsEmits-5jgiFtBb.js",
+      "_Collection-Ba0ZtSdm.js",
+      "_Presence-OknBI-k5.js",
+      "_Primitive-C_m8NDVQ.js",
+      "_index-CI_Knltq.js",
+      "_RovingFocusItem-BsgKJOJf.js",
+      "_chevron-left-Dx6iz2C6.js",
+      "_createLucideIcon-CTJwoIlG.js",
+      "_chevron-right-DnM6zDDU.js",
+      "_credit-card-DVLhSlC2.js",
+      "_gift-D1Bl_XJN.js",
+      "_loader-circle-C4mPZGZ8.js",
+      "_info-DW_yZ0Lg.js",
+      "_circle-check-DY99ORx5.js",
+      "_Teleport-EjEOyX7C.js",
+      "_check-CEFMwhai.js",
+      "_VisuallyHidden-BY_uaNDd.js"
+>>>>>>> feat/template-belle-epoque
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
@@ -1911,20 +2790,28 @@
   },
   "resources/js/Pages/Auth/ConfirmPassword.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/ConfirmPassword-CKLwlsX3.js",
 =======
     "file": "assets/ConfirmPassword-DsRjDGBj.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/ConfirmPassword-CbxUUnfS.js",
+>>>>>>> feat/template-belle-epoque
     "name": "ConfirmPassword",
     "src": "resources/js/Pages/Auth/ConfirmPassword.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
 <<<<<<< HEAD
+<<<<<<< HEAD
       "_ApplicationLogo-CYQ5GZxA.js",
 =======
       "_ApplicationLogo-BDx5dnZ2.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_ApplicationLogo-lJA9ydb0.js",
+>>>>>>> feat/template-belle-epoque
       "__plugin-vue_export-helper-DlAUqK2U.js"
     ],
     "css": [
@@ -1933,10 +2820,14 @@
   },
   "resources/js/Pages/Auth/ForgotPassword.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/ForgotPassword-BtRpEgpu.js",
 =======
     "file": "assets/ForgotPassword-tYqbBos3.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/ForgotPassword-CIdoFnCo.js",
+>>>>>>> feat/template-belle-epoque
     "name": "ForgotPassword",
     "src": "resources/js/Pages/Auth/ForgotPassword.vue",
     "isDynamicEntry": true,
@@ -1949,20 +2840,28 @@
   },
   "resources/js/Pages/Auth/Login.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/Login-B0GEIFFh.js",
 =======
     "file": "assets/Login-BfZK1VIl.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/Login-D-9S99Iy.js",
+>>>>>>> feat/template-belle-epoque
     "name": "Login",
     "src": "resources/js/Pages/Auth/Login.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
 <<<<<<< HEAD
+<<<<<<< HEAD
       "_useLocale-u67sMLNS.js"
 =======
       "_useLocale-BmZ4D7y4.js"
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_useLocale-D-UH27hp.js"
+>>>>>>> feat/template-belle-epoque
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
@@ -1970,20 +2869,28 @@
   },
   "resources/js/Pages/Auth/Register.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/Register-BIn-l7Dx.js",
 =======
     "file": "assets/Register-CSsF-03_.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/Register-BuiqozFA.js",
+>>>>>>> feat/template-belle-epoque
     "name": "Register",
     "src": "resources/js/Pages/Auth/Register.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
 <<<<<<< HEAD
+<<<<<<< HEAD
       "_useLocale-u67sMLNS.js"
 =======
       "_useLocale-BmZ4D7y4.js"
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_useLocale-D-UH27hp.js"
+>>>>>>> feat/template-belle-epoque
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
@@ -1991,10 +2898,14 @@
   },
   "resources/js/Pages/Auth/ResetPassword.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/ResetPassword-GGP_ciHn.js",
 =======
     "file": "assets/ResetPassword-By0jBKF3.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/ResetPassword-llJjmm29.js",
+>>>>>>> feat/template-belle-epoque
     "name": "ResetPassword",
     "src": "resources/js/Pages/Auth/ResetPassword.vue",
     "isDynamicEntry": true,
@@ -2007,10 +2918,14 @@
   },
   "resources/js/Pages/Auth/VerifyEmail.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/VerifyEmail-B7wiDzAB.js",
 =======
     "file": "assets/VerifyEmail-zVpkeO88.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/VerifyEmail-0U76Jp8r.js",
+>>>>>>> feat/template-belle-epoque
     "name": "VerifyEmail",
     "src": "resources/js/Pages/Auth/VerifyEmail.vue",
     "isDynamicEntry": true,
@@ -2023,15 +2938,20 @@
   },
   "resources/js/Pages/Blog/Index.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/Index-CDkMi7EO.js",
 =======
     "file": "assets/Index-BQKKpWMx.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/Index-mSWBfpvc.js",
+>>>>>>> feat/template-belle-epoque
     "name": "Index",
     "src": "resources/js/Pages/Blog/Index.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
 <<<<<<< HEAD
       "_PublicLayout-DncEDS7N.js",
       "_LanguageSwitcher-Dq5LOWxO.js",
@@ -2041,6 +2961,11 @@
       "_LanguageSwitcher-BauF5QiD.js",
       "_useLocale-BmZ4D7y4.js"
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_PublicLayout-CWzvH6cE.js",
+      "_LanguageSwitcher-BwsBaRhU.js",
+      "_useLocale-D-UH27hp.js"
+>>>>>>> feat/template-belle-epoque
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
@@ -2048,15 +2973,20 @@
   },
   "resources/js/Pages/Blog/Show.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/Show-CStptYrh.js",
 =======
     "file": "assets/Show-cC7yklnz.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/Show-B0MjN433.js",
+>>>>>>> feat/template-belle-epoque
     "name": "Show",
     "src": "resources/js/Pages/Blog/Show.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
 <<<<<<< HEAD
       "_PublicLayout-DncEDS7N.js",
       "__plugin-vue_export-helper-DlAUqK2U.js",
@@ -2068,6 +2998,12 @@
       "_LanguageSwitcher-BauF5QiD.js",
       "_useLocale-BmZ4D7y4.js"
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_PublicLayout-CWzvH6cE.js",
+      "__plugin-vue_export-helper-DlAUqK2U.js",
+      "_LanguageSwitcher-BwsBaRhU.js",
+      "_useLocale-D-UH27hp.js"
+>>>>>>> feat/template-belle-epoque
     ],
     "css": [
       "assets/Show-Df6p6Lej.css",
@@ -2076,19 +3012,27 @@
   },
   "resources/js/Pages/Dashboard.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/Dashboard-CiMxwoKE.js",
 =======
     "file": "assets/Dashboard-DW7F1Avq.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/Dashboard-D_Cvp9-U.js",
+>>>>>>> feat/template-belle-epoque
     "name": "Dashboard",
     "src": "resources/js/Pages/Dashboard.vue",
     "isDynamicEntry": true,
     "imports": [
 <<<<<<< HEAD
+<<<<<<< HEAD
       "_ApplicationLogo-CYQ5GZxA.js",
 =======
       "_ApplicationLogo-BDx5dnZ2.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_ApplicationLogo-lJA9ydb0.js",
+>>>>>>> feat/template-belle-epoque
       "resources/js/app.js",
       "__plugin-vue_export-helper-DlAUqK2U.js"
     ],
@@ -2098,15 +3042,20 @@
   },
   "resources/js/Pages/Dashboard/BudgetPlanner/Index.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/Index-Dw4L2sCH.js",
 =======
     "file": "assets/Index-DVWVk_vR.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/Index-CcueEc52.js",
+>>>>>>> feat/template-belle-epoque
     "name": "Index",
     "src": "resources/js/Pages/Dashboard/BudgetPlanner/Index.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
 <<<<<<< HEAD
       "_DashboardLayout-DKwtjJcy.js",
       "_useLocale-u67sMLNS.js",
@@ -2118,6 +3067,12 @@
       "__plugin-vue_export-helper-DlAUqK2U.js",
       "_LanguageSwitcher-BauF5QiD.js"
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_DashboardLayout-D2GgBnVw.js",
+      "_useLocale-D-UH27hp.js",
+      "__plugin-vue_export-helper-DlAUqK2U.js",
+      "_LanguageSwitcher-BwsBaRhU.js"
+>>>>>>> feat/template-belle-epoque
     ],
     "css": [
       "assets/Index-D_efhlXZ.css",
@@ -2126,15 +3081,20 @@
   },
   "resources/js/Pages/Dashboard/BukuTamu/Index.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/Index-DogeC6oK.js",
 =======
     "file": "assets/Index-DtEVVDbH.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/Index-Dk_TOf7e.js",
+>>>>>>> feat/template-belle-epoque
     "name": "Index",
     "src": "resources/js/Pages/Dashboard/BukuTamu/Index.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
 <<<<<<< HEAD
       "_DashboardLayout-DKwtjJcy.js",
       "_useLocale-u67sMLNS.js",
@@ -2146,6 +3106,12 @@
       "__plugin-vue_export-helper-DlAUqK2U.js",
       "_LanguageSwitcher-BauF5QiD.js"
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_DashboardLayout-D2GgBnVw.js",
+      "_useLocale-D-UH27hp.js",
+      "__plugin-vue_export-helper-DlAUqK2U.js",
+      "_LanguageSwitcher-BwsBaRhU.js"
+>>>>>>> feat/template-belle-epoque
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
@@ -2153,15 +3119,20 @@
   },
   "resources/js/Pages/Dashboard/Checklist/Index.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/Index-BOLQiVq5.js",
 =======
     "file": "assets/Index-DJ_3KsdW.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/Index-Du_339gB.js",
+>>>>>>> feat/template-belle-epoque
     "name": "Index",
     "src": "resources/js/Pages/Dashboard/Checklist/Index.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
 <<<<<<< HEAD
       "_DashboardLayout-DKwtjJcy.js",
       "_useLocale-u67sMLNS.js",
@@ -2173,6 +3144,12 @@
       "__plugin-vue_export-helper-DlAUqK2U.js",
       "_LanguageSwitcher-BauF5QiD.js"
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_DashboardLayout-D2GgBnVw.js",
+      "_useLocale-D-UH27hp.js",
+      "__plugin-vue_export-helper-DlAUqK2U.js",
+      "_LanguageSwitcher-BwsBaRhU.js"
+>>>>>>> feat/template-belle-epoque
     ],
     "css": [
       "assets/Index-DYJvnT1F.css",
@@ -2181,15 +3158,20 @@
   },
   "resources/js/Pages/Dashboard/Gifts/Create.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/Create-CDFNhVfc.js",
 =======
     "file": "assets/Create-_drN4HBj.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/Create-BHIpG2_L.js",
+>>>>>>> feat/template-belle-epoque
     "name": "Create",
     "src": "resources/js/Pages/Dashboard/Gifts/Create.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
 <<<<<<< HEAD
       "_DashboardLayout-DKwtjJcy.js",
       "_useLocale-u67sMLNS.js",
@@ -2215,6 +3197,19 @@
       "_LanguageSwitcher-BauF5QiD.js",
       "_createLucideIcon-B12BGXib.js"
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_DashboardLayout-D2GgBnVw.js",
+      "_useLocale-D-UH27hp.js",
+      "_arrow-left-DU1JZj8j.js",
+      "_gift-D1Bl_XJN.js",
+      "_link-2-tuXkb3un.js",
+      "_mail-wcQqVLTw.js",
+      "_loader-circle-C4mPZGZ8.js",
+      "_info-DW_yZ0Lg.js",
+      "__plugin-vue_export-helper-DlAUqK2U.js",
+      "_LanguageSwitcher-BwsBaRhU.js",
+      "_createLucideIcon-CTJwoIlG.js"
+>>>>>>> feat/template-belle-epoque
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
@@ -2222,15 +3217,20 @@
   },
   "resources/js/Pages/Dashboard/Gifts/Index.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/Index--snlBBnf.js",
 =======
     "file": "assets/Index-CBUQTnwy.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/Index-104qxDPi.js",
+>>>>>>> feat/template-belle-epoque
     "name": "Index",
     "src": "resources/js/Pages/Dashboard/Gifts/Index.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
 <<<<<<< HEAD
       "_DashboardLayout-DKwtjJcy.js",
       "_useLocale-u67sMLNS.js",
@@ -2254,6 +3254,18 @@
       "_LanguageSwitcher-BauF5QiD.js",
       "_createLucideIcon-B12BGXib.js"
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_DashboardLayout-D2GgBnVw.js",
+      "_useLocale-D-UH27hp.js",
+      "_plus-paUQcxFK.js",
+      "_gift-D1Bl_XJN.js",
+      "_mail-wcQqVLTw.js",
+      "_link-2-tuXkb3un.js",
+      "_eye-Di4hVDSe.js",
+      "__plugin-vue_export-helper-DlAUqK2U.js",
+      "_LanguageSwitcher-BwsBaRhU.js",
+      "_createLucideIcon-CTJwoIlG.js"
+>>>>>>> feat/template-belle-epoque
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
@@ -2261,15 +3273,20 @@
   },
   "resources/js/Pages/Dashboard/Gifts/Show.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/Show-B0kBi6IR.js",
 =======
     "file": "assets/Show-CCzDyuXP.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/Show-DsJkK76S.js",
+>>>>>>> feat/template-belle-epoque
     "name": "Show",
     "src": "resources/js/Pages/Dashboard/Gifts/Show.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
 <<<<<<< HEAD
       "_DashboardLayout-DKwtjJcy.js",
       "_useLocale-u67sMLNS.js",
@@ -2305,6 +3322,24 @@
       "_LanguageSwitcher-BauF5QiD.js",
       "_createLucideIcon-B12BGXib.js"
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_DashboardLayout-D2GgBnVw.js",
+      "_useLocale-D-UH27hp.js",
+      "_arrow-left-DU1JZj8j.js",
+      "_circle-check-DY99ORx5.js",
+      "_circle-alert-D3MGxL4n.js",
+      "_mail-wcQqVLTw.js",
+      "_link-2-tuXkb3un.js",
+      "_calendar-P6BTIJSF.js",
+      "_clock-C-3Rhmt_.js",
+      "_check-CEFMwhai.js",
+      "_copy-DMNW8iKN.js",
+      "_message-circle-LlTR_csy.js",
+      "_gift-D1Bl_XJN.js",
+      "__plugin-vue_export-helper-DlAUqK2U.js",
+      "_LanguageSwitcher-BwsBaRhU.js",
+      "_createLucideIcon-CTJwoIlG.js"
+>>>>>>> feat/template-belle-epoque
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
@@ -2312,15 +3347,20 @@
   },
   "resources/js/Pages/Dashboard/GuestList/Index.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/Index-D3DscBNQ.js",
 =======
     "file": "assets/Index-DJNCtc8R.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/Index-D6MlQN0m.js",
+>>>>>>> feat/template-belle-epoque
     "name": "Index",
     "src": "resources/js/Pages/Dashboard/GuestList/Index.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
 <<<<<<< HEAD
       "_DashboardLayout-DKwtjJcy.js",
       "_useLocale-u67sMLNS.js",
@@ -2332,6 +3372,12 @@
       "__plugin-vue_export-helper-DlAUqK2U.js",
       "_LanguageSwitcher-BauF5QiD.js"
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_DashboardLayout-D2GgBnVw.js",
+      "_useLocale-D-UH27hp.js",
+      "__plugin-vue_export-helper-DlAUqK2U.js",
+      "_LanguageSwitcher-BwsBaRhU.js"
+>>>>>>> feat/template-belle-epoque
     ],
     "css": [
       "assets/Index-IHM1bh86.css",
@@ -2340,15 +3386,20 @@
   },
   "resources/js/Pages/Dashboard/Index.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/Index-fS3wP9YO.js",
 =======
     "file": "assets/Index-DGk6I8yV.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/Index-B-rsojRv.js",
+>>>>>>> feat/template-belle-epoque
     "name": "Index",
     "src": "resources/js/Pages/Dashboard/Index.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
 <<<<<<< HEAD
       "_DashboardLayout-DKwtjJcy.js",
       "_TemplatePicker-JcfhbDSM.js",
@@ -2362,6 +3413,13 @@
       "__plugin-vue_export-helper-DlAUqK2U.js",
       "_LanguageSwitcher-BauF5QiD.js"
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_DashboardLayout-D2GgBnVw.js",
+      "_TemplatePicker-1DwDDZmo.js",
+      "_useLocale-D-UH27hp.js",
+      "__plugin-vue_export-helper-DlAUqK2U.js",
+      "_LanguageSwitcher-BwsBaRhU.js"
+>>>>>>> feat/template-belle-epoque
     ],
     "css": [
       "assets/Index-C3hBTNXM.css",
@@ -2370,15 +3428,20 @@
   },
   "resources/js/Pages/Dashboard/Invitations/BukuTamu.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/BukuTamu-B577RstY.js",
 =======
     "file": "assets/BukuTamu-CWW_l_16.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/BukuTamu-D_3NnVaS.js",
+>>>>>>> feat/template-belle-epoque
     "name": "BukuTamu",
     "src": "resources/js/Pages/Dashboard/Invitations/BukuTamu.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
 <<<<<<< HEAD
       "_DashboardLayout-DKwtjJcy.js",
       "_useLocale-u67sMLNS.js",
@@ -2390,6 +3453,12 @@
       "__plugin-vue_export-helper-DlAUqK2U.js",
       "_LanguageSwitcher-BauF5QiD.js"
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_DashboardLayout-D2GgBnVw.js",
+      "_useLocale-D-UH27hp.js",
+      "__plugin-vue_export-helper-DlAUqK2U.js",
+      "_LanguageSwitcher-BwsBaRhU.js"
+>>>>>>> feat/template-belle-epoque
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
@@ -2397,15 +3466,20 @@
   },
   "resources/js/Pages/Dashboard/Invitations/Create.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/Create-DAs2HkKA.js",
 =======
     "file": "assets/Create-CDqBT_Cm.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/Create-CtiqfZ0P.js",
+>>>>>>> feat/template-belle-epoque
     "name": "Create",
     "src": "resources/js/Pages/Dashboard/Invitations/Create.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
 <<<<<<< HEAD
       "_DashboardLayout-DKwtjJcy.js",
       "_useLocale-u67sMLNS.js",
@@ -2413,10 +3487,15 @@
       "_DashboardLayout-Dg3A-7x2.js",
       "_useLocale-BmZ4D7y4.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_DashboardLayout-D2GgBnVw.js",
+      "_useLocale-D-UH27hp.js",
+>>>>>>> feat/template-belle-epoque
       "resources/js/Pages/Dashboard/Invitations/Steps/StepInformasi.vue",
       "resources/js/Pages/Dashboard/Invitations/Steps/StepTampilan.vue",
       "resources/js/Pages/Dashboard/Invitations/Steps/StepPublikasi.vue",
       "__plugin-vue_export-helper-DlAUqK2U.js",
+<<<<<<< HEAD
 <<<<<<< HEAD
       "_LanguageSwitcher-Dq5LOWxO.js",
       "_SectionAccordionCard-CWBeB4lZ.js",
@@ -2426,6 +3505,11 @@
       "_SectionAccordionCard-RjbVAhrE.js",
       "_TemplatePicker-YrFHTQXb.js"
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_LanguageSwitcher-BwsBaRhU.js",
+      "_SectionAccordionCard-B4buTCsV.js",
+      "_TemplatePicker-1DwDDZmo.js"
+>>>>>>> feat/template-belle-epoque
     ],
     "css": [
       "assets/Create-DJCmRikx.css",
@@ -2434,15 +3518,20 @@
   },
   "resources/js/Pages/Dashboard/Invitations/Customize.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/Customize-DGxDS0Uo.js",
 =======
     "file": "assets/Customize-D0XmLHn2.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/Customize-DJuGgrg_.js",
+>>>>>>> feat/template-belle-epoque
     "name": "Customize",
     "src": "resources/js/Pages/Dashboard/Invitations/Customize.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
 <<<<<<< HEAD
       "_useLocale-u67sMLNS.js",
       "_DashboardLayout-DKwtjJcy.js",
@@ -2460,6 +3549,15 @@
       "_LanguageSwitcher-BauF5QiD.js",
       "_useReveal-BJp6Mhxj.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_useLocale-D-UH27hp.js",
+      "_DashboardLayout-D2GgBnVw.js",
+      "_registry-Dht9kGhi.js",
+      "_PhoneMockup-C3njdrKs.js",
+      "__plugin-vue_export-helper-DlAUqK2U.js",
+      "_LanguageSwitcher-BwsBaRhU.js",
+      "_useReveal-Co09--hC.js",
+>>>>>>> feat/template-belle-epoque
       "resources/js/Pages/Invitation/Sections/SectionGallery.vue"
     ],
     "css": [
@@ -2469,15 +3567,20 @@
   },
   "resources/js/Pages/Dashboard/Invitations/Index.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/Index-DeJJUcIO.js",
 =======
     "file": "assets/Index-DPg1LMGP.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/Index-99hrpdAL.js",
+>>>>>>> feat/template-belle-epoque
     "name": "Index",
     "src": "resources/js/Pages/Dashboard/Invitations/Index.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
 <<<<<<< HEAD
       "_DashboardLayout-DKwtjJcy.js",
       "_TemplatePicker-JcfhbDSM.js",
@@ -2491,6 +3594,13 @@
       "__plugin-vue_export-helper-DlAUqK2U.js",
       "_LanguageSwitcher-BauF5QiD.js"
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_DashboardLayout-D2GgBnVw.js",
+      "_TemplatePicker-1DwDDZmo.js",
+      "_useLocale-D-UH27hp.js",
+      "__plugin-vue_export-helper-DlAUqK2U.js",
+      "_LanguageSwitcher-BwsBaRhU.js"
+>>>>>>> feat/template-belle-epoque
     ],
     "css": [
       "assets/Index-Cg0g4NxA.css",
@@ -2499,20 +3609,28 @@
   },
   "resources/js/Pages/Dashboard/Invitations/Steps/Step1BasicInfo.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/Step1BasicInfo-BCvCnHNQ.js",
 =======
     "file": "assets/Step1BasicInfo-5qjlg56I.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/Step1BasicInfo-DN9kfa50.js",
+>>>>>>> feat/template-belle-epoque
     "name": "Step1BasicInfo",
     "src": "resources/js/Pages/Dashboard/Invitations/Steps/Step1BasicInfo.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
 <<<<<<< HEAD
+<<<<<<< HEAD
       "_useLocale-u67sMLNS.js"
 =======
       "_useLocale-BmZ4D7y4.js"
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_useLocale-D-UH27hp.js"
+>>>>>>> feat/template-belle-epoque
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
@@ -2520,20 +3638,28 @@
   },
   "resources/js/Pages/Dashboard/Invitations/Steps/Step2Events.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/Step2Events-B9-xAbxC.js",
 =======
     "file": "assets/Step2Events-D_Ycj0xO.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/Step2Events-BOiwhBW5.js",
+>>>>>>> feat/template-belle-epoque
     "name": "Step2Events",
     "src": "resources/js/Pages/Dashboard/Invitations/Steps/Step2Events.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
 <<<<<<< HEAD
+<<<<<<< HEAD
       "_useLocale-u67sMLNS.js",
 =======
       "_useLocale-BmZ4D7y4.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_useLocale-D-UH27hp.js",
+>>>>>>> feat/template-belle-epoque
       "__plugin-vue_export-helper-DlAUqK2U.js"
     ],
     "css": [
@@ -2543,20 +3669,28 @@
   },
   "resources/js/Pages/Dashboard/Invitations/Steps/Step3Gallery.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/Step3Gallery-BPM7msqW.js",
 =======
     "file": "assets/Step3Gallery-CmutGk9G.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/Step3Gallery-Bl-oRuEp.js",
+>>>>>>> feat/template-belle-epoque
     "name": "Step3Gallery",
     "src": "resources/js/Pages/Dashboard/Invitations/Steps/Step3Gallery.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
 <<<<<<< HEAD
+<<<<<<< HEAD
       "_useLocale-u67sMLNS.js"
 =======
       "_useLocale-BmZ4D7y4.js"
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_useLocale-D-UH27hp.js"
+>>>>>>> feat/template-belle-epoque
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
@@ -2564,20 +3698,28 @@
   },
   "resources/js/Pages/Dashboard/Invitations/Steps/Step4Music.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/Step4Music-BzuuP5kP.js",
 =======
     "file": "assets/Step4Music-CM72V7sz.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/Step4Music-4fWYYKuP.js",
+>>>>>>> feat/template-belle-epoque
     "name": "Step4Music",
     "src": "resources/js/Pages/Dashboard/Invitations/Steps/Step4Music.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
 <<<<<<< HEAD
+<<<<<<< HEAD
       "_useLocale-u67sMLNS.js"
 =======
       "_useLocale-BmZ4D7y4.js"
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_useLocale-D-UH27hp.js"
+>>>>>>> feat/template-belle-epoque
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
@@ -2585,20 +3727,28 @@
   },
   "resources/js/Pages/Dashboard/Invitations/Steps/Step5Customization.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/Step5Customization-CrSapJCh.js",
 =======
     "file": "assets/Step5Customization-Cv1CcMqw.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/Step5Customization-DSeezpQy.js",
+>>>>>>> feat/template-belle-epoque
     "name": "Step5Customization",
     "src": "resources/js/Pages/Dashboard/Invitations/Steps/Step5Customization.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
 <<<<<<< HEAD
+<<<<<<< HEAD
       "_useLocale-u67sMLNS.js"
 =======
       "_useLocale-BmZ4D7y4.js"
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_useLocale-D-UH27hp.js"
+>>>>>>> feat/template-belle-epoque
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
@@ -2606,20 +3756,28 @@
   },
   "resources/js/Pages/Dashboard/Invitations/Steps/Step6Review.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/Step6Review-Bqs9RPaa.js",
 =======
     "file": "assets/Step6Review-tL-3Xq-l.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/Step6Review-D3WLv2Xo.js",
+>>>>>>> feat/template-belle-epoque
     "name": "Step6Review",
     "src": "resources/js/Pages/Dashboard/Invitations/Steps/Step6Review.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
 <<<<<<< HEAD
+<<<<<<< HEAD
       "_useLocale-u67sMLNS.js",
 =======
       "_useLocale-BmZ4D7y4.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_useLocale-D-UH27hp.js",
+>>>>>>> feat/template-belle-epoque
       "__plugin-vue_export-helper-DlAUqK2U.js"
     ],
     "css": [
@@ -2629,15 +3787,20 @@
   },
   "resources/js/Pages/Dashboard/Invitations/Steps/StepAcara.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/StepAcara-GWPGGjYI.js",
 =======
     "file": "assets/StepAcara-Dp4HGyXn.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/StepAcara-CqliN10C.js",
+>>>>>>> feat/template-belle-epoque
     "name": "StepAcara",
     "src": "resources/js/Pages/Dashboard/Invitations/Steps/StepAcara.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
 <<<<<<< HEAD
       "_SectionAccordionCard-CWBeB4lZ.js",
       "_useLocale-u67sMLNS.js",
@@ -2645,6 +3808,10 @@
       "_SectionAccordionCard-RjbVAhrE.js",
       "_useLocale-BmZ4D7y4.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_SectionAccordionCard-B4buTCsV.js",
+      "_useLocale-D-UH27hp.js",
+>>>>>>> feat/template-belle-epoque
       "__plugin-vue_export-helper-DlAUqK2U.js"
     ],
     "css": [
@@ -2654,15 +3821,20 @@
   },
   "resources/js/Pages/Dashboard/Invitations/Steps/StepInformasi.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/StepInformasi-BTK41loV.js",
 =======
     "file": "assets/StepInformasi-Dn-W47gZ.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/StepInformasi-CVs9JBRA.js",
+>>>>>>> feat/template-belle-epoque
     "name": "StepInformasi",
     "src": "resources/js/Pages/Dashboard/Invitations/Steps/StepInformasi.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
 <<<<<<< HEAD
       "_SectionAccordionCard-CWBeB4lZ.js",
       "_useLocale-u67sMLNS.js"
@@ -2670,6 +3842,10 @@
       "_SectionAccordionCard-RjbVAhrE.js",
       "_useLocale-BmZ4D7y4.js"
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_SectionAccordionCard-B4buTCsV.js",
+      "_useLocale-D-UH27hp.js"
+>>>>>>> feat/template-belle-epoque
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
@@ -2677,15 +3853,20 @@
   },
   "resources/js/Pages/Dashboard/Invitations/Steps/StepInteraksi.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/StepInteraksi-DonKQnYq.js",
 =======
     "file": "assets/StepInteraksi-Brgf3us5.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/StepInteraksi-B7uKzGox.js",
+>>>>>>> feat/template-belle-epoque
     "name": "StepInteraksi",
     "src": "resources/js/Pages/Dashboard/Invitations/Steps/StepInteraksi.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
 <<<<<<< HEAD
       "_SectionAccordionCard-CWBeB4lZ.js",
       "_useLocale-u67sMLNS.js",
@@ -2693,6 +3874,10 @@
       "_SectionAccordionCard-RjbVAhrE.js",
       "_useLocale-BmZ4D7y4.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_SectionAccordionCard-B4buTCsV.js",
+      "_useLocale-D-UH27hp.js",
+>>>>>>> feat/template-belle-epoque
       "__plugin-vue_export-helper-DlAUqK2U.js"
     ],
     "css": [
@@ -2702,15 +3887,20 @@
   },
   "resources/js/Pages/Dashboard/Invitations/Steps/StepMedia.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/StepMedia-Wowbyknu.js",
 =======
     "file": "assets/StepMedia-DuN4nmfT.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/StepMedia-CjuxHn5l.js",
+>>>>>>> feat/template-belle-epoque
     "name": "StepMedia",
     "src": "resources/js/Pages/Dashboard/Invitations/Steps/StepMedia.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
 <<<<<<< HEAD
       "_SectionAccordionCard-CWBeB4lZ.js",
       "_useLocale-u67sMLNS.js"
@@ -2718,6 +3908,10 @@
       "_SectionAccordionCard-RjbVAhrE.js",
       "_useLocale-BmZ4D7y4.js"
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_SectionAccordionCard-B4buTCsV.js",
+      "_useLocale-D-UH27hp.js"
+>>>>>>> feat/template-belle-epoque
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
@@ -2725,15 +3919,20 @@
   },
   "resources/js/Pages/Dashboard/Invitations/Steps/StepPublikasi.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/StepPublikasi-D8mvD41h.js",
 =======
     "file": "assets/StepPublikasi-C-9yfLqF.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/StepPublikasi-D2C6n6LX.js",
+>>>>>>> feat/template-belle-epoque
     "name": "StepPublikasi",
     "src": "resources/js/Pages/Dashboard/Invitations/Steps/StepPublikasi.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
 <<<<<<< HEAD
       "_SectionAccordionCard-CWBeB4lZ.js",
       "_useLocale-u67sMLNS.js",
@@ -2741,6 +3940,10 @@
       "_SectionAccordionCard-RjbVAhrE.js",
       "_useLocale-BmZ4D7y4.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_SectionAccordionCard-B4buTCsV.js",
+      "_useLocale-D-UH27hp.js",
+>>>>>>> feat/template-belle-epoque
       "__plugin-vue_export-helper-DlAUqK2U.js"
     ],
     "css": [
@@ -2750,14 +3953,19 @@
   },
   "resources/js/Pages/Dashboard/Invitations/Steps/StepTampilan.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/StepTampilan-CpaKos39.js",
 =======
     "file": "assets/StepTampilan-CdkLoROj.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/StepTampilan-D4gUNAj6.js",
+>>>>>>> feat/template-belle-epoque
     "name": "StepTampilan",
     "src": "resources/js/Pages/Dashboard/Invitations/Steps/StepTampilan.vue",
     "isDynamicEntry": true,
     "imports": [
+<<<<<<< HEAD
 <<<<<<< HEAD
       "_TemplatePicker-JcfhbDSM.js",
       "_useLocale-u67sMLNS.js",
@@ -2765,6 +3973,10 @@
       "_TemplatePicker-YrFHTQXb.js",
       "_useLocale-BmZ4D7y4.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_TemplatePicker-1DwDDZmo.js",
+      "_useLocale-D-UH27hp.js",
+>>>>>>> feat/template-belle-epoque
       "resources/js/app.js"
     ],
     "css": [
@@ -2773,15 +3985,20 @@
   },
   "resources/js/Pages/Dashboard/Notifications/Index.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/Index-C1ZittMh.js",
 =======
     "file": "assets/Index-DB5ku1YD.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/Index-AZTsUgg_.js",
+>>>>>>> feat/template-belle-epoque
     "name": "Index",
     "src": "resources/js/Pages/Dashboard/Notifications/Index.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
 <<<<<<< HEAD
       "_DashboardLayout-DKwtjJcy.js",
       "_useLocale-u67sMLNS.js",
@@ -2809,6 +4026,20 @@
       "_trash-2-DgpgXTV-.js",
       "_LanguageSwitcher-BauF5QiD.js"
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_DashboardLayout-D2GgBnVw.js",
+      "_useLocale-D-UH27hp.js",
+      "__plugin-vue_export-helper-DlAUqK2U.js",
+      "_createLucideIcon-CTJwoIlG.js",
+      "_message-square-1Qak8zWf.js",
+      "_sparkles-CoSl4BK_.js",
+      "_calendar-P6BTIJSF.js",
+      "_gift-D1Bl_XJN.js",
+      "_credit-card-DVLhSlC2.js",
+      "_chevron-right-DnM6zDDU.js",
+      "_trash-2-CEsf1i6e.js",
+      "_LanguageSwitcher-BwsBaRhU.js"
+>>>>>>> feat/template-belle-epoque
     ],
     "css": [
       "assets/Index-CcWe0v5P.css",
@@ -2817,15 +4048,20 @@
   },
   "resources/js/Pages/Dashboard/Notifications/Preferences.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/Preferences-C5CWG7m8.js",
 =======
     "file": "assets/Preferences-CEBXfWL9.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/Preferences-DRngHnTR.js",
+>>>>>>> feat/template-belle-epoque
     "name": "Preferences",
     "src": "resources/js/Pages/Dashboard/Notifications/Preferences.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
 <<<<<<< HEAD
       "_DashboardLayout-DKwtjJcy.js",
       "_useLocale-u67sMLNS.js",
@@ -2853,6 +4089,20 @@
       "_LanguageSwitcher-BauF5QiD.js",
       "_createLucideIcon-B12BGXib.js"
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_DashboardLayout-D2GgBnVw.js",
+      "_useLocale-D-UH27hp.js",
+      "_arrow-left-DU1JZj8j.js",
+      "_message-square-1Qak8zWf.js",
+      "_sparkles-CoSl4BK_.js",
+      "_calendar-P6BTIJSF.js",
+      "_gift-D1Bl_XJN.js",
+      "_credit-card-DVLhSlC2.js",
+      "_check-CEFMwhai.js",
+      "__plugin-vue_export-helper-DlAUqK2U.js",
+      "_LanguageSwitcher-BwsBaRhU.js",
+      "_createLucideIcon-CTJwoIlG.js"
+>>>>>>> feat/template-belle-epoque
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
@@ -2860,15 +4110,20 @@
   },
   "resources/js/Pages/Dashboard/Paket.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/Paket-enrankz0.js",
 =======
     "file": "assets/Paket-DVZ6d149.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/Paket-Di315IvF.js",
+>>>>>>> feat/template-belle-epoque
     "name": "Paket",
     "src": "resources/js/Pages/Dashboard/Paket.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
 <<<<<<< HEAD
       "_DashboardLayout-DKwtjJcy.js",
       "_useLocale-u67sMLNS.js",
@@ -2880,6 +4135,12 @@
       "__plugin-vue_export-helper-DlAUqK2U.js",
       "_LanguageSwitcher-BauF5QiD.js"
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_DashboardLayout-D2GgBnVw.js",
+      "_useLocale-D-UH27hp.js",
+      "__plugin-vue_export-helper-DlAUqK2U.js",
+      "_LanguageSwitcher-BwsBaRhU.js"
+>>>>>>> feat/template-belle-epoque
     ],
     "css": [
       "assets/Paket-u0p5T1V-.css",
@@ -2888,15 +4149,20 @@
   },
   "resources/js/Pages/Dashboard/Rsvp/Index.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/Index-BzM5yvdv.js",
 =======
     "file": "assets/Index-C9wGWZN6.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/Index-DTFYkx--.js",
+>>>>>>> feat/template-belle-epoque
     "name": "Index",
     "src": "resources/js/Pages/Dashboard/Rsvp/Index.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
 <<<<<<< HEAD
       "_DashboardLayout-DKwtjJcy.js",
       "_useLocale-u67sMLNS.js",
@@ -2908,6 +4174,12 @@
       "__plugin-vue_export-helper-DlAUqK2U.js",
       "_LanguageSwitcher-BauF5QiD.js"
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_DashboardLayout-D2GgBnVw.js",
+      "_useLocale-D-UH27hp.js",
+      "__plugin-vue_export-helper-DlAUqK2U.js",
+      "_LanguageSwitcher-BwsBaRhU.js"
+>>>>>>> feat/template-belle-epoque
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
@@ -2915,15 +4187,20 @@
   },
   "resources/js/Pages/Dashboard/Rsvp/Show.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/Show-B0WrV3vz.js",
 =======
     "file": "assets/Show-CyRG-ka9.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/Show-DzWHKKFX.js",
+>>>>>>> feat/template-belle-epoque
     "name": "Show",
     "src": "resources/js/Pages/Dashboard/Rsvp/Show.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
 <<<<<<< HEAD
       "_DashboardLayout-DKwtjJcy.js",
       "_useLocale-u67sMLNS.js",
@@ -2935,6 +4212,12 @@
       "__plugin-vue_export-helper-DlAUqK2U.js",
       "_LanguageSwitcher-BauF5QiD.js"
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_DashboardLayout-D2GgBnVw.js",
+      "_useLocale-D-UH27hp.js",
+      "__plugin-vue_export-helper-DlAUqK2U.js",
+      "_LanguageSwitcher-BwsBaRhU.js"
+>>>>>>> feat/template-belle-epoque
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
@@ -2942,15 +4225,20 @@
   },
   "resources/js/Pages/Dashboard/Templates.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/Templates-IyX9cIGk.js",
 =======
     "file": "assets/Templates-DpAoBr7V.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/Templates-BZwg-XjG.js",
+>>>>>>> feat/template-belle-epoque
     "name": "Templates",
     "src": "resources/js/Pages/Dashboard/Templates.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
 <<<<<<< HEAD
       "_DashboardLayout-DKwtjJcy.js",
       "_useLocale-u67sMLNS.js",
@@ -2962,6 +4250,12 @@
       "__plugin-vue_export-helper-DlAUqK2U.js",
       "_LanguageSwitcher-BauF5QiD.js"
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_DashboardLayout-D2GgBnVw.js",
+      "_useLocale-D-UH27hp.js",
+      "__plugin-vue_export-helper-DlAUqK2U.js",
+      "_LanguageSwitcher-BwsBaRhU.js"
+>>>>>>> feat/template-belle-epoque
     ],
     "css": [
       "assets/Templates-DY-EJ6gZ.css",
@@ -2970,15 +4264,20 @@
   },
   "resources/js/Pages/Dashboard/Transactions/Index.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/Index-CYHBPZzS.js",
 =======
     "file": "assets/Index-BxOBg894.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/Index-Cf5fQvaH.js",
+>>>>>>> feat/template-belle-epoque
     "name": "Index",
     "src": "resources/js/Pages/Dashboard/Transactions/Index.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
 <<<<<<< HEAD
       "_DashboardLayout-DKwtjJcy.js",
       "_useLocale-u67sMLNS.js",
@@ -2990,6 +4289,12 @@
       "__plugin-vue_export-helper-DlAUqK2U.js",
       "_LanguageSwitcher-BauF5QiD.js"
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_DashboardLayout-D2GgBnVw.js",
+      "_useLocale-D-UH27hp.js",
+      "__plugin-vue_export-helper-DlAUqK2U.js",
+      "_LanguageSwitcher-BwsBaRhU.js"
+>>>>>>> feat/template-belle-epoque
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
@@ -2997,15 +4302,20 @@
   },
   "resources/js/Pages/Editor/Show.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/Show-l_l0vkzu.js",
 =======
     "file": "assets/Show--BR1MUFd.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/Show-FT_hSHxB.js",
+>>>>>>> feat/template-belle-epoque
     "name": "Show",
     "src": "resources/js/Pages/Editor/Show.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
 <<<<<<< HEAD
       "_InvitationRenderer-DezoRtD2.js",
       "resources/js/Pages/Invitation/Sections/SectionCover.vue",
@@ -3017,6 +4327,12 @@
       "resources/js/Pages/Invitation/Sections/SectionOpening.vue",
       "_useReveal-BJp6Mhxj.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_InvitationRenderer-CKfJa2GT.js",
+      "resources/js/Pages/Invitation/Sections/SectionCover.vue",
+      "resources/js/Pages/Invitation/Sections/SectionOpening.vue",
+      "_useReveal-Co09--hC.js",
+>>>>>>> feat/template-belle-epoque
       "resources/js/Pages/Invitation/Sections/SectionEvents.vue",
       "resources/js/Pages/Invitation/Sections/SectionGallery.vue",
       "__plugin-vue_export-helper-DlAUqK2U.js",
@@ -3024,10 +4340,14 @@
       "resources/js/Pages/Invitation/Sections/SectionMessages.vue",
       "resources/js/Pages/Invitation/Sections/SectionClosing.vue",
 <<<<<<< HEAD
+<<<<<<< HEAD
       "_registry-Cc-2kECF.js"
 =======
       "_registry-DfYTeiYN.js"
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_registry-Dht9kGhi.js"
+>>>>>>> feat/template-belle-epoque
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
@@ -3035,15 +4355,20 @@
   },
   "resources/js/Pages/Gift/Claim.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/Claim-Byd7PaFM.js",
 =======
     "file": "assets/Claim-CctRNGpn.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/Claim-DhHN00sv.js",
+>>>>>>> feat/template-belle-epoque
     "name": "Claim",
     "src": "resources/js/Pages/Gift/Claim.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
 <<<<<<< HEAD
       "_PublicLayout-DncEDS7N.js",
       "_useLocale-u67sMLNS.js",
@@ -3071,6 +4396,20 @@
       "_clock-C3g26FkJ.js",
       "_LanguageSwitcher-BauF5QiD.js"
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_PublicLayout-CWzvH6cE.js",
+      "_useLocale-D-UH27hp.js",
+      "_sparkles-CoSl4BK_.js",
+      "_mail-wcQqVLTw.js",
+      "_loader-circle-C4mPZGZ8.js",
+      "_gift-D1Bl_XJN.js",
+      "_calendar-P6BTIJSF.js",
+      "_createLucideIcon-CTJwoIlG.js",
+      "_circle-check-DY99ORx5.js",
+      "_arrow-left-DU1JZj8j.js",
+      "_clock-C-3Rhmt_.js",
+      "_LanguageSwitcher-BwsBaRhU.js"
+>>>>>>> feat/template-belle-epoque
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
@@ -3078,10 +4417,14 @@
   },
   "resources/js/Pages/Invitation/Inactive.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/Inactive-CO81SEsI.js",
 =======
     "file": "assets/Inactive-D9tq2V6y.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/Inactive-CefakepC.js",
+>>>>>>> feat/template-belle-epoque
     "name": "Inactive",
     "src": "resources/js/Pages/Invitation/Inactive.vue",
     "isDynamicEntry": true,
@@ -3094,10 +4437,14 @@
   },
   "resources/js/Pages/Invitation/PasswordGate.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/PasswordGate-CUOtwAmR.js",
 =======
     "file": "assets/PasswordGate-BrRf7apw.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/PasswordGate-DRJrNae7.js",
+>>>>>>> feat/template-belle-epoque
     "name": "PasswordGate",
     "src": "resources/js/Pages/Invitation/PasswordGate.vue",
     "isDynamicEntry": true,
@@ -3110,19 +4457,27 @@
   },
   "resources/js/Pages/Invitation/Sections/SectionClosing.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/SectionClosing-DZo76YYH.js",
 =======
     "file": "assets/SectionClosing-BOQosIYT.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/SectionClosing-ChjE27Sh.js",
+>>>>>>> feat/template-belle-epoque
     "name": "SectionClosing",
     "src": "resources/js/Pages/Invitation/Sections/SectionClosing.vue",
     "isDynamicEntry": true,
     "imports": [
 <<<<<<< HEAD
+<<<<<<< HEAD
       "_useReveal-DjGD4XPI.js",
 =======
       "_useReveal-BJp6Mhxj.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_useReveal-Co09--hC.js",
+>>>>>>> feat/template-belle-epoque
       "resources/js/app.js"
     ],
     "css": [
@@ -3131,10 +4486,14 @@
   },
   "resources/js/Pages/Invitation/Sections/SectionCover.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/SectionCover-D54xIfhY.js",
 =======
     "file": "assets/SectionCover-CSGi-dBY.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/SectionCover-BBMOHO5n.js",
+>>>>>>> feat/template-belle-epoque
     "name": "SectionCover",
     "src": "resources/js/Pages/Invitation/Sections/SectionCover.vue",
     "isDynamicEntry": true,
@@ -3147,19 +4506,27 @@
   },
   "resources/js/Pages/Invitation/Sections/SectionEvents.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/SectionEvents-CbOHhDbo.js",
 =======
     "file": "assets/SectionEvents-B92w9LX9.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/SectionEvents-CUKvNgTZ.js",
+>>>>>>> feat/template-belle-epoque
     "name": "SectionEvents",
     "src": "resources/js/Pages/Invitation/Sections/SectionEvents.vue",
     "isDynamicEntry": true,
     "imports": [
 <<<<<<< HEAD
+<<<<<<< HEAD
       "_useReveal-DjGD4XPI.js",
 =======
       "_useReveal-BJp6Mhxj.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_useReveal-Co09--hC.js",
+>>>>>>> feat/template-belle-epoque
       "resources/js/app.js"
     ],
     "css": [
@@ -3168,20 +4535,28 @@
   },
   "resources/js/Pages/Invitation/Sections/SectionGallery.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/SectionGallery-DR0ctrLI.js",
 =======
     "file": "assets/SectionGallery-Br00dsCO.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/SectionGallery-Bzo5_MOP.js",
+>>>>>>> feat/template-belle-epoque
     "name": "SectionGallery",
     "src": "resources/js/Pages/Invitation/Sections/SectionGallery.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
 <<<<<<< HEAD
+<<<<<<< HEAD
       "_useReveal-DjGD4XPI.js",
 =======
       "_useReveal-BJp6Mhxj.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_useReveal-Co09--hC.js",
+>>>>>>> feat/template-belle-epoque
       "__plugin-vue_export-helper-DlAUqK2U.js"
     ],
     "css": [
@@ -3191,10 +4566,14 @@
   },
   "resources/js/Pages/Invitation/Sections/SectionMessages.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/SectionMessages-B-lITPN4.js",
 =======
     "file": "assets/SectionMessages-BZ9BEnPV.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/SectionMessages-DnkwsfE4.js",
+>>>>>>> feat/template-belle-epoque
     "name": "SectionMessages",
     "src": "resources/js/Pages/Invitation/Sections/SectionMessages.vue",
     "isDynamicEntry": true,
@@ -3209,10 +4588,14 @@
   },
   "resources/js/Pages/Invitation/Sections/SectionMusic.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/SectionMusic-uV26clPO.js",
 =======
     "file": "assets/SectionMusic-QkgI4A4c.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/SectionMusic-oBXMgOlC.js",
+>>>>>>> feat/template-belle-epoque
     "name": "SectionMusic",
     "src": "resources/js/Pages/Invitation/Sections/SectionMusic.vue",
     "isDynamicEntry": true,
@@ -3225,19 +4608,27 @@
   },
   "resources/js/Pages/Invitation/Sections/SectionOpening.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/SectionOpening-BDZ5d_wH.js",
 =======
     "file": "assets/SectionOpening-C6QdJn7L.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/SectionOpening-CJVbR7pP.js",
+>>>>>>> feat/template-belle-epoque
     "name": "SectionOpening",
     "src": "resources/js/Pages/Invitation/Sections/SectionOpening.vue",
     "isDynamicEntry": true,
     "imports": [
 <<<<<<< HEAD
+<<<<<<< HEAD
       "_useReveal-DjGD4XPI.js",
 =======
       "_useReveal-BJp6Mhxj.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_useReveal-Co09--hC.js",
+>>>>>>> feat/template-belle-epoque
       "resources/js/app.js"
     ],
     "css": [
@@ -3246,10 +4637,14 @@
   },
   "resources/js/Pages/Invitation/Sections/SectionRsvp.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/SectionRsvp-Bm5aJCrK.js",
 =======
     "file": "assets/SectionRsvp-D37uaL_w.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/SectionRsvp-BJtPudih.js",
+>>>>>>> feat/template-belle-epoque
     "name": "SectionRsvp",
     "src": "resources/js/Pages/Invitation/Sections/SectionRsvp.vue",
     "isDynamicEntry": true,
@@ -3262,16 +4657,21 @@
   },
   "resources/js/Pages/Invitation/Show.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/Show-0LBxR59V.js",
 =======
     "file": "assets/Show-WyV9ptFk.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/Show-DkULS5uU.js",
+>>>>>>> feat/template-belle-epoque
     "name": "Show",
     "src": "resources/js/Pages/Invitation/Show.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
       "resources/js/Pages/Invitation/PasswordGate.vue",
+<<<<<<< HEAD
 <<<<<<< HEAD
       "_InvitationRenderer-DezoRtD2.js",
       "resources/js/Pages/Invitation/Sections/SectionCover.vue",
@@ -3283,6 +4683,12 @@
       "resources/js/Pages/Invitation/Sections/SectionOpening.vue",
       "_useReveal-BJp6Mhxj.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_InvitationRenderer-CKfJa2GT.js",
+      "resources/js/Pages/Invitation/Sections/SectionCover.vue",
+      "resources/js/Pages/Invitation/Sections/SectionOpening.vue",
+      "_useReveal-Co09--hC.js",
+>>>>>>> feat/template-belle-epoque
       "resources/js/Pages/Invitation/Sections/SectionEvents.vue",
       "resources/js/Pages/Invitation/Sections/SectionGallery.vue",
       "__plugin-vue_export-helper-DlAUqK2U.js",
@@ -3290,10 +4696,14 @@
       "resources/js/Pages/Invitation/Sections/SectionMessages.vue",
       "resources/js/Pages/Invitation/Sections/SectionClosing.vue",
 <<<<<<< HEAD
+<<<<<<< HEAD
       "_registry-Cc-2kECF.js"
 =======
       "_registry-DfYTeiYN.js"
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_registry-Dht9kGhi.js"
+>>>>>>> feat/template-belle-epoque
     ],
     "css": [
       "assets/Show-vvhYYY0e.css",
@@ -3302,15 +4712,20 @@
   },
   "resources/js/Pages/Kontak.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/Kontak-qlMVIF9h.js",
 =======
     "file": "assets/Kontak-ZoZtZ9U4.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/Kontak-BJu6JCAM.js",
+>>>>>>> feat/template-belle-epoque
     "name": "Kontak",
     "src": "resources/js/Pages/Kontak.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
 <<<<<<< HEAD
       "_PublicLayout-DncEDS7N.js",
       "__plugin-vue_export-helper-DlAUqK2U.js",
@@ -3322,6 +4737,12 @@
       "_LanguageSwitcher-BauF5QiD.js",
       "_useLocale-BmZ4D7y4.js"
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_PublicLayout-CWzvH6cE.js",
+      "__plugin-vue_export-helper-DlAUqK2U.js",
+      "_LanguageSwitcher-BwsBaRhU.js",
+      "_useLocale-D-UH27hp.js"
+>>>>>>> feat/template-belle-epoque
     ],
     "css": [
       "assets/Kontak-n4pmJNIa.css",
@@ -3330,10 +4751,14 @@
   },
   "resources/js/Pages/Maintenance.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/Maintenance-jCVWUbHq.js",
 =======
     "file": "assets/Maintenance-DGJi92OL.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/Maintenance-Bvws5ivT.js",
+>>>>>>> feat/template-belle-epoque
     "name": "Maintenance",
     "src": "resources/js/Pages/Maintenance.vue",
     "isDynamicEntry": true,
@@ -3346,10 +4771,14 @@
   },
   "resources/js/Pages/Onboarding/Setup.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/Setup-BiOszUjy.js",
 =======
     "file": "assets/Setup-e-uWDGJB.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/Setup-CHDldss5.js",
+>>>>>>> feat/template-belle-epoque
     "name": "Setup",
     "src": "resources/js/Pages/Onboarding/Setup.vue",
     "isDynamicEntry": true,
@@ -3364,15 +4793,20 @@
   },
   "resources/js/Pages/PaymentReturn.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/PaymentReturn-CzXZsSk_.js",
 =======
     "file": "assets/PaymentReturn-C7OjItEx.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/PaymentReturn-Cg7mPUK9.js",
+>>>>>>> feat/template-belle-epoque
     "name": "PaymentReturn",
     "src": "resources/js/Pages/PaymentReturn.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
 <<<<<<< HEAD
       "_DashboardLayout-DKwtjJcy.js",
       "__plugin-vue_export-helper-DlAUqK2U.js",
@@ -3384,6 +4818,12 @@
       "_LanguageSwitcher-BauF5QiD.js",
       "_useLocale-BmZ4D7y4.js"
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_DashboardLayout-D2GgBnVw.js",
+      "__plugin-vue_export-helper-DlAUqK2U.js",
+      "_LanguageSwitcher-BwsBaRhU.js",
+      "_useLocale-D-UH27hp.js"
+>>>>>>> feat/template-belle-epoque
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
@@ -3391,15 +4831,20 @@
   },
   "resources/js/Pages/PaymentReturn/Gift.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/Gift-CTM1p4Id.js",
 =======
     "file": "assets/Gift-BAPyjLO5.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/Gift-CRnmKPO3.js",
+>>>>>>> feat/template-belle-epoque
     "name": "Gift",
     "src": "resources/js/Pages/PaymentReturn/Gift.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
 <<<<<<< HEAD
       "_DashboardLayout-DKwtjJcy.js",
       "_useLocale-u67sMLNS.js",
@@ -3431,6 +4876,22 @@
       "_LanguageSwitcher-BauF5QiD.js",
       "_createLucideIcon-B12BGXib.js"
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_DashboardLayout-D2GgBnVw.js",
+      "_useLocale-D-UH27hp.js",
+      "_sparkles-CoSl4BK_.js",
+      "_calendar-P6BTIJSF.js",
+      "_check-CEFMwhai.js",
+      "_copy-DMNW8iKN.js",
+      "_message-circle-LlTR_csy.js",
+      "_mail-wcQqVLTw.js",
+      "_arrow-right-Csg4BbK4.js",
+      "_loader-circle-C4mPZGZ8.js",
+      "_gift-D1Bl_XJN.js",
+      "__plugin-vue_export-helper-DlAUqK2U.js",
+      "_LanguageSwitcher-BwsBaRhU.js",
+      "_createLucideIcon-CTJwoIlG.js"
+>>>>>>> feat/template-belle-epoque
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
@@ -3438,24 +4899,33 @@
   },
   "resources/js/Pages/Profile/Edit.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/Edit-BVRdptaM.js",
 =======
     "file": "assets/Edit-CjzNXnlo.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/Edit-BlFfVgv_.js",
+>>>>>>> feat/template-belle-epoque
     "name": "Edit",
     "src": "resources/js/Pages/Profile/Edit.vue",
     "isDynamicEntry": true,
     "imports": [
 <<<<<<< HEAD
+<<<<<<< HEAD
       "_DashboardLayout-DKwtjJcy.js",
 =======
       "_DashboardLayout-Dg3A-7x2.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_DashboardLayout-D2GgBnVw.js",
+>>>>>>> feat/template-belle-epoque
       "resources/js/Pages/Profile/Partials/DeleteUserForm.vue",
       "resources/js/Pages/Profile/Partials/UpdatePasswordForm.vue",
       "resources/js/Pages/Profile/Partials/UpdateProfileInformationForm.vue",
       "resources/js/app.js",
       "__plugin-vue_export-helper-DlAUqK2U.js",
+<<<<<<< HEAD
 <<<<<<< HEAD
       "_LanguageSwitcher-Dq5LOWxO.js",
       "_useLocale-u67sMLNS.js"
@@ -3463,6 +4933,10 @@
       "_LanguageSwitcher-BauF5QiD.js",
       "_useLocale-BmZ4D7y4.js"
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_LanguageSwitcher-BwsBaRhU.js",
+      "_useLocale-D-UH27hp.js"
+>>>>>>> feat/template-belle-epoque
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
@@ -3470,10 +4944,14 @@
   },
   "resources/js/Pages/Profile/Partials/DeleteUserForm.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/DeleteUserForm-CdMX9J6N.js",
 =======
     "file": "assets/DeleteUserForm-DVFH9ySV.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/DeleteUserForm-DegDs_k_.js",
+>>>>>>> feat/template-belle-epoque
     "name": "DeleteUserForm",
     "src": "resources/js/Pages/Profile/Partials/DeleteUserForm.vue",
     "isDynamicEntry": true,
@@ -3488,10 +4966,14 @@
   },
   "resources/js/Pages/Profile/Partials/UpdatePasswordForm.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/UpdatePasswordForm-jYICciVY.js",
 =======
     "file": "assets/UpdatePasswordForm-B8-rX8T-.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/UpdatePasswordForm-DdMyA_te.js",
+>>>>>>> feat/template-belle-epoque
     "name": "UpdatePasswordForm",
     "src": "resources/js/Pages/Profile/Partials/UpdatePasswordForm.vue",
     "isDynamicEntry": true,
@@ -3504,10 +4986,14 @@
   },
   "resources/js/Pages/Profile/Partials/UpdateProfileInformationForm.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/UpdateProfileInformationForm-PSKy8qmf.js",
 =======
     "file": "assets/UpdateProfileInformationForm-CehYjBkw.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/UpdateProfileInformationForm-DjdPSNKK.js",
+>>>>>>> feat/template-belle-epoque
     "name": "UpdateProfileInformationForm",
     "src": "resources/js/Pages/Profile/Partials/UpdateProfileInformationForm.vue",
     "isDynamicEntry": true,
@@ -3520,15 +5006,20 @@
   },
   "resources/js/Pages/Templates/Demo.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/Demo-CZUrvoaX.js",
 =======
     "file": "assets/Demo-D8v6ndCS.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/Demo-DAFEq3UV.js",
+>>>>>>> feat/template-belle-epoque
     "name": "Demo",
     "src": "resources/js/Pages/Templates/Demo.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
 <<<<<<< HEAD
       "_InvitationRenderer-DezoRtD2.js",
       "resources/js/Pages/Invitation/Sections/SectionCover.vue",
@@ -3540,6 +5031,12 @@
       "resources/js/Pages/Invitation/Sections/SectionOpening.vue",
       "_useReveal-BJp6Mhxj.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_InvitationRenderer-CKfJa2GT.js",
+      "resources/js/Pages/Invitation/Sections/SectionCover.vue",
+      "resources/js/Pages/Invitation/Sections/SectionOpening.vue",
+      "_useReveal-Co09--hC.js",
+>>>>>>> feat/template-belle-epoque
       "resources/js/Pages/Invitation/Sections/SectionEvents.vue",
       "resources/js/Pages/Invitation/Sections/SectionGallery.vue",
       "__plugin-vue_export-helper-DlAUqK2U.js",
@@ -3547,10 +5044,14 @@
       "resources/js/Pages/Invitation/Sections/SectionMessages.vue",
       "resources/js/Pages/Invitation/Sections/SectionClosing.vue",
 <<<<<<< HEAD
+<<<<<<< HEAD
       "_registry-Cc-2kECF.js"
 =======
       "_registry-DfYTeiYN.js"
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_registry-Dht9kGhi.js"
+>>>>>>> feat/template-belle-epoque
     ],
     "css": [
       "assets/Demo-CCIfKoNE.css",
@@ -3559,15 +5060,20 @@
   },
   "resources/js/Pages/Templates/Gallery.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/Gallery-EqyzHYYa.js",
 =======
     "file": "assets/Gallery-D0hc_rZN.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/Gallery-BBV4V2HA.js",
+>>>>>>> feat/template-belle-epoque
     "name": "Gallery",
     "src": "resources/js/Pages/Templates/Gallery.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
 <<<<<<< HEAD
       "_PublicLayout-DncEDS7N.js",
       "_PhoneMockup-BaD7Ty0O.js",
@@ -3585,6 +5091,15 @@
       "_LanguageSwitcher-BauF5QiD.js",
       "_useReveal-BJp6Mhxj.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+      "_PublicLayout-CWzvH6cE.js",
+      "_PhoneMockup-C3njdrKs.js",
+      "_useLocale-D-UH27hp.js",
+      "_registry-Dht9kGhi.js",
+      "__plugin-vue_export-helper-DlAUqK2U.js",
+      "_LanguageSwitcher-BwsBaRhU.js",
+      "_useReveal-Co09--hC.js",
+>>>>>>> feat/template-belle-epoque
       "resources/js/Pages/Invitation/Sections/SectionGallery.vue"
     ],
     "css": [
@@ -3594,10 +5109,14 @@
   },
   "resources/js/Pages/Welcome.vue": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/Welcome-6-1mzXly.js",
 =======
     "file": "assets/Welcome-CjLExPP3.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/Welcome-C4FsRpFl.js",
+>>>>>>> feat/template-belle-epoque
     "name": "Welcome",
     "src": "resources/js/Pages/Welcome.vue",
     "isDynamicEntry": true,
@@ -3610,10 +5129,14 @@
   },
   "resources/js/app.js": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file": "assets/app-B5rArluh.js",
 =======
     "file": "assets/app-Dzmdz59s.js",
 >>>>>>> feat/template-astronomy-celestial
+=======
+    "file": "assets/app-C_6uvdjX.js",
+>>>>>>> feat/template-belle-epoque
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
