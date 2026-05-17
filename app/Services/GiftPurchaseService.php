@@ -6,6 +6,7 @@ namespace App\Services;
 
 use App\Enums\PaymentMethod;
 use App\Enums\PaymentStatus;
+use App\Mail\GiftReceivedMail;
 use App\Models\Gift;
 use App\Models\Plan;
 use App\Models\Transaction;
@@ -13,6 +14,7 @@ use App\Models\User;
 use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
 class GiftPurchaseService
@@ -43,6 +45,10 @@ class GiftPurchaseService
         ]);
 
         Log::info('gift.created', ['gift_id' => $gift->id, 'source' => 'admin']);
+
+        if ($gift->delivery_mode === 'email' && $gift->recipient_email) {
+            Mail::to($gift->recipient_email)->queue(new GiftReceivedMail($gift));
+        }
 
         return $gift;
     }

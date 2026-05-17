@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Services;
 
+use App\Mail\GiftReceivedMail;
 use App\Models\Gift;
 use App\Models\Plan;
 use App\Models\Transaction;
@@ -11,6 +12,7 @@ use App\Models\User;
 use App\Services\GiftPurchaseService;
 use App\Services\MayarService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
 class GiftPurchaseServiceTest extends TestCase
@@ -128,5 +130,32 @@ class GiftPurchaseServiceTest extends TestCase
 
         $this->assertSame('email', $result['gift']->delivery_mode);
         $this->assertSame('friend@example.com', $result['gift']->recipient_email);
+    }
+
+    public function test_admin_gift_with_email_mode_dispatches_received_mail(): void
+    {
+        Mail::fake();
+        $plan = Plan::factory()->premium()->create();
+
+        app(GiftPurchaseService::class)->createAdminGift([
+            'plan_id'         => $plan->id,
+            'delivery_mode'   => 'email',
+            'recipient_email' => 'recipient@example.com',
+        ]);
+
+        Mail::assertQueued(GiftReceivedMail::class, fn ($mail) => $mail->hasTo('recipient@example.com'));
+    }
+
+    public function test_admin_gift_with_link_mode_does_not_dispatch_mail(): void
+    {
+        Mail::fake();
+        $plan = Plan::factory()->premium()->create();
+
+        app(GiftPurchaseService::class)->createAdminGift([
+            'plan_id'       => $plan->id,
+            'delivery_mode' => 'link',
+        ]);
+
+        Mail::assertNothingQueued();
     }
 }
