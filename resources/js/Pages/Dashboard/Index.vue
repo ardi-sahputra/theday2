@@ -118,12 +118,28 @@ const priorityDot = {
 
                 <div class="relative flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-5 sm:mb-6">
                     <div class="min-w-0">
-                        <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/70 border border-brand-primary-soft/40 mb-2">
-                            <span class="w-1.5 h-1.5 rounded-full bg-brand-primary"/>
-                            <span class="text-[11px] font-semibold uppercase tracking-wider text-brand-primary-hover">
+                        <!-- Plan chip: Free = upgrade nudge, Premium = subtle gold badge -->
+                        <Link v-if="activePlan.slug !== 'premium'"
+                              :href="route('dashboard.paket')"
+                              class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/80 border border-brand-primary-soft/40 mb-2 hover:border-brand-premium/40 transition-colors group cursor-pointer">
+                            <span class="w-1.5 h-1.5 rounded-full bg-stone-400 group-hover:bg-brand-premium transition-colors"/>
+                            <span class="text-[11px] font-semibold uppercase tracking-wider text-stone-500 group-hover:text-brand-premium transition-colors">
+                                {{ activePlan.name }} · {{ t('dashboard.index.upgradeNudge') }}
+                            </span>
+                            <svg class="w-3 h-3 text-stone-400 group-hover:text-brand-premium transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/>
+                            </svg>
+                        </Link>
+                        <div v-else
+                             class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-brand-premium/12 border border-brand-premium/30 mb-2">
+                            <svg class="w-3 h-3 text-brand-premium" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2l2.39 7.36H22l-6.18 4.49L18.21 22 12 17.27 5.79 22l2.39-8.15L2 9.36h7.61z"/>
+                            </svg>
+                            <span class="text-[11px] font-semibold uppercase tracking-wider text-brand-premium">
                                 {{ activePlan.name }}
                             </span>
                         </div>
+
                         <h2 class="text-2xl sm:text-3xl font-semibold text-brand-text leading-tight"
                             style="font-family: 'Playfair Display', serif">
                             {{ t('dashboard.index.greeting') }}
