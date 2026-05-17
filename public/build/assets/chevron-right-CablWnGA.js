@@ -1,5 +1,0 @@
-<<<<<<<< HEAD:public/build/assets/chevron-right-BLhwH2Q7.js
-import{c as t}from"./createLucideIcon-yeJFjqPl.js";const h=t("bell",[["path",{d:"M10.268 21a2 2 0 0 0 3.464 0",key:"vwvbt9"}],["path",{d:"M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326",key:"11g9vi"}]]);const a=t("chevron-right",[["path",{d:"m9 18 6-6-6-6",key:"mthhwq"}]]);export{h as B,a as C};
-========
-import{c as t}from"./createLucideIcon-B12BGXib.js";const h=t("bell",[["path",{d:"M10.268 21a2 2 0 0 0 3.464 0",key:"vwvbt9"}],["path",{d:"M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326",key:"11g9vi"}]]);const a=t("chevron-right",[["path",{d:"m9 18 6-6-6-6",key:"mthhwq"}]]);export{h as B,a as C};
->>>>>>>> feat/template-astronomy-celestial:public/build/assets/chevron-right-CablWnGA.js

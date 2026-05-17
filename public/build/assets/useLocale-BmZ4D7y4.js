@@ -1,5 +1,0 @@
-<<<<<<<< HEAD:public/build/assets/useLocale-u67sMLNS.js
-import{am as s,an as r,ao as u,A as i}from"./app-B5rArluh.js";const d="theday_lang";function m(){const{t:n}=s(),o=r.global.locale;function a(e){if(["id","en"].includes(e)){o.value=e;try{localStorage.setItem(d,e)}catch{}u.defaults.headers.common["X-Locale"]=e,i.reload({only:["translations","locale"]})}}function l(){a(o.value==="id"?"en":"id")}function c(e,t){return o.value==="en"?t:e}return{locale:o,t:n,setLocale:a,toggleLocale:l,tLegacy:c}}export{m as u};
-========
-import{am as s,an as r,ao as u,A as i}from"./app-Dzmdz59s.js";const d="theday_lang";function m(){const{t:n}=s(),o=r.global.locale;function a(e){if(["id","en"].includes(e)){o.value=e;try{localStorage.setItem(d,e)}catch{}u.defaults.headers.common["X-Locale"]=e,i.reload({only:["translations","locale"]})}}function l(){a(o.value==="id"?"en":"id")}function c(e,t){return o.value==="en"?t:e}return{locale:o,t:n,setLocale:a,toggleLocale:l,tLegacy:c}}export{m as u};
->>>>>>>> feat/template-astronomy-celestial:public/build/assets/useLocale-BmZ4D7y4.js

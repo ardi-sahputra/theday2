@@ -431,6 +431,53 @@ class TemplateSeeder extends Seeder
                 'sort_order'     => 10,
             ],
 
+            // ── Tuscany Vineyard (Premium Destination) ────────────
+            [
+                'category_id'    => $pernikahan->id,
+                'name'           => 'Tuscany Vineyard',
+                'slug'           => 'tuscany-vineyard',
+                'thumbnail_url'  => '/images/templates/tuscany-vineyard/thumbnail.webp',
+                'description'    => 'Template pernikahan premium bertema Italian destination wedding — cypress horizon golden hour, ranting zaitun, terracotta tile, dan brindisi wine-glass cheers saat RSVP.',
+                'default_config' => [
+                    'primary_color'          => '#c97b4a',
+                    'primary_color_light'    => '#f4e4c1',
+                    'secondary_color'        => '#8b9d6f',
+                    'accent_color'           => '#722f2f',
+                    'dark_bg'                => '#3a2a1c',
+                    'font_title'             => 'Italianno',
+                    'font_heading'           => 'Cormorant Garamond',
+                    'font_body'              => 'Crimson Text',
+                    'gallery_layout'         => 'masonry',
+                    'opening_style'          => 'gate',
+                    'section_backgrounds'    => [
+                        'events'  => ['type' => 'color', 'value' => '#fbf4e7'],
+                        'rsvp'    => ['type' => 'color', 'value' => '#f4e4c1'],
+                        'closing' => ['type' => 'color', 'value' => '#3a2a1c'],
+                    ],
+                    'tv_italian_phrases'     => true,
+                    'tv_cypress_density'     => 'medium',
+                    'tv_sun_flare_intensity' => 'medium',
+                    'tv_wine_cheers_sound'   => true,
+                    'tv_venue_landscape'     => true,
+                ],
+                'demo_data'      => array_merge($weddingDemo, ['custom_config' => [
+                    'primary_color'          => '#c97b4a',
+                    'secondary_color'        => '#8b9d6f',
+                    'accent_color'           => '#722f2f',
+                    'font_title'             => 'Italianno',
+                    'font_heading'           => 'Cormorant Garamond',
+                    'font_body'              => 'Crimson Text',
+                    'tv_italian_phrases'     => true,
+                    'tv_cypress_density'     => 'medium',
+                    'tv_sun_flare_intensity' => 'medium',
+                    'tv_wine_cheers_sound'   => true,
+                    'tv_venue_landscape'     => true,
+                ]]),
+                'tier'           => 'premium',
+                'is_active'      => true,
+                'sort_order'     => 13,
+            ],
+
             // ── Japanese Ryokan (Premium Zen-Minimal) ────────────
             [
                 'category_id'    => $pernikahan->id,

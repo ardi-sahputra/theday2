@@ -1,5 +1,0 @@
-<<<<<<<< HEAD:public/build/assets/pencil-L7ZE9YrH.js
-import{c as a}from"./createLucideIcon-yeJFjqPl.js";const c=a("pencil",[["path",{d:"M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z",key:"1a8usu"}],["path",{d:"m15 5 4 4",key:"1mk7zo"}]]);export{c as P};
-========
-import{c as a}from"./createLucideIcon-B12BGXib.js";const c=a("pencil",[["path",{d:"M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z",key:"1a8usu"}],["path",{d:"m15 5 4 4",key:"1mk7zo"}]]);export{c as P};
->>>>>>>> feat/template-astronomy-celestial:public/build/assets/pencil-BEV1be2B.js
