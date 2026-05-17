@@ -436,3 +436,133 @@ Pakai Vue `<Transition>` untuk smooth swap antar phase.
 **AI baru:** TIRU pola Netflix sebagai baseline, sesuaikan timing/distance dengan vibe template baru. Wedding feel = subtle + elegant, bukan flashy.
 
 ---
+
+## Section 5 — Anti-Halu Rules
+
+Daftar pattern yang BIKIN AI ngaco. Setiap rule punya: **Forbidden**, **Reason**, **Correct**.
+
+### Rule 1 — JANGAN invent field/data baru
+
+**Forbidden:**
+
+```vue
+<!-- AI karang field yang ga ada di schema -->
+<p>{{ invitation.details.couple_horoscope }}</p>
+<img :src="invitation.story_video_url" />
+```
+
+**Reason:** Kolom DB invitation/details/sections fixed sesuai migration. Field karangan = render `undefined` di prod.
+
+**Correct:** Cek dulu apa yang available di composable (Section 3.1) atau lihat `database/migrations/*_create_invitation_*.php`. Kalau benar-benar perlu field baru, **STOP** — angkat ke maintainer untuk tambah migration + form di customize wizard.
+
+### Rule 2 — JANGAN skip composable
+
+**Forbidden:**
+
+```vue
+<script setup>
+const props = defineProps({ invitation: Object });
+const groom = computed(() => props.invitation.details.groom_name ?? 'Pengantin');
+const events = computed(() => props.invitation.events ?? []);
+// ... 50+ baris re-implement composable
+</script>
+```
+
+**Reason:** Composable `useInvitationTemplate.js` sudah handle data fallback, RSVP/message form state, music toggle, countdown timer, intersection reveal. Bypass = bug magnet + maintenance nightmare.
+
+**Correct:**
+
+```js
+const { groomNick, brideNick, events, sectionEnabled, vReveal } = useInvitationTemplate(props, {...});
+```
+
+### Rule 3 — JANGAN bikin section di luar catalog
+
+**Forbidden:**
+
+```vue
+<section v-if="sectionEnabled('tarot_reading')">...</section>
+```
+
+**Reason:** Section yang valid sudah definite di [Section Catalog 3.2](#32-section-catalog). User toggle dari customize wizard berdasarkan key itu — key custom ga bisa di-toggle dari UI.
+
+**Correct:** Pakai key yang sudah ada. Kalau benar-benar butuh section baru (rare), diskusi dengan maintainer.
+
+### Rule 4 — JANGAN skip `sectionEnabled()` check
+
+**Forbidden:**
+
+```vue
+<section class="my-tpl-gallery">
+    <img v-for="g in galleries" :src="g.url" />
+</section>
+```
+
+**Reason:** User di customize wizard expect bisa hide section. Section tanpa `sectionEnabled` = forced visible = user complaint.
+
+**Correct:**
+
+```vue
+<section v-if="sectionEnabled('gallery') && galleries.length"
+         class="my-tpl-gallery" :ref="el => vReveal(el)">
+    <img v-for="g in galleries" :src="g.url" />
+</section>
+```
+
+### Rule 5 — JANGAN hardcode warna/font yang user mau customize
+
+**Forbidden:**
+
+```vue
+<h1 style="color: #E50914; font-family: 'Playfair Display'">{{ groomNick }}</h1>
+```
+
+**Reason:** User customize warna + font di customize wizard. Hardcoded = perubahan user tidak applied.
+
+**Correct:**
+
+```vue
+<h1 :style="{ color: primary, fontFamily: fontTitle }">{{ groomNick }}</h1>
+```
+
+Atau, kalau memang hex template-specific yang sengaja FIXED (kayak Netflix red `#E50914`), document jelas di seeder description dan jangan masukin ke `default_config` sebagai user-editable.
+
+### Rule 6 — JANGAN lupa premium gating
+
+**Forbidden:** Template premium yang free-tier-user bisa render full tanpa watermark.
+
+**Reason:** Tier control = revenue. Watermark, custom music upload, custom slug — harus respect `invitation.user.activeSubscription`.
+
+**Correct:** Watermark di-render conditional berdasarkan plan (lihat `<TheDayLogo>` watermark pattern di `NetflixTemplate.vue`).
+
+### Rule 7 — JANGAN deploy tanpa animation minimum
+
+**Forbidden:** Template static tanpa reveal-on-scroll, ga ada motion sama sekali.
+
+**Reason:** Wedding invitation harus feel alive. Flat template = unprofessional.
+
+**Correct:** Minimum 3 MUST items dari [Section 4](#section-4--animation-requirements): `vReveal` di setiap section + smooth transitions + `prefers-reduced-motion` guard. Recommend tambah 1 hero motion.
+
+### Rule 8 — JANGAN bikin file >300 baris monolithic
+
+**Forbidden:**
+
+```
+templates/
+└── BohoFloralTemplate.vue   (800 baris dengan semua section + style)
+```
+
+**Reason:** Hard to maintain, hard to review, hard to extend.
+
+**Correct:**
+
+```
+templates/
+├── BohoFloralTemplate.vue       (orchestrator <300 baris)
+└── boho-floral/
+    ├── BohoCover.vue
+    ├── BohoHero.vue
+    └── BohoGallery.vue
+```
+
+---
