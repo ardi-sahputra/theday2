@@ -63,6 +63,11 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600|pinyon-script:400|playfair-display:400,600,700|cormorant-garamond:400,600,700&display=swap" rel="stylesheet" />
     <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700&display=swap" rel="stylesheet">
+    <!-- Japanese Ryokan template fonts (~600KB JP payload — Noto Sans JP + Shippori Mincho B1; font-display:swap mitigates FOUT for non-kanji chars) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Shippori+Mincho+B1:wght@400;700&family=Sawarabi+Mincho&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Shippori+Mincho+B1:wght@400;700&family=Sawarabi+Mincho&display=swap">
 
     <script>
         (function () {
