@@ -1,0 +1,74 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Http\Controllers\Dashboard;
+
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Dashboard\StoreGiftRequest;
+use App\Models\Gift;
+use App\Models\Plan;
+use App\Services\GiftPurchaseService;
+use Illuminate\Http\RedirectResponse;
+use Inertia\Inertia;
+use Inertia\Response;
+
+class GiftController extends Controller
+{
+    public function __construct(private readonly GiftPurchaseService $purchaseService) {}
+
+    public function index(): Response
+    {
+        $gifts = Gift::with('plan', 'claimedBy')
+            ->where('sender_user_id', auth()->id())
+            ->orderByDesc('created_at')
+            ->paginate(15);
+
+        return Inertia::render('Dashboard/Gifts/Index', ['gifts' => $gifts]);
+    }
+
+    public function create(): Response
+    {
+        $plan = Plan::where('slug', 'premium')->firstOrFail();
+
+        return Inertia::render('Dashboard/Gifts/Create', [
+            'plan' => [
+                'id'            => $plan->id,
+                'name'          => $plan->name,
+                'price'         => $plan->price,
+                'duration_days' => $plan->duration_days,
+            ],
+        ]);
+    }
+
+    public function store(StoreGiftRequest $request): RedirectResponse
+    {
+        $result = $this->purchaseService->createUserGift($request->user(), $request->validated());
+
+        return redirect()->away($result['payment_url']);
+    }
+
+    public function show(Gift $gift): Response
+    {
+        if ($gift->sender_user_id !== auth()->id()) {
+            abort(403);
+        }
+
+        return Inertia::render('Dashboard/Gifts/Show', [
+            'gift' => [
+                'id'              => $gift->id,
+                'code'            => $gift->code,
+                'plan_name'       => $gift->plan->name,
+                'duration_days'   => $gift->duration_days,
+                'amount'          => $gift->amount,
+                'delivery_mode'   => $gift->delivery_mode,
+                'recipient_email' => $gift->recipient_email,
+                'message'         => $gift->message,
+                'status'          => $gift->status,
+                'claimed_at'      => $gift->claimed_at?->toIso8601String(),
+                'claim_url'       => route('gift.claim.show', $gift->code),
+                'expires_at'      => $gift->expires_at->toIso8601String(),
+            ],
+        ]);
+    }
+}

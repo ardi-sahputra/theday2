@@ -257,6 +257,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // ── Gift Premium (purchase + management) ────────────────────────────────
+    Route::prefix('dashboard/gifts')->name('dashboard.gifts.')->group(function () {
+        Route::get('/',         [\App\Http\Controllers\Dashboard\GiftController::class, 'index'])->name('index');
+        Route::get('/create',   [\App\Http\Controllers\Dashboard\GiftController::class, 'create'])->name('create');
+        Route::post('/',        [\App\Http\Controllers\Dashboard\GiftController::class, 'store'])->name('store');
+        Route::get('/{gift}',   [\App\Http\Controllers\Dashboard\GiftController::class, 'show'])->name('show');
+    });
 });
 
 // ── Webhooks (no auth) ──────────────────────────────────────────────────
