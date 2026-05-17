@@ -11,6 +11,7 @@ import BelleEpoqueTemplate        from './BelleEpoqueTemplate.vue'
 import JapaneseRyokanTemplate     from './JapaneseRyokanTemplate.vue'
 import OnyxNoirTemplate           from './OnyxNoirTemplate.vue'
 import TuscanyVineyardTemplate    from './TuscanyVineyardTemplate.vue'
+import VelvetBurgundyTemplate     from './VelvetBurgundyTemplate.vue'
 
 export const TEMPLATE_MAP = {
     'nusantara':           NusantaraTemplate,
@@ -25,4 +26,5 @@ export const TEMPLATE_MAP = {
     'japanese-ryokan':     JapaneseRyokanTemplate,
     'onyx-noir':           OnyxNoirTemplate,
     'tuscany-vineyard':    TuscanyVineyardTemplate,
+    'velvet-burgundy':     VelvetBurgundyTemplate,
 }
