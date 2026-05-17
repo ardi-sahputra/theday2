@@ -244,6 +244,68 @@ class TemplateSeeder extends Seeder
                 'sort_order'     => 4,
             ],
 
+            // ── Cinema ────────────────────────────────────────────
+            [
+                'category_id'    => $cinema->id,
+                'name'           => 'Netflix',
+                'slug'           => 'netflix',
+                'thumbnail_url'  => null,
+                'description'    => 'Template undangan pernikahan bertema Netflix — cinematic, bold, dan ikonik. Tamu diajak masuk lewat layar "Who\'s Watching?" sebelum menikmati undangan seperti sebuah Netflix Original.',
+                'default_config' => [
+                    'netflix_subtitle' => 'Sebuah Kisah Cinta',
+                    'netflix_tags'     => ['#lovestory', '#romantic', '#halal', '#forever'],
+                ],
+                'demo_data'      => array_merge($weddingDemo, ['custom_config' => [
+                    'netflix_subtitle' => 'Sebuah Kisah Cinta',
+                    'netflix_tags'     => ['#lovestory', '#romantic', '#halal', '#forever'],
+                ]]),
+                'tier'           => 'premium',
+                'is_active'      => true,
+                'sort_order'     => 8,
+            ],
+
+            // ── Vintage Postal (Premium Storybook) ───────────────
+            [
+                'category_id'    => $storybook->id,
+                'name'           => 'Vintage Postal',
+                'slug'           => 'vintage-postal',
+                'thumbnail_url'  => '/images/templates/vintage-postal/thumbnail.webp',
+                'description'    => 'Template pernikahan premium bergaya kartu pos vintage — kraft paper, prangko 1950an, cap pos, mesin tik, dan rute perjalanan cinta di peta antik. Cocok untuk pasangan travel-romantic / destination wedding. Custom city stamp tersedia sebagai add-on (manual oleh tim TheDay).',
+                'default_config' => [
+                    'primary_color'        => '#8b3a3a',
+                    'primary_color_light'  => '#a04848',
+                    'secondary_color'      => '#2c4a3e',
+                    'accent_color'         => '#5c4a3a',
+                    'dark_bg'              => '#3a2d1f',
+                    'bg_color'             => '#e8dcc4',
+                    'text_color'           => '#3a2d1f',
+                    'text_secondary'       => '#5c4a3a',
+                    'font_title'           => 'Special Elite',
+                    'font_heading'         => 'Playfair Display',
+                    'font_body'            => 'Courier Prime',
+                    'font_accent'          => 'Homemade Apple',
+                    'gallery_layout'       => 'masonry',
+                    'opening_style'        => 'gate',
+                    'section_backgrounds'  => new \stdClass(),
+
+                    'vp_couple_origin_city' => 'JAKARTA',
+                    'vp_postmark_dates'     => [],
+                    'vp_travel_cities'      => ['JAKARTA', 'BALI', 'KYOTO', 'PARIS', 'NEW YORK'],
+                    'vp_typewriter_speed'   => 'normal',
+                    'vp_paper_age'          => 'medium',
+                    'vp_stamp_style'        => 'vintage-1950',
+                ],
+                'demo_data'      => array_merge($weddingDemo, ['custom_config' => [
+                    'vp_couple_origin_city' => 'JAKARTA',
+                    'vp_travel_cities'      => ['JAKARTA', 'BALI', 'TOKYO', 'PARIS', 'ROME'],
+                    'vp_typewriter_speed'   => 'normal',
+                    'vp_paper_age'          => 'medium',
+                ]]),
+                'tier'           => 'premium',
+                'is_active'      => true,
+                'sort_order'     => 70,
+            ],
+
             // ── Japanese Ryokan (Premium Zen-Minimal) ────────────
             [
                 'category_id'    => $pernikahan->id,
@@ -296,27 +358,7 @@ class TemplateSeeder extends Seeder
                 ]]),
                 'tier'           => 'premium',
                 'is_active'      => true,
-                'sort_order'     => 10,
-            ],
-
-            // ── Cinema ────────────────────────────────────────────
-            [
-                'category_id'    => $cinema->id,
-                'name'           => 'Netflix',
-                'slug'           => 'netflix',
-                'thumbnail_url'  => null,
-                'description'    => 'Template undangan pernikahan bertema Netflix — cinematic, bold, dan ikonik. Tamu diajak masuk lewat layar "Who\'s Watching?" sebelum menikmati undangan seperti sebuah Netflix Original.',
-                'default_config' => [
-                    'netflix_subtitle' => 'Sebuah Kisah Cinta',
-                    'netflix_tags'     => ['#lovestory', '#romantic', '#halal', '#forever'],
-                ],
-                'demo_data'      => array_merge($weddingDemo, ['custom_config' => [
-                    'netflix_subtitle' => 'Sebuah Kisah Cinta',
-                    'netflix_tags'     => ['#lovestory', '#romantic', '#halal', '#forever'],
-                ]]),
-                'tier'           => 'premium',
-                'is_active'      => true,
-                'sort_order'     => 8,
+                'sort_order'     => 80,
             ],
         ];
 
