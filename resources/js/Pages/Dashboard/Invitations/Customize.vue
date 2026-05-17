@@ -320,7 +320,7 @@ watch(activeKey, async (key) => {
         </div>
 
         <!-- Main content (premium users) -->
-        <div v-else class="flex h-full min-h-screen">
+        <div v-else class="flex h-full lg:min-h-0 min-h-screen">
 
             <!-- ── Left: Editor ──────────────────────────────────── -->
             <div class="w-full lg:w-[420px] flex-shrink-0 flex flex-col border-r border-stone-100 bg-white">
@@ -707,7 +707,7 @@ watch(activeKey, async (key) => {
 
             <!-- ── Right: Live preview (desktop only) ────────────── -->
             <div class="hidden lg:flex flex-1 items-center justify-center bg-stone-100 p-8">
-                <PhoneMockup screen-bg="#111" :scrollable="!isStorybook">
+                <PhoneMockup size="lg" screen-bg="#111" :scrollable="!isStorybook">
                     <component
                         v-if="previewTemplate"
                         :is="previewTemplate"
