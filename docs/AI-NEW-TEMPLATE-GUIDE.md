@@ -296,3 +296,143 @@ JSON yang disimpan di kolom `templates.default_config` (di-merge ke `invitation.
 - JANGAN bikin key yang clash dengan key umum di atas
 
 ---
+
+## Section 4 — Animation Requirements
+
+Template tanpa animasi terasa flat. AI WAJIB memenuhi minimum requirements di bawah — tidak ada exception.
+
+### MUST (wajib, deploy-blocker kalau ga ada)
+
+**1. Section reveal-on-scroll**
+
+Setiap `<section>` content (Bride/Groom, Events, Gallery, dll) WAJIB punya reveal animation saat masuk viewport.
+
+```vue
+<section
+    v-if="sectionEnabled('events')"
+    class="bf-section bf-reveal"
+    :ref="el => vReveal(el)"
+>
+    <!-- content -->
+</section>
+```
+
+```css
+.bf-reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.bf-reveal.bf-visible {
+    opacity: 1;
+    transform: none;
+}
+```
+
+**Note:** `revealClass` di `useInvitationTemplate()` default `is-visible`. Pass custom class kalau perlu prefix per template (Netflix pakai `nf-visible`, contoh di atas pakai `bf-visible`).
+
+**2. `prefers-reduced-motion` guard**
+
+Setiap animasi WAJIB punya fallback yang disable animasi untuk user yang prefer reduced motion (accessibility — WCAG 2.3.3).
+
+```css
+@media (prefers-reduced-motion: reduce) {
+    .bf-reveal { opacity: 1; transform: none; transition: none; }
+    .bf-kenburns { animation: none; }
+    .bf-phase-enter-active, .bf-phase-leave-active { transition: none; }
+}
+```
+
+**3. Smooth transitions untuk interactive elements**
+
+Button hover, dropdown open, modal show, tab switch — tidak boleh instant.
+- Duration: **150-300ms** untuk micro-interaction
+- Easing: `ease-out` untuk masuk, `ease-in` untuk keluar
+
+```css
+.bf-btn { transition: background 0.2s ease, transform 0.15s ease; }
+.bf-btn:hover { background: var(--accent); transform: translateY(-1px); }
+```
+
+### SHOULD (recommended — at least 1 dari berikut, makin banyak makin baik)
+
+**A. Hero motion (ken-burns / parallax / floating element)**
+
+Slow zoom infinite pada hero photo:
+
+```css
+.bf-hero-photo {
+    animation: bf-kenburns 11s ease-in-out infinite alternate;
+    transform-origin: center center;
+}
+@keyframes bf-kenburns {
+    0%   { transform: scale(1.05) translate(0, 0); }
+    100% { transform: scale(1.22) translate(3%, -2%); }
+}
+```
+
+**B. Staggered entry untuk hero text**
+
+Element-element di hero (label, title, badge, meta, button) muncul satu per satu dengan delay incremental via CSS variable:
+
+```css
+.bf-stagger {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: bf-rise 0.7s cubic-bezier(0.16, 1, 0.3, 1) var(--d, 0s) forwards;
+}
+@keyframes bf-rise {
+    to { opacity: 1; transform: translateY(0); }
+}
+```
+
+```vue
+<div class="bf-label bf-stagger" style="--d: 0.05s">...</div>
+<h2 class="bf-title bf-stagger" style="--d: 0.18s">{{ title }}</h2>
+<div class="bf-meta bf-stagger" style="--d: 0.31s">...</div>
+```
+
+**C. Phase transition (kalau multi-phase template seperti Netflix)**
+
+Pakai Vue `<Transition>` untuk smooth swap antar phase.
+
+```vue
+<Transition name="bf-phase" mode="out-in">
+    <PhaseA v-if="phase === 'a'" />
+    <PhaseB v-else-if="phase === 'b'" />
+</Transition>
+```
+
+```css
+.bf-phase-enter-active, .bf-phase-leave-active { transition: opacity 0.5s ease; }
+.bf-phase-enter-from, .bf-phase-leave-to { opacity: 0; }
+```
+
+**D. Gallery hover/tap effects** (subtle, tidak shift layout)
+
+```css
+.bf-gallery-item { transition: transform 0.3s ease; }
+.bf-gallery-item:hover { transform: scale(1.03); }
+```
+
+### Forbidden patterns
+
+- ❌ Animasi yang shift layout (animate `width`, `height`, `top`, `left`, `margin`) — pakai `transform` dan `opacity` saja
+- ❌ Animasi >500ms tanpa alasan (kecuali ambient ken-burns)
+- ❌ Auto-play motion yang tidak bisa di-pause
+- ❌ Animasi yang menghalangi tap/click (e.g. button yang baru muncul setelah delay 3 detik)
+- ❌ Skip `prefers-reduced-motion` guard
+
+### Reference template (terbaik untuk dipelajari)
+
+[Netflix template](../resources/js/Components/invitation/templates/NetflixTemplate.vue) + folder [`netflix/`](../resources/js/Components/invitation/templates/netflix/) memenuhi semua requirements di atas:
+
+- Phase fade transition (`NetflixTemplate.vue` line 173-181 + `.nf-phase-enter-active`)
+- Ken-burns photo (`NetflixHero.vue` `.nfh-photo`, line 141-148)
+- Staggered entrance (`NetflixHero.vue` `.nfh-stagger`, line 150-158)
+- Section reveal-on-scroll (`.nf-reveal` pattern)
+- Full `prefers-reduced-motion` compliance
+
+**AI baru:** TIRU pola Netflix sebagai baseline, sesuaikan timing/distance dengan vibe template baru. Wedding feel = subtle + elegant, bukan flashy.
+
+---
