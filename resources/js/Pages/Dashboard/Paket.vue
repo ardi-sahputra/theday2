@@ -8,7 +8,22 @@ const { t } = useLocale();
 
 const props = defineProps({
     currentPlan: { type: Object, required: true },
+    premiumPlan: { type: Object, default: null },
 });
+
+const formatRupiah = (n) => Number(n ?? 0).toLocaleString('id-ID');
+
+const premiumPriceLabel = computed(() =>
+    props.premiumPlan
+        ? t('dashboard.paket.premiumPriceLabel', { price: formatRupiah(props.premiumPlan.price) })
+        : '—'
+);
+const premiumPricePeriod = computed(() => t('dashboard.paket.premiumPricePeriod'));
+const premiumOriginalPriceLabel = computed(() =>
+    props.premiumPlan?.has_discount
+        ? t('dashboard.paket.premiumPriceLabel', { price: formatRupiah(props.premiumPlan.original_price) })
+        : null
+);
 
 // ── Checkout state ────────────────────────────────────────────────────────────
 const isCheckingOut = ref(false);
@@ -241,10 +256,16 @@ const paymentMethods = computed(() => [
                         </span>
                     </div>
 
-                    <div class="mb-1">
-                        <span class="text-3xl font-bold text-[#2C2417]">{{ t('dashboard.paket.premiumPriceLabel') }}</span>
+                    <div class="mb-1 flex items-baseline gap-2 flex-wrap">
+                        <span class="text-3xl font-bold text-[#2C2417]">{{ premiumPriceLabel }}</span>
+                        <span v-if="premiumOriginalPriceLabel"
+                              class="text-sm text-stone-400 line-through">{{ premiumOriginalPriceLabel }}</span>
+                        <span v-if="premiumPlan?.has_discount"
+                              class="text-xs font-bold px-2 py-0.5 rounded-full bg-red-100 text-red-700">
+                            -{{ premiumPlan.discount_percent }}%
+                        </span>
                     </div>
-                    <p class="text-xs mb-2 text-[#73877C] font-medium">{{ t('dashboard.paket.premiumPricePeriod') }}</p>
+                    <p class="text-xs mb-2 text-[#73877C] font-medium">{{ premiumPricePeriod }}</p>
                     <p class="text-sm mb-5 text-stone-500">{{ t('dashboard.paket.premiumPriceCta') }}</p>
 
                     <ul class="space-y-2.5 mb-6 text-sm text-stone-700">

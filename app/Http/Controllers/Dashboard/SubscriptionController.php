@@ -40,6 +40,8 @@ class SubscriptionController extends Controller
         $sub  = $user->fresh()->activeSubscription;
         $plan = $sub?->plan;
 
+        $premiumPlan = Plan::where('slug', 'premium')->first();
+
         return Inertia::render('Dashboard/Paket', [
             'currentPlan' => $plan ? [
                 'name'           => $plan->name,
@@ -54,6 +56,13 @@ class SubscriptionController extends Controller
                 'expires_at'     => null,
                 'days_remaining' => null,
             ],
+            'premiumPlan' => $premiumPlan ? [
+                'price'            => $premiumPlan->effectivePrice(),
+                'original_price'   => (int) $premiumPlan->price,
+                'duration_days'    => $premiumPlan->duration_days,
+                'has_discount'     => $premiumPlan->hasActiveDiscount(),
+                'discount_percent' => $premiumPlan->currentDiscount()?->percent,
+            ] : null,
         ]);
     }
 
