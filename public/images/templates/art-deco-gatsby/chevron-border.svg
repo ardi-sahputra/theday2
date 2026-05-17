@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 24" fill="none" stroke="currentColor" stroke-width="1.5">
+  <defs>
+    <pattern id="chev" x="0" y="0" width="32" height="24" patternUnits="userSpaceOnUse">
+      <path d="M0 22 L16 4 L32 22"/>
+      <path d="M0 14 L16 -4 L32 14" opacity="0.5"/>
+    </pattern>
+  </defs>
+  <rect width="400" height="24" fill="url(#chev)"/>
+</svg>
