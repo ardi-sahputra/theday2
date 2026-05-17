@@ -1,3 +1,4 @@
+<!-- AI: before editing, READ docs/AI-NEW-TEMPLATE-GUIDE.md — defines composable contract, section catalog, animation minimums, anti-halu rules. -->
 <script setup>
 import { onMounted } from 'vue';
 import { useInvitationTemplate } from '@/Composables/useInvitationTemplate';
