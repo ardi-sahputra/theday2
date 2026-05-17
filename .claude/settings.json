@@ -1,6 +1,5 @@
 {
   "permissions": {
-      "defaultMode": "bypassPermissions",
     "allow": [
       "Bash(echo \"EXIT:$?\")",
       "Bash(npm run:*)",
@@ -8,8 +7,19 @@
       "Bash(php -r ':*)",
       "Bash(grep -n \"source\\\\|status\\\\|priority\\\\|category\\\\|default\" c:/laragon/www/theday/database/migrations/*checklist_tasks*)",
       "Bash(grep -l \"Checklist\\\\|checklist\" c:/laragon/www/theday/public/build/assets/*.js)",
-      "Bash(ls -la /c/laragon/www/theday/app/Http/Requests/Checklist*)"
-    ]
+      "Bash(ls -la /c/laragon/www/theday/app/Http/Requests/Checklist*)",
+      "Bash(ssh -V)",
+      "Bash(where ssh *)",
+      "Bash(where gh *)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" https://api.github.com/repos/ardi-sahputra/theday2/actions/runs?per_page=3)",
+      "Bash(curl -s -L https://theday.id/dashboard/notifications -o /tmp/dn.html)",
+      "Bash(curl -s -L -c /tmp/c -b /tmp/c https://theday.id/login -o /tmp/lh.html)",
+      "Skill(superpowers:dispatching-parallel-agents)",
+      "Skill(superpowers:dispatching-parallel-agents:*)",
+      "Skill(superpowers:executing-plans)",
+      "Skill(superpowers:executing-plans:*)"
+    ],
+    "defaultMode": "bypassPermissions"
   },
   "enabledPlugins": {
     "ui-ux-pro-max@ui-ux-pro-max-skill": true
