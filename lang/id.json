@@ -1,4 +1,62 @@
 {
+  "admin": {
+    "plans": {
+      "index": {
+        "title": "Paket",
+        "subtitle": "Kelola harga dan fitur paket berlangganan"
+      },
+      "edit": {
+        "title": "Edit {name}",
+        "subtitle": "Ubah harga, durasi, dan fitur paket",
+        "back": "Kembali ke daftar paket",
+        "section_basic": "Info Dasar",
+        "section_pricing": "Harga & Durasi",
+        "section_quota": "Kuota",
+        "section_flags": "Fitur Boolean",
+        "section_features": "Daftar Fitur",
+        "field_name": "Nama paket",
+        "field_active": "Aktif",
+        "field_price": "Harga (IDR)",
+        "field_duration": "Durasi (hari)",
+        "field_max_invitations": "Maksimal undangan",
+        "field_max_gallery": "Maksimal foto galeri",
+        "flag_custom_music": "Upload musik sendiri",
+        "flag_remove_watermark": "Tanpa watermark",
+        "flag_custom_domain": "Custom domain",
+        "flag_analytics": "Akses analitik",
+        "features_hint": "Daftar fitur yang tampil di kartu pricing landing page. Edit, tambah, atau hapus baris.",
+        "add_feature": "Tambah fitur",
+        "save": "Simpan perubahan",
+        "saving": "Menyimpan..."
+      },
+      "table": {
+        "name": "Nama",
+        "price": "Harga",
+        "duration": "Durasi",
+        "status": "Status",
+        "actions": "Aksi"
+      },
+      "status": {
+        "active": "Aktif",
+        "inactive": "Nonaktif"
+      },
+      "actions": {
+        "edit": "Edit",
+        "locked": "Tidak dapat diedit"
+      },
+      "duration": {
+        "forever": "Selamanya",
+        "year": "1 tahun",
+        "years": "{n} tahun",
+        "month": "1 bulan",
+        "months": "{n} bulan",
+        "days": "{n} hari"
+      },
+      "flash": {
+        "updated": "Paket {name} berhasil diperbarui."
+      }
+    }
+  },
   "common": {
     "save": "Simpan",
     "cancel": "Batal",
@@ -172,8 +230,6 @@
       "freeFeatureTemplate": "Template gratis",
       "freeFeatureMusic": "Musik default",
       "freeFeatureWatermark": "Watermark \"Dibuat dengan TheDay\"",
-      "premiumPriceLabel": "Rp 35.000",
-      "premiumPricePeriod": "/ 3 bulan (90 hari)",
       "premiumPriceCta": "Semua yang kamu butuhkan untuk undangan impian",
       "premiumFeatureInvitation": "Unlimited undangan aktif",
       "premiumFeaturePhoto": "Unlimited foto gallery",
@@ -207,7 +263,7 @@
       "paymentMethodCreditCard": "Kartu Kredit",
       "faqTitle": "Pertanyaan Umum",
       "faq1Q": "Apakah Premium otomatis diperpanjang?",
-      "faq1A": "Tidak. Premium adalah pembayaran satu kali untuk 3 bulan (90 hari). Tidak ada auto-renewal. Kamu bisa perpanjang manual kapan saja.",
+      "faq1A": "Tidak. Premium adalah pembayaran satu kali per periode aktif. Tidak ada auto-renewal. Kamu bisa perpanjang manual kapan saja.",
       "faq2Q": "Bagaimana cara pembayaran?",
       "faq2A": "Kamu bisa bayar via GoPay, OVO, Dana, QRIS, transfer bank virtual, atau kartu kredit melalui Mayar — aman dan terenkripsi.",
       "faq3Q": "Ada garansi uang kembali?",
