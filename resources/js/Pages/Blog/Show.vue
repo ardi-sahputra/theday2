@@ -16,14 +16,7 @@ function formatDate(dateStr) {
 <template>
     <PublicLayout>
         <Head>
-            <title>{{ article.meta_title ?? article.title }} — TheDay</title>
-            <meta name="description" :content="article.meta_description ?? article.excerpt" />
-            <link rel="canonical" :href="article.canonical_url" />
-            <!-- Open Graph -->
-            <meta property="og:type" content="article" />
-            <meta property="og:title" :content="article.meta_title ?? article.title" />
-            <meta property="og:description" :content="article.meta_description ?? article.excerpt" />
-            <meta v-if="article.og_image_url" property="og:image" :content="article.og_image_url" />
+            <title>{{ (article.meta_title ?? article.title) + ' — TheDay' }}</title>
         </Head>
 
         <!-- Cover -->
@@ -32,6 +25,7 @@ function formatDate(dateStr) {
                 <div class="rounded-2xl overflow-hidden aspect-video bg-stone-100"
                      style="box-shadow: 0 8px 30px rgba(0,0,0,0.1)">
                     <img :src="article.cover_image_url" :alt="article.title"
+                         fetchpriority="high" decoding="async"
                          class="w-full h-full object-cover" />
                 </div>
             </div>
@@ -147,6 +141,7 @@ function formatDate(dateStr) {
                     >
                         <div class="aspect-video bg-stone-100 overflow-hidden">
                             <img v-if="rel.cover_image_url" :src="rel.cover_image_url" :alt="rel.title"
+                                 loading="lazy" decoding="async"
                                  class="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
                             <div v-else class="w-full h-full" style="background: linear-gradient(135deg, #FEFAE0, #EDE8D0)"></div>
                         </div>

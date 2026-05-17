@@ -36,8 +36,7 @@ function formatDate(dateStr) {
 <template>
     <PublicLayout>
         <Head>
-            <title>{{ pageTitle ?? 'Blog & Inspirasi Pernikahan' }} — TheDay</title>
-            <meta name="description" content="Tips pernikahan, inspirasi undangan digital, dan panduan merencanakan hari pernikahan impianmu." />
+            <title>{{ (pageTitle ?? 'Blog & Inspirasi Pernikahan') + ' — TheDay' }}</title>
         </Head>
 
         <!-- Hero -->
@@ -111,6 +110,7 @@ function formatDate(dateStr) {
                                     v-if="featured.cover_image_url"
                                     :src="featured.cover_image_url"
                                     :alt="featured.title"
+                                    fetchpriority="high" decoding="async"
                                     class="w-full h-full object-cover transition duration-500 group-hover:scale-105"
                                 />
                                 <div v-else class="w-full h-full flex items-center justify-center"
@@ -167,6 +167,7 @@ function formatDate(dateStr) {
                             v-if="article.cover_image_url"
                             :src="article.cover_image_url"
                             :alt="article.title"
+                            loading="lazy" decoding="async"
                             class="w-full h-full object-cover transition duration-500 group-hover:scale-105"
                         />
                         <div v-else class="w-full h-full flex items-center justify-center"

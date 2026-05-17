@@ -8,7 +8,56 @@
 
     <link rel="icon" type="image/svg+xml" href="{{ asset('image/favicon.svg') }}">
     <link rel="icon" type="image/png" sizes="96x96" href="{{ asset('image/favicon-96x96.png') }}">
-    <title inertia>{{ config('app.name', 'Laravel') }}</title>
+    <title inertia>{{ $seo['title'] ?? config('app.name', 'Laravel') }}</title>
+
+    @isset($seo)
+        <meta name="description" content="{{ $seo['description'] ?? '' }}">
+        @isset($seo['canonical'])
+            <link rel="canonical" href="{{ $seo['canonical'] }}">
+        @endisset
+
+        {{-- Open Graph --}}
+        <meta property="og:type" content="{{ $seo['og_type'] ?? 'website' }}">
+        <meta property="og:site_name" content="TheDay">
+        <meta property="og:title" content="{{ $seo['title'] ?? '' }}">
+        <meta property="og:description" content="{{ $seo['description'] ?? '' }}">
+        <meta property="og:url" content="{{ $seo['canonical'] ?? url()->current() }}">
+        <meta property="og:locale" content="{{ app()->getLocale() === 'id' ? 'id_ID' : 'en_US' }}">
+        @isset($seo['og_image'])
+            <meta property="og:image" content="{{ $seo['og_image'] }}">
+            <meta property="og:image:width" content="1200">
+            <meta property="og:image:height" content="630">
+        @endisset
+
+        {{-- Twitter Card --}}
+        <meta name="twitter:card" content="{{ $seo['twitter_card'] ?? 'summary_large_image' }}">
+        <meta name="twitter:title" content="{{ $seo['title'] ?? '' }}">
+        <meta name="twitter:description" content="{{ $seo['description'] ?? '' }}">
+        @isset($seo['og_image'])
+            <meta name="twitter:image" content="{{ $seo['og_image'] }}">
+        @endisset
+
+        {{-- Article-specific OG --}}
+        @if(($seo['og_type'] ?? '') === 'article' && !empty($seo['article']))
+            @isset($seo['article']['published_time'])
+                <meta property="article:published_time" content="{{ $seo['article']['published_time'] }}">
+            @endisset
+            @isset($seo['article']['modified_time'])
+                <meta property="article:modified_time" content="{{ $seo['article']['modified_time'] }}">
+            @endisset
+            @isset($seo['article']['author'])
+                <meta property="article:author" content="{{ $seo['article']['author'] }}">
+            @endisset
+            @isset($seo['article']['section'])
+                <meta property="article:section" content="{{ $seo['article']['section'] }}">
+            @endisset
+        @endif
+
+        {{-- Structured data --}}
+        @foreach($seo['schemas'] ?? [] as $schema)
+            <script type="application/ld+json">{!! json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
+        @endforeach
+    @endisset
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">

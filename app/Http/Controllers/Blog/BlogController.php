@@ -42,12 +42,19 @@ class BlogController extends Controller
             'articles' => fn ($q) => $q->published(),
         ])->having('articles_count', '>', 0)->orderBy('name')->get();
 
+        $seo = [
+            'title'       => 'Blog & Inspirasi Pernikahan — TheDay',
+            'description' => 'Tips pernikahan, inspirasi undangan digital, dan panduan merencanakan hari pernikahan impianmu.',
+            'canonical'   => url('/blog'),
+            'og_type'     => 'website',
+        ];
+
         return Inertia::render('Blog/Index', [
             'articles'        => $articles,
             'featured'        => $featured ? $this->formatArticle($featured) : null,
             'categories'      => $categories,
             'filters'         => ['category' => $categorySlug, 'search' => $search],
-        ]);
+        ])->withViewData(['seo' => $seo]);
     }
 
     public function show(string $slug): Response
@@ -82,7 +89,7 @@ class BlogController extends Controller
         return Inertia::render('Blog/Show', [
             'article' => $this->formatArticle($article, true),
             'related' => $related,
-        ]);
+        ])->withViewData(['seo' => $this->buildArticleSeo($article)]);
     }
 
     public function category(string $slug): Response
@@ -100,13 +107,86 @@ class BlogController extends Controller
             'articles' => fn ($q) => $q->published(),
         ])->having('articles_count', '>', 0)->orderBy('name')->get();
 
+        $seo = [
+            'title'       => $category->name . ' — Blog TheDay',
+            'description' => 'Artikel kategori ' . $category->name . ' di blog TheDay.',
+            'canonical'   => url('/blog/category/' . $category->slug),
+            'og_type'     => 'website',
+        ];
+
         return Inertia::render('Blog/Index', [
             'articles'   => $articles,
             'featured'   => null,
             'categories' => $categories,
             'filters'    => ['category' => $slug, 'search' => null],
             'pageTitle'  => $category->name,
-        ]);
+        ])->withViewData(['seo' => $seo]);
+    }
+
+    private function buildArticleSeo(Article $article): array
+    {
+        $canonical   = $article->canonical_url ?: url('/blog/' . $article->slug);
+        $ogImage     = $article->og_image_url ?: $article->cover_image_url;
+        $description = $article->meta_description ?: $article->excerpt;
+        $title       = ($article->meta_title ?: $article->title) . ' — TheDay';
+
+        $articleSchema = [
+            '@context'         => 'https://schema.org',
+            '@type'            => 'Article',
+            'headline'         => $article->title,
+            'description'      => $description,
+            'datePublished'    => $article->published_at?->toIso8601String(),
+            'dateModified'     => $article->updated_at?->toIso8601String(),
+            'mainEntityOfPage' => ['@type' => 'WebPage', '@id' => $canonical],
+            'author'           => ['@type' => 'Person', 'name' => $article->author_name ?: 'TheDay'],
+            'publisher'        => [
+                '@type' => 'Organization',
+                'name'  => 'TheDay',
+                'logo'  => ['@type' => 'ImageObject', 'url' => url('/image/favicon-96x96.png')],
+            ],
+        ];
+        if ($ogImage) {
+            $articleSchema['image'] = [$ogImage];
+        }
+
+        $breadcrumbItems = [
+            ['@type' => 'ListItem', 'position' => 1, 'name' => 'Blog', 'item' => url('/blog')],
+        ];
+        if ($article->category) {
+            $breadcrumbItems[] = [
+                '@type'    => 'ListItem',
+                'position' => 2,
+                'name'     => $article->category->name,
+                'item'     => url('/blog/category/' . $article->category->slug),
+            ];
+        }
+        $breadcrumbItems[] = [
+            '@type'    => 'ListItem',
+            'position' => count($breadcrumbItems) + 1,
+            'name'     => $article->title,
+            'item'     => $canonical,
+        ];
+        $breadcrumbSchema = [
+            '@context'        => 'https://schema.org',
+            '@type'           => 'BreadcrumbList',
+            'itemListElement' => $breadcrumbItems,
+        ];
+
+        return [
+            'title'        => $title,
+            'description'  => $description,
+            'canonical'    => $canonical,
+            'og_image'     => $ogImage,
+            'og_type'      => 'article',
+            'twitter_card' => 'summary_large_image',
+            'article'      => [
+                'published_time' => $article->published_at?->toIso8601String(),
+                'modified_time'  => $article->updated_at?->toIso8601String(),
+                'author'         => $article->author_name,
+                'section'        => $article->category?->name,
+            ],
+            'schemas'      => [$articleSchema, $breadcrumbSchema],
+        ];
     }
 
     private function formatArticle(Article $article, bool $withContent = false): array
