@@ -2,6 +2,9 @@
 import { ref, onMounted, onUnmounted, computed } from 'vue';
 import { router, Link } from '@inertiajs/vue3';
 import axios from 'axios';
+import { useLocale } from '@/Composables/useLocale';
+
+const { t } = useLocale();
 
 const props = defineProps({
     pollIntervalMs: { type: Number, default: 60000 },
@@ -89,7 +92,7 @@ onUnmounted(() => {
 
 <template>
     <div class="relative">
-        <button @click="toggle" class="relative p-2 rounded hover:bg-gray-100" :aria-label="$t('notifications.bell.aria')">
+        <button @click="toggle" class="relative p-2 rounded hover:bg-gray-100" :aria-label="t('notifications.bell.aria')">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                       d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
@@ -111,14 +114,14 @@ onUnmounted(() => {
                     fixed inset-x-2 top-[3.75rem] max-h-[calc(100vh-4.5rem)] rounded-xl
                     sm:absolute sm:inset-x-auto sm:top-auto sm:right-0 sm:mt-2 sm:w-96 sm:max-h-none sm:rounded">
             <div class="flex justify-between items-center px-4 py-3 border-b shrink-0">
-                <span class="font-semibold text-sm sm:text-base">{{ $t('notifications.bell.title') }}</span>
+                <span class="font-semibold text-sm sm:text-base">{{ t('notifications.bell.title') }}</span>
                 <button @click="markAllRead" class="text-xs text-blue-600 hover:underline">
-                    {{ $t('notifications.bell.mark_all_read') }}
+                    {{ t('notifications.bell.mark_all_read') }}
                 </button>
             </div>
             <ul class="overflow-y-auto flex-1 sm:max-h-96">
                 <li v-if="items.length === 0" class="px-4 py-6 text-center text-gray-500 text-sm">
-                    {{ $t('notifications.bell.empty') }}
+                    {{ t('notifications.bell.empty') }}
                 </li>
                 <li v-for="item in items" :key="item.id"
                     @click="markRead(item)"
@@ -133,7 +136,7 @@ onUnmounted(() => {
             </ul>
             <div class="border-t px-4 py-2 text-center shrink-0">
                 <Link href="/dashboard/notifications" class="text-sm text-blue-600 hover:underline" @click="open = false">
-                    {{ $t('notifications.bell.see_all') }} →
+                    {{ t('notifications.bell.see_all') }} →
                 </Link>
             </div>
         </div>
