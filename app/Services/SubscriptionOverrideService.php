@@ -51,6 +51,40 @@ class SubscriptionOverrideService
     }
 
     /**
+     * Grant premium access for an exact number of days (snapshot-friendly).
+     * Behavior mirrors grantPremium but uses days for precise scheduling.
+     */
+    public function grantPremiumDays(User $user, int $days): Subscription
+    {
+        $existing = $user->activeSubscription;
+
+        if ($existing) {
+            $startFrom = $existing->expires_at?->isFuture()
+                ? $existing->expires_at
+                : now();
+
+            $expiresAt = Carbon::parse($startFrom)->addDays($days);
+
+            $existing->update([
+                'status'     => 'active',
+                'expires_at' => $expiresAt,
+            ]);
+
+            return $existing->fresh();
+        }
+
+        $premiumPlan = Plan::where('slug', 'premium')->firstOrFail();
+
+        return Subscription::create([
+            'user_id'    => $user->id,
+            'plan_id'    => $premiumPlan->id,
+            'status'     => 'active',
+            'starts_at'  => now(),
+            'expires_at' => now()->addDays($days),
+        ]);
+    }
+
+    /**
      * Revoke premium access immediately by setting expires_at to now.
      * The subscription becomes inactive on the next activeSubscription query.
      */
