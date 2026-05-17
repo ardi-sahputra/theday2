@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240">
+  <circle cx="120" cy="120" r="106" fill="none" stroke="#2c4a3e" stroke-width="2.5"/>
+  <polygon points="120,55 130,90 168,90 138,112 150,150 120,128 90,150 102,112 72,90 110,90" fill="#2c4a3e"/>
+  <path id="reg-arc" d="M40 120 A80 80 0 0 0 200 120" fill="none"/>
+  <text fill="#2c4a3e" font-family="Courier Prime, monospace" font-size="14" letter-spacing="4">
+    <textPath href="#reg-arc" startOffset="50%" text-anchor="middle">REGISTERED</textPath>
+  </text>
+</svg>
