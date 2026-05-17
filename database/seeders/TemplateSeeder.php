@@ -244,6 +244,47 @@ class TemplateSeeder extends Seeder
                 'sort_order'     => 4,
             ],
 
+            // ── Onyx Noir (Premium Luxury) ───────────────────────
+            [
+                'category_id'    => $pernikahan->id,
+                'name'           => 'Onyx Noir',
+                'slug'           => 'onyx-noir',
+                'thumbnail_url'  => '/images/templates/onyx-noir/thumbnail.webp',
+                'description'    => 'Template pernikahan premium dark luxury — marmer hitam carrara, aksen gold leaf, dan wax seal yang pecah di tap pertama. Untuk pasangan yang menginginkan kesan museum-quality, formal-sophisticated, tanpa flora-fauna.',
+                'default_config' => [
+                    'primary_color'        => '#d4af37',
+                    'primary_color_light'  => '#f3e5a0',
+                    'secondary_color'      => '#b8941f',
+                    'accent_color'         => '#d4af37',
+                    'dark_bg'              => '#0a0a0a',
+                    'bg_color'             => '#0a0a0a',
+                    'text_color'           => '#f5f5f0',
+                    'text_secondary'       => '#a8a8a8',
+                    'font_title'           => 'Cormorant Garamond',
+                    'font_heading'         => 'Tenor Sans',
+                    'font_body'            => 'Inter',
+                    'gallery_layout'       => 'masonry',
+                    'opening_style'        => 'fade',
+                    'section_backgrounds'  => [
+                        'opening' => ['type' => 'marble', 'value' => 'subtle'],
+                        'couple'  => ['type' => 'marble', 'value' => 'subtle'],
+                        'events'  => ['type' => 'color',  'value' => '#0a0a0a'],
+                        'closing' => ['type' => 'marble', 'value' => 'strong'],
+                    ],
+                    'onyx_monogram_text'    => 'A & B',
+                    'onyx_seal_motif'       => 'geometric',
+                    'onyx_marble_intensity' => 'subtle',
+                ],
+                'demo_data'      => array_merge($weddingDemo, ['custom_config' => [
+                    'onyx_monogram_text'    => 'A & S',
+                    'onyx_seal_motif'       => 'geometric',
+                    'onyx_marble_intensity' => 'subtle',
+                ]]),
+                'tier'           => 'premium',
+                'is_active'      => true,
+                'sort_order'     => 9,
+            ],
+
             // ── Cinema ────────────────────────────────────────────
             [
                 'category_id'    => $cinema->id,
