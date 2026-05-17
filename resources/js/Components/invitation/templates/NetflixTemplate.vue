@@ -204,8 +204,8 @@ function onRemindMe() {
             <NetflixHero
                 v-if="sectionEnabled('opening')"
                 :cover-url="effectiveHeroUrl"
-                :groom-name="groomName"
-                :bride-name="brideName"
+                :groom-nick="groomNick"
+                :bride-nick="brideNick"
                 :subtitle="netflixSubtitle"
                 :event-date="eventDateForHero"
                 :hero-quote="heroQuote"
