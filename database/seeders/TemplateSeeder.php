@@ -263,6 +263,45 @@ class TemplateSeeder extends Seeder
                 'is_active'      => true,
                 'sort_order'     => 8,
             ],
+
+            // ── Art Deco Gatsby (Premium, multi-phase orchestrator) ─
+            [
+                'category_id'    => $pernikahan->id,
+                'name'           => 'Art Deco Gatsby',
+                'slug'           => 'art-deco-gatsby',
+                'thumbnail_url'  => '/templates/art-deco-gatsby-thumb.jpg',
+                'description'    => 'Opulent 1920s Gatsby — gold sunburst on near-black, chevron borders, fan motifs. Timeless luxury.',
+                'default_config' => [
+                    'primary_color'       => '#c9a961',
+                    'primary_color_light' => '#f4ead5',
+                    'secondary_color'     => '#1a3a2e',
+                    'accent_color'        => '#c9a961',
+                    'dark_bg'             => '#0d0d0d',
+                    'font_title'          => 'Poiret One',
+                    'font_heading'        => 'Cormorant Garamond',
+                    'font_body'           => 'Lato',
+                    'gallery_layout'      => 'grid',
+                    'opening_style'       => 'fade',
+                    'section_backgrounds' => [
+                        'events'    => ['type' => 'color', 'value' => '#0d0d0d'],
+                        'countdown' => ['type' => 'color', 'value' => '#1a1a1a'],
+                    ],
+                    'deco_monogram'        => 'auto',
+                    'deco_sunburst_rays'   => 24,
+                    'deco_accent_color'    => 'gold',
+                    'deco_chevron_density' => 'medium',
+                ],
+                'demo_data'      => array_merge($weddingDemo, ['custom_config' => [
+                    'primary_color'  => '#c9a961',
+                    'dark_bg'        => '#0d0d0d',
+                    'font_title'     => 'Poiret One',
+                    'font_heading'   => 'Cormorant Garamond',
+                    'font_body'      => 'Lato',
+                ]]),
+                'tier'           => 'premium',
+                'is_active'      => true,
+                'sort_order'     => 9,
+            ],
         ];
 
         foreach ($templates as $template) {
