@@ -10,6 +10,7 @@ use App\Models\Gift;
 use App\Models\Plan;
 use App\Services\GiftPurchaseService;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -43,7 +44,16 @@ class GiftController extends Controller
 
     public function store(StoreGiftRequest $request): RedirectResponse
     {
-        $result = $this->purchaseService->createUserGift($request->user(), $request->validated());
+        try {
+            $result = $this->purchaseService->createUserGift($request->user(), $request->validated());
+        } catch (\Throwable $e) {
+            Log::error('Gift purchase failed', [
+                'user_id' => $request->user()->id,
+                'error'   => $e->getMessage(),
+            ]);
+
+            return back()->withInput()->with('error', 'Pembayaran gagal diproses. Silakan coba lagi atau hubungi support.');
+        }
 
         return redirect()->away($result['payment_url']);
     }

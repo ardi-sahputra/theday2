@@ -36,7 +36,7 @@ function submit() {
     form
         .transform(data => ({
             ...data,
-            plan_id: data.plan_id ? Number(data.plan_id) : null,
+            plan_id: data.plan_id || null,
             duration_days: data.duration_days === '' ? null : Number(data.duration_days),
             custom_expires_at: data.custom_expires_at || null,
             recipient_email: data.delivery_mode === 'email' ? data.recipient_email : null,
