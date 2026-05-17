@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="sign-aries" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M16 22 Q22 12 32 18 Q42 12 48 22 M32 18 L32 50"/>
+    </symbol>
+    <symbol id="sign-taurus" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="32" cy="38" r="10"/>
+      <path d="M16 18 Q24 26 32 28 Q40 26 48 18"/>
+    </symbol>
+    <symbol id="sign-gemini" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20 14 L20 50 M44 14 L44 50 M16 18 L48 18 M16 46 L48 46"/>
+    </symbol>
+    <symbol id="sign-cancer" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="22" cy="26" r="4"/>
+      <circle cx="42" cy="38" r="4"/>
+      <path d="M14 26 Q26 14 38 22"/>
+      <path d="M50 38 Q38 50 26 42"/>
+    </symbol>
+    <symbol id="sign-leo" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="26" cy="28" r="8"/>
+      <path d="M34 28 Q44 28 44 40 Q44 50 36 50 Q28 50 28 42"/>
+    </symbol>
+    <symbol id="sign-virgo" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M16 16 L16 44 M16 16 Q22 16 22 22 L22 44 M22 22 Q28 22 28 28 L28 44 M28 28 Q34 28 36 34 Q40 44 32 48 L44 36"/>
+    </symbol>
+    <symbol id="sign-libra" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M14 46 L50 46 M14 36 L50 36 M22 36 Q32 24 42 36"/>
+    </symbol>
+    <symbol id="sign-scorpio" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 18 L12 36 Q12 42 18 42 L20 42 M20 18 L20 36 Q20 42 26 42 L28 42 M28 18 L28 36 Q28 42 34 42 L44 42 L50 38 L46 30"/>
+    </symbol>
+    <symbol id="sign-sagittarius" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M14 50 L50 14 M50 14 L42 14 M50 14 L50 22 M26 32 L34 40"/>
+    </symbol>
+    <symbol id="sign-capricorn" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M14 16 L20 28 L26 16 L32 36 Q40 48 46 40 Q52 32 42 30 Q34 30 36 38"/>
+    </symbol>
+    <symbol id="sign-aquarius" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M10 22 L18 30 L26 22 L34 30 L42 22 L50 30 M10 36 L18 44 L26 36 L34 44 L42 36 L50 44"/>
+    </symbol>
+    <symbol id="sign-pisces" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20 14 Q12 32 20 50 M44 14 Q52 32 44 50 M16 32 L48 32"/>
+    </symbol>
+  </defs>
+</svg>
