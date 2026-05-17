@@ -12,7 +12,7 @@ const sidebarOpen = ref(false);
 </script>
 
 <template>
-    <div class="min-h-screen flex bg-background text-foreground font-admin antialiased">
+    <div class="min-h-screen flex bg-muted/30 dark:bg-background text-foreground font-admin antialiased">
         <AdminSidebar
             :mobile-open="sidebarOpen"
             @close="sidebarOpen = false"
@@ -22,7 +22,8 @@ const sidebarOpen = ref(false);
         <div
             v-if="sidebarOpen"
             @click="sidebarOpen = false"
-            class="fixed inset-0 z-30 bg-black/40 lg:hidden"
+            class="fixed inset-0 z-30 bg-black/50 backdrop-blur-sm lg:hidden"
+            aria-hidden="true"
         />
 
         <div class="flex-1 flex flex-col min-w-0">
@@ -31,8 +32,10 @@ const sidebarOpen = ref(false);
                 @open-sidebar="sidebarOpen = true"
             />
 
-            <main class="flex-1 overflow-y-auto p-4 lg:p-6">
-                <slot />
+            <main class="flex-1 overflow-y-auto">
+                <div class="mx-auto w-full max-w-7xl p-4 lg:p-6 lg:py-8">
+                    <slot />
+                </div>
             </main>
         </div>
 
