@@ -284,9 +284,8 @@ function scrollToRsvp() { rsvpRef.value?.scrollIntoView({ behavior: 'smooth' }) 
                 <!-- ── RSVP ── -->
                 <section
                     v-if="sectionEnabled('rsvp')"
-                    ref="rsvpRef"
+                    :ref="el => { rsvpRef = el; vReveal(el) }"
                     class="bp-section bp-section--cream-light bp-section--wash bp-reveal"
-                    :ref="el => vReveal(el)"
                 >
                     <BelleFloralCorner position="tl" :palette="floralPalette" size="md"/>
                     <h2 class="bp-h-smallcaps">Réponse Souhaitée</h2>
