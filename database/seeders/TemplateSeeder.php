@@ -263,6 +263,51 @@ class TemplateSeeder extends Seeder
                 'is_active'      => true,
                 'sort_order'     => 8,
             ],
+
+            // ── Velvet Burgundy (Premium, dedicated renderer) ─────
+            [
+                'category_id'    => $pernikahan->id,
+                'name'           => 'Velvet Burgundy',
+                'slug'           => 'velvet-burgundy',
+                'thumbnail_url'  => '/templates/velvet-burgundy-thumb.jpg',
+                'description'    => 'Undangan premium Victorian-modern: beludru maroon + filigree emas + segel lilin. Cocok untuk warna hangat klasik (akad/resepsi adat-modern).',
+                'default_config' => [
+                    'primary_color'           => '#5c1a1b',
+                    'primary_color_light'     => '#8b1a1f',
+                    'secondary_color'         => '#d4a574',
+                    'accent_color'            => '#a87a4a',
+                    'dark_bg'                 => '#3a0c0e',
+                    'font_title'              => 'Playfair Display',
+                    'font_heading'            => 'Cormorant SC',
+                    'font_body'               => 'Crimson Text',
+                    'gallery_layout'          => 'masonry',
+                    'opening_style'           => 'fade',
+                    'velvet_seal_monogram'    => 'A & S',
+                    'velvet_seal_motif'       => 'rose',
+                    'velvet_filigree_density' => 'medium',
+                    'velvet_paper_panels'     => true,
+                    'velvet_cover_subtitle'   => 'Sebuah Undangan Pernikahan',
+                    'section_backgrounds'     => [
+                        'events' => ['type' => 'color', 'value' => '#3a0c0e'],
+                        'rsvp'   => ['type' => 'image', 'value' => '/images/templates/velvet-burgundy/paper-cream.webp'],
+                        'gift'   => ['type' => 'image', 'value' => '/images/templates/velvet-burgundy/paper-cream.webp'],
+                    ],
+                ],
+                'demo_data'      => array_merge($weddingDemo, ['custom_config' => [
+                    'primary_color'         => '#5c1a1b',
+                    'secondary_color'       => '#d4a574',
+                    'accent_color'          => '#a87a4a',
+                    'dark_bg'               => '#3a0c0e',
+                    'font_title'            => 'Playfair Display',
+                    'font_heading'          => 'Cormorant SC',
+                    'font_body'             => 'Crimson Text',
+                    'velvet_seal_monogram'  => 'A & S',
+                    'velvet_cover_subtitle' => 'Sebuah Undangan Pernikahan',
+                ]]),
+                'tier'           => 'premium',
+                'is_active'      => true,
+                'sort_order'     => 9,
+            ],
         ];
 
         foreach ($templates as $template) {
