@@ -6,9 +6,12 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Dashboard;
 
+use App\Enums\NotificationType;
 use App\Http\Controllers\Controller;
 use App\Models\GuestList;
+use App\Models\User;
 use App\Services\GuestSlugGenerator;
+use App\Services\Notifications\NotificationPublisher;
 use App\Services\PhoneNumberNormalizer;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -21,6 +24,7 @@ class GuestImportController extends Controller
     public function __construct(
         private readonly PhoneNumberNormalizer $normalizer,
         private readonly GuestSlugGenerator    $slugGenerator,
+        private readonly NotificationPublisher $notificationPublisher,
     ) {}
 
     // ─── Preview ──────────────────────────────────────────────────
@@ -122,6 +126,18 @@ class GuestImportController extends Controller
                 $imported++;
             }
         });
+
+        if ($imported > 0) {
+            $user = User::find($userId);
+            if ($user !== null) {
+                $this->notificationPublisher->publish(
+                    user: $user,
+                    type: NotificationType::GuestImportCompleted,
+                    payload: ['imported' => $imported],
+                    actionUrl: $invitationId ? '/dashboard/invitations/' . $invitationId . '/buku-tamu' : '/dashboard/buku-tamu',
+                );
+            }
+        }
 
         return response()->json([
             'imported' => $imported,

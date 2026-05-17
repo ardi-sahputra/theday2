@@ -169,4 +169,14 @@ class User extends Authenticatable implements MustVerifyEmail
 
         return $published < $quota;
     }
+
+    public function userNotifications(): HasMany
+    {
+        return $this->hasMany(\App\Models\UserNotification::class);
+    }
+
+    public function notificationPreference(): HasOne
+    {
+        return $this->hasOne(\App\Models\NotificationPreference::class);
+    }
 }
