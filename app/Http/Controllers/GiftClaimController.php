@@ -53,7 +53,14 @@ class GiftClaimController extends Controller
             return redirect()->route('gift.claim.show', $code);
         }
 
-        return redirect('/dashboard')->with('success', 'Premium berhasil diaktivasi! Cek dashboard untuk detail.');
+        $user    = auth()->user();
+        $message = 'Premium berhasil diaktivasi! Cek dashboard untuk detail.';
+
+        if (! $user->hasCompletedOnboarding()) {
+            return redirect()->route('onboarding')->with('success', $message);
+        }
+
+        return redirect('/dashboard')->with('success', $message);
     }
 
     private function resolveState(Gift $gift): string

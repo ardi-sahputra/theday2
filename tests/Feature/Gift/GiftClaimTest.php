@@ -109,8 +109,8 @@ class GiftClaimTest extends TestCase
     {
         Mail::fake();
         $plan = Plan::where('slug', 'premium')->first();
-        $sender = User::factory()->create();
-        $recipient = User::factory()->create();
+        $sender    = User::factory()->create();
+        $recipient = User::factory()->create(['onboarding_completed_at' => now()]);
         $gift = Gift::factory()->create([
             'sender_user_id' => $sender->id,
             'plan_id'        => $plan->id,
@@ -134,8 +134,8 @@ class GiftClaimTest extends TestCase
 
     public function test_double_claim_returns_already_claimed_state(): void
     {
-        $plan = Plan::where('slug', 'premium')->first();
-        $recipient = User::factory()->create();
+        $plan      = Plan::where('slug', 'premium')->first();
+        $recipient = User::factory()->create(['onboarding_completed_at' => now()]);
         $gift = Gift::factory()->create([
             'plan_id'    => $plan->id,
             'status'     => 'pending',
