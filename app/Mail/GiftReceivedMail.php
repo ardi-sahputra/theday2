@@ -20,7 +20,7 @@ class GiftReceivedMail extends Mailable implements ShouldQueue
 
     public function envelope(): Envelope
     {
-        return new Envelope(subject: 'Kamu dapat gift premium TheDay!');
+        return new Envelope(subject: __('gift.mail.received_subject'));
     }
 
     public function content(): Content
@@ -31,7 +31,7 @@ class GiftReceivedMail extends Mailable implements ShouldQueue
                 'claimUrl'   => route('gift.claim.show', $this->gift->code),
                 'senderName' => $this->gift->source === 'user' && $this->gift->sender
                     ? $this->gift->sender->name
-                    : 'Tim TheDay',
+                    : __('gift.common.tim_theday'),
             ]
         );
     }

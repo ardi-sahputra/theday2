@@ -21,7 +21,7 @@ class GiftClaimedNotificationMail extends Mailable implements ShouldQueue
 
     public function envelope(): Envelope
     {
-        return new Envelope(subject: 'Gift kamu sudah diklaim!');
+        return new Envelope(subject: __('gift.mail.claimed_subject'));
     }
 
     public function content(): Content

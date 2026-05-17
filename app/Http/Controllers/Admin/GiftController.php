@@ -39,7 +39,7 @@ class GiftController extends Controller
         $gift = $this->purchaseService->createAdminGift($request->validated());
 
         return redirect()->route('admin.gifts.show', $gift)
-            ->with('success', "Gift code {$gift->code} berhasil dibuat.");
+            ->with('success', __('gift.flash.created', ['code' => $gift->code]));
     }
 
     public function show(Gift $gift): Response
@@ -67,12 +67,12 @@ class GiftController extends Controller
     {
         if ($gift->status !== 'pending') {
             throw ValidationException::withMessages([
-                'gift' => 'Hanya gift dengan status pending yang bisa dihapus.',
+                'gift' => __('gift.flash.cannot_delete'),
             ]);
         }
 
         $gift->delete();
 
-        return redirect()->route('admin.gifts.index')->with('success', 'Gift dihapus.');
+        return redirect()->route('admin.gifts.index')->with('success', __('gift.flash.deleted'));
     }
 }

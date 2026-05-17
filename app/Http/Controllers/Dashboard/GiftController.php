@@ -52,7 +52,7 @@ class GiftController extends Controller
                 'error'   => $e->getMessage(),
             ]);
 
-            return back()->withInput()->with('error', 'Pembayaran gagal diproses. Silakan coba lagi atau hubungi support.');
+            return back()->withInput()->with('error', __('gift.flash.purchase_error'));
         }
 
         return redirect()->away($result['payment_url']);

@@ -14,29 +14,34 @@ import {
     MessageCircle, Calendar, Clock, CheckCircle2, AlertCircle,
     Trash2,
 } from 'lucide-vue-next';
+import { useLocale } from '@/Composables/useLocale';
+
+const { t } = useLocale();
 
 const props = defineProps({
     gift: { type: Object, required: true },
 });
 
-const statusMeta = {
-    awaiting_payment: { label: 'Menunggu Pembayaran', class: 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20' },
-    pending:          { label: 'Belum Diklaim',       class: 'bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20' },
-    claimed:          { label: 'Sudah Diklaim',       class: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20' },
-    expired:          { label: 'Kadaluarsa',          class: 'bg-muted text-muted-foreground border-border' },
-    cancelled:        { label: 'Dibatalkan',          class: 'bg-red-500/10 text-red-600 dark:text-red-400 border-red-500/20' },
-};
+const statusMeta = computed(() => ({
+    awaiting_payment: { label: t('gift.admin.index.status_awaiting'), class: 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20' },
+    pending:          { label: t('gift.admin.index.status_pending'),  class: 'bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20' },
+    claimed:          { label: t('gift.admin.index.status_claimed'),  class: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20' },
+    expired:          { label: t('gift.admin.index.status_expired'),  class: 'bg-muted text-muted-foreground border-border' },
+    cancelled:        { label: t('gift.admin.index.status_cancelled'),class: 'bg-red-500/10 text-red-600 dark:text-red-400 border-red-500/20' },
+}));
 
-const sourceMeta = {
-    user:  { label: 'User',  class: 'bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20' },
-    admin: { label: 'Admin', class: 'bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/20' },
-};
+const sourceMeta = computed(() => ({
+    user:  { label: t('gift.admin.index.source_user'),  class: 'bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20' },
+    admin: { label: t('gift.admin.index.source_admin'), class: 'bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/20' },
+}));
 
-const status = computed(() => statusMeta[props.gift.status] ?? statusMeta.pending);
-const source = computed(() => sourceMeta[props.gift.source] ?? sourceMeta.user);
+const status = computed(() => statusMeta.value[props.gift.status] ?? statusMeta.value.pending);
+const source = computed(() => sourceMeta.value[props.gift.source] ?? sourceMeta.value.user);
 
 const deliveryLabel = computed(() =>
-    props.gift.delivery_mode === 'email' ? 'Kirim via Email' : 'Bagikan Link'
+    props.gift.delivery_mode === 'email'
+        ? t('gift.admin.show.delivery_email')
+        : t('gift.admin.show.delivery_link')
 );
 
 function formatDateTime(iso) {
@@ -76,7 +81,7 @@ async function copyLink() {
                 document.execCommand('copy');
                 copied.value = true;
                 setTimeout(() => { copied.value = false; }, 2000);
-            } catch (__) { toast.error('Gagal menyalin.'); }
+            } catch (__) { toast.error(t('gift.admin.show.copy_link_error')); }
         }
     }
 }
@@ -88,12 +93,12 @@ async function copyCode() {
         codeCopied.value = true;
         setTimeout(() => { codeCopied.value = false; }, 1500);
     } catch (_e) {
-        toast.error('Gagal menyalin kode.');
+        toast.error(t('gift.admin.show.copy_error'));
     }
 }
 
 const whatsappUrl = computed(() => {
-    const text = `Halo! Kamu dapat gift premium di TheDay. Klaim di sini: ${props.gift.claim_url}`;
+    const text = t('gift.admin.show.wa_text', { url: props.gift.claim_url });
     return `https://wa.me/?text=${encodeURIComponent(text)}`;
 });
 
@@ -107,9 +112,9 @@ function confirmDelete() {
         preserveScroll: false,
         onSuccess: () => {
             deleteOpen.value = false;
-            toast.success('Gift dihapus.');
+            toast.success(t('gift.admin.show.delete_success'));
         },
-        onError: () => toast.error('Gagal menghapus gift.'),
+        onError: () => toast.error(t('gift.admin.show.delete_error')),
     });
 }
 </script>
@@ -124,7 +129,7 @@ function confirmDelete() {
                 class="inline-flex items-center gap-1.5 text-xs font-semibold text-muted-foreground hover:text-foreground transition-colors"
             >
                 <ArrowLeft class="w-3.5 h-3.5" aria-hidden="true" />
-                Kembali ke daftar gift
+                {{ t('gift.admin.show.back') }}
             </Link>
 
             <!-- Code hero -->
@@ -134,7 +139,7 @@ function confirmDelete() {
                         <div class="min-w-0">
                             <p class="text-xs font-semibold text-brand-primary uppercase tracking-wider mb-1 flex items-center gap-1.5">
                                 <GiftIcon class="w-3.5 h-3.5" aria-hidden="true" />
-                                Kode Gift
+                                {{ t('gift.admin.show.code_label') }}
                             </p>
                             <button
                                 type="button"
@@ -174,9 +179,8 @@ function confirmDelete() {
                     >
                         <CheckCircle2 class="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" aria-hidden="true" />
                         <p class="text-xs text-emerald-700 dark:text-emerald-400 leading-relaxed">
-                            Gift telah diklaim pada
-                            <span class="font-semibold">{{ formatDateTime(gift.claimed_at) }}</span>
-                            <span v-if="gift.claimed_by"> oleh <span class="font-semibold">{{ gift.claimed_by }}</span></span>.
+                            {{ t('gift.admin.show.claimed_at', { date: formatDateTime(gift.claimed_at) }) }}
+                            <span v-if="gift.claimed_by"> {{ t('gift.admin.show.claimed_by', { email: gift.claimed_by }) }}</span>.
                         </p>
                     </div>
                     <div
@@ -185,7 +189,7 @@ function confirmDelete() {
                     >
                         <AlertCircle class="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" aria-hidden="true" />
                         <p class="text-xs text-muted-foreground leading-relaxed">
-                            Gift sudah kadaluarsa dan tidak bisa diklaim lagi.
+                            {{ t('gift.admin.show.expired_notice') }}
                         </p>
                     </div>
                     <div
@@ -194,7 +198,7 @@ function confirmDelete() {
                     >
                         <AlertCircle class="w-4 h-4 text-amber-600 mt-0.5 shrink-0" aria-hidden="true" />
                         <p class="text-xs text-amber-700 dark:text-amber-400 leading-relaxed">
-                            Menunggu pembayaran. Link klaim belum aktif.
+                            {{ t('gift.admin.show.awaiting_notice') }}
                         </p>
                     </div>
                 </CardContent>
@@ -205,11 +209,11 @@ function confirmDelete() {
                 <!-- Detail card -->
                 <Card>
                     <CardContent class="p-5 sm:p-6">
-                        <h3 class="text-sm font-semibold mb-4">Detail Gift</h3>
+                        <h3 class="text-sm font-semibold mb-4">{{ t('gift.admin.show.detail_heading') }}</h3>
 
                         <dl class="space-y-3 text-sm">
                             <div class="flex items-start justify-between gap-3">
-                                <dt class="text-muted-foreground">Sumber</dt>
+                                <dt class="text-muted-foreground">{{ t('gift.admin.show.field_source') }}</dt>
                                 <dd>
                                     <span
                                         :class="[
@@ -222,15 +226,15 @@ function confirmDelete() {
                                 </dd>
                             </div>
                             <div class="flex items-start justify-between gap-3">
-                                <dt class="text-muted-foreground">Plan</dt>
+                                <dt class="text-muted-foreground">{{ t('gift.admin.show.field_plan') }}</dt>
                                 <dd class="font-medium text-right">{{ gift.plan_name }}</dd>
                             </div>
                             <div class="flex items-start justify-between gap-3">
-                                <dt class="text-muted-foreground">Durasi</dt>
-                                <dd class="font-medium text-right tabular-nums">{{ gift.duration_days }} hari</dd>
+                                <dt class="text-muted-foreground">{{ t('gift.admin.show.field_duration') }}</dt>
+                                <dd class="font-medium text-right tabular-nums">{{ gift.duration_days }} {{ t('gift.admin.index.col_duration').toLowerCase() }}</dd>
                             </div>
                             <div class="flex items-start justify-between gap-3">
-                                <dt class="text-muted-foreground">Metode</dt>
+                                <dt class="text-muted-foreground">{{ t('gift.admin.show.field_method') }}</dt>
                                 <dd class="font-medium text-right inline-flex items-center gap-1.5">
                                     <component
                                         :is="gift.delivery_mode === 'email' ? Mail : Link2"
@@ -241,11 +245,11 @@ function confirmDelete() {
                                 </dd>
                             </div>
                             <div v-if="gift.recipient_email" class="flex items-start justify-between gap-3">
-                                <dt class="text-muted-foreground">Email Penerima</dt>
+                                <dt class="text-muted-foreground">{{ t('gift.admin.show.field_recipient') }}</dt>
                                 <dd class="font-medium text-right break-all">{{ gift.recipient_email }}</dd>
                             </div>
                             <div class="flex items-start justify-between gap-3">
-                                <dt class="text-muted-foreground">Status</dt>
+                                <dt class="text-muted-foreground">{{ t('gift.admin.show.field_status') }}</dt>
                                 <dd>
                                     <span
                                         :class="[
@@ -260,27 +264,27 @@ function confirmDelete() {
                             <div class="flex items-start justify-between gap-3">
                                 <dt class="text-muted-foreground inline-flex items-center gap-1.5">
                                     <Calendar class="w-3.5 h-3.5" aria-hidden="true" />
-                                    Berlaku Hingga
+                                    {{ t('gift.admin.show.field_valid_until') }}
                                 </dt>
                                 <dd class="font-medium text-right tabular-nums">{{ formatDate(gift.expires_at) }}</dd>
                             </div>
                             <div v-if="gift.claimed_at" class="flex items-start justify-between gap-3">
                                 <dt class="text-muted-foreground inline-flex items-center gap-1.5">
                                     <Clock class="w-3.5 h-3.5" aria-hidden="true" />
-                                    Diklaim Pada
+                                    {{ t('gift.admin.show.field_claimed_at') }}
                                 </dt>
                                 <dd class="font-semibold text-right text-emerald-600 dark:text-emerald-400 tabular-nums">
                                     {{ formatDateTime(gift.claimed_at) }}
                                 </dd>
                             </div>
                             <div v-if="gift.claimed_by" class="flex items-start justify-between gap-3">
-                                <dt class="text-muted-foreground">Diklaim Oleh</dt>
+                                <dt class="text-muted-foreground">{{ t('gift.admin.show.field_claimed_by') }}</dt>
                                 <dd class="font-medium text-right break-all">{{ gift.claimed_by }}</dd>
                             </div>
                         </dl>
 
                         <div v-if="gift.message" class="mt-5 pt-5 border-t border-border">
-                            <p class="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Pesan</p>
+                            <p class="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">{{ t('gift.admin.show.field_message') }}</p>
                             <blockquote class="border-l-2 border-brand-primary/40 pl-3 py-1 text-sm text-foreground/80 italic leading-relaxed whitespace-pre-line">
                                 {{ gift.message }}
                             </blockquote>
@@ -291,8 +295,8 @@ function confirmDelete() {
                 <!-- Claim link card -->
                 <Card>
                     <CardContent class="p-5 sm:p-6">
-                        <h3 class="text-sm font-semibold mb-1">Link Klaim</h3>
-                        <p class="text-xs text-muted-foreground mb-4">Bagikan link ini agar penerima dapat mengklaim gift.</p>
+                        <h3 class="text-sm font-semibold mb-1">{{ t('gift.admin.show.link_heading') }}</h3>
+                        <p class="text-xs text-muted-foreground mb-4">{{ t('gift.admin.show.link_hint') }}</p>
 
                         <div class="space-y-3">
                             <div class="flex gap-2">
@@ -308,11 +312,11 @@ function confirmDelete() {
                                     @click="copyLink"
                                     :disabled="shareDisabled"
                                     class="h-10 min-w-[100px]"
-                                    :aria-label="copied ? 'Tersalin' : 'Salin link klaim'"
+                                    :aria-label="copied ? t('gift.admin.show.copied') : t('gift.admin.show.copy')"
                                 >
                                     <Check v-if="copied" class="w-4 h-4 mr-1.5" aria-hidden="true" />
                                     <Copy v-else class="w-4 h-4 mr-1.5" aria-hidden="true" />
-                                    {{ copied ? 'Tersalin' : 'Salin' }}
+                                    {{ copied ? t('gift.admin.show.copied') : t('gift.admin.show.copy') }}
                                 </Button>
                             </div>
 
@@ -325,7 +329,7 @@ function confirmDelete() {
                                 :aria-disabled="shareDisabled ? 'true' : 'false'"
                             >
                                 <MessageCircle class="w-4 h-4" aria-hidden="true" />
-                                Share via WhatsApp
+                                {{ t('gift.admin.show.share_wa') }}
                             </a>
                         </div>
                     </CardContent>
@@ -338,25 +342,24 @@ function confirmDelete() {
                     <DialogTrigger as-child>
                         <Button variant="ghost" class="h-10 text-destructive hover:bg-destructive/10 hover:text-destructive">
                             <Trash2 class="w-4 h-4 mr-1.5" aria-hidden="true" />
-                            Hapus Gift
+                            {{ t('gift.admin.show.delete_cta') }}
                         </Button>
                     </DialogTrigger>
                     <DialogContent>
                         <DialogHeader>
-                            <DialogTitle>Hapus Gift?</DialogTitle>
+                            <DialogTitle>{{ t('gift.admin.show.delete_dialog_title') }}</DialogTitle>
                             <DialogDescription>
-                                Gift <span class="font-mono font-semibold">{{ gift.code }}</span> akan dihapus permanen.
-                                Tindakan ini tidak bisa dibatalkan.
+                                {{ t('gift.admin.show.delete_dialog_desc', { code: gift.code }) }}
                             </DialogDescription>
                         </DialogHeader>
                         <DialogFooter class="gap-2">
-                            <Button variant="ghost" @click="deleteOpen = false">Batal</Button>
+                            <Button variant="ghost" @click="deleteOpen = false">{{ t('gift.admin.show.delete_cancel') }}</Button>
                             <Button
                                 variant="destructive"
                                 @click="confirmDelete"
                             >
                                 <Trash2 class="w-4 h-4 mr-1.5" aria-hidden="true" />
-                                Hapus
+                                {{ t('gift.admin.show.delete_confirm') }}
                             </Button>
                         </DialogFooter>
                     </DialogContent>

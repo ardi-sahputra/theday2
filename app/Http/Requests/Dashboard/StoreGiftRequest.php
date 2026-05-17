@@ -24,7 +24,7 @@ class StoreGiftRequest extends FormRequest
                 function (string $attribute, mixed $value, Closure $fail) {
                     $plan = Plan::find($value);
                     if (! $plan || $plan->slug !== 'premium') {
-                        $fail('Plan tidak valid untuk gift.');
+                        $fail(__('gift.validation.plan_invalid'));
                     }
                 },
             ],

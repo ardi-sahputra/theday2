@@ -3,6 +3,9 @@ import { computed } from 'vue';
 import { Head, Link } from '@inertiajs/vue3';
 import DashboardLayout from '@/Layouts/DashboardLayout.vue';
 import { Gift, Plus, Mail, Link2, Eye, ChevronLeft, ChevronRight } from 'lucide-vue-next';
+import { useLocale } from '@/Composables/useLocale';
+
+const { t } = useLocale();
 
 const props = defineProps({
     gifts: { type: Object, required: true },
@@ -12,12 +15,12 @@ const items = computed(() => props.gifts?.data ?? []);
 const links = computed(() => props.gifts?.links ?? []);
 const hasPagination = computed(() => links.value.length > 3); // prev + at-least-one + next
 
-const statusMeta = {
-    awaiting_payment: { label: 'Menunggu Pembayaran', class: 'bg-amber-50 text-amber-700 ring-1 ring-amber-100' },
-    pending:          { label: 'Belum Diklaim',       class: 'bg-blue-50 text-blue-700 ring-1 ring-blue-100' },
-    claimed:          { label: 'Sudah Diklaim',       class: 'bg-emerald-50 text-emerald-700 ring-1 ring-emerald-100' },
-    expired:          { label: 'Kadaluarsa',          class: 'bg-stone-100 text-stone-500 ring-1 ring-stone-200' },
-};
+const statusMeta = computed(() => ({
+    awaiting_payment: { label: t('gift.dashboard.index.status.awaiting_payment'), class: 'bg-amber-50 text-amber-700 ring-1 ring-amber-100' },
+    pending:          { label: t('gift.dashboard.index.status.pending'),           class: 'bg-blue-50 text-blue-700 ring-1 ring-blue-100' },
+    claimed:          { label: t('gift.dashboard.index.status.claimed'),           class: 'bg-emerald-50 text-emerald-700 ring-1 ring-emerald-100' },
+    expired:          { label: t('gift.dashboard.index.status.expired'),           class: 'bg-stone-100 text-stone-500 ring-1 ring-stone-200' },
+}));
 
 function formatDate(iso) {
     if (!iso) return '—';
@@ -30,7 +33,7 @@ function formatDate(iso) {
 </script>
 
 <template>
-    <Head title="Gift Premium yang Saya Kirim" />
+    <Head :title="t('gift.dashboard.index.title')" />
 
     <DashboardLayout>
         <template #header>
@@ -39,8 +42,8 @@ function formatDate(iso) {
                     <Gift class="w-5 h-5" />
                 </span>
                 <div>
-                    <h2 class="text-base font-semibold text-stone-800">Gift Premium yang Saya Kirim</h2>
-                    <p class="hidden sm:block text-sm text-stone-400 mt-0.5">Riwayat gift premium yang kamu hadiahkan ke orang lain.</p>
+                    <h2 class="text-base font-semibold text-stone-800">{{ t('gift.dashboard.index.title') }}</h2>
+                    <p class="hidden sm:block text-sm text-stone-400 mt-0.5">{{ t('gift.dashboard.index.subtitle') }}</p>
                 </div>
             </div>
         </template>
@@ -48,13 +51,13 @@ function formatDate(iso) {
         <div class="max-w-5xl mx-auto">
             <!-- Top bar with CTA -->
             <div class="flex items-center justify-between mb-4">
-                <p class="text-sm text-stone-500 sm:hidden">Riwayat gift premium yang kamu kirim.</p>
+                <p class="text-sm text-stone-500 sm:hidden">{{ t('gift.dashboard.index.subtitle_mobile') }}</p>
                 <Link
                     :href="route('dashboard.gifts.create')"
                     class="ml-auto inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#92A89C] text-white text-sm font-semibold hover:bg-[#7d9387] transition-colors shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#92A89C]/40"
                 >
                     <Plus class="w-4 h-4" aria-hidden="true" />
-                    Buat Gift Baru
+                    {{ t('gift.dashboard.index.cta_create') }}
                 </Link>
             </div>
 
@@ -64,14 +67,14 @@ function formatDate(iso) {
                     <div class="w-16 h-16 rounded-2xl bg-[#C8A26B]/10 flex items-center justify-center mx-auto mb-4">
                         <Gift class="w-8 h-8 text-[#C8A26B]" aria-hidden="true" />
                     </div>
-                    <p class="text-sm font-semibold text-stone-700 mb-1">Belum ada gift yang dikirim</p>
-                    <p class="text-xs text-stone-400 mb-5">Mulai hadiahkan premium untuk teman atau kerabatmu.</p>
+                    <p class="text-sm font-semibold text-stone-700 mb-1">{{ t('gift.dashboard.index.empty_heading') }}</p>
+                    <p class="text-xs text-stone-400 mb-5">{{ t('gift.dashboard.index.empty_sub') }}</p>
                     <Link
                         :href="route('dashboard.gifts.create')"
                         class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#92A89C] text-white text-sm font-semibold hover:bg-[#7d9387] transition-colors"
                     >
                         <Plus class="w-4 h-4" aria-hidden="true" />
-                        Kirim Gift Pertamamu
+                        {{ t('gift.dashboard.index.empty_cta') }}
                     </Link>
                 </div>
 
@@ -89,10 +92,10 @@ function formatDate(iso) {
                         </div>
                         <div class="flex items-center gap-2 text-sm text-stone-600">
                             <component :is="g.delivery_mode === 'email' ? Mail : Link2" class="w-3.5 h-3.5 text-stone-400" aria-hidden="true" />
-                            <span class="truncate">{{ g.delivery_mode === 'email' ? (g.recipient_email || '—') : 'Link' }}</span>
+                            <span class="truncate">{{ g.delivery_mode === 'email' ? (g.recipient_email || '—') : t('gift.dashboard.index.row_link') }}</span>
                         </div>
                         <div class="flex items-center justify-between text-xs text-stone-500">
-                            <span>{{ g.plan?.name ?? '—' }} · {{ g.duration_days }} hari</span>
+                            <span>{{ g.plan?.name ?? '—' }} · {{ g.duration_days }} {{ t('gift.dashboard.index.col_duration').toLowerCase() }}</span>
                             <span>{{ formatDate(g.created_at) }}</span>
                         </div>
                         <Link
@@ -100,7 +103,7 @@ function formatDate(iso) {
                             class="inline-flex items-center gap-1.5 text-xs font-semibold text-[#92A89C] hover:underline"
                         >
                             <Eye class="w-3.5 h-3.5" aria-hidden="true" />
-                            Lihat detail
+                            {{ t('gift.dashboard.index.row_detail_mobile') }}
                         </Link>
                     </div>
                 </div>
@@ -110,13 +113,13 @@ function formatDate(iso) {
                     <table class="w-full text-sm">
                         <thead>
                             <tr class="border-b border-stone-100 bg-stone-50/50">
-                                <th class="text-left px-6 py-3 text-xs font-semibold text-stone-500 uppercase tracking-wider">Kode</th>
-                                <th class="text-left px-4 py-3 text-xs font-semibold text-stone-500 uppercase tracking-wider">Penerima</th>
-                                <th class="text-left px-4 py-3 text-xs font-semibold text-stone-500 uppercase tracking-wider">Plan</th>
-                                <th class="text-left px-4 py-3 text-xs font-semibold text-stone-500 uppercase tracking-wider">Durasi</th>
-                                <th class="text-center px-4 py-3 text-xs font-semibold text-stone-500 uppercase tracking-wider">Status</th>
-                                <th class="text-left px-4 py-3 text-xs font-semibold text-stone-500 uppercase tracking-wider">Dibuat</th>
-                                <th class="text-right px-6 py-3 text-xs font-semibold text-stone-500 uppercase tracking-wider">Aksi</th>
+                                <th class="text-left px-6 py-3 text-xs font-semibold text-stone-500 uppercase tracking-wider">{{ t('gift.dashboard.index.col_code') }}</th>
+                                <th class="text-left px-4 py-3 text-xs font-semibold text-stone-500 uppercase tracking-wider">{{ t('gift.dashboard.index.col_recipient') }}</th>
+                                <th class="text-left px-4 py-3 text-xs font-semibold text-stone-500 uppercase tracking-wider">{{ t('gift.dashboard.index.col_plan') }}</th>
+                                <th class="text-left px-4 py-3 text-xs font-semibold text-stone-500 uppercase tracking-wider">{{ t('gift.dashboard.index.col_duration') }}</th>
+                                <th class="text-center px-4 py-3 text-xs font-semibold text-stone-500 uppercase tracking-wider">{{ t('gift.dashboard.index.col_status') }}</th>
+                                <th class="text-left px-4 py-3 text-xs font-semibold text-stone-500 uppercase tracking-wider">{{ t('gift.dashboard.index.col_created') }}</th>
+                                <th class="text-right px-6 py-3 text-xs font-semibold text-stone-500 uppercase tracking-wider">{{ t('gift.dashboard.index.col_actions') }}</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-stone-100">
@@ -132,12 +135,12 @@ function formatDate(iso) {
                                             aria-hidden="true"
                                         />
                                         <span class="truncate max-w-[200px]">
-                                            {{ g.delivery_mode === 'email' ? (g.recipient_email || '—') : 'Link' }}
+                                            {{ g.delivery_mode === 'email' ? (g.recipient_email || '—') : t('gift.dashboard.index.row_link') }}
                                         </span>
                                     </div>
                                 </td>
                                 <td class="px-4 py-3 text-stone-700 font-medium">{{ g.plan?.name ?? '—' }}</td>
-                                <td class="px-4 py-3 text-stone-600 whitespace-nowrap">{{ g.duration_days }} hari</td>
+                                <td class="px-4 py-3 text-stone-600 whitespace-nowrap">{{ g.duration_days }} {{ t('gift.dashboard.index.col_duration').toLowerCase() }}</td>
                                 <td class="px-4 py-3 text-center">
                                     <span
                                         class="inline-block px-2 py-0.5 rounded-full text-xs font-semibold"
@@ -153,7 +156,7 @@ function formatDate(iso) {
                                         class="inline-flex items-center gap-1.5 text-xs font-semibold text-[#92A89C] hover:underline"
                                     >
                                         <Eye class="w-3.5 h-3.5" aria-hidden="true" />
-                                        Detail
+                                        {{ t('gift.dashboard.index.row_detail') }}
                                     </Link>
                                 </td>
                             </tr>

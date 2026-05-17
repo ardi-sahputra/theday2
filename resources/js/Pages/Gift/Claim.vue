@@ -14,6 +14,9 @@ import {
     ArrowLeft,
     Loader2,
 } from 'lucide-vue-next';
+import { useLocale } from '@/Composables/useLocale';
+
+const { t } = useLocale();
 
 const props = defineProps({
     state: { type: String, required: true },
@@ -71,15 +74,15 @@ const pageTitle = computed(() => {
     switch (props.state) {
         case 'claimable_guest':
         case 'claimable_authed':
-            return 'Klaim Gift Premium';
+            return t('gift.claim.page_title_claimable');
         case 'already_claimed':
-            return 'Gift Sudah Diklaim';
+            return t('gift.claim.page_title_claimed');
         case 'expired':
-            return 'Gift Kadaluarsa';
+            return t('gift.claim.page_title_expired');
         case 'awaiting_payment':
-            return 'Menunggu Pembayaran';
+            return t('gift.claim.page_title_awaiting');
         default:
-            return 'Klaim Gift';
+            return t('gift.claim.page_title_default');
     }
 });
 
@@ -134,10 +137,10 @@ function submitClaim() {
                             Gift Premium
                         </p>
                         <h1 class="text-2xl sm:text-3xl font-bold text-stone-800 leading-tight">
-                            🎁 Selamat! Kamu dapat gift premium
+                            {{ t('gift.claim.guest.heading') }}
                         </h1>
                         <p class="text-sm text-stone-500 mt-2">
-                            Seseorang spesial mengirimkan hadiah untukmu.
+                            {{ t('gift.claim.guest.sub') }}
                         </p>
                     </header>
 
@@ -146,11 +149,7 @@ function submitClaim() {
                         class="bg-white border border-stone-100 rounded-2xl shadow-sm shadow-stone-200/40 p-5 sm:p-7 mb-6"
                     >
                         <p class="text-sm sm:text-base text-stone-700 leading-relaxed">
-                            <span class="font-semibold text-stone-900">{{ gift.sender_name }}</span>
-                            mengirimkan kamu akses
-                            <span class="font-semibold text-[#C8A26B]">Premium</span>
-                            selama
-                            <span class="font-semibold text-[#73877C]">{{ gift.duration_days }} hari</span>.
+                            {{ t('gift.claim.gift_intro', { sender: gift.sender_name, days: gift.duration_days }) }}
                         </p>
 
                         <!-- Plan chip -->
@@ -189,12 +188,12 @@ function submitClaim() {
                         >
                             <Loader2 v-if="submitting" class="w-5 h-5 animate-spin" aria-hidden="true" />
                             <Gift v-else class="w-5 h-5" aria-hidden="true" />
-                            <span>{{ submitting ? 'Memproses...' : 'Klaim Sekarang' }}</span>
+                            <span>{{ submitting ? t('gift.claim.authed.processing') : t('gift.claim.authed.cta') }}</span>
                         </button>
 
                         <p class="flex items-center justify-center gap-1.5 text-xs text-stone-400">
                             <Calendar class="w-3.5 h-3.5" aria-hidden="true" />
-                            Klaim gift ini berlaku sampai {{ expiresShort }}
+                            {{ t('gift.claim.authed.expires', { date: expiresShort }) }}
                         </p>
                     </section>
 
@@ -202,7 +201,7 @@ function submitClaim() {
                     <section v-else class="space-y-3">
                         <p class="text-xs text-stone-500 text-center mb-1 flex items-center justify-center gap-1.5">
                             <Lock class="w-3.5 h-3.5" aria-hidden="true" />
-                            Login atau daftar dulu untuk mengklaim gift ini
+                            {{ t('gift.claim.guest.login_hint') }}
                         </p>
 
                         <a
@@ -227,7 +226,7 @@ function submitClaim() {
                                     d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.83C6.71 7.31 9.14 5.38 12 5.38z"
                                 />
                             </svg>
-                            <span>Daftar / Login dengan Google</span>
+                            <span>{{ t('gift.claim.guest.cta_google') }}</span>
                         </a>
 
                         <Link
@@ -235,19 +234,19 @@ function submitClaim() {
                             class="w-full h-13 min-h-[3.25rem] inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-[#C8A26B] to-[#b48f55] text-white text-sm font-semibold shadow-lg shadow-[#C8A26B]/25 hover:shadow-xl hover:shadow-[#C8A26B]/35 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C8A26B]/40 focus-visible:ring-offset-2"
                         >
                             <Mail class="w-4 h-4" aria-hidden="true" />
-                            <span>Daftar / Login dengan Email</span>
+                            <span>{{ t('gift.claim.guest.cta_email') }}</span>
                         </Link>
 
                         <p class="text-center text-xs text-stone-400 pt-1">
-                            Sudah punya akun?
+                            {{ t('gift.claim.guest.have_account') }}
                             <Link :href="loginHref" class="font-semibold text-[#73877C] hover:text-[#5e7268] transition-colors">
-                                Login di sini
+                                {{ t('gift.claim.guest.login_here') }}
                             </Link>
                         </p>
 
                         <p class="flex items-center justify-center gap-1.5 text-xs text-stone-400 pt-3">
                             <Calendar class="w-3.5 h-3.5" aria-hidden="true" />
-                            Klaim gift ini berlaku sampai {{ expiresShort }}
+                            {{ t('gift.claim.guest.expires', { date: expiresShort }) }}
                         </p>
                     </section>
                 </template>
@@ -264,11 +263,10 @@ function submitClaim() {
                             <CheckCircle2 class="w-8 h-8" />
                         </div>
                         <h1 class="text-xl sm:text-2xl font-semibold text-stone-700">
-                            Gift ini sudah diklaim
+                            {{ t('gift.claim.already_claimed.heading') }}
                         </h1>
                         <p v-if="claimedLong" class="text-sm text-stone-500 mt-2">
-                            Diklaim pada
-                            <span class="font-medium text-stone-600">{{ claimedLong }}</span>
+                            {{ t('gift.claim.already_claimed.claimed_at', { date: claimedLong }) }}
                         </p>
 
                         <div class="mt-8 flex justify-center">
@@ -277,7 +275,7 @@ function submitClaim() {
                                 class="inline-flex items-center justify-center gap-2 h-11 px-6 rounded-2xl bg-white border border-stone-200 text-stone-700 text-sm font-semibold hover:border-stone-300 hover:bg-stone-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#92A89C]/40 focus-visible:ring-offset-2"
                             >
                                 <ArrowLeft class="w-4 h-4" aria-hidden="true" />
-                                Kembali ke Beranda
+                                {{ t('gift.claim.already_claimed.back') }}
                             </Link>
                         </div>
                     </div>
@@ -295,10 +293,10 @@ function submitClaim() {
                             <Clock class="w-8 h-8" />
                         </div>
                         <h1 class="text-xl sm:text-2xl font-semibold text-stone-700">
-                            Gift sudah kadaluarsa
+                            {{ t('gift.claim.expired.heading') }}
                         </h1>
                         <p class="text-sm text-stone-500 mt-3 max-w-md mx-auto leading-relaxed">
-                            Maaf, gift ini sudah lewat dari masa berlaku. Hubungi pengirim untuk informasi lebih lanjut.
+                            {{ t('gift.claim.expired.body') }}
                         </p>
 
                         <div class="mt-8 flex justify-center">
@@ -307,7 +305,7 @@ function submitClaim() {
                                 class="inline-flex items-center justify-center gap-2 h-11 px-6 rounded-2xl bg-white border border-stone-200 text-stone-700 text-sm font-semibold hover:border-stone-300 hover:bg-stone-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#92A89C]/40 focus-visible:ring-offset-2"
                             >
                                 <ArrowLeft class="w-4 h-4" aria-hidden="true" />
-                                Kembali ke Beranda
+                                {{ t('gift.claim.expired.back') }}
                             </Link>
                         </div>
                     </div>
@@ -325,10 +323,10 @@ function submitClaim() {
                             <HourglassIcon class="w-8 h-8" />
                         </div>
                         <h1 class="text-xl sm:text-2xl font-semibold text-stone-700">
-                            Menunggu konfirmasi pembayaran
+                            {{ t('gift.claim.awaiting.heading') }}
                         </h1>
                         <p class="text-sm text-stone-500 mt-3 max-w-md mx-auto leading-relaxed">
-                            Pembayaran gift belum dikonfirmasi. Coba beberapa saat lagi atau hubungi pengirim.
+                            {{ t('gift.claim.awaiting.body') }}
                         </p>
 
                         <div class="mt-8 flex justify-center">
@@ -337,7 +335,7 @@ function submitClaim() {
                                 class="inline-flex items-center justify-center gap-2 h-11 px-6 rounded-2xl bg-white border border-stone-200 text-stone-700 text-sm font-semibold hover:border-stone-300 hover:bg-stone-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#92A89C]/40 focus-visible:ring-offset-2"
                             >
                                 <ArrowLeft class="w-4 h-4" aria-hidden="true" />
-                                Kembali ke Beranda
+                                {{ t('gift.claim.awaiting.back') }}
                             </Link>
                         </div>
                     </div>

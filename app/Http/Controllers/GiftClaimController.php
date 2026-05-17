@@ -31,7 +31,7 @@ class GiftClaimController extends Controller
             'gift'  => [
                 'plan_name'     => $gift->plan->name,
                 'duration_days' => $gift->duration_days,
-                'sender_name'   => $gift->source === 'user' && $gift->sender ? $gift->sender->name : 'Tim TheDay',
+                'sender_name'   => $gift->source === 'user' && $gift->sender ? $gift->sender->name : __('gift.common.tim_theday'),
                 'message'       => $gift->message,
                 'claimed_at'    => $gift->claimed_at?->toIso8601String(),
                 'expires_at'    => $gift->expires_at->toIso8601String(),
@@ -54,7 +54,7 @@ class GiftClaimController extends Controller
         }
 
         $user    = auth()->user();
-        $message = 'Premium berhasil diaktivasi! Cek dashboard untuk detail.';
+        $message = __('gift.flash.claim_success');
 
         if (! $user->hasCompletedOnboarding()) {
             return redirect()->route('onboarding')->with('success', $message);

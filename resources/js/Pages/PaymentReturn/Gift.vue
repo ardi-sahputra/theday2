@@ -6,6 +6,9 @@ import {
     Gift, Sparkles, Copy, Check, MessageCircle, Mail,
     Loader2, Calendar, ArrowRight,
 } from 'lucide-vue-next';
+import { useLocale } from '@/Composables/useLocale';
+
+const { t } = useLocale();
 
 const props = defineProps({
     gift:   { type: Object, required: true },
@@ -45,7 +48,7 @@ async function copyLink() {
 
 // --- WhatsApp share --------------------------------------------------------
 const whatsappUrl = computed(() => {
-    const text = `🎁 Aku kirim gift premium TheDay untukmu! Klaim di sini: ${props.gift.claim_url}`;
+    const text = t('gift.payment_return.wa_text', { url: props.gift.claim_url });
     return `https://wa.me/?text=${encodeURIComponent(text)}`;
 });
 
@@ -64,7 +67,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-    <Head :title="status === 'paid' ? 'Gift Siap Dibagikan' : 'Menunggu Pembayaran'" />
+    <Head :title="status === 'paid' ? t('gift.payment_return.head_paid') : t('gift.payment_return.head_pending')" />
 
     <DashboardLayout>
         <template #header>
@@ -74,10 +77,10 @@ onUnmounted(() => {
                 </span>
                 <div>
                     <h2 class="text-base font-semibold text-stone-800">
-                        {{ status === 'paid' ? 'Gift Berhasil Dibuat' : 'Status Pembayaran' }}
+                        {{ status === 'paid' ? t('gift.payment_return.header_paid') : t('gift.payment_return.header_pending') }}
                     </h2>
                     <p class="hidden sm:block text-sm text-stone-400 mt-0.5">
-                        {{ status === 'paid' ? 'Bagikan link klaim ke penerima gift.' : 'Menunggu konfirmasi pembayaran gift.' }}
+                        {{ status === 'paid' ? t('gift.payment_return.header_paid_sub') : t('gift.payment_return.header_pending_sub') }}
                     </p>
                 </div>
             </div>
@@ -93,36 +96,36 @@ onUnmounted(() => {
                     <Sparkles class="w-8 h-8 sm:w-10 sm:h-10 text-white" aria-hidden="true" />
                 </div>
                 <h1 class="text-2xl sm:text-3xl font-bold text-stone-800 mb-2">
-                    🎁 Gift kamu siap!
+                    {{ t('gift.payment_return.heading_paid') }}
                 </h1>
                 <p class="text-sm sm:text-base text-stone-500 max-w-md mx-auto">
-                    Pembayaran berhasil. Sekarang bagikan link ini ke penerima.
+                    {{ t('gift.payment_return.paid_sub') }}
                 </p>
             </div>
 
             <!-- Gift summary -->
             <section class="bg-white border border-stone-100 rounded-2xl p-5 sm:p-6">
-                <h3 class="text-sm font-semibold text-stone-800 mb-4">Ringkasan Gift</h3>
+                <h3 class="text-sm font-semibold text-stone-800 mb-4">{{ t('gift.payment_return.summary_title') }}</h3>
                 <dl class="space-y-3 text-sm">
                     <div class="flex items-start justify-between gap-3">
-                        <dt class="text-stone-500">Plan</dt>
+                        <dt class="text-stone-500">{{ t('gift.payment_return.field_plan') }}</dt>
                         <dd class="text-stone-800 font-medium text-right">{{ gift.plan_name }}</dd>
                     </div>
                     <div class="flex items-start justify-between gap-3">
-                        <dt class="text-stone-500">Durasi</dt>
-                        <dd class="text-stone-800 font-medium text-right">{{ gift.duration_days }} hari premium</dd>
+                        <dt class="text-stone-500">{{ t('gift.payment_return.field_duration') }}</dt>
+                        <dd class="text-stone-800 font-medium text-right">{{ t('gift.payment_return.duration_premium', { days: gift.duration_days }) }}</dd>
                     </div>
                     <div class="flex items-start justify-between gap-3">
                         <dt class="text-stone-500 inline-flex items-center gap-1.5">
                             <Calendar class="w-3.5 h-3.5" aria-hidden="true" />
-                            Berlaku Sampai
+                            {{ t('gift.payment_return.field_valid_until') }}
                         </dt>
                         <dd class="text-stone-800 font-medium text-right">{{ formatDate(gift.expires_at) }}</dd>
                     </div>
                 </dl>
 
                 <div v-if="gift.message" class="mt-5 pt-5 border-t border-stone-100">
-                    <p class="text-xs font-semibold text-stone-500 uppercase tracking-wider mb-2">Pesan untuk Penerima</p>
+                    <p class="text-xs font-semibold text-stone-500 uppercase tracking-wider mb-2">{{ t('gift.payment_return.message_label') }}</p>
                     <blockquote class="border-l-2 border-[#C8A26B]/40 pl-3 py-1 text-sm text-stone-600 italic leading-relaxed whitespace-pre-line">
                         {{ gift.message }}
                     </blockquote>
@@ -131,8 +134,8 @@ onUnmounted(() => {
 
             <!-- Share section -->
             <section class="bg-white border border-stone-100 rounded-2xl p-5 sm:p-6">
-                <h3 class="text-sm font-semibold text-stone-800 mb-1">Link Klaim Gift</h3>
-                <p class="text-xs text-stone-400 mb-4">Salin atau bagikan link berikut ke penerima.</p>
+                <h3 class="text-sm font-semibold text-stone-800 mb-1">{{ t('gift.payment_return.link_title') }}</h3>
+                <p class="text-xs text-stone-400 mb-4">{{ t('gift.payment_return.link_hint') }}</p>
 
                 <div class="space-y-3">
                     <input
@@ -148,11 +151,11 @@ onUnmounted(() => {
                             type="button"
                             @click="copyLink"
                             class="h-12 inline-flex items-center justify-center gap-2 rounded-xl bg-stone-800 text-white text-sm font-semibold hover:bg-stone-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stone-800/40"
-                            aria-label="Salin link klaim"
+                            :aria-label="t('gift.payment_return.copy')"
                         >
                             <Check v-if="copied" class="w-4 h-4" aria-hidden="true" />
                             <Copy v-else class="w-4 h-4" aria-hidden="true" />
-                            <span>{{ copied ? 'Link Tersalin' : 'Salin Link' }}</span>
+                            <span>{{ copied ? t('gift.payment_return.copied') : t('gift.payment_return.copy') }}</span>
                         </button>
 
                         <a
@@ -162,7 +165,7 @@ onUnmounted(() => {
                             class="h-12 inline-flex items-center justify-center gap-2 rounded-xl bg-[#25D366] text-white text-sm font-semibold hover:bg-[#1ebe5d] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#25D366]/40"
                         >
                             <MessageCircle class="w-4 h-4" aria-hidden="true" />
-                            Share ke WhatsApp
+                            {{ t('gift.payment_return.share_wa') }}
                         </a>
                     </div>
                 </div>
@@ -174,7 +177,7 @@ onUnmounted(() => {
                 >
                     <Mail class="w-4 h-4 text-[#73877C] mt-0.5 shrink-0" aria-hidden="true" />
                     <p class="text-xs text-[#73877C] leading-relaxed">
-                        Email juga sudah dikirim ke <span class="font-semibold">{{ gift.recipient_email }}</span>.
+                        {{ t('gift.payment_return.email_sent', { email: gift.recipient_email }) }}
                     </p>
                 </div>
             </section>
@@ -185,7 +188,7 @@ onUnmounted(() => {
                     :href="route('dashboard.gifts.index')"
                     class="inline-flex items-center gap-1.5 text-sm font-semibold text-[#73877C] hover:text-[#92A89C] transition-colors"
                 >
-                    Lihat semua gift saya
+                    {{ t('gift.payment_return.all_gifts') }}
                     <ArrowRight class="w-4 h-4" aria-hidden="true" />
                 </Link>
             </div>
@@ -200,17 +203,17 @@ onUnmounted(() => {
                     <Loader2 class="w-8 h-8 text-stone-500 animate-spin" aria-hidden="true" />
                 </div>
                 <h2 class="text-xl font-bold text-stone-800 mb-2">
-                    Menunggu konfirmasi pembayaran...
+                    {{ t('gift.payment_return.pending_heading') }}
                 </h2>
                 <p class="text-sm text-stone-500 mb-6">
-                    Mohon tunggu sebentar. Halaman ini akan otomatis refresh.
+                    {{ t('gift.payment_return.pending_sub') }}
                 </p>
 
                 <Link
                     :href="route('dashboard')"
                     class="inline-flex items-center gap-1.5 text-sm font-semibold text-[#73877C] hover:text-[#92A89C] transition-colors"
                 >
-                    Kembali ke Dashboard
+                    {{ t('gift.payment_return.pending_back') }}
                 </Link>
             </div>
         </div>
