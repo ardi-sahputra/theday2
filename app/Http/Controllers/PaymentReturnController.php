@@ -19,7 +19,7 @@ class PaymentReturnController extends Controller
 
     public function show(Request $request): Response
     {
-        $transaction = Transaction::with('plan', 'user')->find($request->query('txn'));
+        $transaction = Transaction::with('plan', 'user', 'gift')->find($request->query('txn'));
 
         if (! $transaction || $transaction->user_id !== auth()->id()) {
             abort(403);
@@ -28,6 +28,24 @@ class PaymentReturnController extends Controller
         if ($transaction->isPending()) {
             $this->activationService->verifyAndActivate($transaction);
             $transaction->refresh();
+        }
+
+        if ($transaction->gift_id) {
+            $gift = $transaction->gift;
+            return Inertia::render('PaymentReturn/Gift', [
+                'gift' => [
+                    'id'             => $gift->id,
+                    'code'           => $gift->code,
+                    'plan_name'      => $gift->plan->name,
+                    'duration_days'  => $gift->duration_days,
+                    'delivery_mode'  => $gift->delivery_mode,
+                    'recipient_email'=> $gift->recipient_email,
+                    'message'        => $gift->message,
+                    'claim_url'      => route('gift.claim.show', $gift->code),
+                    'expires_at'     => $gift->expires_at->toIso8601String(),
+                ],
+                'status' => $transaction->status->value,
+            ]);
         }
 
         return Inertia::render('PaymentReturn', [
