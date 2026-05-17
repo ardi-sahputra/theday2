@@ -5,6 +5,7 @@ import axios from 'axios';
 import MobileBottomNav from '@/Components/dashboard/MobileBottomNav.vue';
 import MoreMenuPopover from '@/Components/dashboard/MoreMenuPopover.vue';
 import LanguageSwitcher from '@/Components/LanguageSwitcher.vue';
+import NotificationBell from '@/Components/Notifications/NotificationBell.vue';
 import { useLocale } from '@/Composables/useLocale';
 
 const { t } = useLocale();
@@ -410,6 +411,9 @@ const handleClickOutsideAvatar = (e) => {
 
                     <!-- Language switcher -->
                     <LanguageSwitcher />
+
+                    <!-- Notification bell -->
+                    <NotificationBell />
 
                     <!-- Avatar dropdown -->
                     <div class="relative" ref="avatarDropdownRef">
