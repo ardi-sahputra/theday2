@@ -12,6 +12,7 @@ const props = defineProps({
 });
 
 const form = useForm({
+    plan_id: props.plan.id,
     delivery_mode: 'link',
     recipient_email: '',
     message: '',
