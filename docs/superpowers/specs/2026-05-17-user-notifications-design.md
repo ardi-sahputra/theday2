@@ -46,12 +46,16 @@ Frontend (Vue + Inertia): bell di `DashboardLayout.vue` dengan polling 60s ke en
 | `body` | text nullable | optional |
 | `action_url` | string(255) nullable | tujuan klik notif |
 | `payload` | json nullable | context tambahan (mis. `{invitation_id, guest_id, broadcast_id}`) |
+| `template_key` | string(100) nullable | sumber template (mis. `notifications.guest_message.created`); buat audit & future re-render |
+| `locale` | string(10) nullable | locale saat render (mis. `id`, `en`); buat future re-localize |
 | `read_at` | timestamp nullable | |
 | `created_at`, `updated_at` | timestamps | |
 
 **Indexes:**
 - `(user_id, read_at, updated_at DESC)` — untuk bell dropdown & list.
-- `(user_id, group_key)` — untuk lookup grouping (semua row, di-filter `read_at IS NULL` di query).
+- `(user_id, group_key, read_at)` — untuk lookup grouping unread (composite, hindari scan tambahan untuk filter `read_at IS NULL`).
+
+Catatan: `title` dan `body` tetap disimpan sudah dirender untuk performa query. `template_key + locale + payload` cukup untuk re-render kalau nanti dibutuhkan (mis. user ganti bahasa, atau template diperbarui).
 
 ### 3.2 `notification_preferences`
 
@@ -88,11 +92,12 @@ Lazy-create saat user pertama buka preferences page (atau publisher fallback ke 
 | `recipient_count` | int default 0 |
 | `created_at`, `updated_at` | timestamps |
 
-**Status (derived):**
-- `sent_at NOT NULL` → **Sent**
-- `scheduled_at > NOW() AND sent_at IS NULL` → **Scheduled**
-- `scheduled_at <= NOW() AND sent_at IS NULL` → **Pending dispatch**
-- `scheduled_at IS NULL AND sent_at IS NULL` → **Draft**
+**Status (derived, dievaluasi terurut — pertama yang match menang):**
+1. `cancelled_at IS NOT NULL` → **Cancelled**
+2. `sent_at IS NOT NULL` → **Sent**
+3. `scheduled_at > NOW() AND sent_at IS NULL` → **Scheduled**
+4. `scheduled_at <= NOW() AND sent_at IS NULL` → **Pending dispatch**
+5. `scheduled_at IS NULL AND sent_at IS NULL` → **Draft**
 
 ---
 
@@ -150,19 +155,23 @@ public function publish(
     array $payload = [],
     ?string $groupKey = null,
     ?string $actionUrl = null,
+    ?int $cooldownDays = null,   // anti-spam: skip update kalau group sudah ada & updated_at < cooldown
 ): ?Notification
 ```
 
 **Flow:**
 1. Ambil preference user (lazy default: semua on). Kalau `{category}_enabled = false` → return `null`.
-2. Render `title` dan optional `body` via `NotificationRenderer::render($type, $payload, $count)`. Renderer mapping `type` → translation key, mendukung `:count`, `:invitation_title`, dll.
+2. Render `title` dan optional `body` via `NotificationRenderer::render($type, $payload, $count, $locale)`. Renderer resolve `type` → translation key (mis. `notifications.guest_message.created`), mendukung placeholder `:count`, `:invitation_title`, dll. `locale` diambil dari `$user->locale` (fallback `app()->getLocale()`).
 3. Dalam DB transaction:
    - Kalau `$groupKey != null`:
      - `lockForUpdate()->where(user_id, group_key)->whereNull(read_at)->first()`.
-     - Ada → `count++`, `updated_at=now()`, re-render title (count baru), update.
-     - Tidak ada → insert baru `count=1`.
+     - Ada **DAN** `$cooldownDays != null` **DAN** `updated_at > now()->subDays($cooldownDays)` → return existing row tanpa update (anti-spam).
+     - Ada (di luar cooldown) → `count++`, `updated_at=now()`, re-render title (count baru), update.
+     - Tidak ada → insert baru `count=1`, simpan `template_key` & `locale`.
    - Kalau `$groupKey == null` → insert baru.
 4. Return notification model (atau null).
+
+**Cooldown usage:** kategori `onboarding` + `engagement` selalu pass `cooldownDays=7` saat publish (cron tidak bump notifikasi yang sama jadi top tiap minggu — user tidak terganggu). Kategori transaksional (`guest`, `payment`, `gift`) tidak pakai cooldown (tetap fresh tiap event).
 
 Race-condition: row lock pada index `(user_id, group_key)` cukup di MySQL InnoDB. Concurrent publisher dengan group_key sama akan serialize via lock.
 
@@ -262,7 +271,7 @@ Lokasi: `resources/js/Pages/Admin/Notifications/`, `app/Http/Controllers/Admin/A
 ### 8.1 List page `/admin/notifications`
 
 Tabel `notification_broadcasts`:
-- Kolom: Title, Category, Target (All / N users), Status (Draft / Scheduled / Pending / Sent), `scheduled_at`, `sent_at`, `recipient_count`, Aksi (Edit kalau belum sent, Cancel kalau scheduled, View).
+- Kolom: Title, Category, Target (All / N users), Status (Draft / Scheduled / Pending / Sent / **Cancelled**), `scheduled_at`, `sent_at`, `cancelled_at`, `recipient_count`, Aksi (Edit kalau belum sent & belum cancelled, Cancel kalau Scheduled / Pending, View).
 - Filter: status + category. Pagination.
 
 ### 8.2 Create / Edit `/admin/notifications/create` (atau `/{id}/edit`)
@@ -274,15 +283,22 @@ Form:
 - `category` (dropdown, default `system`).
 - `target_type` (radio): **Semua user** | **Pilih user spesifik**.
   - Kalau `users`: multi-select autocomplete dari `users` (search by name/email). Simpan ID list ke `target_user_ids`.
-- **Kirim nanti** (checkbox) → tampil `scheduled_at` datetime picker (validasi `> NOW()`). Tidak dicentang → controller set `scheduled_at = NOW()` saat submit, dispatcher cron akan pick up pada run berikutnya (≤1 menit). Semua broadcast tunduk pada dispatcher tunggal — tidak ada code path kirim langsung di controller.
+- **Mode kirim** (radio): **Kirim segera** (default) | **Jadwalkan**.
+  - `Kirim segera`: controller set `scheduled_at = NOW()` saat submit. UI tampilkan hint: _"Pengumuman akan dikirim dalam waktu ±1 menit."_
+  - `Jadwalkan`: datetime picker (validasi `> NOW() + 1 menit`).
+  - Semua broadcast tunduk pada dispatcher tunggal — tidak ada code path kirim langsung di controller. Konsekuensi: delay maksimal 1 menit dari interval cron.
+
+**`action_url` validasi:**
+- Boleh kosong.
+- Kalau diisi: harus berupa **internal path** (`^/[A-Za-z0-9/_\-?=&%.#]*$`) **atau** **absolute URL** dengan scheme `http`/`https` dan host sama dengan `config('app.url')`.
+- Tolak: `javascript:`, `data:`, scheme lain, atau host eksternal.
+- Validasi di `FormRequest` (`StoreNotificationBroadcastRequest`) + reuse rule di publisher API kalau ada caller eksternal.
 
 Edit hanya jika `sent_at IS NULL`. Setelah terkirim → page Show read-only.
 
 ### 8.3 Show `/admin/notifications/{id}`
 
-Detail broadcast + statistik recipient. Tombol Cancel kalau Scheduled & belum sent (set `sent_at = NOW()` + skip dispatcher, atau flag `cancelled_at` — pakai pendekatan **soft cancel**: tambah kolom `cancelled_at`, dispatcher skip kalau ada).
-
-> Note: `cancelled_at` kolom tambahan di tabel `notification_broadcasts` untuk track cancel.
+Detail broadcast + statistik recipient. Tombol Cancel kalau status **Scheduled** atau **Pending dispatch** (set `cancelled_at = NOW()`; dispatcher skip via filter). Tombol Cancel disembunyikan kalau status **Sent** atau **Cancelled**.
 
 ### 8.4 Dispatcher cron — `notifications:dispatch-broadcasts`
 
@@ -370,6 +386,11 @@ Pakai Pest (mengikuti pola repo). Test DB sesuai konfigurasi existing (SQLite/My
   - target=all → semua user.
   - cancelled → skip.
   - error per-user → batch lanjut.
+- `CleanupCommandTest`
+  - read notifications > 180 hari → terhapus.
+  - unread notifications > 90 hari → terhapus.
+  - notifications dalam window → tetap ada.
+  - re-run idempotent.
 - Observer tests per event utama (`GuestMessageObserverTest`, `RsvpObserverTest`, `GiftObserverTest`, `InvitationViewObserverTest`) — verify publisher dipanggil dengan type/category/payload/group_key yang benar (pakai mock atau spy publisher).
 
 ### 10.2 Cron command tests
@@ -380,15 +401,38 @@ Browser test opsional (tergantung adanya Playwright/Dusk di repo). Kalau ada: be
 
 ---
 
-## 11. Migration Order
+## 11. Retention & Cleanup
 
-1. `2026_05_xx_create_notifications_table.php`
-2. `2026_05_xx_create_notification_preferences_table.php`
-3. `2026_05_xx_create_notification_broadcasts_table.php` (termasuk `cancelled_at`)
+Tabel `notifications` berpotensi tumbuh tak terbatas. Tambahkan command cleanup dari awal supaya size DB terkontrol.
+
+**Command:** `php artisan notifications:cleanup` (daily, jam 03:00 lokal).
+
+**Policy default (configurable via `config/notifications.php`):**
+- `unread_ttl_days = 90` — notifikasi belum dibaca yang lebih lama dari 90 hari → delete.
+- `read_ttl_days = 180` — notifikasi sudah dibaca yang lebih lama dari 180 hari → delete.
+
+**Implementasi:**
+```sql
+DELETE FROM notifications
+WHERE (read_at IS NULL AND created_at < NOW() - INTERVAL 90 DAY)
+   OR (read_at IS NOT NULL AND read_at < NOW() - INTERVAL 180 DAY)
+LIMIT 5000   -- chunked, command loop sampai 0 row affected, hindari long lock
+```
+
+Log jumlah row dihapus tiap run. `notification_broadcasts` tidak di-cleanup (volume kecil, sumber audit).
 
 ---
 
-## 12. Out of Scope (Explicit)
+## 12. Migration Order
+
+1. `2026_05_xx_create_notifications_table.php` (termasuk `template_key`, `locale`, index composite `(user_id, group_key, read_at)`)
+2. `2026_05_xx_create_notification_preferences_table.php`
+3. `2026_05_xx_create_notification_broadcasts_table.php` (termasuk `cancelled_at`)
+4. `config/notifications.php` (cleanup TTL config, scheduler entries — bukan migration, tapi dibuat di phase yang sama)
+
+---
+
+## 13. Out of Scope (Explicit)
 
 Hindari scope creep. Yang tidak dikerjakan di iterasi ini:
 
@@ -403,7 +447,7 @@ Hindari scope creep. Yang tidak dikerjakan di iterasi ini:
 
 ---
 
-## 13. Open Questions
+## 14. Open Questions
 
 Tidak ada — semua keputusan terkunci:
 - Approach B (custom tables).
@@ -417,7 +461,7 @@ Tidak ada — semua keputusan terkunci:
 
 ---
 
-## 14. Acceptance Criteria
+## 15. Acceptance Criteria
 
 - User melihat bell icon di dashboard dengan unread count akurat (terupdate dalam ≤60 detik setelah event).
 - Klik notif menandai read dan navigasi ke `action_url`.
@@ -428,3 +472,7 @@ Tidak ada — semua keputusan terkunci:
 - Cancel scheduled broadcast sebelum sent → tidak terkirim.
 - Cron run ulang tidak duplikasi notifikasi (idempotent).
 - Semua kategori event (7 kategori, ~17 type) terimplementasi dengan trigger sesuai tabel di section 6.
+- Notifikasi `onboarding` / `engagement` dengan `group_key` sama tidak nge-bump ke top dalam window 7 hari (cooldown).
+- Command `notifications:cleanup` menghapus notifikasi sesuai TTL config tanpa mempengaruhi data dalam window.
+- Cancel broadcast → status admin UI menampilkan "Cancelled", dispatcher tidak mengirim.
+- `action_url` dengan scheme `javascript:` atau host eksternal ditolak validasi.
