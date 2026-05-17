@@ -94,7 +94,7 @@
                   <td style="padding:5px 0; color:#2C2417; font-weight:600; text-align:right;">{{ $gift->duration_days }} hari</td>
                 </tr>
                 <tr>
-                  <td style="padding:5px 0; color:#9C8B72;">Berlaku Hingga</td>
+                  <td style="padding:5px 0; color:#9C8B72;">Klaim Sebelum</td>
                   <td style="padding:5px 0; color:#2C2417; font-weight:600; text-align:right;">{{ $gift->expires_at->format('d M Y') }}</td>
                 </tr>
               </table>
