@@ -6,19 +6,24 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Enums\NotificationType;
 use App\Enums\PaymentStatus;
 use App\Mail\GiftReceivedMail;
 use App\Mail\PaymentSuccessMail;
 use App\Models\InvitationAddon;
 use App\Models\Subscription;
 use App\Models\Transaction;
+use App\Services\Notifications\NotificationPublisher;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class PaymentActivationService
 {
-    public function __construct(private readonly MayarService $mayarService) {}
+    public function __construct(
+        private readonly MayarService $mayarService,
+        private readonly NotificationPublisher $notificationPublisher,
+    ) {}
 
     public function verifyAndActivate(Transaction $transaction): bool
     {
@@ -60,6 +65,15 @@ class PaymentActivationService
                 $this->activatePremium($transaction);
             }
         });
+
+        if ($transaction->user) {
+            $this->notificationPublisher->publish(
+                user: $transaction->user,
+                type: NotificationType::TransactionPaid,
+                payload: ['plan_name' => $transaction->plan?->name ?? '—'],
+                actionUrl: '/dashboard/billing',
+            );
+        }
 
         return true;
     }
