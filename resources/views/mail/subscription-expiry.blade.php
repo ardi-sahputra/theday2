@@ -16,7 +16,16 @@
 </head>
 <body>
 <div class="card">
-    <div class="logo">TheDay</div>
+    <table cellpadding="0" cellspacing="0" style="margin-bottom:24px;">
+        <tr>
+            <td style="width:32px; height:32px; background:#73877C; border-radius:8px; text-align:center; vertical-align:middle;">
+                <span style="color:#FFFCF7; font-family:Georgia,serif; font-size:18px; font-weight:600; line-height:32px; letter-spacing:-1px;">d<span style="color:#C8A26B;">.</span></span>
+            </td>
+            <td style="padding-left:10px; vertical-align:middle;">
+                <span style="font-size:18px; font-weight:700; color:#2C2417; letter-spacing:-0.3px; font-family:Georgia,serif;">TheDay</span>
+            </td>
+        </tr>
+    </table>
 
     @if($daysRemaining === 0)
         <span class="badge-exp">Paket Berakhir</span>
