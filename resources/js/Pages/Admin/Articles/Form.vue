@@ -1,6 +1,12 @@
 <script setup>
-import { Head, Link, useForm, router } from '@inertiajs/vue3';
+import { Head, Link, useForm } from '@inertiajs/vue3';
 import AdminLayout from '@/Layouts/AdminLayout.vue';
+import { Card, CardContent } from '@/Components/ui/card';
+import { Button } from '@/Components/ui/button';
+import { Input } from '@/Components/ui/input';
+import { Label } from '@/Components/ui/label';
+import { Switch } from '@/Components/ui/switch';
+import { ArrowLeft, Upload } from 'lucide-vue-next';
 import { ref, computed } from 'vue';
 
 const props = defineProps({
@@ -63,216 +69,223 @@ function autoSlug() {
         .trim()
         .replace(/\s+/g, '-');
 }
+
+const breadcrumb = computed(() =>
+    isEdit.value ? `Articles › Edit` : `Articles › Create`
+);
 </script>
 
 <template>
-    <AdminLayout>
-        <Head :title="isEdit ? 'Edit Artikel — Admin' : 'Tulis Artikel — Admin'" />
+    <Head :title="isEdit ? 'Edit Artikel — Admin' : 'Tulis Artikel — Admin'" />
+    <AdminLayout :breadcrumb="breadcrumb">
+        <div class="max-w-5xl mx-auto space-y-6">
 
-        <div class="p-6 max-w-5xl mx-auto">
             <!-- Header -->
-            <div class="flex items-center gap-4 mb-8">
-                <Link href="/admin/articles"
-                      class="p-2 rounded-xl hover:bg-stone-100 text-gray-400 hover:text-gray-600 transition cursor-pointer">
-                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-                    </svg>
-                </Link>
+            <div class="flex items-center gap-3">
+                <Button variant="ghost" size="icon" as-child aria-label="Kembali ke daftar artikel">
+                    <Link href="/admin/articles">
+                        <ArrowLeft class="w-5 h-5" />
+                    </Link>
+                </Button>
                 <div>
-                    <h1 class="text-2xl font-semibold text-gray-800">
+                    <h1 class="text-xl font-semibold">
                         {{ isEdit ? 'Edit Artikel' : 'Tulis Artikel Baru' }}
                     </h1>
-                    <p class="text-sm text-gray-400 mt-0.5">{{ isEdit ? article.title : 'Buat konten baru untuk blog TheDay' }}</p>
+                    <p class="text-sm text-muted-foreground mt-0.5">
+                        {{ isEdit ? article.title : 'Buat konten baru untuk blog TheDay' }}
+                    </p>
                 </div>
             </div>
 
             <div class="grid lg:grid-cols-3 gap-6">
 
                 <!-- Main Editor -->
-                <div class="lg:col-span-2 space-y-5">
+                <div class="lg:col-span-2 space-y-4">
 
                     <!-- Title -->
-                    <div class="bg-white rounded-2xl p-6" style="box-shadow:0 2px 12px rgba(0,0,0,0.06)">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Judul Artikel *</label>
-                        <input
-                            v-model="form.title"
-                            @blur="autoSlug"
-                            type="text"
-                            placeholder="Tulis judul artikel yang menarik..."
-                            class="w-full px-4 py-3 rounded-xl border border-stone-200 text-gray-800 text-lg font-medium focus:outline-none transition"
-                            onfocus="this.style.borderColor='#92A89C'"
-                            onblur="this.style.borderColor=''"
-                        />
-                        <p v-if="form.errors.title" class="text-red-500 text-xs mt-1">{{ form.errors.title }}</p>
-                    </div>
+                    <Card>
+                        <CardContent class="p-5 space-y-2">
+                            <Label for="title">Judul Artikel *</Label>
+                            <Input
+                                id="title"
+                                v-model="form.title"
+                                @blur="autoSlug"
+                                type="text"
+                                placeholder="Tulis judul artikel yang menarik..."
+                                class="text-base font-medium"
+                            />
+                            <p v-if="form.errors.title" class="text-destructive text-xs">{{ form.errors.title }}</p>
+                        </CardContent>
+                    </Card>
 
                     <!-- Slug -->
-                    <div class="bg-white rounded-2xl p-6" style="box-shadow:0 2px 12px rgba(0,0,0,0.06)">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Slug URL</label>
-                        <div class="flex items-center gap-2">
-                            <span class="text-sm text-gray-400 whitespace-nowrap">/blog/</span>
-                            <input
-                                v-model="form.slug"
-                                type="text"
-                                placeholder="url-artikel-anda"
-                                class="flex-1 px-4 py-2.5 rounded-xl border border-stone-200 text-sm focus:outline-none transition"
-                                onfocus="this.style.borderColor='#92A89C'"
-                                onblur="this.style.borderColor=''"
-                            />
-                        </div>
-                        <p class="text-xs text-gray-400 mt-1">Kosongkan untuk generate otomatis dari judul.</p>
-                        <p v-if="form.errors.slug" class="text-red-500 text-xs mt-1">{{ form.errors.slug }}</p>
-                    </div>
+                    <Card>
+                        <CardContent class="p-5 space-y-2">
+                            <Label for="slug">Slug URL</Label>
+                            <div class="flex items-center gap-2">
+                                <span class="text-sm text-muted-foreground whitespace-nowrap">/blog/</span>
+                                <Input
+                                    id="slug"
+                                    v-model="form.slug"
+                                    type="text"
+                                    placeholder="url-artikel-anda"
+                                    class="flex-1"
+                                />
+                            </div>
+                            <p class="text-xs text-muted-foreground">Kosongkan untuk generate otomatis dari judul.</p>
+                            <p v-if="form.errors.slug" class="text-destructive text-xs">{{ form.errors.slug }}</p>
+                        </CardContent>
+                    </Card>
 
                     <!-- Excerpt -->
-                    <div class="bg-white rounded-2xl p-6" style="box-shadow:0 2px 12px rgba(0,0,0,0.06)">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Ringkasan (Excerpt)</label>
-                        <textarea
-                            v-model="form.excerpt"
-                            rows="3"
-                            placeholder="Deskripsi singkat artikel (tampil di index dan SEO)..."
-                            class="w-full px-4 py-3 rounded-xl border border-stone-200 text-sm text-gray-700 focus:outline-none transition resize-none"
-                            onfocus="this.style.borderColor='#92A89C'"
-                            onblur="this.style.borderColor=''"
-                        />
-                        <div class="flex justify-end mt-1">
-                            <span class="text-xs text-gray-400">{{ form.excerpt.length }}/500</span>
-                        </div>
-                    </div>
+                    <Card>
+                        <CardContent class="p-5 space-y-2">
+                            <Label for="excerpt">Ringkasan (Excerpt)</Label>
+                            <textarea
+                                id="excerpt"
+                                v-model="form.excerpt"
+                                rows="3"
+                                placeholder="Deskripsi singkat artikel (tampil di index dan SEO)..."
+                                class="w-full px-3 py-2 rounded-md border border-input bg-background text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring resize-none"
+                            />
+                            <div class="flex justify-end">
+                                <span class="text-xs text-muted-foreground">{{ form.excerpt.length }}/500</span>
+                            </div>
+                        </CardContent>
+                    </Card>
 
                     <!-- Content -->
-                    <div class="bg-white rounded-2xl p-6" style="box-shadow:0 2px 12px rgba(0,0,0,0.06)">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Konten Artikel *</label>
-                        <p class="text-xs text-gray-400 mb-3">Gunakan HTML dasar: &lt;h2&gt;, &lt;p&gt;, &lt;ul&gt;, &lt;ol&gt;, &lt;strong&gt;, &lt;em&gt;, &lt;a&gt;, &lt;blockquote&gt;</p>
-                        <textarea
-                            v-model="form.content"
-                            rows="20"
-                            placeholder="<h2>Subjudul</h2>&#10;<p>Paragraf pertama...</p>"
-                            class="w-full px-4 py-3 rounded-xl border border-stone-200 text-sm text-gray-700 focus:outline-none transition resize-y font-mono"
-                            onfocus="this.style.borderColor='#92A89C'"
-                            onblur="this.style.borderColor=''"
-                        />
-                        <p v-if="form.errors.content" class="text-red-500 text-xs mt-1">{{ form.errors.content }}</p>
-                    </div>
+                    <Card>
+                        <CardContent class="p-5 space-y-2">
+                            <Label for="content">Konten Artikel *</Label>
+                            <p class="text-xs text-muted-foreground">Gunakan HTML dasar: &lt;h2&gt;, &lt;p&gt;, &lt;ul&gt;, &lt;ol&gt;, &lt;strong&gt;, &lt;em&gt;, &lt;a&gt;, &lt;blockquote&gt;</p>
+                            <textarea
+                                id="content"
+                                v-model="form.content"
+                                rows="20"
+                                placeholder="<h2>Subjudul</h2>&#10;<p>Paragraf pertama...</p>"
+                                class="w-full px-3 py-2 rounded-md border border-input bg-background text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring resize-y font-mono"
+                            />
+                            <p v-if="form.errors.content" class="text-destructive text-xs">{{ form.errors.content }}</p>
+                        </CardContent>
+                    </Card>
 
                     <!-- SEO -->
-                    <div class="bg-white rounded-2xl p-6" style="box-shadow:0 2px 12px rgba(0,0,0,0.06)">
-                        <h3 class="text-sm font-semibold text-gray-700 mb-4">SEO & Meta</h3>
-                        <div class="space-y-4">
-                            <div>
-                                <label class="block text-xs font-medium text-gray-600 mb-1.5">Meta Title</label>
-                                <input v-model="form.meta_title" type="text" placeholder="Default: judul artikel"
-                                       class="w-full px-4 py-2.5 rounded-xl border border-stone-200 text-sm focus:outline-none transition"
-                                       onfocus="this.style.borderColor='#92A89C'" onblur="this.style.borderColor=''"/>
-                                <div class="flex justify-end mt-1">
-                                    <span :class="form.meta_title.length > 60 ? 'text-red-400' : 'text-gray-400'" class="text-xs">
-                                        {{ form.meta_title.length }}/60
-                                    </span>
+                    <Card>
+                        <CardContent class="p-5 space-y-4">
+                            <h3 class="text-sm font-semibold">SEO & Meta</h3>
+
+                            <div class="space-y-2">
+                                <Label for="meta_title">Meta Title</Label>
+                                <Input id="meta_title" v-model="form.meta_title" type="text"
+                                       placeholder="Default: judul artikel" />
+                                <div class="flex justify-end">
+                                    <span :class="form.meta_title.length > 60 ? 'text-destructive' : 'text-muted-foreground'"
+                                          class="text-xs">{{ form.meta_title.length }}/60</span>
                                 </div>
                             </div>
-                            <div>
-                                <label class="block text-xs font-medium text-gray-600 mb-1.5">Meta Description</label>
-                                <textarea v-model="form.meta_description" rows="2" placeholder="Default: excerpt"
-                                          class="w-full px-4 py-2.5 rounded-xl border border-stone-200 text-sm focus:outline-none transition resize-none"
-                                          onfocus="this.style.borderColor='#92A89C'" onblur="this.style.borderColor=''"/>
-                                <div class="flex justify-end mt-1">
-                                    <span :class="form.meta_description.length > 160 ? 'text-red-400' : 'text-gray-400'" class="text-xs">
-                                        {{ form.meta_description.length }}/160
-                                    </span>
+
+                            <div class="space-y-2">
+                                <Label for="meta_description">Meta Description</Label>
+                                <textarea
+                                    id="meta_description"
+                                    v-model="form.meta_description"
+                                    rows="2"
+                                    placeholder="Default: excerpt"
+                                    class="w-full px-3 py-2 rounded-md border border-input bg-background text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring resize-none"
+                                />
+                                <div class="flex justify-end">
+                                    <span :class="form.meta_description.length > 160 ? 'text-destructive' : 'text-muted-foreground'"
+                                          class="text-xs">{{ form.meta_description.length }}/160</span>
                                 </div>
                             </div>
-                            <div>
-                                <label class="block text-xs font-medium text-gray-600 mb-1.5">Canonical URL</label>
-                                <input v-model="form.canonical_url" type="url" placeholder="https://..."
-                                       class="w-full px-4 py-2.5 rounded-xl border border-stone-200 text-sm focus:outline-none transition"
-                                       onfocus="this.style.borderColor='#92A89C'" onblur="this.style.borderColor=''"/>
+
+                            <div class="space-y-2">
+                                <Label for="canonical_url">Canonical URL</Label>
+                                <Input id="canonical_url" v-model="form.canonical_url" type="url"
+                                       placeholder="https://..." />
                             </div>
-                        </div>
-                    </div>
+                        </CardContent>
+                    </Card>
                 </div>
 
                 <!-- Sidebar -->
-                <div class="space-y-5">
+                <div class="space-y-4">
 
                     <!-- Publish actions -->
-                    <div class="bg-white rounded-2xl p-5" style="box-shadow:0 2px 12px rgba(0,0,0,0.06)">
-                        <h3 class="text-sm font-semibold text-gray-700 mb-4">Publikasi</h3>
-                        <div class="space-y-3">
-                            <button
-                                @click="saveAndPublish"
+                    <Card>
+                        <CardContent class="p-5 space-y-3">
+                            <h3 class="text-sm font-semibold">Publikasi</h3>
+                            <Button
+                                class="w-full"
                                 :disabled="form.processing"
-                                class="w-full py-2.5 rounded-xl text-sm font-semibold text-white transition cursor-pointer disabled:opacity-50"
-                                style="background:var(--color-primary, #92A89C)"
+                                @click="saveAndPublish"
                             >
                                 {{ isEdit && article.status === 'published' ? 'Simpan Perubahan' : 'Publikasi Artikel' }}
-                            </button>
-                            <button
-                                @click="saveDraft"
+                            </Button>
+                            <Button
+                                variant="outline"
+                                class="w-full"
                                 :disabled="form.processing"
-                                class="w-full py-2.5 rounded-xl text-sm font-semibold text-gray-600 bg-stone-100 hover:bg-stone-200 transition cursor-pointer disabled:opacity-50"
+                                @click="saveDraft"
                             >
                                 Simpan sebagai Draft
-                            </button>
-                        </div>
-                        <p v-if="form.errors.status" class="text-red-500 text-xs mt-2">{{ form.errors.status }}</p>
-                    </div>
+                            </Button>
+                            <p v-if="form.errors.status" class="text-destructive text-xs">{{ form.errors.status }}</p>
+                        </CardContent>
+                    </Card>
 
                     <!-- Cover Image -->
-                    <div class="bg-white rounded-2xl p-5" style="box-shadow:0 2px 12px rgba(0,0,0,0.06)">
-                        <h3 class="text-sm font-semibold text-gray-700 mb-3">Cover Image</h3>
-                        <div v-if="coverPreview" class="mb-3 rounded-xl overflow-hidden aspect-video bg-stone-100">
-                            <img :src="coverPreview" class="w-full h-full object-cover" />
-                        </div>
-                        <label class="flex items-center justify-center gap-2 w-full py-3 rounded-xl border-2 border-dashed border-stone-200 text-sm text-gray-400 hover:border-stone-400 hover:text-gray-600 transition cursor-pointer">
-                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                      d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
-                            </svg>
-                            {{ coverPreview ? 'Ganti Gambar' : 'Upload Cover' }}
-                            <input type="file" accept="image/*" class="hidden" @change="onCoverChange" />
-                        </label>
-                        <p class="text-xs text-gray-400 mt-2 text-center">JPG/PNG, maks 2MB</p>
-                        <p v-if="form.errors.cover_image" class="text-red-500 text-xs mt-1">{{ form.errors.cover_image }}</p>
-                    </div>
+                    <Card>
+                        <CardContent class="p-5 space-y-3">
+                            <h3 class="text-sm font-semibold">Cover Image</h3>
+                            <div v-if="coverPreview" class="rounded-lg overflow-hidden aspect-video bg-muted">
+                                <img :src="coverPreview" class="w-full h-full object-cover" />
+                            </div>
+                            <label class="flex items-center justify-center gap-2 w-full py-3 rounded-md border-2 border-dashed border-border text-sm text-muted-foreground hover:border-foreground/40 hover:text-foreground transition cursor-pointer">
+                                <Upload class="w-4 h-4" />
+                                {{ coverPreview ? 'Ganti Gambar' : 'Upload Cover' }}
+                                <input type="file" accept="image/*" class="hidden" @change="onCoverChange" />
+                            </label>
+                            <p class="text-xs text-muted-foreground text-center">JPG/PNG, maks 2MB</p>
+                            <p v-if="form.errors.cover_image" class="text-destructive text-xs">{{ form.errors.cover_image }}</p>
+                        </CardContent>
+                    </Card>
 
-                    <!-- Category + Author -->
-                    <div class="bg-white rounded-2xl p-5" style="box-shadow:0 2px 12px rgba(0,0,0,0.06)">
-                        <h3 class="text-sm font-semibold text-gray-700 mb-4">Detail</h3>
-                        <div class="space-y-4">
-                            <div>
-                                <label class="block text-xs font-medium text-gray-600 mb-1.5">Kategori</label>
-                                <select v-model="form.category_id"
-                                        class="w-full px-3 py-2.5 rounded-xl border border-stone-200 text-sm focus:outline-none bg-white cursor-pointer"
-                                        onfocus="this.style.borderColor='#92A89C'" onblur="this.style.borderColor=''">
+                    <!-- Category + Author + Featured -->
+                    <Card>
+                        <CardContent class="p-5 space-y-4">
+                            <h3 class="text-sm font-semibold">Detail</h3>
+
+                            <div class="space-y-2">
+                                <Label for="category_id">Kategori</Label>
+                                <select
+                                    id="category_id"
+                                    v-model="form.category_id"
+                                    class="w-full px-3 py-2 rounded-md border border-input bg-background text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring cursor-pointer"
+                                >
                                     <option value="">— Pilih Kategori —</option>
                                     <option v-for="cat in categories" :key="cat.id" :value="cat.id">
                                         {{ cat.name }}
                                     </option>
                                 </select>
                             </div>
-                            <div>
-                                <label class="block text-xs font-medium text-gray-600 mb-1.5">Nama Penulis</label>
-                                <input v-model="form.author_name" type="text" placeholder="Tim TheDay"
-                                       class="w-full px-3 py-2.5 rounded-xl border border-stone-200 text-sm focus:outline-none transition"
-                                       onfocus="this.style.borderColor='#92A89C'" onblur="this.style.borderColor=''"/>
+
+                            <div class="space-y-2">
+                                <Label for="author_name">Nama Penulis</Label>
+                                <Input id="author_name" v-model="form.author_name" type="text"
+                                       placeholder="Tim TheDay" />
                             </div>
-                            <div class="flex items-center justify-between">
+
+                            <div class="flex items-center justify-between gap-3">
                                 <div>
-                                    <p class="text-xs font-medium text-gray-600">Artikel Unggulan</p>
-                                    <p class="text-xs text-gray-400">Tampil di bagian atas blog</p>
+                                    <p class="text-sm font-medium">Artikel Unggulan</p>
+                                    <p class="text-xs text-muted-foreground">Tampil di bagian atas blog</p>
                                 </div>
-                                <button
-                                    type="button"
-                                    @click="form.featured = !form.featured"
-                                    class="relative inline-flex h-6 w-11 items-center rounded-full transition cursor-pointer"
-                                    :style="form.featured ? 'background:var(--color-primary,#92A89C)' : 'background:#E5E7EB'"
-                                >
-                                    <span class="inline-block h-4 w-4 transform rounded-full bg-white transition"
-                                          :class="form.featured ? 'translate-x-6' : 'translate-x-1'" />
-                                </button>
+                                <Switch v-model:checked="form.featured" />
                             </div>
-                        </div>
-                    </div>
+                        </CardContent>
+                    </Card>
                 </div>
             </div>
         </div>

@@ -24,7 +24,6 @@ use App\Http\Controllers\Dashboard\TemplateController;
 use App\Http\Controllers\PaymentReturnController;
 use App\Http\Controllers\WebhookController;
 use App\Http\Controllers\Dashboard\WhatsAppTemplateController;
-use App\Http\Controllers\Admin\ArticleController;
 use App\Http\Controllers\Blog\BlogController;
 use App\Http\Controllers\OnboardingController;
 use App\Http\Controllers\ProfileController;
@@ -258,22 +257,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
 
-// Admin routes — protected by role:admin middleware
-Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
-    // Route::get('/', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
-
-    // ── Articles ──────────────────────────────────────────────────────
-    Route::get(   '/articles',                         [ArticleController::class, 'index'])->name('articles.index');
-    Route::get(   '/articles/create',                  [ArticleController::class, 'create'])->name('articles.create');
-    Route::post(  '/articles',                         [ArticleController::class, 'store'])->name('articles.store');
-    Route::get(   '/articles/{article}/edit',          [ArticleController::class, 'edit'])->name('articles.edit');
-    Route::patch( '/articles/{article}',               [ArticleController::class, 'update'])->name('articles.update');
-    Route::delete('/articles/{article}',               [ArticleController::class, 'destroy'])->name('articles.destroy');
-    Route::patch( '/articles/{article}/publish',       [ArticleController::class, 'publish'])->name('articles.publish');
-    Route::patch( '/articles/{article}/unpublish',     [ArticleController::class, 'unpublish'])->name('articles.unpublish');
-    Route::patch( '/articles/{article}/featured',      [ArticleController::class, 'toggleFeatured'])->name('articles.featured');
+    // ── Gift Premium (purchase + management) ────────────────────────────────
+    Route::prefix('dashboard/gifts')->name('dashboard.gifts.')->group(function () {
+        Route::get('/',         [\App\Http\Controllers\Dashboard\GiftController::class, 'index'])->name('index');
+        Route::get('/create',   [\App\Http\Controllers\Dashboard\GiftController::class, 'create'])->name('create');
+        Route::post('/',        [\App\Http\Controllers\Dashboard\GiftController::class, 'store'])->name('store');
+        Route::get('/{gift}',   [\App\Http\Controllers\Dashboard\GiftController::class, 'show'])->name('show');
+    });
 });
 
 // ── Webhooks (no auth) ──────────────────────────────────────────────────
@@ -287,6 +278,13 @@ Route::post('/kontak', [ContactController::class, 'store'])->name('contact.store
 Route::get('/kebijakan-privasi', [LegalController::class, 'privacyPolicy'])->name('legal.privacy');
 Route::get('/syarat-ketentuan',  [LegalController::class, 'termsOfService'])->name('legal.terms');
 Route::get('/kebijakan-cookie',  [LegalController::class, 'cookiePolicy'])->name('legal.cookie');
+
+// ── Gift claim (public landing + authed claim action) ──────────────────
+Route::get('/gift/claim/{code}', [\App\Http\Controllers\GiftClaimController::class, 'show'])
+    ->name('gift.claim.show');
+Route::post('/gift/claim/{code}', [\App\Http\Controllers\GiftClaimController::class, 'claim'])
+    ->middleware('auth')
+    ->name('gift.claim.store');
 
 // ── Public invitation pages ─────────────────────────────────────────────
 // IMPORTANT: keep this LAST so /{slug} doesn't swallow other routes.

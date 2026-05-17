@@ -22,6 +22,7 @@ class Transaction extends Model
         'user_id',
         'plan_id',
         'subscription_id',
+        'gift_id',
         'addon_quantity',
         'invoice_number',
         'amount',
@@ -58,6 +59,11 @@ class Transaction extends Model
     public function subscription(): BelongsTo
     {
         return $this->belongsTo(Subscription::class);
+    }
+
+    public function gift(): BelongsTo
+    {
+        return $this->belongsTo(Gift::class);
     }
 
     // ─── Scopes ───────────────────────────────────────────────────

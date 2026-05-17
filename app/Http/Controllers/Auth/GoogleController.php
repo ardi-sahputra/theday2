@@ -8,7 +8,6 @@ namespace App\Http\Controllers\Auth;
 
 use App\Actions\AssignFreeSubscriptionAction;
 use App\Actions\CreateInvitationFromTemplateAction;
-use App\Enums\UserRole;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
@@ -43,7 +42,6 @@ class GoogleController extends Controller
                 'email'             => $googleUser->getEmail(),
                 'google_id'         => $googleUser->getId(),
                 'avatar_url'        => $googleUser->getAvatar(),
-                'role'              => UserRole::User,
                 'email_verified_at' => now(),
             ]);
 
@@ -52,10 +50,6 @@ class GoogleController extends Controller
         }
 
         Auth::login($user, remember: true);
-
-        if ($user->role->isAdmin()) {
-            return redirect()->route('admin.articles.index');
-        }
 
         if (! $user->hasCompletedOnboarding()) {
             return redirect()->route('onboarding');

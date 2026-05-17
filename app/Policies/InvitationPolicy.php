@@ -13,18 +13,6 @@ use App\Models\User;
 class InvitationPolicy
 {
     /**
-     * Admins bypass all checks.
-     */
-    public function before(User $user): ?bool
-    {
-        if ($user->role?->value === 'admin') {
-            return true;
-        }
-
-        return null; // fall through to individual methods
-    }
-
-    /**
      * Any authenticated user can create invitations.
      */
     public function create(User $user): bool
