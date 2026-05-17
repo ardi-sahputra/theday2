@@ -1,5 +1,8 @@
 <script setup>
 import { Head } from '@inertiajs/vue3';
+defineProps({
+    detectedIp: { type: String, default: null },
+});
 </script>
 
 <template>
@@ -80,6 +83,11 @@ import { Head } from '@inertiajs/vue3';
             <!-- Footer tagline -->
             <p class="text-xs tracking-widest uppercase" style="color: rgba(146,168,156,0.8); font-family: 'Figtree', sans-serif; letter-spacing: 0.15em">
                 TheDay &mdash; Undangan Pernikahan Digital
+            </p>
+
+            <!-- Diagnostic IP (temp) -->
+            <p v-if="detectedIp" class="text-[10px] mt-3 opacity-60" style="color: #73877C">
+                IP: {{ detectedIp }}
             </p>
 
         </div>

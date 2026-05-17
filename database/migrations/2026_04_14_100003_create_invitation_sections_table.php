@@ -10,6 +10,10 @@ return new class extends Migration
 {
     public function up(): void
     {
+        if (Schema::hasTable('invitation_sections')) {
+            return;
+        }
+
         Schema::create('invitation_sections', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('invitation_id')->constrained('invitations')->cascadeOnDelete();

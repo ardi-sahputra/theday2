@@ -28,6 +28,10 @@ return [
 
     'env' => env('APP_ENV', 'production'),
 
+    'maintenance_mode' => env('MAINTENANCE_MODE', false),
+
+    'maintenance_allowed_ips' => array_filter(array_map('trim', explode(',', (string) env('MAINTENANCE_ALLOWED_IPS', '')))),
+
     /*
     |--------------------------------------------------------------------------
     | Application Debug Mode

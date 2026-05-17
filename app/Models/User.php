@@ -6,7 +6,6 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Enums\UserRole;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -32,7 +31,6 @@ class User extends Authenticatable implements MustVerifyEmail
         'phone',
         'avatar_url',
         'google_id',
-        'role',
         'onboarding_completed_at',
         'email_verified_at',
     ];
@@ -48,7 +46,6 @@ class User extends Authenticatable implements MustVerifyEmail
             'email_verified_at'       => 'datetime',
             'onboarding_completed_at' => 'datetime',
             'password'                => 'hashed',
-            'role'                    => UserRole::class,
         ];
     }
 
@@ -142,11 +139,6 @@ class User extends Authenticatable implements MustVerifyEmail
     public function planSlug(): string
     {
         return $this->isPremium() ? 'premium' : 'free';
-    }
-
-    public function isAdmin(): bool
-    {
-        return $this->role === UserRole::Admin;
     }
 
     public function invitationQuota(): int

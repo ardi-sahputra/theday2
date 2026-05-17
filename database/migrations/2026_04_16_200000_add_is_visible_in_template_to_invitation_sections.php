@@ -8,6 +8,10 @@ return new class extends Migration
 {
     public function up(): void
     {
+        if (Schema::hasColumn('invitation_sections', 'is_visible_in_template')) {
+            return;
+        }
+
         Schema::table('invitation_sections', function (Blueprint $table) {
             $table->boolean('is_visible_in_template')->default(true)->after('is_required');
         });
@@ -15,8 +19,10 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::table('invitation_sections', function (Blueprint $table) {
-            $table->dropColumn('is_visible_in_template');
-        });
+        if (Schema::hasColumn('invitation_sections', 'is_visible_in_template')) {
+            Schema::table('invitation_sections', function (Blueprint $table) {
+                $table->dropColumn('is_visible_in_template');
+            });
+        }
     }
 };

@@ -18,20 +18,14 @@ const { t } = useLocale();
         <div class="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
 
             <!-- Logo — plain <a> because home is a Blade page, not Inertia -->
-            <a href="/" class="flex items-center gap-2 flex-shrink-0">
-                <div class="w-7 h-7 rounded-lg flex items-center justify-center bg-brand-primary">
-                    <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                              d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
-                    </svg>
-                </div>
-                <span class="font-semibold text-stone-800" style="font-family: 'Cormorant Garamond', serif; font-size: 1.15rem">TheDay</span>
+            <a href="/" class="flex items-center flex-shrink-0">
+                <img src="/image/logo.svg" alt="TheDay" class="h-8 w-auto" />
             </a>
 
             <!-- Nav links -->
             <div class="hidden md:flex items-center gap-6 text-sm text-stone-500">
                 <Link href="/templates" class="hover:text-stone-800 transition-colors">Template</Link>
-                <Link href="/#harga" class="hover:text-stone-800 transition-colors">{{ t('nav.pricing') }}</Link>
+                <a href="/#harga" class="hover:text-stone-800 transition-colors">{{ t('nav.pricing') }}</a>
             </div>
 
             <!-- Auth actions -->

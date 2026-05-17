@@ -41,18 +41,18 @@ function mergePatches(locale, patchFiles) {
 
 const patches = {
     en: [
-        'patch-paket-en.json',
-        'patch-templates-en.json',
-        'patch-index-en.json',
+        'patch-public-en.json',
+        'patch-gallery-en.json',
+        'patch-templateModal-en.json',
     ],
     id: [
-        'patch-paket-id.json',
-        'patch-templates-id.json',
-        'patch-index-id.json',
+        'patch-public-id.json',
+        'patch-gallery-id.json',
+        'patch-templateModal-id.json',
     ],
 };
 
-console.log('Merging batch-3 patches...');
+console.log('Merging legacy-tLegacy patches...');
 mergePatches('en', patches.en);
 mergePatches('id', patches.id);
 console.log('Done.');
