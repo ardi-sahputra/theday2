@@ -1,7 +1,7 @@
 <script setup>
 import { Link, usePage } from '@inertiajs/vue3';
 import {
-    LayoutDashboard, Users, CreditCard, FileText, Gift, Package,
+    LayoutDashboard, Users, CreditCard, FileText, Gift, Package, Bell,
     Sun, Moon, MonitorSmartphone, LogOut, X, ChevronRight,
 } from 'lucide-vue-next';
 import { computed } from 'vue';
@@ -26,6 +26,7 @@ const sections = [
             { label: 'Subscriptions', icon: CreditCard,      href: '/admin/subscriptions' },
             { label: 'Gift Pro',      icon: Gift,            href: '/admin/gifts' },
             { label: 'Paket',         icon: Package,         href: '/admin/plans' },
+            { label: 'Notifikasi',    icon: Bell,            href: '/admin/notifications' },
         ],
     },
     {
