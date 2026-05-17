@@ -48,27 +48,28 @@ function destroy(id, title) {
     <AdminLayout breadcrumb="Articles">
         <div class="space-y-4">
             <!-- Header + New button -->
-            <div class="flex items-center justify-between">
-                <div>
-                    <h1 class="text-xl font-semibold">Artikel Blog</h1>
-                    <p class="text-sm text-muted-foreground mt-0.5">Kelola konten blog TheDay</p>
+            <div class="flex items-start justify-between gap-3">
+                <div class="min-w-0">
+                    <h1 class="text-lg sm:text-xl font-semibold">Artikel Blog</h1>
+                    <p class="text-xs sm:text-sm text-muted-foreground mt-0.5">Kelola konten blog TheDay</p>
                 </div>
-                <Button as-child>
+                <Button as-child size="sm" class="shrink-0">
                     <Link href="/admin/articles/create">
-                        <Plus class="w-4 h-4 mr-2" />
-                        Tulis Artikel
+                        <Plus class="w-4 h-4 sm:mr-2" />
+                        <span class="hidden sm:inline">Tulis Artikel</span>
                     </Link>
                 </Button>
             </div>
 
             <!-- Status filter -->
             <Card>
-                <CardContent class="p-3 flex gap-2">
+                <CardContent class="p-3 flex gap-2 overflow-x-auto">
                     <Button
                         v-for="opt in [{ value: '', label: 'Semua' }, { value: 'published', label: 'Dipublikasi' }, { value: 'draft', label: 'Draft' }]"
                         :key="opt.value"
                         :variant="(filters?.status ?? '') === opt.value ? 'default' : 'outline'"
                         size="sm"
+                        class="shrink-0"
                         @click="filterStatus(opt.value)"
                     >
                         {{ opt.label }}
@@ -76,8 +77,98 @@ function destroy(id, title) {
                 </CardContent>
             </Card>
 
-            <!-- Table -->
-            <Card>
+            <!-- Mobile: Card list -->
+            <div class="md:hidden space-y-3">
+                <Card v-for="article in articles.data" :key="article.id">
+                    <CardContent class="p-3 space-y-3">
+                        <!-- Top: thumb + title + slug -->
+                        <div class="flex gap-3">
+                            <div v-if="article.cover_image_path"
+                                 class="w-16 h-16 rounded-md overflow-hidden flex-shrink-0 bg-muted">
+                                <img :src="`/storage/${article.cover_image_path}`"
+                                     class="w-full h-full object-cover" />
+                            </div>
+                            <div v-else class="w-16 h-16 rounded-md flex-shrink-0 bg-muted" />
+                            <div class="min-w-0 flex-1">
+                                <p class="font-medium text-sm leading-snug line-clamp-2">{{ article.title }}</p>
+                                <p class="text-[11px] text-muted-foreground mt-0.5 truncate">/blog/{{ article.slug }}</p>
+                                <div class="flex flex-wrap items-center gap-1.5 mt-1.5">
+                                    <Badge :variant="statusVariant(article.status)" class="text-[10px] px-1.5 py-0">
+                                        {{ article.status === 'published' ? 'Dipublikasi' : 'Draft' }}
+                                    </Badge>
+                                    <Badge v-if="article.featured" variant="outline" class="text-[10px] px-1.5 py-0 text-amber-600 border-amber-300">
+                                        Unggulan
+                                    </Badge>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Meta row -->
+                        <div class="flex items-center justify-between text-[11px] text-muted-foreground border-t border-border pt-2">
+                            <span class="truncate">{{ article.category?.name ?? 'Tanpa kategori' }}</span>
+                            <span class="shrink-0 ml-2">{{ formatDate(article.published_at) }}</span>
+                        </div>
+
+                        <!-- Action row -->
+                        <div class="flex items-center justify-between gap-1 -mx-1">
+                            <Button variant="ghost" size="icon" as-child class="h-9 w-9" title="Lihat" :aria-label="`Lihat artikel: ${article.title}`">
+                                <a :href="`/blog/${article.slug}`" target="_blank">
+                                    <Eye class="w-4 h-4" />
+                                </a>
+                            </Button>
+                            <Button
+                                variant="ghost" size="icon" class="h-9 w-9"
+                                :class="article.featured ? 'text-amber-500' : 'text-muted-foreground'"
+                                title="Toggle Unggulan"
+                                :aria-label="article.featured ? `Hapus dari unggulan: ${article.title}` : `Jadikan unggulan: ${article.title}`"
+                                @click="toggleFeatured(article.id)"
+                            >
+                                <Star class="w-4 h-4" :fill="article.featured ? 'currentColor' : 'none'" />
+                            </Button>
+                            <Button
+                                v-if="article.status === 'draft'"
+                                variant="ghost" size="icon" class="h-9 w-9 text-emerald-600"
+                                title="Publikasi"
+                                :aria-label="`Publikasi artikel: ${article.title}`"
+                                @click="publish(article.id)"
+                            >
+                                <CheckCircle class="w-4 h-4" />
+                            </Button>
+                            <Button
+                                v-else
+                                variant="ghost" size="icon" class="h-9 w-9 text-muted-foreground"
+                                title="Kembalikan ke Draft"
+                                :aria-label="`Kembalikan ke draft: ${article.title}`"
+                                @click="unpublish(article.id)"
+                            >
+                                <XCircle class="w-4 h-4" />
+                            </Button>
+                            <Button variant="ghost" size="icon" as-child class="h-9 w-9" title="Edit" :aria-label="`Edit artikel: ${article.title}`">
+                                <Link :href="`/admin/articles/${article.id}/edit`">
+                                    <Pencil class="w-4 h-4" />
+                                </Link>
+                            </Button>
+                            <Button
+                                variant="ghost" size="icon" class="h-9 w-9 text-muted-foreground hover:text-destructive"
+                                title="Hapus"
+                                :aria-label="`Hapus artikel: ${article.title}`"
+                                @click="destroy(article.id, article.title)"
+                            >
+                                <Trash2 class="w-4 h-4" />
+                            </Button>
+                        </div>
+                    </CardContent>
+                </Card>
+
+                <Card v-if="!articles.data.length">
+                    <CardContent class="p-8 text-center text-sm text-muted-foreground">
+                        Belum ada artikel.
+                    </CardContent>
+                </Card>
+            </div>
+
+            <!-- Desktop: Table -->
+            <Card class="hidden md:block">
                 <CardContent class="p-0">
                     <table class="w-full text-sm">
                         <thead class="bg-muted/50 text-xs uppercase text-muted-foreground">
@@ -203,27 +294,28 @@ function destroy(id, title) {
                             </tr>
                         </tbody>
                     </table>
+                </CardContent>
+            </Card>
 
-                    <!-- Pagination -->
-                    <div v-if="articles.last_page > 1"
-                         class="flex items-center justify-between p-4 border-t border-border text-xs text-muted-foreground">
-                        <span>
-                            Showing {{ articles.from ?? 0 }}–{{ articles.to ?? 0 }} of {{ articles.total }}
-                        </span>
-                        <div class="flex gap-1">
-                            <Link
-                                v-for="link in articles.links"
-                                :key="link.label"
-                                :href="link.url || ''"
-                                :class="[
-                                    'px-2 py-1 rounded',
-                                    link.active ? 'bg-foreground text-background' : 'hover:bg-accent/50',
-                                    !link.url && 'opacity-30 pointer-events-none',
-                                ]"
-                                v-html="link.label"
-                                preserve-state
-                            />
-                        </div>
+            <!-- Pagination (shared) -->
+            <Card v-if="articles.last_page > 1">
+                <CardContent class="p-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-xs text-muted-foreground">
+                    <span class="text-center sm:text-left">
+                        Showing {{ articles.from ?? 0 }}–{{ articles.to ?? 0 }} of {{ articles.total }}
+                    </span>
+                    <div class="flex flex-wrap gap-1 justify-center sm:justify-end">
+                        <Link
+                            v-for="link in articles.links"
+                            :key="link.label"
+                            :href="link.url || ''"
+                            :class="[
+                                'px-2 py-1 rounded min-w-[28px] text-center',
+                                link.active ? 'bg-foreground text-background' : 'hover:bg-accent/50',
+                                !link.url && 'opacity-30 pointer-events-none',
+                            ]"
+                            v-html="link.label"
+                            preserve-state
+                        />
                     </div>
                 </CardContent>
             </Card>
