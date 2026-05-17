@@ -34,22 +34,20 @@ function destroy(discount) {
     <Head :title="t('admin.discounts.index.title')" />
 
     <AdminLayout>
-        <template #header>
-            <div class="flex items-center justify-between gap-3 w-full">
-                <div class="flex items-center gap-3">
-                    <span class="hidden sm:flex w-9 h-9 rounded-xl bg-brand-primary/10 text-brand-primary items-center justify-center" aria-hidden="true">
-                        <Percent class="w-5 h-5" />
-                    </span>
-                    <div>
-                        <h1 class="text-base font-semibold">{{ t('admin.discounts.index.title') }}</h1>
-                        <p class="hidden sm:block text-sm text-muted-foreground mt-0.5">{{ t('admin.discounts.index.subtitle') }}</p>
-                    </div>
+        <div class="flex items-center justify-between gap-3 mb-6">
+            <div class="flex items-center gap-3">
+                <span class="hidden sm:flex w-9 h-9 rounded-xl bg-brand-primary/10 text-brand-primary items-center justify-center" aria-hidden="true">
+                    <Percent class="w-5 h-5" />
+                </span>
+                <div>
+                    <h1 class="text-base font-semibold">{{ t('admin.discounts.index.title') }}</h1>
+                    <p class="hidden sm:block text-sm text-muted-foreground mt-0.5">{{ t('admin.discounts.index.subtitle') }}</p>
                 </div>
-                <Link href="/admin/discounts/create" class="inline-flex items-center gap-1.5 h-10 px-4 rounded-md bg-brand-primary text-white text-sm font-semibold hover:opacity-90">
-                    <Plus class="w-4 h-4" /> {{ t('admin.discounts.index.create') }}
-                </Link>
             </div>
-        </template>
+            <Link href="/admin/discounts/create" class="inline-flex items-center gap-1.5 h-10 px-4 rounded-md bg-brand-primary text-white text-sm font-semibold hover:opacity-90">
+                <Plus class="w-4 h-4" /> {{ t('admin.discounts.index.create') }}
+            </Link>
+        </div>
 
         <div v-if="flash.success" class="mb-4 rounded-lg bg-green-50 border border-green-200 px-4 py-3 text-sm text-green-800">
             {{ flash.success }}
@@ -60,7 +58,10 @@ function destroy(discount) {
 
         <div v-if="discounts.data.length === 0" class="bg-card border border-border rounded-2xl p-10 text-center">
             <Percent class="w-10 h-10 mx-auto text-muted-foreground mb-3" />
-            <p class="text-sm text-muted-foreground">{{ t('admin.discounts.index.empty') }}</p>
+            <p class="text-sm text-muted-foreground mb-4">{{ t('admin.discounts.index.empty') }}</p>
+            <Link href="/admin/discounts/create" class="inline-flex items-center gap-1.5 h-10 px-4 rounded-md bg-brand-primary text-white text-sm font-semibold hover:opacity-90">
+                <Plus class="w-4 h-4" /> {{ t('admin.discounts.index.create') }}
+            </Link>
         </div>
 
         <div v-else class="bg-card border border-border rounded-2xl overflow-hidden">

@@ -28,17 +28,15 @@ function submit() {
     <Head :title="t('admin.discounts.edit.title')" />
 
     <AdminLayout>
-        <template #header>
-            <div class="flex items-center gap-3">
-                <span class="hidden sm:flex w-9 h-9 rounded-xl bg-brand-primary/10 text-brand-primary items-center justify-center" aria-hidden="true">
-                    <Percent class="w-5 h-5" />
-                </span>
-                <div>
-                    <h1 class="text-base font-semibold">{{ t('admin.discounts.edit.title') }}</h1>
-                    <p class="hidden sm:block text-sm text-muted-foreground mt-0.5">{{ t('admin.discounts.edit.subtitle') }}</p>
-                </div>
+        <div class="flex items-center gap-3 mb-6">
+            <span class="hidden sm:flex w-9 h-9 rounded-xl bg-brand-primary/10 text-brand-primary items-center justify-center" aria-hidden="true">
+                <Percent class="w-5 h-5" />
+            </span>
+            <div>
+                <h1 class="text-base font-semibold">{{ t('admin.discounts.edit.title') }}</h1>
+                <p class="hidden sm:block text-sm text-muted-foreground mt-0.5">{{ t('admin.discounts.edit.subtitle') }}</p>
             </div>
-        </template>
+        </div>
 
         <Link href="/admin/discounts" class="inline-flex items-center gap-1.5 text-xs font-semibold text-muted-foreground hover:text-foreground mb-5">
             <ArrowLeft class="w-3.5 h-3.5" /> {{ t('admin.discounts.edit.back') }}
