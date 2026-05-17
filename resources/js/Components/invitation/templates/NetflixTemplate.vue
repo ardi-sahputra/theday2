@@ -88,6 +88,10 @@ const loveStories = computed(() => sectionData('love_story').stories ?? [])
 
 // ── RSVP scroll target ────────────────────────────────────────────────────────
 const rsvpRef = ref(null)
+function setRsvpRef(el) {
+    rsvpRef.value = el
+    if (el) vReveal(el)
+}
 function scrollToRsvp() {
     rsvpRef.value?.scrollIntoView({ behavior: 'smooth' })
 }
@@ -300,7 +304,7 @@ function onRemindMe() {
             </section>
 
             <!-- RSVP -->
-            <section v-if="sectionEnabled('rsvp')" :ref="el => { rsvpRef.value = el; if (el) vReveal(el) }" class="nf-section nf-reveal">
+            <section v-if="sectionEnabled('rsvp')" :ref="setRsvpRef" class="nf-section nf-reveal">
                 <h2 class="nf-section-title">KONFIRMASI KEHADIRAN</h2>
                 <form class="nf-form" @submit.prevent="submitRsvp">
                     <input v-model="rsvpForm.guest_name" class="nf-input" placeholder="Nama lengkap" required/>
