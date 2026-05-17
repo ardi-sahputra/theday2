@@ -34,5 +34,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('plans',              [\App\Http\Controllers\Admin\PlanController::class, 'index'])->name('plans.index');
         Route::get('plans/{plan}/edit',  [\App\Http\Controllers\Admin\PlanController::class, 'edit'])->name('plans.edit');
         Route::patch('plans/{plan}',     [\App\Http\Controllers\Admin\PlanController::class, 'update'])->name('plans.update');
+
+        Route::resource('discounts', \App\Http\Controllers\Admin\PlanDiscountController::class)->except(['show']);
     });
 });
