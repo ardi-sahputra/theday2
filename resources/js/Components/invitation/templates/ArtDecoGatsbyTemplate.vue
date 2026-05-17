@@ -96,8 +96,8 @@ const loveStories = computed(() => sectionData('love_story').stories ?? [])
 const accounts    = computed(() => sectionData('gift').accounts ?? [])
 
 // RSVP scroll target
-const rsvpRef = ref(null)
-function scrollToRsvp() { rsvpRef.value?.scrollIntoView({ behavior: 'smooth' }) }
+let rsvpRef = null
+function scrollToRsvp() { rsvpRef?.scrollIntoView({ behavior: 'smooth' }) }
 
 // Gallery lightbox
 const lightboxUrl = ref(null)
@@ -287,9 +287,8 @@ const lightboxUrl = ref(null)
             <!-- RSVP -->
             <section
                 v-if="sectionEnabled('rsvp')"
-                ref="rsvpRef"
                 class="deco-section deco-reveal"
-                :ref="el => vReveal(el)"
+                :ref="el => { rsvpRef = el; vReveal(el) }"
             >
                 <DecoSectionHeader title="THE CONFIRMATION" :chevron-density="decoChevronDensity"/>
                 <div class="deco-rsvp-sun">
