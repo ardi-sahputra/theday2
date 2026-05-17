@@ -9,6 +9,7 @@ import ArtDecoGatsbyTemplate      from './ArtDecoGatsbyTemplate.vue'
 import AstronomyCelestialTemplate from './AstronomyCelestialTemplate.vue'
 import BelleEpoqueTemplate        from './BelleEpoqueTemplate.vue'
 import JapaneseRyokanTemplate     from './JapaneseRyokanTemplate.vue'
+import OnyxNoirTemplate           from './OnyxNoirTemplate.vue'
 
 export const TEMPLATE_MAP = {
     'nusantara':           NusantaraTemplate,
@@ -21,4 +22,5 @@ export const TEMPLATE_MAP = {
     'astronomy-celestial': AstronomyCelestialTemplate,
     'belle-epoque':        BelleEpoqueTemplate,
     'japanese-ryokan':     JapaneseRyokanTemplate,
+    'onyx-noir':           OnyxNoirTemplate,
 }
