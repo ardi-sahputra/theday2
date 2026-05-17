@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\GuestMessage;
 use App\Models\Invitation;
 use App\Models\Subscription;
+use App\Observers\GuestMessageNotificationObserver;
 use App\Observers\SubscriptionObserver;
 use App\Policies\InvitationPolicy;
 use Illuminate\Cache\RateLimiting\Limit;
@@ -37,5 +39,6 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Subscription::observe(SubscriptionObserver::class);
+        GuestMessage::observe(GuestMessageNotificationObserver::class);
     }
 }
