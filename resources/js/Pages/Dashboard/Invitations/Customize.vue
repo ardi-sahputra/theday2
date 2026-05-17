@@ -323,10 +323,10 @@ watch(activeKey, async (key) => {
         <div v-else class="flex h-full lg:min-h-0 min-h-screen">
 
             <!-- ── Left: Editor ──────────────────────────────────── -->
-            <div class="w-full lg:w-[420px] flex-shrink-0 flex flex-col border-r border-stone-100 bg-white">
+            <div class="w-full lg:w-[420px] flex-shrink-0 flex flex-col border-r border-stone-100 bg-white pt-[68px] lg:pt-0">
 
                 <!-- Header -->
-                <div class="px-5 py-4 border-b border-stone-100 flex items-center justify-between flex-shrink-0">
+                <div class="fixed top-14 left-0 right-0 z-20 lg:static lg:top-auto lg:left-auto lg:right-auto px-5 py-4 border-b border-stone-100 flex items-center justify-between flex-shrink-0 bg-white">
                     <div>
                         <h1 class="text-sm font-bold text-stone-800">{{ t('dashboard.invitations.customize.headerTitle') }}</h1>
                         <p class="text-xs text-stone-400 mt-0.5">{{ groomName }} & {{ brideName }}</p>
