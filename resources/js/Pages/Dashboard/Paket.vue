@@ -296,32 +296,55 @@ const paymentMethods = computed(() => [
                 </div>
             </div>
 
-            <!-- ── 3. Feature Comparison Table ─────────────────────────── -->
+            <!-- ── 3. Feature Comparison ──────────────────────────────── -->
             <div class="bg-white rounded-2xl border border-stone-100 overflow-hidden">
                 <div class="px-4 sm:px-6 py-3 sm:py-4 border-b border-stone-100">
                     <h3 class="text-base font-semibold text-stone-800">{{ t('dashboard.paket.comparisonTitle') }}</h3>
                 </div>
-                <table class="w-full text-sm table-fixed">
+
+                <!-- Mobile: stacked rows -->
+                <div class="sm:hidden divide-y divide-stone-100">
+                    <div v-for="row in features" :key="row.label" class="px-4 py-3">
+                        <p class="text-sm font-medium text-stone-700 mb-2">{{ row.label }}</p>
+                        <div class="grid grid-cols-2 gap-2 text-xs">
+                            <div class="rounded-lg bg-stone-50 px-2.5 py-1.5">
+                                <p class="text-[10px] uppercase tracking-wider text-stone-400">{{ t('dashboard.paket.comparisonColFree') }}</p>
+                                <span v-if="row.free === true" class="text-emerald-600 font-bold">✓</span>
+                                <span v-else-if="row.free === false" class="text-stone-300">✗</span>
+                                <span v-else class="text-stone-700 font-semibold">{{ row.free }}</span>
+                            </div>
+                            <div class="rounded-lg bg-[#92A89C]/10 px-2.5 py-1.5">
+                                <p class="text-[10px] uppercase tracking-wider text-[#73877C]">{{ t('dashboard.paket.comparisonColPremium') }}</p>
+                                <span v-if="row.premium === true" class="text-[#73877C] font-bold">✓</span>
+                                <span v-else-if="row.premium === false" class="text-stone-300">✗</span>
+                                <span v-else class="text-[#73877C] font-semibold">{{ row.premium }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Desktop: table -->
+                <table class="hidden sm:table w-full text-sm">
                     <thead>
                         <tr class="border-b border-stone-100">
-                            <th class="text-left px-3 sm:px-6 py-3 text-[10px] sm:text-xs font-semibold text-stone-500 uppercase tracking-wider w-1/2">{{ t('dashboard.paket.comparisonColFeature') }}</th>
-                            <th class="text-center px-2 sm:px-4 py-3 text-[10px] sm:text-xs font-semibold text-stone-500 uppercase tracking-wider">{{ t('dashboard.paket.comparisonColFree') }}</th>
-                            <th class="text-center px-2 sm:px-4 py-3 text-[10px] sm:text-xs font-semibold text-[#73877C] uppercase tracking-wider">{{ t('dashboard.paket.comparisonColPremium') }}</th>
+                            <th class="text-left px-6 py-3 text-xs font-semibold text-stone-500 uppercase tracking-wider w-1/2">{{ t('dashboard.paket.comparisonColFeature') }}</th>
+                            <th class="text-center px-4 py-3 text-xs font-semibold text-stone-500 uppercase tracking-wider">{{ t('dashboard.paket.comparisonColFree') }}</th>
+                            <th class="text-center px-4 py-3 text-xs font-semibold text-[#73877C] uppercase tracking-wider">{{ t('dashboard.paket.comparisonColPremium') }}</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr v-for="(row, i) in features" :key="row.label"
                             :class="i % 2 === 0 ? 'bg-white' : 'bg-stone-50'">
-                            <td class="px-3 sm:px-6 py-3 text-xs sm:text-sm text-stone-700 break-words">{{ row.label }}</td>
-                            <td class="px-2 sm:px-4 py-3 text-center">
+                            <td class="px-6 py-3 text-stone-700">{{ row.label }}</td>
+                            <td class="px-4 py-3 text-center">
                                 <span v-if="row.free === true" class="text-emerald-600 font-bold">✓</span>
                                 <span v-else-if="row.free === false" class="text-stone-300">✗</span>
-                                <span v-else class="text-stone-600 font-medium text-[11px] sm:text-xs">{{ row.free }}</span>
+                                <span v-else class="text-stone-600 font-medium text-xs">{{ row.free }}</span>
                             </td>
-                            <td class="px-2 sm:px-4 py-3 text-center">
+                            <td class="px-4 py-3 text-center">
                                 <span v-if="row.premium === true" class="text-[#73877C] font-bold">✓</span>
                                 <span v-else-if="row.premium === false" class="text-stone-300">✗</span>
-                                <span v-else class="text-[#73877C] font-semibold text-[11px] sm:text-xs">{{ row.premium }}</span>
+                                <span v-else class="text-[#73877C] font-semibold text-xs">{{ row.premium }}</span>
                             </td>
                         </tr>
                     </tbody>
