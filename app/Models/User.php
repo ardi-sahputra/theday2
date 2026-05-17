@@ -106,7 +106,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(InvitationAddon::class);
     }
 
-    public function sentGifts(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function sentGifts(): HasMany
     {
         return $this->hasMany(Gift::class, 'sender_user_id');
     }

@@ -40,7 +40,7 @@ class GiftFactory extends Factory
         return $this->state(fn () => ['status' => 'awaiting_payment']);
     }
 
-    public function claimed(User $user = null): static
+    public function claimed(?User $user = null): static
     {
         return $this->state(fn () => [
             'status'             => 'claimed',
