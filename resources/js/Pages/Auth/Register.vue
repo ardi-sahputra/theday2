@@ -112,17 +112,9 @@ const submit = () => {
             </div>
 
             <!-- Mobile logo -->
-            <div class="lg:hidden flex items-center gap-2.5 px-6 pt-6">
-                <a href="/" class="flex items-center gap-2.5">
-                    <div class="w-8 h-8 rounded-lg flex items-center justify-center"
-                         style="background-color: #92A89C">
-                        <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                  d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
-                        </svg>
-                    </div>
-                    <span class="font-semibold text-stone-800"
-                          style="font-family: 'Playfair Display', serif; font-size: 1.15rem">TheDay</span>
+            <div class="lg:hidden flex items-center px-6 pt-6">
+                <a href="/" class="flex items-center">
+                    <img src="/image/logo.svg" alt="TheDay" class="h-7 w-auto" />
                 </a>
             </div>
 
