@@ -28,5 +28,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::patch('articles/{article}/publish',   [\App\Http\Controllers\Admin\ArticleController::class, 'publish'])->name('articles.publish');
         Route::patch('articles/{article}/unpublish', [\App\Http\Controllers\Admin\ArticleController::class, 'unpublish'])->name('articles.unpublish');
         Route::patch('articles/{article}/featured',  [\App\Http\Controllers\Admin\ArticleController::class, 'toggleFeatured'])->name('articles.featured');
+
+        Route::resource('gifts', \App\Http\Controllers\Admin\GiftController::class)->except(['edit', 'update']);
     });
 });
