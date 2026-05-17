@@ -207,3 +207,92 @@ export const templateRegistry = {
 - Aspect ratio bukan 16:9 — terlihat aneh di card gallery
 
 ---
+
+## Section 3 — Reference Manual
+
+Lookup material untuk AI saat eksekusi.
+
+### 3.1 Composable API: `useInvitationTemplate`
+
+**Signature:** `useInvitationTemplate(props, defaults) → { ...exposedRefs }`
+
+**Defaults param:**
+
+```js
+{
+    galleryLayout: 'vertical' | 'horizontal' | 'grid' | 'masonry',
+    openingStyle:  'fade' | 'gate' | 'slide',
+    revealClass:   string (default 'is-visible'),
+    sectionBgDefaults: { [key]: { type, value } }
+}
+```
+
+**Exposed refs (apa yang bisa di-destructure):**
+
+| Group | Refs |
+|---|---|
+| **Theme** | `primary`, `primaryLight`, `darkBg`, `bgColor`, `accent`, `fontTitle`, `fontHeading`, `fontBody` |
+| **Data** | `groomName`, `brideName`, `groomNick`, `brideNick`, `coverPhotoUrl`, `coverTextColor`, `details`, `events`, `galleries`, `openingText`, `closingText`, `firstEvent`, `firstEventDate`, `countdown {days, hours, minutes, seconds}`, `targetDate`, `pad()` |
+| **Section** | `sectionEnabled(key)`, `sectionData(key)`, `sectionBg(key)`, `bgStyle(bg)` |
+| **Gate/Phase** | `gateOpen`, `contentOpen`, `gateAnimating`, `triggerGate()` |
+| **Music** | `audioEl`, `musicPlaying`, `toggleMusic()` |
+| **Toast** | `toastMsg`, `toastVisible` |
+| **Account copy** | `copiedAccount`, `copyToClipboard(text, label)` |
+| **Messages** | `localMessages`, `msgForm`, `msgSubmitting`, `msgSuccess`, `msgError`, `submitMessage()` |
+| **RSVP** | `rsvpForm`, `rsvpSubmitting`, `rsvpSuccess`, `rsvpError`, `submitRsvp()` |
+| **Utils** | `videoEmbedUrl`, `vReveal` (IntersectionObserver directive) |
+
+**Rule:** Apapun yang ada di list di atas, JANGAN re-implement. Apapun yang TIDAK ada di list, JANGAN invent — angkat ke maintainer.
+
+### 3.2 Section Catalog
+
+Section keys yang VALID (berdasarkan `sectionsMap` di DB + implementasi `NetflixTemplate.vue`). AI hanya boleh pakai key di tabel ini — pakai exact spelling.
+
+| Key | Purpose | Data source | Wajib check |
+|---|---|---|---|
+| `opening` | Pembuka/quote pembuka | `openingText` | `sectionEnabled` |
+| `couple` | Profil pengantin (groom + bride) | `details.groom_*`, `details.bride_*` | `sectionEnabled` |
+| `events` | List acara | `events[]` | `sectionEnabled` + `events.length` |
+| `countdown` | Hitung mundur | `targetDate` + `countdown` | `sectionEnabled` + `targetDate` |
+| `love_story` | Cerita perjalanan | `sectionData('love_story').stories` | `sectionEnabled` |
+| `gallery` | Foto-foto | `galleries[]` | `sectionEnabled` + `galleries.length` |
+| `rsvp` | Form konfirmasi | `rsvpForm` + `submitRsvp` | `sectionEnabled` |
+| `gift` | Rekening transfer | `sectionData('gift').accounts` | `sectionEnabled` + `accounts.length` |
+| `wishes` | Ucapan tamu (display + submit form) | `localMessages` + `msgForm` | `sectionEnabled` |
+| `quote` | Ayat/kutipan | `sectionData('quote').text` | `sectionEnabled` |
+| `music` | Background audio | `invitation.music.file_url` | `sectionEnabled` + `file_url` |
+| `closing` | Penutup | `closingText` | `sectionEnabled` |
+
+**JANGAN bikin section di luar daftar ini.** Kalau benar-benar butuh section baru (rare), diskusi dengan maintainer untuk tambah ke migration `template_sections` + customize wizard step.
+
+### 3.3 `default_config` Schema
+
+JSON yang disimpan di kolom `templates.default_config` (di-merge ke `invitation.config` saat user pilih template).
+
+**Recommended keys:**
+
+```json
+{
+    "primary_color":       "#xxxxxx",
+    "primary_color_light": "#xxxxxx",
+    "secondary_color":     "#xxxxxx",
+    "accent_color":        "#xxxxxx",
+    "dark_bg":             "#xxxxxx",
+    "font_title":          "Cinzel Decorative",
+    "font_heading":        "Cormorant Garamond",
+    "font_body":           "Crimson Text",
+    "gallery_layout":      "grid",
+    "opening_style":       "gate",
+    "section_backgrounds": {
+        "events": { "type": "color", "value": "#xxxxxx" }
+    }
+}
+```
+
+**Boleh tambah key custom khusus template** (contoh Netflix: `netflix_subtitle`, `netflix_tags`, `netflix_hero_quote`) — TAPI:
+
+- Prefix dengan slug template (`netflix_*`, `boho_*`)
+- Document di seeder `description` atau comment
+- JANGAN bikin key yang clash dengan key umum di atas
+
+---
