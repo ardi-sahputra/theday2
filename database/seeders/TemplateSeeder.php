@@ -263,6 +263,52 @@ class TemplateSeeder extends Seeder
                 'is_active'      => true,
                 'sort_order'     => 8,
             ],
+
+            // ── Belle Époque Parisian (Premium, watercolor multi-phase) ──
+            [
+                'category_id'    => $pernikahan->id,
+                'name'           => 'Belle Époque Parisian',
+                'slug'           => 'belle-epoque',
+                'thumbnail_url'  => '/images/templates/belle-epoque/thumbnail.webp',
+                'description'    => 'Template pernikahan premium bertema café Paris era Belle Époque — watercolor Eiffel, peony hand-painted, tipografi script tulisan tangan, dan postcard motif. Diawali dengan kartu pos "Bonjour" yang tilt + slide off-screen, lalu cover dengan parallax Eiffel.',
+                'default_config' => [
+                    'primary_color'       => '#d4a5a5',
+                    'primary_color_light' => '#fdf6ed',
+                    'secondary_color'     => '#b8860b',
+                    'accent_color'        => '#7a9b8e',
+                    'dark_bg'             => '#3d3d3d',
+                    'font_title'          => 'Italianno',
+                    'font_heading'        => 'Cormorant SC',
+                    'font_body'           => 'EB Garamond',
+                    'gallery_layout'      => 'masonry',
+                    'opening_style'       => 'fade',
+                    'section_backgrounds' => [
+                        'events'     => ['type' => 'color', 'value' => '#fdf6ed'],
+                        'love_story' => ['type' => 'color', 'value' => '#fdf6ed'],
+                        'gift'       => ['type' => 'color', 'value' => '#f7e9dc'],
+                    ],
+                    // ── Belle Époque-specific (prefix bp_*) ──
+                    'bp_couple_initials'  => 'A & B',
+                    'bp_postcard_city'    => 'JAKARTA',
+                    'bp_destination_city' => 'PARIS',
+                    'bp_floral_palette'   => 'mixed', // blush|sage|mixed
+                    'bp_eiffel_visible'   => true,
+                ],
+                'demo_data'      => array_merge($weddingDemo, ['custom_config' => [
+                    'primary_color'       => '#d4a5a5',
+                    'primary_color_light' => '#fdf6ed',
+                    'secondary_color'     => '#b8860b',
+                    'accent_color'        => '#7a9b8e',
+                    'font_title'          => 'Italianno',
+                    'font_heading'        => 'Cormorant SC',
+                    'font_body'           => 'EB Garamond',
+                    'bp_postcard_city'    => 'JAKARTA',
+                    'bp_destination_city' => 'PARIS',
+                ]]),
+                'tier'           => 'premium',
+                'is_active'      => true,
+                'sort_order'     => 9,
+            ],
         ];
 
         foreach ($templates as $template) {
