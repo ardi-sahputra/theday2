@@ -131,3 +131,9 @@ rtk init --global       # Add RTK to ~/.claude/CLAUDE.md
 
 Overall average: **60-90% token reduction** on common development operations.
 <!-- /rtk-instructions -->
+
+## New Invitation Template Tasks
+
+When the user requests a new wedding invitation template (e.g. "buatkan template X", "tambahin template tema Y"), READ `docs/AI-NEW-TEMPLATE-GUIDE.md` BEFORE writing code. It defines the contract every template must follow: composable usage, section catalog, animation requirements, anti-halu rules, and definition-of-done checklist.
+
+Patokan kualitas: `NetflixTemplate.vue` + folder `netflix/`.
