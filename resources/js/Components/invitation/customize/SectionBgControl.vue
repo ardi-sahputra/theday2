@@ -13,7 +13,8 @@ const emit = defineEmits(['update:modelValue', 'upload']);
 const bg = computed(() => props.modelValue ?? { type: 'color', value: '#ffffff', opacity: 0.7 });
 
 function setType(type) {
-    emit('update:modelValue', { ...bg.value, type });
+    const defaults = { image: '', video: '', color: '#ffffff' };
+    emit('update:modelValue', { ...bg.value, type, value: defaults[type] });
 }
 function setValue(value) {
     emit('update:modelValue', { ...bg.value, value });
@@ -30,6 +31,10 @@ const inputClass = 'w-full px-3 py-2 rounded-lg border border-stone-200 text-sm 
 
 const youtubeId = computed(() =>
     bg.value.value?.match(/(?:v=|youtu\.be\/|shorts\/)([^&?/\s]+)/)?.[1] ?? null
+)
+
+const hasImageUrl = computed(() =>
+    typeof bg.value.value === 'string' && /^(https?:\/\/|\/)/.test(bg.value.value)
 )
 </script>
 
@@ -62,7 +67,7 @@ const youtubeId = computed(() =>
 
         <!-- Image upload -->
         <template v-if="bg.type === 'image'">
-            <div v-if="bg.value" class="relative rounded-lg overflow-hidden h-24">
+            <div v-if="hasImageUrl" class="relative rounded-lg overflow-hidden h-24">
                 <img :src="bg.value" class="w-full h-full object-cover" />
                 <div :class="['absolute inset-0 bg-black/30 flex items-center justify-center transition-opacity', uploading ? 'opacity-60 pointer-events-none' : 'opacity-0 hover:opacity-100']">
                     <label class="cursor-pointer text-white text-xs font-medium">
