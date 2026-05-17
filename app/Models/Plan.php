@@ -61,6 +61,11 @@ class Plan extends Model
         return $this->hasMany(Transaction::class);
     }
 
+    public function discounts(): HasMany
+    {
+        return $this->hasMany(PlanDiscount::class);
+    }
+
     // ─── Scopes ───────────────────────────────────────────────────
 
     public function scopeActive(Builder $query): Builder
@@ -89,5 +94,24 @@ class Plan extends Model
             'analytics_access' => $this->analytics_access,
             default            => false,
         };
+    }
+
+    public function currentDiscount(): ?PlanDiscount
+    {
+        return $this->discounts()->active()->first();
+    }
+
+    public function hasActiveDiscount(): bool
+    {
+        return $this->discounts()->active()->exists();
+    }
+
+    public function effectivePrice(): int
+    {
+        $discount = $this->currentDiscount();
+        if ($discount === null) {
+            return (int) $this->price;
+        }
+        return (int) round((int) $this->price * (1 - $discount->percent / 100));
     }
 }
