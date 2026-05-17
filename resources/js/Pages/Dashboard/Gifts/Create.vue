@@ -18,12 +18,20 @@ const form = useForm({
     message: '',
 });
 
-const priceFmt = computed(() =>
+const originalPriceFmt = computed(() =>
     new Intl.NumberFormat('id-ID', {
         style: 'currency',
         currency: 'IDR',
         maximumFractionDigits: 0,
     }).format(props.plan.price ?? 0)
+);
+
+const effectivePriceFmt = computed(() =>
+    new Intl.NumberFormat('id-ID', {
+        style: 'currency',
+        currency: 'IDR',
+        maximumFractionDigits: 0,
+    }).format(props.plan.effective_price ?? props.plan.price ?? 0)
 );
 
 const remaining = computed(() => 280 - (form.message?.length ?? 0));
@@ -74,7 +82,13 @@ function submit() {
                     </div>
                     <div class="text-right shrink-0">
                         <p class="text-xs text-stone-400">{{ t('gift.dashboard.create.plan_price_label') }}</p>
-                        <p class="text-lg font-bold text-stone-800 tabular-nums">{{ priceFmt }}</p>
+                        <div class="flex items-baseline justify-end gap-2">
+                            <p class="text-lg font-bold text-stone-800 tabular-nums">{{ effectivePriceFmt }}</p>
+                            <s v-if="plan.has_discount" class="text-xs text-stone-400">{{ originalPriceFmt }}</s>
+                        </div>
+                        <p v-if="plan.has_discount" class="text-xs font-semibold text-red-600 mt-0.5">
+                            −{{ plan.discount_percent }}% · {{ plan.discount_label }}
+                        </p>
                     </div>
                 </div>
             </div>

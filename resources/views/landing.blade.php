@@ -303,7 +303,7 @@
             {
               "@type": "Offer",
               "name": "Premium",
-              "price": "{{ $plans['premium']->price ?? 49000 }}",
+              "price": "{{ (int) (isset($plans['premium']) ? $plans['premium']->effectivePrice() : 49000) }}",
               "priceCurrency": "IDR",
               "description": "{{ implode(', ', $plans['premium']->features ?? []) }}"
             },
@@ -1203,34 +1203,44 @@
                     @php
                         use App\Support\PlanFormatter;
 
+                        $premiumDiscount = isset($plans['premium']) ? $plans['premium']->currentDiscount() : null;
+
                         $pricingTiers = [
                             [
-                                'id_name'     => 'Gratis',
-                                'en_name'     => 'Free',
-                                'price'       => PlanFormatter::price((int) ($plans['free']->price ?? 0)),
-                                'id_period'   => PlanFormatter::period((int) ($plans['free']->duration_days ?? 0), 'id'),
-                                'en_period'   => PlanFormatter::period((int) ($plans['free']->duration_days ?? 0), 'en'),
-                                'popular'     => false,
-                                'id_features' => $plans['free']->features ?? [],
-                                'en_features' => $plans['free']->features ?? [],
-                                'id_disabled' => ['Custom URL', 'Upload musik sendiri', 'Analitik lengkap'],
-                                'en_disabled' => ['Custom URL', 'Upload own music', 'Full analytics'],
-                                'id_cta'      => 'Mulai Gratis',
-                                'en_cta'      => 'Start Free',
+                                'id_name'          => 'Gratis',
+                                'en_name'          => 'Free',
+                                'price'            => PlanFormatter::price((int) ($plans['free']->price ?? 0)),
+                                'original_price'   => null,
+                                'has_discount'     => false,
+                                'discount_percent' => null,
+                                'discount_label'   => null,
+                                'id_period'        => PlanFormatter::period((int) ($plans['free']->duration_days ?? 0), 'id'),
+                                'en_period'        => PlanFormatter::period((int) ($plans['free']->duration_days ?? 0), 'en'),
+                                'popular'          => false,
+                                'id_features'      => $plans['free']->features ?? [],
+                                'en_features'      => $plans['free']->features ?? [],
+                                'id_disabled'      => ['Custom URL', 'Upload musik sendiri', 'Analitik lengkap'],
+                                'en_disabled'      => ['Custom URL', 'Upload own music', 'Full analytics'],
+                                'id_cta'           => 'Mulai Gratis',
+                                'en_cta'           => 'Start Free',
                             ],
                             [
-                                'id_name'     => 'Premium',
-                                'en_name'     => 'Premium',
-                                'price'       => PlanFormatter::price((int) ($plans['premium']->price ?? 49000)),
-                                'id_period'   => PlanFormatter::period((int) ($plans['premium']->duration_days ?? 365), 'id'),
-                                'en_period'   => PlanFormatter::period((int) ($plans['premium']->duration_days ?? 365), 'en'),
-                                'popular'     => true,
-                                'id_features' => $plans['premium']->features ?? [],
-                                'en_features' => $plans['premium']->features ?? [],
-                                'id_disabled' => [],
-                                'en_disabled' => [],
-                                'id_cta'      => 'Pilih Premium',
-                                'en_cta'      => 'Choose Premium',
+                                'id_name'          => 'Premium',
+                                'en_name'          => 'Premium',
+                                'price'            => PlanFormatter::price((int) (isset($plans['premium']) ? $plans['premium']->effectivePrice() : 49000)),
+                                'original_price'   => PlanFormatter::price((int) ($plans['premium']->price ?? 49000)),
+                                'has_discount'     => $premiumDiscount !== null,
+                                'discount_percent' => $premiumDiscount?->percent,
+                                'discount_label'   => $premiumDiscount?->label,
+                                'id_period'        => PlanFormatter::period((int) ($plans['premium']->duration_days ?? 365), 'id'),
+                                'en_period'        => PlanFormatter::period((int) ($plans['premium']->duration_days ?? 365), 'en'),
+                                'popular'          => true,
+                                'id_features'      => $plans['premium']->features ?? [],
+                                'en_features'      => $plans['premium']->features ?? [],
+                                'id_disabled'      => [],
+                                'en_disabled'      => [],
+                                'id_cta'           => 'Pilih Premium',
+                                'en_cta'           => 'Choose Premium',
                             ],
                         ];
                     @endphp
@@ -1251,10 +1261,27 @@
                                 {{ $plan['id_name'] }}
                             </h3>
                             <div class="mb-6">
-                                <span class="text-3xl font-bold {{ $plan['popular'] ? 'text-white' : '' }}"
-                                    style="{{ !$plan['popular'] ? 'color: var(--color-dark)' : '' }}">
-                                    {{ $plan['price'] }}
-                                </span>
+                                @if (!empty($plan['has_discount']))
+                                    <div class="flex items-center gap-2 mb-1">
+                                        <span class="text-xs px-2 py-0.5 rounded-md font-semibold {{ $plan['popular'] ? 'bg-white/20 text-white' : 'bg-red-100 text-red-700' }}">
+                                            {{ PlanFormatter::discountBadge((int) $plan['discount_percent']) }}
+                                        </span>
+                                        <span class="text-xs italic {{ $plan['popular'] ? 'text-white/80' : 'text-stone-500' }}" data-id="{{ $plan['discount_label'] }}" data-en="{{ $plan['discount_label'] }}">
+                                            {{ $plan['discount_label'] }}
+                                        </span>
+                                    </div>
+                                    <div class="flex items-baseline gap-2">
+                                        <span class="text-3xl font-bold {{ $plan['popular'] ? 'text-white' : '' }}" style="{{ !$plan['popular'] ? 'color: var(--color-dark)' : '' }}">
+                                            {{ $plan['price'] }}
+                                        </span>
+                                        <s class="text-sm {{ $plan['popular'] ? 'text-white/70' : 'text-stone-400' }}">{{ $plan['original_price'] }}</s>
+                                    </div>
+                                @else
+                                    <span class="text-3xl font-bold {{ $plan['popular'] ? 'text-white' : '' }}"
+                                        style="{{ !$plan['popular'] ? 'color: var(--color-dark)' : '' }}">
+                                        {{ $plan['price'] }}
+                                    </span>
+                                @endif
                                 <span
                                     class="text-sm {{ $plan['popular'] ? 'text-white text-opacity-80' : 'text-gray-400' }}"
                                     data-id="/ {{ $plan['id_period'] }}" data-en="/ {{ $plan['en_period'] }}">

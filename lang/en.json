@@ -55,6 +55,59 @@
       "flash": {
         "updated": "Plan {name} updated successfully."
       }
+    },
+    "discounts": {
+      "index": {
+        "title": "Discounts",
+        "subtitle": "Manage discount campaigns for the Premium plan",
+        "create": "Create Discount",
+        "empty": "No discounts yet. Create the first campaign."
+      },
+      "create": {
+        "title": "Create Discount",
+        "subtitle": "Set period and percentage for Premium",
+        "back": "Back"
+      },
+      "edit": {
+        "title": "Edit Discount",
+        "subtitle": "Modify campaign details",
+        "back": "Back"
+      },
+      "form": {
+        "plan": "Plan",
+        "label": "Campaign Name",
+        "label_placeholder": "End of Year Promo 2026",
+        "percent": "Percent (%)",
+        "starts_at": "Start",
+        "ends_at": "End",
+        "save": "Save",
+        "saving": "Saving...",
+        "cancel": "Cancel"
+      },
+      "table": {
+        "label": "Campaign",
+        "plan": "Plan",
+        "percent": "Discount",
+        "period": "Period",
+        "status": "Status",
+        "actions": "Actions"
+      },
+      "status": {
+        "upcoming": "Upcoming",
+        "active": "Active",
+        "ended": "Ended"
+      },
+      "actions": {
+        "edit": "Edit",
+        "delete": "Delete",
+        "delete_confirm": "Delete discount '{label}'?"
+      }
+    }
+  },
+  "welcome": {
+    "discount": {
+      "badge": "−{percent}%",
+      "original_price": "Original price"
     }
   },
   "common": {

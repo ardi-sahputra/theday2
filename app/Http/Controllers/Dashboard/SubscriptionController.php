@@ -80,14 +80,18 @@ class SubscriptionController extends Controller
                 'user_id'        => $user->id,
                 'plan_id'        => $plan->id,
                 'invoice_number' => $this->generateInvoiceNumber(),
-                'amount'         => $plan->price,
+                'amount'         => $plan->effectivePrice(),
                 'payment_method' => PaymentMethod::Mayar,
                 'status'         => PaymentStatus::Pending,
             ]);
         }
 
         try {
-            $result = $this->mayarService->createInvoice($transaction, $user, 'Paket Premium TheDay (90 hari)');
+            $discountSuffix = $plan->hasActiveDiscount()
+                ? " - Diskon {$plan->currentDiscount()->percent}%"
+                : '';
+            $itemName = "Paket {$plan->name} TheDay ({$plan->duration_days} hari){$discountSuffix}";
+            $result = $this->mayarService->createInvoice($transaction, $user, $itemName);
             $transaction->update(['payment_gateway_id' => $result['mayar_invoice_id']]);
 
             return response()->json(['payment_url' => $result['payment_url']]);

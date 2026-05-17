@@ -55,6 +55,59 @@
       "flash": {
         "updated": "Paket {name} berhasil diperbarui."
       }
+    },
+    "discounts": {
+      "index": {
+        "title": "Diskon",
+        "subtitle": "Kelola kampanye diskon untuk paket Premium",
+        "create": "Buat Diskon",
+        "empty": "Belum ada diskon. Buat kampanye pertama."
+      },
+      "create": {
+        "title": "Buat Diskon",
+        "subtitle": "Atur periode dan persentase diskon untuk Premium",
+        "back": "Kembali"
+      },
+      "edit": {
+        "title": "Edit Diskon",
+        "subtitle": "Ubah detail kampanye diskon",
+        "back": "Kembali"
+      },
+      "form": {
+        "plan": "Paket",
+        "label": "Nama Kampanye",
+        "label_placeholder": "Promo Akhir Tahun 2026",
+        "percent": "Persentase (%)",
+        "starts_at": "Mulai",
+        "ends_at": "Selesai",
+        "save": "Simpan",
+        "saving": "Menyimpan...",
+        "cancel": "Batal"
+      },
+      "table": {
+        "label": "Kampanye",
+        "plan": "Paket",
+        "percent": "Diskon",
+        "period": "Periode",
+        "status": "Status",
+        "actions": "Aksi"
+      },
+      "status": {
+        "upcoming": "Akan Datang",
+        "active": "Aktif",
+        "ended": "Berakhir"
+      },
+      "actions": {
+        "edit": "Edit",
+        "delete": "Hapus",
+        "delete_confirm": "Hapus diskon '{label}'?"
+      }
+    }
+  },
+  "welcome": {
+    "discount": {
+      "badge": "−{percent}%",
+      "original_price": "Harga normal"
     }
   },
   "common": {

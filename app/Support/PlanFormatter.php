@@ -43,4 +43,9 @@ class PlanFormatter
             ? "per {$days} days"
             : "per {$days} hari";
     }
+
+    public static function discountBadge(int $percent): string
+    {
+        return "\u{2212}{$percent}%";
+    }
 }

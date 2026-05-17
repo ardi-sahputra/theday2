@@ -69,7 +69,7 @@ class GiftPurchaseService
                 'delivery_mode'   => $data['delivery_mode'],
                 'source'          => 'user',
                 'duration_days'   => $plan->duration_days,
-                'amount'          => $plan->price,
+                'amount'          => $plan->effectivePrice(),
                 'message'         => $data['message'] ?? null,
                 'status'          => 'awaiting_payment',
                 'expires_at'      => now()->addDays(30),
@@ -80,12 +80,15 @@ class GiftPurchaseService
                 'plan_id'        => $plan->id,
                 'gift_id'        => $gift->id,
                 'invoice_number' => 'GIFT-' . strtoupper(Str::random(10)),
-                'amount'         => $plan->price,
+                'amount'         => $plan->effectivePrice(),
                 'payment_method' => PaymentMethod::Mayar,
                 'status'         => PaymentStatus::Pending,
             ]);
 
-            $itemName = "Gift Premium: {$plan->name}";
+            $discountSuffix = $plan->hasActiveDiscount()
+                ? " (Diskon {$plan->currentDiscount()->percent}%)"
+                : '';
+            $itemName = "Gift Premium: {$plan->name}{$discountSuffix}";
             $mayar    = $this->mayarService->createInvoice($transaction, $sender, $itemName);
 
             $transaction->update([
@@ -94,9 +97,11 @@ class GiftPurchaseService
             ]);
 
             Log::info('gift.created', [
-                'gift_id'        => $gift->id,
-                'source'         => 'user',
-                'transaction_id' => $transaction->id,
+                'gift_id'         => $gift->id,
+                'source'          => 'user',
+                'transaction_id'  => $transaction->id,
+                'effective_price' => $plan->effectivePrice(),
+                'discount_id'     => $plan->currentDiscount()?->id,
             ]);
 
             return [

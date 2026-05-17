@@ -37,4 +37,12 @@ class PlanFormatterTest extends TestCase
         $this->assertSame('per 2 years',   PlanFormatter::period(730, 'en'));
         $this->assertSame('per 45 days',   PlanFormatter::period(45, 'en'));
     }
+
+    public function test_discount_badge_formats_with_minus_sign(): void
+    {
+        // U+2212 minus sign (not hyphen-minus U+002D)
+        $this->assertSame("\u{2212}20%", PlanFormatter::discountBadge(20));
+        $this->assertSame("\u{2212}5%",  PlanFormatter::discountBadge(5));
+        $this->assertSame("\u{2212}99%", PlanFormatter::discountBadge(99));
+    }
 }
