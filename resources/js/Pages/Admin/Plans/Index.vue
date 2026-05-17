@@ -46,7 +46,40 @@ function fmtDuration(days) {
             {{ flash.success }}
         </div>
 
-        <div class="bg-card border border-border rounded-2xl overflow-hidden">
+        <!-- Mobile: card list -->
+        <div class="md:hidden space-y-3">
+            <div v-for="plan in plans" :key="plan.id"
+                 class="bg-card border border-border rounded-2xl p-4 space-y-3">
+                <div class="flex items-start justify-between gap-3">
+                    <div class="min-w-0">
+                        <p class="font-semibold text-sm">{{ plan.name }}</p>
+                        <p class="text-xs text-muted-foreground mt-0.5">{{ fmtDuration(plan.duration_days) }}</p>
+                    </div>
+                    <span v-if="plan.is_active" class="inline-flex items-center gap-1 text-[11px] text-green-700 shrink-0">
+                        <CheckCircle2 class="w-3.5 h-3.5" /> {{ t('admin.plans.status.active') }}
+                    </span>
+                    <span v-else class="inline-flex items-center gap-1 text-[11px] text-stone-500 shrink-0">
+                        <XCircle class="w-3.5 h-3.5" /> {{ t('admin.plans.status.inactive') }}
+                    </span>
+                </div>
+
+                <div class="text-lg font-bold tabular-nums text-foreground">{{ fmtPrice(plan.price) }}</div>
+
+                <div class="pt-2 border-t border-border">
+                    <Link
+                        v-if="plan.editable"
+                        :href="`/admin/plans/${plan.id}/edit`"
+                        class="inline-flex items-center gap-1.5 text-sm font-medium text-brand-primary"
+                    >
+                        <Pencil class="w-4 h-4" /> {{ t('admin.plans.actions.edit') }}
+                    </Link>
+                    <span v-else class="text-xs text-muted-foreground">{{ t('admin.plans.actions.locked') }}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Desktop: table -->
+        <div class="hidden md:block bg-card border border-border rounded-2xl overflow-hidden">
             <table class="w-full text-sm">
                 <thead class="bg-muted/40 text-xs uppercase tracking-wider text-muted-foreground">
                     <tr>
