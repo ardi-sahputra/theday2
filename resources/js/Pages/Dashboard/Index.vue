@@ -146,15 +146,6 @@ const priorityDot = {
                         </h2>
                         <p class="text-sm text-stone-500 mt-1">{{ t('dashboard.index.greetingSubtitle') }}</p>
                     </div>
-                    <Link
-                        :href="route('dashboard.templates')"
-                        class="shrink-0 inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white bg-brand-primary hover:bg-brand-primary-hover shadow-sm transition-all hover:-translate-y-px"
-                    >
-                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/>
-                        </svg>
-                        {{ t('dashboard.index.createNew') }}
-                    </Link>
                 </div>
 
                 <!-- inline stats -->
@@ -480,9 +471,8 @@ const priorityDot = {
                         </div>
                     </div>
 
-                    <!-- "Buat baru" placeholder card (jika < 3 undangan) -->
+                    <!-- "Buat baru" placeholder — always shown as the sole add-invitation CTA -->
                     <Link
-                        v-if="recentInvitations.length < 2"
                         :href="route('dashboard.templates')"
                         class="flex flex-col items-center justify-center bg-white rounded-2xl border border-dashed border-stone-200 p-8 text-center hover:border-[#92A89C]/50 hover:bg-[#92A89C]/8 transition-all group min-h-[220px]"
                     >
