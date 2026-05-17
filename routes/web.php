@@ -57,7 +57,16 @@ Route::get('/', function () {
             'reading_time'    => $a->reading_time,
             'category'        => $a->category ? ['name' => $a->category->name, 'slug' => $a->category->slug] : null,
         ]);
-    return view('landing', ['featuredArticles' => $featuredArticles]);
+
+    $plans = \App\Models\Plan::where('is_active', true)
+        ->orderBy('sort_order')
+        ->get()
+        ->keyBy('slug');
+
+    return view('landing', [
+        'featuredArticles' => $featuredArticles,
+        'plans'            => $plans,
+    ]);
 })->name('home');
 
 // ── Sitemap ──────────────────────────────────────────────────────────────────

@@ -303,9 +303,9 @@
             {
               "@type": "Offer",
               "name": "Premium",
-              "price": "35000",
+              "price": "{{ $plans['premium']->price ?? 49000 }}",
               "priceCurrency": "IDR",
-              "description": "Undangan tidak terbatas, semua template, custom URL, musik sendiri, foto tidak terbatas, analitik lengkap"
+              "description": "{{ implode(', ', $plans['premium']->features ?? []) }}"
             },
             {
               "@type": "Offer",
@@ -1201,77 +1201,41 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-2xl mx-auto">
                     @php
-                        $plans = [
+                        use App\Support\PlanFormatter;
+
+                        $pricingTiers = [
                             [
-                                'id_name' => 'Gratis',
-                                'en_name' => 'Free',
-                                'price' => 'Rp 0',
-                                'id_period' => 'selamanya',
-                                'en_period' => 'forever',
-                                'popular' => false,
-                                'id_features' => [
-                                    '1 undangan aktif',
-                                    'Template dasar (10+)',
-                                    'Konfirmasi RSVP',
-                                    'Link undangan',
-                                    'Peta lokasi',
-                                    '5 foto galeri',
-                                    'Watermark TheDay',
-                                ],
-                                'en_features' => [
-                                    '1 active invitation',
-                                    'Basic templates (10+)',
-                                    'RSVP confirmation',
-                                    'Invitation link',
-                                    'Location map',
-                                    '5 gallery photos',
-                                    'TheDay watermark',
-                                ],
+                                'id_name'     => 'Gratis',
+                                'en_name'     => 'Free',
+                                'price'       => PlanFormatter::price((int) ($plans['free']->price ?? 0)),
+                                'id_period'   => PlanFormatter::period((int) ($plans['free']->duration_days ?? 0), 'id'),
+                                'en_period'   => PlanFormatter::period((int) ($plans['free']->duration_days ?? 0), 'en'),
+                                'popular'     => false,
+                                'id_features' => $plans['free']->features ?? [],
+                                'en_features' => $plans['free']->features ?? [],
                                 'id_disabled' => ['Custom URL', 'Upload musik sendiri', 'Analitik lengkap'],
                                 'en_disabled' => ['Custom URL', 'Upload own music', 'Full analytics'],
-                                'id_cta' => 'Mulai Gratis',
-                                'en_cta' => 'Start Free',
+                                'id_cta'      => 'Mulai Gratis',
+                                'en_cta'      => 'Start Free',
                             ],
                             [
-                                'id_name' => 'Premium',
-                                'en_name' => 'Premium',
-                                'price' => 'Rp 35.000',
-                                'id_period' => 'per 3 bulan',
-                                'en_period' => 'per 3 months',
-                                'popular' => true,
-                                'id_features' => [
-                                    'Undangan tidak terbatas',
-                                    'Semua template (50+)',
-                                    'Konfirmasi RSVP',
-                                    'Custom URL slug',
-                                    'Perlindungan kata sandi',
-                                    'Upload musik sendiri',
-                                    'Foto galeri tidak terbatas',
-                                    'Analitik lengkap',
-                                    'Tanpa watermark',
-                                    'Prioritas dukungan',
-                                ],
-                                'en_features' => [
-                                    'Unlimited invitations',
-                                    'All templates (50+)',
-                                    'RSVP confirmation',
-                                    'Custom URL slug',
-                                    'Password protection',
-                                    'Upload own music',
-                                    'Unlimited gallery photos',
-                                    'Full analytics',
-                                    'No watermark',
-                                    'Priority support',
-                                ],
+                                'id_name'     => 'Premium',
+                                'en_name'     => 'Premium',
+                                'price'       => PlanFormatter::price((int) ($plans['premium']->price ?? 49000)),
+                                'id_period'   => PlanFormatter::period((int) ($plans['premium']->duration_days ?? 365), 'id'),
+                                'en_period'   => PlanFormatter::period((int) ($plans['premium']->duration_days ?? 365), 'en'),
+                                'popular'     => true,
+                                'id_features' => $plans['premium']->features ?? [],
+                                'en_features' => $plans['premium']->features ?? [],
                                 'id_disabled' => [],
                                 'en_disabled' => [],
-                                'id_cta' => 'Pilih Premium',
-                                'en_cta' => 'Choose Premium',
+                                'id_cta'      => 'Pilih Premium',
+                                'en_cta'      => 'Choose Premium',
                             ],
                         ];
                     @endphp
 
-                    @foreach ($plans as $plan)
+                    @foreach ($pricingTiers as $plan)
                         <div
                             class="rounded-2xl p-6 border reveal flex flex-col {{ $plan['popular'] ? 'pricing-popular shadow-2xl scale-105 border-transparent' : 'border-gray-200 shadow-sm' }}">
                             @if ($plan['popular'])

@@ -1,4 +1,62 @@
 {
+  "admin": {
+    "plans": {
+      "index": {
+        "title": "Plans",
+        "subtitle": "Manage subscription plan prices and features"
+      },
+      "edit": {
+        "title": "Edit {name}",
+        "subtitle": "Change price, duration, and plan features",
+        "back": "Back to plans list",
+        "section_basic": "Basic Info",
+        "section_pricing": "Price & Duration",
+        "section_quota": "Quota",
+        "section_flags": "Feature Flags",
+        "section_features": "Features List",
+        "field_name": "Plan name",
+        "field_active": "Active",
+        "field_price": "Price (IDR)",
+        "field_duration": "Duration (days)",
+        "field_max_invitations": "Max invitations",
+        "field_max_gallery": "Max gallery photos",
+        "flag_custom_music": "Upload own music",
+        "flag_remove_watermark": "Remove watermark",
+        "flag_custom_domain": "Custom domain",
+        "flag_analytics": "Analytics access",
+        "features_hint": "Features shown on the landing page pricing card. Edit, add, or remove rows.",
+        "add_feature": "Add feature",
+        "save": "Save changes",
+        "saving": "Saving..."
+      },
+      "table": {
+        "name": "Name",
+        "price": "Price",
+        "duration": "Duration",
+        "status": "Status",
+        "actions": "Actions"
+      },
+      "status": {
+        "active": "Active",
+        "inactive": "Inactive"
+      },
+      "actions": {
+        "edit": "Edit",
+        "locked": "Cannot be edited"
+      },
+      "duration": {
+        "forever": "Forever",
+        "year": "1 year",
+        "years": "{n} years",
+        "month": "1 month",
+        "months": "{n} months",
+        "days": "{n} days"
+      },
+      "flash": {
+        "updated": "Plan {name} updated successfully."
+      }
+    }
+  },
   "common": {
     "save": "Save",
     "cancel": "Cancel",
@@ -172,8 +230,6 @@
       "freeFeatureTemplate": "Free templates",
       "freeFeatureMusic": "Default music",
       "freeFeatureWatermark": "\"Made with TheDay\" watermark",
-      "premiumPriceLabel": "Rp 35,000",
-      "premiumPricePeriod": "/ 3 months (90 days)",
       "premiumPriceCta": "Everything you need for your dream invitation",
       "premiumFeatureInvitation": "Unlimited active invitations",
       "premiumFeaturePhoto": "Unlimited gallery photos",
@@ -207,7 +263,7 @@
       "paymentMethodCreditCard": "Credit Card",
       "faqTitle": "Frequently Asked Questions",
       "faq1Q": "Does Premium auto-renew?",
-      "faq1A": "No. Premium is a one-time payment for 3 months (90 days). There is no auto-renewal. You can renew manually at any time.",
+      "faq1A": "No. Premium is a one-time payment per active period. There is no auto-renewal. You can renew manually at any time.",
       "faq2Q": "How do I pay?",
       "faq2A": "You can pay via GoPay, OVO, Dana, QRIS, virtual bank transfer, or credit card through Mayar — secure and encrypted.",
       "faq3Q": "Is there a money-back guarantee?",
