@@ -21,6 +21,11 @@ class NotificationRenderer
     ): string {
         $locale = $locale ?: app()->getLocale();
 
+        // Admin broadcasts carry an ad-hoc title from the broadcast row; bypass translation.
+        if ($type === NotificationType::SystemBroadcast) {
+            return (string) ($payload['title_raw'] ?? '');
+        }
+
         $rendered = trans(
             $type->translationKey(),
             array_merge($payload, ['count' => $count]),

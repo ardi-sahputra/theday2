@@ -38,4 +38,15 @@ class NotificationRendererTest extends TestCase
 
         $this->assertStringContainsString('ucapan baru', $title);
     }
+
+    public function test_system_broadcast_returns_raw_title(): void
+    {
+        $renderer = app(NotificationRenderer::class);
+        $title = $renderer->render(
+            NotificationType::SystemBroadcast,
+            ['title_raw' => 'Maintenance besok', 'body_raw' => 'Pukul 02:00 WIB'],
+            count: 1,
+        );
+        $this->assertSame('Maintenance besok', $title);
+    }
 }
