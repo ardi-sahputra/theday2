@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Enums\PaymentMethod;
+use App\Enums\PaymentStatus;
 use App\Models\Gift;
 use App\Models\Plan;
 use App\Models\Transaction;
@@ -43,6 +45,59 @@ class GiftPurchaseService
         Log::info('gift.created', ['gift_id' => $gift->id, 'source' => 'admin']);
 
         return $gift;
+    }
+
+    /**
+     * Create a user gift + matching Transaction + Mayar invoice.
+     * Returns ['gift' => Gift, 'payment_url' => string].
+     */
+    public function createUserGift(User $sender, array $data): array
+    {
+        $plan = Plan::findOrFail($data['plan_id']);
+
+        return DB::transaction(function () use ($sender, $plan, $data) {
+            $gift = $this->createGiftRecord([
+                'sender_user_id'  => $sender->id,
+                'plan_id'         => $plan->id,
+                'recipient_email' => $data['delivery_mode'] === 'email' ? $data['recipient_email'] : null,
+                'delivery_mode'   => $data['delivery_mode'],
+                'source'          => 'user',
+                'duration_days'   => $plan->duration_days,
+                'amount'          => $plan->price,
+                'message'         => $data['message'] ?? null,
+                'status'          => 'awaiting_payment',
+                'expires_at'      => now()->addDays(30),
+            ]);
+
+            $transaction = Transaction::create([
+                'user_id'        => $sender->id,
+                'plan_id'        => $plan->id,
+                'gift_id'        => $gift->id,
+                'invoice_number' => 'GIFT-' . strtoupper(Str::random(10)),
+                'amount'         => $plan->price,
+                'payment_method' => PaymentMethod::Mayar,
+                'status'         => PaymentStatus::Pending,
+            ]);
+
+            $itemName = "Gift Premium: {$plan->name}";
+            $mayar    = $this->mayarService->createInvoice($transaction, $sender, $itemName);
+
+            $transaction->update([
+                'payment_gateway_id' => $mayar['mayar_invoice_id'],
+                'gateway_response'   => ['mayar_transaction_id' => $mayar['mayar_transaction_id']],
+            ]);
+
+            Log::info('gift.created', [
+                'gift_id'        => $gift->id,
+                'source'         => 'user',
+                'transaction_id' => $transaction->id,
+            ]);
+
+            return [
+                'gift'        => $gift->fresh(),
+                'payment_url' => $mayar['payment_url'],
+            ];
+        });
     }
 
     /**
