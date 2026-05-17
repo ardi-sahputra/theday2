@@ -16,6 +16,7 @@ use App\Http\Controllers\Dashboard\GuestImportController;
 use App\Http\Controllers\Dashboard\GuestListController;
 use App\Http\Controllers\Dashboard\GuestMessageController;
 use App\Http\Controllers\Dashboard\InvitationController;
+use App\Http\Controllers\Dashboard\NotificationController;
 use App\Http\Controllers\Dashboard\InvitationCustomizeController;
 use App\Http\Controllers\Dashboard\AddonController;
 use App\Http\Controllers\Dashboard\SubscriptionController;
@@ -57,7 +58,16 @@ Route::get('/', function () {
             'reading_time'    => $a->reading_time,
             'category'        => $a->category ? ['name' => $a->category->name, 'slug' => $a->category->slug] : null,
         ]);
-    return view('landing', ['featuredArticles' => $featuredArticles]);
+
+    $plans = \App\Models\Plan::where('is_active', true)
+        ->orderBy('sort_order')
+        ->get()
+        ->keyBy('slug');
+
+    return view('landing', [
+        'featuredArticles' => $featuredArticles,
+        'plans'            => $plans,
+    ]);
 })->name('home');
 
 // ── Sitemap ──────────────────────────────────────────────────────────────────
@@ -257,6 +267,21 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // ── Notifications (in-app) ──────────────────────────────────────────────
+    Route::prefix('dashboard/notifications')->name('dashboard.notifications.')->group(function () {
+        Route::get('/',                 [NotificationController::class, 'index'])->name('index');
+        Route::get('/preferences',      [NotificationController::class, 'preferences'])->name('preferences');
+        Route::patch('/preferences',    [NotificationController::class, 'updatePreferences'])->name('preferences.update');
+        Route::post('/read-all',        [NotificationController::class, 'markAllRead'])->name('markAllRead');
+        Route::patch('/{id}/read',      [NotificationController::class, 'markRead'])->name('markRead')->whereNumber('id');
+        Route::delete('/{id}',          [NotificationController::class, 'destroy'])->name('destroy')->whereNumber('id');
+    });
+
+    Route::prefix('api/notifications')->name('api.notifications.')->group(function () {
+        Route::get('/unread-count', [NotificationController::class, 'unreadCount'])->name('unreadCount');
+        Route::get('/recent',       [NotificationController::class, 'recent'])->name('recent');
+    });
 
     // ── Gift Premium (purchase + management) ────────────────────────────────
     Route::prefix('dashboard/gifts')->name('dashboard.gifts.')->group(function () {

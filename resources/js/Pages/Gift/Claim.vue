@@ -113,27 +113,20 @@ function submitClaim() {
                 aria-hidden="true"
                 class="pointer-events-none absolute inset-0 -z-10"
             >
-                <div class="absolute -top-24 -left-24 w-72 h-72 rounded-full bg-[#C8A26B]/20 blur-3xl" />
-                <div class="absolute top-40 -right-24 w-80 h-80 rounded-full bg-[#92A89C]/20 blur-3xl" />
+                <div class="absolute -top-24 -left-24 w-72 h-72 rounded-full bg-[#92A89C]/20 blur-3xl" />
+                <div class="absolute top-40 -right-24 w-80 h-80 rounded-full bg-[#B8C7BF]/25 blur-3xl" />
             </div>
 
-            <div class="max-w-xl mx-auto px-4 sm:px-6 py-10 sm:py-16">
+            <div class="max-w-xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
                 <!-- ============================================================== -->
                 <!-- STATE: claimable_guest / claimable_authed                       -->
                 <!-- ============================================================== -->
                 <template v-if="isClaimable">
                     <!-- Hero -->
-                    <header class="text-center mb-8">
-                        <div
-                            class="inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 rounded-3xl bg-gradient-to-br from-[#C8A26B] to-[#b48f55] text-white shadow-lg shadow-[#C8A26B]/30 mb-5"
-                            aria-hidden="true"
-                        >
-                            <Gift class="w-8 h-8 sm:w-10 sm:h-10" />
-                        </div>
+                    <header class="text-center mb-7">
                         <p
-                            class="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#C8A26B] mb-2"
+                            class="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#73877C] mb-3"
                         >
-                            <Sparkles class="w-3.5 h-3.5" aria-hidden="true" />
                             Gift Premium
                         </p>
                         <h1 class="text-2xl sm:text-3xl font-bold text-stone-800 leading-tight">
@@ -163,10 +156,10 @@ function submitClaim() {
                         <!-- Personal message -->
                         <figure
                             v-if="gift.message"
-                            class="mt-5 relative pl-4 border-l-4 border-[#C8A26B]/60 bg-gradient-to-r from-[#C8A26B]/5 to-transparent rounded-r-xl py-3 pr-4"
+                            class="mt-5 relative pl-4 border-l-4 border-[#92A89C] bg-[#92A89C]/5 rounded-r-xl py-3 pr-4"
                         >
                             <Mail
-                                class="absolute -left-2 top-3 w-4 h-4 text-[#C8A26B] bg-white rounded-full"
+                                class="absolute -left-2 top-3 w-4 h-4 text-[#73877C] bg-white rounded-full"
                                 aria-hidden="true"
                             />
                             <blockquote class="text-sm text-stone-700 italic leading-relaxed">
@@ -184,7 +177,7 @@ function submitClaim() {
                             type="button"
                             :disabled="submitting"
                             @click="submitClaim"
-                            class="w-full h-14 inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-[#C8A26B] to-[#b48f55] text-white text-base font-semibold shadow-lg shadow-[#C8A26B]/30 hover:shadow-xl hover:shadow-[#C8A26B]/40 disabled:opacity-60 disabled:cursor-not-allowed transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C8A26B]/40 focus-visible:ring-offset-2"
+                            class="w-full h-14 inline-flex items-center justify-center gap-2 rounded-2xl bg-[#92A89C] hover:bg-[#73877C] text-white text-base font-semibold shadow-md shadow-[#92A89C]/25 hover:shadow-lg hover:shadow-[#92A89C]/35 disabled:opacity-60 disabled:cursor-not-allowed transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#92A89C]/40 focus-visible:ring-offset-2"
                         >
                             <Loader2 v-if="submitting" class="w-5 h-5 animate-spin" aria-hidden="true" />
                             <Gift v-else class="w-5 h-5" aria-hidden="true" />
@@ -231,7 +224,7 @@ function submitClaim() {
 
                         <Link
                             :href="registerHref"
-                            class="w-full h-13 min-h-[3.25rem] inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-[#C8A26B] to-[#b48f55] text-white text-sm font-semibold shadow-lg shadow-[#C8A26B]/25 hover:shadow-xl hover:shadow-[#C8A26B]/35 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C8A26B]/40 focus-visible:ring-offset-2"
+                            class="w-full h-13 min-h-[3.25rem] inline-flex items-center justify-center gap-2 rounded-2xl bg-[#92A89C] hover:bg-[#73877C] text-white text-sm font-semibold shadow-md shadow-[#92A89C]/25 hover:shadow-lg hover:shadow-[#92A89C]/35 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#92A89C]/40 focus-visible:ring-offset-2"
                         >
                             <Mail class="w-4 h-4" aria-hidden="true" />
                             <span>{{ t('gift.claim.guest.cta_email') }}</span>

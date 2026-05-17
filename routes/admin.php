@@ -30,5 +30,16 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::patch('articles/{article}/featured',  [\App\Http\Controllers\Admin\ArticleController::class, 'toggleFeatured'])->name('articles.featured');
 
         Route::resource('gifts', \App\Http\Controllers\Admin\GiftController::class)->except(['edit', 'update']);
+
+        Route::get('plans',              [\App\Http\Controllers\Admin\PlanController::class, 'index'])->name('plans.index');
+        Route::get('plans/{plan}/edit',  [\App\Http\Controllers\Admin\PlanController::class, 'edit'])->name('plans.edit');
+        Route::patch('plans/{plan}',     [\App\Http\Controllers\Admin\PlanController::class, 'update'])->name('plans.update');
+
+        Route::resource('discounts', \App\Http\Controllers\Admin\PlanDiscountController::class)->except(['show']);
+
+        // In-app notification broadcasts
+        Route::resource('notifications', \App\Http\Controllers\Admin\AdminNotificationController::class);
+        Route::post('notifications/{notification}/cancel', [\App\Http\Controllers\Admin\AdminNotificationController::class, 'cancel'])
+            ->name('notifications.cancel');
     });
 });

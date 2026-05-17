@@ -40,6 +40,8 @@ class SubscriptionController extends Controller
         $sub  = $user->fresh()->activeSubscription;
         $plan = $sub?->plan;
 
+        $premiumPlan = Plan::where('slug', 'premium')->first();
+
         return Inertia::render('Dashboard/Paket', [
             'currentPlan' => $plan ? [
                 'name'           => $plan->name,
@@ -54,6 +56,13 @@ class SubscriptionController extends Controller
                 'expires_at'     => null,
                 'days_remaining' => null,
             ],
+            'premiumPlan' => $premiumPlan ? [
+                'price'            => $premiumPlan->effectivePrice(),
+                'original_price'   => (int) $premiumPlan->price,
+                'duration_days'    => $premiumPlan->duration_days,
+                'has_discount'     => $premiumPlan->hasActiveDiscount(),
+                'discount_percent' => $premiumPlan->currentDiscount()?->percent,
+            ] : null,
         ]);
     }
 
@@ -80,14 +89,18 @@ class SubscriptionController extends Controller
                 'user_id'        => $user->id,
                 'plan_id'        => $plan->id,
                 'invoice_number' => $this->generateInvoiceNumber(),
-                'amount'         => $plan->price,
+                'amount'         => $plan->effectivePrice(),
                 'payment_method' => PaymentMethod::Mayar,
                 'status'         => PaymentStatus::Pending,
             ]);
         }
 
         try {
-            $result = $this->mayarService->createInvoice($transaction, $user, 'Paket Premium TheDay (90 hari)');
+            $discountSuffix = $plan->hasActiveDiscount()
+                ? " - Diskon {$plan->currentDiscount()->percent}%"
+                : '';
+            $itemName = "Paket {$plan->name} TheDay ({$plan->duration_days} hari){$discountSuffix}";
+            $result = $this->mayarService->createInvoice($transaction, $user, $itemName);
             $transaction->update(['payment_gateway_id' => $result['mayar_invoice_id']]);
 
             return response()->json(['payment_url' => $result['payment_url']]);

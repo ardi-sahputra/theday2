@@ -1,10 +1,62 @@
 <script setup>
-defineProps({
-    // 254px screen (260px frame – 6px border) / 375px content = 0.677
-    scale:      { type: Number,  default: 0.677 },
+import { computed, ref, reactive } from 'vue';
+
+const props = defineProps({
+    // 'default' = 260x540 frame, 'lg' = 320x680 frame (desktop preview)
+    size:       { type: String,  default: 'default' },
+    // Optional override; if null, derive from size
+    scale:      { type: Number,  default: null },
     screenBg:   { type: String,  default: 'white' },
     scrollable: { type: Boolean, default: true },
 });
+
+const dims = computed(() => {
+    if (props.size === 'lg') {
+        // 334px screen (340 – 6 border) / 375 content ≈ 0.891
+        return { width: 340, height: 700, defaultScale: 0.891 };
+    }
+    // 254px screen (260 – 6 border) / 375 content ≈ 0.677
+    return { width: 260, height: 540, defaultScale: 0.677 };
+});
+
+const effectiveScale = computed(() => props.scale ?? dims.value.defaultScale);
+
+// ── Click-and-drag scroll (mouse swipe) ───────────────────────────────────────
+const screenRef = ref(null);
+const drag = reactive({ active: false, startY: 0, startScroll: 0, pointerId: null });
+const DRAG_THRESHOLD = 5; // px before drag engages (allows clicks)
+
+function onPointerDown(e) {
+    if (!props.scrollable) return;
+    if (e.pointerType === 'mouse' && e.button !== 0) return;
+    // Skip if click landed on interactive element (button, input, link, etc.)
+    if (e.target.closest('button, a, input, textarea, select, [contenteditable]')) return;
+    drag.startY = e.clientY;
+    drag.startScroll = screenRef.value?.scrollTop ?? 0;
+    drag.pointerId = e.pointerId;
+    drag.active = false; // engaged after threshold
+}
+function onPointerMove(e) {
+    if (drag.pointerId !== e.pointerId) return;
+    const delta = e.clientY - drag.startY;
+    if (!drag.active) {
+        if (Math.abs(delta) < DRAG_THRESHOLD) return;
+        drag.active = true;
+        screenRef.value?.setPointerCapture?.(e.pointerId);
+    }
+    if (screenRef.value) {
+        screenRef.value.scrollTop = drag.startScroll - delta / effectiveScale.value;
+    }
+    e.preventDefault();
+}
+function onPointerEnd(e) {
+    if (drag.pointerId !== e.pointerId) return;
+    if (drag.active && screenRef.value?.hasPointerCapture?.(e.pointerId)) {
+        screenRef.value.releasePointerCapture(e.pointerId);
+    }
+    drag.active = false;
+    drag.pointerId = null;
+}
 </script>
 
 <template>
@@ -12,28 +64,30 @@ defineProps({
         Outer frame: fixed visual dimensions of a phone bezel.
         Inner screen hosts a 375-px-wide slot that is CSS-scaled down.
     -->
-    <div class="phone-frame">
+    <div class="phone-frame" :style="{ width: dims.width + 'px', height: dims.height + 'px' }">
         <!-- Status bar / notch row -->
         <div class="phone-status-bar">
             <div class="phone-notch" />
         </div>
 
         <!-- Screen — overflow-hidden so scaled content stays inside -->
-        <div class="phone-screen" :style="{ background: screenBg, overflowY: scrollable ? 'auto' : 'hidden' }">
-            <!--
-                Scale container: always 375 px wide, scaled to fit the 260 px
-                screen width (260/375 ≈ 0.693 but let caller override).
-                Height expands naturally; screen clips it.
-            -->
+        <div
+            ref="screenRef"
+            class="phone-screen"
+            :style="{ background: screenBg, overflowY: scrollable ? 'auto' : 'hidden', cursor: scrollable ? 'grab' : 'default' }"
+            :class="{ 'is-dragging': drag.active }"
+            @pointerdown="onPointerDown"
+            @pointermove="onPointerMove"
+            @pointerup="onPointerEnd"
+            @pointercancel="onPointerEnd"
+        >
             <div
                 class="phone-content-scaler"
                 :style="{
-                    transform: `scale(${scale})`,
+                    transform: `scale(${effectiveScale})`,
                     transformOrigin: 'top left',
                     width: '375px',
-                    // Make the logical height the inverse-scaled so the phone
-                    // screen shows about a full page height worth of content.
-                    minHeight: `${Math.round(560 / scale)}px`,
+                    minHeight: `${Math.round(560 / effectiveScale)}px`,
                 }"
             >
                 <slot />
@@ -47,8 +101,6 @@ defineProps({
 
 <style scoped>
 .phone-frame {
-    width: 260px;
-    height: 540px;
     border-radius: 44px;
     border: 3px solid #1C1C1E;
     background: #1C1C1E;
@@ -85,10 +137,14 @@ defineProps({
 }
 
 .phone-screen {
-    flex: 1;
+    flex: 1 1 0;
+    min-height: 0;
     background: white;
     overflow-y: auto;
     overflow-x: hidden;
+    touch-action: pan-y;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
     /* Hide scrollbar for clean look */
     scrollbar-width: none;
     -ms-overflow-style: none;
@@ -97,6 +153,11 @@ defineProps({
 
 .phone-screen::-webkit-scrollbar {
     display: none;
+}
+
+.phone-screen.is-dragging {
+    cursor: grabbing !important;
+    user-select: none;
 }
 
 .phone-content-scaler {

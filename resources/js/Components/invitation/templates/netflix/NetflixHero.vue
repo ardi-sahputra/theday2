@@ -3,8 +3,8 @@ import { computed } from 'vue'
 
 const props = defineProps({
     coverUrl:    { type: String, default: null },
-    groomName:   { type: String, default: '' },
-    brideName:   { type: String, default: '' },
+    groomNick:   { type: String, default: '' },
+    brideNick:   { type: String, default: '' },
     subtitle:    { type: String, default: 'Sebuah Kisah Cinta' },
     eventDate:   { type: String, default: '' },
     heroQuote:   { type: String, default: '' },
@@ -38,7 +38,7 @@ const year = computed(() => {
                 <span class="nfh-n">N</span>
                 <span class="nfh-genre">DOCUMENTER</span>
             </div>
-            <h2 class="nfh-title nfh-stagger" style="--d: 0.18s">{{ groomName }} &amp; {{ brideName }}: {{ subtitle }}</h2>
+            <h2 class="nfh-title nfh-stagger" style="--d: 0.18s">{{ groomNick }} &amp; {{ brideNick }}: {{ subtitle }}</h2>
             <div class="nfh-meta nfh-stagger" style="--d: 0.31s">
                 <span class="nfh-match">100% match</span>
                 <span class="nfh-badge-pill">SU</span>

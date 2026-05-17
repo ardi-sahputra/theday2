@@ -28,13 +28,8 @@
                   <td style="vertical-align:middle;">
                     <table cellpadding="0" cellspacing="0">
                       <tr>
-                        <td style="width:36px; height:36px; background:#92A89C; border-radius:10px; text-align:center; vertical-align:middle;">
-                          <img src="https://raw.githubusercontent.com/tabler/tabler-icons/master/icons/heart.svg"
-                               width="18" height="18"
-                               alt=""
-                               style="display:none"/>
-                          <!-- Inline heart SVG as fallback -->
-                          <span style="color:#fff; font-size:18px; line-height:36px;">♡</span>
+                        <td style="width:36px; height:36px; background:#73877C; border-radius:10px; text-align:center; vertical-align:middle;">
+                          <span style="color:#FFFCF7; font-family:Georgia,serif; font-size:20px; font-weight:600; line-height:36px; letter-spacing:-1px;">d<span style="color:#C8A26B;">.</span></span>
                         </td>
                         <td style="padding-left:10px;">
                           <span style="color:#ffffff; font-size:20px; font-weight:600; font-family:Georgia,serif; letter-spacing:-0.3px;">TheDay</span>

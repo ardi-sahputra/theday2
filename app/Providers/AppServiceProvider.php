@@ -2,8 +2,16 @@
 
 namespace App\Providers;
 
+use App\Models\Gift;
+use App\Models\GuestMessage;
 use App\Models\Invitation;
+use App\Models\InvitationView;
+use App\Models\Rsvp;
 use App\Models\Subscription;
+use App\Observers\GiftNotificationObserver;
+use App\Observers\GuestMessageNotificationObserver;
+use App\Observers\InvitationViewNotificationObserver;
+use App\Observers\RsvpNotificationObserver;
 use App\Observers\SubscriptionObserver;
 use App\Policies\InvitationPolicy;
 use Illuminate\Cache\RateLimiting\Limit;
@@ -37,5 +45,9 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Subscription::observe(SubscriptionObserver::class);
+        GuestMessage::observe(GuestMessageNotificationObserver::class);
+        Rsvp::observe(RsvpNotificationObserver::class);
+        Gift::observe(GiftNotificationObserver::class);
+        InvitationView::observe(InvitationViewNotificationObserver::class);
     }
 }

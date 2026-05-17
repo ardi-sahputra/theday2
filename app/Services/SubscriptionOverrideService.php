@@ -20,26 +20,27 @@ class SubscriptionOverrideService
      */
     public function grantPremium(User $user, int $months, ?string $reason = null): Subscription
     {
-        $existing = $user->activeSubscription;
+        $premiumPlan = Plan::where('slug', 'premium')->firstOrFail();
+        $existing    = $user->activeSubscription;
 
         if ($existing) {
-            // Extend from the current expiry
-            $startFrom = $existing->expires_at?->isFuture()
-                ? $existing->expires_at
-                : now();
+            $isUpgrade = $existing->plan_id !== $premiumPlan->id;
+
+            $startFrom = $isUpgrade
+                ? now()
+                : ($existing->expires_at?->isFuture() ? $existing->expires_at : now());
 
             $expiresAt = Carbon::parse($startFrom)->addMonths($months);
 
             $existing->update([
+                'plan_id'    => $premiumPlan->id,
                 'status'     => 'active',
+                'starts_at'  => $isUpgrade ? now() : $existing->starts_at,
                 'expires_at' => $expiresAt,
             ]);
 
             return $existing->fresh();
         }
-
-        // No active subscription — create a new one
-        $premiumPlan = Plan::where('slug', 'premium')->firstOrFail();
 
         return Subscription::create([
             'user_id'    => $user->id,
@@ -56,24 +57,29 @@ class SubscriptionOverrideService
      */
     public function grantPremiumDays(User $user, int $days): Subscription
     {
-        $existing = $user->activeSubscription;
+        $premiumPlan = Plan::where('slug', 'premium')->firstOrFail();
+        $existing    = $user->activeSubscription;
 
         if ($existing) {
-            $startFrom = $existing->expires_at?->isFuture()
-                ? $existing->expires_at
-                : now();
+            $isUpgrade = $existing->plan_id !== $premiumPlan->id;
+
+            // Upgrade from free (or other): start from now, ignore old expires_at
+            // Extend within premium: stack on top of current expiry
+            $startFrom = $isUpgrade
+                ? now()
+                : ($existing->expires_at?->isFuture() ? $existing->expires_at : now());
 
             $expiresAt = Carbon::parse($startFrom)->addDays($days);
 
             $existing->update([
+                'plan_id'    => $premiumPlan->id,
                 'status'     => 'active',
+                'starts_at'  => $isUpgrade ? now() : $existing->starts_at,
                 'expires_at' => $expiresAt,
             ]);
 
             return $existing->fresh();
         }
-
-        $premiumPlan = Plan::where('slug', 'premium')->firstOrFail();
 
         return Subscription::create([
             'user_id'    => $user->id,
