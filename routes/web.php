@@ -279,6 +279,13 @@ Route::get('/kebijakan-privasi', [LegalController::class, 'privacyPolicy'])->nam
 Route::get('/syarat-ketentuan',  [LegalController::class, 'termsOfService'])->name('legal.terms');
 Route::get('/kebijakan-cookie',  [LegalController::class, 'cookiePolicy'])->name('legal.cookie');
 
+// ── Gift claim (public landing + authed claim action) ──────────────────
+Route::get('/gift/claim/{code}', [\App\Http\Controllers\GiftClaimController::class, 'show'])
+    ->name('gift.claim.show');
+Route::post('/gift/claim/{code}', [\App\Http\Controllers\GiftClaimController::class, 'claim'])
+    ->middleware('auth')
+    ->name('gift.claim.store');
+
 // ── Public invitation pages ─────────────────────────────────────────────
 // IMPORTANT: keep this LAST so /{slug} doesn't swallow other routes.
 // The where() constraint excludes known top-level paths.
