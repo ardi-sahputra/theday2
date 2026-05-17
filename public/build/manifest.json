@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "../../../node_modules/vue3-apexcharts/dist/apexcharts.ssr.esm-fe46cd2d.js": {
     "file": "assets/apexcharts.ssr.esm-fe46cd2d-CHmRg-9z.js",
     "name": "apexcharts.ssr.esm-fe46cd2d",
@@ -22,12 +23,32 @@
   },
   "_ApplicationLogo-CYQ5GZxA.js": {
     "file": "assets/ApplicationLogo-CYQ5GZxA.js",
+=======
+  "_AdminLayout-C5IoAa3T.js": {
+    "file": "assets/AdminLayout-C5IoAa3T.js",
+    "name": "AdminLayout",
+    "imports": [
+      "resources/js/app.js",
+      "_index-C1v5Yssb.js",
+      "_createLucideIcon-B12BGXib.js",
+      "_chevron-right-CablWnGA.js",
+      "_credit-card-HoXaQJe4.js",
+      "_gift-DUaMM8Dn.js",
+      "_loader-circle-jLfpp1nO.js",
+      "_info-B474s3bG.js",
+      "_circle-check-CTIPLs0r.js"
+    ]
+  },
+  "_ApplicationLogo-BDx5dnZ2.js": {
+    "file": "assets/ApplicationLogo-BDx5dnZ2.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "ApplicationLogo",
     "imports": [
       "__plugin-vue_export-helper-DlAUqK2U.js",
       "resources/js/app.js"
     ]
   },
+<<<<<<< HEAD
   "_CardContent-Dq3hQe7Q.js": {
     "file": "assets/CardContent-Dq3hQe7Q.js",
     "name": "CardContent",
@@ -52,25 +73,62 @@
       "resources/js/app.js",
       "_Primitive-8B_UCPIx.js",
       "_VisuallyHidden-CUZ9hhzy.js"
+=======
+  "_CardContent-CElfq1BL.js": {
+    "file": "assets/CardContent-CElfq1BL.js",
+    "name": "CardContent",
+    "imports": [
+      "_Primitive-Bsi6nM2e.js",
+      "resources/js/app.js"
+    ]
+  },
+  "_CardTitle-TEFp2GPn.js": {
+    "file": "assets/CardTitle-TEFp2GPn.js",
+    "name": "CardTitle",
+    "imports": [
+      "_Primitive-Bsi6nM2e.js",
+      "resources/js/app.js"
+    ]
+  },
+  "_Collection-D9nOylm2.js": {
+    "file": "assets/Collection-D9nOylm2.js",
+    "name": "Collection",
+    "imports": [
+      "_Presence-Bxtws97B.js",
+      "resources/js/app.js",
+      "_Primitive-Bsi6nM2e.js",
+      "_VisuallyHidden-ClNj62RH.js"
+>>>>>>> feat/template-astronomy-celestial
     ]
   },
   "_DashboardLayout-CRDK3Q5q.css": {
     "file": "assets/DashboardLayout-CRDK3Q5q.css",
     "src": "_DashboardLayout-CRDK3Q5q.css"
   },
+<<<<<<< HEAD
   "_DashboardLayout-DKwtjJcy.js": {
     "file": "assets/DashboardLayout-DKwtjJcy.js",
+=======
+  "_DashboardLayout-Dg3A-7x2.js": {
+    "file": "assets/DashboardLayout-Dg3A-7x2.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "DashboardLayout",
     "imports": [
       "resources/js/app.js",
       "__plugin-vue_export-helper-DlAUqK2U.js",
+<<<<<<< HEAD
       "_LanguageSwitcher-Dq5LOWxO.js",
       "_useLocale-u67sMLNS.js"
+=======
+      "_LanguageSwitcher-BauF5QiD.js",
+      "_useLocale-BmZ4D7y4.js"
+>>>>>>> feat/template-astronomy-celestial
     ],
     "css": [
       "assets/DashboardLayout-CRDK3Q5q.css"
     ]
   },
+<<<<<<< HEAD
   "_DialogTitle-BV5QwGQY.js": {
     "file": "assets/DialogTitle-BV5QwGQY.js",
     "name": "DialogTitle",
@@ -95,6 +153,32 @@
   },
   "_InvitationRenderer-DezoRtD2.js": {
     "file": "assets/InvitationRenderer-DezoRtD2.js",
+=======
+  "_DialogTitle-DqJZ49gN.js": {
+    "file": "assets/DialogTitle-DqJZ49gN.js",
+    "name": "DialogTitle",
+    "imports": [
+      "_useForwardPropsEmits-BmlW3TSH.js",
+      "resources/js/app.js",
+      "_Primitive-Bsi6nM2e.js",
+      "_Presence-Bxtws97B.js",
+      "_Teleport-XMNCPaEW.js",
+      "_index-C1v5Yssb.js",
+      "_AdminLayout-C5IoAa3T.js"
+    ]
+  },
+  "_Input-CSvqmTxM.js": {
+    "file": "assets/Input-CSvqmTxM.js",
+    "name": "Input",
+    "imports": [
+      "resources/js/app.js",
+      "_useForwardPropsEmits-BmlW3TSH.js",
+      "_Primitive-Bsi6nM2e.js"
+    ]
+  },
+  "_InvitationRenderer-DhTZtYyz.js": {
+    "file": "assets/InvitationRenderer-DhTZtYyz.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "InvitationRenderer",
     "imports": [
       "resources/js/app.js",
@@ -105,6 +189,7 @@
       "resources/js/Pages/Invitation/Sections/SectionRsvp.vue",
       "resources/js/Pages/Invitation/Sections/SectionMessages.vue",
       "resources/js/Pages/Invitation/Sections/SectionClosing.vue",
+<<<<<<< HEAD
       "_registry-Cc-2kECF.js"
     ]
   },
@@ -123,6 +208,26 @@
     "name": "LanguageSwitcher",
     "imports": [
       "_useLocale-u67sMLNS.js",
+=======
+      "_registry-DfYTeiYN.js"
+    ]
+  },
+  "_Label-C6axcdcY.js": {
+    "file": "assets/Label-C6axcdcY.js",
+    "name": "Label",
+    "imports": [
+      "_useForwardPropsEmits-BmlW3TSH.js",
+      "_Primitive-Bsi6nM2e.js",
+      "resources/js/app.js",
+      "_index-C1v5Yssb.js"
+    ]
+  },
+  "_LanguageSwitcher-BauF5QiD.js": {
+    "file": "assets/LanguageSwitcher-BauF5QiD.js",
+    "name": "LanguageSwitcher",
+    "imports": [
+      "_useLocale-BmZ4D7y4.js",
+>>>>>>> feat/template-astronomy-celestial
       "resources/js/app.js"
     ]
   },
@@ -130,8 +235,13 @@
     "file": "assets/PhoneMockup-BVEjf29C.css",
     "src": "_PhoneMockup-BVEjf29C.css"
   },
+<<<<<<< HEAD
   "_PhoneMockup-BaD7Ty0O.js": {
     "file": "assets/PhoneMockup-BaD7Ty0O.js",
+=======
+  "_PhoneMockup-CyKvlnpe.js": {
+    "file": "assets/PhoneMockup-CyKvlnpe.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "PhoneMockup",
     "imports": [
       "__plugin-vue_export-helper-DlAUqK2U.js",
@@ -141,6 +251,7 @@
       "assets/PhoneMockup-BVEjf29C.css"
     ]
   },
+<<<<<<< HEAD
   "_Presence-Cf_fIyl0.js": {
     "file": "assets/Presence-Cf_fIyl0.js",
     "name": "Presence",
@@ -152,11 +263,25 @@
   },
   "_Primitive-8B_UCPIx.js": {
     "file": "assets/Primitive-8B_UCPIx.js",
+=======
+  "_Presence-Bxtws97B.js": {
+    "file": "assets/Presence-Bxtws97B.js",
+    "name": "Presence",
+    "imports": [
+      "_useForwardPropsEmits-BmlW3TSH.js",
+      "resources/js/app.js",
+      "_Primitive-Bsi6nM2e.js"
+    ]
+  },
+  "_Primitive-Bsi6nM2e.js": {
+    "file": "assets/Primitive-Bsi6nM2e.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "Primitive",
     "imports": [
       "resources/js/app.js"
     ]
   },
+<<<<<<< HEAD
   "_PublicLayout-DncEDS7N.js": {
     "file": "assets/PublicLayout-DncEDS7N.js",
     "name": "PublicLayout",
@@ -179,11 +304,36 @@
   },
   "_SectionAccordionCard-CWBeB4lZ.js": {
     "file": "assets/SectionAccordionCard-CWBeB4lZ.js",
+=======
+  "_PublicLayout-2oHo77Ck.js": {
+    "file": "assets/PublicLayout-2oHo77Ck.js",
+    "name": "PublicLayout",
+    "imports": [
+      "resources/js/app.js",
+      "_LanguageSwitcher-BauF5QiD.js",
+      "_useLocale-BmZ4D7y4.js"
+    ]
+  },
+  "_RovingFocusItem-X6ffvBD7.js": {
+    "file": "assets/RovingFocusItem-X6ffvBD7.js",
+    "name": "RovingFocusItem",
+    "imports": [
+      "_Presence-Bxtws97B.js",
+      "_Primitive-Bsi6nM2e.js",
+      "_Collection-D9nOylm2.js",
+      "_useForwardPropsEmits-BmlW3TSH.js",
+      "resources/js/app.js"
+    ]
+  },
+  "_SectionAccordionCard-RjbVAhrE.js": {
+    "file": "assets/SectionAccordionCard-RjbVAhrE.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "SectionAccordionCard",
     "imports": [
       "resources/js/app.js"
     ]
   },
+<<<<<<< HEAD
   "_SelectValue-gyaG1Q_R.js": {
     "file": "assets/SelectValue-gyaG1Q_R.js",
     "name": "SelectValue",
@@ -214,11 +364,44 @@
   },
   "_TemplatePicker-JcfhbDSM.js": {
     "file": "assets/TemplatePicker-JcfhbDSM.js",
+=======
+  "_SelectValue-CWA9L596.js": {
+    "file": "assets/SelectValue-CWA9L596.js",
+    "name": "SelectValue",
+    "imports": [
+      "_useForwardPropsEmits-BmlW3TSH.js",
+      "resources/js/app.js",
+      "_Presence-Bxtws97B.js",
+      "_Teleport-XMNCPaEW.js",
+      "_Primitive-Bsi6nM2e.js",
+      "_index-C1v5Yssb.js",
+      "_AdminLayout-C5IoAa3T.js",
+      "_Collection-D9nOylm2.js",
+      "_check-COdm6bhx.js",
+      "_createLucideIcon-B12BGXib.js",
+      "_VisuallyHidden-ClNj62RH.js"
+    ]
+  },
+  "_Teleport-XMNCPaEW.js": {
+    "file": "assets/Teleport-XMNCPaEW.js",
+    "name": "Teleport",
+    "imports": [
+      "_Presence-Bxtws97B.js",
+      "_useForwardPropsEmits-BmlW3TSH.js",
+      "_index-C1v5Yssb.js",
+      "resources/js/app.js",
+      "_Primitive-Bsi6nM2e.js"
+    ]
+  },
+  "_TemplatePicker-YrFHTQXb.js": {
+    "file": "assets/TemplatePicker-YrFHTQXb.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "TemplatePicker",
     "imports": [
       "resources/js/app.js"
     ]
   },
+<<<<<<< HEAD
   "_VisuallyHidden-CUZ9hhzy.js": {
     "file": "assets/VisuallyHidden-CUZ9hhzy.js",
     "name": "VisuallyHidden",
@@ -233,6 +416,22 @@
     "name": "VisuallyHiddenInput",
     "imports": [
       "_VisuallyHidden-CUZ9hhzy.js",
+=======
+  "_VisuallyHidden-ClNj62RH.js": {
+    "file": "assets/VisuallyHidden-ClNj62RH.js",
+    "name": "VisuallyHidden",
+    "imports": [
+      "_useForwardPropsEmits-BmlW3TSH.js",
+      "resources/js/app.js",
+      "_Primitive-Bsi6nM2e.js"
+    ]
+  },
+  "_VisuallyHiddenInput-DF9ejoWE.js": {
+    "file": "assets/VisuallyHiddenInput-DF9ejoWE.js",
+    "name": "VisuallyHiddenInput",
+    "imports": [
+      "_VisuallyHidden-ClNj62RH.js",
+>>>>>>> feat/template-astronomy-celestial
       "resources/js/app.js"
     ]
   },
@@ -240,6 +439,7 @@
     "file": "assets/_plugin-vue_export-helper-DlAUqK2U.js",
     "name": "_plugin-vue_export-helper"
   },
+<<<<<<< HEAD
   "_arrow-left-CUAF1K6B.js": {
     "file": "assets/arrow-left-CUAF1K6B.js",
     "name": "arrow-left",
@@ -319,11 +519,93 @@
   },
   "_createLucideIcon-yeJFjqPl.js": {
     "file": "assets/createLucideIcon-yeJFjqPl.js",
+=======
+  "_arrow-left-n8t7xs6B.js": {
+    "file": "assets/arrow-left-n8t7xs6B.js",
+    "name": "arrow-left",
+    "imports": [
+      "_createLucideIcon-B12BGXib.js"
+    ]
+  },
+  "_arrow-right-Bbd3IytD.js": {
+    "file": "assets/arrow-right-Bbd3IytD.js",
+    "name": "arrow-right",
+    "imports": [
+      "_createLucideIcon-B12BGXib.js"
+    ]
+  },
+  "_calendar-DeDPXqXz.js": {
+    "file": "assets/calendar-DeDPXqXz.js",
+    "name": "calendar",
+    "imports": [
+      "_createLucideIcon-B12BGXib.js"
+    ]
+  },
+  "_check-COdm6bhx.js": {
+    "file": "assets/check-COdm6bhx.js",
+    "name": "check",
+    "imports": [
+      "_createLucideIcon-B12BGXib.js"
+    ]
+  },
+  "_chevron-left-C_WiihmK.js": {
+    "file": "assets/chevron-left-C_WiihmK.js",
+    "name": "chevron-left",
+    "imports": [
+      "_createLucideIcon-B12BGXib.js"
+    ]
+  },
+  "_chevron-right-CablWnGA.js": {
+    "file": "assets/chevron-right-CablWnGA.js",
+    "name": "chevron-right",
+    "imports": [
+      "_createLucideIcon-B12BGXib.js"
+    ]
+  },
+  "_circle-alert-D6XyAZ44.js": {
+    "file": "assets/circle-alert-D6XyAZ44.js",
+    "name": "circle-alert",
+    "imports": [
+      "_createLucideIcon-B12BGXib.js"
+    ]
+  },
+  "_circle-check-CTIPLs0r.js": {
+    "file": "assets/circle-check-CTIPLs0r.js",
+    "name": "circle-check",
+    "imports": [
+      "_createLucideIcon-B12BGXib.js"
+    ]
+  },
+  "_circle-x-BInIdF3Q.js": {
+    "file": "assets/circle-x-BInIdF3Q.js",
+    "name": "circle-x",
+    "imports": [
+      "_createLucideIcon-B12BGXib.js"
+    ]
+  },
+  "_clock-C3g26FkJ.js": {
+    "file": "assets/clock-C3g26FkJ.js",
+    "name": "clock",
+    "imports": [
+      "_createLucideIcon-B12BGXib.js"
+    ]
+  },
+  "_copy-COCj_S3a.js": {
+    "file": "assets/copy-COCj_S3a.js",
+    "name": "copy",
+    "imports": [
+      "_createLucideIcon-B12BGXib.js"
+    ]
+  },
+  "_createLucideIcon-B12BGXib.js": {
+    "file": "assets/createLucideIcon-B12BGXib.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "createLucideIcon",
     "imports": [
       "resources/js/app.js"
     ]
   },
+<<<<<<< HEAD
   "_credit-card-B_jZmIM1.js": {
     "file": "assets/credit-card-B_jZmIM1.js",
     "name": "credit-card",
@@ -355,11 +637,37 @@
   },
   "_index-Bgizl7-m.js": {
     "file": "assets/index-Bgizl7-m.js",
+=======
+  "_credit-card-HoXaQJe4.js": {
+    "file": "assets/credit-card-HoXaQJe4.js",
+    "name": "credit-card",
+    "imports": [
+      "_createLucideIcon-B12BGXib.js"
+    ]
+  },
+  "_eye-CD9la3JY.js": {
+    "file": "assets/eye-CD9la3JY.js",
+    "name": "eye",
+    "imports": [
+      "_createLucideIcon-B12BGXib.js"
+    ]
+  },
+  "_gift-DUaMM8Dn.js": {
+    "file": "assets/gift-DUaMM8Dn.js",
+    "name": "gift",
+    "imports": [
+      "_createLucideIcon-B12BGXib.js"
+    ]
+  },
+  "_index-C1v5Yssb.js": {
+    "file": "assets/index-C1v5Yssb.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "index",
     "imports": [
       "resources/js/app.js"
     ]
   },
+<<<<<<< HEAD
   "_index-DlRx6fdF.js": {
     "file": "assets/index-DlRx6fdF.js",
     "name": "index",
@@ -431,10 +739,92 @@
     "imports": [
       "resources/js/app.js",
       "_useReveal-DjGD4XPI.js",
+=======
+  "_index-Cg68w0_7.js": {
+    "file": "assets/index-Cg68w0_7.js",
+    "name": "index",
+    "imports": [
+      "_Primitive-Bsi6nM2e.js",
+      "resources/js/app.js"
+    ]
+  },
+  "_index-y1XULU-4.js": {
+    "file": "assets/index-y1XULU-4.js",
+    "name": "index",
+    "imports": [
+      "_Primitive-Bsi6nM2e.js",
+      "_index-Cg68w0_7.js",
+      "resources/js/app.js"
+    ]
+  },
+  "_info-B474s3bG.js": {
+    "file": "assets/info-B474s3bG.js",
+    "name": "info",
+    "imports": [
+      "_createLucideIcon-B12BGXib.js"
+    ]
+  },
+  "_link-2-Bd9l-k_q.js": {
+    "file": "assets/link-2-Bd9l-k_q.js",
+    "name": "link-2",
+    "imports": [
+      "_createLucideIcon-B12BGXib.js"
+    ]
+  },
+  "_loader-circle-jLfpp1nO.js": {
+    "file": "assets/loader-circle-jLfpp1nO.js",
+    "name": "loader-circle",
+    "imports": [
+      "_createLucideIcon-B12BGXib.js"
+    ]
+  },
+  "_mail-Dxz-gzN0.js": {
+    "file": "assets/mail-Dxz-gzN0.js",
+    "name": "mail",
+    "imports": [
+      "_createLucideIcon-B12BGXib.js"
+    ]
+  },
+  "_message-circle-xjfZ2kpH.js": {
+    "file": "assets/message-circle-xjfZ2kpH.js",
+    "name": "message-circle",
+    "imports": [
+      "_createLucideIcon-B12BGXib.js"
+    ]
+  },
+  "_message-square-xhAg0oLm.js": {
+    "file": "assets/message-square-xhAg0oLm.js",
+    "name": "message-square",
+    "imports": [
+      "_createLucideIcon-B12BGXib.js"
+    ]
+  },
+  "_pencil-BEV1be2B.js": {
+    "file": "assets/pencil-BEV1be2B.js",
+    "name": "pencil",
+    "imports": [
+      "_createLucideIcon-B12BGXib.js"
+    ]
+  },
+  "_plus-CjcfoCvT.js": {
+    "file": "assets/plus-CjcfoCvT.js",
+    "name": "plus",
+    "imports": [
+      "_createLucideIcon-B12BGXib.js"
+    ]
+  },
+  "_registry-DfYTeiYN.js": {
+    "file": "assets/registry-DfYTeiYN.js",
+    "name": "registry",
+    "imports": [
+      "resources/js/app.js",
+      "_useReveal-BJp6Mhxj.js",
+>>>>>>> feat/template-astronomy-celestial
       "__plugin-vue_export-helper-DlAUqK2U.js",
       "resources/js/Pages/Invitation/Sections/SectionGallery.vue"
     ],
     "css": [
+<<<<<<< HEAD
       "assets/registry-Duz5cQyu.css"
     ]
   },
@@ -466,13 +856,51 @@
   },
   "_useLocale-u67sMLNS.js": {
     "file": "assets/useLocale-u67sMLNS.js",
+=======
+      "assets/registry-egjHTHOj.css"
+    ]
+  },
+  "_registry-egjHTHOj.css": {
+    "file": "assets/registry-egjHTHOj.css",
+    "src": "_registry-egjHTHOj.css"
+  },
+  "_sparkles-BiO31dLT.js": {
+    "file": "assets/sparkles-BiO31dLT.js",
+    "name": "sparkles",
+    "imports": [
+      "_createLucideIcon-B12BGXib.js"
+    ]
+  },
+  "_trash-2-DgpgXTV-.js": {
+    "file": "assets/trash-2-DgpgXTV-.js",
+    "name": "trash-2",
+    "imports": [
+      "_createLucideIcon-B12BGXib.js"
+    ]
+  },
+  "_useForwardPropsEmits-BmlW3TSH.js": {
+    "file": "assets/useForwardPropsEmits-BmlW3TSH.js",
+    "name": "useForwardPropsEmits",
+    "imports": [
+      "resources/js/app.js",
+      "_index-C1v5Yssb.js"
+    ]
+  },
+  "_useLocale-BmZ4D7y4.js": {
+    "file": "assets/useLocale-BmZ4D7y4.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "useLocale",
     "imports": [
       "resources/js/app.js"
     ]
   },
+<<<<<<< HEAD
   "_useReveal-DjGD4XPI.js": {
     "file": "assets/useReveal-DjGD4XPI.js",
+=======
+  "_useReveal-BJp6Mhxj.js": {
+    "file": "assets/useReveal-BJp6Mhxj.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "useReveal",
     "imports": [
       "resources/js/app.js"
@@ -488,12 +916,17 @@
     ]
   },
   "resources/js/Pages/Admin/Articles/Form.vue": {
+<<<<<<< HEAD
     "file": "assets/Form-CDmvkJFL.js",
+=======
+    "file": "assets/Form-Z1Cdsw9M.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "Form",
     "src": "resources/js/Pages/Admin/Articles/Form.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
       "_AdminLayout-mthTTLl0.js",
       "_CardContent-Dq3hQe7Q.js",
       "_index-B3QZkD5P.js",
@@ -512,18 +945,43 @@
       "_loader-circle-CyIgxZT9.js",
       "_info-jHSGzYcy.js",
       "_circle-check-Bm3vLhQX.js"
+=======
+      "_AdminLayout-C5IoAa3T.js",
+      "_CardContent-CElfq1BL.js",
+      "_index-Cg68w0_7.js",
+      "_Input-CSvqmTxM.js",
+      "_Label-C6axcdcY.js",
+      "_useForwardPropsEmits-BmlW3TSH.js",
+      "_VisuallyHidden-ClNj62RH.js",
+      "_Primitive-Bsi6nM2e.js",
+      "_VisuallyHiddenInput-DF9ejoWE.js",
+      "_index-C1v5Yssb.js",
+      "_arrow-left-n8t7xs6B.js",
+      "_createLucideIcon-B12BGXib.js",
+      "_chevron-right-CablWnGA.js",
+      "_credit-card-HoXaQJe4.js",
+      "_gift-DUaMM8Dn.js",
+      "_loader-circle-jLfpp1nO.js",
+      "_info-B474s3bG.js",
+      "_circle-check-CTIPLs0r.js"
+>>>>>>> feat/template-astronomy-celestial
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
     ]
   },
   "resources/js/Pages/Admin/Articles/Index.vue": {
+<<<<<<< HEAD
     "file": "assets/Index-mpCmsKRf.js",
+=======
+    "file": "assets/Index-XGYMGTXM.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "Index",
     "src": "resources/js/Pages/Admin/Articles/Index.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
       "_AdminLayout-mthTTLl0.js",
       "_CardContent-Dq3hQe7Q.js",
       "_index-B3QZkD5P.js",
@@ -542,18 +1000,43 @@
       "_info-jHSGzYcy.js",
       "_circle-check-Bm3vLhQX.js",
       "_Primitive-8B_UCPIx.js"
+=======
+      "_AdminLayout-C5IoAa3T.js",
+      "_CardContent-CElfq1BL.js",
+      "_index-Cg68w0_7.js",
+      "_index-y1XULU-4.js",
+      "_plus-CjcfoCvT.js",
+      "_eye-CD9la3JY.js",
+      "_createLucideIcon-B12BGXib.js",
+      "_circle-x-BInIdF3Q.js",
+      "_pencil-BEV1be2B.js",
+      "_trash-2-DgpgXTV-.js",
+      "_index-C1v5Yssb.js",
+      "_chevron-right-CablWnGA.js",
+      "_credit-card-HoXaQJe4.js",
+      "_gift-DUaMM8Dn.js",
+      "_loader-circle-jLfpp1nO.js",
+      "_info-B474s3bG.js",
+      "_circle-check-CTIPLs0r.js",
+      "_Primitive-Bsi6nM2e.js"
+>>>>>>> feat/template-astronomy-celestial
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
     ]
   },
   "resources/js/Pages/Admin/Auth/Login.vue": {
+<<<<<<< HEAD
     "file": "assets/Login-E8hK3b3F.js",
+=======
+    "file": "assets/Login-CwfCbgV-.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "Login",
     "src": "resources/js/Pages/Admin/Auth/Login.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
       "_index-Bgizl7-m.js",
       "_index-B3QZkD5P.js",
       "_Input-DzGdNr5O.js",
@@ -570,6 +1053,24 @@
       "_eye-D05D3xD-.js",
       "_createLucideIcon-yeJFjqPl.js",
       "_loader-circle-CyIgxZT9.js"
+=======
+      "_index-C1v5Yssb.js",
+      "_index-Cg68w0_7.js",
+      "_Input-CSvqmTxM.js",
+      "_Label-C6axcdcY.js",
+      "_useForwardPropsEmits-BmlW3TSH.js",
+      "_Presence-Bxtws97B.js",
+      "_Collection-D9nOylm2.js",
+      "_VisuallyHidden-ClNj62RH.js",
+      "_Primitive-Bsi6nM2e.js",
+      "_VisuallyHiddenInput-DF9ejoWE.js",
+      "_RovingFocusItem-X6ffvBD7.js",
+      "_check-COdm6bhx.js",
+      "__plugin-vue_export-helper-DlAUqK2U.js",
+      "_eye-CD9la3JY.js",
+      "_createLucideIcon-B12BGXib.js",
+      "_loader-circle-jLfpp1nO.js"
+>>>>>>> feat/template-astronomy-celestial
     ],
     "css": [
       "assets/Login-Bx90eeSm.css",
@@ -577,12 +1078,17 @@
     ]
   },
   "resources/js/Pages/Admin/Dashboard.vue": {
+<<<<<<< HEAD
     "file": "assets/Dashboard-CzCiEFqY.js",
+=======
+    "file": "assets/Dashboard-f7ctlVUj.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "Dashboard",
     "src": "resources/js/Pages/Admin/Dashboard.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
       "_AdminLayout-mthTTLl0.js",
       "_CardContent-Dq3hQe7Q.js",
       "_createLucideIcon-yeJFjqPl.js",
@@ -598,18 +1104,40 @@
       "_info-jHSGzYcy.js",
       "_circle-check-Bm3vLhQX.js",
       "_Primitive-8B_UCPIx.js"
+=======
+      "_AdminLayout-C5IoAa3T.js",
+      "_CardContent-CElfq1BL.js",
+      "_createLucideIcon-B12BGXib.js",
+      "_CardTitle-TEFp2GPn.js",
+      "_index-Cg68w0_7.js",
+      "_credit-card-HoXaQJe4.js",
+      "_sparkles-BiO31dLT.js",
+      "_arrow-right-Bbd3IytD.js",
+      "_index-C1v5Yssb.js",
+      "_chevron-right-CablWnGA.js",
+      "_gift-DUaMM8Dn.js",
+      "_loader-circle-jLfpp1nO.js",
+      "_info-B474s3bG.js",
+      "_circle-check-CTIPLs0r.js",
+      "_Primitive-Bsi6nM2e.js"
+>>>>>>> feat/template-astronomy-celestial
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
     ]
   },
   "resources/js/Pages/Admin/Discounts/Create.vue": {
+<<<<<<< HEAD
     "file": "assets/Create-BuK-WXK5.js",
+=======
+    "file": "assets/Create-D1EZU5ae.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "Create",
     "src": "resources/js/Pages/Admin/Discounts/Create.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
       "_AdminLayout-mthTTLl0.js",
       "_useLocale-u67sMLNS.js",
       "__plugin-vue_export-helper-DlAUqK2U.js",
@@ -624,6 +1152,22 @@
       "_gift-AuWBhO7K.js",
       "_info-jHSGzYcy.js",
       "_circle-check-Bm3vLhQX.js"
+=======
+      "_AdminLayout-C5IoAa3T.js",
+      "_useLocale-BmZ4D7y4.js",
+      "__plugin-vue_export-helper-DlAUqK2U.js",
+      "_arrow-left-n8t7xs6B.js",
+      "_calendar-DeDPXqXz.js",
+      "_loader-circle-jLfpp1nO.js",
+      "_chevron-left-C_WiihmK.js",
+      "_chevron-right-CablWnGA.js",
+      "_index-C1v5Yssb.js",
+      "_createLucideIcon-B12BGXib.js",
+      "_credit-card-HoXaQJe4.js",
+      "_gift-DUaMM8Dn.js",
+      "_info-B474s3bG.js",
+      "_circle-check-CTIPLs0r.js"
+>>>>>>> feat/template-astronomy-celestial
     ],
     "css": [
       "assets/Create-Bpskp6-J.css",
@@ -631,12 +1175,17 @@
     ]
   },
   "resources/js/Pages/Admin/Discounts/Edit.vue": {
+<<<<<<< HEAD
     "file": "assets/Edit-U9q8WGkp.js",
+=======
+    "file": "assets/Edit-BPhFU6Uc.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "Edit",
     "src": "resources/js/Pages/Admin/Discounts/Edit.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
       "_AdminLayout-mthTTLl0.js",
       "_useLocale-u67sMLNS.js",
       "__plugin-vue_export-helper-DlAUqK2U.js",
@@ -651,6 +1200,22 @@
       "_gift-AuWBhO7K.js",
       "_info-jHSGzYcy.js",
       "_circle-check-Bm3vLhQX.js"
+=======
+      "_AdminLayout-C5IoAa3T.js",
+      "_useLocale-BmZ4D7y4.js",
+      "__plugin-vue_export-helper-DlAUqK2U.js",
+      "_arrow-left-n8t7xs6B.js",
+      "_calendar-DeDPXqXz.js",
+      "_loader-circle-jLfpp1nO.js",
+      "_chevron-left-C_WiihmK.js",
+      "_chevron-right-CablWnGA.js",
+      "_index-C1v5Yssb.js",
+      "_createLucideIcon-B12BGXib.js",
+      "_credit-card-HoXaQJe4.js",
+      "_gift-DUaMM8Dn.js",
+      "_info-B474s3bG.js",
+      "_circle-check-CTIPLs0r.js"
+>>>>>>> feat/template-astronomy-celestial
     ],
     "css": [
       "assets/Edit-DszkKoAk.css",
@@ -658,12 +1223,17 @@
     ]
   },
   "resources/js/Pages/Admin/Discounts/Index.vue": {
+<<<<<<< HEAD
     "file": "assets/Index-CTg0VRiL.js",
+=======
+    "file": "assets/Index-DCX04t55.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "Index",
     "src": "resources/js/Pages/Admin/Discounts/Index.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
       "_AdminLayout-mthTTLl0.js",
       "_useLocale-u67sMLNS.js",
       "_plus-Cyzz_Y_j.js",
@@ -677,18 +1247,38 @@
       "_loader-circle-CyIgxZT9.js",
       "_info-jHSGzYcy.js",
       "_circle-check-Bm3vLhQX.js"
+=======
+      "_AdminLayout-C5IoAa3T.js",
+      "_useLocale-BmZ4D7y4.js",
+      "_plus-CjcfoCvT.js",
+      "_pencil-BEV1be2B.js",
+      "_trash-2-DgpgXTV-.js",
+      "_index-C1v5Yssb.js",
+      "_createLucideIcon-B12BGXib.js",
+      "_chevron-right-CablWnGA.js",
+      "_credit-card-HoXaQJe4.js",
+      "_gift-DUaMM8Dn.js",
+      "_loader-circle-jLfpp1nO.js",
+      "_info-B474s3bG.js",
+      "_circle-check-CTIPLs0r.js"
+>>>>>>> feat/template-astronomy-celestial
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
     ]
   },
   "resources/js/Pages/Admin/Gifts/Create.vue": {
+<<<<<<< HEAD
     "file": "assets/Create-BdUVdL6D.js",
+=======
+    "file": "assets/Create-xEDv8UbN.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "Create",
     "src": "resources/js/Pages/Admin/Gifts/Create.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
       "_AdminLayout-mthTTLl0.js",
       "_CardContent-Dq3hQe7Q.js",
       "_index-B3QZkD5P.js",
@@ -714,18 +1304,50 @@
       "_Collection-B9fxFroz.js",
       "_VisuallyHidden-CUZ9hhzy.js",
       "_check-7b-Vodcl.js"
+=======
+      "_AdminLayout-C5IoAa3T.js",
+      "_CardContent-CElfq1BL.js",
+      "_index-Cg68w0_7.js",
+      "_Input-CSvqmTxM.js",
+      "_Label-C6axcdcY.js",
+      "_SelectValue-CWA9L596.js",
+      "_useLocale-BmZ4D7y4.js",
+      "_arrow-left-n8t7xs6B.js",
+      "_gift-DUaMM8Dn.js",
+      "_link-2-Bd9l-k_q.js",
+      "_mail-Dxz-gzN0.js",
+      "_info-B474s3bG.js",
+      "_loader-circle-jLfpp1nO.js",
+      "_index-C1v5Yssb.js",
+      "_createLucideIcon-B12BGXib.js",
+      "_chevron-right-CablWnGA.js",
+      "_credit-card-HoXaQJe4.js",
+      "_circle-check-CTIPLs0r.js",
+      "_Primitive-Bsi6nM2e.js",
+      "_useForwardPropsEmits-BmlW3TSH.js",
+      "_Presence-Bxtws97B.js",
+      "_Teleport-XMNCPaEW.js",
+      "_Collection-D9nOylm2.js",
+      "_VisuallyHidden-ClNj62RH.js",
+      "_check-COdm6bhx.js"
+>>>>>>> feat/template-astronomy-celestial
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
     ]
   },
   "resources/js/Pages/Admin/Gifts/Index.vue": {
+<<<<<<< HEAD
     "file": "assets/Index-BOKlPMIr.js",
+=======
+    "file": "assets/Index-d_BI8Bsw.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "Index",
     "src": "resources/js/Pages/Admin/Gifts/Index.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
       "_AdminLayout-mthTTLl0.js",
       "_CardContent-Dq3hQe7Q.js",
       "_index-B3QZkD5P.js",
@@ -750,18 +1372,49 @@
       "_Teleport-JYwQPVNS.js",
       "_Collection-B9fxFroz.js",
       "_VisuallyHidden-CUZ9hhzy.js"
+=======
+      "_AdminLayout-C5IoAa3T.js",
+      "_CardContent-CElfq1BL.js",
+      "_index-Cg68w0_7.js",
+      "_SelectValue-CWA9L596.js",
+      "_useLocale-BmZ4D7y4.js",
+      "_gift-DUaMM8Dn.js",
+      "_plus-CjcfoCvT.js",
+      "_check-COdm6bhx.js",
+      "_copy-COCj_S3a.js",
+      "_eye-CD9la3JY.js",
+      "_trash-2-DgpgXTV-.js",
+      "_index-C1v5Yssb.js",
+      "_createLucideIcon-B12BGXib.js",
+      "_chevron-right-CablWnGA.js",
+      "_credit-card-HoXaQJe4.js",
+      "_loader-circle-jLfpp1nO.js",
+      "_info-B474s3bG.js",
+      "_circle-check-CTIPLs0r.js",
+      "_Primitive-Bsi6nM2e.js",
+      "_useForwardPropsEmits-BmlW3TSH.js",
+      "_Presence-Bxtws97B.js",
+      "_Teleport-XMNCPaEW.js",
+      "_Collection-D9nOylm2.js",
+      "_VisuallyHidden-ClNj62RH.js"
+>>>>>>> feat/template-astronomy-celestial
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
     ]
   },
   "resources/js/Pages/Admin/Gifts/Show.vue": {
+<<<<<<< HEAD
     "file": "assets/Show-DBROZBpR.js",
+=======
+    "file": "assets/Show-Dn7QEnvf.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "Show",
     "src": "resources/js/Pages/Admin/Gifts/Show.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
       "_AdminLayout-mthTTLl0.js",
       "_CardContent-Dq3hQe7Q.js",
       "_index-B3QZkD5P.js",
@@ -789,18 +1442,52 @@
       "_loader-circle-CyIgxZT9.js",
       "_info-jHSGzYcy.js",
       "_Teleport-JYwQPVNS.js"
+=======
+      "_AdminLayout-C5IoAa3T.js",
+      "_CardContent-CElfq1BL.js",
+      "_index-Cg68w0_7.js",
+      "_DialogTitle-DqJZ49gN.js",
+      "_useForwardPropsEmits-BmlW3TSH.js",
+      "_Primitive-Bsi6nM2e.js",
+      "_index-C1v5Yssb.js",
+      "_Presence-Bxtws97B.js",
+      "_useLocale-BmZ4D7y4.js",
+      "_arrow-left-n8t7xs6B.js",
+      "_gift-DUaMM8Dn.js",
+      "_check-COdm6bhx.js",
+      "_copy-COCj_S3a.js",
+      "_circle-check-CTIPLs0r.js",
+      "_circle-alert-D6XyAZ44.js",
+      "_mail-Dxz-gzN0.js",
+      "_link-2-Bd9l-k_q.js",
+      "_calendar-DeDPXqXz.js",
+      "_clock-C3g26FkJ.js",
+      "_message-circle-xjfZ2kpH.js",
+      "_trash-2-DgpgXTV-.js",
+      "_createLucideIcon-B12BGXib.js",
+      "_chevron-right-CablWnGA.js",
+      "_credit-card-HoXaQJe4.js",
+      "_loader-circle-jLfpp1nO.js",
+      "_info-B474s3bG.js",
+      "_Teleport-XMNCPaEW.js"
+>>>>>>> feat/template-astronomy-celestial
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
     ]
   },
   "resources/js/Pages/Admin/Notifications/Create.vue": {
+<<<<<<< HEAD
     "file": "assets/Create-T1app8Gx.js",
+=======
+    "file": "assets/Create-qBxS-Juu.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "Create",
     "src": "resources/js/Pages/Admin/Notifications/Create.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
       "_AdminLayout-mthTTLl0.js",
       "_useLocale-u67sMLNS.js",
       "_index-Bgizl7-m.js",
@@ -811,18 +1498,35 @@
       "_loader-circle-CyIgxZT9.js",
       "_info-jHSGzYcy.js",
       "_circle-check-Bm3vLhQX.js"
+=======
+      "_AdminLayout-C5IoAa3T.js",
+      "_useLocale-BmZ4D7y4.js",
+      "_index-C1v5Yssb.js",
+      "_createLucideIcon-B12BGXib.js",
+      "_chevron-right-CablWnGA.js",
+      "_credit-card-HoXaQJe4.js",
+      "_gift-DUaMM8Dn.js",
+      "_loader-circle-jLfpp1nO.js",
+      "_info-B474s3bG.js",
+      "_circle-check-CTIPLs0r.js"
+>>>>>>> feat/template-astronomy-celestial
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
     ]
   },
   "resources/js/Pages/Admin/Notifications/Edit.vue": {
+<<<<<<< HEAD
     "file": "assets/Edit-DdlKGKqp.js",
+=======
+    "file": "assets/Edit-CfNuBhO-.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "Edit",
     "src": "resources/js/Pages/Admin/Notifications/Edit.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
       "_AdminLayout-mthTTLl0.js",
       "_useLocale-u67sMLNS.js",
       "_index-Bgizl7-m.js",
@@ -833,18 +1537,35 @@
       "_loader-circle-CyIgxZT9.js",
       "_info-jHSGzYcy.js",
       "_circle-check-Bm3vLhQX.js"
+=======
+      "_AdminLayout-C5IoAa3T.js",
+      "_useLocale-BmZ4D7y4.js",
+      "_index-C1v5Yssb.js",
+      "_createLucideIcon-B12BGXib.js",
+      "_chevron-right-CablWnGA.js",
+      "_credit-card-HoXaQJe4.js",
+      "_gift-DUaMM8Dn.js",
+      "_loader-circle-jLfpp1nO.js",
+      "_info-B474s3bG.js",
+      "_circle-check-CTIPLs0r.js"
+>>>>>>> feat/template-astronomy-celestial
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
     ]
   },
   "resources/js/Pages/Admin/Notifications/Index.vue": {
+<<<<<<< HEAD
     "file": "assets/Index-BMME8h0b.js",
+=======
+    "file": "assets/Index-nuHiPBGn.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "Index",
     "src": "resources/js/Pages/Admin/Notifications/Index.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
       "_AdminLayout-mthTTLl0.js",
       "_useLocale-u67sMLNS.js",
       "_index-Bgizl7-m.js",
@@ -855,18 +1576,35 @@
       "_loader-circle-CyIgxZT9.js",
       "_info-jHSGzYcy.js",
       "_circle-check-Bm3vLhQX.js"
+=======
+      "_AdminLayout-C5IoAa3T.js",
+      "_useLocale-BmZ4D7y4.js",
+      "_index-C1v5Yssb.js",
+      "_createLucideIcon-B12BGXib.js",
+      "_chevron-right-CablWnGA.js",
+      "_credit-card-HoXaQJe4.js",
+      "_gift-DUaMM8Dn.js",
+      "_loader-circle-jLfpp1nO.js",
+      "_info-B474s3bG.js",
+      "_circle-check-CTIPLs0r.js"
+>>>>>>> feat/template-astronomy-celestial
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
     ]
   },
   "resources/js/Pages/Admin/Notifications/Show.vue": {
+<<<<<<< HEAD
     "file": "assets/Show-Xospa2Ha.js",
+=======
+    "file": "assets/Show-Cv61CD_X.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "Show",
     "src": "resources/js/Pages/Admin/Notifications/Show.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
       "_AdminLayout-mthTTLl0.js",
       "_useLocale-u67sMLNS.js",
       "_index-Bgizl7-m.js",
@@ -877,18 +1615,35 @@
       "_loader-circle-CyIgxZT9.js",
       "_info-jHSGzYcy.js",
       "_circle-check-Bm3vLhQX.js"
+=======
+      "_AdminLayout-C5IoAa3T.js",
+      "_useLocale-BmZ4D7y4.js",
+      "_index-C1v5Yssb.js",
+      "_createLucideIcon-B12BGXib.js",
+      "_chevron-right-CablWnGA.js",
+      "_credit-card-HoXaQJe4.js",
+      "_gift-DUaMM8Dn.js",
+      "_loader-circle-jLfpp1nO.js",
+      "_info-B474s3bG.js",
+      "_circle-check-CTIPLs0r.js"
+>>>>>>> feat/template-astronomy-celestial
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
     ]
   },
   "resources/js/Pages/Admin/Plans/Edit.vue": {
+<<<<<<< HEAD
     "file": "assets/Edit-Di7ocFtM.js",
+=======
+    "file": "assets/Edit-BuZJN6Ox.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "Edit",
     "src": "resources/js/Pages/Admin/Plans/Edit.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
       "_AdminLayout-mthTTLl0.js",
       "_useLocale-u67sMLNS.js",
       "_arrow-left-CUAF1K6B.js",
@@ -902,18 +1657,38 @@
       "_gift-AuWBhO7K.js",
       "_info-jHSGzYcy.js",
       "_circle-check-Bm3vLhQX.js"
+=======
+      "_AdminLayout-C5IoAa3T.js",
+      "_useLocale-BmZ4D7y4.js",
+      "_arrow-left-n8t7xs6B.js",
+      "_trash-2-DgpgXTV-.js",
+      "_plus-CjcfoCvT.js",
+      "_loader-circle-jLfpp1nO.js",
+      "_index-C1v5Yssb.js",
+      "_createLucideIcon-B12BGXib.js",
+      "_chevron-right-CablWnGA.js",
+      "_credit-card-HoXaQJe4.js",
+      "_gift-DUaMM8Dn.js",
+      "_info-B474s3bG.js",
+      "_circle-check-CTIPLs0r.js"
+>>>>>>> feat/template-astronomy-celestial
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
     ]
   },
   "resources/js/Pages/Admin/Plans/Index.vue": {
+<<<<<<< HEAD
     "file": "assets/Index-BB-dIP_K.js",
+=======
+    "file": "assets/Index-C5qAeMjo.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "Index",
     "src": "resources/js/Pages/Admin/Plans/Index.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
       "_AdminLayout-mthTTLl0.js",
       "_useLocale-u67sMLNS.js",
       "_circle-check-Bm3vLhQX.js",
@@ -926,18 +1701,37 @@
       "_gift-AuWBhO7K.js",
       "_loader-circle-CyIgxZT9.js",
       "_info-jHSGzYcy.js"
+=======
+      "_AdminLayout-C5IoAa3T.js",
+      "_useLocale-BmZ4D7y4.js",
+      "_circle-check-CTIPLs0r.js",
+      "_circle-x-BInIdF3Q.js",
+      "_pencil-BEV1be2B.js",
+      "_index-C1v5Yssb.js",
+      "_createLucideIcon-B12BGXib.js",
+      "_chevron-right-CablWnGA.js",
+      "_credit-card-HoXaQJe4.js",
+      "_gift-DUaMM8Dn.js",
+      "_loader-circle-jLfpp1nO.js",
+      "_info-B474s3bG.js"
+>>>>>>> feat/template-astronomy-celestial
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
     ]
   },
   "resources/js/Pages/Admin/Subscriptions/Index.vue": {
+<<<<<<< HEAD
     "file": "assets/Index-UvaCgi-_.js",
+=======
+    "file": "assets/Index-CU3wGBbL.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "Index",
     "src": "resources/js/Pages/Admin/Subscriptions/Index.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
       "_AdminLayout-mthTTLl0.js",
       "_CardContent-Dq3hQe7Q.js",
       "_index-B3QZkD5P.js",
@@ -960,18 +1754,47 @@
       "_Collection-B9fxFroz.js",
       "_VisuallyHidden-CUZ9hhzy.js",
       "_check-7b-Vodcl.js"
+=======
+      "_AdminLayout-C5IoAa3T.js",
+      "_CardContent-CElfq1BL.js",
+      "_index-Cg68w0_7.js",
+      "_SelectValue-CWA9L596.js",
+      "_credit-card-HoXaQJe4.js",
+      "_sparkles-BiO31dLT.js",
+      "_clock-C3g26FkJ.js",
+      "_circle-x-BInIdF3Q.js",
+      "_index-C1v5Yssb.js",
+      "_createLucideIcon-B12BGXib.js",
+      "_chevron-right-CablWnGA.js",
+      "_gift-DUaMM8Dn.js",
+      "_loader-circle-jLfpp1nO.js",
+      "_info-B474s3bG.js",
+      "_circle-check-CTIPLs0r.js",
+      "_Primitive-Bsi6nM2e.js",
+      "_useForwardPropsEmits-BmlW3TSH.js",
+      "_Presence-Bxtws97B.js",
+      "_Teleport-XMNCPaEW.js",
+      "_Collection-D9nOylm2.js",
+      "_VisuallyHidden-ClNj62RH.js",
+      "_check-COdm6bhx.js"
+>>>>>>> feat/template-astronomy-celestial
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
     ]
   },
   "resources/js/Pages/Admin/Users/Index.vue": {
+<<<<<<< HEAD
     "file": "assets/Index-Bv1jK34V.js",
+=======
+    "file": "assets/Index-DhWduZyu.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "Index",
     "src": "resources/js/Pages/Admin/Users/Index.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
       "_AdminLayout-mthTTLl0.js",
       "_CardContent-Dq3hQe7Q.js",
       "_Input-DzGdNr5O.js",
@@ -991,18 +1814,44 @@
       "_Collection-B9fxFroz.js",
       "_VisuallyHidden-CUZ9hhzy.js",
       "_check-7b-Vodcl.js"
+=======
+      "_AdminLayout-C5IoAa3T.js",
+      "_CardContent-CElfq1BL.js",
+      "_Input-CSvqmTxM.js",
+      "_SelectValue-CWA9L596.js",
+      "_index-C1v5Yssb.js",
+      "_createLucideIcon-B12BGXib.js",
+      "_chevron-right-CablWnGA.js",
+      "_credit-card-HoXaQJe4.js",
+      "_gift-DUaMM8Dn.js",
+      "_loader-circle-jLfpp1nO.js",
+      "_info-B474s3bG.js",
+      "_circle-check-CTIPLs0r.js",
+      "_Primitive-Bsi6nM2e.js",
+      "_useForwardPropsEmits-BmlW3TSH.js",
+      "_Presence-Bxtws97B.js",
+      "_Teleport-XMNCPaEW.js",
+      "_Collection-D9nOylm2.js",
+      "_VisuallyHidden-ClNj62RH.js",
+      "_check-COdm6bhx.js"
+>>>>>>> feat/template-astronomy-celestial
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
     ]
   },
   "resources/js/Pages/Admin/Users/Show.vue": {
+<<<<<<< HEAD
     "file": "assets/Show-D5DsDcjD.js",
+=======
+    "file": "assets/Show-JqcQHfes.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "Show",
     "src": "resources/js/Pages/Admin/Users/Show.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
       "_AdminLayout-mthTTLl0.js",
       "_DialogTitle-BV5QwGQY.js",
       "_index-B3QZkD5P.js",
@@ -1028,19 +1877,54 @@
       "_Teleport-JYwQPVNS.js",
       "_check-7b-Vodcl.js",
       "_VisuallyHidden-CUZ9hhzy.js"
+=======
+      "_AdminLayout-C5IoAa3T.js",
+      "_DialogTitle-DqJZ49gN.js",
+      "_index-Cg68w0_7.js",
+      "_Label-C6axcdcY.js",
+      "_SelectValue-CWA9L596.js",
+      "_CardContent-CElfq1BL.js",
+      "_CardTitle-TEFp2GPn.js",
+      "_index-y1XULU-4.js",
+      "_useForwardPropsEmits-BmlW3TSH.js",
+      "_Collection-D9nOylm2.js",
+      "_Presence-Bxtws97B.js",
+      "_Primitive-Bsi6nM2e.js",
+      "_index-C1v5Yssb.js",
+      "_RovingFocusItem-X6ffvBD7.js",
+      "_chevron-left-C_WiihmK.js",
+      "_createLucideIcon-B12BGXib.js",
+      "_chevron-right-CablWnGA.js",
+      "_credit-card-HoXaQJe4.js",
+      "_gift-DUaMM8Dn.js",
+      "_loader-circle-jLfpp1nO.js",
+      "_info-B474s3bG.js",
+      "_circle-check-CTIPLs0r.js",
+      "_Teleport-XMNCPaEW.js",
+      "_check-COdm6bhx.js",
+      "_VisuallyHidden-ClNj62RH.js"
+>>>>>>> feat/template-astronomy-celestial
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
     ]
   },
   "resources/js/Pages/Auth/ConfirmPassword.vue": {
+<<<<<<< HEAD
     "file": "assets/ConfirmPassword-CKLwlsX3.js",
+=======
+    "file": "assets/ConfirmPassword-DsRjDGBj.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "ConfirmPassword",
     "src": "resources/js/Pages/Auth/ConfirmPassword.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
       "_ApplicationLogo-CYQ5GZxA.js",
+=======
+      "_ApplicationLogo-BDx5dnZ2.js",
+>>>>>>> feat/template-astronomy-celestial
       "__plugin-vue_export-helper-DlAUqK2U.js"
     ],
     "css": [
@@ -1048,7 +1932,11 @@
     ]
   },
   "resources/js/Pages/Auth/ForgotPassword.vue": {
+<<<<<<< HEAD
     "file": "assets/ForgotPassword-BtRpEgpu.js",
+=======
+    "file": "assets/ForgotPassword-tYqbBos3.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "ForgotPassword",
     "src": "resources/js/Pages/Auth/ForgotPassword.vue",
     "isDynamicEntry": true,
@@ -1060,33 +1948,53 @@
     ]
   },
   "resources/js/Pages/Auth/Login.vue": {
+<<<<<<< HEAD
     "file": "assets/Login-B0GEIFFh.js",
+=======
+    "file": "assets/Login-BfZK1VIl.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "Login",
     "src": "resources/js/Pages/Auth/Login.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
       "_useLocale-u67sMLNS.js"
+=======
+      "_useLocale-BmZ4D7y4.js"
+>>>>>>> feat/template-astronomy-celestial
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
     ]
   },
   "resources/js/Pages/Auth/Register.vue": {
+<<<<<<< HEAD
     "file": "assets/Register-BIn-l7Dx.js",
+=======
+    "file": "assets/Register-CSsF-03_.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "Register",
     "src": "resources/js/Pages/Auth/Register.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
       "_useLocale-u67sMLNS.js"
+=======
+      "_useLocale-BmZ4D7y4.js"
+>>>>>>> feat/template-astronomy-celestial
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
     ]
   },
   "resources/js/Pages/Auth/ResetPassword.vue": {
+<<<<<<< HEAD
     "file": "assets/ResetPassword-GGP_ciHn.js",
+=======
+    "file": "assets/ResetPassword-By0jBKF3.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "ResetPassword",
     "src": "resources/js/Pages/Auth/ResetPassword.vue",
     "isDynamicEntry": true,
@@ -1098,7 +2006,11 @@
     ]
   },
   "resources/js/Pages/Auth/VerifyEmail.vue": {
+<<<<<<< HEAD
     "file": "assets/VerifyEmail-B7wiDzAB.js",
+=======
+    "file": "assets/VerifyEmail-zVpkeO88.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "VerifyEmail",
     "src": "resources/js/Pages/Auth/VerifyEmail.vue",
     "isDynamicEntry": true,
@@ -1110,31 +2022,52 @@
     ]
   },
   "resources/js/Pages/Blog/Index.vue": {
+<<<<<<< HEAD
     "file": "assets/Index-CDkMi7EO.js",
+=======
+    "file": "assets/Index-BQKKpWMx.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "Index",
     "src": "resources/js/Pages/Blog/Index.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
       "_PublicLayout-DncEDS7N.js",
       "_LanguageSwitcher-Dq5LOWxO.js",
       "_useLocale-u67sMLNS.js"
+=======
+      "_PublicLayout-2oHo77Ck.js",
+      "_LanguageSwitcher-BauF5QiD.js",
+      "_useLocale-BmZ4D7y4.js"
+>>>>>>> feat/template-astronomy-celestial
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
     ]
   },
   "resources/js/Pages/Blog/Show.vue": {
+<<<<<<< HEAD
     "file": "assets/Show-CStptYrh.js",
+=======
+    "file": "assets/Show-cC7yklnz.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "Show",
     "src": "resources/js/Pages/Blog/Show.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
       "_PublicLayout-DncEDS7N.js",
       "__plugin-vue_export-helper-DlAUqK2U.js",
       "_LanguageSwitcher-Dq5LOWxO.js",
       "_useLocale-u67sMLNS.js"
+=======
+      "_PublicLayout-2oHo77Ck.js",
+      "__plugin-vue_export-helper-DlAUqK2U.js",
+      "_LanguageSwitcher-BauF5QiD.js",
+      "_useLocale-BmZ4D7y4.js"
+>>>>>>> feat/template-astronomy-celestial
     ],
     "css": [
       "assets/Show-Df6p6Lej.css",
@@ -1142,12 +2075,20 @@
     ]
   },
   "resources/js/Pages/Dashboard.vue": {
+<<<<<<< HEAD
     "file": "assets/Dashboard-CiMxwoKE.js",
+=======
+    "file": "assets/Dashboard-DW7F1Avq.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "Dashboard",
     "src": "resources/js/Pages/Dashboard.vue",
     "isDynamicEntry": true,
     "imports": [
+<<<<<<< HEAD
       "_ApplicationLogo-CYQ5GZxA.js",
+=======
+      "_ApplicationLogo-BDx5dnZ2.js",
+>>>>>>> feat/template-astronomy-celestial
       "resources/js/app.js",
       "__plugin-vue_export-helper-DlAUqK2U.js"
     ],
@@ -1156,16 +2097,27 @@
     ]
   },
   "resources/js/Pages/Dashboard/BudgetPlanner/Index.vue": {
+<<<<<<< HEAD
     "file": "assets/Index-Dw4L2sCH.js",
+=======
+    "file": "assets/Index-DVWVk_vR.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "Index",
     "src": "resources/js/Pages/Dashboard/BudgetPlanner/Index.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
       "_DashboardLayout-DKwtjJcy.js",
       "_useLocale-u67sMLNS.js",
       "__plugin-vue_export-helper-DlAUqK2U.js",
       "_LanguageSwitcher-Dq5LOWxO.js"
+=======
+      "_DashboardLayout-Dg3A-7x2.js",
+      "_useLocale-BmZ4D7y4.js",
+      "__plugin-vue_export-helper-DlAUqK2U.js",
+      "_LanguageSwitcher-BauF5QiD.js"
+>>>>>>> feat/template-astronomy-celestial
     ],
     "css": [
       "assets/Index-D_efhlXZ.css",
@@ -1173,32 +2125,54 @@
     ]
   },
   "resources/js/Pages/Dashboard/BukuTamu/Index.vue": {
+<<<<<<< HEAD
     "file": "assets/Index-DogeC6oK.js",
+=======
+    "file": "assets/Index-DtEVVDbH.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "Index",
     "src": "resources/js/Pages/Dashboard/BukuTamu/Index.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
       "_DashboardLayout-DKwtjJcy.js",
       "_useLocale-u67sMLNS.js",
       "__plugin-vue_export-helper-DlAUqK2U.js",
       "_LanguageSwitcher-Dq5LOWxO.js"
+=======
+      "_DashboardLayout-Dg3A-7x2.js",
+      "_useLocale-BmZ4D7y4.js",
+      "__plugin-vue_export-helper-DlAUqK2U.js",
+      "_LanguageSwitcher-BauF5QiD.js"
+>>>>>>> feat/template-astronomy-celestial
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
     ]
   },
   "resources/js/Pages/Dashboard/Checklist/Index.vue": {
+<<<<<<< HEAD
     "file": "assets/Index-BOLQiVq5.js",
+=======
+    "file": "assets/Index-DJ_3KsdW.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "Index",
     "src": "resources/js/Pages/Dashboard/Checklist/Index.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
       "_DashboardLayout-DKwtjJcy.js",
       "_useLocale-u67sMLNS.js",
       "__plugin-vue_export-helper-DlAUqK2U.js",
       "_LanguageSwitcher-Dq5LOWxO.js"
+=======
+      "_DashboardLayout-Dg3A-7x2.js",
+      "_useLocale-BmZ4D7y4.js",
+      "__plugin-vue_export-helper-DlAUqK2U.js",
+      "_LanguageSwitcher-BauF5QiD.js"
+>>>>>>> feat/template-astronomy-celestial
     ],
     "css": [
       "assets/Index-DYJvnT1F.css",
@@ -1206,12 +2180,17 @@
     ]
   },
   "resources/js/Pages/Dashboard/Gifts/Create.vue": {
+<<<<<<< HEAD
     "file": "assets/Create-CDFNhVfc.js",
+=======
+    "file": "assets/Create-_drN4HBj.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "Create",
     "src": "resources/js/Pages/Dashboard/Gifts/Create.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
       "_DashboardLayout-DKwtjJcy.js",
       "_useLocale-u67sMLNS.js",
       "_arrow-left-CUAF1K6B.js",
@@ -1223,18 +2202,36 @@
       "__plugin-vue_export-helper-DlAUqK2U.js",
       "_LanguageSwitcher-Dq5LOWxO.js",
       "_createLucideIcon-yeJFjqPl.js"
+=======
+      "_DashboardLayout-Dg3A-7x2.js",
+      "_useLocale-BmZ4D7y4.js",
+      "_arrow-left-n8t7xs6B.js",
+      "_gift-DUaMM8Dn.js",
+      "_link-2-Bd9l-k_q.js",
+      "_mail-Dxz-gzN0.js",
+      "_loader-circle-jLfpp1nO.js",
+      "_info-B474s3bG.js",
+      "__plugin-vue_export-helper-DlAUqK2U.js",
+      "_LanguageSwitcher-BauF5QiD.js",
+      "_createLucideIcon-B12BGXib.js"
+>>>>>>> feat/template-astronomy-celestial
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
     ]
   },
   "resources/js/Pages/Dashboard/Gifts/Index.vue": {
+<<<<<<< HEAD
     "file": "assets/Index--snlBBnf.js",
+=======
+    "file": "assets/Index-CBUQTnwy.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "Index",
     "src": "resources/js/Pages/Dashboard/Gifts/Index.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
       "_DashboardLayout-DKwtjJcy.js",
       "_useLocale-u67sMLNS.js",
       "_plus-Cyzz_Y_j.js",
@@ -1245,18 +2242,35 @@
       "__plugin-vue_export-helper-DlAUqK2U.js",
       "_LanguageSwitcher-Dq5LOWxO.js",
       "_createLucideIcon-yeJFjqPl.js"
+=======
+      "_DashboardLayout-Dg3A-7x2.js",
+      "_useLocale-BmZ4D7y4.js",
+      "_plus-CjcfoCvT.js",
+      "_gift-DUaMM8Dn.js",
+      "_mail-Dxz-gzN0.js",
+      "_link-2-Bd9l-k_q.js",
+      "_eye-CD9la3JY.js",
+      "__plugin-vue_export-helper-DlAUqK2U.js",
+      "_LanguageSwitcher-BauF5QiD.js",
+      "_createLucideIcon-B12BGXib.js"
+>>>>>>> feat/template-astronomy-celestial
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
     ]
   },
   "resources/js/Pages/Dashboard/Gifts/Show.vue": {
+<<<<<<< HEAD
     "file": "assets/Show-B0kBi6IR.js",
+=======
+    "file": "assets/Show-CCzDyuXP.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "Show",
     "src": "resources/js/Pages/Dashboard/Gifts/Show.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
       "_DashboardLayout-DKwtjJcy.js",
       "_useLocale-u67sMLNS.js",
       "_arrow-left-CUAF1K6B.js",
@@ -1273,22 +2287,51 @@
       "__plugin-vue_export-helper-DlAUqK2U.js",
       "_LanguageSwitcher-Dq5LOWxO.js",
       "_createLucideIcon-yeJFjqPl.js"
+=======
+      "_DashboardLayout-Dg3A-7x2.js",
+      "_useLocale-BmZ4D7y4.js",
+      "_arrow-left-n8t7xs6B.js",
+      "_circle-check-CTIPLs0r.js",
+      "_circle-alert-D6XyAZ44.js",
+      "_mail-Dxz-gzN0.js",
+      "_link-2-Bd9l-k_q.js",
+      "_calendar-DeDPXqXz.js",
+      "_clock-C3g26FkJ.js",
+      "_check-COdm6bhx.js",
+      "_copy-COCj_S3a.js",
+      "_message-circle-xjfZ2kpH.js",
+      "_gift-DUaMM8Dn.js",
+      "__plugin-vue_export-helper-DlAUqK2U.js",
+      "_LanguageSwitcher-BauF5QiD.js",
+      "_createLucideIcon-B12BGXib.js"
+>>>>>>> feat/template-astronomy-celestial
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
     ]
   },
   "resources/js/Pages/Dashboard/GuestList/Index.vue": {
+<<<<<<< HEAD
     "file": "assets/Index-D3DscBNQ.js",
+=======
+    "file": "assets/Index-DJNCtc8R.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "Index",
     "src": "resources/js/Pages/Dashboard/GuestList/Index.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
       "_DashboardLayout-DKwtjJcy.js",
       "_useLocale-u67sMLNS.js",
       "__plugin-vue_export-helper-DlAUqK2U.js",
       "_LanguageSwitcher-Dq5LOWxO.js"
+=======
+      "_DashboardLayout-Dg3A-7x2.js",
+      "_useLocale-BmZ4D7y4.js",
+      "__plugin-vue_export-helper-DlAUqK2U.js",
+      "_LanguageSwitcher-BauF5QiD.js"
+>>>>>>> feat/template-astronomy-celestial
     ],
     "css": [
       "assets/Index-IHM1bh86.css",
@@ -1296,17 +2339,29 @@
     ]
   },
   "resources/js/Pages/Dashboard/Index.vue": {
+<<<<<<< HEAD
     "file": "assets/Index-fS3wP9YO.js",
+=======
+    "file": "assets/Index-DGk6I8yV.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "Index",
     "src": "resources/js/Pages/Dashboard/Index.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
       "_DashboardLayout-DKwtjJcy.js",
       "_TemplatePicker-JcfhbDSM.js",
       "_useLocale-u67sMLNS.js",
       "__plugin-vue_export-helper-DlAUqK2U.js",
       "_LanguageSwitcher-Dq5LOWxO.js"
+=======
+      "_DashboardLayout-Dg3A-7x2.js",
+      "_TemplatePicker-YrFHTQXb.js",
+      "_useLocale-BmZ4D7y4.js",
+      "__plugin-vue_export-helper-DlAUqK2U.js",
+      "_LanguageSwitcher-BauF5QiD.js"
+>>>>>>> feat/template-astronomy-celestial
     ],
     "css": [
       "assets/Index-C3hBTNXM.css",
@@ -1314,37 +2369,63 @@
     ]
   },
   "resources/js/Pages/Dashboard/Invitations/BukuTamu.vue": {
+<<<<<<< HEAD
     "file": "assets/BukuTamu-B577RstY.js",
+=======
+    "file": "assets/BukuTamu-CWW_l_16.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "BukuTamu",
     "src": "resources/js/Pages/Dashboard/Invitations/BukuTamu.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
       "_DashboardLayout-DKwtjJcy.js",
       "_useLocale-u67sMLNS.js",
       "__plugin-vue_export-helper-DlAUqK2U.js",
       "_LanguageSwitcher-Dq5LOWxO.js"
+=======
+      "_DashboardLayout-Dg3A-7x2.js",
+      "_useLocale-BmZ4D7y4.js",
+      "__plugin-vue_export-helper-DlAUqK2U.js",
+      "_LanguageSwitcher-BauF5QiD.js"
+>>>>>>> feat/template-astronomy-celestial
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
     ]
   },
   "resources/js/Pages/Dashboard/Invitations/Create.vue": {
+<<<<<<< HEAD
     "file": "assets/Create-DAs2HkKA.js",
+=======
+    "file": "assets/Create-CDqBT_Cm.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "Create",
     "src": "resources/js/Pages/Dashboard/Invitations/Create.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
       "_DashboardLayout-DKwtjJcy.js",
       "_useLocale-u67sMLNS.js",
+=======
+      "_DashboardLayout-Dg3A-7x2.js",
+      "_useLocale-BmZ4D7y4.js",
+>>>>>>> feat/template-astronomy-celestial
       "resources/js/Pages/Dashboard/Invitations/Steps/StepInformasi.vue",
       "resources/js/Pages/Dashboard/Invitations/Steps/StepTampilan.vue",
       "resources/js/Pages/Dashboard/Invitations/Steps/StepPublikasi.vue",
       "__plugin-vue_export-helper-DlAUqK2U.js",
+<<<<<<< HEAD
       "_LanguageSwitcher-Dq5LOWxO.js",
       "_SectionAccordionCard-CWBeB4lZ.js",
       "_TemplatePicker-JcfhbDSM.js"
+=======
+      "_LanguageSwitcher-BauF5QiD.js",
+      "_SectionAccordionCard-RjbVAhrE.js",
+      "_TemplatePicker-YrFHTQXb.js"
+>>>>>>> feat/template-astronomy-celestial
     ],
     "css": [
       "assets/Create-DJCmRikx.css",
@@ -1352,12 +2433,17 @@
     ]
   },
   "resources/js/Pages/Dashboard/Invitations/Customize.vue": {
+<<<<<<< HEAD
     "file": "assets/Customize-DGxDS0Uo.js",
+=======
+    "file": "assets/Customize-D0XmLHn2.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "Customize",
     "src": "resources/js/Pages/Dashboard/Invitations/Customize.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
       "_useLocale-u67sMLNS.js",
       "_DashboardLayout-DKwtjJcy.js",
       "_registry-Cc-2kECF.js",
@@ -1365,6 +2451,15 @@
       "__plugin-vue_export-helper-DlAUqK2U.js",
       "_LanguageSwitcher-Dq5LOWxO.js",
       "_useReveal-DjGD4XPI.js",
+=======
+      "_useLocale-BmZ4D7y4.js",
+      "_DashboardLayout-Dg3A-7x2.js",
+      "_registry-DfYTeiYN.js",
+      "_PhoneMockup-CyKvlnpe.js",
+      "__plugin-vue_export-helper-DlAUqK2U.js",
+      "_LanguageSwitcher-BauF5QiD.js",
+      "_useReveal-BJp6Mhxj.js",
+>>>>>>> feat/template-astronomy-celestial
       "resources/js/Pages/Invitation/Sections/SectionGallery.vue"
     ],
     "css": [
@@ -1373,17 +2468,29 @@
     ]
   },
   "resources/js/Pages/Dashboard/Invitations/Index.vue": {
+<<<<<<< HEAD
     "file": "assets/Index-DeJJUcIO.js",
+=======
+    "file": "assets/Index-DPg1LMGP.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "Index",
     "src": "resources/js/Pages/Dashboard/Invitations/Index.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
       "_DashboardLayout-DKwtjJcy.js",
       "_TemplatePicker-JcfhbDSM.js",
       "_useLocale-u67sMLNS.js",
       "__plugin-vue_export-helper-DlAUqK2U.js",
       "_LanguageSwitcher-Dq5LOWxO.js"
+=======
+      "_DashboardLayout-Dg3A-7x2.js",
+      "_TemplatePicker-YrFHTQXb.js",
+      "_useLocale-BmZ4D7y4.js",
+      "__plugin-vue_export-helper-DlAUqK2U.js",
+      "_LanguageSwitcher-BauF5QiD.js"
+>>>>>>> feat/template-astronomy-celestial
     ],
     "css": [
       "assets/Index-Cg0g4NxA.css",
@@ -1391,26 +2498,42 @@
     ]
   },
   "resources/js/Pages/Dashboard/Invitations/Steps/Step1BasicInfo.vue": {
+<<<<<<< HEAD
     "file": "assets/Step1BasicInfo-BCvCnHNQ.js",
+=======
+    "file": "assets/Step1BasicInfo-5qjlg56I.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "Step1BasicInfo",
     "src": "resources/js/Pages/Dashboard/Invitations/Steps/Step1BasicInfo.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
       "_useLocale-u67sMLNS.js"
+=======
+      "_useLocale-BmZ4D7y4.js"
+>>>>>>> feat/template-astronomy-celestial
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
     ]
   },
   "resources/js/Pages/Dashboard/Invitations/Steps/Step2Events.vue": {
+<<<<<<< HEAD
     "file": "assets/Step2Events-B9-xAbxC.js",
+=======
+    "file": "assets/Step2Events-D_Ycj0xO.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "Step2Events",
     "src": "resources/js/Pages/Dashboard/Invitations/Steps/Step2Events.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
       "_useLocale-u67sMLNS.js",
+=======
+      "_useLocale-BmZ4D7y4.js",
+>>>>>>> feat/template-astronomy-celestial
       "__plugin-vue_export-helper-DlAUqK2U.js"
     ],
     "css": [
@@ -1419,52 +2542,84 @@
     ]
   },
   "resources/js/Pages/Dashboard/Invitations/Steps/Step3Gallery.vue": {
+<<<<<<< HEAD
     "file": "assets/Step3Gallery-BPM7msqW.js",
+=======
+    "file": "assets/Step3Gallery-CmutGk9G.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "Step3Gallery",
     "src": "resources/js/Pages/Dashboard/Invitations/Steps/Step3Gallery.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
       "_useLocale-u67sMLNS.js"
+=======
+      "_useLocale-BmZ4D7y4.js"
+>>>>>>> feat/template-astronomy-celestial
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
     ]
   },
   "resources/js/Pages/Dashboard/Invitations/Steps/Step4Music.vue": {
+<<<<<<< HEAD
     "file": "assets/Step4Music-BzuuP5kP.js",
+=======
+    "file": "assets/Step4Music-CM72V7sz.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "Step4Music",
     "src": "resources/js/Pages/Dashboard/Invitations/Steps/Step4Music.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
       "_useLocale-u67sMLNS.js"
+=======
+      "_useLocale-BmZ4D7y4.js"
+>>>>>>> feat/template-astronomy-celestial
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
     ]
   },
   "resources/js/Pages/Dashboard/Invitations/Steps/Step5Customization.vue": {
+<<<<<<< HEAD
     "file": "assets/Step5Customization-CrSapJCh.js",
+=======
+    "file": "assets/Step5Customization-Cv1CcMqw.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "Step5Customization",
     "src": "resources/js/Pages/Dashboard/Invitations/Steps/Step5Customization.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
       "_useLocale-u67sMLNS.js"
+=======
+      "_useLocale-BmZ4D7y4.js"
+>>>>>>> feat/template-astronomy-celestial
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
     ]
   },
   "resources/js/Pages/Dashboard/Invitations/Steps/Step6Review.vue": {
+<<<<<<< HEAD
     "file": "assets/Step6Review-Bqs9RPaa.js",
+=======
+    "file": "assets/Step6Review-tL-3Xq-l.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "Step6Review",
     "src": "resources/js/Pages/Dashboard/Invitations/Steps/Step6Review.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
       "_useLocale-u67sMLNS.js",
+=======
+      "_useLocale-BmZ4D7y4.js",
+>>>>>>> feat/template-astronomy-celestial
       "__plugin-vue_export-helper-DlAUqK2U.js"
     ],
     "css": [
@@ -1473,14 +2628,23 @@
     ]
   },
   "resources/js/Pages/Dashboard/Invitations/Steps/StepAcara.vue": {
+<<<<<<< HEAD
     "file": "assets/StepAcara-GWPGGjYI.js",
+=======
+    "file": "assets/StepAcara-Dp4HGyXn.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "StepAcara",
     "src": "resources/js/Pages/Dashboard/Invitations/Steps/StepAcara.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
       "_SectionAccordionCard-CWBeB4lZ.js",
       "_useLocale-u67sMLNS.js",
+=======
+      "_SectionAccordionCard-RjbVAhrE.js",
+      "_useLocale-BmZ4D7y4.js",
+>>>>>>> feat/template-astronomy-celestial
       "__plugin-vue_export-helper-DlAUqK2U.js"
     ],
     "css": [
@@ -1489,28 +2653,46 @@
     ]
   },
   "resources/js/Pages/Dashboard/Invitations/Steps/StepInformasi.vue": {
+<<<<<<< HEAD
     "file": "assets/StepInformasi-BTK41loV.js",
+=======
+    "file": "assets/StepInformasi-Dn-W47gZ.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "StepInformasi",
     "src": "resources/js/Pages/Dashboard/Invitations/Steps/StepInformasi.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
       "_SectionAccordionCard-CWBeB4lZ.js",
       "_useLocale-u67sMLNS.js"
+=======
+      "_SectionAccordionCard-RjbVAhrE.js",
+      "_useLocale-BmZ4D7y4.js"
+>>>>>>> feat/template-astronomy-celestial
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
     ]
   },
   "resources/js/Pages/Dashboard/Invitations/Steps/StepInteraksi.vue": {
+<<<<<<< HEAD
     "file": "assets/StepInteraksi-DonKQnYq.js",
+=======
+    "file": "assets/StepInteraksi-Brgf3us5.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "StepInteraksi",
     "src": "resources/js/Pages/Dashboard/Invitations/Steps/StepInteraksi.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
       "_SectionAccordionCard-CWBeB4lZ.js",
       "_useLocale-u67sMLNS.js",
+=======
+      "_SectionAccordionCard-RjbVAhrE.js",
+      "_useLocale-BmZ4D7y4.js",
+>>>>>>> feat/template-astronomy-celestial
       "__plugin-vue_export-helper-DlAUqK2U.js"
     ],
     "css": [
@@ -1519,28 +2701,46 @@
     ]
   },
   "resources/js/Pages/Dashboard/Invitations/Steps/StepMedia.vue": {
+<<<<<<< HEAD
     "file": "assets/StepMedia-Wowbyknu.js",
+=======
+    "file": "assets/StepMedia-DuN4nmfT.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "StepMedia",
     "src": "resources/js/Pages/Dashboard/Invitations/Steps/StepMedia.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
       "_SectionAccordionCard-CWBeB4lZ.js",
       "_useLocale-u67sMLNS.js"
+=======
+      "_SectionAccordionCard-RjbVAhrE.js",
+      "_useLocale-BmZ4D7y4.js"
+>>>>>>> feat/template-astronomy-celestial
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
     ]
   },
   "resources/js/Pages/Dashboard/Invitations/Steps/StepPublikasi.vue": {
+<<<<<<< HEAD
     "file": "assets/StepPublikasi-D8mvD41h.js",
+=======
+    "file": "assets/StepPublikasi-C-9yfLqF.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "StepPublikasi",
     "src": "resources/js/Pages/Dashboard/Invitations/Steps/StepPublikasi.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
       "_SectionAccordionCard-CWBeB4lZ.js",
       "_useLocale-u67sMLNS.js",
+=======
+      "_SectionAccordionCard-RjbVAhrE.js",
+      "_useLocale-BmZ4D7y4.js",
+>>>>>>> feat/template-astronomy-celestial
       "__plugin-vue_export-helper-DlAUqK2U.js"
     ],
     "css": [
@@ -1549,13 +2749,22 @@
     ]
   },
   "resources/js/Pages/Dashboard/Invitations/Steps/StepTampilan.vue": {
+<<<<<<< HEAD
     "file": "assets/StepTampilan-CpaKos39.js",
+=======
+    "file": "assets/StepTampilan-CdkLoROj.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "StepTampilan",
     "src": "resources/js/Pages/Dashboard/Invitations/Steps/StepTampilan.vue",
     "isDynamicEntry": true,
     "imports": [
+<<<<<<< HEAD
       "_TemplatePicker-JcfhbDSM.js",
       "_useLocale-u67sMLNS.js",
+=======
+      "_TemplatePicker-YrFHTQXb.js",
+      "_useLocale-BmZ4D7y4.js",
+>>>>>>> feat/template-astronomy-celestial
       "resources/js/app.js"
     ],
     "css": [
@@ -1563,12 +2772,17 @@
     ]
   },
   "resources/js/Pages/Dashboard/Notifications/Index.vue": {
+<<<<<<< HEAD
     "file": "assets/Index-C1ZittMh.js",
+=======
+    "file": "assets/Index-DB5ku1YD.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "Index",
     "src": "resources/js/Pages/Dashboard/Notifications/Index.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
       "_DashboardLayout-DKwtjJcy.js",
       "_useLocale-u67sMLNS.js",
       "__plugin-vue_export-helper-DlAUqK2U.js",
@@ -1581,6 +2795,20 @@
       "_chevron-right-BLhwH2Q7.js",
       "_trash-2--9EXZB3S.js",
       "_LanguageSwitcher-Dq5LOWxO.js"
+=======
+      "_DashboardLayout-Dg3A-7x2.js",
+      "_useLocale-BmZ4D7y4.js",
+      "__plugin-vue_export-helper-DlAUqK2U.js",
+      "_createLucideIcon-B12BGXib.js",
+      "_message-square-xhAg0oLm.js",
+      "_sparkles-BiO31dLT.js",
+      "_calendar-DeDPXqXz.js",
+      "_gift-DUaMM8Dn.js",
+      "_credit-card-HoXaQJe4.js",
+      "_chevron-right-CablWnGA.js",
+      "_trash-2-DgpgXTV-.js",
+      "_LanguageSwitcher-BauF5QiD.js"
+>>>>>>> feat/template-astronomy-celestial
     ],
     "css": [
       "assets/Index-CcWe0v5P.css",
@@ -1588,12 +2816,17 @@
     ]
   },
   "resources/js/Pages/Dashboard/Notifications/Preferences.vue": {
+<<<<<<< HEAD
     "file": "assets/Preferences-C5CWG7m8.js",
+=======
+    "file": "assets/Preferences-CEBXfWL9.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "Preferences",
     "src": "resources/js/Pages/Dashboard/Notifications/Preferences.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
       "_DashboardLayout-DKwtjJcy.js",
       "_useLocale-u67sMLNS.js",
       "_arrow-left-CUAF1K6B.js",
@@ -1606,22 +2839,47 @@
       "__plugin-vue_export-helper-DlAUqK2U.js",
       "_LanguageSwitcher-Dq5LOWxO.js",
       "_createLucideIcon-yeJFjqPl.js"
+=======
+      "_DashboardLayout-Dg3A-7x2.js",
+      "_useLocale-BmZ4D7y4.js",
+      "_arrow-left-n8t7xs6B.js",
+      "_message-square-xhAg0oLm.js",
+      "_sparkles-BiO31dLT.js",
+      "_calendar-DeDPXqXz.js",
+      "_gift-DUaMM8Dn.js",
+      "_credit-card-HoXaQJe4.js",
+      "_check-COdm6bhx.js",
+      "__plugin-vue_export-helper-DlAUqK2U.js",
+      "_LanguageSwitcher-BauF5QiD.js",
+      "_createLucideIcon-B12BGXib.js"
+>>>>>>> feat/template-astronomy-celestial
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
     ]
   },
   "resources/js/Pages/Dashboard/Paket.vue": {
+<<<<<<< HEAD
     "file": "assets/Paket-enrankz0.js",
+=======
+    "file": "assets/Paket-DVZ6d149.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "Paket",
     "src": "resources/js/Pages/Dashboard/Paket.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
       "_DashboardLayout-DKwtjJcy.js",
       "_useLocale-u67sMLNS.js",
       "__plugin-vue_export-helper-DlAUqK2U.js",
       "_LanguageSwitcher-Dq5LOWxO.js"
+=======
+      "_DashboardLayout-Dg3A-7x2.js",
+      "_useLocale-BmZ4D7y4.js",
+      "__plugin-vue_export-helper-DlAUqK2U.js",
+      "_LanguageSwitcher-BauF5QiD.js"
+>>>>>>> feat/template-astronomy-celestial
     ],
     "css": [
       "assets/Paket-u0p5T1V-.css",
@@ -1629,48 +2887,81 @@
     ]
   },
   "resources/js/Pages/Dashboard/Rsvp/Index.vue": {
+<<<<<<< HEAD
     "file": "assets/Index-BzM5yvdv.js",
+=======
+    "file": "assets/Index-C9wGWZN6.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "Index",
     "src": "resources/js/Pages/Dashboard/Rsvp/Index.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
       "_DashboardLayout-DKwtjJcy.js",
       "_useLocale-u67sMLNS.js",
       "__plugin-vue_export-helper-DlAUqK2U.js",
       "_LanguageSwitcher-Dq5LOWxO.js"
+=======
+      "_DashboardLayout-Dg3A-7x2.js",
+      "_useLocale-BmZ4D7y4.js",
+      "__plugin-vue_export-helper-DlAUqK2U.js",
+      "_LanguageSwitcher-BauF5QiD.js"
+>>>>>>> feat/template-astronomy-celestial
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
     ]
   },
   "resources/js/Pages/Dashboard/Rsvp/Show.vue": {
+<<<<<<< HEAD
     "file": "assets/Show-B0WrV3vz.js",
+=======
+    "file": "assets/Show-CyRG-ka9.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "Show",
     "src": "resources/js/Pages/Dashboard/Rsvp/Show.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
       "_DashboardLayout-DKwtjJcy.js",
       "_useLocale-u67sMLNS.js",
       "__plugin-vue_export-helper-DlAUqK2U.js",
       "_LanguageSwitcher-Dq5LOWxO.js"
+=======
+      "_DashboardLayout-Dg3A-7x2.js",
+      "_useLocale-BmZ4D7y4.js",
+      "__plugin-vue_export-helper-DlAUqK2U.js",
+      "_LanguageSwitcher-BauF5QiD.js"
+>>>>>>> feat/template-astronomy-celestial
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
     ]
   },
   "resources/js/Pages/Dashboard/Templates.vue": {
+<<<<<<< HEAD
     "file": "assets/Templates-IyX9cIGk.js",
+=======
+    "file": "assets/Templates-DpAoBr7V.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "Templates",
     "src": "resources/js/Pages/Dashboard/Templates.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
       "_DashboardLayout-DKwtjJcy.js",
       "_useLocale-u67sMLNS.js",
       "__plugin-vue_export-helper-DlAUqK2U.js",
       "_LanguageSwitcher-Dq5LOWxO.js"
+=======
+      "_DashboardLayout-Dg3A-7x2.js",
+      "_useLocale-BmZ4D7y4.js",
+      "__plugin-vue_export-helper-DlAUqK2U.js",
+      "_LanguageSwitcher-BauF5QiD.js"
+>>>>>>> feat/template-astronomy-celestial
     ],
     "css": [
       "assets/Templates-DY-EJ6gZ.css",
@@ -1678,51 +2969,82 @@
     ]
   },
   "resources/js/Pages/Dashboard/Transactions/Index.vue": {
+<<<<<<< HEAD
     "file": "assets/Index-CYHBPZzS.js",
+=======
+    "file": "assets/Index-BxOBg894.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "Index",
     "src": "resources/js/Pages/Dashboard/Transactions/Index.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
       "_DashboardLayout-DKwtjJcy.js",
       "_useLocale-u67sMLNS.js",
       "__plugin-vue_export-helper-DlAUqK2U.js",
       "_LanguageSwitcher-Dq5LOWxO.js"
+=======
+      "_DashboardLayout-Dg3A-7x2.js",
+      "_useLocale-BmZ4D7y4.js",
+      "__plugin-vue_export-helper-DlAUqK2U.js",
+      "_LanguageSwitcher-BauF5QiD.js"
+>>>>>>> feat/template-astronomy-celestial
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
     ]
   },
   "resources/js/Pages/Editor/Show.vue": {
+<<<<<<< HEAD
     "file": "assets/Show-l_l0vkzu.js",
+=======
+    "file": "assets/Show--BR1MUFd.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "Show",
     "src": "resources/js/Pages/Editor/Show.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
       "_InvitationRenderer-DezoRtD2.js",
       "resources/js/Pages/Invitation/Sections/SectionCover.vue",
       "resources/js/Pages/Invitation/Sections/SectionOpening.vue",
       "_useReveal-DjGD4XPI.js",
+=======
+      "_InvitationRenderer-DhTZtYyz.js",
+      "resources/js/Pages/Invitation/Sections/SectionCover.vue",
+      "resources/js/Pages/Invitation/Sections/SectionOpening.vue",
+      "_useReveal-BJp6Mhxj.js",
+>>>>>>> feat/template-astronomy-celestial
       "resources/js/Pages/Invitation/Sections/SectionEvents.vue",
       "resources/js/Pages/Invitation/Sections/SectionGallery.vue",
       "__plugin-vue_export-helper-DlAUqK2U.js",
       "resources/js/Pages/Invitation/Sections/SectionRsvp.vue",
       "resources/js/Pages/Invitation/Sections/SectionMessages.vue",
       "resources/js/Pages/Invitation/Sections/SectionClosing.vue",
+<<<<<<< HEAD
       "_registry-Cc-2kECF.js"
+=======
+      "_registry-DfYTeiYN.js"
+>>>>>>> feat/template-astronomy-celestial
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
     ]
   },
   "resources/js/Pages/Gift/Claim.vue": {
+<<<<<<< HEAD
     "file": "assets/Claim-Byd7PaFM.js",
+=======
+    "file": "assets/Claim-CctRNGpn.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "Claim",
     "src": "resources/js/Pages/Gift/Claim.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
       "_PublicLayout-DncEDS7N.js",
       "_useLocale-u67sMLNS.js",
       "_sparkles-CMizV5Vu.js",
@@ -1735,13 +3057,31 @@
       "_arrow-left-CUAF1K6B.js",
       "_clock-Bt8IysTt.js",
       "_LanguageSwitcher-Dq5LOWxO.js"
+=======
+      "_PublicLayout-2oHo77Ck.js",
+      "_useLocale-BmZ4D7y4.js",
+      "_sparkles-BiO31dLT.js",
+      "_mail-Dxz-gzN0.js",
+      "_loader-circle-jLfpp1nO.js",
+      "_gift-DUaMM8Dn.js",
+      "_calendar-DeDPXqXz.js",
+      "_createLucideIcon-B12BGXib.js",
+      "_circle-check-CTIPLs0r.js",
+      "_arrow-left-n8t7xs6B.js",
+      "_clock-C3g26FkJ.js",
+      "_LanguageSwitcher-BauF5QiD.js"
+>>>>>>> feat/template-astronomy-celestial
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
     ]
   },
   "resources/js/Pages/Invitation/Inactive.vue": {
+<<<<<<< HEAD
     "file": "assets/Inactive-CO81SEsI.js",
+=======
+    "file": "assets/Inactive-D9tq2V6y.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "Inactive",
     "src": "resources/js/Pages/Invitation/Inactive.vue",
     "isDynamicEntry": true,
@@ -1753,7 +3093,11 @@
     ]
   },
   "resources/js/Pages/Invitation/PasswordGate.vue": {
+<<<<<<< HEAD
     "file": "assets/PasswordGate-CUOtwAmR.js",
+=======
+    "file": "assets/PasswordGate-BrRf7apw.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "PasswordGate",
     "src": "resources/js/Pages/Invitation/PasswordGate.vue",
     "isDynamicEntry": true,
@@ -1765,12 +3109,20 @@
     ]
   },
   "resources/js/Pages/Invitation/Sections/SectionClosing.vue": {
+<<<<<<< HEAD
     "file": "assets/SectionClosing-DZo76YYH.js",
+=======
+    "file": "assets/SectionClosing-BOQosIYT.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "SectionClosing",
     "src": "resources/js/Pages/Invitation/Sections/SectionClosing.vue",
     "isDynamicEntry": true,
     "imports": [
+<<<<<<< HEAD
       "_useReveal-DjGD4XPI.js",
+=======
+      "_useReveal-BJp6Mhxj.js",
+>>>>>>> feat/template-astronomy-celestial
       "resources/js/app.js"
     ],
     "css": [
@@ -1778,7 +3130,11 @@
     ]
   },
   "resources/js/Pages/Invitation/Sections/SectionCover.vue": {
+<<<<<<< HEAD
     "file": "assets/SectionCover-D54xIfhY.js",
+=======
+    "file": "assets/SectionCover-CSGi-dBY.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "SectionCover",
     "src": "resources/js/Pages/Invitation/Sections/SectionCover.vue",
     "isDynamicEntry": true,
@@ -1790,12 +3146,20 @@
     ]
   },
   "resources/js/Pages/Invitation/Sections/SectionEvents.vue": {
+<<<<<<< HEAD
     "file": "assets/SectionEvents-CbOHhDbo.js",
+=======
+    "file": "assets/SectionEvents-B92w9LX9.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "SectionEvents",
     "src": "resources/js/Pages/Invitation/Sections/SectionEvents.vue",
     "isDynamicEntry": true,
     "imports": [
+<<<<<<< HEAD
       "_useReveal-DjGD4XPI.js",
+=======
+      "_useReveal-BJp6Mhxj.js",
+>>>>>>> feat/template-astronomy-celestial
       "resources/js/app.js"
     ],
     "css": [
@@ -1803,13 +3167,21 @@
     ]
   },
   "resources/js/Pages/Invitation/Sections/SectionGallery.vue": {
+<<<<<<< HEAD
     "file": "assets/SectionGallery-DR0ctrLI.js",
+=======
+    "file": "assets/SectionGallery-Br00dsCO.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "SectionGallery",
     "src": "resources/js/Pages/Invitation/Sections/SectionGallery.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
       "_useReveal-DjGD4XPI.js",
+=======
+      "_useReveal-BJp6Mhxj.js",
+>>>>>>> feat/template-astronomy-celestial
       "__plugin-vue_export-helper-DlAUqK2U.js"
     ],
     "css": [
@@ -1818,7 +3190,11 @@
     ]
   },
   "resources/js/Pages/Invitation/Sections/SectionMessages.vue": {
+<<<<<<< HEAD
     "file": "assets/SectionMessages-B-lITPN4.js",
+=======
+    "file": "assets/SectionMessages-BZ9BEnPV.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "SectionMessages",
     "src": "resources/js/Pages/Invitation/Sections/SectionMessages.vue",
     "isDynamicEntry": true,
@@ -1832,7 +3208,11 @@
     ]
   },
   "resources/js/Pages/Invitation/Sections/SectionMusic.vue": {
+<<<<<<< HEAD
     "file": "assets/SectionMusic-uV26clPO.js",
+=======
+    "file": "assets/SectionMusic-QkgI4A4c.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "SectionMusic",
     "src": "resources/js/Pages/Invitation/Sections/SectionMusic.vue",
     "isDynamicEntry": true,
@@ -1844,12 +3224,20 @@
     ]
   },
   "resources/js/Pages/Invitation/Sections/SectionOpening.vue": {
+<<<<<<< HEAD
     "file": "assets/SectionOpening-BDZ5d_wH.js",
+=======
+    "file": "assets/SectionOpening-C6QdJn7L.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "SectionOpening",
     "src": "resources/js/Pages/Invitation/Sections/SectionOpening.vue",
     "isDynamicEntry": true,
     "imports": [
+<<<<<<< HEAD
       "_useReveal-DjGD4XPI.js",
+=======
+      "_useReveal-BJp6Mhxj.js",
+>>>>>>> feat/template-astronomy-celestial
       "resources/js/app.js"
     ],
     "css": [
@@ -1857,7 +3245,11 @@
     ]
   },
   "resources/js/Pages/Invitation/Sections/SectionRsvp.vue": {
+<<<<<<< HEAD
     "file": "assets/SectionRsvp-Bm5aJCrK.js",
+=======
+    "file": "assets/SectionRsvp-D37uaL_w.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "SectionRsvp",
     "src": "resources/js/Pages/Invitation/Sections/SectionRsvp.vue",
     "isDynamicEntry": true,
@@ -1869,24 +3261,39 @@
     ]
   },
   "resources/js/Pages/Invitation/Show.vue": {
+<<<<<<< HEAD
     "file": "assets/Show-0LBxR59V.js",
+=======
+    "file": "assets/Show-WyV9ptFk.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "Show",
     "src": "resources/js/Pages/Invitation/Show.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
       "resources/js/Pages/Invitation/PasswordGate.vue",
+<<<<<<< HEAD
       "_InvitationRenderer-DezoRtD2.js",
       "resources/js/Pages/Invitation/Sections/SectionCover.vue",
       "resources/js/Pages/Invitation/Sections/SectionOpening.vue",
       "_useReveal-DjGD4XPI.js",
+=======
+      "_InvitationRenderer-DhTZtYyz.js",
+      "resources/js/Pages/Invitation/Sections/SectionCover.vue",
+      "resources/js/Pages/Invitation/Sections/SectionOpening.vue",
+      "_useReveal-BJp6Mhxj.js",
+>>>>>>> feat/template-astronomy-celestial
       "resources/js/Pages/Invitation/Sections/SectionEvents.vue",
       "resources/js/Pages/Invitation/Sections/SectionGallery.vue",
       "__plugin-vue_export-helper-DlAUqK2U.js",
       "resources/js/Pages/Invitation/Sections/SectionRsvp.vue",
       "resources/js/Pages/Invitation/Sections/SectionMessages.vue",
       "resources/js/Pages/Invitation/Sections/SectionClosing.vue",
+<<<<<<< HEAD
       "_registry-Cc-2kECF.js"
+=======
+      "_registry-DfYTeiYN.js"
+>>>>>>> feat/template-astronomy-celestial
     ],
     "css": [
       "assets/Show-vvhYYY0e.css",
@@ -1894,16 +3301,27 @@
     ]
   },
   "resources/js/Pages/Kontak.vue": {
+<<<<<<< HEAD
     "file": "assets/Kontak-qlMVIF9h.js",
+=======
+    "file": "assets/Kontak-ZoZtZ9U4.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "Kontak",
     "src": "resources/js/Pages/Kontak.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
       "_PublicLayout-DncEDS7N.js",
       "__plugin-vue_export-helper-DlAUqK2U.js",
       "_LanguageSwitcher-Dq5LOWxO.js",
       "_useLocale-u67sMLNS.js"
+=======
+      "_PublicLayout-2oHo77Ck.js",
+      "__plugin-vue_export-helper-DlAUqK2U.js",
+      "_LanguageSwitcher-BauF5QiD.js",
+      "_useLocale-BmZ4D7y4.js"
+>>>>>>> feat/template-astronomy-celestial
     ],
     "css": [
       "assets/Kontak-n4pmJNIa.css",
@@ -1911,7 +3329,11 @@
     ]
   },
   "resources/js/Pages/Maintenance.vue": {
+<<<<<<< HEAD
     "file": "assets/Maintenance-jCVWUbHq.js",
+=======
+    "file": "assets/Maintenance-DGJi92OL.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "Maintenance",
     "src": "resources/js/Pages/Maintenance.vue",
     "isDynamicEntry": true,
@@ -1923,7 +3345,11 @@
     ]
   },
   "resources/js/Pages/Onboarding/Setup.vue": {
+<<<<<<< HEAD
     "file": "assets/Setup-BiOszUjy.js",
+=======
+    "file": "assets/Setup-e-uWDGJB.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "Setup",
     "src": "resources/js/Pages/Onboarding/Setup.vue",
     "isDynamicEntry": true,
@@ -1937,28 +3363,44 @@
     ]
   },
   "resources/js/Pages/PaymentReturn.vue": {
+<<<<<<< HEAD
     "file": "assets/PaymentReturn-CzXZsSk_.js",
+=======
+    "file": "assets/PaymentReturn-C7OjItEx.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "PaymentReturn",
     "src": "resources/js/Pages/PaymentReturn.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
       "_DashboardLayout-DKwtjJcy.js",
       "__plugin-vue_export-helper-DlAUqK2U.js",
       "_LanguageSwitcher-Dq5LOWxO.js",
       "_useLocale-u67sMLNS.js"
+=======
+      "_DashboardLayout-Dg3A-7x2.js",
+      "__plugin-vue_export-helper-DlAUqK2U.js",
+      "_LanguageSwitcher-BauF5QiD.js",
+      "_useLocale-BmZ4D7y4.js"
+>>>>>>> feat/template-astronomy-celestial
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
     ]
   },
   "resources/js/Pages/PaymentReturn/Gift.vue": {
+<<<<<<< HEAD
     "file": "assets/Gift-CTM1p4Id.js",
+=======
+    "file": "assets/Gift-BAPyjLO5.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "Gift",
     "src": "resources/js/Pages/PaymentReturn/Gift.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
       "_DashboardLayout-DKwtjJcy.js",
       "_useLocale-u67sMLNS.js",
       "_sparkles-CMizV5Vu.js",
@@ -1973,32 +3415,65 @@
       "__plugin-vue_export-helper-DlAUqK2U.js",
       "_LanguageSwitcher-Dq5LOWxO.js",
       "_createLucideIcon-yeJFjqPl.js"
+=======
+      "_DashboardLayout-Dg3A-7x2.js",
+      "_useLocale-BmZ4D7y4.js",
+      "_sparkles-BiO31dLT.js",
+      "_calendar-DeDPXqXz.js",
+      "_check-COdm6bhx.js",
+      "_copy-COCj_S3a.js",
+      "_message-circle-xjfZ2kpH.js",
+      "_mail-Dxz-gzN0.js",
+      "_arrow-right-Bbd3IytD.js",
+      "_loader-circle-jLfpp1nO.js",
+      "_gift-DUaMM8Dn.js",
+      "__plugin-vue_export-helper-DlAUqK2U.js",
+      "_LanguageSwitcher-BauF5QiD.js",
+      "_createLucideIcon-B12BGXib.js"
+>>>>>>> feat/template-astronomy-celestial
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
     ]
   },
   "resources/js/Pages/Profile/Edit.vue": {
+<<<<<<< HEAD
     "file": "assets/Edit-BVRdptaM.js",
+=======
+    "file": "assets/Edit-CjzNXnlo.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "Edit",
     "src": "resources/js/Pages/Profile/Edit.vue",
     "isDynamicEntry": true,
     "imports": [
+<<<<<<< HEAD
       "_DashboardLayout-DKwtjJcy.js",
+=======
+      "_DashboardLayout-Dg3A-7x2.js",
+>>>>>>> feat/template-astronomy-celestial
       "resources/js/Pages/Profile/Partials/DeleteUserForm.vue",
       "resources/js/Pages/Profile/Partials/UpdatePasswordForm.vue",
       "resources/js/Pages/Profile/Partials/UpdateProfileInformationForm.vue",
       "resources/js/app.js",
       "__plugin-vue_export-helper-DlAUqK2U.js",
+<<<<<<< HEAD
       "_LanguageSwitcher-Dq5LOWxO.js",
       "_useLocale-u67sMLNS.js"
+=======
+      "_LanguageSwitcher-BauF5QiD.js",
+      "_useLocale-BmZ4D7y4.js"
+>>>>>>> feat/template-astronomy-celestial
     ],
     "css": [
       "assets/app-BPOM-3IO.css"
     ]
   },
   "resources/js/Pages/Profile/Partials/DeleteUserForm.vue": {
+<<<<<<< HEAD
     "file": "assets/DeleteUserForm-CdMX9J6N.js",
+=======
+    "file": "assets/DeleteUserForm-DVFH9ySV.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "DeleteUserForm",
     "src": "resources/js/Pages/Profile/Partials/DeleteUserForm.vue",
     "isDynamicEntry": true,
@@ -2012,7 +3487,11 @@
     ]
   },
   "resources/js/Pages/Profile/Partials/UpdatePasswordForm.vue": {
+<<<<<<< HEAD
     "file": "assets/UpdatePasswordForm-jYICciVY.js",
+=======
+    "file": "assets/UpdatePasswordForm-B8-rX8T-.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "UpdatePasswordForm",
     "src": "resources/js/Pages/Profile/Partials/UpdatePasswordForm.vue",
     "isDynamicEntry": true,
@@ -2024,7 +3503,11 @@
     ]
   },
   "resources/js/Pages/Profile/Partials/UpdateProfileInformationForm.vue": {
+<<<<<<< HEAD
     "file": "assets/UpdateProfileInformationForm-PSKy8qmf.js",
+=======
+    "file": "assets/UpdateProfileInformationForm-CehYjBkw.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "UpdateProfileInformationForm",
     "src": "resources/js/Pages/Profile/Partials/UpdateProfileInformationForm.vue",
     "isDynamicEntry": true,
@@ -2036,23 +3519,38 @@
     ]
   },
   "resources/js/Pages/Templates/Demo.vue": {
+<<<<<<< HEAD
     "file": "assets/Demo-CZUrvoaX.js",
+=======
+    "file": "assets/Demo-D8v6ndCS.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "Demo",
     "src": "resources/js/Pages/Templates/Demo.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
       "_InvitationRenderer-DezoRtD2.js",
       "resources/js/Pages/Invitation/Sections/SectionCover.vue",
       "resources/js/Pages/Invitation/Sections/SectionOpening.vue",
       "_useReveal-DjGD4XPI.js",
+=======
+      "_InvitationRenderer-DhTZtYyz.js",
+      "resources/js/Pages/Invitation/Sections/SectionCover.vue",
+      "resources/js/Pages/Invitation/Sections/SectionOpening.vue",
+      "_useReveal-BJp6Mhxj.js",
+>>>>>>> feat/template-astronomy-celestial
       "resources/js/Pages/Invitation/Sections/SectionEvents.vue",
       "resources/js/Pages/Invitation/Sections/SectionGallery.vue",
       "__plugin-vue_export-helper-DlAUqK2U.js",
       "resources/js/Pages/Invitation/Sections/SectionRsvp.vue",
       "resources/js/Pages/Invitation/Sections/SectionMessages.vue",
       "resources/js/Pages/Invitation/Sections/SectionClosing.vue",
+<<<<<<< HEAD
       "_registry-Cc-2kECF.js"
+=======
+      "_registry-DfYTeiYN.js"
+>>>>>>> feat/template-astronomy-celestial
     ],
     "css": [
       "assets/Demo-CCIfKoNE.css",
@@ -2060,12 +3558,17 @@
     ]
   },
   "resources/js/Pages/Templates/Gallery.vue": {
+<<<<<<< HEAD
     "file": "assets/Gallery-EqyzHYYa.js",
+=======
+    "file": "assets/Gallery-D0hc_rZN.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "Gallery",
     "src": "resources/js/Pages/Templates/Gallery.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
+<<<<<<< HEAD
       "_PublicLayout-DncEDS7N.js",
       "_PhoneMockup-BaD7Ty0O.js",
       "_useLocale-u67sMLNS.js",
@@ -2073,6 +3576,15 @@
       "__plugin-vue_export-helper-DlAUqK2U.js",
       "_LanguageSwitcher-Dq5LOWxO.js",
       "_useReveal-DjGD4XPI.js",
+=======
+      "_PublicLayout-2oHo77Ck.js",
+      "_PhoneMockup-CyKvlnpe.js",
+      "_useLocale-BmZ4D7y4.js",
+      "_registry-DfYTeiYN.js",
+      "__plugin-vue_export-helper-DlAUqK2U.js",
+      "_LanguageSwitcher-BauF5QiD.js",
+      "_useReveal-BJp6Mhxj.js",
+>>>>>>> feat/template-astronomy-celestial
       "resources/js/Pages/Invitation/Sections/SectionGallery.vue"
     ],
     "css": [
@@ -2081,7 +3593,11 @@
     ]
   },
   "resources/js/Pages/Welcome.vue": {
+<<<<<<< HEAD
     "file": "assets/Welcome-6-1mzXly.js",
+=======
+    "file": "assets/Welcome-CjLExPP3.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "Welcome",
     "src": "resources/js/Pages/Welcome.vue",
     "isDynamicEntry": true,
@@ -2093,7 +3609,11 @@
     ]
   },
   "resources/js/app.js": {
+<<<<<<< HEAD
     "file": "assets/app-B5rArluh.js",
+=======
+    "file": "assets/app-Dzmdz59s.js",
+>>>>>>> feat/template-astronomy-celestial
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,

@@ -302,6 +302,48 @@ class TemplateSeeder extends Seeder
                 'is_active'      => true,
                 'sort_order'     => 9,
             ],
+
+            // ── Astronomy Celestial (Premium) ────────────────────
+            [
+                'category_id'    => $pernikahan->id,
+                'name'           => 'Astronomy Celestial',
+                'slug'           => 'astronomy-celestial',
+                'thumbnail_url'  => '/images/templates/astronomy-celestial/thumbnail.webp',
+                'description'    => 'Template pernikahan premium scientific cosmic — peta langit asli pada tanggal & jam akad, dirender dari Jakarta sebagai reference point. Navy + gold + ivory, typography Cinzel + Cormorant + EB Garamond + JetBrains Mono.',
+                'default_config' => [
+                    'primary_color'        => '#d4af37',
+                    'primary_color_light'  => '#e8e3d3',
+                    'secondary_color'      => '#1a2e4a',
+                    'accent_color'         => '#7d6f9b',
+                    'dark_bg'              => '#0a1929',
+                    'bg_color'             => '#0a1929',
+                    'text_color'           => '#e8e3d3',
+                    'font_title'           => 'Cinzel',
+                    'font_heading'         => 'Cormorant Garamond',
+                    'font_body'            => 'EB Garamond',
+                    'gallery_layout'       => 'grid',
+                    'opening_style'        => 'fade',
+                    'section_backgrounds'  => [
+                        'events'  => ['type' => 'color', 'value' => '#1a2e4a'],
+                        'gallery' => ['type' => 'color', 'value' => '#0a1929'],
+                    ],
+
+                    'ac_groom_zodiac'             => 'libra',
+                    'ac_bride_zodiac'             => 'taurus',
+                    'ac_show_coords'              => true,
+                    'ac_show_constellation_lines' => true,
+                    'ac_star_map_style'           => 'classic',
+                    'ac_parallax_depth'           => 'medium',
+                    'ac_twinkle_enabled'          => true,
+                ],
+                'demo_data'      => array_merge($weddingDemo, ['custom_config' => [
+                    'ac_groom_zodiac' => 'libra',
+                    'ac_bride_zodiac' => 'taurus',
+                ]]),
+                'tier'           => 'premium',
+                'is_active'      => true,
+                'sort_order'     => 10,
+            ],
         ];
 
         foreach ($templates as $template) {
