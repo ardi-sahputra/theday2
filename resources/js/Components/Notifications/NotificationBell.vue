@@ -99,14 +99,24 @@ onUnmounted(() => {
             </span>
         </button>
 
-        <div v-if="open" class="absolute right-0 mt-2 w-96 bg-white rounded shadow-lg z-50 border border-gray-200">
-            <div class="flex justify-between items-center px-4 py-2 border-b">
-                <span class="font-semibold">{{ $t('notifications.bell.title') }}</span>
+        <!-- Mobile backdrop -->
+        <div v-if="open"
+             @click="open = false"
+             class="sm:hidden fixed inset-0 bg-black/30 z-40"
+             aria-hidden="true" />
+
+        <!-- Panel -->
+        <div v-if="open"
+             class="z-50 bg-white border border-gray-200 shadow-xl flex flex-col
+                    fixed inset-x-2 top-[3.75rem] max-h-[calc(100vh-4.5rem)] rounded-xl
+                    sm:absolute sm:inset-x-auto sm:top-auto sm:right-0 sm:mt-2 sm:w-96 sm:max-h-none sm:rounded">
+            <div class="flex justify-between items-center px-4 py-3 border-b shrink-0">
+                <span class="font-semibold text-sm sm:text-base">{{ $t('notifications.bell.title') }}</span>
                 <button @click="markAllRead" class="text-xs text-blue-600 hover:underline">
                     {{ $t('notifications.bell.mark_all_read') }}
                 </button>
             </div>
-            <ul class="max-h-96 overflow-y-auto">
+            <ul class="overflow-y-auto flex-1 sm:max-h-96">
                 <li v-if="items.length === 0" class="px-4 py-6 text-center text-gray-500 text-sm">
                     {{ $t('notifications.bell.empty') }}
                 </li>
@@ -115,14 +125,14 @@ onUnmounted(() => {
                     class="px-4 py-3 hover:bg-gray-50 cursor-pointer border-b last:border-b-0 flex items-start gap-2">
                     <span v-if="!item.read_at" class="w-2 h-2 rounded-full bg-blue-500 mt-1.5 shrink-0"></span>
                     <span v-else class="w-2 h-2 mt-1.5 shrink-0"></span>
-                    <div class="flex-1">
-                        <div class="text-sm text-gray-900">{{ item.title }}</div>
-                        <div v-if="item.body" class="text-xs text-gray-500">{{ item.body }}</div>
+                    <div class="flex-1 min-w-0">
+                        <div class="text-sm text-gray-900 break-words">{{ item.title }}</div>
+                        <div v-if="item.body" class="text-xs text-gray-500 break-words">{{ item.body }}</div>
                     </div>
                 </li>
             </ul>
-            <div class="border-t px-4 py-2 text-center">
-                <Link href="/dashboard/notifications" class="text-sm text-blue-600 hover:underline">
+            <div class="border-t px-4 py-2 text-center shrink-0">
+                <Link href="/dashboard/notifications" class="text-sm text-blue-600 hover:underline" @click="open = false">
                     {{ $t('notifications.bell.see_all') }} →
                 </Link>
             </div>
