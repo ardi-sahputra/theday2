@@ -566,3 +566,96 @@ templates/
 ```
 
 ---
+
+## Section 6 — Definition of Done Checklist
+
+Template **belum jadi** sampai semua item ✅. AI bisa self-validate tanpa human review awal — kalau ada item yang gagal, fix dulu sebelum claim "selesai".
+
+### 6.1 File Existence
+
+- [ ] `resources/js/Components/invitation/templates/<Name>Template.vue` exists
+- [ ] (Kalau >300 baris) sub-folder `templates/<slug>/` dengan komponen pendukung
+- [ ] Entry di `registry.js` dengan key slug yang match DB
+
+### 6.2 Database
+
+- [ ] Entry di `TemplateSeeder.php` dengan slug, name, name_en, category_id, tier, default_config, sort_order, is_active
+- [ ] `php artisan db:seed --class=TemplateSeeder` exit 0
+- [ ] `php artisan tinker --execute="echo \App\Models\Template::where('slug', '<slug>')->count();"` return `1`
+
+### 6.3 Composable Contract
+
+- [ ] Script setup pakai `useInvitationTemplate(props, { galleryLayout, openingStyle, revealClass })`
+- [ ] Tidak ada `props.invitation.X` direct access untuk data yang sudah di-expose composable
+- [ ] Tidak invent field di luar schema:
+  - Run: `grep -E "invitation\.(details|story|extras)\.[a-z_]+" <Name>Template.vue`
+  - Verify: setiap field yang muncul harus ada di `useInvitationTemplate.js` atau di migration `invitation_*`
+
+### 6.4 Section Coverage
+
+- [ ] Setiap `<section>` punya `v-if="sectionEnabled('<key>')"`
+- [ ] Section key semua ada di [Section Catalog 3.2](#32-section-catalog) (no custom keys)
+- [ ] Section yang butuh data array (events, galleries, accounts, stories) punya `.length` check juga
+
+### 6.5 Animation
+
+- [ ] Setiap section content punya `:ref="el => vReveal(el)"` + CSS reveal class
+- [ ] `@media (prefers-reduced-motion: reduce)` block ada di `<style>` — semua animation di-disable
+- [ ] At least 1 hero motion (ken-burns / stagger / parallax / phase transition)
+- [ ] Tidak ada animasi yang animate `width`/`height`/`top`/`left`/`margin` (gunakan `transform`):
+  - Run: `grep -E "animation:.*\b(width|height|top|left|margin)\b" <Name>Template.vue`
+  - Expected: no matches
+
+### 6.6 Build & Render
+
+- [ ] `npm run build` exit 0, tidak ada warning baru:
+  - Run: `npm run build 2>&1 | tail -20`
+  - Verify: no `error` keyword in output
+- [ ] Buka `/templates/<slug>/demo` di browser — render LENGKAP, tidak ada blank section
+- [ ] Buka di mobile viewport 375px — tidak horizontal scroll, semua text readable
+- [ ] Toggle setiap section di customize wizard (`/dashboard/invitations/<id>/customize`) — section beneran hide/show di preview
+
+### 6.7 Thumbnail
+
+- [ ] File `public/templates/<slug>-thumb.jpg` exists:
+  - Run: `ls -lh public/templates/<slug>-thumb.jpg`
+- [ ] Ukuran ~1200×675 (16:9):
+  - Run: `identify public/templates/<slug>-thumb.jpg` (jika imagemagick installed)
+- [ ] File size < 200KB:
+  - Verify dari `ls -lh` output
+- [ ] `thumbnail_url` di seeder match path persis
+
+### 6.8 Customization
+
+- [ ] User ganti warna `primary_color` di customize wizard — terlihat di template
+- [ ] User ganti `font_title` — terlihat di template
+- [ ] User upload music (premium) — playable, music toggle work
+- [ ] User isi RSVP form di demo — submit handler ga error
+- [ ] User submit wishes — message tampil di list
+
+### 6.9 Final Sanity
+
+- [ ] Tidak ada `console.log` / `// TODO` / `// FIXME` di code:
+  - Run: `grep -E "console\.log|TODO|FIXME" <Name>Template.vue templates/<slug>/*.vue`
+  - Expected: no matches
+- [ ] Tidak ada emoji sebagai icon (pakai SVG / Lucide):
+  - Run: `grep -P "[\x{1F300}-\x{1F9FF}]|[\x{2600}-\x{26FF}]" <Name>Template.vue`
+  - Expected: no matches (text "❌" / "✅" di komentar OK, di template content tidak)
+- [ ] CSS `<style scoped>` di setiap .vue file
+- [ ] Premium template: watermark TheDay tidak muncul untuk premium user
+- [ ] Free template: watermark TheDay muncul untuk free user
+
+**Kalau ada item ❌, JANGAN claim "selesai" — fix dulu.**
+
+---
+
+## Resources
+
+- **Reference template:** [`NetflixTemplate.vue`](../resources/js/Components/invitation/templates/NetflixTemplate.vue) + folder [`netflix/`](../resources/js/Components/invitation/templates/netflix/)
+- **Boilerplate starter:** [`_template-boilerplate.vue`](../resources/js/Components/invitation/templates/_template-boilerplate.vue)
+- **Composable source:** [`useInvitationTemplate.js`](../resources/js/Composables/useInvitationTemplate.js)
+- **Seeder:** [`TemplateSeeder.php`](../database/seeders/TemplateSeeder.php)
+- **Registry:** [`registry.js`](../resources/js/Components/invitation/templates/registry.js)
+- **Templates migration:** [`2026_04_01_000002_create_templates_table.php`](../database/migrations/2026_04_01_000002_create_templates_table.php)
+- **Design system MASTER:** [`design-system/theday/MASTER.md`](../design-system/theday/MASTER.md)
+- **Netflix template spec:** [`docs/superpowers/specs/2026-05-15-netflix-template-design.md`](superpowers/specs/2026-05-15-netflix-template-design.md)
