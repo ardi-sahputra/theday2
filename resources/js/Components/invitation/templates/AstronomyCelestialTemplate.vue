@@ -83,7 +83,13 @@ const groomPhoto   = computed(() => details.value.groom_photo_url    ?? null)
 const bridePhoto   = computed(() => details.value.bride_photo_url    ?? null)
 const groomParents = computed(() => details.value.groom_parent_names ?? details.value.groom_parents_text ?? '')
 const brideParents = computed(() => details.value.bride_parent_names ?? details.value.bride_parents_text ?? '')
-const loveStories  = computed(() => sectionData('love_story').stories ?? sectionData('love_story') ?? [])
+const loveStories  = computed(() => {
+    const d = sectionData('love_story')
+    if (Array.isArray(d?.stories)) return d.stories
+    if (Array.isArray(d))          return d
+    if (Array.isArray(props.invitation.love_story)) return props.invitation.love_story
+    return []
+})
 
 const rsvpRef = ref(null)
 function setRsvpRef(el) { rsvpRef.value = el; if (el) vReveal(el) }

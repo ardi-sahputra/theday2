@@ -58,8 +58,14 @@ const bridePhoto   = computed(() => details.value.bride_photo_url    ?? null)
 const groomParents = computed(() => details.value.groom_parents_text ?? details.value.groom_parent_names ?? '')
 const brideParents = computed(() => details.value.bride_parents_text ?? details.value.bride_parent_names ?? '')
 
-// Love stories
-const loveStories = computed(() => sectionData('love_story').stories ?? sectionData('love_story') ?? [])
+// Love stories — defensive: sectionData can return object OR array depending on source
+const loveStories = computed(() => {
+    const d = sectionData('love_story')
+    if (Array.isArray(d?.stories)) return d.stories
+    if (Array.isArray(d))          return d
+    if (Array.isArray(props.invitation.love_story)) return props.invitation.love_story
+    return []
+})
 
 // Gift accounts
 const accounts = computed(() => sectionData('gift').accounts ?? [])
