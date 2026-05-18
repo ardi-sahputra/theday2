@@ -310,7 +310,7 @@ class TemplateSeeder extends Seeder
                 'category_id'    => $pernikahan->id,
                 'name'           => 'Art Deco Gatsby',
                 'slug'           => 'art-deco-gatsby',
-                'thumbnail_url'  => '/templates/art-deco-gatsby-thumb.jpg',
+                'thumbnail_url'  => '/images/templates/art-deco-gatsby/thumbnail.webp',
                 'description'    => 'Opulent 1920s Gatsby — gold sunburst on near-black, chevron borders, fan motifs. Timeless luxury.',
                 'default_config' => [
                     'primary_color'       => '#c9a961',
@@ -349,7 +349,7 @@ class TemplateSeeder extends Seeder
                 'category_id'    => $pernikahan->id,
                 'name'           => 'Velvet Burgundy',
                 'slug'           => 'velvet-burgundy',
-                'thumbnail_url'  => '/templates/velvet-burgundy-thumb.jpg',
+                'thumbnail_url'  => '/images/templates/velvet-burgundy/thumbnail.webp',
                 'description'    => 'Undangan premium Victorian-modern: beludru maroon + filigree emas + segel lilin. Cocok untuk warna hangat klasik (akad/resepsi adat-modern).',
                 'default_config' => [
                     'primary_color'           => '#5c1a1b',

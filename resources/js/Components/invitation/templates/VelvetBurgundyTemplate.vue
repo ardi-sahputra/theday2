@@ -49,7 +49,7 @@ const paperPanels     = computed(() => cfg.value.velvet_paper_panels     ?? true
 const coverSubtitle   = computed(() => cfg.value.velvet_cover_subtitle   ?? 'Sebuah Undangan Pernikahan')
 
 // ── Phase management ─────────────────────────────────────────────────────────
-const phase = ref(props.autoOpen ? 'content' : 'envelope')
+const phase = ref((props.autoOpen || props.isDemo) ? 'content' : 'envelope')
 function onSealCracked() { phase.value = 'cover' }
 function onCoverOpen() {
     phase.value = 'content'

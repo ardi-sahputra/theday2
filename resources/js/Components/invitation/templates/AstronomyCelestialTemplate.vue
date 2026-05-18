@@ -68,7 +68,7 @@ const starMapDateTime = computed(() => {
 const fieldSeed = computed(() => props.invitation.id ?? props.invitation.slug ?? 'astro-celestial')
 
 // ── Phase routing ───────────────────────────────────────────
-const phase = ref(props.autoOpen ? 'content' : 'cosmos')
+const phase = ref((props.autoOpen || props.isDemo) ? 'content' : 'cosmos')
 function onCosmosEnter() { phase.value = 'cover' }
 function onCoverScroll() {
     phase.value = 'content'

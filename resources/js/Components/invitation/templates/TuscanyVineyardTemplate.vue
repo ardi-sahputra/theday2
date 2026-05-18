@@ -60,7 +60,7 @@ const guestName = computed(() => {
 })
 
 // ── Phase management ─────────────────────────────────────────────────────────
-const phase = ref(props.autoOpen ? 'content' : 'gate')
+const phase = ref((props.autoOpen || props.isDemo) ? 'content' : 'gate')
 function onGateOpen()  { phase.value = 'cover' }
 function onCoverOpen() {
     phase.value = 'content'

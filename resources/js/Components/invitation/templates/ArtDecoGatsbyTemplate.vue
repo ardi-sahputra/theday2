@@ -52,7 +52,7 @@ const decoRays           = computed(() => Number(cfg.value.deco_sunburst_rays ??
 const decoAccent         = computed(() => cfg.value.deco_accent_color ?? 'gold')
 const decoChevronDensity = computed(() => cfg.value.deco_chevron_density ?? 'medium')
 
-const phase = ref(props.autoOpen ? 'content' : 'intro')
+const phase = ref((props.autoOpen || props.isDemo) ? 'content' : 'intro')
 function onIntroDone() { phase.value = 'cover' }
 function onCoverOpen() {
     phase.value = 'content'

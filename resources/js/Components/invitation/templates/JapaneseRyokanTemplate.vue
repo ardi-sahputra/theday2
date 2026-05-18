@@ -44,7 +44,7 @@ const petalCount   = computed(() => cfg.value.ryokan_petal_count   ?? 5)
 const norenKanji   = computed(() => cfg.value.ryokan_noren_kanji   ?? '寿')
 const fujiVisible  = computed(() => cfg.value.ryokan_fuji_visible  ?? false)
 
-const phase = ref(props.autoOpen ? 'content' : 'noren')
+const phase = ref((props.autoOpen || props.isDemo) ? 'content' : 'noren')
 
 function advanceFromNoren() { phase.value = 'cover' }
 function advanceFromCover() {

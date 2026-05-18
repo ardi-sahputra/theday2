@@ -60,7 +60,7 @@ const guestName = computed(() => {
 })
 
 // Phase machine
-const phase = ref(props.autoOpen ? 'content' : 'envelope')
+const phase = ref((props.autoOpen || props.isDemo) ? 'content' : 'envelope')
 function onEnvelopeOpen() { phase.value = 'cover' }
 function onCoverOpen() {
     phase.value = 'content'

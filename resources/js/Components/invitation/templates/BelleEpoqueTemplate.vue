@@ -66,7 +66,7 @@ const guestName = computed(() => {
 
 // ── Phase orchestration ──
 // Phases: 'postcard' | 'cover' | 'content'
-const phase = ref(props.autoOpen ? 'content' : 'postcard')
+const phase = ref((props.autoOpen || props.isDemo) ? 'content' : 'postcard')
 function goCover()   { phase.value = 'cover' }
 function goContent() {
     phase.value = 'content'
