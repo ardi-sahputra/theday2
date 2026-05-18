@@ -263,6 +263,58 @@ class TemplateSeeder extends Seeder
                 'is_active'      => true,
                 'sort_order'     => 8,
             ],
+
+            // ── Dark Room Flashlight (Premium Experiential) ──
+            // docs/superpowers/specs/premium-templates/flashlight-design.md
+            [
+                'category_id'    => $cinema->id,
+                'name'           => 'Dark Room Flashlight',
+                'slug'           => 'flashlight',
+                'thumbnail_url'  => '/images/templates/flashlight/thumbnail.webp',
+                'description'    => 'Template pernikahan premium experiential — kanvas pitch black yang harus dijelajahi pakai senter (radial mask follow cursor / drag). Section disebar di koordinat 2D dan ditemukan satu per satu lewat eksplorasi non-linear. Mood film noir cinematic, romantik misterius.',
+                'default_config' => [
+                    'primary_color'        => '#C9A961',
+                    'primary_color_light'  => '#FFD580',
+                    'secondary_color'      => '#A02E1B',
+                    'accent_color'         => '#F2C4B8',
+                    'dark_bg'              => '#000000',
+                    'bg_color'             => '#000000',
+                    'text_color'           => '#F5E6CC',
+                    'text_secondary'       => '#8A7B6A',
+
+                    'font_title'           => 'Cormorant Garamond',
+                    'font_heading'         => 'Cinzel',
+                    'font_body'            => 'EB Garamond',
+                    'font_accent'          => 'Italianno',
+
+                    'gallery_layout'       => 'grid',
+                    'opening_style'        => 'fade',
+
+                    'section_backgrounds'  => [
+                        'opening' => ['type' => 'color', 'value' => '#000000'],
+                        'couple'  => ['type' => 'color', 'value' => '#000000'],
+                        'events'  => ['type' => 'color', 'value' => '#000000'],
+                        'closing' => ['type' => 'color', 'value' => '#000000'],
+                    ],
+
+                    'fl_beam_radius'        => 'medium',
+                    'fl_beam_warmth'        => 'warm',
+                    'fl_minimap_visible'    => true,
+                    'fl_dust_motes_enabled' => true,
+                    'fl_section_layout'     => 'scatter',
+                    'fl_section_positions'  => new \stdClass(),
+                ],
+                'demo_data'      => array_merge($weddingDemo, ['custom_config' => [
+                    'fl_beam_radius'        => 'medium',
+                    'fl_beam_warmth'        => 'warm',
+                    'fl_minimap_visible'    => true,
+                    'fl_dust_motes_enabled' => true,
+                    'fl_section_layout'     => 'scatter',
+                ]]),
+                'tier'           => 'premium',
+                'is_active'      => true,
+                'sort_order'     => 9,
+            ],
         ];
 
         foreach ($templates as $template) {
