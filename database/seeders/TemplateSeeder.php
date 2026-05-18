@@ -263,6 +263,52 @@ class TemplateSeeder extends Seeder
                 'is_active'      => true,
                 'sort_order'     => 8,
             ],
+
+            // ── Vinyl Record (Premium, retro luxe turntable navigation) ──
+            // docs/superpowers/specs/premium-templates/vinyl-record-design.md
+            [
+                'category_id'    => $cinema->id,
+                'name'           => 'Vinyl Record',
+                'slug'           => 'vinyl-record',
+                'thumbnail_url'  => '/images/templates/vinyl-record/thumbnail.webp',
+                'description'    => 'Template pernikahan premium bertema retro luxe vinyl turntable. Sleeve cover di awal, lalu turntable kayu walnut dengan piringan hitam yang berputar, tonearm yang mendarat di tiap track. 12 momen pernikahan terbagi Side A/B yang flip-able. Untuk pasangan 30-45 kolektor vinyl, audiophile, atau kurator musik. Palette walnut + brass + cream label, font Bebas Neue + DM Serif Display.',
+                'default_config' => [
+                    'primary_color'        => '#B8902F',
+                    'primary_color_light'  => '#D4AA42',
+                    'secondary_color'      => '#5C3A21',
+                    'accent_color'         => '#C73E3A',
+                    'dark_bg'              => '#0a0a0a',
+                    'bg_color'             => '#0a0a0a',
+                    'text_color'           => '#F5E6CC',
+                    'text_secondary'       => '#D8C8A8',
+                    'font_title'           => 'Bebas Neue',
+                    'font_heading'         => 'DM Serif Display',
+                    'font_body'            => 'Inter',
+                    'font_accent'          => 'Bree Serif',
+                    'gallery_layout'       => 'masonry',
+                    'opening_style'        => 'fade',
+                    'section_backgrounds'  => [
+                        'opening'  => ['type' => 'color', 'value' => '#F5E6CC'],
+                        'couple'   => ['type' => 'color', 'value' => '#F5E6CC'],
+                        'closing'  => ['type' => 'color', 'value' => '#0a0a0a'],
+                    ],
+                    'vr_album_title'      => 'THE WEDDING SESSIONS',
+                    'vr_label_color'      => 'red',
+                    'vr_year'             => '2026',
+                    'vr_side_split'       => 'auto',
+                    'vr_audio_autoplay'   => false,
+                    'vr_grain_intensity'  => 'subtle',
+                ],
+                'demo_data'      => array_merge($weddingDemo, ['custom_config' => [
+                    'vr_album_title'     => 'THE WEDDING SESSIONS',
+                    'vr_label_color'     => 'red',
+                    'vr_year'            => '2026',
+                    'vr_grain_intensity' => 'subtle',
+                ]]),
+                'tier'           => 'premium',
+                'is_active'      => true,
+                'sort_order'     => 23,
+            ],
         ];
 
         foreach ($templates as $template) {
