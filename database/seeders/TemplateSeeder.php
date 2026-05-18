@@ -263,6 +263,51 @@ class TemplateSeeder extends Seeder
                 'is_active'      => true,
                 'sort_order'     => 8,
             ],
+
+            // ── Treasure Hunt (Premium Storybook) ──────────────────
+            // docs/superpowers/specs/premium-templates/treasure-hunt-design.md
+            [
+                'category_id'    => $storybook->id,
+                'name'           => 'Treasure Hunt',
+                'slug'           => 'treasure-hunt',
+                'thumbnail_url'  => '/images/templates/treasure-hunt/thumbnail.webp',
+                'description'    => 'Template premium pan-and-zoom — gulungan kulit lapuk menjadi peta interaktif "Isle of Matrimony" dengan 12 X-mark POI menggantikan section card konvensional. Untuk pasangan adventure-loving / destination wedding.',
+                'default_config' => [
+                    'primary_color'        => '#8B1A1F',
+                    'primary_color_light'  => '#A02E1B',
+                    'secondary_color'      => '#C9A961',
+                    'accent_color'         => '#C9A961',
+                    'dark_bg'              => '#3D2817',
+                    'bg_color'             => '#E8D5A0',
+                    'text_color'           => '#3D2817',
+                    'text_secondary'       => '#6B4F38',
+                    'font_title'           => 'IM Fell English',
+                    'font_heading'         => 'Cinzel',
+                    'font_body'            => 'Crimson Text',
+                    'font_accent'          => 'Pirata One',
+                    'gallery_layout'       => 'masonry',
+                    'opening_style'        => 'fade',
+                    'section_backgrounds'  => new \stdClass(),
+
+                    'th_couple_initials'   => 'A & B',
+                    'th_island_name'       => 'Isle of Matrimony',
+                    'th_route_revealed'    => true,
+                    'th_sea_monsters'      => ['kraken', 'mermaid', 'serpent', 'whale'],
+                    'th_compass_style'     => 'classic',
+                    'th_zoom_default'      => 1.0,
+                ],
+                'demo_data'      => array_merge($weddingDemo, ['custom_config' => [
+                    'th_couple_initials'   => 'A & B',
+                    'th_island_name'       => 'Isle of Matrimony',
+                    'th_route_revealed'    => true,
+                    'th_sea_monsters'      => ['kraken', 'mermaid', 'serpent', 'whale'],
+                    'th_compass_style'     => 'classic',
+                    'th_zoom_default'      => 1.0,
+                ]]),
+                'tier'           => 'premium',
+                'is_active'      => true,
+                'sort_order'     => 26,
+            ],
         ];
 
         foreach ($templates as $template) {
