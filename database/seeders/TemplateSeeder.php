@@ -800,6 +800,53 @@ class TemplateSeeder extends Seeder
                 'is_active'      => true,
                 'sort_order'     => 19,
             ],
+
+            // ── Pop-up Card (Premium, paper-engineering artisan) ─
+            // docs/superpowers/specs/premium-templates/popup-card-design.md
+            [
+                'category_id'    => $pernikahan->id,
+                'name'           => 'Pop-up Card',
+                'slug'           => 'popup-card',
+                'thumbnail_url'  => '/images/templates/popup-card/thumbnail.webp',
+                'description'    => 'Template pernikahan premium ber-tema kartu pop-up artisan — buka kartu di tengah layar, lalu setiap scene berdiri seperti diorama kertas 3D dengan layered cutout, fold-line, dan confetti pada momen perayaan. Untuk pasangan yang ingin undangan terasa seperti hadiah handmade, bukan poster digital.',
+                'default_config' => [
+                    'primary_color'        => '#d4af37',
+                    'primary_color_light'  => '#f3e5a0',
+                    'secondary_color'      => '#b73e3e',
+                    'accent_color'         => '#d4af37',
+                    'dark_bg'              => '#2c3e50',
+                    'bg_color'             => '#f9f1e3',
+                    'text_color'           => '#3a2e21',
+                    'text_secondary'       => '#7a6a55',
+                    'font_title'           => 'Bodoni Moda',
+                    'font_heading'         => 'Cormorant SC',
+                    'font_body'            => 'Crimson Text',
+                    'font_accent'          => 'Pinyon Script',
+                    'gallery_layout'       => 'grid',
+                    'opening_style'        => 'fade',
+                    'section_backgrounds'  => [
+                        'opening' => ['type' => 'paper', 'value' => 'cream'],
+                        'couple'  => ['type' => 'paper', 'value' => 'cream'],
+                        'events'  => ['type' => 'paper', 'value' => 'cream'],
+                        'closing' => ['type' => 'paper', 'value' => 'cream'],
+                    ],
+                    'pc_paper_color'              => 'cream',
+                    'pc_confetti_burst_on_scenes' => ['countdown', 'rsvp', 'closing'],
+                    'pc_ambient_sparkle'          => true,
+                    'pc_layer_depth_intensity'    => 'medium',
+                    'pc_venue_silhouette'         => 'church',
+                ],
+                'demo_data'      => array_merge($weddingDemo, ['custom_config' => [
+                    'pc_paper_color'              => 'cream',
+                    'pc_confetti_burst_on_scenes' => ['countdown', 'rsvp', 'closing'],
+                    'pc_ambient_sparkle'          => true,
+                    'pc_layer_depth_intensity'    => 'medium',
+                    'pc_venue_silhouette'         => 'church',
+                ]]),
+                'tier'           => 'premium',
+                'is_active'      => true,
+                'sort_order'     => 20,
+            ],
         ];
 
         foreach ($templates as $template) {
