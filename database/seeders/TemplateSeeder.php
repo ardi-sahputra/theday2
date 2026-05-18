@@ -659,6 +659,53 @@ class TemplateSeeder extends Seeder
                 'is_active'      => true,
                 'sort_order'     => 16,
             ],
+
+            // ── Pokémon TCG (Premium, trading-card collectible) ──
+            // docs/superpowers/specs/premium-templates/pokemon-tcg-design.md
+            [
+                'category_id'    => $pernikahan->id,
+                'name'           => 'Pokémon TCG',
+                'slug'           => 'pokemon-tcg',
+                'thumbnail_url'  => '/images/templates/pokemon-tcg/thumbnail.webp',
+                'description'    => 'Template pernikahan premium bertema trading-card collectible — holographic foil shimmer, 3D tilt, evolution chain, gym badges, energy gauge countdown. Untuk pasangan millennial/gamer yang ingin undangan playful-yet-premium. Custom 4-type system (Romantic/Tender/Joyful/Sacred) — zero trademark, zero licensed assets.',
+                'default_config' => [
+                    'primary_color'        => '#FFD700',
+                    'primary_color_light'  => '#FFE66B',
+                    'secondary_color'      => '#B8941F',
+                    'accent_color'         => '#FF6B9D',
+                    'dark_bg'              => '#1A1F3A',
+                    'bg_color'             => '#1A1F3A',
+                    'text_color'           => '#F4F1E6',
+                    'text_secondary'       => '#A6A4B8',
+                    'font_title'           => 'Bowlby One',
+                    'font_heading'         => 'Cinzel',
+                    'font_body'            => 'Inter',
+                    'gallery_layout'       => 'grid',
+                    'opening_style'        => 'fade',
+                    'section_backgrounds'  => [
+                        'opening' => ['type' => 'color', 'value' => '#1A1F3A'],
+                        'couple'  => ['type' => 'color', 'value' => '#1A1F3A'],
+                        'events'  => ['type' => 'color', 'value' => '#1A1F3A'],
+                        'closing' => ['type' => 'color', 'value' => '#1A1F3A'],
+                    ],
+                    'tcg_groom_type'     => 'joyful',
+                    'tcg_bride_type'     => 'romantic',
+                    'tcg_groom_stats'    => ['love' => 180, 'loyal' => 200, 'joy' => 150],
+                    'tcg_bride_stats'    => ['love' => 200, 'loyal' => 170, 'joy' => 190],
+                    'tcg_edition'        => 'Wedding 1st Edition',
+                    'tcg_card_number'    => '001/200',
+                    'tcg_holo_intensity' => 'medium',
+                    'tcg_tilt_enabled'   => true,
+                ],
+                'demo_data'      => array_merge($weddingDemo, ['custom_config' => [
+                    'tcg_groom_type'     => 'joyful',
+                    'tcg_bride_type'     => 'romantic',
+                    'tcg_holo_intensity' => 'medium',
+                ]]),
+                'tier'           => 'premium',
+                'is_active'      => true,
+                'sort_order'     => 17,
+            ],
         ];
 
         foreach ($templates as $template) {
