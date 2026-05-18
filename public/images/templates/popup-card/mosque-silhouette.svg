@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 200" fill="#3a2e21">
+  <!-- Central dome -->
+  <path d="M100 90 Q100 50 140 50 Q180 50 180 90 L180 100 L100 100 z"/>
+  <!-- Crescent -->
+  <circle cx="140" cy="36" r="4" fill="none" stroke="#3a2e21" stroke-width="2"/>
+  <!-- Main body -->
+  <rect x="60" y="100" width="160" height="90"/>
+  <!-- Minarets -->
+  <rect x="35" y="120" width="14" height="70"/>
+  <path d="M30 120 L54 120 L42 100 z"/>
+  <rect x="231" y="120" width="14" height="70"/>
+  <path d="M226 120 L250 120 L238 100 z"/>
+  <!-- Door arch -->
+  <path d="M125 145 Q125 125 140 125 Q155 125 155 145 L155 190 L125 190 z" fill="#f9f1e3"/>
+</svg>
