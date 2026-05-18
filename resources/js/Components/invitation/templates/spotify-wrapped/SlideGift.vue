@@ -71,7 +71,7 @@ defineProps({
         opacity 0.6s ease-out var(--d, 0s),
         transform 0.6s ease-out var(--d, 0s);
 }
-:global(.sw-visible) .sw-gift-card { opacity: 1; transform: translateY(0); }
+:global(.sw-visible .sw-gift-card) { opacity: 1; transform: translateY(0); }
 .sw-gift-bank {
     font-family: 'Inter', sans-serif;
     font-weight: 700;

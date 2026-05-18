@@ -84,7 +84,7 @@ defineProps({
 }
 .sw-artist-card--in-right { transform: translateX(40px); }
 .sw-artist-card--in-left  { transform: translateX(-40px); }
-:global(.sw-visible) .sw-artist-card { opacity: 1; transform: translateX(0); }
+:global(.sw-visible .sw-artist-card) { opacity: 1; transform: translateX(0); }
 
 .sw-artist-photo-wrap {
     position: relative;
@@ -115,7 +115,7 @@ defineProps({
     opacity: 0;
     transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.4s, opacity 0.3s ease 0.4s;
 }
-:global(.sw-visible) .sw-badge-rank { transform: scale(1); opacity: 1; }
+:global(.sw-visible .sw-badge-rank) { transform: scale(1); opacity: 1; }
 .sw-artist-name {
     font-family: 'Inter', sans-serif;
     font-weight: 700;

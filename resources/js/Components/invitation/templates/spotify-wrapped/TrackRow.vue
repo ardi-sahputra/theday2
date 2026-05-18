@@ -47,7 +47,7 @@ const staggerDelay = computed(() => ({ '--d': (props.index * 0.08).toFixed(2) + 
         opacity 0.5s ease-out var(--d, 0s),
         transform 0.5s ease-out var(--d, 0s);
 }
-:global(.sw-visible) .sw-track-row {
+:global(.sw-visible .sw-track-row) {
     opacity: 1;
     transform: translateX(0);
 }

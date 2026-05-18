@@ -71,7 +71,7 @@ function resolveCaption(g) {
         opacity 0.5s ease-out var(--d, 0s),
         transform 0.5s ease-out var(--d, 0s);
 }
-:global(.sw-visible) .sw-album-cell { opacity: 1; transform: translateY(0) scale(1); }
+:global(.sw-visible .sw-album-cell) { opacity: 1; transform: translateY(0) scale(1); }
 @media (prefers-reduced-motion: reduce) {
     .sw-album-cell { opacity: 1; transform: none; transition: none; }
 }

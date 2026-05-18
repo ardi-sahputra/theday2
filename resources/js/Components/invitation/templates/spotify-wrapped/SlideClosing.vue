@@ -82,7 +82,7 @@ defineProps({
     transform: scale(0.95);
     transition: opacity 0.7s ease-out, transform 0.7s ease-out;
 }
-:global(.sw-visible) .sw-closing-hero { opacity: 1; transform: scale(1); }
+:global(.sw-visible .sw-closing-hero) { opacity: 1; transform: scale(1); }
 .sw-closing-title {
     font-family: 'Inter', sans-serif;
     font-weight: 900;

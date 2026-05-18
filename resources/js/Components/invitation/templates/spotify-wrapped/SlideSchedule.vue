@@ -78,7 +78,7 @@ function formattedDate(ev) {
         opacity 0.6s ease-out var(--d, 0s),
         transform 0.6s ease-out var(--d, 0s);
 }
-:global(.sw-visible) .sw-drop-card { opacity: 1; transform: translateY(0); }
+:global(.sw-visible .sw-drop-card) { opacity: 1; transform: translateY(0); }
 .sw-drop-pill {
     align-self: flex-start;
     display: inline-block;
