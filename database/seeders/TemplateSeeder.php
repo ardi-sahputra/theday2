@@ -263,6 +263,59 @@ class TemplateSeeder extends Seeder
                 'is_active'      => true,
                 'sort_order'     => 8,
             ],
+
+            // ── IG Stories (Premium Pop-Culture, tap-zone story deck) ──
+            // Legal: brand-safe adaptation of the public vertical-ephemeral story-deck UX format.
+            // NO Instagram logo, NO Helvetica / Instagram Sans, NO Meta wordmark. Default brand mark
+            // rendered to users is "TheDay". See docs/superpowers/specs/premium-templates/ig-stories-design.md
+            [
+                'category_id'    => $cinema->id,
+                'name'           => 'IG Stories',
+                'slug'           => 'ig-stories',
+                'thumbnail_url'  => '/images/templates/ig-stories/thumbnail.webp',
+                'description'    => 'Undangan tap-zone story-deck format — 10 story full-screen vertical 9:16 dengan progress bars, auto-advance, swipe gesture, dan sticker interaktif (poll RSVP, question wishes, countdown). Untuk pasangan Gen-Z & millennial yang ingin undangan viral-shareable mobile-native.',
+                'default_config' => [
+                    'primary_color'        => '#833ab4',
+                    'primary_color_light'  => '#fcb045',
+                    'secondary_color'      => '#fd1d1d',
+                    'accent_color'         => '#FFFFFF',
+                    'dark_bg'              => '#000000',
+                    'bg_color'             => '#000000',
+                    'text_color'           => '#FFFFFF',
+                    'text_secondary'       => 'rgba(255,255,255,0.72)',
+                    'font_title'           => 'Inter',
+                    'font_heading'         => 'Inter',
+                    'font_body'            => 'Inter',
+                    'gallery_layout'       => 'grid',
+                    'opening_style'        => 'fade',
+                    'section_backgrounds'  => [
+                        'opening'    => ['type' => 'gradient', 'value' => 'sunset'],
+                        'couple'     => ['type' => 'photo',    'value' => 'cover'],
+                        'love_story' => ['type' => 'gradient', 'value' => 'pastel-pink'],
+                        'events'     => ['type' => 'gradient', 'value' => 'blue-cyan'],
+                        'countdown'  => ['type' => 'gradient', 'value' => 'red-urgent'],
+                        'gallery'    => ['type' => 'collage',  'value' => 'grid'],
+                        'rsvp'       => ['type' => 'gradient', 'value' => 'soft-poll'],
+                        'gift'       => ['type' => 'gradient', 'value' => 'gold-swipe'],
+                        'wishes'     => ['type' => 'gradient', 'value' => 'mint-question'],
+                        'closing'    => ['type' => 'gradient', 'value' => 'sunset-cycle'],
+                    ],
+                    'ig_username'          => 'thedaywedding',
+                    'ig_avatar_ring_style' => 'gradient',
+                    'ig_story_duration'    => 6,
+                    'ig_auto_advance'      => true,
+                    'ig_story_order'       => ['opening','couple','love_story','events','countdown','gallery','rsvp','gift','wishes','closing'],
+                    'ig_brand_name'        => 'TheDay',
+                    'ig_show_overview'     => true,
+                ],
+                'demo_data'      => array_merge($weddingDemo, ['custom_config' => [
+                    'ig_username'   => 'thedaywedding',
+                    'ig_brand_name' => 'TheDay',
+                ]]),
+                'tier'           => 'premium',
+                'is_active'      => true,
+                'sort_order'     => 25,
+            ],
         ];
 
         foreach ($templates as $template) {
