@@ -1180,6 +1180,52 @@ class TemplateSeeder extends Seeder
                 'is_active'      => true,
                 'sort_order'     => 27,
             ],
+
+            // ── Tarot Reading (Premium, mystical card reveal) ──
+            // docs/superpowers/specs/premium-templates/tarot-reading-design.md
+            [
+                'category_id'    => $pernikahan->id,
+                'name'           => 'Tarot Reading',
+                'slug'           => 'tarot-reading',
+                'thumbnail_url'  => '/images/templates/tarot-reading/thumbnail.webp',
+                'description'    => 'Template pernikahan premium bertema pembacaan tarot mistis-romantis — 12 kartu Wedding Arcana custom dengan 3D flip reveal, holographic foil shimmer, dan mystical aura particles.',
+                'default_config' => [
+                    'primary_color'        => '#D4AF37',
+                    'primary_color_light'  => '#F3E5A0',
+                    'secondary_color'      => '#9B8327',
+                    'accent_color'         => '#8B5CF6',
+                    'dark_bg'              => '#0F0B23',
+                    'bg_color'             => '#0F0B23',
+                    'text_color'           => '#F5E6D3',
+                    'text_secondary'       => '#9D8FB0',
+                    'font_title'           => 'Cormorant Garamond',
+                    'font_heading'         => 'Cinzel Decorative',
+                    'font_body'            => 'EB Garamond',
+                    'gallery_layout'       => 'masonry',
+                    'opening_style'        => 'fade',
+                    'section_backgrounds'  => [
+                        'opening' => ['type' => 'color', 'value' => '#0F0B23'],
+                        'couple'  => ['type' => 'color', 'value' => '#0F0B23'],
+                        'events'  => ['type' => 'color', 'value' => '#0F0B23'],
+                        'closing' => ['type' => 'color', 'value' => '#0F0B23'],
+                    ],
+                    'tr_spread_layout'     => 'arc',
+                    'tr_card_count'        => 12,
+                    'tr_holo_intensity'    => 'medium',
+                    'tr_aura_enabled'      => true,
+                    'tr_mystical_theme'    => 'midnight',
+                    'tr_monogram_text'     => 'G & B',
+                    'tr_allow_toggle_back' => false,
+                ],
+                'demo_data'      => array_merge($weddingDemo, ['custom_config' => [
+                    'tr_spread_layout'  => 'arc',
+                    'tr_holo_intensity' => 'medium',
+                    'tr_mystical_theme' => 'midnight',
+                ]]),
+                'tier'           => 'premium',
+                'is_active'      => true,
+                'sort_order'     => 28,
+            ],
         ];
 
         foreach ($templates as $template) {
