@@ -24,6 +24,7 @@ import VinylRecordTemplate        from './VinylRecordTemplate.vue'
 import YearScrubberTemplate       from './YearScrubberTemplate.vue'
 import IgStoriesTemplate          from './IgStoriesTemplate.vue'
 import TreasureHuntTemplate        from './TreasureHuntTemplate.vue'
+import ComicBookTemplate           from './ComicBookTemplate.vue'
 
 export const TEMPLATE_MAP = {
     'nusantara':           NusantaraTemplate,
@@ -51,4 +52,5 @@ export const TEMPLATE_MAP = {
     'year-scrubber':       YearScrubberTemplate,
     'ig-stories':          IgStoriesTemplate,
     'treasure-hunt':       TreasureHuntTemplate,
+    'comic-book':          ComicBookTemplate,
 }
