@@ -263,6 +263,48 @@ class TemplateSeeder extends Seeder
                 'is_active'      => true,
                 'sort_order'     => 8,
             ],
+
+            // ── Photo Album Old-School (Premium Storybook) ───────
+            // docs/superpowers/specs/premium-templates/photo-album-design.md
+            [
+                'category_id'    => $storybook->id,
+                'name'           => 'Photo Album Old-School',
+                'slug'           => 'photo-album',
+                'thumbnail_url'  => '/images/templates/photo-album/thumbnail.jpg',
+                'description'    => 'Album foto fisik 1970-90an — page-flip 3D, photo corners, washi tape, caption tulisan tangan. Untuk pasangan storytelling-heavy yang ingin undangan tactile dan nostalgik.',
+                'default_config' => [
+                    'primary_color'        => '#d4a574',
+                    'primary_color_light'  => '#e4c094',
+                    'secondary_color'      => '#8b6f47',
+                    'accent_color'         => '#5a3818',
+                    'dark_bg'              => '#1a1410',
+                    'bg_color'             => '#1a1410',
+                    'text_color'           => '#f4ead5',
+                    'text_secondary'       => '#c9bfa8',
+                    'font_title'           => 'Pinyon Script',
+                    'font_heading'         => 'Cormorant SC',
+                    'font_body'            => 'Crimson Text',
+                    'font_accent'          => 'Homemade Apple',
+                    'gallery_layout'       => 'grid',
+                    'opening_style'        => 'fade',
+                    'section_backgrounds'  => new \stdClass(),
+
+                    'pa_cover_photo'       => null,
+                    'pa_cover_title'       => 'Our Wedding Album 2026',
+                    'pa_page_aging'        => 'medium',
+                    'pa_washi_pattern'     => 'mixed',
+                    'pa_pressed_flower'    => true,
+                ],
+                'demo_data'      => array_merge($weddingDemo, ['custom_config' => [
+                    'pa_cover_title'    => 'Ahmad & Siti — Album 2026',
+                    'pa_page_aging'     => 'medium',
+                    'pa_washi_pattern'  => 'mixed',
+                    'pa_pressed_flower' => true,
+                ]]),
+                'tier'           => 'premium',
+                'is_active'      => true,
+                'sort_order'     => 16,
+            ],
         ];
 
         foreach ($templates as $template) {
