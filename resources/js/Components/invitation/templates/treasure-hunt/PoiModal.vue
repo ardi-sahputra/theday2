@@ -61,8 +61,9 @@ function onTab(e) {
 .th-modal__head { display: flex; align-items: center; justify-content: space-between; }
 .th-modal__roman { font-family: 'Cinzel', serif; font-size: 28px; color: var(--th-gold-flourish, #C9A961); }
 .th-modal__close {
-    width: 36px; height: 36px; background: transparent; border: 0;
+    width: 44px; height: 44px; background: transparent; border: 0;
     color: var(--th-ink, #3D2817); cursor: pointer; border-radius: 2px;
+    display: flex; align-items: center; justify-content: center;
 }
 .th-modal__close:hover, .th-modal__close:focus-visible {
     background: rgba(168,138,79,0.18); outline: none;

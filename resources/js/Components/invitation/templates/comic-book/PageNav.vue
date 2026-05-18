@@ -91,6 +91,7 @@ defineEmits(['prev', 'next', 'jump'])
     border-radius: 50%;
     padding: 0;
     cursor: pointer;
+    outline: 17px solid transparent;
 }
 .cb-nav-dot--active { background: #E63946; }
 
@@ -109,9 +110,9 @@ defineEmits(['prev', 'next', 'jump'])
 }
 
 @media (max-width: 480px) {
-    .cb-nav-arrow { width: 40px; height: 40px; border-width: 3px; }
-    .cb-nav-arrow--prev { left: 6px; }
-    .cb-nav-arrow--next { right: 6px; }
+    .cb-nav-arrow { width: 44px; height: 44px; border-width: 3px; }
+    .cb-nav-arrow--prev { left: 4px; }
+    .cb-nav-arrow--next { right: 4px; }
 }
 @media (prefers-reduced-motion: reduce) {
     .cb-nav-arrow { transition: none; }

@@ -190,7 +190,7 @@ function urlOf(g) { return g?.image_url ?? g?.file_url ?? g?.url ?? (typeof g ==
     font-weight: 700;
     font-size: 12px;
     letter-spacing: 0.12em;
-    min-height: 36px;
+    min-height: 44px;
     cursor: pointer;
 }
 .igs-swipe-up-photos {

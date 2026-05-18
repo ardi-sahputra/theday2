@@ -855,14 +855,16 @@ onUnmounted(() => {
     color: #5A5A5A;
 }
 .cb-event-gmaps {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
     margin-top: 8px;
     font-family: 'Bangers', Impact, sans-serif;
     font-size: 14px;
     letter-spacing: 0.08em;
     color: #E63946;
     border: 2px solid #E63946;
-    padding: 4px 12px;
+    padding: 10px 12px;
+    min-height: 44px;
     text-decoration: none;
 }
 .cb-event-badge {
@@ -1258,6 +1260,8 @@ onUnmounted(() => {
     justify-content: center;
     gap: 8px;
     padding: 12px 24px;
+    min-height: 44px;
+    min-width: 44px;
     font-family: 'Bangers', Impact, sans-serif;
     font-size: 18px;
     letter-spacing: 0.12em;

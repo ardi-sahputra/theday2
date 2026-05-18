@@ -58,7 +58,7 @@ defineEmits(['submit'])
 .fl-input { padding: 10px 12px; background: #0A0A0A; border: 1px solid rgba(201,169,97,0.3); color: #F5E6CC; font-family: 'EB Garamond', serif; font-size: 14px; border-radius: 2px; width: 100%; box-sizing: border-box; }
 .fl-input:focus { outline: 1px solid #C9A961; outline-offset: 1px; }
 .fl-rsvp-form { display: flex; flex-direction: column; gap: 8px; }
-.fl-btn { display: inline-block; padding: 10px 22px; background: transparent; color: #C9A961; font-family: 'Cinzel', serif; font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; border: 1px solid #C9A961; border-radius: 2px; cursor: pointer; }
+.fl-btn { display: inline-flex; align-items: center; justify-content: center; padding: 10px 22px; min-height: 44px; min-width: 44px; background: transparent; color: #C9A961; font-family: 'Cinzel', serif; font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; border: 1px solid #C9A961; border-radius: 2px; cursor: pointer; }
 .fl-btn--primary { background: #C9A961; color: #000; }
 .fl-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 .fl-form-ok  { color: #C9A961; font-size: 13px; margin: 4px 0 0; }

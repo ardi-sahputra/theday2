@@ -135,6 +135,7 @@ function onKey(ev, idx) {
     align-items: center;
     gap: 12px;
     width: 100%;
+    min-height: 44px;
     background: transparent;
     border: 0;
     padding: 12px 18px;
@@ -193,6 +194,7 @@ function onKey(ev, idx) {
 .vr-tl-flip {
     display: inline-flex; align-items: center; gap: 8px;
     width: 100%;
+    min-height: 44px;
     background: transparent;
     border: 1px solid #B8902F;
     color: #B8902F;

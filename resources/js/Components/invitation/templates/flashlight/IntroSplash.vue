@@ -132,8 +132,12 @@ function proceed() { emit('proceed') }
 
 .fl-intro-cta {
     margin-top: 16px;
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     padding: 12px 28px;
+    min-height: 44px;
+    min-width: 44px;
     background: transparent;
     color: #C9A961;
     font-family: 'Cinzel', serif;

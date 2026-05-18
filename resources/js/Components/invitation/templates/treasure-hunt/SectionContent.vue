@@ -265,13 +265,14 @@ function formatDate(s) {
     outline: none; border-color: var(--th-ink, #3D2817);
 }
 .th-sc__btn {
-    display: inline-block; font-family: 'Pirata One', cursive;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-family: 'Pirata One', cursive;
     letter-spacing: 0.15em; font-size: 16px;
     color: var(--th-gold-deep, #9E7E3E);
     background: var(--th-parchment-light, #F2E2B5);
     border: 2px solid var(--th-aged-border, #A88A4F);
     box-shadow: inset 0 0 0 1px var(--th-parchment-dark, #C8B077);
-    padding: 8px 22px; border-radius: 2px; cursor: pointer;
+    padding: 8px 22px; min-height: 44px; border-radius: 2px; cursor: pointer;
     text-decoration: none; align-self: center;
 }
 .th-sc__btn--sm { font-size: 13px; padding: 6px 14px; }

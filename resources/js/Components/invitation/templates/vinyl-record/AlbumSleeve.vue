@@ -186,6 +186,7 @@ function openSleeve() {
     border: 1px solid #B8902F;
     color: #B8902F;
     padding: 12px 28px;
+    min-height: 44px;
     font-family: 'Bebas Neue', sans-serif;
     font-size: 14px;
     letter-spacing: 0.3em;

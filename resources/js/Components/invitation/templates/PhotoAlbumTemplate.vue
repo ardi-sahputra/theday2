@@ -485,6 +485,11 @@ onBeforeUnmount(() => window.removeEventListener('resize', checkMobile))
     font-size: 32px;
     cursor: pointer;
     font-family: 'Cormorant SC', serif;
+    min-width: 44px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /* ─── Toast ─── */

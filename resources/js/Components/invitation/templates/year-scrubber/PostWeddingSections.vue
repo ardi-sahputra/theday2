@@ -324,11 +324,14 @@ const stateClass = computed(() => props.isVisible ? 'is-revealed' : 'is-hiding')
 
 /* Buttons */
 .ys-btn {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     font-family: 'JetBrains Mono', monospace;
     font-size: 12px;
     letter-spacing: 0.25em;
     padding: 12px 24px;
+    min-height: 44px;
     border: 1px solid #C9A961;
     border-radius: 4px;
     background: transparent;

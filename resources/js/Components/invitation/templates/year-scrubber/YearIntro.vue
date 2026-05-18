@@ -56,10 +56,16 @@ function go() {
     font-family: 'Cormorant Garamond', serif;
     font-style: italic;
     color: #1A2E4A;
-    font-size: 80px;
+    font-size: 52px;
     line-height: 1;
     margin: 0;
     animation: ys-intro-fade 0.6s 0.15s ease both;
+}
+@media (min-width: 480px) {
+    .ys-intro-monogram { font-size: 68px; }
+}
+@media (min-width: 768px) {
+    .ys-intro-monogram { font-size: 80px; }
 }
 .ys-intro-years {
     display: inline-flex;
@@ -89,6 +95,10 @@ function go() {
     background: transparent;
     border: 1px solid #C9A961;
     padding: 14px 28px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     border-radius: 999px;
     cursor: pointer;
     transition: background 0.25s ease, color 0.25s ease;

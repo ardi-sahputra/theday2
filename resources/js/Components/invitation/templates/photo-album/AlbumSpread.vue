@@ -579,6 +579,9 @@ function imgCaption(g) { return g?.caption ?? '' }
     color: #d4a574;
     text-decoration: underline;
     font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
 }
 .pa-corner-note {
     display: block;
@@ -684,6 +687,10 @@ function imgCaption(g) { return g?.caption ?? '' }
 .pa-see-all {
     margin-top: 16px;
     padding: 6px 14px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     background: transparent;
     border: 1px solid #d4a574;
     color: #d4a574;
@@ -776,6 +783,10 @@ function imgCaption(g) { return g?.caption ?? '' }
 .pa-submit-stamp {
     margin-top: 14px;
     padding: 10px 22px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     background: #d4a574;
     color: #1a1410;
     font-family: 'Cormorant SC', serif;
@@ -832,6 +843,10 @@ function imgCaption(g) { return g?.caption ?? '' }
 .pa-wax-seal {
     margin-top: 10px;
     padding: 6px 16px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     background: #d4a574;
     color: #1a1410;
     border: 2px solid #5a3818;

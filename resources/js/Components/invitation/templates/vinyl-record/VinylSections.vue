@@ -275,7 +275,7 @@ function pad(n) { return String(n).padStart(2, '0') }
 .vr-success { color: #4a8a4a; font-size: 13px; margin: 0; }
 
 /* Buttons */
-.vr-btn { display: inline-flex; align-items: center; gap: 6px; justify-content: center; padding: 10px 18px; background: transparent; color: #B8902F; font-family: 'Bebas Neue', sans-serif; font-size: 12px; letter-spacing: 0.25em; text-transform: uppercase; border: 1px solid #B8902F; cursor: pointer; text-decoration: none; transition: background 0.2s ease, color 0.2s ease; border-radius: 2px; align-self: flex-start; }
+.vr-btn { display: inline-flex; align-items: center; gap: 6px; justify-content: center; padding: 10px 18px; min-height: 44px; min-width: 44px; background: transparent; color: #B8902F; font-family: 'Bebas Neue', sans-serif; font-size: 12px; letter-spacing: 0.25em; text-transform: uppercase; border: 1px solid #B8902F; cursor: pointer; text-decoration: none; transition: background 0.2s ease, color 0.2s ease; border-radius: 2px; align-self: flex-start; }
 .vr-btn:hover { background: #B8902F; color: #fff; }
 .vr-btn:disabled { opacity: 0.6; cursor: not-allowed; }
 .vr-btn--filled { background: #C73E3A; color: #fff; border-color: #C73E3A; }

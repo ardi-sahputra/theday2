@@ -808,10 +808,16 @@ const showWatermark = computed(() => {
 }
 .sv-event-date {
     font-family: 'Italianno', cursive;
-    font-size: 36px;
+    font-size: 28px;
     color: var(--sv-ink);
     margin: 0;
     line-height: 1.1;
+}
+@media (min-width: 480px) {
+    .sv-event-date { font-size: 32px; }
+}
+@media (min-width: 768px) {
+    .sv-event-date { font-size: 36px; }
 }
 .sv-event-time {
     font-family: 'EB Garamond', serif;
@@ -829,12 +835,16 @@ const showWatermark = computed(() => {
 
 /* ── Buttons ─────────────────────────────────────────────────────── */
 .sv-btn {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     font-family: 'Cormorant SC', serif;
     font-size: 13px;
     letter-spacing: 3px;
     text-transform: uppercase;
     padding: 12px 28px;
+    min-height: 44px;
+    min-width: 44px;
     border-radius: var(--sv-r-soft);
     cursor: pointer;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -1115,10 +1125,16 @@ const showWatermark = computed(() => {
 }
 .sv-quote-text {
     font-family: 'Italianno', cursive;
-    font-size: 32px;
+    font-size: 24px;
     color: var(--sv-ink);
     line-height: 1.5;
     margin: 12px 0;
+}
+@media (min-width: 480px) {
+    .sv-quote-text { font-size: 28px; }
+}
+@media (min-width: 768px) {
+    .sv-quote-text { font-size: 32px; }
 }
 .sv-quote-source {
     font-family: 'Cormorant SC', serif;
@@ -1141,10 +1157,13 @@ const showWatermark = computed(() => {
 }
 .sv-closing-names {
     font-family: 'Italianno', cursive;
-    font-size: 56px;
+    font-size: 40px;
     color: var(--sv-ink);
     margin: 4px 0;
     line-height: 1.1;
+}
+@media (min-width: 480px) {
+    .sv-closing-names { font-size: 48px; }
 }
 @media (min-width: 768px) {
     .sv-closing-names { font-size: 64px; }

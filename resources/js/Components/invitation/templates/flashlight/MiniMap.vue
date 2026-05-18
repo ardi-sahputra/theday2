@@ -57,6 +57,8 @@ function jumpTo(key) {
     padding: 0;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    /* Expand tap target to meet 44px minimum via padding + outline trick */
+    outline: 18px solid transparent;
 }
 .fl-minimap-dot:hover  { background: #5A4D38; }
 .fl-minimap-dot:focus  { outline: 1px solid #C9A961; outline-offset: 2px; }

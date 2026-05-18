@@ -506,7 +506,7 @@ const weddingDateStr = computed(() => firstEventDate.value || '')
 .ys-music-toggle {
     position: fixed;
     top: 16px; right: 16px;
-    width: 40px; height: 40px;
+    width: 44px; height: 44px;
     border-radius: 50%;
     background: rgba(255,255,255,0.7);
     backdrop-filter: blur(6px);

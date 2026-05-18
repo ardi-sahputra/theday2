@@ -99,7 +99,7 @@ function pickSpeed(s) {
     color: #2A4063;
     cursor: pointer;
     letter-spacing: 0.05em;
-    min-height: 28px;
+    min-height: 44px;
     min-width: 44px;
     transition: background 0.2s ease, color 0.2s ease;
 }

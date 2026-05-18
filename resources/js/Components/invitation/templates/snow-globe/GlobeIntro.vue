@@ -112,6 +112,12 @@ function skipIntro() {
     cursor: pointer;
     opacity: 0.85;
     transition: opacity 0.2s ease;
+    min-height: 44px;
+    min-width: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 8px;
 }
 .sg-intro-skip:hover,
 .sg-intro-skip:focus-visible {
