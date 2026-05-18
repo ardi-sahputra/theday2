@@ -176,8 +176,8 @@ onBeforeUnmount(() => {
     animation: none;
 }
 
-:global([data-paper="ivory"]) .pc-card-cover { background: #f4ead6; }
-:global([data-paper="kraft"]) .pc-card-cover { background: #d9c8a5; }
+:global([data-paper="ivory"] .pc-card-cover) { background: #f4ead6; }
+:global([data-paper="kraft"] .pc-card-cover) { background: #d9c8a5; }
 
 .pc-corner {
     position: absolute;
