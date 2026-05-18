@@ -263,6 +263,59 @@ class TemplateSeeder extends Seeder
                 'is_active'      => true,
                 'sort_order'     => 8,
             ],
+
+            // ── Comic Book Strip (Premium, swipe-deck pop-art) ──────────────
+            // Legal: brand-safe adaptation of public-domain comic visual language
+            // (panel grid, Ben-Day halftone, speech bubbles, generic onomatopoeia).
+            // NO trademarked characters, NO publisher logos, NO named-character SFX.
+            // See docs/superpowers/specs/premium-templates/comic-book-design.md
+            [
+                'category_id'    => $cinema->id,
+                'name'           => 'Comic Book Strip',
+                'slug'           => 'comic-book',
+                'thumbnail_url'  => '/images/templates/comic-book/thumbnail.webp',
+                'description'    => 'Undangan pernikahan premium bertema komik vintage Minggu pagi — 10 halaman komik multi-panel, Ben-Day halftone, speech bubble, dan ledakan KAPOW!/BAM!/POW! di tiap halaman. Swipe horizontal seperti membalik komik fisik. Untuk pasangan millennial/Gen-Z pencinta pop-culture & comic-enthusiast.',
+                'default_config' => [
+                    'primary_color'       => '#E63946',
+                    'primary_color_light' => '#FCE7E9',
+                    'secondary_color'     => '#1D3557',
+                    'accent_color'        => '#F1C453',
+                    'dark_bg'             => '#0A0A0A',
+                    'bg_color'            => '#F9F4E2',
+                    'text_color'          => '#0A0A0A',
+                    'text_secondary'      => '#5A5A5A',
+                    'font_title'          => 'Bangers',
+                    'font_heading'        => 'Bowlby One',
+                    'font_body'           => 'Comic Neue',
+                    'gallery_layout'      => 'grid',
+                    'opening_style'       => 'fade',
+                    'section_backgrounds' => [
+                        'opening'   => ['type' => 'paper',    'value' => 'cream'],
+                        'couple'    => ['type' => 'halftone', 'value' => 'medium-blue'],
+                        'events'    => ['type' => 'color',    'value' => '#F9F4E2'],
+                        'countdown' => ['type' => 'halftone', 'value' => 'dense-yellow'],
+                        'closing'   => ['type' => 'paper',    'value' => 'cream'],
+                    ],
+                    'cb_issue_number'    => '001',
+                    'cb_cover_title'     => 'THE WEDDING',
+                    'cb_cover_price'     => 'Rp25.000',
+                    'cb_color_scheme'    => 'primary',
+                    'cb_panel_density'   => 'medium',
+                    'cb_sound_effects'   => true,
+                    'cb_pencil_hatching' => true,
+                    'cb_page_turn_3d'    => false,
+                    'cb_groom_quote'     => 'Time to suit up!',
+                    'cb_bride_quote'     => "Let's do this!",
+                    'cb_closing_teaser'  => 'On sale forever!',
+                ],
+                'demo_data'      => array_merge($weddingDemo, ['custom_config' => [
+                    'cb_issue_number' => '001',
+                    'cb_cover_title'  => 'THE WEDDING',
+                ]]),
+                'tier'           => 'premium',
+                'is_active'      => true,
+                'sort_order'     => 27,
+            ],
         ];
 
         foreach ($templates as $template) {
