@@ -10,6 +10,7 @@ import AstronomyCelestialTemplate from './AstronomyCelestialTemplate.vue'
 import BelleEpoqueTemplate        from './BelleEpoqueTemplate.vue'
 import JapaneseRyokanTemplate     from './JapaneseRyokanTemplate.vue'
 import OnyxNoirTemplate           from './OnyxNoirTemplate.vue'
+import PokemonTcgTemplate         from './PokemonTcgTemplate.vue'
 import TuscanyVineyardTemplate    from './TuscanyVineyardTemplate.vue'
 import VelvetBurgundyTemplate     from './VelvetBurgundyTemplate.vue'
 import VintagePostalTemplate      from './VintagePostalTemplate.vue'
@@ -27,6 +28,7 @@ export const TEMPLATE_MAP = {
     'belle-epoque':        BelleEpoqueTemplate,
     'japanese-ryokan':     JapaneseRyokanTemplate,
     'onyx-noir':           OnyxNoirTemplate,
+    'pokemon-tcg':         PokemonTcgTemplate,
     'tuscany-vineyard':    TuscanyVineyardTemplate,
     'velvet-burgundy':     VelvetBurgundyTemplate,
     'vintage-postal':      VintagePostalTemplate,
