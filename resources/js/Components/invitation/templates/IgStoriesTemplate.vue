@@ -1,26 +1,16 @@
 <!-- AI: see docs/superpowers/specs/premium-templates/ig-stories-design.md before editing -->
 <script setup>
-import { ref, computed, onMounted, onBeforeUnmount, watch } from 'vue'
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { useInvitationTemplate } from '@/Composables/useInvitationTemplate'
+import { storyComponent, buildStoryProps } from './ig-stories/storyMap.js'
 
-import ProgressBars    from './ig-stories/ProgressBars.vue'
-import ProfileHeader   from './ig-stories/ProfileHeader.vue'
-import TapZones        from './ig-stories/TapZones.vue'
-import ReactionBar     from './ig-stories/ReactionBar.vue'
-import SwipeUpPanel    from './ig-stories/SwipeUpPanel.vue'
-import OverviewGrid    from './ig-stories/OverviewGrid.vue'
-import MusicSticker    from './ig-stories/stickers/MusicSticker.vue'
-
-import StoryIntro      from './ig-stories/StoryIntro.vue'
-import StoryCouple     from './ig-stories/StoryCouple.vue'
-import StoryLoveStory  from './ig-stories/StoryLoveStory.vue'
-import StoryEvents     from './ig-stories/StoryEvents.vue'
-import StoryCountdown  from './ig-stories/StoryCountdown.vue'
-import StoryGallery    from './ig-stories/StoryGallery.vue'
-import StoryRsvp       from './ig-stories/StoryRsvp.vue'
-import StoryGift       from './ig-stories/StoryGift.vue'
-import StoryWishes     from './ig-stories/StoryWishes.vue'
-import StoryOutro      from './ig-stories/StoryOutro.vue'
+import ProgressBars  from './ig-stories/ProgressBars.vue'
+import ProfileHeader from './ig-stories/ProfileHeader.vue'
+import TapZones      from './ig-stories/TapZones.vue'
+import ReactionBar   from './ig-stories/ReactionBar.vue'
+import SwipeUpPanel  from './ig-stories/SwipeUpPanel.vue'
+import OverviewGrid  from './ig-stories/OverviewGrid.vue'
+import MusicSticker  from './ig-stories/stickers/MusicSticker.vue'
 
 const props = defineProps({
     invitation: { type: Object,  required: true },
@@ -32,10 +22,8 @@ const props = defineProps({
 
 const {
     groomName, brideName, groomNick, brideNick,
-    coverPhotoUrl,
-    details, events, galleries,
-    openingText, closingText,
-    firstEvent, firstEventDate,
+    coverPhotoUrl, details, events, galleries,
+    openingText, closingText, firstEventDate,
     countdown, targetDate, pad,
     sectionEnabled, sectionData,
     audioEl, musicPlaying, toggleMusic,
@@ -51,26 +39,22 @@ const {
 })
 
 // IG-specific config
-const cfg = computed(() => props.invitation.config ?? {})
-const igUsername         = computed(() => cfg.value.ig_username         ?? 'thedaywedding')
-const igRingStyle        = computed(() => cfg.value.ig_avatar_ring_style ?? 'gradient')
-const igStoryDuration    = computed(() => Number(cfg.value.ig_story_duration ?? 6))
-const igAutoAdvanceRaw   = computed(() => cfg.value.ig_auto_advance      ?? true)
-const igBrandName        = computed(() => cfg.value.ig_brand_name        ?? 'TheDay')
-const igStoryOrderConfig = computed(() => cfg.value.ig_story_order ?? [
+const cfg             = computed(() => props.invitation.config ?? {})
+const igUsername      = computed(() => cfg.value.ig_username          ?? 'thedaywedding')
+const igRingStyle     = computed(() => cfg.value.ig_avatar_ring_style ?? 'gradient')
+const igStoryDuration = computed(() => Number(cfg.value.ig_story_duration ?? 6))
+const igAutoAdvance   = computed(() => cfg.value.ig_auto_advance       ?? true)
+const igBrandName     = computed(() => cfg.value.ig_brand_name         ?? 'TheDay')
+const igStoryOrder    = computed(() => cfg.value.ig_story_order ?? [
     'opening','couple','love_story','events','countdown','gallery','rsvp','gift','wishes','closing'
 ])
-const igShowOverview     = computed(() => cfg.value.ig_show_overview ?? true)
+const igShowOverview  = computed(() => cfg.value.ig_show_overview ?? true)
 
-const avatarUrl = computed(() =>
-    coverPhotoUrl.value || '/images/templates/ig-stories/avatar-default.webp'
-)
-
-// Premium watermark
+const avatarUrl     = computed(() => coverPhotoUrl.value || '/images/templates/ig-stories/avatar-default.webp')
 const hasActiveSub  = computed(() => !!props.invitation.user?.activeSubscription)
 const showWatermark = computed(() => !hasActiveSub.value)
 
-// Reduced-motion runtime override
+// Reduced-motion
 const prefersReducedMotion = ref(false)
 let mq = null
 function onMqChange(e) { prefersReducedMotion.value = !!e.matches }
@@ -82,16 +66,17 @@ onMounted(() => {
     }
 })
 onBeforeUnmount(() => { mq?.removeEventListener?.('change', onMqChange) })
-const autoAdvance = computed(() => igAutoAdvanceRaw.value && !prefersReducedMotion.value)
+const autoAdvance = computed(() => igAutoAdvance.value && !prefersReducedMotion.value)
 
+// State machine
 const currentStoryIdx = ref(0)
 const isPaused        = ref(false)
 const isSwipeUpOpen   = ref(false)
 const isOverviewOpen  = ref(false)
 const direction       = ref('forward')
 
-const activeStoryOrder = computed(() => {
-    return igStoryOrderConfig.value.filter(key => {
+const activeStoryOrder = computed(() =>
+    igStoryOrder.value.filter(key => {
         if (!sectionEnabled(key)) return false
         if (key === 'love_story' && (sectionData('love_story').stories ?? []).length === 0) return false
         if (key === 'events'     && events.value.length === 0) return false
@@ -100,40 +85,21 @@ const activeStoryOrder = computed(() => {
         if (key === 'gift'       && (sectionData('gift').accounts ?? []).length === 0) return false
         return true
     })
-})
+)
 const currentStoryKey = computed(() => activeStoryOrder.value[currentStoryIdx.value] ?? 'opening')
 
-function nextStory() {
-    direction.value = 'forward'
-    if (currentStoryIdx.value < activeStoryOrder.value.length - 1) {
-        currentStoryIdx.value += 1
-    }
-}
-function prevStory() {
-    direction.value = 'back'
-    if (currentStoryIdx.value > 0) {
-        currentStoryIdx.value -= 1
-    }
-}
+function nextStory() { direction.value = 'forward'; if (currentStoryIdx.value < activeStoryOrder.value.length - 1) currentStoryIdx.value++ }
+function prevStory() { direction.value = 'back';    if (currentStoryIdx.value > 0) currentStoryIdx.value-- }
 function pauseStory()  { isPaused.value = true }
 function resumeStory() { isPaused.value = false }
 function dismissDeck() {
     if (isSwipeUpOpen.value) { isSwipeUpOpen.value = false; resumeStory(); return }
     if (igShowOverview.value) isOverviewOpen.value = true
 }
-function openSwipeUp() {
-    isSwipeUpOpen.value = true
-    pauseStory()
-}
-function closeSwipeUp() {
-    isSwipeUpOpen.value = false
-    resumeStory()
-}
-function selectStory(idx) {
-    currentStoryIdx.value = idx
-    isOverviewOpen.value = false
-}
-function replayStory() { currentStoryIdx.value = 0 }
+function openSwipeUp()  { isSwipeUpOpen.value = true;  pauseStory() }
+function closeSwipeUp() { isSwipeUpOpen.value = false; resumeStory() }
+function selectStory(idx) { currentStoryIdx.value = idx; isOverviewOpen.value = false }
+function replayStory()    { currentStoryIdx.value = 0 }
 function shareStory() {
     const url = typeof window !== 'undefined' ? window.location.href : ''
     if (navigator.share) {
@@ -148,23 +114,23 @@ function onKeydown(e) {
         if (e.key === 'Escape') { e.preventDefault(); isOverviewOpen.value = false }
         return
     }
-    if (e.key === 'ArrowRight')     { e.preventDefault(); nextStory() }
-    else if (e.key === 'ArrowLeft') { e.preventDefault(); prevStory() }
-    else if (e.key === ' ')         { e.preventDefault(); isPaused.value ? resumeStory() : pauseStory() }
-    else if (e.key === 'Escape')    { e.preventDefault(); isSwipeUpOpen.value ? closeSwipeUp() : dismissDeck() }
-    else if (e.key === 'ArrowDown') { e.preventDefault(); openSwipeUp() }
-    else if (e.key === 'ArrowUp')   { e.preventDefault(); closeSwipeUp() }
+    if      (e.key === 'ArrowRight') { e.preventDefault(); nextStory() }
+    else if (e.key === 'ArrowLeft')  { e.preventDefault(); prevStory() }
+    else if (e.key === ' ')          { e.preventDefault(); isPaused.value ? resumeStory() : pauseStory() }
+    else if (e.key === 'Escape')     { e.preventDefault(); isSwipeUpOpen.value ? closeSwipeUp() : dismissDeck() }
+    else if (e.key === 'ArrowDown')  { e.preventDefault(); openSwipeUp() }
+    else if (e.key === 'ArrowUp')    { e.preventDefault(); closeSwipeUp() }
 }
 onMounted(()       => window.addEventListener('keydown', onKeydown))
 onBeforeUnmount(() => window.removeEventListener('keydown', onKeydown))
 
+// Guest identity
 const guestName = computed(() => {
     if (props.isDemo) return 'Tamu Undangan'
     if (props.guest?.name) return props.guest.name
     if (typeof window === 'undefined') return 'Tamu Undangan'
     const params = new URLSearchParams(window.location.search)
-    const raw = params.get('to') ?? ''
-    return decodeURIComponent(raw).replace(/\+/g, ' ').trim() || 'Tamu Undangan'
+    return decodeURIComponent(params.get('to') ?? '').replace(/\+/g, ' ').trim() || 'Tamu Undangan'
 })
 
 const groomParents   = computed(() => details.value?.groom_parent_names || '')
@@ -174,52 +140,26 @@ const giftAccounts   = computed(() => sectionData('gift').accounts ?? [])
 
 const swipeUpStoryKey = computed(() => {
     const k = currentStoryKey.value
-    if (k === 'gift' || k === 'gallery' || k === 'events' || k === 'wishes') return k
-    return 'default'
+    return ['gift','gallery','events','wishes'].includes(k) ? k : 'default'
 })
 
-const COMPONENT_MAP = {
-    opening:    StoryIntro,
-    couple:     StoryCouple,
-    love_story: StoryLoveStory,
-    events:     StoryEvents,
-    countdown:  StoryCountdown,
-    gallery:    StoryGallery,
-    rsvp:       StoryRsvp,
-    gift:       StoryGift,
-    wishes:     StoryWishes,
-    closing:    StoryOutro,
-}
-
-function storyComponent(key) {
-    return COMPONENT_MAP[key] || StoryIntro
-}
-
 function storyProps(key) {
-    switch (key) {
-        case 'opening':
-            return { groomNick: groomNick.value, brideNick: brideNick.value, firstEventDate: firstEventDate.value, openingText: openingText.value }
-        case 'couple':
-            return { groomName: groomName.value, brideName: brideName.value, groomParents: groomParents.value, brideParents: brideParents.value, coverUrl: coverPhotoUrl.value, igUsername: igUsername.value }
-        case 'love_story':
-            return { stories: loveStoryItems.value }
-        case 'events':
-            return { events: events.value, firstEventDate: firstEventDate.value }
-        case 'countdown':
-            return { countdown: countdown.value, targetDate: targetDate.value, firstEventDate: firstEventDate.value, pad }
-        case 'gallery':
-            return { galleries: galleries.value }
-        case 'rsvp':
-            return { rsvpForm, rsvpSubmitting: rsvpSubmitting.value, rsvpSuccess: rsvpSuccess.value, rsvpError: rsvpError.value, submitRsvp }
-        case 'gift':
-            return { accountsCount: giftAccounts.value.length }
-        case 'wishes':
-            return { localMessages: localMessages.value, msgForm, msgSubmitting: msgSubmitting.value, msgSuccess: msgSuccess.value, msgError: msgError.value, submitMessage, guestName: guestName.value }
-        case 'closing':
-            return { brandName: igBrandName.value, groomNick: groomNick.value, brideNick: brideNick.value, closingText: closingText.value, showWatermark: showWatermark.value }
-        default:
-            return {}
-    }
+    return buildStoryProps(key, {
+        groomName: groomName.value, brideName: brideName.value,
+        groomNick: groomNick.value, brideNick: brideNick.value,
+        coverPhotoUrl: coverPhotoUrl.value,
+        events: events.value, galleries: galleries.value,
+        openingText: openingText.value, closingText: closingText.value,
+        firstEventDate: firstEventDate.value,
+        countdown: countdown.value, targetDate: targetDate.value, pad,
+        rsvpForm, rsvpSubmitting: rsvpSubmitting.value, rsvpSuccess: rsvpSuccess.value, rsvpError: rsvpError.value, submitRsvp,
+        msgForm, msgSubmitting: msgSubmitting.value, msgSuccess: msgSuccess.value, msgError: msgError.value, submitMessage,
+        localMessages: localMessages.value, guestName: guestName.value,
+        igUsername: igUsername.value, igBrandName: igBrandName.value,
+        groomParents: groomParents.value, brideParents: brideParents.value,
+        loveStoryItems: loveStoryItems.value, giftAccounts: giftAccounts.value,
+        showWatermark: showWatermark.value,
+    })
 }
 </script>
 
