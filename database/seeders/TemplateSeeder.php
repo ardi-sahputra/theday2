@@ -619,6 +619,46 @@ class TemplateSeeder extends Seeder
                 'is_active'      => true,
                 'sort_order'     => 15,
             ],
+
+            // ── Spotify Wrapped (Premium, single-flow story slides) ──
+            // docs/superpowers/specs/premium-templates/spotify-wrapped-design.md
+            [
+                'category_id'    => $cinema->id,
+                'name'           => 'Spotify Wrapped',
+                'slug'           => 'spotify-wrapped',
+                'thumbnail_url'  => '/images/templates/spotify-wrapped/thumbnail.svg',
+                'description'    => 'Undangan single-scroll story-format — 10 slide gradient cycling ala annual recap. Couple sebagai Top Artists, love story sebagai Top Songs, event sebagai Listening Schedule. Untuk pasangan millennial/Gen-Z yang ingin undangan viral-shareable di IG Story.',
+                'default_config' => [
+                    'primary_color'        => '#1ED760',
+                    'primary_color_light'  => '#9BFF38',
+                    'secondary_color'      => '#E91D8E',
+                    'accent_color'         => '#FFCB3E',
+                    'dark_bg'              => '#191414',
+                    'bg_color'             => '#191414',
+                    'text_color'           => '#FFFFFF',
+                    'text_secondary'       => 'rgba(255,255,255,0.72)',
+                    'font_title'           => 'Inter',
+                    'font_heading'         => 'Inter',
+                    'font_body'            => 'Inter',
+                    'gallery_layout'       => 'grid',
+                    'opening_style'        => 'fade',
+                    'section_backgrounds'  => [],
+                    'sw_year'               => '2026',
+                    'sw_brand_name'         => 'TheDay Wrapped',
+                    'sw_slide_order'        => ['intro', 'top-artists', 'top-songs', 'schedule', 'countdown', 'gallery', 'rsvp', 'gift', 'wishes', 'closing'],
+                    'sw_gradient_intensity' => 'vivid',
+                    'sw_equalizer_speed'    => 'normal',
+                    'sw_show_year_bg'       => true,
+                    'sw_auto_advance'       => false,
+                ],
+                'demo_data'      => array_merge($weddingDemo, ['custom_config' => [
+                    'sw_year'        => '2026',
+                    'sw_brand_name'  => 'TheDay Wrapped',
+                ]]),
+                'tier'           => 'premium',
+                'is_active'      => true,
+                'sort_order'     => 16,
+            ],
         ];
 
         foreach ($templates as $template) {

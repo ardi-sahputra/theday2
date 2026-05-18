@@ -17,7 +17,11 @@
       "Skill(superpowers:dispatching-parallel-agents)",
       "Skill(superpowers:dispatching-parallel-agents:*)",
       "Skill(superpowers:executing-plans)",
-      "Skill(superpowers:executing-plans:*)"
+      "Skill(superpowers:executing-plans:*)",
+      "PowerShell(Get-WmiObject Win32_Process -Filter \"ProcessId = 29404\")",
+      "Bash(mv public/templates/art-deco-gatsby-thumb.jpg public/images/templates/art-deco-gatsby/thumbnail.webp)",
+      "Bash(mv public/templates/velvet-burgundy-thumb.jpg public/images/templates/velvet-burgundy/thumbnail.webp)",
+      "Bash(rmdir public/templates)"
     ],
     "defaultMode": "bypassPermissions"
   },

@@ -13,6 +13,7 @@ import OnyxNoirTemplate           from './OnyxNoirTemplate.vue'
 import TuscanyVineyardTemplate    from './TuscanyVineyardTemplate.vue'
 import VelvetBurgundyTemplate     from './VelvetBurgundyTemplate.vue'
 import VintagePostalTemplate      from './VintagePostalTemplate.vue'
+import SpotifyWrappedTemplate     from './SpotifyWrappedTemplate.vue'
 
 export const TEMPLATE_MAP = {
     'nusantara':           NusantaraTemplate,
@@ -29,4 +30,5 @@ export const TEMPLATE_MAP = {
     'tuscany-vineyard':    TuscanyVineyardTemplate,
     'velvet-burgundy':     VelvetBurgundyTemplate,
     'vintage-postal':      VintagePostalTemplate,
+    'spotify-wrapped':     SpotifyWrappedTemplate,
 }
