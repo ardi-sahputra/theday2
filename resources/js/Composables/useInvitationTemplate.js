@@ -272,14 +272,17 @@ export function useInvitationTemplate(props, defaults = {}) {
 
     function vReveal(el) {
         if (!el) return
+        // Accept either a DOM Element or a Vue component instance (extract $el)
+        const node = el instanceof Element ? el : el.$el
+        if (!(node instanceof Element)) return
         const obs = new IntersectionObserver(([e]) => {
             if (e.isIntersecting) {
-                el.classList.add(revealClass)
+                node.classList.add(revealClass)
                 obs.disconnect()
                 revealObservers.delete(obs)
             }
         }, { threshold: 0.12 })
-        obs.observe(el)
+        obs.observe(node)
         revealObservers.add(obs)
     }
 
