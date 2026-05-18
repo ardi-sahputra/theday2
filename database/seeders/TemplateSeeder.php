@@ -993,7 +993,7 @@ class TemplateSeeder extends Seeder
                 'name'           => 'Year Scrubber',
                 'name_en'        => 'Year Scrubber',
                 'slug'           => 'year-scrubber',
-                'thumbnail_url'  => '/templates/year-scrubber-thumb.jpg',
+                'thumbnail_url'  => '/images/templates/year-scrubber/thumbnail.jpg',
                 'description'    => 'Template undangan premium dengan interactive timeline scrubber — geser garis waktu dari tahun pertama bertemu hingga tahun pernikahan, milestone foto crossfade per tahun, dan section setelah hari-H (events, countdown, RSVP, gift, wishes) unveil saat scrubber mencapai tahun akad. Identitas: Bebas Neue raksasa + Cormorant + JetBrains Mono. Catatan: ganti font_title akan mempengaruhi tampilan tahun raksasa.',
                 'default_config' => [
                     'primary_color'         => '#1A2E4A',
