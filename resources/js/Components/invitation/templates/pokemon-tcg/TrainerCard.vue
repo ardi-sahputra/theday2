@@ -77,17 +77,17 @@ onBeforeUnmount(() => {
         </div>
 
         <!-- Name banner -->
-        <h3 class="tcg-card-name">{{ name }}</h3>
+        <h3 v-if="name" class="tcg-card-name">{{ name }}</h3>
 
         <!-- Description box (slot override available) -->
-        <div class="tcg-card-desc">
+        <div v-if="description || $slots.description" class="tcg-card-desc">
             <slot name="description">
                 <p class="tcg-card-desc-text">{{ description }}</p>
             </slot>
         </div>
 
         <!-- Bottom edition row -->
-        <footer class="tcg-card-bottom">
+        <footer v-if="editionText" class="tcg-card-bottom">
             <span class="tcg-edition-text">{{ editionText }}</span>
         </footer>
 
@@ -116,7 +116,7 @@ onBeforeUnmount(() => {
 .tcg-card {
     position: relative;
     width: 100%;
-    max-width: clamp(380px, 28vw, 520px);
+    max-width: min(100%, clamp(280px, 86vw, 520px));
     aspect-ratio: 5 / 7;
     background: var(--tcg-panel, #252B4A);
     border: 6px solid var(--tcg-frame-gold, #FFD700);

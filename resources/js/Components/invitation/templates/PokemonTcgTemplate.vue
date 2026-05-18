@@ -574,9 +574,12 @@ const showCountdown = computed(() => sectionEnabled('countdown') && targetDate.v
 /* Gallery grid */
 .tcg-gallery-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr;
     gap: 16px;
     justify-items: center;
+}
+@media (min-width: 480px) {
+    .tcg-gallery-grid { grid-template-columns: repeat(2, 1fr); }
 }
 @media (min-width: 720px) {
     .tcg-gallery-grid { grid-template-columns: repeat(3, 1fr); }
