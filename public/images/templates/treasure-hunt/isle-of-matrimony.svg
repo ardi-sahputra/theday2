@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2400 1600" preserveAspectRatio="xMidYMid meet">
+  <defs>
+    <radialGradient id="th-island" cx="50%" cy="50%" r="60%"><stop offset="0%" stop-color="#F2E2B5"/><stop offset="80%" stop-color="#E8D5A0"/><stop offset="100%" stop-color="#C8B077"/></radialGradient>
+    <pattern id="th-ocean" patternUnits="userSpaceOnUse" width="40" height="40">
+      <rect width="40" height="40" fill="#5A8A8F"/>
+      <path d="M0 20 Q10 14 20 20 T40 20" stroke="#3D6F76" stroke-width="0.7" fill="none" opacity="0.6"/>
+    </pattern>
+  </defs>
+  <rect width="2400" height="1600" fill="url(#th-ocean)"/>
+  <path d="M 460 460 Q 700 200 1100 260 Q 1400 320 1700 290 Q 1950 270 2080 460 Q 2200 720 2050 1000 Q 1900 1240 1620 1320 Q 1300 1380 1100 1320 Q 850 1260 660 1150 Q 420 1020 380 800 Q 360 580 460 460 Z" fill="url(#th-island)" stroke="#A88A4F" stroke-width="3"/>
+  <path d="M 1180 720 Q 1240 660 1300 720 Q 1300 780 1200 870 Q 1100 780 1100 720 Q 1100 660 1180 720 Z" fill="#5A8A8F" stroke="#3D6F76" stroke-width="2"/>
+  <path d="M 1700 320 L 1760 460 L 1820 320 L 1880 460 L 1940 320 Z" fill="#A88A4F" opacity="0.7"/>
+  <path d="M 1640 950 L 1700 820 L 1760 950 L 1820 820 L 1880 950 Z" fill="#A88A4F" opacity="0.7"/>
+  <path d="M 800 600 Q 900 700 1000 760 Q 1100 820 1050 900 Q 1000 980 1080 1100" stroke="#5A8A8F" stroke-width="6" fill="none"/>
+  <g transform="translate(900,120)"><rect width="600" height="120" fill="#F2E2B5" stroke="#A88A4F" stroke-width="2"/><text x="300" y="74" text-anchor="middle" fill="#3D2817" font-family="IM Fell English, serif" font-style="italic" font-size="44">Isle of Matrimony</text></g>
+</svg>
