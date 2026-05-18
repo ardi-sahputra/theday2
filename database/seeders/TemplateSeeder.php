@@ -847,6 +847,51 @@ class TemplateSeeder extends Seeder
                 'is_active'      => true,
                 'sort_order'     => 20,
             ],
+
+            // ── Silk Veil (Premium, bridal-luxe veil-reveal) ──────────────────────
+            // docs/superpowers/specs/premium-templates/silk-veil-design.md
+            [
+                'category_id'    => $pernikahan->id,
+                'name'           => 'Silk Veil',
+                'slug'           => 'silk-veil',
+                'thumbnail_url'  => '/images/templates/silk-veil/thumbnail.webp',
+                'description'    => 'Template pernikahan premium bertema kerudung pengantin — setiap section tertutup veil sutra semi-transparan yang disibak via drag horizontal atau tap. Single-flow scrollable feed dengan lace Victorian, mutiara, dan filigree emas. Cocok untuk pasangan bridal-traditional / luxe-romantic / classic-wedding.',
+                'default_config' => [
+                    'primary_color'        => '#C9A961',
+                    'primary_color_light'  => '#F8E0DC',
+                    'secondary_color'      => '#D4A5A5',
+                    'accent_color'         => '#C9A961',
+                    'dark_bg'              => '#FAFAF5',
+                    'bg_color'             => '#FAFAF5',
+                    'text_color'           => '#3D3530',
+                    'text_secondary'       => '#7A6F65',
+                    'font_title'           => 'Italianno',
+                    'font_heading'         => 'Cormorant SC',
+                    'font_body'            => 'EB Garamond',
+                    'gallery_layout'       => 'masonry',
+                    'opening_style'        => 'fade',
+                    'section_backgrounds'  => [
+                        'opening' => ['type' => 'color', 'value' => '#FAFAF5'],
+                        'couple'  => ['type' => 'color', 'value' => '#FAFAF5'],
+                        'events'  => ['type' => 'color', 'value' => '#F2E9DC'],
+                        'gift'    => ['type' => 'color', 'value' => '#F2E9DC'],
+                        'closing' => ['type' => 'color', 'value' => '#FAFAF5'],
+                    ],
+                    'sv_veil_color'           => 'white',
+                    'sv_lace_density'         => 'medium',
+                    'sv_pearl_decor'          => 'edges',
+                    'sv_auto_part_on_scroll'  => false,
+                    'sv_remember_state'       => true,
+                ],
+                'demo_data'      => array_merge($weddingDemo, ['custom_config' => [
+                    'sv_veil_color'    => 'white',
+                    'sv_lace_density'  => 'medium',
+                    'sv_pearl_decor'   => 'edges',
+                ]]),
+                'tier'           => 'premium',
+                'is_active'      => true,
+                'sort_order'     => 21,
+            ],
         ];
 
         foreach ($templates as $template) {
