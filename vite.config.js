@@ -21,6 +21,8 @@ export default defineConfig({
     resolve: {
         alias: {
             '@': path.resolve(__dirname, 'resources/js'),
+            // Worktree has no vendor/ — point to main project's vendor for Ziggy
+            '../../vendor/tightenco/ziggy': 'C:/laragon/www/theday2/vendor/tightenco/ziggy/dist/index.esm.js',
         },
     },
     server: {
