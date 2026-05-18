@@ -107,13 +107,18 @@ function bindObserver() {
     if (!('IntersectionObserver' in window)) return
     observer = new IntersectionObserver((entries) => {
         for (const entry of entries) {
-            if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
-                const key = entry.target.getAttribute('data-slide-key')
-                if (key) currentSlideKey.value = key
+            // Add reveal class once any part of slide is in view (handles tall slides
+            // where ratio never reaches 0.5 in constrained-height containers).
+            if (entry.isIntersecting) {
                 entry.target.classList.add('sw-visible')
             }
+            // Track active slide only when majority visible
+            if (entry.isIntersecting && entry.intersectionRatio >= 0.3) {
+                const key = entry.target.getAttribute('data-slide-key')
+                if (key) currentSlideKey.value = key
+            }
         }
-    }, { root: deckEl.value, threshold: [0.5] })
+    }, { root: deckEl.value, threshold: [0.05, 0.3, 0.5] })
     observerEls = Array.from(deckEl.value.querySelectorAll('.sw-slide'))
     observerEls.forEach(el => observer.observe(el))
 }
