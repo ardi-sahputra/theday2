@@ -1,0 +1,1 @@
+:root{--inv-primary: #92A89C;--inv-font: "Playfair Display", serif}.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}.reveal.visible{opacity:1;transform:translateY(0)}@keyframes spin-slow{to{transform:rotate(360deg)}}.animate-spin-slow{animation:spin-slow 4s linear infinite}
