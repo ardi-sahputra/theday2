@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="400" viewBox="0 0 320 400" fill="none">
+    <ellipse cx="160" cy="200" rx="148" ry="188" stroke="currentColor" stroke-width="1.2" opacity="0.85"/>
+    <ellipse cx="160" cy="200" rx="138" ry="178" stroke="currentColor" stroke-width="0.6" opacity="0.65"/>
+    <g stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" opacity="0.9">
+        <path d="M160 14 q-12 16 -28 16 t-28 -16 q-12 16 -28 16 t-28 -16"/>
+        <path d="M160 386 q-12 -16 -28 -16 t-28 16 q-12 -16 -28 -16 t-28 16"/>
+        <path d="M12 200 q16 -12 16 -28 t-16 -28 q16 -12 16 -28 t-16 -28"/>
+        <path d="M308 200 q-16 -12 -16 -28 t16 -28 q-16 -12 -16 -28 t16 -28"/>
+        <path d="M40 80 q24 16 48 0 q24 -16 48 0 M232 80 q24 16 48 0 q24 -16 48 0"/>
+        <path d="M40 320 q24 -16 48 0 q24 16 48 0 M232 320 q24 -16 48 0 q24 16 48 0"/>
+    </g>
+    <g fill="currentColor" opacity="0.65">
+        <circle cx="160" cy="14" r="2"/><circle cx="160" cy="386" r="2"/>
+        <circle cx="12" cy="200" r="2"/><circle cx="308" cy="200" r="2"/>
+    </g>
+</svg>
