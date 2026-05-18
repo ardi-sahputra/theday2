@@ -892,6 +892,54 @@ class TemplateSeeder extends Seeder
                 'is_active'      => true,
                 'sort_order'     => 21,
             ],
+
+            // ── Snow Globe (Premium Whimsical Winter) ───────────────
+            // docs/superpowers/specs/premium-templates/snow-globe-design.md
+            [
+                'category_id'    => $pernikahan->id,
+                'name'           => 'Snow Globe',
+                'slug'           => 'snow-globe',
+                'thumbnail_url'  => '/images/templates/snow-globe/thumbnail.webp',
+                'description'    => 'Template pernikahan premium bertema bola salju ajaib — globe kaca interaktif yang bisa di-tap, di-shake, dan merespons gyroscope. Setiap section adegan berbeda di dalam globe (gerbang sambutan, hourglass, polaroid, treasure chest, dst). Untuk pasangan winter / holiday-romantic.',
+                'default_config' => [
+                    'primary_color'        => '#C9A961',
+                    'primary_color_light'  => '#F4E4C1',
+                    'secondary_color'      => '#A4C5DB',
+                    'accent_color'         => '#C9A961',
+                    'dark_bg'              => '#050813',
+                    'bg_color'             => '#050813',
+                    'text_color'           => '#FAFAF5',
+                    'text_secondary'       => '#D8DAE0',
+                    'font_title'           => 'Cormorant Garamond',
+                    'font_heading'         => 'Cinzel',
+                    'font_body'            => 'EB Garamond',
+                    'font_accent'          => 'Italianno',
+                    'gallery_layout'       => 'masonry',
+                    'opening_style'        => 'fade',
+                    'section_backgrounds'  => [
+                        'opening' => ['type' => 'color', 'value' => '#050813'],
+                        'couple'  => ['type' => 'color', 'value' => '#050813'],
+                        'closing' => ['type' => 'color', 'value' => '#050813'],
+                    ],
+                    'sg_snow_density'  => 'medium',
+                    'sg_globe_size'    => 'medium',
+                    'sg_gyro_enabled'  => true,
+                    'sg_music_chime'   => true,
+                    'sg_default_scene' => 'opening',
+                    'sg_base_material' => 'wood',
+                    'sg_monogram_text' => 'A & B',
+                ],
+                'demo_data'      => array_merge($weddingDemo, ['custom_config' => [
+                    'sg_snow_density'  => 'medium',
+                    'sg_globe_size'    => 'medium',
+                    'sg_default_scene' => 'opening',
+                    'sg_base_material' => 'wood',
+                    'sg_monogram_text' => 'A & S',
+                ]]),
+                'tier'           => 'premium',
+                'is_active'      => true,
+                'sort_order'     => 22,
+            ],
         ];
 
         foreach ($templates as $template) {

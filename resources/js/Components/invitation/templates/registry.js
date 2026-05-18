@@ -19,6 +19,7 @@ import PhotoAlbumTemplate         from './PhotoAlbumTemplate.vue'
 import FlashlightTemplate         from './FlashlightTemplate.vue'
 import PopupCardTemplate          from './PopupCardTemplate.vue'
 import SilkVeilTemplate           from './SilkVeilTemplate.vue'
+import SnowGlobeTemplate          from './SnowGlobeTemplate.vue'
 
 export const TEMPLATE_MAP = {
     'nusantara':           NusantaraTemplate,
@@ -41,4 +42,5 @@ export const TEMPLATE_MAP = {
     'flashlight':          FlashlightTemplate,
     'popup-card':          PopupCardTemplate,
     'silk-veil':           SilkVeilTemplate,
+    'snow-globe':          SnowGlobeTemplate,
 }
