@@ -16,6 +16,7 @@ import VelvetBurgundyTemplate     from './VelvetBurgundyTemplate.vue'
 import VintagePostalTemplate      from './VintagePostalTemplate.vue'
 import SpotifyWrappedTemplate     from './SpotifyWrappedTemplate.vue'
 import PhotoAlbumTemplate         from './PhotoAlbumTemplate.vue'
+import FlashlightTemplate         from './FlashlightTemplate.vue'
 
 export const TEMPLATE_MAP = {
     'nusantara':           NusantaraTemplate,
@@ -35,4 +36,5 @@ export const TEMPLATE_MAP = {
     'vintage-postal':      VintagePostalTemplate,
     'spotify-wrapped':     SpotifyWrappedTemplate,
     'photo-album':         PhotoAlbumTemplate,
+    'flashlight':          FlashlightTemplate,
 }
