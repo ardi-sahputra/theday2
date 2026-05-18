@@ -313,12 +313,12 @@ const showWatermark = computed(() => !hasActiveSub.value)
                         <div class="ryokan-gallery-grid">
                             <button
                                 v-for="img in galleries"
-                                :key="img.id ?? img.file_url"
+                                :key="img.id ?? (img.image_url ?? img.file_url)"
                                 type="button"
                                 class="ryokan-gallery-item"
-                                @click="lightboxUrl = img.file_url"
+                                @click="lightboxUrl = (img.image_url ?? img.file_url)"
                             >
-                                <img :src="img.file_url" :alt="img.caption ?? ''" loading="lazy" />
+                                <img :src="(img.image_url ?? img.file_url)" :alt="img.caption ?? ''" loading="lazy" />
                             </button>
                         </div>
                     </div>

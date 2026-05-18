@@ -270,11 +270,11 @@ const showWatermark = computed(() => !hasActiveSub.value)
                         <div class="onyx-gallery-grid">
                             <img
                                 v-for="img in galleries"
-                                :key="img.id ?? img.file_url"
-                                :src="img.file_url" :alt="img.caption ?? ''"
+                                :key="img.id ?? (img.image_url ?? img.file_url)"
+                                :src="(img.image_url ?? img.file_url)" :alt="img.caption ?? ''"
                                 class="onyx-gallery-img"
                                 loading="lazy"
-                                @click="lightboxUrl = img.file_url"
+                                @click="lightboxUrl = (img.image_url ?? img.file_url)"
                             />
                         </div>
                     </div>

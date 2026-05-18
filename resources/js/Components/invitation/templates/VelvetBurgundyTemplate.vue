@@ -304,12 +304,12 @@ const lightboxUrl = ref(null)
                     <div class="vb-gallery">
                         <img
                             v-for="img in galleries"
-                            :key="img.id ?? img.file_url"
-                            :src="img.file_url"
+                            :key="img.id ?? (img.image_url ?? img.file_url)"
+                            :src="(img.image_url ?? img.file_url)"
                             :alt="img.caption ?? ''"
                             class="vb-gallery-img"
                             loading="lazy"
-                            @click="lightboxUrl = img.file_url"
+                            @click="lightboxUrl = (img.image_url ?? img.file_url)"
                         />
                     </div>
                 </section>

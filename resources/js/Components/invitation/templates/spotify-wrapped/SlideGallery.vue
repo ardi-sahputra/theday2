@@ -9,7 +9,7 @@ const emit = defineEmits(['lightbox'])
 
 function resolveUrl(g) {
     if (typeof g === 'string') return g
-    return g.file_url ?? g.url ?? null
+    return g.image_url ?? g.file_url ?? g.url ?? null
 }
 function resolveCaption(g) {
     if (typeof g === 'string') return ''
