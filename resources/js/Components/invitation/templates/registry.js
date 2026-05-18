@@ -18,6 +18,7 @@ import SpotifyWrappedTemplate     from './SpotifyWrappedTemplate.vue'
 import PhotoAlbumTemplate         from './PhotoAlbumTemplate.vue'
 import FlashlightTemplate         from './FlashlightTemplate.vue'
 import PopupCardTemplate          from './PopupCardTemplate.vue'
+import SilkVeilTemplate           from './SilkVeilTemplate.vue'
 
 export const TEMPLATE_MAP = {
     'nusantara':           NusantaraTemplate,
@@ -39,4 +40,5 @@ export const TEMPLATE_MAP = {
     'photo-album':         PhotoAlbumTemplate,
     'flashlight':          FlashlightTemplate,
     'popup-card':          PopupCardTemplate,
+    'silk-veil':           SilkVeilTemplate,
 }
