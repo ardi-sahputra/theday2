@@ -260,8 +260,12 @@ Route::middleware(['auth', 'verified', 'couple'])->group(function () {
 
 // ── Couple account management ────────────────────────────────────────────────
 Route::middleware(['auth', 'verified', 'couple'])->prefix('couple')->name('couple.')->group(function () {
-    Route::post('/invite', [\App\Http\Controllers\CoupleController::class, 'invite'])->name('invite');
-    Route::post(  '/invite/resend', [\App\Http\Controllers\CoupleController::class, 'resend'])->name('invite.resend');
+    Route::post('/invite', [\App\Http\Controllers\CoupleController::class, 'invite'])
+        ->middleware('throttle:5,60')
+        ->name('invite');
+    Route::post('/invite/resend', [\App\Http\Controllers\CoupleController::class, 'resend'])
+        ->middleware('throttle:5,60')
+        ->name('invite.resend');
     Route::delete('/revoke',         [\App\Http\Controllers\CoupleController::class, 'revoke'])->name('revoke');
     Route::delete('/unlink',         [\App\Http\Controllers\CoupleController::class, 'unlink'])->name('unlink');
 });
