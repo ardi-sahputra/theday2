@@ -10,10 +10,10 @@ use App\Http\Controllers\Controller;
 use App\Models\GuestList;
 use App\Models\WhatsAppMessageTemplate;
 use App\Services\WhatsAppTemplateRenderer;
+use App\Support\EffectiveUser;
 use App\Support\SectionAccess;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class WhatsAppTemplateController extends Controller
 {
@@ -25,7 +25,7 @@ class WhatsAppTemplateController extends Controller
 
     public function show(): JsonResponse
     {
-        if (! SectionAccess::isPremium(Auth::user())) abort(403);
+        if (! SectionAccess::isPremium(EffectiveUser::resolve())) abort(403);
         $template = $this->resolveDefaultTemplate();
 
         return response()->json([
@@ -41,13 +41,13 @@ class WhatsAppTemplateController extends Controller
 
     public function update(Request $request): JsonResponse
     {
-        if (! SectionAccess::isPremium(Auth::user())) abort(403);
+        if (! SectionAccess::isPremium(EffectiveUser::resolve())) abort(403);
         $data = $request->validate([
             'name'    => 'required|string|max:100',
             'content' => 'required|string|max:5000',
         ]);
 
-        $userId   = Auth::id();
+        $userId   = EffectiveUser::resolve()->id;
         $template = WhatsAppMessageTemplate::updateOrCreate(
             ['user_id' => $userId, 'is_default' => true],
             [
@@ -70,8 +70,8 @@ class WhatsAppTemplateController extends Controller
 
     public function reset(): JsonResponse
     {
-        if (! SectionAccess::isPremium(Auth::user())) abort(403);
-        $userId   = Auth::id();
+        if (! SectionAccess::isPremium(EffectiveUser::resolve())) abort(403);
+        $userId   = EffectiveUser::resolve()->id;
         $template = WhatsAppMessageTemplate::updateOrCreate(
             ['user_id' => $userId, 'is_default' => true],
             [
@@ -94,7 +94,7 @@ class WhatsAppTemplateController extends Controller
 
     public function previewRender(Request $request): JsonResponse
     {
-        if (! SectionAccess::isPremium(Auth::user())) abort(403);
+        if (! SectionAccess::isPremium(EffectiveUser::resolve())) abort(403);
         $data = $request->validate([
             'content'  => 'required|string|max:5000',
             'guest_id' => 'nullable|exists:guest_lists,id',
@@ -103,7 +103,7 @@ class WhatsAppTemplateController extends Controller
         $guestId = $data['guest_id'] ?? null;
         $guest   = $guestId
             ? GuestList::with('invitation.events', 'invitation.details')
-                ->where('user_id', Auth::id())
+                ->where('user_id', EffectiveUser::resolve()->id)
                 ->findOrFail($guestId)
             : null;
 
@@ -118,7 +118,7 @@ class WhatsAppTemplateController extends Controller
 
     private function resolveDefaultTemplate(): ?WhatsAppMessageTemplate
     {
-        return WhatsAppMessageTemplate::where('user_id', Auth::id())
+        return WhatsAppMessageTemplate::where('user_id', EffectiveUser::resolve()->id)
             ->where('is_default', true)
             ->first();
     }

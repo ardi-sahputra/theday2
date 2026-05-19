@@ -10,9 +10,9 @@ use App\Exports\GuestMessageExport;
 use App\Http\Controllers\Controller;
 use App\Models\GuestMessage;
 use App\Models\Invitation;
+use App\Support\EffectiveUser;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
 use Maatwebsite\Excel\Facades\Excel;
@@ -185,7 +185,7 @@ class DashboardGuestMessageController extends Controller
 
     private function authorizeOwner(Invitation $invitation): void
     {
-        if ($invitation->user_id !== Auth::id()) {
+        if ($invitation->user_id !== EffectiveUser::resolve()->id) {
             abort(403);
         }
     }

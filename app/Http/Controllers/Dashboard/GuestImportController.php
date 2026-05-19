@@ -13,10 +13,10 @@ use App\Models\User;
 use App\Services\GuestSlugGenerator;
 use App\Services\Notifications\NotificationPublisher;
 use App\Services\PhoneNumberNormalizer;
+use App\Support\EffectiveUser;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class GuestImportController extends Controller
@@ -92,7 +92,7 @@ class GuestImportController extends Controller
             'rows.*.note'     => 'nullable|string|max:500',
         ]);
 
-        $userId       = Auth::id();
+        $userId       = EffectiveUser::resolve()->id;
         $invitationId = $request->input('invitation_id');
         $imported     = 0;
         $skipped      = 0;

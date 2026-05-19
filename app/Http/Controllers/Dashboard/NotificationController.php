@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Dashboard\UpdateNotificationPreferencesRequest;
 use App\Models\NotificationPreference;
 use App\Models\UserNotification;
+use App\Support\EffectiveUser;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -20,7 +21,7 @@ class NotificationController extends Controller
     {
         $filter = $request->query('filter', 'all');
         $query  = UserNotification::query()
-            ->where('user_id', $request->user()->id)
+            ->where('user_id', EffectiveUser::resolve()->id)
             ->orderByDesc('updated_at');
 
         if ($filter === 'unread') {
@@ -50,7 +51,7 @@ class NotificationController extends Controller
 
     public function markAllRead(Request $request): RedirectResponse
     {
-        UserNotification::where('user_id', $request->user()->id)
+        UserNotification::where('user_id', EffectiveUser::resolve()->id)
             ->whereNull('read_at')
             ->update(['read_at' => now()]);
 
@@ -85,7 +86,7 @@ class NotificationController extends Controller
 
     public function unreadCount(Request $request): JsonResponse
     {
-        $count = UserNotification::where('user_id', $request->user()->id)
+        $count = UserNotification::where('user_id', EffectiveUser::resolve()->id)
             ->whereNull('read_at')
             ->count();
 
@@ -94,7 +95,7 @@ class NotificationController extends Controller
 
     public function recent(Request $request): JsonResponse
     {
-        $items = UserNotification::where('user_id', $request->user()->id)
+        $items = UserNotification::where('user_id', EffectiveUser::resolve()->id)
             ->orderByDesc('updated_at')
             ->limit(10)
             ->get(['id', 'category', 'type', 'title', 'body', 'action_url', 'read_at', 'updated_at']);
@@ -104,6 +105,6 @@ class NotificationController extends Controller
 
     private function authorizeOwn(Request $request, UserNotification $notif): void
     {
-        abort_if($notif->user_id !== $request->user()->id, 403);
+        abort_if($notif->user_id !== EffectiveUser::resolve()->id, 403);
     }
 }
