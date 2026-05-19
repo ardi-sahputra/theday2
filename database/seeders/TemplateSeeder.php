@@ -1363,6 +1363,58 @@ class TemplateSeeder extends Seeder
                 'is_active'      => true,
                 'sort_order'     => 32,
             ],
+
+            // -- Ayat & Hadits Scroll (Free, No-Photo, Religious) ------
+            [
+                'category_id'    => $pernikahan->id,
+                'name'           => 'Ayat & Hadits',
+                'slug'           => 'ayat-hadits',
+                'thumbnail_url'  => '/templates/ayat-hadits-thumb.jpg',
+                'description'    => 'Template religi text-first — perkamen + kaligrafi + multiple ayat/hadits (Ar-Rum 21, Hadits Bukhari "An-nikahu sunnati", Doa Pengantin). No-photo, alternatif Islamic Geometric dengan pendekatan text-as-art, BUKAN pattern-as-art. Tidak menggunakan geometric pattern / mandala / khatam star.',
+                'default_config' => [
+                    'primary_color'        => '#3d2817',
+                    'primary_color_light'  => '#8b3a3a',
+                    'secondary_color'      => '#f4e8d0',
+                    'accent_color'         => '#c9a961',
+                    'dark_bg'              => '#6b4423',
+                    'bg_color'             => '#f4e8d0',
+                    'text_color'           => '#3d2817',
+                    'text_secondary'       => '#6b4423',
+                    'font_title'           => 'Cormorant Garamond',
+                    'font_heading'         => 'Cormorant Garamond',
+                    'font_body'            => 'EB Garamond',
+                    'font_arabic'          => 'Amiri',
+                    'gallery_layout'       => 'vertical',
+                    'opening_style'        => 'fade',
+                    'section_backgrounds'  => [
+                        'opening' => ['type' => 'color', 'value' => '#f4e8d0'],
+                        'couple'  => ['type' => 'color', 'value' => '#f4e8d0'],
+                        'events'  => ['type' => 'color', 'value' => '#ede0c4'],
+                        'closing' => ['type' => 'color', 'value' => '#f4e8d0'],
+                    ],
+                    // Ayat & Hadits-specific
+                    'ah_show_arabic_names'   => false,
+                    'ah_couple_arabic_groom' => '',
+                    'ah_couple_arabic_bride' => '',
+                    'ah_hero_ayat_key'       => 'ar-rum-21',
+                    'ah_default_hadits_key'  => 'bukhari-marriage',
+                    'ah_aging_intensity'     => 'medium',
+                    'ah_cartouche_style'     => 'ottoman',
+                    'ah_include_doa_penutup' => true,
+                    'ah_gift_infaq_enabled'  => false,
+                    'ah_gift_infaq_text'     => '',
+                    'ah_opening_label'       => 'PEMBUKAAN',
+                ],
+                'demo_data'      => array_merge($weddingDemo, ['custom_config' => [
+                    'ah_show_arabic_names'   => false,
+                    'ah_aging_intensity'     => 'medium',
+                    'ah_cartouche_style'     => 'ottoman',
+                    'ah_include_doa_penutup' => true,
+                ]]),
+                'tier'           => 'free',
+                'is_active'      => true,
+                'sort_order'     => 31,
+            ],
         ];
 
         foreach ($templates as $template) {
