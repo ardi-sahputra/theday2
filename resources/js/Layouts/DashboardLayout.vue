@@ -6,6 +6,7 @@ import MobileBottomNav from '@/Components/dashboard/MobileBottomNav.vue';
 import MoreMenuPopover from '@/Components/dashboard/MoreMenuPopover.vue';
 import LanguageSwitcher from '@/Components/LanguageSwitcher.vue';
 import NotificationBell from '@/Components/Notifications/NotificationBell.vue';
+import PartnerModeBanner from '@/Components/PartnerModeBanner.vue';
 import { useLocale } from '@/Composables/useLocale';
 
 const { t } = useLocale();
@@ -191,7 +192,12 @@ const handleClickOutsideAvatar = (e) => {
 </script>
 
 <template>
-    <div class="min-h-screen flex" style="background-color: #F4F7F5">
+    <div class="min-h-screen flex flex-col" style="background-color: #F4F7F5">
+
+        <!-- ── Partner Mode Banner ─────────────────────────────── -->
+        <PartnerModeBanner />
+
+        <div class="flex flex-1 min-h-0">
 
         <!-- ── Sidebar Overlay (mobile) ─────────────────────────── -->
         <Transition name="fade">
@@ -517,6 +523,8 @@ const handleClickOutsideAvatar = (e) => {
                 <slot />
             </main>
         </div>
+
+        </div><!-- end inner flex row (sidebar + main) -->
 
     <!-- ── Invitation Limit Modal ──────────────────────────────── -->
     <Teleport to="body">
