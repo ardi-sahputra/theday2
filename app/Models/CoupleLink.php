@@ -53,6 +53,10 @@ class CoupleLink extends Model
 
     public function isExpired(): bool
     {
+        if ($this->invited_at === null) {
+            return false;
+        }
+
         return $this->status === self::STATUS_PENDING
             && $this->invited_at->addDays(self::INVITE_TTL_DAYS)->isPast();
     }

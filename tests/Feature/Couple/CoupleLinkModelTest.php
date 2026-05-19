@@ -54,4 +54,29 @@ class CoupleLinkModelTest extends TestCase
         $this->assertNull($link->partner_id);
         $this->assertNull($link->linked_at);
     }
+
+    public function test_is_expired_returns_false_for_fresh_pending_link(): void
+    {
+        $link = CoupleLink::factory()->pending()->create(['invited_at' => now()]);
+
+        $this->assertFalse($link->isExpired());
+    }
+
+    public function test_is_expired_returns_true_when_pending_older_than_ttl(): void
+    {
+        $link = CoupleLink::factory()->pending()->create([
+            'invited_at' => now()->subDays(CoupleLink::INVITE_TTL_DAYS + 1),
+        ]);
+
+        $this->assertTrue($link->isExpired());
+    }
+
+    public function test_is_expired_returns_false_for_non_pending_status(): void
+    {
+        $link = CoupleLink::factory()->active()->create([
+            'invited_at' => now()->subDays(CoupleLink::INVITE_TTL_DAYS + 5),
+        ]);
+
+        $this->assertFalse($link->isExpired());
+    }
 }
