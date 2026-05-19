@@ -28,8 +28,9 @@
 | Logo | Unchanged |
 | Domain | theday.id (unchanged) |
 | Visual identity (colors, fonts, design system) | Unchanged |
-| Tagline | **NEW: "Hari Itu & Seterusnya"** |
-| Sub-tagline / descriptor | **NEW: "Pendamping pasangan dari hari spesial sampai kehidupan bersama"** |
+| Tagline | **NEW: "TheDay & Beyond"** |
+| Sub-tagline / descriptor | **NEW: "Pernikahan dan seterusnya"** |
+| Long-form descriptor (optional) | "Pendamping pasangan dari hari spesial sampai kehidupan bersama" |
 | Brand voice | Warm, friendly, supportive, Indo native, sedikit poetic — bukan corporate, bukan terlalu casual meme |
 
 ---
@@ -124,16 +125,26 @@
 ### Concrete tagline candidates
 
 **Primary tagline (locked):**
-> **Hari Itu & Seterusnya**
+> **TheDay & Beyond**
 
 **Sub-tagline / descriptor (locked):**
+> Pernikahan dan seterusnya
+
+**Long-form descriptor (optional use di landing hero copy, footer, about):**
 > Pendamping pasangan dari hari spesial sampai kehidupan bersama
 
-**Alternative slogans (optional contextual use):**
+**Alternative slogans (optional contextual use, e.g. social media variant):**
 - "Persiapkan. Rayakan. Jalani."  ← 3-tahap action verb
 - "Dari undangan, sampai selamanya"  ← journey story
 - "Mulai dari hari pernikahan, lanjut ke setiap hari setelahnya"  ← long form
-- "TheDay & Beyond — pernikahan dan kehidupan setelahnya"  ← brand-led explanation
+- "Hari Itu & Seterusnya"  ← Indo-only variant (puitis)
+
+**Typography note:**
+- Pakai `&` (ampersand), bukan literal "and" — convention branding.
+- "TheDay" tetap satu kata, capital "T" + capital "D" (sesuai brand existing).
+- "Beyond" capital "B".
+- Dash separator pakai em-dash "—" (preferred) atau en-dash "–". JANGAN hyphen "-" untuk separator.
+- Contoh final form: **"TheDay & Beyond — pernikahan dan seterusnya"**
 
 ---
 
@@ -146,7 +157,8 @@
 > Kirim undangan elegan ke ratusan tamu, kelola RSVP, semua dari satu dashboard.
 
 **After (proposed):**
-> # Hari Itu & Seterusnya
+> # TheDay & Beyond
+> ## Pernikahan dan seterusnya
 > Pendamping pasangan dari hari spesial sampai kehidupan bersama. Mulai dari undangan digital, lanjut ke persiapan dan perjalanan pernikahan.
 
 ### Dashboard welcome

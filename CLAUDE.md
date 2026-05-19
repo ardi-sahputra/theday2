@@ -134,7 +134,7 @@ Overall average: **60-90% token reduction** on common development operations.
 
 ## Brand Positioning: "TheDay & Beyond"
 
-TheDay is being repositioned from **invitation-first** to **couple lifecycle companion** (3 fase: persiapan, hari spesial, kehidupan setelahnya). Tagline locked: **"Hari Itu & Seterusnya"**.
+TheDay is being repositioned from **invitation-first** to **couple lifecycle companion** (3 fase: persiapan, hari spesial, kehidupan setelahnya). Tagline locked: **"TheDay & Beyond — pernikahan dan seterusnya"**.
 
 When working on landing page (`resources/views/landing.blade.php`), dashboard layout, brand copy, marketing material, onboarding flow, or any user-facing text:
 
@@ -142,8 +142,9 @@ When working on landing page (`resources/views/landing.blade.php`), dashboard la
 
 Quick reference:
 - Brand name unchanged: TheDay
-- Tagline: "Hari Itu & Seterusnya"
-- Sub: "Pendamping pasangan dari hari spesial sampai kehidupan bersama"
+- Tagline: "TheDay & Beyond"
+- Sub-tagline: "Pernikahan dan seterusnya"
+- Long descriptor: "Pendamping pasangan dari hari spesial sampai kehidupan bersama"
 - 3 fase: Sebelum (Persiapan) → Hari H (Perayaan, flagship invitation) → Setelah (Kehidupan, roadmap)
 
 ## New Invitation Template Tasks
