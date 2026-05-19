@@ -1187,7 +1187,7 @@ class TemplateSeeder extends Seeder
                 'name'           => 'Letterpress Monogram',
                 'name_en'        => 'Letterpress Monogram',
                 'slug'           => 'letterpress',
-                'thumbnail_url'  => '/templates/letterpress-thumb.jpg',
+                'thumbnail_url'  => '/images/templates/letterpress/thumbnail.jpg',
                 'description'    => 'Boutique stationery letterpress - debossed monogram cream paper, no-photo, free tier.',
                 'default_config' => [
                     'primary_color'        => '#1a1a1a',
@@ -1230,7 +1230,7 @@ class TemplateSeeder extends Seeder
                 'name'           => 'Islamic Geometric',
                 'name_en'        => 'Islamic Geometric',
                 'slug'           => 'islamic-geometric',
-                'thumbnail_url'  => '/templates/islamic-geometric-thumb.jpg',
+                'thumbnail_url'  => '/images/templates/islamic-geometric/thumbnail.jpg',
                 'description'    => 'Halal wedding template - geometric Islamic pattern, Arabic calligraphy, no-photo, free tier.',
                 'default_config' => [
                     'primary_color'        => '#0e4d3d',
@@ -1320,7 +1320,7 @@ class TemplateSeeder extends Seeder
                 'category_id'    => $pernikahan->id,
                 'name'           => 'Botanical Illustration',
                 'slug'           => 'botanical',
-                'thumbnail_url'  => '/templates/botanical-thumb.jpg',
+                'thumbnail_url'  => '/images/templates/botanical/thumbnail.jpg',
                 'description'    => 'Classic minimalist wedding stationery dengan ilustrasi botanical line-art. No-photo template by design (foto pengantin & galeri tidak dirender), vibe English-garden, palette cream + sage + dusty rose.',
                 'default_config' => [
                     'primary_color'        => '#7a8b6f',
@@ -1369,7 +1369,7 @@ class TemplateSeeder extends Seeder
                 'category_id'    => $pernikahan->id,
                 'name'           => 'Ayat & Hadits',
                 'slug'           => 'ayat-hadits',
-                'thumbnail_url'  => '/templates/ayat-hadits-thumb.jpg',
+                'thumbnail_url'  => '/images/templates/ayat-hadits/thumbnail.jpg',
                 'description'    => 'Template religi text-first — perkamen + kaligrafi + multiple ayat/hadits (Ar-Rum 21, Hadits Bukhari "An-nikahu sunnati", Doa Pengantin). No-photo, alternatif Islamic Geometric dengan pendekatan text-as-art, BUKAN pattern-as-art. Tidak menggunakan geometric pattern / mandala / khatam star.',
                 'default_config' => [
                     'primary_color'        => '#3d2817',
