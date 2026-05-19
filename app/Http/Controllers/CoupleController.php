@@ -90,6 +90,76 @@ class CoupleController extends Controller
         return redirect()->route('dashboard')->with('status', 'partner-linked');
     }
 
+    public function revoke(\Illuminate\Http\Request $request): \Illuminate\Http\RedirectResponse
+    {
+        $link = \App\Models\CoupleLink::where('owner_id', $request->user()->id)
+            ->whereIn('status', [\App\Models\CoupleLink::STATUS_PENDING, \App\Models\CoupleLink::STATUS_ACTIVE])
+            ->first();
+
+        abort_if($link === null, 404);
+
+        if ($link->status === \App\Models\CoupleLink::STATUS_PENDING) {
+            $link->delete();
+            return back()->with('status', 'partner-invite-cancelled');
+        }
+
+        // For active links: delete the row entirely (not status=revoked). This frees the
+        // unique partner_id/owner_id slots for future re-linking. Audit trail is intentionally
+        // not preserved (out of scope per spec).
+        $partnerEmail = $link->partner?->email;
+        $link->delete();
+
+        if ($partnerEmail) {
+            \Illuminate\Support\Facades\Mail::to($partnerEmail)
+                ->send(new \App\Mail\PartnerRevokedMail(ownerName: $request->user()->name));
+        }
+
+        return back()->with('status', 'partner-revoked');
+    }
+
+    public function unlink(\Illuminate\Http\Request $request): \Illuminate\Http\RedirectResponse
+    {
+        $link = \App\Models\CoupleLink::where('partner_id', $request->user()->id)
+            ->where('status', \App\Models\CoupleLink::STATUS_ACTIVE)
+            ->first();
+
+        abort_if($link === null, 404);
+
+        // Delete the row entirely so both users can re-link freely in the future.
+        $link->delete();
+
+        return back()->with('status', 'partner-unlinked');
+    }
+
+    public function resend(\Illuminate\Http\Request $request): \Illuminate\Http\RedirectResponse
+    {
+        $link = \App\Models\CoupleLink::where('owner_id', $request->user()->id)
+            ->where('status', \App\Models\CoupleLink::STATUS_PENDING)
+            ->first();
+
+        abort_if($link === null, 404);
+
+        if ($link->invited_at->addMinutes(5)->isFuture()) {
+            return back()->withErrors([
+                'resend' => 'Tunggu 5 menit sebelum kirim ulang.',
+            ]);
+        }
+
+        $token = \App\Support\CoupleToken::generate();
+        $link->update([
+            'token_hash' => \App\Support\CoupleToken::hash($token),
+            'invited_at' => now(),
+        ]);
+
+        \Illuminate\Support\Facades\Mail::to($link->invited_email)
+            ->send(new \App\Mail\PartnerInviteMail(
+                ownerName: $request->user()->name,
+                token: $token,
+            ));
+
+        return back()->with('status', 'partner-invite-resent');
+    }
+
     public function invite(InvitePartnerRequest $request): RedirectResponse
     {
         $token = CoupleToken::generate();
