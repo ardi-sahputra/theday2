@@ -1413,7 +1413,7 @@ class TemplateSeeder extends Seeder
                 ]]),
                 'tier'           => 'free',
                 'is_active'      => true,
-                'sort_order'     => 31,
+                'sort_order'     => 33,
             ],
         ];
 
