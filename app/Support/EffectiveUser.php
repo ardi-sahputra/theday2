@@ -24,7 +24,8 @@ class EffectiveUser
             return self::$cached;
         }
 
-        $link = CoupleLink::where('partner_id', $auth->id)
+        $link = CoupleLink::with('owner')
+            ->where('partner_id', $auth->id)
             ->where('status', CoupleLink::STATUS_ACTIVE)
             ->first();
 
