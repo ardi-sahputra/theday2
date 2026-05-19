@@ -263,6 +263,16 @@ Route::middleware(['auth', 'verified', 'couple'])->prefix('couple')->name('coupl
     Route::post('/invite', [\App\Http\Controllers\CoupleController::class, 'invite'])->name('invite');
 });
 
+// ── Couple accept invitation (public GET, authed POST) ───────────────────────
+Route::prefix('couple')->name('couple.')->group(function () {
+    Route::get('/accept/{token}', [\App\Http\Controllers\CoupleController::class, 'showAccept'])
+        ->middleware('throttle:10,1')
+        ->name('accept.show');
+    Route::post('/accept/{token}', [\App\Http\Controllers\CoupleController::class, 'accept'])
+        ->middleware(['auth', 'throttle:10,1'])
+        ->name('accept.store');
+});
+
 // Keep legacy route alias so Breeze redirects still work
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified', 'onboarding', 'couple'])
@@ -319,7 +329,7 @@ Route::post('/gift/claim/{code}', [\App\Http\Controllers\GiftClaimController::cl
 // ── Public invitation pages ─────────────────────────────────────────────
 // IMPORTANT: keep this LAST so /{slug} doesn't swallow other routes.
 // The where() constraint excludes known top-level paths.
-$slugExclusion = '^(?!login|register|logout|dashboard|admin|templates|editor|use-template|profile|up|verify-email|confirm-password|forgot-password|reset-password|email|sitemap|blog|kebijakan-privasi|syarat-ketentuan|kebijakan-cookie|kontak|auth).*';
+$slugExclusion = '^(?!login|register|logout|dashboard|admin|templates|editor|use-template|profile|up|verify-email|confirm-password|forgot-password|reset-password|email|sitemap|blog|kebijakan-privasi|syarat-ketentuan|kebijakan-cookie|kontak|auth|couple).*';
 
 // Two-segment literal routes defined BEFORE wildcard so they take precedence.
 Route::post('/{slug}/unlock',   [PublicInvitationController::class, 'unlock'])->where('slug', $slugExclusion)->name('invitation.unlock');
