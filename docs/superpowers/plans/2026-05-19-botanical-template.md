@@ -34,7 +34,7 @@
 
 **Files:** none (read-only verification)
 
-- [ ] **Step 1: Verify template categories exist**
+- [x] **Step 1: Verify template categories exist**
 
 ```bash
 php artisan tinker --execute="echo App\Models\TemplateCategory::pluck('slug')->join(',');"
@@ -42,7 +42,7 @@ php artisan tinker --execute="echo App\Models\TemplateCategory::pluck('slug')->j
 
 Expected output contains at least `pernikahan`. Botanical lands in `pernikahan` (no dedicated "Classic" or "No-Photo" category exists; reuse `pernikahan` like Onyx Noir did).
 
-- [ ] **Step 2: Verify asset directory writable**
+- [x] **Step 2: Verify asset directory writable**
 
 ```bash
 mkdir -p public/templates/botanical
@@ -51,11 +51,11 @@ ls -la public/templates/botanical
 
 Confirm directory exists with no errors.
 
-- [ ] **Step 3: Verify composable defaults still match spec**
+- [x] **Step 3: Verify composable defaults still match spec**
 
 Open `resources/js/Composables/useInvitationTemplate.js`. Confirm `galleryLayout` accepts `'grid'` and `revealClass` argument is honored. If naming has drifted, stop and escalate.
 
-- [ ] **Step 4: Verify TheDayLogo component exists**
+- [x] **Step 4: Verify TheDayLogo component exists**
 
 ```bash
 ls resources/js/Components/TheDayLogo.vue
@@ -70,7 +70,7 @@ Botanical uses this for free-tier watermark. If missing, escalate (Netflix templ
 **Files:**
 - Modify: `database/seeders/TemplateSeeder.php`
 
-- [ ] **Step 1: Append Botanical entry**
+- [x] **Step 1: Append Botanical entry**
 
 Open `database/seeders/TemplateSeeder.php`. Locate the closing `];` of the `$templates` array (currently after the Onyx Noir entry). Insert before that closing `];`:
 
@@ -125,7 +125,7 @@ Open `database/seeders/TemplateSeeder.php`. Locate the closing `];` of the `$tem
             ],
 ```
 
-- [ ] **Step 2: Commit seeder**
+- [x] **Step 2: Commit seeder**
 
 ```bash
 rtk git add database/seeders/TemplateSeeder.php
@@ -138,7 +138,7 @@ rtk git commit -m "feat(botanical): add Botanical Illustration entry to Template
 
 **Files:** none (DB only)
 
-- [ ] **Step 1: Run seeder**
+- [x] **Step 1: Run seeder**
 
 ```bash
 php artisan db:seed --class=TemplateSeeder
@@ -146,7 +146,7 @@ php artisan db:seed --class=TemplateSeeder
 
 Expected exit 0. Output should mention seeding success (no Eloquent exceptions).
 
-- [ ] **Step 2: Verify row via tinker**
+- [x] **Step 2: Verify row via tinker**
 
 ```bash
 php artisan tinker --execute="$t = App\Models\Template::where('slug','botanical')->first(); echo $t ? ($t->name.'|'.$t->tier.'|'.$t->thumbnail_url) : 'NOT FOUND';"
@@ -163,7 +163,7 @@ If `NOT FOUND`: re-check seeder for typos, re-run.
 **Files:**
 - Create: `resources/js/Components/invitation/templates/botanical/BotanicalWreathSvg.vue`
 
-- [ ] **Step 1: Implement the wreath SVG with stroke-draw + cluster stagger**
+- [x] **Step 1: Implement the wreath SVG with stroke-draw + cluster stagger**
 
 Create `resources/js/Components/invitation/templates/botanical/BotanicalWreathSvg.vue`:
 
@@ -241,7 +241,7 @@ onMounted(() => {
 </style>
 ```
 
-- [ ] **Step 2: Commit**
+- [x] **Step 2: Commit**
 
 ```bash
 rtk git add resources/js/Components/invitation/templates/botanical/BotanicalWreathSvg.vue
@@ -255,7 +255,7 @@ rtk git commit -m "feat(botanical): add BotanicalWreathSvg with stroke-draw + cl
 **Files:**
 - Create: `resources/js/Components/invitation/templates/botanical/BotanicalIllustration.vue`
 
-- [ ] **Step 1: Implement single-SVG slot resolver with 6 classic + 5 flower slots**
+- [x] **Step 1: Implement single-SVG slot resolver with 6 classic + 5 flower slots**
 
 Create `resources/js/Components/invitation/templates/botanical/BotanicalIllustration.vue`:
 
@@ -354,7 +354,7 @@ defineProps({
 </style>
 ```
 
-- [ ] **Step 2: Commit**
+- [x] **Step 2: Commit**
 
 ```bash
 rtk git add resources/js/Components/invitation/templates/botanical/BotanicalIllustration.vue
@@ -368,7 +368,7 @@ rtk git commit -m "feat(botanical): add BotanicalIllustration with 6 classic + 5
 **Files:**
 - Create: `resources/js/Components/invitation/templates/botanical/BotanicalMonogram.vue`
 
-- [ ] **Step 1: Implement monogram + flanking flowers**
+- [x] **Step 1: Implement monogram + flanking flowers**
 
 Create `resources/js/Components/invitation/templates/botanical/BotanicalMonogram.vue`:
 
@@ -420,7 +420,7 @@ defineProps({
 </style>
 ```
 
-- [ ] **Step 2: Commit**
+- [x] **Step 2: Commit**
 
 ```bash
 rtk git add resources/js/Components/invitation/templates/botanical/BotanicalMonogram.vue
@@ -434,7 +434,7 @@ rtk git commit -m "feat(botanical): add BotanicalMonogram with flanking flower S
 **Files:**
 - Create: `resources/js/Components/invitation/templates/botanical/BotanicalWreath.vue`
 
-- [ ] **Step 1: Implement phase 0 with auto-advance + manual tap**
+- [x] **Step 1: Implement phase 0 with auto-advance + manual tap**
 
 Create `resources/js/Components/invitation/templates/botanical/BotanicalWreath.vue`:
 
@@ -585,7 +585,7 @@ onBeforeUnmount(() => {
 </style>
 ```
 
-- [ ] **Step 2: Commit**
+- [x] **Step 2: Commit**
 
 ```bash
 rtk git add resources/js/Components/invitation/templates/botanical/BotanicalWreath.vue
@@ -599,7 +599,7 @@ rtk git commit -m "feat(botanical): add BotanicalWreath phase 0 with auto-advanc
 **Files:**
 - Create: `resources/js/Components/invitation/templates/botanical/BotanicalCover.vue`
 
-- [ ] **Step 1: Implement cover with monogram + names + ambient float**
+- [x] **Step 1: Implement cover with monogram + names + ambient float**
 
 Create `resources/js/Components/invitation/templates/botanical/BotanicalCover.vue`:
 
@@ -761,7 +761,7 @@ const emit = defineEmits(['open', 'toggle-music'])
 </style>
 ```
 
-- [ ] **Step 2: Commit**
+- [x] **Step 2: Commit**
 
 ```bash
 rtk git add resources/js/Components/invitation/templates/botanical/BotanicalCover.vue
@@ -775,7 +775,7 @@ rtk git commit -m "feat(botanical): add BotanicalCover phase 1 with ambient mono
 **Files:**
 - Create: `resources/js/Components/invitation/templates/botanical/BotanicalHero.vue`
 
-- [ ] **Step 1: Implement opening section with drop-cap + mini wreath**
+- [x] **Step 1: Implement opening section with drop-cap + mini wreath**
 
 Create `resources/js/Components/invitation/templates/botanical/BotanicalHero.vue`:
 
@@ -846,7 +846,7 @@ defineProps({
 </style>
 ```
 
-- [ ] **Step 2: Commit**
+- [x] **Step 2: Commit**
 
 ```bash
 rtk git add resources/js/Components/invitation/templates/botanical/BotanicalHero.vue
@@ -860,7 +860,7 @@ rtk git commit -m "feat(botanical): add BotanicalHero with drop-cap + mini wreat
 **Files:**
 - Create: `resources/js/Components/invitation/templates/BotanicalTemplate.vue`
 
-- [ ] **Step 1: Write orchestrator skeleton (script + phase routing)**
+- [x] **Step 1: Write orchestrator skeleton (script + phase routing)**
 
 Create `resources/js/Components/invitation/templates/BotanicalTemplate.vue`:
 
@@ -1040,7 +1040,7 @@ function scrollToRsvp() { rsvpRef.value?.scrollIntoView({ behavior: 'smooth' }) 
 </style>
 ```
 
-- [ ] **Step 2: Commit skeleton**
+- [x] **Step 2: Commit skeleton**
 
 ```bash
 rtk git add resources/js/Components/invitation/templates/BotanicalTemplate.vue
@@ -1054,7 +1054,7 @@ rtk git commit -m "feat(botanical): scaffold orchestrator with phase routing"
 **Files:**
 - Modify: `resources/js/Components/invitation/templates/BotanicalTemplate.vue`
 
-- [ ] **Step 1: Replace `<!-- content sections inserted in Task 11 -->` with sections**
+- [x] **Step 1: Replace `<!-- content sections inserted in Task 11 -->` with sections**
 
 Open `BotanicalTemplate.vue`. Inside `<div v-else key="content" class="bot-content" :class="{ 'bot-paper': paperTexture }">` replace the comment with:
 
@@ -1205,7 +1205,7 @@ Open `BotanicalTemplate.vue`. Inside `<div v-else key="content" class="bot-conte
                 </section>
 ```
 
-- [ ] **Step 2: Commit batch 1**
+- [x] **Step 2: Commit batch 1**
 
 ```bash
 rtk git add resources/js/Components/invitation/templates/BotanicalTemplate.vue
@@ -1219,7 +1219,7 @@ rtk git commit -m "feat(botanical): wire opening/couple/events/countdown/love_st
 **Files:**
 - Modify: `resources/js/Components/invitation/templates/BotanicalTemplate.vue`
 
-- [ ] **Step 1: Append gallery block AFTER love_story `</section>`**
+- [x] **Step 1: Append gallery block AFTER love_story `</section>`**
 
 Add the repurposed gallery section. Note this template intentionally IGNORES `galleries[]` (user uploaded photos do NOT render here) — it renders the 6 inline-SVG `illustrationSlots` instead.
 
@@ -1252,7 +1252,7 @@ Add the repurposed gallery section. Note this template intentionally IGNORES `ga
                 </section>
 ```
 
-- [ ] **Step 2: Commit**
+- [x] **Step 2: Commit**
 
 ```bash
 rtk git add resources/js/Components/invitation/templates/BotanicalTemplate.vue
@@ -1266,7 +1266,7 @@ rtk git commit -m "feat(botanical): wire gallery section as illustration grid (n
 **Files:**
 - Modify: `resources/js/Components/invitation/templates/BotanicalTemplate.vue`
 
-- [ ] **Step 1: Append remaining sections AFTER gallery `</section>`**
+- [x] **Step 1: Append remaining sections AFTER gallery `</section>`**
 
 ```vue
                 <section
@@ -1405,7 +1405,7 @@ rtk git commit -m "feat(botanical): wire gallery section as illustration grid (n
                 </Transition>
 ```
 
-- [ ] **Step 2: Commit batch 2**
+- [x] **Step 2: Commit batch 2**
 
 ```bash
 rtk git add resources/js/Components/invitation/templates/BotanicalTemplate.vue
@@ -1419,7 +1419,7 @@ rtk git commit -m "feat(botanical): wire rsvp/gift/wishes/quote/closing + music 
 **Files:**
 - Modify: `resources/js/Components/invitation/templates/BotanicalTemplate.vue`
 
-- [ ] **Step 1: Replace the existing `<style scoped>` block with the full stylesheet**
+- [x] **Step 1: Replace the existing `<style scoped>` block with the full stylesheet**
 
 Replace the existing `<style scoped>` at the bottom of `BotanicalTemplate.vue`:
 
@@ -1862,7 +1862,7 @@ Replace the existing `<style scoped>` at the bottom of `BotanicalTemplate.vue`:
 </style>
 ```
 
-- [ ] **Step 2: Commit styles**
+- [x] **Step 2: Commit styles**
 
 ```bash
 rtk git add resources/js/Components/invitation/templates/BotanicalTemplate.vue
@@ -1876,7 +1876,7 @@ rtk git commit -m "feat(botanical): add full scoped styles for orchestrator"
 **Files:**
 - Modify: `resources/js/Components/invitation/templates/registry.js`
 
-- [ ] **Step 1: Add import + map entry**
+- [x] **Step 1: Add import + map entry**
 
 Open `resources/js/Components/invitation/templates/registry.js`. Add the import alongside existing templates (preserve existing imports verbatim — only the Botanical lines are new):
 
@@ -1890,7 +1890,7 @@ Then add to the export map (key is the slug stored in DB):
     'botanical': BotanicalTemplate,
 ```
 
-- [ ] **Step 2: Commit**
+- [x] **Step 2: Commit**
 
 ```bash
 rtk git add resources/js/Components/invitation/templates/registry.js
@@ -1905,14 +1905,14 @@ rtk git commit -m "feat(botanical): register 'botanical' in TEMPLATE_MAP"
 
 The orchestrator relies on `Cormorant Garamond`, `Italianno`, and `Inter`. Existing templates (Onyx Noir, Netflix) already load `Cormorant Garamond` + `Inter` via the global head loader. We add `Italianno` only if it is missing.
 
-- [ ] **Step 1: Check global font loading**
+- [x] **Step 1: Check global font loading**
 
 ```bash
 rtk grep "Cormorant+Garamond" resources/views/
 rtk grep "Italianno" resources/views/
 ```
 
-- [ ] **Step 2: If Italianno not loaded globally**
+- [x] **Step 2: If Italianno not loaded globally**
 
 Open the layout that emits `<head>` (commonly `resources/views/app.blade.php`). Locate the existing Google Fonts `<link>` and append `&family=Italianno` to the combined URL. Example, if existing line is:
 
@@ -1934,7 +1934,7 @@ If the layout file does not pre-load these fonts at all, prepend the official pr
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,600&family=Italianno&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 ```
 
-- [ ] **Step 3: If a layout change was made, commit**
+- [x] **Step 3: If a layout change was made, commit**
 
 ```bash
 rtk git add resources/views/app.blade.php
@@ -1949,7 +1949,7 @@ If no change was needed (Italianno already loaded or template imports it directl
 
 **Files:** none (build only)
 
-- [ ] **Step 1: Run prod build**
+- [x] **Step 1: Run prod build**
 
 ```bash
 rtk npm run build
@@ -1957,7 +1957,7 @@ rtk npm run build
 
 Expected exit 0. No Vue compile errors. No "module not found" for sub-components.
 
-- [ ] **Step 2: If build fails**
+- [x] **Step 2: If build fails**
 
 Read the error. Common causes:
 - Wrong import path (case-sensitive on CI; `botanical/` is lowercase)
@@ -1967,7 +1967,7 @@ Read the error. Common causes:
 
 Fix the offending file, re-run build until exit 0. Do NOT commit until build passes.
 
-- [ ] **Step 3: If build passes**
+- [x] **Step 3: If build passes**
 
 No commit needed (no file changes).
 
@@ -2093,7 +2093,7 @@ rtk git commit -m "fix(botanical): reduced-motion + WCAG contrast audit"
 **Files:**
 - Create: `public/templates/botanical/SOURCES.md`
 
-- [ ] **Step 1: Create SOURCES.md**
+- [x] **Step 1: Create SOURCES.md**
 
 Write `public/templates/botanical/SOURCES.md`:
 
@@ -2142,7 +2142,7 @@ If future enrichment imports SVGs from SVGRepo (CC0) or other CC0 sources, appen
 ```
 ```
 
-- [ ] **Step 2: Commit**
+- [x] **Step 2: Commit**
 
 ```bash
 rtk git add public/templates/botanical/SOURCES.md
