@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref } from 'vue';
 import DashboardLayout from '@/Layouts/DashboardLayout.vue';
 import { useSupportChat } from '@/Composables/useSupportChat';
 import SupportChatPanel from '@/Components/Support/SupportChatPanel.vue';
@@ -13,11 +13,11 @@ const props = defineProps({
 const chat = useSupportChat();
 const lightboxUrl = ref(null);
 
-onMounted(() => {
-    chat.isOpen.value = true;
-    chat.messages.value = props.messages.map(m => ({ ...m }));
-    chat.adminStatus.value = props.admin_status;
-});
+// Seed composable BEFORE polling kicks in (avoids since=0 refetch + duplicate messages).
+// seedMessages() sets both messages.value AND the internal lastMsgId tracker.
+chat.seedMessages(props.messages);
+chat.adminStatus.value = props.admin_status;
+chat.isOpen.value = true;
 
 function onSend(body, file) { chat.sendMessage(body, file); }
 function previewImage(url) { lightboxUrl.value = url; }
