@@ -136,7 +136,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/onboarding', [OnboardingController::class, 'store'])->name('onboarding.store');
 });
 
-Route::middleware(['auth', 'verified', 'onboarding'])->prefix('dashboard')->name('dashboard.')->group(function () {
+Route::middleware(['auth', 'verified', 'onboarding', 'couple'])->prefix('dashboard')->name('dashboard.')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('index');
     Route::get('/templates', [TemplateController::class, 'index'])->name('templates');
     Route::get('/buku-tamu', [BukuTamuHubController::class, 'index'])->name('buku-tamu.index');
@@ -253,17 +253,17 @@ Route::middleware(['auth', 'verified', 'onboarding'])->prefix('dashboard')->name
 });
 
 // ── Payment return & status polling (no onboarding guard) ───────────────────
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth', 'verified', 'couple'])->group(function () {
     Route::get('/payment/return',                            [PaymentReturnController::class, 'show']  )->name('payment.return');
     Route::get('/payment/transactions/{transaction}/status', [PaymentReturnController::class, 'status'])->name('payment.status');
 });
 
 // Keep legacy route alias so Breeze redirects still work
 Route::get('/dashboard', [DashboardController::class, 'index'])
-    ->middleware(['auth', 'verified', 'onboarding'])
+    ->middleware(['auth', 'verified', 'onboarding', 'couple'])
     ->name('dashboard');
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'couple'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -308,7 +308,7 @@ Route::get('/kebijakan-cookie',  [LegalController::class, 'cookiePolicy'])->name
 Route::get('/gift/claim/{code}', [\App\Http\Controllers\GiftClaimController::class, 'show'])
     ->name('gift.claim.show');
 Route::post('/gift/claim/{code}', [\App\Http\Controllers\GiftClaimController::class, 'claim'])
-    ->middleware('auth')
+    ->middleware(['auth', 'couple'])
     ->name('gift.claim.store');
 
 // ── Public invitation pages ─────────────────────────────────────────────
