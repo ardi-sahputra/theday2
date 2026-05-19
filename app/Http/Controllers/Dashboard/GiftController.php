@@ -9,6 +9,7 @@ use App\Http\Requests\Dashboard\StoreGiftRequest;
 use App\Models\Gift;
 use App\Models\Plan;
 use App\Services\GiftPurchaseService;
+use App\Support\EffectiveUser;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
@@ -21,7 +22,7 @@ class GiftController extends Controller
     public function index(): Response
     {
         $gifts = Gift::with('plan', 'claimedBy')
-            ->where('sender_user_id', auth()->id())
+            ->where('sender_user_id', EffectiveUser::resolve()->id)
             ->orderByDesc('created_at')
             ->paginate(15);
 
@@ -65,7 +66,7 @@ class GiftController extends Controller
 
     public function show(Gift $gift): Response
     {
-        if ($gift->sender_user_id !== auth()->id()) {
+        if ($gift->sender_user_id !== EffectiveUser::resolve()->id) {
             abort(403);
         }
 

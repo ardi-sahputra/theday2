@@ -9,6 +9,7 @@ use App\Enums\PaymentStatus;
 use App\Http\Controllers\Controller;
 use App\Models\Transaction;
 use App\Services\PaymentActivationService;
+use App\Support\EffectiveUser;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -21,16 +22,16 @@ class TransactionController extends Controller
 
     public function index(Request $request): Response
     {
-        $user = $request->user();
+        $effectiveUser = EffectiveUser::resolve();
 
         Transaction::with('plan', 'user')
-            ->where('user_id', $user->id)
+            ->where('user_id', $effectiveUser->id)
             ->where('status', PaymentStatus::Pending)
             ->whereNotNull('payment_gateway_id')
             ->where('created_at', '>=', now()->subHours(24))
             ->each(fn ($t) => $this->activationService->verifyAndActivate($t));
 
-        $transactions = Transaction::where('user_id', $user->id)
+        $transactions = Transaction::where('user_id', $effectiveUser->id)
             ->with('plan')
             ->orderByDesc('created_at')
             ->get()

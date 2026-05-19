@@ -8,6 +8,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Transaction;
 use App\Services\PaymentActivationService;
+use App\Support\EffectiveUser;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -21,7 +22,7 @@ class PaymentReturnController extends Controller
     {
         $transaction = Transaction::with('plan', 'user', 'gift')->find($request->query('txn'));
 
-        if (! $transaction || $transaction->user_id !== auth()->id()) {
+        if (! $transaction || $transaction->user_id !== EffectiveUser::resolve()->id) {
             abort(403);
         }
 
@@ -56,7 +57,7 @@ class PaymentReturnController extends Controller
 
     public function status(Transaction $transaction): JsonResponse
     {
-        if ($transaction->user_id !== auth()->id()) {
+        if ($transaction->user_id !== EffectiveUser::resolve()->id) {
             abort(403);
         }
 
