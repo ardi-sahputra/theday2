@@ -27,6 +27,7 @@ import TreasureHuntTemplate        from './TreasureHuntTemplate.vue'
 import ComicBookTemplate           from './ComicBookTemplate.vue'
 import TarotReadingTemplate        from './TarotReadingTemplate.vue'
 import LetterpressTemplate         from './LetterpressTemplate.vue'
+import IslamicGeometricTemplate    from './IslamicGeometricTemplate.vue'
 
 export const TEMPLATE_MAP = {
     'nusantara':           NusantaraTemplate,
@@ -57,4 +58,5 @@ export const TEMPLATE_MAP = {
     'comic-book':          ComicBookTemplate,
     'tarot-reading':       TarotReadingTemplate,
     'letterpress':         LetterpressTemplate,
+    'islamic-geometric':   IslamicGeometricTemplate,
 }
