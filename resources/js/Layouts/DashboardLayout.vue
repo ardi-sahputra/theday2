@@ -8,6 +8,11 @@ import LanguageSwitcher from '@/Components/LanguageSwitcher.vue';
 import NotificationBell from '@/Components/Notifications/NotificationBell.vue';
 import PartnerModeBanner from '@/Components/PartnerModeBanner.vue';
 import { useLocale } from '@/Composables/useLocale';
+import { useMediaQuery } from '@/Composables/useMediaQuery';
+import SupportBubble from '@/Components/Support/SupportBubble.vue';
+import SupportHeaderIcon from '@/Components/Support/SupportHeaderIcon.vue';
+
+const isMobile = useMediaQuery('(max-width: 767px)');
 
 const { t } = useLocale();
 
@@ -418,6 +423,9 @@ const handleClickOutsideAvatar = (e) => {
                     <!-- Language switcher -->
                     <LanguageSwitcher />
 
+                    <!-- Support icon (mobile only) -->
+                    <SupportHeaderIcon v-if="isMobile" />
+
                     <!-- Notification bell -->
                     <NotificationBell />
 
@@ -582,6 +590,9 @@ const handleClickOutsideAvatar = (e) => {
             :open="moreMenuOpen"
             @close="moreMenuOpen = false"
         />
+
+        <!-- Support chat bubble (desktop only) -->
+        <SupportBubble v-if="!isMobile" />
 
     </div>
 </template>
