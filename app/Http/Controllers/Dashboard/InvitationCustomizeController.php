@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\Invitation;
+use App\Support\EffectiveUser;
 use App\Support\SectionAccess;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
@@ -18,7 +19,7 @@ class InvitationCustomizeController extends Controller
 {
     public function show(Request $request, Invitation $invitation): Response
     {
-        abort_unless($invitation->user_id === $request->user()->id, 403);
+        abort_unless($invitation->user_id === EffectiveUser::resolve()->id, 403);
 
         $invitation->load([
             'details',
@@ -118,7 +119,7 @@ class InvitationCustomizeController extends Controller
 
     public function update(Request $request, Invitation $invitation): JsonResponse
     {
-        abort_unless($invitation->user_id === $request->user()->id, 403);
+        abort_unless($invitation->user_id === EffectiveUser::resolve()->id, 403);
 
         if (! SectionAccess::isPremium($request->user())) {
             return response()->json(['error' => 'Fitur ini tersedia di paket Premium.'], 403);
@@ -151,7 +152,7 @@ class InvitationCustomizeController extends Controller
         $allowedKeys = ['cover', 'opening', 'events', 'gallery', 'closing'];
         abort_unless(in_array($key, $allowedKeys, true), 422);
 
-        abort_unless($invitation->user_id === $request->user()->id, 403);
+        abort_unless($invitation->user_id === EffectiveUser::resolve()->id, 403);
 
         if (! SectionAccess::isPremium($request->user())) {
             return response()->json(['error' => 'Fitur ini tersedia di paket Premium.'], 403);
