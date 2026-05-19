@@ -35,11 +35,11 @@
 **Files:**
 - Modify: `database/seeders/TemplateSeeder.php`
 
-- [ ] **Step 1: Identify free category id resolver pattern**
+- [x] **Step 1: Identify free category id resolver pattern**
 
 Open `database/seeders/TemplateSeeder.php`. Locate how Beach/Garden/Pearl resolve their `category_id` (typically via a `$freeCategoryId = TemplateCategory::where('slug', 'pernikahan')->value('id');` or similar local variable). Reuse the same variable name in the new entry — do not introduce a new resolver. If the seeder uses `$pernikahan->id`, mirror that.
 
-- [ ] **Step 2: Append Islamic Geometric entry to `$templates` array**
+- [x] **Step 2: Append Islamic Geometric entry to `$templates` array**
 
 Locate the closing `];` of the `$templates` array (right after the last existing template entry — likely the Letterpress entry if the Letterpress plan ran first; otherwise the last existing template). Insert before the closing `];`:
 
@@ -87,14 +87,14 @@ Locate the closing `];` of the `$templates` array (right after the last existing
 
 Mirror the JSON encoding pattern used by neighbouring rows (if other rows wrap `default_config` in `json_encode(...)`, do the same — otherwise leave as PHP array).
 
-- [ ] **Step 3: Commit seeder change**
+- [x] **Step 3: Commit seeder change**
 
 ```bash
 rtk git add database/seeders/TemplateSeeder.php
 rtk git commit -m "feat(islamic-geometric): add Islamic Geometric entry to TemplateSeeder"
 ```
 
-- [ ] **Step 4: Run seeder + verify row**
+- [x] **Step 4: Run seeder + verify row**
 
 ```bash
 php artisan db:seed --class=TemplateSeeder
