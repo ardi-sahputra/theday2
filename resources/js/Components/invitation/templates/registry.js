@@ -26,6 +26,7 @@ import IgStoriesTemplate          from './IgStoriesTemplate.vue'
 import TreasureHuntTemplate        from './TreasureHuntTemplate.vue'
 import ComicBookTemplate           from './ComicBookTemplate.vue'
 import TarotReadingTemplate        from './TarotReadingTemplate.vue'
+import LetterpressTemplate         from './LetterpressTemplate.vue'
 
 export const TEMPLATE_MAP = {
     'nusantara':           NusantaraTemplate,
@@ -55,4 +56,5 @@ export const TEMPLATE_MAP = {
     'treasure-hunt':       TreasureHuntTemplate,
     'comic-book':          ComicBookTemplate,
     'tarot-reading':       TarotReadingTemplate,
+    'letterpress':         LetterpressTemplate,
 }
