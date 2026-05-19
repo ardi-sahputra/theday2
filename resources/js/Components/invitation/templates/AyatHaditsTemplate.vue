@@ -71,7 +71,7 @@ const haditsCatalog = {
         sanad:           "Imam al-Bukhari meriwayatkan dari Anas bin Mālik radhiyallāhu 'anhu.",
         matn_arabic:     'عَنْ أَنَسِ بْنِ مَالِكٍ رَضِيَ اللَّهُ عَنْهُ قَالَ: قَالَ رَسُولُ اللَّهِ صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ: «النِّكَاحُ سُنَّتِي، فَمَنْ رَغِبَ عَنْ سُنَّتِي فَلَيْسَ مِنِّي»',
         transliteration: "'An Anas bin Mālik raḍiyallāhu 'anhu qāla: qāla Rasūlullāhi ṣallallāhu 'alaihi wa sallam: \"An-nikāḥu sunnatī, faman raghiba 'an sunnatī falaisa minnī.\"",
-        translation_id:  "Dari Anas bin Mālik radhiyallāhu 'anhu, ia berkata: Rasulullah \u{FD3F}saw\u{FD3E} bersabda: \"Nikah adalah sunnahku, barangsiapa enggan dari sunnahku, maka ia bukan dari golonganku.\"",
+        translation_id:  "Dari Anas bin Mālik radhiyallāhu 'anhu, ia berkata: Rasulullah ﷺ bersabda: \"Nikah adalah sunnahku, barangsiapa enggan dari sunnahku, maka ia bukan dari golonganku.\"",
         attribution:     'HR. al-Bukhari',
     },
 }
