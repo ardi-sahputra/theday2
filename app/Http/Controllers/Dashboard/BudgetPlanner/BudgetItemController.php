@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\BudgetPlanner\StoreBudgetItemRequest;
 use App\Http\Requests\BudgetPlanner\UpdateBudgetItemRequest;
 use App\Models\WeddingBudgetItem;
+use App\Support\EffectiveUser;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -22,7 +23,7 @@ class BudgetItemController extends Controller
 
     public function index(Request $request): JsonResponse
     {
-        $budget  = $this->initialize->execute($request->user());
+        $budget  = $this->initialize->execute(EffectiveUser::resolve());
         $filters = $request->only(['search', 'category_id', 'payment_status', 'has_actual', 'sort']);
         $items   = $this->itemsTable->execute($budget, $filters);
 
@@ -31,7 +32,7 @@ class BudgetItemController extends Controller
 
     public function store(StoreBudgetItemRequest $request): JsonResponse
     {
-        $budget = $this->initialize->execute($request->user());
+        $budget = $this->initialize->execute(EffectiveUser::resolve());
 
         // Verify category belongs to this budget
         $cat = $budget->categories()->findOrFail($request->validated('category_id'));
@@ -104,7 +105,7 @@ class BudgetItemController extends Controller
 
     private function authorizeItem(Request $request, WeddingBudgetItem $item): void
     {
-        $budget = $this->initialize->execute($request->user());
+        $budget = $this->initialize->execute(EffectiveUser::resolve());
 
         if ($item->budget_id !== $budget->id) {
             abort(403);

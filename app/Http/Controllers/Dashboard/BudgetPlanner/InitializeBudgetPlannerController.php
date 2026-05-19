@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Dashboard\BudgetPlanner;
 
 use App\Actions\BudgetPlanner\InitializeWeddingBudgetAction;
 use App\Http\Controllers\Controller;
+use App\Support\EffectiveUser;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -17,7 +18,7 @@ class InitializeBudgetPlannerController extends Controller
 
     public function store(Request $request): JsonResponse
     {
-        $budget = $this->action->execute($request->user());
+        $budget = $this->action->execute(EffectiveUser::resolve());
 
         return response()->json([
             'message'   => 'Budget planner berhasil diinisialisasi.',

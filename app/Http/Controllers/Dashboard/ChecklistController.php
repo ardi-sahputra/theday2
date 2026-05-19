@@ -11,9 +11,9 @@ use App\Models\ChecklistSubtask;
 use App\Models\ChecklistTask;
 use App\Models\WeddingPlan;
 use App\Services\ChecklistService;
+use App\Support\EffectiveUser;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -273,7 +273,7 @@ class ChecklistController extends Controller
     private function resolveOrCreatePlan(): WeddingPlan
     {
         return WeddingPlan::firstOrCreate(
-            ['user_id' => Auth::id()]
+            ['user_id' => EffectiveUser::resolve()->id]
         );
     }
 
@@ -281,7 +281,7 @@ class ChecklistController extends Controller
     {
         $task = ChecklistTask::findOrFail($id);
 
-        if ($task->weddingPlan->user_id !== Auth::id()) {
+        if ($task->weddingPlan->user_id !== EffectiveUser::resolve()->id) {
             abort(403);
         }
 
