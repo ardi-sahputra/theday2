@@ -1,7 +1,7 @@
 # Couple Account (Partner Sharing) — Design Spec
 
 **Date:** 2026-05-19  
-**Status:** Approved  
+**Status:** Approved — v2 (critical gaps closed per Opus review)  
 **Scope:** Allow two users (a couple) to share full access to one account's data
 
 ---
@@ -40,7 +40,7 @@ id            uuid PRIMARY KEY
 owner_id      uuid FK → users(id) ON DELETE CASCADE
 partner_id    uuid FK → users(id) ON DELETE CASCADE, nullable
 invited_email string(255)
-token         string(64) UNIQUE          -- invite link token
+token_hash    string(64) UNIQUE          -- SHA-256 of the invite token, never plaintext
 status        enum('pending','active','revoked')
 invited_at    timestamp
 linked_at     timestamp nullable
@@ -48,6 +48,8 @@ revoked_at    timestamp nullable
 created_at    timestamp
 updated_at    timestamp
 ```
+
+**Token security:** Generate via `random_bytes(32)` → hex-encode for URL. Store `hash('sha256', $token)` in `token_hash`. Never store or log plaintext token. Lookup always hashes incoming value before querying.
 
 **Unique constraints:**
 - `UNIQUE(owner_id)` — owner can have only 1 couple link at a time
@@ -99,11 +101,34 @@ Invitation::where('user_id', auth()->id())
 Invitation::where('user_id', effectiveUser()->id())
 ```
 
-Affected models: `Invitation`, `WeddingPlan`, `CoupleProfile`, `ChecklistTask`, `WeddingBudget`, `Subscription`, `InvitationAddon`, `Transaction`, `Gift`.
+Affected models (full list — all models with `user_id` or owned via `invitation_id`):
+`Invitation`, `InvitationDetail`, `InvitationEvent`, `InvitationGallery`, `InvitationMusic`, `InvitationSection`, `InvitationView`,
+`WeddingPlan`, `CoupleProfile`, `ChecklistTask`, `WeddingBudget`,
+`Subscription`, `InvitationAddon`, `Transaction`, `Gift`,
+`Rsvp`, `GuestMessage`, `GuestList`,
+`UserNotification`, `NotificationPreference`, `WhatsAppMessageTemplate`.
+
+Any model missed here = silent data divergence. Implementation must audit `app/Models/` for all `user_id` usages before ship.
 
 ### Subscription inheritance
 
 `User::isPremium()` and `User::currentPlan()` are updated to delegate to `effectiveUser()` when called in a partner context. Partner always inherits owner's subscription.
+
+### Queued Job Context
+
+`effectiveUser()` reads `auth()->user()` — returns null inside queued jobs. **Rule:** Any job dispatched from a request context must receive `effectiveUser()->id` as an explicit constructor argument. Never resolve effective user at handle-time inside a job.
+
+```php
+// Correct
+dispatch(new SendWeddingReminder(effectiveUser()->id, $invitation->id));
+
+// Wrong — auth() is null inside job
+dispatch(new SendWeddingReminder($invitation->id));
+```
+
+### Billing scope
+
+Partner has full access to all **user-facing** billing features: view subscription/plan, upgrade plan, purchase invitation addons, view transaction history. Cancel subscription is **admin-only** and does not exist in user-facing routes — no restriction needed.
 
 ---
 
@@ -136,12 +161,33 @@ Owner                    System                   Partner
   │◀── notify email ────────│   linked_at = now()     │
 ```
 
+### Accept — Race Condition Guard
+
+`POST /couple/accept/{token}` must wrap accept in a DB transaction with `lockForUpdate()` to prevent duplicate accepts from concurrent requests:
+
+```php
+DB::transaction(function () use ($token) {
+    $link = CoupleLink::where('token_hash', hash('sha256', $token))
+        ->where('status', 'pending')
+        ->lockForUpdate()
+        ->firstOrFail();
+    // mutate status, partner_id, linked_at
+});
+```
+
+`UNIQUE(partner_id)` acts as last-line defense if the lock is bypassed.
+
 ### Routes
 
 ```
 GET  /couple/accept/{token}   -- public, no auth required
 POST /couple/accept/{token}   -- confirm acceptance
+POST /couple/invite/resend    -- resend pending invite (cooldown: 5 min, max 3/day)
 ```
+
+**Rate limiting:**
+- `POST /couple/invite` → `throttle:5,60` per owner (5 per hour)
+- `GET|POST /couple/accept/{token}` → `throttle:10,1` per IP
 
 ### Edge Cases
 
