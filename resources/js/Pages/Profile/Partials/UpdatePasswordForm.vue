@@ -1,6 +1,6 @@
 <script setup>
-import { useForm } from '@inertiajs/vue3';
-import { ref } from 'vue';
+import { useForm, usePage } from '@inertiajs/vue3';
+import { computed, ref } from 'vue';
 
 const currentPasswordInput = ref(null);
 const passwordInput        = ref(null);
@@ -8,6 +8,8 @@ const passwordInput        = ref(null);
 const showCurrent = ref(false);
 const showNew     = ref(false);
 const showConfirm = ref(false);
+
+const hasPassword = computed(() => usePage().props.auth?.user?.has_password ?? true);
 
 const form = useForm({
     current_password:      '',
@@ -36,14 +38,17 @@ const updatePassword = () => {
 <template>
     <section>
         <div class="mb-5">
-            <h2 class="text-sm font-semibold text-stone-800">Ubah Password</h2>
-            <p class="text-xs text-stone-400 mt-0.5">Gunakan password yang kuat dan unik untuk keamanan akun.</p>
+            <h2 class="text-sm font-semibold text-stone-800">{{ hasPassword ? 'Ubah Password' : 'Buat Password' }}</h2>
+            <p class="text-xs text-stone-400 mt-0.5">
+                <template v-if="hasPassword">Gunakan password yang kuat dan unik untuk keamanan akun.</template>
+                <template v-else>Akunmu login via Google. Buat password sebagai cadangan kalau login Google bermasalah.</template>
+            </p>
         </div>
 
         <form @submit.prevent="updatePassword" class="space-y-4">
 
             <!-- Password lama -->
-            <div>
+            <div v-if="hasPassword">
                 <label for="current_password" class="block text-sm font-medium text-stone-700 mb-1.5">Password Saat Ini</label>
                 <div class="relative">
                     <input
@@ -138,7 +143,7 @@ const updatePassword = () => {
                     style="background-color: #92A89C"
                 >
                     <span v-if="form.processing">Menyimpan…</span>
-                    <span v-else>Ubah Password</span>
+                    <span v-else>{{ hasPassword ? 'Ubah Password' : 'Buat Password' }}</span>
                 </button>
 
                 <Transition enter-active-class="transition ease-in-out" enter-from-class="opacity-0"
