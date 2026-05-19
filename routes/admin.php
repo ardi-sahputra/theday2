@@ -13,6 +13,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     // Authenticated admin only
     Route::middleware('auth:admin')->group(function () {
+        // Temporary stub for Mail route generation. Replaced in Task 15.
+        Route::get('support/{conversation}', fn($conversation) => response('stub', 501))
+            ->name('support.show')
+            ->where('conversation', '\d+');
+
         Route::get('/', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
         Route::post('logout', [\App\Http\Controllers\Admin\Auth\LoginController::class, 'logout'])->name('logout');
         Route::get('users', [\App\Http\Controllers\Admin\UserController::class, 'index'])->name('users.index');
