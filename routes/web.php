@@ -258,6 +258,11 @@ Route::middleware(['auth', 'verified', 'couple'])->group(function () {
     Route::get('/payment/transactions/{transaction}/status', [PaymentReturnController::class, 'status'])->name('payment.status');
 });
 
+// ── Couple account management ────────────────────────────────────────────────
+Route::middleware(['auth', 'verified', 'couple'])->prefix('couple')->name('couple.')->group(function () {
+    Route::post('/invite', [\App\Http\Controllers\CoupleController::class, 'invite'])->name('invite');
+});
+
 // Keep legacy route alias so Breeze redirects still work
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified', 'onboarding', 'couple'])
