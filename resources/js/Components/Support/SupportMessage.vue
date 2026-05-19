@@ -19,7 +19,7 @@ const formattedTime = computed(() => {
     <div :class="['flex w-full mb-3', isRight ? 'justify-end' : 'justify-start']">
         <div :class="[
             'max-w-[75%] rounded-2xl px-3 py-2 text-sm',
-            isRight ? 'bg-stone-800 text-white rounded-br-sm' : 'bg-stone-100 text-stone-800 rounded-bl-sm',
+            isRight ? 'bg-brand-primary text-white rounded-br-sm' : 'bg-stone-100 text-stone-800 rounded-bl-sm',
         ]">
             <img
                 v-if="message.attachment_url"
