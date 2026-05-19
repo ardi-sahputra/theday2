@@ -82,7 +82,7 @@ const props = defineProps({
     set:  { type: String, default: 'classic' },
 })
 
-// Vue reserves 'slot' as an attribute; use a computed alias to avoid conflicts
+// 'slot' is reserved in HTML but valid as a Vue prop; alias internally to avoid lint issues
 import { computed } from 'vue'
 const illustSlot = computed(() => props.slot)
 </script>
