@@ -1224,6 +1224,52 @@ class TemplateSeeder extends Seeder
                 'sort_order'     => 30,
             ],
 
+            // ── Islamic Geometric (Free, No-Photo, Halal-Wedding) ───
+            [
+                'category_id'    => $pernikahan->id,
+                'name'           => 'Islamic Geometric',
+                'name_en'        => 'Islamic Geometric',
+                'slug'           => 'islamic-geometric',
+                'thumbnail_url'  => '/templates/islamic-geometric-thumb.jpg',
+                'description'    => 'Halal wedding template - geometric Islamic pattern, Arabic calligraphy, no-photo, free tier.',
+                'default_config' => [
+                    'primary_color'        => '#0e4d3d',
+                    'primary_color_light'  => '#6b8e7f',
+                    'secondary_color'      => '#f5efe3',
+                    'accent_color'         => '#c9a961',
+                    'dark_bg'              => '#0a2820',
+                    'bg_color'             => '#f5efe3',
+                    'text_color'           => '#0a0a0a',
+                    'text_secondary'       => '#6b6b6b',
+                    'font_title'           => 'Amiri',
+                    'font_heading'         => 'Reem Kufi',
+                    'font_body'            => 'Cormorant Garamond',
+                    'gallery_layout'       => 'grid',
+                    'opening_style'        => 'fade',
+                    'section_backgrounds'  => [
+                        'opening' => ['type' => 'pattern', 'value' => 'arabesque-subtle'],
+                        'couple'  => ['type' => 'pattern', 'value' => 'arabesque-subtle'],
+                        'closing' => ['type' => 'pattern', 'value' => 'arabesque-medium'],
+                    ],
+                    'isg_couple_arabic'    => '',
+                    'isg_pattern_density'  => 'medium',
+                    'isg_quote_default'    => 'ar-rum-21',
+                    'isg_gift_infaq'       => false,
+                    'isg_show_music'       => false,
+                    'isg_closing_doa'      => 'default',
+                    'isg_dominant_event'   => 'akad',
+                ],
+                'demo_data'      => array_merge($weddingDemo, ['custom_config' => [
+                    'isg_couple_arabic'  => '',
+                    'isg_quote_default'  => 'ar-rum-21',
+                    'isg_show_music'     => false,
+                    'isg_dominant_event' => 'akad',
+                ]]),
+                'tier'           => 'free',
+                'is_active'      => true,
+                'sort_order'     => 31,
+            ],
+
             // ── Tarot Reading (Premium, mystical card reveal) ──
             // docs/superpowers/specs/premium-templates/tarot-reading-design.md
             [
