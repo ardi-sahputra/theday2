@@ -1602,10 +1602,8 @@ class RevokeUnlinkTest extends TestCase
             ->delete('/couple/revoke')
             ->assertRedirect();
 
-        $this->assertDatabaseHas('couple_links', [
-            'id'     => $link->id,
-            'status' => CoupleLink::STATUS_REVOKED,
-        ]);
+        // Row is deleted (not status=revoked) so unique slots free up for re-linking
+        $this->assertDatabaseMissing('couple_links', ['id' => $link->id]);
         Mail::assertSent(PartnerRevokedMail::class, fn ($m) => $m->hasTo($partner->email));
     }
 
@@ -1637,10 +1635,7 @@ class RevokeUnlinkTest extends TestCase
             ->delete('/couple/unlink')
             ->assertRedirect();
 
-        $this->assertDatabaseHas('couple_links', [
-            'id'     => $link->id,
-            'status' => CoupleLink::STATUS_REVOKED,
-        ]);
+        $this->assertDatabaseMissing('couple_links', ['id' => $link->id]);
     }
 
     public function test_owner_can_resend_pending_invite_after_cooldown(): void
@@ -1713,11 +1708,11 @@ public function revoke(\Illuminate\Http\Request $request): \Illuminate\Http\Redi
         return back()->with('status', 'partner-invite-cancelled');
     }
 
+    // For active links: delete the row entirely (not status=revoked). This frees the
+    // unique partner_id/owner_id slots for future re-linking. Audit trail is intentionally
+    // not preserved (out of scope per spec).
     $partnerEmail = $link->partner?->email;
-    $link->update([
-        'status'     => \App\Models\CoupleLink::STATUS_REVOKED,
-        'revoked_at' => now(),
-    ]);
+    $link->delete();
 
     if ($partnerEmail) {
         \Illuminate\Support\Facades\Mail::to($partnerEmail)
@@ -1735,10 +1730,8 @@ public function unlink(\Illuminate\Http\Request $request): \Illuminate\Http\Redi
 
     abort_if($link === null, 404);
 
-    $link->update([
-        'status'     => \App\Models\CoupleLink::STATUS_REVOKED,
-        'revoked_at' => now(),
-    ]);
+    // Delete the row entirely so both users can re-link freely in the future.
+    $link->delete();
 
     return back()->with('status', 'partner-unlinked');
 }
