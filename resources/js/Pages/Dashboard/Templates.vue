@@ -385,6 +385,19 @@ const filteredCount = computed(() => props.templates.length);
                                 <span class="text-xs text-stone-400">· {{ previewTemplate.category.name }}</span>
                             </div>
                             <div class="flex items-center gap-2">
+                                <!-- View full demo (opens new tab) -->
+                                <a
+                                    :href="`/templates/${previewTemplate.slug}/demo`"
+                                    target="_blank"
+                                    rel="noopener"
+                                    class="hidden sm:flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold border-2 transition-all hover:opacity-80"
+                                    :style="`color: ${primaryColor(previewTemplate)}; border-color: ${primaryColor(previewTemplate)}40`"
+                                >
+                                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                                    </svg>
+                                    {{ t('public.templateModal.viewFullDemo') }}
+                                </a>
                                 <!-- Premium modal header CTA -->
                                 <button
                                     v-if="previewTemplate.tier === 'free' || canUsePremium"
@@ -548,6 +561,19 @@ const filteredCount = computed(() => props.templates.length);
                                     </ul>
                                 </div>
 
+                                <!-- View full demo (mobile-friendly fallback, header hidden on sm:) -->
+                                <a
+                                    :href="`/templates/${previewTemplate.slug}/demo`"
+                                    target="_blank"
+                                    rel="noopener"
+                                    class="sm:hidden w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-semibold border-2 transition-all hover:opacity-80 mb-2"
+                                    :style="`color: ${primaryColor(previewTemplate)}; border-color: ${primaryColor(previewTemplate)}40`"
+                                >
+                                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                                    </svg>
+                                    {{ t('public.templateModal.viewFullDemo') }}
+                                </a>
                                 <!-- Sidebar CTA -->
                                 <button
                                     v-if="previewTemplate.tier === 'free' || canUsePremium"
