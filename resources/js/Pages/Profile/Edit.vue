@@ -1,6 +1,7 @@
 <script setup>
 import DashboardLayout from '@/Layouts/DashboardLayout.vue';
 import DeleteUserForm from './Partials/DeleteUserForm.vue';
+import PartnerAkunForm from './Partials/PartnerAkunForm.vue';
 import UpdatePasswordForm from './Partials/UpdatePasswordForm.vue';
 import UpdateProfileInformationForm from './Partials/UpdateProfileInformationForm.vue';
 import { Head, usePage } from '@inertiajs/vue3';
@@ -48,6 +49,11 @@ const avatarInitials = computed(() => {
             <!-- Password -->
             <div class="bg-white rounded-2xl border border-stone-100 shadow-sm p-6">
                 <UpdatePasswordForm />
+            </div>
+
+            <!-- Partner akun -->
+            <div class="bg-white rounded-2xl border border-stone-100 shadow-sm p-6">
+                <PartnerAkunForm />
             </div>
 
             <!-- Delete account -->

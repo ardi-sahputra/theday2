@@ -67,7 +67,10 @@ class HandleInertiaRequests extends Middleware
                         'grace_days_remaining' => $sub->graceDaysRemaining(),
                     ];
                 })() : null,
-                'isGuest' => ! $user,
+                'isGuest'        => ! $user,
+                'is_partner_mode' => (bool) $request->attributes->get('is_partner_mode', false),
+                'effective_user'  => \App\Support\EffectiveUser::resolve(),
+                'couple_link'     => $this->coupleLinkPayload($request),
             ],
             'can_create_invitation' => fn () => ($user instanceof \App\Models\User) ? (function () use ($user) {
                 $base   = $user->currentPlan()?->max_invitations
@@ -90,5 +93,46 @@ class HandleInertiaRequests extends Middleware
             'locale' => $locale,
             'translations' => $translations,
         ];
+    }
+
+    private function coupleLinkPayload(\Illuminate\Http\Request $request): ?array
+    {
+        $user = $request->user();
+        if (! $user instanceof \App\Models\User) {
+            return null;
+        }
+
+        $asOwner = \App\Models\CoupleLink::where('owner_id', $user->id)
+            ->whereIn('status', [\App\Models\CoupleLink::STATUS_PENDING, \App\Models\CoupleLink::STATUS_ACTIVE])
+            ->with('partner')
+            ->first();
+
+        if ($asOwner !== null) {
+            return [
+                'role'          => 'owner',
+                'status'        => $asOwner->status,
+                'partner_name'  => $asOwner->partner?->name,
+                'partner_email' => $asOwner->partner?->email,
+                'invited_email' => $asOwner->invited_email,
+                'invited_at'    => $asOwner->invited_at?->toDateString(),
+                'linked_at'     => $asOwner->linked_at?->toDateString(),
+            ];
+        }
+
+        $asPartner = \App\Models\CoupleLink::where('partner_id', $user->id)
+            ->where('status', \App\Models\CoupleLink::STATUS_ACTIVE)
+            ->with('owner')
+            ->first();
+
+        if ($asPartner !== null) {
+            return [
+                'role'        => 'partner',
+                'owner_name'  => $asPartner->owner->name,
+                'owner_email' => $asPartner->owner->email,
+                'linked_at'   => $asPartner->linked_at?->toDateString(),
+            ];
+        }
+
+        return null;
     }
 }

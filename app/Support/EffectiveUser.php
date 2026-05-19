@@ -16,7 +16,7 @@ class EffectiveUser
     public static function resolve(): ?User
     {
         $auth = Auth::user();
-        if ($auth === null) {
+        if (! $auth instanceof User) {
             return null;
         }
 
