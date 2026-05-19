@@ -314,6 +314,14 @@ Route::middleware(['auth', 'couple'])->group(function () {
     });
 });
 
+// Support chat (user-side)
+Route::middleware(['auth', 'verified'])->prefix('dashboard/support')->name('dashboard.support.')->group(function () {
+    Route::get('/',           [\App\Http\Controllers\Dashboard\SupportController::class, 'show'])->name('show');
+    Route::get('/messages',   [\App\Http\Controllers\Dashboard\SupportController::class, 'pollMessages'])->name('poll')->middleware('throttle:120,1');
+    Route::post('/messages',  [\App\Http\Controllers\Dashboard\SupportController::class, 'sendMessage'])->name('send')->middleware('throttle:30,60');
+    Route::post('/mark-read', [\App\Http\Controllers\Dashboard\SupportController::class, 'markRead'])->name('mark-read');
+});
+
 // ── Webhooks (no auth) ──────────────────────────────────────────────────
 Route::post('/webhooks/mayar', [WebhookController::class, 'mayar'])->name('webhooks.mayar');
 
