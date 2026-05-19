@@ -49,6 +49,7 @@ class HandleInertiaRequests extends Middleware
                     'email'                   => $user->email,
                     'avatar_url'              => $user->avatar_url,
                     'onboarding_completed'    => $user->hasCompletedOnboarding(),
+                    'has_password'            => $user->password !== null,
                 ] : null,
                 'subscription' => ($user instanceof \App\Models\User) ? (function () use ($user) {
                     $sub = $user->activeSubscription;
