@@ -1181,6 +1181,49 @@ class TemplateSeeder extends Seeder
                 'sort_order'     => 27,
             ],
 
+            // ── Letterpress Monogram (Free, No-Photo) ───────────
+            [
+                'category_id'    => $pernikahan->id,
+                'name'           => 'Letterpress Monogram',
+                'name_en'        => 'Letterpress Monogram',
+                'slug'           => 'letterpress',
+                'thumbnail_url'  => '/templates/letterpress-thumb.jpg',
+                'description'    => 'Boutique stationery letterpress - debossed monogram cream paper, no-photo, free tier.',
+                'default_config' => [
+                    'primary_color'        => '#1a1a1a',
+                    'primary_color_light'  => '#666666',
+                    'secondary_color'      => '#f9f6f0',
+                    'accent_color'         => '#c9a961',
+                    'dark_bg'              => '#1a1a1a',
+                    'bg_color'             => '#f9f6f0',
+                    'text_color'           => '#1a1a1a',
+                    'text_secondary'       => '#666666',
+                    'font_title'           => 'Playfair Display',
+                    'font_heading'         => 'Playfair Display',
+                    'font_body'            => 'Cormorant Garamond',
+                    'gallery_layout'       => 'grid',
+                    'opening_style'        => 'fade',
+                    'section_backgrounds'  => [
+                        'opening' => ['type' => 'color', 'value' => '#f9f6f0'],
+                        'couple'  => ['type' => 'color', 'value' => '#f9f6f0'],
+                        'closing' => ['type' => 'color', 'value' => '#f9f6f0'],
+                    ],
+                    'lp_monogram_text'     => 'A & B',
+                    'lp_deboss_depth'      => 'medium',
+                    'lp_paper_grain'       => true,
+                    'lp_quote_default'     => 'classical',
+                ],
+                'demo_data'      => array_merge($weddingDemo, ['custom_config' => [
+                    'lp_monogram_text' => 'A & S',
+                    'lp_deboss_depth'  => 'medium',
+                    'lp_paper_grain'   => true,
+                    'lp_quote_default' => 'classical',
+                ]]),
+                'tier'           => 'free',
+                'is_active'      => true,
+                'sort_order'     => 30,
+            ],
+
             // ── Tarot Reading (Premium, mystical card reveal) ──
             // docs/superpowers/specs/premium-templates/tarot-reading-design.md
             [
