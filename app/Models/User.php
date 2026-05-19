@@ -111,6 +111,19 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Gift::class, 'sender_user_id');
     }
 
+    /** CoupleLink where this user is the owner (inviter). */
+    public function coupleLink(): HasOne
+    {
+        return $this->hasOne(CoupleLink::class, 'owner_id');
+    }
+
+    /** CoupleLink where this user is the partner (invitee), active only. */
+    public function partnerOf(): HasOne
+    {
+        return $this->hasOne(CoupleLink::class, 'partner_id')
+            ->where('status', CoupleLink::STATUS_ACTIVE);
+    }
+
     // ─── Business Logic ───────────────────────────────────────────
 
     public function activeSubscription(): HasOne
@@ -121,19 +134,42 @@ class User extends Authenticatable implements MustVerifyEmail
             ->latestOfMany();
     }
 
+    /**
+     * Returns the user whose billing context applies.
+     * When the authenticated user is a partner in an active CoupleLink,
+     * this returns the owner so subscription/quota methods are inherited.
+     */
+    private function billingSubject(): self
+    {
+        $effective = \App\Support\EffectiveUser::resolve();
+        if ($effective !== null && $effective->id !== $this->id) {
+            return $effective;
+        }
+        return $this;
+    }
+
+    /**
+     * The active subscription for the effective (billing) user.
+     * Partners transparently inherit the owner's subscription.
+     */
+    public function effectiveActiveSubscription(): ?Subscription
+    {
+        return $this->billingSubject()->activeSubscription;
+    }
+
     public function hasActiveSubscription(): bool
     {
-        return $this->activeSubscription()->exists();
+        return $this->effectiveActiveSubscription() !== null;
     }
 
     public function currentPlan(): ?Plan
     {
-        return $this->activeSubscription?->plan;
+        return $this->effectiveActiveSubscription()?->plan;
     }
 
     public function isPremium(): bool
     {
-        return $this->activeSubscription?->plan->slug === 'premium';
+        return $this->effectiveActiveSubscription()?->plan->slug === 'premium';
     }
 
     public function isFree(): bool
@@ -148,7 +184,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function invitationQuota(): int
     {
-        $subscription = $this->activeSubscription;
+        $subscription = $this->effectiveActiveSubscription();
 
         if (! $subscription || ! $subscription->isPremium()) {
             return 1;
@@ -165,7 +201,7 @@ class User extends Authenticatable implements MustVerifyEmail
             return false;
         }
 
-        $published = $this->invitations()->where('status', 'published')->count();
+        $published = $this->billingSubject()->invitations()->where('status', 'published')->count();
 
         return $published < $quota;
     }
