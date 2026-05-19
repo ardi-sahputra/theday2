@@ -9,7 +9,7 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Models\GuestMessage;
 use App\Models\Invitation;
-use Illuminate\Support\Facades\Auth;
+use App\Support\EffectiveUser;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -17,7 +17,7 @@ class BukuTamuHubController extends Controller
 {
     public function index(): Response
     {
-        $userId = Auth::id();
+        $userId = EffectiveUser::resolve()->id;
 
         $invitations = Invitation::where('user_id', $userId)
             ->with('template:id,name,default_config')

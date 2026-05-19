@@ -13,11 +13,11 @@ use App\Models\Invitation;
 use App\Models\WhatsAppMessageTemplate;
 use App\Services\GuestSlugGenerator;
 use App\Services\PhoneNumberNormalizer;
+use App\Support\EffectiveUser;
 use App\Support\SectionAccess;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
 use Maatwebsite\Excel\Facades\Excel;
@@ -32,7 +32,7 @@ class GuestListController extends Controller
 
     private function requirePremium(): ?RedirectResponse
     {
-        if (! SectionAccess::isPremium(Auth::user())) {
+        if (! SectionAccess::isPremium(EffectiveUser::resolve())) {
             return redirect()->route('dashboard.paket')
                 ->with('error', 'Fitur Guest List Manager hanya tersedia di paket Premium.');
         }
@@ -44,7 +44,7 @@ class GuestListController extends Controller
     public function index(): Response|RedirectResponse
     {
         if ($redirect = $this->requirePremium()) return $redirect;
-        $userId = Auth::id();
+        $userId = EffectiveUser::resolve()->id;
 
         $invitations = Invitation::where('user_id', $userId)
             ->select('id', 'slug', 'title', 'status')
@@ -78,8 +78,8 @@ class GuestListController extends Controller
 
     public function guests(Request $request): JsonResponse
     {
-        if (! SectionAccess::isPremium(Auth::user())) abort(403);
-        $userId = Auth::id();
+        if (! SectionAccess::isPremium(EffectiveUser::resolve())) abort(403);
+        $userId = EffectiveUser::resolve()->id;
 
         $query = GuestList::with('invitation:id,slug,title')
             ->where('user_id', $userId);
@@ -119,8 +119,8 @@ class GuestListController extends Controller
 
     public function summary(Request $request): JsonResponse
     {
-        if (! SectionAccess::isPremium(Auth::user())) abort(403);
-        $userId = Auth::id();
+        if (! SectionAccess::isPremium(EffectiveUser::resolve())) abort(403);
+        $userId = EffectiveUser::resolve()->id;
 
         $base = GuestList::where('user_id', $userId);
 
@@ -145,8 +145,8 @@ class GuestListController extends Controller
 
     public function categories(): JsonResponse
     {
-        if (! SectionAccess::isPremium(Auth::user())) abort(403);
-        $categories = GuestList::where('user_id', Auth::id())
+        if (! SectionAccess::isPremium(EffectiveUser::resolve())) abort(403);
+        $categories = GuestList::where('user_id', EffectiveUser::resolve()->id)
             ->whereNotNull('category')
             ->distinct()
             ->pluck('category')
@@ -160,7 +160,7 @@ class GuestListController extends Controller
 
     public function store(Request $request): JsonResponse
     {
-        if (! SectionAccess::isPremium(Auth::user())) abort(403);
+        if (! SectionAccess::isPremium(EffectiveUser::resolve())) abort(403);
         $data = $request->validate([
             'invitation_id' => 'nullable|exists:invitations,id',
             'name'          => 'required|string|max:150',
@@ -170,7 +170,7 @@ class GuestListController extends Controller
             'note'          => 'nullable|string|max:500',
         ]);
 
-        $userId = Auth::id();
+        $userId = EffectiveUser::resolve()->id;
 
         // Normalize phone
         if (! $this->normalizer->isValid($data['phone_number'])) {
@@ -204,7 +204,7 @@ class GuestListController extends Controller
 
     public function update(Request $request, GuestList $guest): JsonResponse
     {
-        if (! SectionAccess::isPremium(Auth::user())) abort(403);
+        if (! SectionAccess::isPremium(EffectiveUser::resolve())) abort(403);
         $this->authorizeGuest($guest);
 
         $data = $request->validate([
@@ -235,7 +235,7 @@ class GuestListController extends Controller
 
     public function destroy(GuestList $guest): JsonResponse
     {
-        if (! SectionAccess::isPremium(Auth::user())) abort(403);
+        if (! SectionAccess::isPremium(EffectiveUser::resolve())) abort(403);
         $this->authorizeGuest($guest);
         $guest->delete();
 
@@ -246,13 +246,13 @@ class GuestListController extends Controller
 
     public function bulkDestroy(Request $request): JsonResponse
     {
-        if (! SectionAccess::isPremium(Auth::user())) abort(403);
+        if (! SectionAccess::isPremium(EffectiveUser::resolve())) abort(403);
         $data = $request->validate([
             'ids'   => 'required|array|min:1',
             'ids.*' => 'integer',
         ]);
 
-        $userId = Auth::id();
+        $userId = EffectiveUser::resolve()->id;
 
         $deleted = GuestList::whereIn('id', $data['ids'])
             ->where('user_id', $userId)
@@ -265,14 +265,14 @@ class GuestListController extends Controller
 
     public function bulkUpdateCategory(Request $request): JsonResponse
     {
-        if (! SectionAccess::isPremium(Auth::user())) abort(403);
+        if (! SectionAccess::isPremium(EffectiveUser::resolve())) abort(403);
         $data = $request->validate([
             'ids'      => 'required|array|min:1',
             'ids.*'    => 'integer',
             'category' => 'required|string|max:50',
         ]);
 
-        $userId = Auth::id();
+        $userId = EffectiveUser::resolve()->id;
 
         $updated = GuestList::whereIn('id', $data['ids'])
             ->where('user_id', $userId)
@@ -285,8 +285,8 @@ class GuestListController extends Controller
 
     public function export(Request $request): BinaryFileResponse
     {
-        if (! SectionAccess::isPremium(Auth::user())) abort(403);
-        $userId = Auth::id();
+        if (! SectionAccess::isPremium(EffectiveUser::resolve())) abort(403);
+        $userId = EffectiveUser::resolve()->id;
 
         $query = GuestList::with('invitation:id,title')
             ->where('user_id', $userId);
@@ -314,7 +314,7 @@ class GuestListController extends Controller
 
     private function authorizeGuest(GuestList $guest): void
     {
-        if ($guest->user_id !== Auth::id()) {
+        if ($guest->user_id !== EffectiveUser::resolve()->id) {
             abort(403);
         }
     }

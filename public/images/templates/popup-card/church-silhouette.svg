@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 200" fill="#3a2e21">
+  <!-- Spire -->
+  <path d="M138 10 L142 10 L142 30 L150 30 L150 35 L142 35 L142 50 L138 50 L138 35 L130 35 L130 30 L138 30 z"/>
+  <!-- Main body -->
+  <rect x="60" y="80" width="160" height="110"/>
+  <!-- Roof -->
+  <path d="M50 80 L140 40 L230 80 z"/>
+  <!-- Door -->
+  <path d="M125 140 q0 -30 15 -30 q15 0 15 30 L155 190 L125 190 z" fill="#f9f1e3"/>
+  <!-- Windows -->
+  <circle cx="90" cy="120" r="8" fill="#f9f1e3"/>
+  <circle cx="190" cy="120" r="8" fill="#f9f1e3"/>
+</svg>

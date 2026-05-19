@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\BudgetPlanner\StoreBudgetCategoryRequest;
 use App\Http\Requests\BudgetPlanner\UpdateBudgetCategoryRequest;
 use App\Models\WeddingBudgetCategory;
+use App\Support\EffectiveUser;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -21,7 +22,7 @@ class BudgetCategoryController extends Controller
 
     public function index(Request $request): JsonResponse
     {
-        $budget = $this->initialize->execute($request->user());
+        $budget = $this->initialize->execute(EffectiveUser::resolve());
 
         $cats = $budget->categories()
             ->orderBy('sort_order')
@@ -40,7 +41,7 @@ class BudgetCategoryController extends Controller
 
     public function store(StoreBudgetCategoryRequest $request): JsonResponse
     {
-        $budget = $this->initialize->execute($request->user());
+        $budget = $this->initialize->execute(EffectiveUser::resolve());
 
         $maxOrder = $budget->categories()->max('sort_order') ?? 0;
 
@@ -104,7 +105,7 @@ class BudgetCategoryController extends Controller
 
     private function authorizeCategory(Request $request, WeddingBudgetCategory $category): void
     {
-        $budget = $this->initialize->execute($request->user());
+        $budget = $this->initialize->execute(EffectiveUser::resolve());
 
         if ($category->budget_id !== $budget->id) {
             abort(403);

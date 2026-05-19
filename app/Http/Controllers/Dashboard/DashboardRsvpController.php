@@ -10,8 +10,8 @@ use App\Exports\RsvpExport;
 use App\Http\Controllers\Controller;
 use App\Models\Invitation;
 use App\Models\Rsvp;
+use App\Support\EffectiveUser;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
 use Maatwebsite\Excel\Facades\Excel;
@@ -21,7 +21,7 @@ class DashboardRsvpController extends Controller
 {
     public function index(): Response
     {
-        $userId = Auth::id();
+        $userId = EffectiveUser::resolve()->id;
 
         $invitations = Invitation::where('user_id', $userId)
             ->with('template:id,name,default_config')
@@ -54,7 +54,7 @@ class DashboardRsvpController extends Controller
 
     public function show(Request $request, Invitation $invitation): Response
     {
-        abort_if($invitation->user_id !== Auth::id(), 403);
+        abort_if($invitation->user_id !== EffectiveUser::resolve()->id, 403);
 
         $filter = $request->query('filter', 'semua');
 
@@ -100,7 +100,7 @@ class DashboardRsvpController extends Controller
 
     public function export(Invitation $invitation): BinaryFileResponse
     {
-        abort_if($invitation->user_id !== Auth::id(), 403);
+        abort_if($invitation->user_id !== EffectiveUser::resolve()->id, 403);
 
         $filename = 'rsvp-' . $invitation->slug . '-' . now()->format('Ymd') . '.xlsx';
 

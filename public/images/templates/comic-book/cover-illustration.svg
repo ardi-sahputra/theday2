@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1000" viewBox="0 0 800 1000" fill="none">
+  <!-- Background gradient: paper cream to halftone red wash -->
+  <defs>
+    <linearGradient id="cb-cover-bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"  stop-color="#F9F4E2"/>
+      <stop offset="100%" stop-color="#FDD8DC"/>
+    </linearGradient>
+    <pattern id="cb-cover-halftone" x="0" y="0" width="10" height="10" patternUnits="userSpaceOnUse">
+      <circle cx="5" cy="5" r="2" fill="#E63946" opacity="0.25"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="1000" fill="url(#cb-cover-bg)"/>
+  <rect width="800" height="1000" fill="url(#cb-cover-halftone)"/>
+
+  <!-- Radial action lines emanating from upper center -->
+  <g stroke="#0A0A0A" stroke-width="3" opacity="0.4" transform="translate(400 380)">
+    <line x1="0" y1="-180" x2="0" y2="-500"/>
+    <line x1="100" y1="-160" x2="280" y2="-440"/>
+    <line x1="-100" y1="-160" x2="-280" y2="-440"/>
+    <line x1="180" y1="-90" x2="500" y2="-260"/>
+    <line x1="-180" y1="-90" x2="-500" y2="-260"/>
+    <line x1="180" y1="90" x2="500" y2="260"/>
+    <line x1="-180" y1="90" x2="-500" y2="260"/>
+  </g>
+
+  <!-- Generic couple silhouette (two heart-joined figures with flowing capes — abstract, NOT referencing any trademarked character) -->
+  <g transform="translate(400 580)" fill="#0A0A0A">
+    <!-- Cape figure left -->
+    <path d="M-150 -120 Q-200 -40 -190 80 Q-200 180 -170 240 L-110 240 Q-90 200 -90 130 Q-90 60 -100 -10 Q-110 -80 -130 -120 Z"/>
+    <circle cx="-130" cy="-150" r="36"/>
+    <!-- Cape figure right -->
+    <path d="M150 -120 Q200 -40 190 80 Q200 180 170 240 L110 240 Q90 200 90 130 Q90 60 100 -10 Q110 -80 130 -120 Z"/>
+    <circle cx="130" cy="-150" r="36"/>
+    <!-- Joined heart between -->
+    <path d="M0 -90 C-25 -120 -65 -100 -65 -65 C-65 -30 -30 0 0 30 C30 0 65 -30 65 -65 C65 -100 25 -120 0 -90 Z" fill="#E63946" stroke="#0A0A0A" stroke-width="4"/>
+  </g>
+
+  <!-- Decorative star burst top-right (placeholder spot) -->
+  <circle cx="640" cy="180" r="80" fill="#F1C453" stroke="#0A0A0A" stroke-width="6" opacity="0.85"/>
+</svg>

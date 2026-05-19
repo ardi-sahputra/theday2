@@ -13,6 +13,7 @@ use App\Models\Plan;
 use App\Models\Transaction;
 use App\Services\MayarService;
 use App\Services\PaymentActivationService;
+use App\Support\EffectiveUser;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -28,16 +29,16 @@ class SubscriptionController extends Controller
 
     public function index(Request $request): Response
     {
-        $user = $request->user();
+        $effectiveUser = EffectiveUser::resolve();
 
         Transaction::with('plan', 'user')
-            ->where('user_id', $user->id)
+            ->where('user_id', $effectiveUser->id)
             ->where('status', PaymentStatus::Pending)
             ->whereNotNull('payment_gateway_id')
             ->where('created_at', '>=', now()->subHours(24))
             ->each(fn ($t) => $this->activationService->verifyAndActivate($t));
 
-        $sub  = $user->fresh()->activeSubscription;
+        $sub  = $effectiveUser->fresh()->activeSubscription;
         $plan = $sub?->plan;
 
         $premiumPlan = Plan::where('slug', 'premium')->first();
@@ -117,7 +118,7 @@ class SubscriptionController extends Controller
 
     public function invoice(Transaction $transaction): \Illuminate\Http\Response
     {
-        if ($transaction->user_id !== auth()->id()) {
+        if ($transaction->user_id !== EffectiveUser::resolve()->id) {
             abort(403);
         }
 

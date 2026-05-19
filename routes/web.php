@@ -136,7 +136,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/onboarding', [OnboardingController::class, 'store'])->name('onboarding.store');
 });
 
-Route::middleware(['auth', 'verified', 'onboarding'])->prefix('dashboard')->name('dashboard.')->group(function () {
+Route::middleware(['auth', 'verified', 'onboarding', 'couple'])->prefix('dashboard')->name('dashboard.')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('index');
     Route::get('/templates', [TemplateController::class, 'index'])->name('templates');
     Route::get('/buku-tamu', [BukuTamuHubController::class, 'index'])->name('buku-tamu.index');
@@ -253,17 +253,39 @@ Route::middleware(['auth', 'verified', 'onboarding'])->prefix('dashboard')->name
 });
 
 // ── Payment return & status polling (no onboarding guard) ───────────────────
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth', 'verified', 'couple'])->group(function () {
     Route::get('/payment/return',                            [PaymentReturnController::class, 'show']  )->name('payment.return');
     Route::get('/payment/transactions/{transaction}/status', [PaymentReturnController::class, 'status'])->name('payment.status');
 });
 
+// ── Couple account management ────────────────────────────────────────────────
+Route::middleware(['auth', 'verified', 'couple'])->prefix('couple')->name('couple.')->group(function () {
+    Route::post('/invite', [\App\Http\Controllers\CoupleController::class, 'invite'])
+        ->middleware('throttle:5,60')
+        ->name('invite');
+    Route::post('/invite/resend', [\App\Http\Controllers\CoupleController::class, 'resend'])
+        ->middleware('throttle:5,60')
+        ->name('invite.resend');
+    Route::delete('/revoke',         [\App\Http\Controllers\CoupleController::class, 'revoke'])->name('revoke');
+    Route::delete('/unlink',         [\App\Http\Controllers\CoupleController::class, 'unlink'])->name('unlink');
+});
+
+// ── Couple accept invitation (public GET, authed POST) ───────────────────────
+Route::prefix('couple')->name('couple.')->group(function () {
+    Route::get('/accept/{token}', [\App\Http\Controllers\CoupleController::class, 'showAccept'])
+        ->middleware('throttle:10,1')
+        ->name('accept.show');
+    Route::post('/accept/{token}', [\App\Http\Controllers\CoupleController::class, 'accept'])
+        ->middleware(['auth', 'throttle:10,1'])
+        ->name('accept.store');
+});
+
 // Keep legacy route alias so Breeze redirects still work
 Route::get('/dashboard', [DashboardController::class, 'index'])
-    ->middleware(['auth', 'verified', 'onboarding'])
+    ->middleware(['auth', 'verified', 'onboarding', 'couple'])
     ->name('dashboard');
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'couple'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -308,13 +330,13 @@ Route::get('/kebijakan-cookie',  [LegalController::class, 'cookiePolicy'])->name
 Route::get('/gift/claim/{code}', [\App\Http\Controllers\GiftClaimController::class, 'show'])
     ->name('gift.claim.show');
 Route::post('/gift/claim/{code}', [\App\Http\Controllers\GiftClaimController::class, 'claim'])
-    ->middleware('auth')
+    ->middleware(['auth', 'couple'])
     ->name('gift.claim.store');
 
 // ── Public invitation pages ─────────────────────────────────────────────
 // IMPORTANT: keep this LAST so /{slug} doesn't swallow other routes.
 // The where() constraint excludes known top-level paths.
-$slugExclusion = '^(?!login|register|logout|dashboard|admin|templates|editor|use-template|profile|up|verify-email|confirm-password|forgot-password|reset-password|email|sitemap|blog|kebijakan-privasi|syarat-ketentuan|kebijakan-cookie|kontak|auth).*';
+$slugExclusion = '^(?!login|register|logout|dashboard|admin|templates|editor|use-template|profile|up|verify-email|confirm-password|forgot-password|reset-password|email|sitemap|blog|kebijakan-privasi|syarat-ketentuan|kebijakan-cookie|kontak|auth|couple).*';
 
 // Two-segment literal routes defined BEFORE wildcard so they take precedence.
 Route::post('/{slug}/unlock',   [PublicInvitationController::class, 'unlock'])->where('slug', $slugExclusion)->name('invitation.unlock');

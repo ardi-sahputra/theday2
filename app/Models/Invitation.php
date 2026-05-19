@@ -145,7 +145,11 @@ class Invitation extends Model
 
     public function isOwner(User $user): bool
     {
-        return $this->user_id === $user->id;
+        // Resolve effective user so a partner is treated as owning the
+        // owner's invitations when authed as partner.
+        $effectiveId = \App\Support\EffectiveUser::resolve()?->id ?? $user->id;
+
+        return $this->user_id === $effectiveId;
     }
 
     public function isPublished(): bool

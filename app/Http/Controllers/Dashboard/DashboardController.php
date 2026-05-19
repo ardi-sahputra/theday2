@@ -14,6 +14,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Template;
 use App\Models\WeddingPlan;
 use App\Services\ChecklistService;
+use App\Support\EffectiveUser;
 use App\Support\SectionAccess;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -29,12 +30,17 @@ class DashboardController extends Controller
 
     public function index(Request $request): Response
     {
+        // Load authenticated user for subscription/plan; use EffectiveUser for invitation data
+        // so a partner sees the owner's invitations.
+        $effectiveUser = EffectiveUser::resolve();
         $user = $request->user()->load([
-            'invitations' => fn ($q) => $q->with('template')->latest()->limit(3),
             'activeSubscription.plan',
         ]);
+        $effectiveUser->load([
+            'invitations' => fn ($q) => $q->with('template')->latest()->limit(3),
+        ]);
 
-        $invitations = $user->invitations()->withCount(['rsvps', 'views'])->get();
+        $invitations = $effectiveUser->invitations()->withCount(['rsvps', 'views'])->get();
 
         $stats = [
             'total_invitations' => $invitations->count(),
@@ -44,7 +50,7 @@ class DashboardController extends Controller
             'total_rsvps'       => $invitations->sum('rsvps_count'),
         ];
 
-        $recentInvitations = $user->invitations()
+        $recentInvitations = $effectiveUser->invitations()
             ->with('template')
             ->withCount('rsvps')
             ->latest()
@@ -68,7 +74,8 @@ class DashboardController extends Controller
                 ] : null,
             ]);
 
-        $activePlan = $user->activeSubscription?->plan;
+        // activePlan from effective user so partner sees owner's plan tier.
+        $activePlan = $effectiveUser->activeSubscription?->plan ?? $user->activeSubscription?->plan;
 
         // Budget widget
         $budget        = $this->initBudget->execute($request->user());
@@ -122,7 +129,7 @@ class DashboardController extends Controller
                 'slug'             => $activePlan?->slug ?? 'free',
                 'name'             => $activePlan?->name ?? 'Free',
                 'max_invitations'  => ($activePlan?->max_invitations ?? 1)
-                    + $user->invitationAddons()->where('expires_at', '>', now())->sum('quantity'),
+                    + $effectiveUser->invitationAddons()->where('expires_at', '>', now())->sum('quantity'),
                 'analytics_access' => $activePlan?->analytics_access ?? false,
                 'remove_watermark' => $activePlan?->remove_watermark ?? false,
             ],

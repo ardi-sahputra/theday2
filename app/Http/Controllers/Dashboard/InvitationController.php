@@ -12,6 +12,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Invitation;
 use App\Models\InvitationSection;
 use App\Models\Template;
+use App\Support\EffectiveUser;
 use App\Support\SectionAccess;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -28,7 +29,7 @@ class InvitationController extends Controller
 
     public function preview(Request $request, Invitation $invitation): Response
     {
-        abort_unless($invitation->user_id === $request->user()->id, 403);
+        abort_unless($invitation->user_id === EffectiveUser::resolve()->id, 403);
 
         $invitation->load([
             'details',
@@ -110,7 +111,7 @@ class InvitationController extends Controller
 
     public function index(Request $request): Response
     {
-        $invitations = $request->user()
+        $invitations = EffectiveUser::resolve()
             ->invitations()
             ->with('template')
             ->withCount(['rsvps', 'views'])
@@ -214,8 +215,9 @@ class InvitationController extends Controller
                 ->with('error', 'Template ini hanya tersedia di Premium. Upgrade untuk menggunakannya.');
         }
 
-        // Reuse existing draft if one exists (max 1 draft per user)
-        $invitation = Invitation::where('user_id', Auth::id())
+        // Reuse existing draft if one exists (max 1 draft per user).
+        // Use EffectiveUser so a partner operates on the owner's account.
+        $invitation = Invitation::where('user_id', EffectiveUser::resolve()->id)
             ->where('status', 'draft')
             ->first();
 
@@ -231,7 +233,7 @@ class InvitationController extends Controller
             );
         } else {
             $invitation = Invitation::create([
-                'user_id'     => Auth::id(),
+                'user_id'     => EffectiveUser::resolve()->id,
                 'template_id' => $template->id,
                 'title'       => '',
                 'event_type'  => $eventType,
@@ -391,8 +393,9 @@ class InvitationController extends Controller
             'event_type'  => 'required|in:pernikahan',
         ]);
 
+        // Assign to EffectiveUser so a partner creates on behalf of the owner.
         $invitation = Invitation::create([
-            'user_id'     => Auth::id(),
+            'user_id'     => EffectiveUser::resolve()->id,
             'template_id' => $data['template_id'],
             'title'       => $data['title'],
             'event_type'  => $data['event_type'],
@@ -801,7 +804,7 @@ class InvitationController extends Controller
 
     private function authorizeOwner(Invitation $invitation): void
     {
-        if ($invitation->user_id !== Auth::id()) {
+        if ($invitation->user_id !== EffectiveUser::resolve()->id) {
             abort(403);
         }
     }

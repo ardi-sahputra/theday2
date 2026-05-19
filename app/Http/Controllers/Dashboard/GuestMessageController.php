@@ -13,9 +13,9 @@ use App\Models\GuestMessageLog;
 use App\Models\WhatsAppMessageTemplate;
 use App\Services\PersonalInvitationUrlBuilder;
 use App\Services\WhatsAppTemplateRenderer;
+use App\Support\EffectiveUser;
 use App\Support\SectionAccess;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Auth;
 
 class GuestMessageController extends Controller
 {
@@ -29,10 +29,10 @@ class GuestMessageController extends Controller
 
     public function generate(GuestList $guest): JsonResponse
     {
-        if (! SectionAccess::isPremium(Auth::user())) abort(403);
+        if (! SectionAccess::isPremium(EffectiveUser::resolve())) abort(403);
         $this->authorizeGuest($guest);
 
-        $template = WhatsAppMessageTemplate::where('user_id', Auth::id())
+        $template = WhatsAppMessageTemplate::where('user_id', EffectiveUser::resolve()->id)
             ->where('is_default', true)
             ->first();
 
@@ -67,7 +67,7 @@ class GuestMessageController extends Controller
 
     public function markSent(GuestList $guest): JsonResponse
     {
-        if (! SectionAccess::isPremium(Auth::user())) abort(403);
+        if (! SectionAccess::isPremium(EffectiveUser::resolve())) abort(403);
         $this->authorizeGuest($guest);
 
         $guest->update([
@@ -94,7 +94,7 @@ class GuestMessageController extends Controller
 
     public function storeCopyLog(GuestList $guest): JsonResponse
     {
-        if (! SectionAccess::isPremium(Auth::user())) abort(403);
+        if (! SectionAccess::isPremium(EffectiveUser::resolve())) abort(403);
         $this->authorizeGuest($guest);
 
         GuestMessageLog::create([
@@ -111,7 +111,7 @@ class GuestMessageController extends Controller
 
     private function authorizeGuest(GuestList $guest): void
     {
-        if ($guest->user_id !== Auth::id()) {
+        if ($guest->user_id !== EffectiveUser::resolve()->id) {
             abort(403);
         }
     }
