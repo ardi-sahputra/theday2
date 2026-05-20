@@ -462,7 +462,8 @@ const handleClickOutsideAvatar = (e) => {
         <div class="flex-1 flex flex-col min-w-0 pb-16 lg:pb-0">
 
             <!-- Top bar -->
-            <header class="sticky top-0 z-10 bg-white border-b border-stone-100 px-4 lg:px-6 h-14 flex items-center gap-4">
+            <header class="sticky top-0 z-10 px-4 lg:px-6 h-16 flex items-center gap-4"
+                    style="background: rgba(238,242,234,0.78); backdrop-filter: blur(10px); border-bottom: 1px solid #D8DFD2;">
                 <!-- Mobile hamburger (HIDDEN — replaced by MobileBottomNav, kept for rollback) -->
                 <button
                     class="hidden lg:hidden p-2 -ml-1 rounded-lg text-stone-500 hover:bg-stone-100 transition-colors cursor-pointer"
@@ -478,8 +479,29 @@ const handleClickOutsideAvatar = (e) => {
                     <slot name="header" />
                 </div>
 
+                <!-- Search pill (desktop only) -->
+                <div class="hidden lg:flex items-center gap-2 rounded-full px-4 py-2 w-80"
+                     style="background:#FBFCF9; border:1px solid #D8DFD2;"
+                     :title="t('dashboard.layout.searchSoon')">
+                  <svg class="w-4 h-4" style="color:#6C7A75;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                    <circle cx="11" cy="11" r="7" /><path d="M21 21l-4.3-4.3" stroke-linecap="round" />
+                  </svg>
+                  <input disabled :placeholder="t('dashboard.layout.searchPlaceholder')"
+                         class="flex-1 bg-transparent outline-none text-[13.5px] cursor-default" style="color:#1F2A2E;" />
+                  <kbd class="font-jet text-[10.5px] px-1.5 py-0.5 rounded" style="background:#EEF2EA; color:#6C7A75; border:1px solid #D8DFD2;">⌘K</kbd>
+                </div>
+
                 <!-- Right actions -->
                 <div class="flex items-center gap-2">
+                    <!-- Share invitation button -->
+                    <a :href="route('dashboard.invitations.index')"
+                       class="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-full text-[13px] font-semibold text-white transition-transform active:scale-95"
+                       style="background:#1F2A2E;">
+                      <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="1.8">
+                        <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4" stroke-linecap="round"/>
+                      </svg>
+                      {{ t('dashboard.layout.shareInvite') }}
+                    </a>
                     <!-- Flash message -->
                     <Transition name="slide-down">
                         <div v-if="flash?.success"
