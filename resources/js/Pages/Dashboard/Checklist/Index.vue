@@ -427,7 +427,7 @@ function assigneeGroups(list) {
 }
 
 const groups = computed(() => {
-    const list = baseList.value;
+    const list = displayList.value;
     if (groupBy.value === 'deadline') return deadlineGroups(list);
     if (groupBy.value === 'assignee') return assigneeGroups(list);
     return categoryGroups(list);
