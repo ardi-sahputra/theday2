@@ -132,12 +132,7 @@ class InvitationController extends Controller
         $details  = $invitation->details;
 
         if ($details && $details->{$urlField}) {
-            // Remove file from storage if it's in our local disk
-            $url  = $details->{$urlField};
-            $path = Str::after($url, '/storage/');
-            if (Storage::disk('public')->exists($path)) {
-                Storage::disk('public')->delete($path);
-            }
+            $this->deleteStorageFile($details->{$urlField});
             $details->update([$urlField => null]);
         }
 
@@ -154,13 +149,14 @@ class InvitationController extends Controller
         $payload   = [];
 
         // Handle file uploads via Storage
+        $disk = config('filesystems.uploads');
         foreach (['groom_photo', 'bride_photo', 'cover_photo'] as $field) {
             if ($request->hasFile($field)) {
                 $path = $request->file($field)->store(
                     "invitations/{$invitation->id}/photos",
-                    'public'
+                    $disk
                 );
-                $payload["{$field}_url"] = Storage::disk('public')->url($path);
+                $payload["{$field}_url"] = Storage::disk($disk)->url($path);
                 unset($validated[$field]);
             }
         }
@@ -253,15 +249,16 @@ class InvitationController extends Controller
     {
         $this->authorize('update', $invitation);
 
+        $disk = config('filesystems.uploads');
         $path = $request->file('image')->store(
             "invitations/{$invitation->id}/gallery",
-            'public'
+            $disk
         );
 
         $maxOrder = $invitation->galleries()->max('sort_order') ?? -1;
 
         $gallery = $invitation->galleries()->create([
-            'image_url'  => Storage::disk('public')->url($path),
+            'image_url'  => Storage::disk($disk)->url($path),
             'caption'    => $request->input('caption'),
             'sort_order' => $maxOrder + 1,
         ]);
@@ -326,12 +323,13 @@ class InvitationController extends Controller
         $invitation->music()->where('is_default', true)->delete();
 
         if ($request->type === 'upload') {
-            $path = $request->file('file')->store(
+            $disk    = config('filesystems.uploads');
+            $path    = $request->file('file')->store(
                 "invitations/{$invitation->id}/music",
-                'public'
+                $disk
             );
             $title   = $request->file('file')->getClientOriginalName();
-            $fileUrl = Storage::disk('public')->url($path);
+            $fileUrl = Storage::disk($disk)->url($path);
         } else {
             // 'default' type — title is a preset label, no stored file
             $title   = $request->input('title');
@@ -454,11 +452,12 @@ class InvitationController extends Controller
 
     private function deleteStorageFile(string $url): void
     {
-        // Extract the relative path from the public URL
-        $publicBase = Storage::disk('public')->url('');
+        // Extract the relative path from the uploads disk URL
+        $disk       = config('filesystems.uploads');
+        $publicBase = Storage::disk($disk)->url('');
         if (str_starts_with($url, $publicBase)) {
-            $relativePath = str_replace($publicBase, '', $url);
-            Storage::disk('public')->delete($relativePath);
+            $relativePath = ltrim(str_replace($publicBase, '', $url), '/');
+            Storage::disk($disk)->delete($relativePath);
         }
     }
 
