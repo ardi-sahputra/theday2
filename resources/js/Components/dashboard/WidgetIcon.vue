@@ -23,7 +23,12 @@ const paths = {
   qr:      '<rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3h-3zM18 18h3v3h-3z"/>',
   arrow:   '<path d="M5 12h14M13 5l7 7-7 7"/>',
   compass: '<circle cx="12" cy="12" r="10"/><path d="M16 8l-2 6-6 2 2-6z"/>',
-  sparkle: '<path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l3 3M15 15l3 3M6 18l3-3M15 9l3-3"/>',
+  sparkle:  '<path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l3 3M15 15l3 3M6 18l3-3M15 9l3-3"/>',
+  filter:   '<path d="M3 6h18M6 12h12M10 18h4"/>',
+  sort:     '<path d="M3 6h13M3 12h9M3 18h5M17 14l4 4 4-4M21 18V6"/>',
+  cal:      '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/>',
+  flag:     '<path d="M4 22V3M4 4h13l-2 5 2 5H4"/>',
+  settings: '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8M4.6 9a1.7 1.7 0 0 0-.3-1.8"/>',
 };
 </script>
 
