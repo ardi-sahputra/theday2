@@ -165,6 +165,86 @@
     },
     "dashboard": {
         "index": {
+            "widgets": {
+                "demoBadge": "Sample",
+                "demoBadgeTitle": "Sample data — this feature is still in development",
+                "hero": {
+                    "greeting": "Counting down to your big day",
+                    "married": "Congratulations on your marriage",
+                    "noDate": "Set your wedding date",
+                    "fallbackTitle": "Happy Couple",
+                    "toTheDay": "until the day",
+                    "days": "Days",
+                    "hours": "Hours",
+                    "minutes": "Minutes",
+                    "seconds": "Seconds",
+                    "copyLink": "Copy invite link",
+                    "copied": "Copied!",
+                    "preview": "Preview page"
+                },
+                "stats": {
+                    "rsvp": "RSVP Attending",
+                    "rsvpSub": "of {total} RSVPs",
+                    "budget": "Budget Used",
+                    "budgetEmpty": "No budget yet",
+                    "checklist": "Checklist Done",
+                    "checklistSub": "of {total} tasks",
+                    "ucapan": "Wishes Received",
+                    "ucapanSub": "wishes from guests"
+                },
+                "checklist": {
+                    "title": "Up Next",
+                    "sub": "{done} of {total} done",
+                    "add": "New task",
+                    "urgent": "Urgent",
+                    "allDone": "All tasks done 🎉",
+                    "empty": "Checklist not initialized"
+                },
+                "invite": {
+                    "label": "Invitation page",
+                    "live": "Live",
+                    "draft": "Draft",
+                    "visits": "visits",
+                    "ucapan": "wishes",
+                    "copy": "Copy link",
+                    "copied": "Copied!",
+                    "open": "Open",
+                    "empty": "No invitation yet"
+                },
+                "budget": {
+                    "title": "Wedding Budget",
+                    "sub": "Total budget · {total}",
+                    "detail": "Details",
+                    "used": "used",
+                    "empty": "No budget categories yet"
+                },
+                "rsvp": {
+                    "title": "Recent RSVP",
+                    "sub": "latest guest confirmations",
+                    "all": "View all",
+                    "persons": "{n} people",
+                    "attending": "Attending",
+                    "notAttending": "Not attending",
+                    "empty": "No RSVP yet"
+                },
+                "vendor": {
+                    "title": "Vendors",
+                    "sub": "sample vendor data"
+                },
+                "activity": {
+                    "title": "Recent Activity"
+                },
+                "beyond": {
+                    "eyebrow": "Beyond · preview",
+                    "titlePre": "Got plans for",
+                    "titleEm": "after",
+                    "titlePost": "the big day?",
+                    "desc": "Start a couple journal, set a home down-payment goal, or plan anniversary traditions. Activates automatically after the reception.",
+                    "activate": "Activate Beyond",
+                    "learn": "Learn more",
+                    "soon": "Coming soon"
+                }
+            },
             "pageTitle": "Dashboard",
             "greeting": "Welcome back",
             "greetingSubtitle": "Manage your happy day from here.",

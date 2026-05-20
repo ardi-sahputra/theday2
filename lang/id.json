@@ -165,6 +165,86 @@
     },
     "dashboard": {
         "index": {
+            "widgets": {
+                "demoBadge": "Contoh",
+                "demoBadgeTitle": "Data contoh — fitur ini masih dalam pengembangan",
+                "hero": {
+                    "greeting": "Menuju hari bahagia kalian",
+                    "married": "Selamat menempuh hidup baru",
+                    "noDate": "Atur tanggal pernikahan kalian",
+                    "fallbackTitle": "Pasangan Bahagia",
+                    "toTheDay": "menuju hari H",
+                    "days": "Hari",
+                    "hours": "Jam",
+                    "minutes": "Menit",
+                    "seconds": "Detik",
+                    "copyLink": "Salin link undangan",
+                    "copied": "Tersalin!",
+                    "preview": "Pratinjau halaman"
+                },
+                "stats": {
+                    "rsvp": "RSVP Hadir",
+                    "rsvpSub": "dari {total} RSVP",
+                    "budget": "Anggaran Terpakai",
+                    "budgetEmpty": "Belum ada anggaran",
+                    "checklist": "Checklist Selesai",
+                    "checklistSub": "dari {total} tugas",
+                    "ucapan": "Ucapan Masuk",
+                    "ucapanSub": "ucapan dari tamu"
+                },
+                "checklist": {
+                    "title": "Checklist Berikutnya",
+                    "sub": "{done} dari {total} selesai",
+                    "add": "Tugas baru",
+                    "urgent": "Mendesak",
+                    "allDone": "Semua tugas selesai 🎉",
+                    "empty": "Checklist belum diaktifkan"
+                },
+                "invite": {
+                    "label": "Halaman undangan",
+                    "live": "Live",
+                    "draft": "Draft",
+                    "visits": "kunjungan",
+                    "ucapan": "ucapan",
+                    "copy": "Salin link",
+                    "copied": "Tersalin!",
+                    "open": "Buka",
+                    "empty": "Belum ada undangan"
+                },
+                "budget": {
+                    "title": "Anggaran Pernikahan",
+                    "sub": "Total budget · {total}",
+                    "detail": "Detail",
+                    "used": "terpakai",
+                    "empty": "Belum ada kategori anggaran"
+                },
+                "rsvp": {
+                    "title": "RSVP Terbaru",
+                    "sub": "konfirmasi tamu terakhir",
+                    "all": "Lihat semua",
+                    "persons": "{n} orang",
+                    "attending": "Hadir",
+                    "notAttending": "Tidak hadir",
+                    "empty": "Belum ada RSVP"
+                },
+                "vendor": {
+                    "title": "Vendor",
+                    "sub": "contoh data vendor"
+                },
+                "activity": {
+                    "title": "Aktivitas Terbaru"
+                },
+                "beyond": {
+                    "eyebrow": "Beyond · pratinjau",
+                    "titlePre": "Sudah punya rencana",
+                    "titleEm": "setelah",
+                    "titlePost": "hari H?",
+                    "desc": "Mulai jurnal pasangan, set goal DP rumah, atau atur tradisi anniversary. Aktif otomatis setelah resepsi.",
+                    "activate": "Aktifkan Beyond",
+                    "learn": "Pelajari",
+                    "soon": "Segera hadir"
+                }
+            },
             "pageTitle": "Dashboard",
             "greeting": "Selamat datang kembali",
             "greetingSubtitle": "Kelola hari bahagiamu dari sini.",
