@@ -1,10 +1,10 @@
-# Undangan v2 — Foundation + Desain Tab Implementation Plan
+# Undangan v2 — Desktop Foundation + Desain Tab (Plan 1)
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Ship a new, parallel invitation editor page (`undangan-v2`) with a working tabbed shell, a live template preview, and a fully functional **Desain** tab (template selection + background-music on/off + track picker) — without changing the existing editor's behavior.
+**Goal:** Ship a new, parallel invitation editor page (`undangan-v2`) with a working **desktop** tabbed shell (2-column, always-on side preview), a live template preview, and a fully functional **Desain** tab (template selection + background-music on/off + track picker) — without changing the existing editor's behavior. The **mobile shell** (top-nav, pill tabs, fullscreen preview overlay) is **Plan 2** and reuses everything built here.
 
-**Architecture:** Approach A — a new Vue page (`CustomizeV2.vue`) backed by a v2-only composable (`useEditorV2`) and small, focused components (`EditorV2Shell`, `PreviewPaneV2`, panels). A new route + controller method (`showV2`) reuses the existing prop-builder. All persistence reuses existing endpoints. The four non-Desain tabs render clearly-marked placeholder panels in this plan; they are delivered by follow-up plans.
+**Architecture:** Approach A — a new Vue page (`CustomizeV2.vue`) backed by a v2-only composable (`useEditorV2`) and small, focused components (`EditorV2Shell` desktop shell, `PreviewPaneV2`, panels). A new route + controller method (`showV2`) reuses the existing prop-builder. All persistence reuses existing endpoints. The four non-Desain tabs render clearly-marked placeholder panels in this plan; they (and the mobile shell) are delivered by follow-up plans. Panels and the composable are written **platform-agnostic** so Plan 2 reuses them unchanged.
 
 **Tech Stack:** Laravel 11 (Inertia + Pest/PHPUnit), Vue 3 `<script setup>`, Tailwind, Vite, vitest + @vue/test-utils.
 
@@ -12,16 +12,17 @@
 
 ---
 
-## Scope of THIS plan (Plan 1 of a series)
+## Scope of THIS plan (Plan 1 — desktop)
 
 - ✅ Backend route + `showV2` + extra props (templates catalog, `template_id`, stats) + `music_enabled` config persistence + public music guard.
-- ✅ `useEditorV2` composable (template + music state, save status).
-- ✅ `CustomizeV2.vue` page, `EditorV2Shell`, `PreviewPaneV2`.
-- ✅ `DesignPanelV2` (Template card + Ganti via existing `TemplatePicker`; Music on/off + presets + upload).
+- ✅ `useEditorV2` composable (template + music state, save status) — platform-agnostic.
+- ✅ `CustomizeV2.vue` page + **desktop shell** (`EditorV2Shell` 2-column with always-on side preview).
+- ✅ `PreviewPaneV2` (live template render + device toggle) — platform-agnostic.
+- ✅ `DesignPanelV2` (Template card + Ganti via existing `TemplatePicker`; Music on/off + presets + upload) — platform-agnostic.
 - ✅ Placeholder panels for Konten / Acara / Bagian / Bagikan (navigable, marked "sedang disiapkan").
 - ✅ Entry points (link from invitations list + existing editor topbar).
-- ✅ Responsive mobile shell (pill tabs + collapsible mini-preview).
-- ⛔ Out of scope (follow-up plans): full Konten, Acara, Bagian, Bagikan tab functionality; i18n key extraction (v2 components use literal Indonesian, matching existing `TemplatePicker`).
+- ⛔ **Mobile shell** (mobile top-nav, pill tabs, fullscreen preview overlay) → **Plan 2** (reuses everything here). On small screens Plan 1 degrades to a simple stacked layout; the faithful mobile flow is Plan 2.
+- ⛔ Out of scope (later plans): full Konten, Acara, Bagian, Bagikan tab functionality; i18n key extraction (v2 components use literal Indonesian, matching existing `TemplatePicker`).
 
 ## File Structure
 
@@ -867,7 +868,7 @@ git commit -m "feat(undangan-v2): add EditorV2Shell (topbar + tabs)"
 
 ---
 
-## Task 10: `CustomizeV2.vue` page (wires everything; responsive)
+## Task 10: `CustomizeV2.vue` page (desktop shell)
 
 **Files:**
 - Create: `resources/js/Pages/Dashboard/Invitations/CustomizeV2.vue`
@@ -896,7 +897,6 @@ const props = defineProps({
 
 const TABS = ['Desain', 'Konten', 'Acara', 'Bagian', 'Bagikan'];
 const activeTab = ref('Desain');
-const showPreviewMobile = ref(false);
 
 const editor = useEditorV2(props.invitation);
 
@@ -921,9 +921,10 @@ const previewUrl = computed(() => props.invitation.slug);
         @preview="openPreview" @publish="publish"
       />
 
-      <div class="lg:grid lg:grid-cols-[minmax(0,1fr)_380px]">
+      <!-- Desktop shell: 2 columns (panel | always-on side preview). Mobile shell = Plan 2. -->
+      <div class="md:grid md:grid-cols-[minmax(0,1fr)_380px]">
         <!-- Left: panel -->
-        <div class="p-4 lg:p-6 order-2 lg:order-1">
+        <div class="p-4 lg:p-6">
           <DesignPanelV2
             v-if="activeTab === 'Desain'"
             :state="editor.state"
@@ -940,16 +941,10 @@ const previewUrl = computed(() => props.invitation.slug);
           <PlaceholderPanelV2 v-else :title="activeTab" />
         </div>
 
-        <!-- Right: preview (sticky on desktop, collapsible on mobile) -->
-        <aside class="order-1 lg:order-2 border-b lg:border-b-0 lg:border-l border-stone-200 bg-[#F6F8F3]">
-          <div class="lg:sticky lg:top-0 p-4 lg:p-6">
-            <button type="button" class="lg:hidden w-full mb-3 text-xs font-semibold text-[#4A5A4C]"
-                    @click="showPreviewMobile = !showPreviewMobile">
-              {{ showPreviewMobile ? 'Sembunyikan pratinjau' : 'Tampilkan pratinjau' }}
-            </button>
-            <div :class="showPreviewMobile ? 'block' : 'hidden lg:block'">
-              <PreviewPaneV2 :preview-invitation="editor.previewInvitation.value" :slug="editor.state.template_slug" :stats="stats" />
-            </div>
+        <!-- Right: always-on side preview (sticky) -->
+        <aside class="border-t md:border-t-0 md:border-l border-stone-200 bg-[#F6F8F3]">
+          <div class="md:sticky md:top-0 p-4 lg:p-6">
+            <PreviewPaneV2 :preview-invitation="editor.previewInvitation.value" :slug="editor.state.template_slug" :stats="stats" />
           </div>
         </aside>
       </div>
@@ -1040,8 +1035,9 @@ git commit -m "test(undangan-v2): green foundation + Desain tab"
 
 ## Follow-up plans (not in this plan)
 
-1. **Konten tab** — couple/parents/photos (`SectionCoupleEditor`), opening/closing text, quote; via `updateDetails` + section endpoints.
-2. **Acara tab** — events (`SectionEventsEditor`, `PUT …/events`) + livestream config (`updateConfig` rules `livestream_enabled`/`livestream_url`).
-3. **Bagian tab** — section enable/disable + reorder (`PATCH …/sections/{key}/toggle`).
-4. **Bagikan tab** — link/custom slug, per-guest links, WhatsApp template, publish.
-5. **i18n** — extract v2 literals into `dashboard.invitations.v2.*` (id + en).
+1. **Plan 2 — Mobile shell** (`docs/superpowers/plans/2026-05-20-undangan-v2-mobile-shell.md`) — mobile top-nav, sticky pill tabs (4), fullscreen preview overlay (👁). Reuses every component built here unchanged; only `CustomizeV2.vue` gains a viewport branch.
+2. **Konten tab** — couple/parents/photos (`SectionCoupleEditor`), opening/closing text, quote; via `updateDetails` + section endpoints.
+3. **Acara tab** — events (`SectionEventsEditor`, `PUT …/events`) + livestream config (`updateConfig` rules `livestream_enabled`/`livestream_url`).
+4. **Bagian tab** — section enable/disable + reorder (`PATCH …/sections/{key}/toggle`).
+5. **Bagikan tab** — link/custom slug, per-guest links, WhatsApp template, publish.
+6. **i18n** — extract v2 literals into `dashboard.invitations.v2.*` (id + en).

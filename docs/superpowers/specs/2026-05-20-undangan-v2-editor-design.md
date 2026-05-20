@@ -1,7 +1,7 @@
 # Undangan v2 — Tabbed Invitation Editor (Design)
 
 **Date:** 2026-05-20
-**Status:** Approved (design), pending implementation plan
+**Status:** Approved (design); plans split by platform (desktop = Plan 1, mobile = Plan 2)
 **Mockups:** `theday(5)/ueditor.jsx` (desktop), `theday(5)/mundangan.jsx` (mobile), `theday(5)/Undangan.html`, `theday(5)/Undangan Mobile.html`
 
 ## Goal
@@ -26,6 +26,30 @@ removed entirely — colors and fonts are determined by the chosen template.
 | Palette & Typography | **Removed entirely** (template-driven; no user controls anywhere) |
 | Other tabs (Konten/Acara/Bagian/Bagikan) | **Full restyle** to mockup; embed existing field editors inside v2 section cards |
 | Music on/off persistence | `custom_config.music_enabled` flag via `PATCH …/config` + one guard in the invitation music player |
+| Desktop vs mobile | Same spec; **split by platform into dependent plans** (shared code once; only the shell differs) |
+
+## Delivery (plan split)
+
+Desktop and mobile share ~80% of the implementation — backend (route/controller/guard), the
+`useEditorV2` composable, every tab **panel** (incl. `DesignPanelV2`), and the preview render
+(`PhoneMockup` + `TEMPLATE_MAP`). Only the **shell** differs:
+
+- **Desktop shell:** persistent 2-column layout — left tabbed panel (5 tabs) + always-on side
+  preview + topbar (breadcrumb, status, Pratinjau/Bagikan/Publikasikan).
+- **Mobile shell:** mobile top-nav (back · title · 👁 · Publish) + sticky pill tabs
+  (Desain/Konten/Acara/Bagian) + **fullscreen preview overlay** opened from 👁; **Bagikan** is its
+  own screen.
+
+So the work is split by platform into **dependent** plans (not duplicated specs):
+
+1. **Plan 1 — Desktop foundation + Desain**
+   (`docs/superpowers/plans/2026-05-20-undangan-v2-foundation-desain.md`): backend, `useEditorV2`,
+   shared panels, `DesignPanelV2`, `PreviewPaneV2`, and the **desktop shell**. Ships a working
+   desktop Desain editor on its own.
+2. **Plan 2 — Mobile shell**
+   (`docs/superpowers/plans/2026-05-20-undangan-v2-mobile-shell.md`): mobile top-nav, pill tabs,
+   fullscreen preview overlay — reusing all Plan 1 components. **Depends on Plan 1.**
+3. **Plan 3+ — per-tab** (Konten, Acara, Bagian, Bagikan): each reuses both shells.
 
 ## Routing & Entry
 
@@ -111,14 +135,19 @@ Two sections only:
 - Device toggle: phone (default) / desktop (wider frame). URL chip `theday.id/{slug}`.
 - Stats footer: kunjungan / RSVP / ucapan / version from `showV2` props; hidden if not provided.
 
-## Mobile Layout (per mundangan.jsx)
+## Mobile Layout (per mundangan.jsx) — delivered by **Plan 2 (mobile shell)**
 
-Same components, responsive below `md`:
-- Top nav (title, status subtitle, eye + Publish).
-- Collapsible **mini preview** at top of the scroll area.
-- Sticky **pill tabs**: Desain / Konten / Acara / Bagian.
-- **Bagikan** opens as its own full screen from the share action (not in the pill row).
-- Full-screen preview screen reachable from the eye / Pratinjau button.
+Reuses every Plan 1 component (panels, `useEditorV2`, `PreviewPaneV2`); only the shell is mobile-specific:
+- **Mobile top-nav** (`MobileEditorTopNav`): back · title "Editor Undangan" (Cormorant) · status
+  subtitle (mono) · right = 👁 (preview) + **Publish**.
+- **Sticky pill tabs**: Desain / Konten / Acara / Bagian (horizontal scroll). **Bagikan is not a
+  pill** — reached as its own screen (deferred with the Bagikan tab).
+- **Mini preview** card at the top of the editor scroll area (no palette dots — palette is removed).
+- **Fullscreen preview overlay** (`MobilePreviewOverlay`): opened from 👁, shows `PreviewPaneV2`
+  full-bleed with floating chrome ("Pratinjau · seperti yang tamu lihat") + bottom "Kembali ke
+  Editor" button.
+- `CustomizeV2.vue` chooses shell by viewport: desktop 2-column (Plan 1) vs mobile single-column +
+  overlay (Plan 2).
 
 ## Save & Data Flow
 
