@@ -28,7 +28,6 @@ class UserFactory extends Factory
             'phone'                   => fake()->numerify('08##########'),
             'avatar_url'              => null,
             'remember_token'          => Str::random(10),
-            'onboarding_completed_at' => now(),
         ];
     }
 

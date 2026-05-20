@@ -19,7 +19,7 @@ class DashboardWidgetsPayloadTest extends TestCase
 
     public function test_dashboard_exposes_widget_props(): void
     {
-        $user = User::factory()->create();
+        $user = User::factory()->create(['onboarding_completed_at' => now()]);
         CoupleProfile::create([
             'user_id'        => $user->id,
             'groom_name'     => 'Rizki Pratama',
