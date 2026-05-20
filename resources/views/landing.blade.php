@@ -1336,17 +1336,20 @@
     {{-- ============================================================ --}}
     <footer style="background-color: #111; color: #888">
         <div class="max-w-6xl mx-auto px-6 py-16">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-10 mb-12">
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-8 mb-12">
                 {{-- Brand --}}
-                <div class="md:col-span-1">
+                <div class="col-span-2 md:col-span-1">
                     <a href="/" class="flex items-center mb-4">
                         <img src="{{ asset('image/logo.svg') }}" alt="TheDay"
                             class="h-10 w-auto brightness-0 invert">
                     </a>
+                    <p class="text-sm leading-relaxed mb-1 font-semibold" style="color: #92A89C">
+                        TheDay &amp; Beyond
+                    </p>
                     <p class="text-sm leading-relaxed mb-5"
-                        data-id="Platform undangan pernikahan digital online premium terbaik di Indonesia."
-                        data-en="Indonesia's best premium digital wedding invitation platform.">
-                        Platform undangan pernikahan digital online premium terbaik di Indonesia.
+                        data-id="Pernikahan dan seterusnya — pendamping pasangan Indonesia."
+                        data-en="The wedding and what's next — companion for Indonesian couples.">
+                        Pernikahan dan seterusnya — pendamping pasangan Indonesia.
                     </p>
                     <div class="flex items-center gap-3">
                         @foreach (['instagram', 'tiktok', 'whatsapp'] as $social)
@@ -1379,30 +1382,37 @@
                             'id_cat' => 'Produk',
                             'en_cat' => 'Product',
                             'links' => [
-                                ['id' => 'Template', 'en' => 'Template', 'href' => '/templates'],
                                 ['id' => 'Fitur', 'en' => 'Features', 'href' => '/#fitur'],
+                                ['id' => 'Tema', 'en' => 'Themes', 'href' => '/templates'],
                                 ['id' => 'Harga', 'en' => 'Pricing', 'href' => '/#harga'],
-                                ['id' => 'Cara Kerja', 'en' => 'How It Works', 'href' => '/#cara-kerja'],
+                                ['id' => 'FAQ', 'en' => 'FAQ', 'href' => '/#faq'],
+                            ],
+                        ],
+                        [
+                            'id_cat' => 'Perusahaan',
+                            'en_cat' => 'Company',
+                            'links' => [
+                                ['id' => 'Tentang', 'en' => 'About', 'href' => '#'],
                                 ['id' => 'Blog', 'en' => 'Blog', 'href' => route('blog.index')],
+                                ['id' => 'Kontak', 'en' => 'Contact', 'href' => route('contact')],
                             ],
                         ],
                         [
                             'id_cat' => 'Bantuan',
-                            'en_cat' => 'Support',
+                            'en_cat' => 'Help',
                             'links' => [
-                                ['id' => 'Pusat Bantuan', 'en' => 'Help Center', 'href' => '#'],
-                                ['id' => 'Kontak', 'en' => 'Contact', 'href' => route('contact')],
-                                [
-                                    'id' => 'Kebijakan Privasi',
-                                    'en' => 'Privacy Policy',
-                                    'href' => route('legal.privacy'),
-                                ],
-                                [
-                                    'id' => 'Syarat & Ketentuan',
-                                    'en' => 'Terms & Conditions',
-                                    'href' => route('legal.terms'),
-                                ],
-                                ['id' => 'Kebijakan Cookie', 'en' => 'Cookie Policy', 'href' => route('legal.cookie')],
+                                ['id' => 'FAQ', 'en' => 'FAQ', 'href' => '/#faq'],
+                                ['id' => 'Panduan', 'en' => 'Guide', 'href' => '#'],
+                                ['id' => 'Kontak Support', 'en' => 'Contact Support', 'href' => route('contact')],
+                            ],
+                        ],
+                        [
+                            'id_cat' => 'Legal',
+                            'en_cat' => 'Legal',
+                            'links' => [
+                                ['id' => 'Privasi', 'en' => 'Privacy', 'href' => route('legal.privacy')],
+                                ['id' => 'Syarat', 'en' => 'Terms', 'href' => route('legal.terms')],
+                                ['id' => 'Cookie', 'en' => 'Cookie', 'href' => route('legal.cookie')],
                             ],
                         ],
                     ];
