@@ -66,6 +66,10 @@ return [
             'report' => false,
         ],
 
+        // Cloudflare R2 (S3-compatible). NO 'visibility' key on purpose:
+        // R2 has no per-object ACL — PutObjectAcl returns 501. Public access
+        // is bucket-level via Cloudflare custom domain (R2_URL). Do not re-add
+        // 'visibility' here or in ->put()/->store() options.
         'r2' => [
             'driver'                  => 's3',
             'key'                     => env('R2_ACCESS_KEY_ID'),

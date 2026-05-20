@@ -182,7 +182,7 @@ Check dirs: `resources/` (js + views), `app/`, `config/`, `routes/`, `tests/` (f
 
 ### 5. Visibility
 
-R2 bucket configured public via Cloudflare custom domain. Uploads use `visibility: 'public'` (set in r2 disk config). `Storage::url()` returns `R2_URL + / + path` (e.g. `https://cdn.theday.id/support/2026/05/uuid.jpg`).
+R2 bucket configured public via Cloudflare custom domain (bucket-level, NOT per-object ACL). Uploads use plain `->store($path, $disk)` with **NO `visibility` option** (R2 returns 501 on PutObjectAcl — see config note #2). `Storage::url()` returns `R2_URL + / + path` (e.g. `https://cdn.theday.id/support/2026/05/uuid.jpg`).
 
 ### 6. Health-check command (MANDATORY — promoted from optional per review)
 
