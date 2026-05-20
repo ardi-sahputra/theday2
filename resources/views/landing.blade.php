@@ -1307,36 +1307,23 @@
             </div>
 
             <div class="max-w-3xl mx-auto px-6 text-center relative z-10 reveal">
-                <div class="text-4xl mb-6">💌</div>
                 <h2 class="font-display text-3xl md:text-5xl font-semibold text-white mb-4">
-                    <span data-id="Siap Membuat" data-en="Ready to Create">Siap Membuat</span><br>
-                    <span style="color: var(--color-primary)" data-id="Hari Istimewamu?"
-                        data-en="Your Special Day?">Hari Istimewamu?</span>
+                    <span data-id="Siap memulai perjalanan?" data-en="Ready to start your journey?">Siap memulai perjalanan?</span>
                 </h2>
                 <p class="text-gray-400 text-lg mb-8 max-w-xl mx-auto"
-                    data-id="Bergabung dengan 10.000+ pasangan yang sudah mempercayai TheDay untuk hari paling spesial mereka."
-                    data-en="Join 10,000+ couples who have trusted TheDay for their most special day.">
-                    Bergabung dengan 10.000+ pasangan yang sudah mempercayai TheDay untuk hari paling spesial mereka.
+                    data-id="Daftar gratis hari ini, mulai dari fase mana aja."
+                    data-en="Sign up free today, start from any phase.">
+                    Daftar gratis hari ini, mulai dari fase mana aja.
                 </p>
-                <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <a href="/templates" class="btn-primary text-base py-3.5 px-10">
-                        <span data-id="Buat Undangan Sekarang" data-en="Create Invitation Now">Buat Undangan
-                            Sekarang</span>
-                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                            stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                        </svg>
-                    </a>
-                    <a href="/login" class="btn-outline text-base py-3.5 px-10"
-                        style="border-color: rgba(255,255,255,0.3); color: white" data-id="Sudah punya akun? Masuk"
-                        data-en="Already have an account? Login">
-                        Sudah punya akun? Masuk
+                <div class="flex flex-col sm:flex-row gap-4 justify-center mb-5">
+                    <a href="/register" class="btn-primary text-base py-3.5 px-10">
+                        <span data-id="Mulai Perjalanan Bersama →" data-en="Start Your Journey →">Mulai Perjalanan Bersama &#8594;</span>
                     </a>
                 </div>
-                <p class="text-gray-500 text-sm mt-5"
-                    data-id="Gratis selamanya · Tidak perlu kartu kredit · Siap dalam 5 menit"
-                    data-en="Free forever · No credit card required · Ready in 5 minutes">
-                    Gratis selamanya · Tidak perlu kartu kredit · Siap dalam 5 menit
+                <p class="text-gray-500 text-sm"
+                    data-id="Gratis · Tanpa kartu kredit · Cancel kapan saja"
+                    data-en="Free · No credit card · Cancel anytime">
+                    Gratis · Tanpa kartu kredit · Cancel kapan saja
                 </p>
             </div>
         </section>
