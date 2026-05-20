@@ -14,7 +14,7 @@ class SupportMessageResource extends JsonResource
             'sender_role'     => $this->sender_role,
             'body'            => $this->body,
             'attachment_url'  => $this->attachment_path
-                ? Storage::disk('public')->url($this->attachment_path)
+                ? Storage::disk(config('filesystems.uploads'))->url($this->attachment_path)
                 : null,
             'attachment_mime' => $this->attachment_mime,
             'attachment_size' => $this->attachment_size,

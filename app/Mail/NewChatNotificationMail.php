@@ -46,7 +46,7 @@ class NewChatNotificationMail extends Mailable implements ShouldQueue
                 'messageBody'  => $this->message->body,
                 'hasImage'     => (bool) $this->message->attachment_path,
                 'imageUrl'     => $this->message->attachment_path
-                    ? Storage::disk('public')->url($this->message->attachment_path)
+                    ? Storage::disk(config('filesystems.uploads'))->url($this->message->attachment_path)
                     : null,
                 'adminChatUrl' => route('admin.support.show', $this->conversation),
             ],

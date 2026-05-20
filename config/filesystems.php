@@ -16,6 +16,12 @@ return [
     'default' => env('FILESYSTEM_DISK', 'local'),
 
     /*
+     | Disk used for user-uploaded files (invitation photos, chat attachments).
+     | Dev: 'public' (local, no R2 credentials needed). Prod: 'r2'.
+     */
+    'uploads' => env('UPLOADS_DISK', 'public'),
+
+    /*
     |--------------------------------------------------------------------------
     | Filesystem Disks
     |--------------------------------------------------------------------------
@@ -58,6 +64,23 @@ return [
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
             'throw' => false,
             'report' => false,
+        ],
+
+        // Cloudflare R2 (S3-compatible). NO 'visibility' key on purpose:
+        // R2 has no per-object ACL — PutObjectAcl returns 501. Public access
+        // is bucket-level via Cloudflare custom domain (R2_URL). Do not re-add
+        // 'visibility' here or in ->put()/->store() options.
+        'r2' => [
+            'driver'                  => 's3',
+            'key'                     => env('R2_ACCESS_KEY_ID'),
+            'secret'                  => env('R2_SECRET_ACCESS_KEY'),
+            'region'                  => env('R2_DEFAULT_REGION', 'auto'),
+            'bucket'                  => env('R2_BUCKET'),
+            'url'                     => env('R2_URL'),
+            'endpoint'                => env('R2_ENDPOINT'),
+            'use_path_style_endpoint' => env('R2_USE_PATH_STYLE_ENDPOINT', false),
+            'throw'                   => true,
+            'report'                  => false,
         ],
 
     ],

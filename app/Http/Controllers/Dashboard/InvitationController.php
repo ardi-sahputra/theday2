@@ -664,13 +664,14 @@ class InvitationController extends Controller
             'type' => 'required|in:photo,gallery,cover',
         ]);
 
+        $disk = config('filesystems.uploads');
         $path = $request->file('file')->store(
             "invitations/{$invitation->id}/{$request->type}",
-            'public'
+            $disk
         );
 
         return response()->json([
-            'url' => Storage::disk('public')->url($path),
+            'url' => Storage::disk($disk)->url($path),
         ]);
     }
 
@@ -689,13 +690,14 @@ class InvitationController extends Controller
             'file' => 'required|file|mimes:mp3,wav,ogg,m4a|max:10240',
         ]);
 
+        $disk = config('filesystems.uploads');
         $path = $request->file('file')->store(
             "invitations/{$invitation->id}/music",
-            'public'
+            $disk
         );
 
         return response()->json([
-            'url'  => Storage::disk('public')->url($path),
+            'url'  => Storage::disk($disk)->url($path),
             'name' => $request->file('file')->getClientOriginalName(),
         ]);
     }
