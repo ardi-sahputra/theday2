@@ -735,6 +735,36 @@
                     "title": "Pembagian Tugas",
                     "sub": "Beban kamu & pasangan"
                 }
+            },
+            "mobile": {
+                "filter": "Filter",
+                "sortLabel": "Urutkan",
+                "statusLabel": "Status",
+                "categoryLabel": "Kategori",
+                "picLabel": "Penanggung Jawab",
+                "reset": "Reset",
+                "apply": "Terapkan · {count} tugas",
+                "sort": {
+                    "due": "Jatuh tempo terdekat",
+                    "priority": "Mendesak dulu",
+                    "newest": "Terbaru"
+                },
+                "aiHint": "4 tugas baru berdasarkan progress kamu",
+                "tasks": "tugas",
+                "doneTasks": "Tugas selesai",
+                "see": "Lihat",
+                "addTask": "Tambah tugas",
+                "detail": {
+                    "due": "Jatuh tempo",
+                    "priority": "Prioritas",
+                    "pic": "Penanggung Jawab",
+                    "change": "Ganti",
+                    "substeps": "Sub-langkah",
+                    "addStep": "Tambah sub-langkah",
+                    "note": "Catatan",
+                    "markDone": "Tandai Selesai",
+                    "markUndone": "Batalkan Selesai"
+                }
             }
         },
         "budget": {

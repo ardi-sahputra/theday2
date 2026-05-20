@@ -735,6 +735,36 @@
                     "title": "Task Split",
                     "sub": "Your & partner's load"
                 }
+            },
+            "mobile": {
+                "filter": "Filter",
+                "sortLabel": "Sort by",
+                "statusLabel": "Status",
+                "categoryLabel": "Category",
+                "picLabel": "Assignee",
+                "reset": "Reset",
+                "apply": "Apply · {count} tasks",
+                "sort": {
+                    "due": "Due soonest",
+                    "priority": "Urgent first",
+                    "newest": "Newest"
+                },
+                "aiHint": "4 new tasks based on your progress",
+                "tasks": "tasks",
+                "doneTasks": "Completed tasks",
+                "see": "View",
+                "addTask": "Add task",
+                "detail": {
+                    "due": "Due date",
+                    "priority": "Priority",
+                    "pic": "Assignee",
+                    "change": "Change",
+                    "substeps": "Sub-steps",
+                    "addStep": "Add sub-step",
+                    "note": "Note",
+                    "markDone": "Mark Done",
+                    "markUndone": "Mark Undone"
+                }
             }
         },
         "budget": {
