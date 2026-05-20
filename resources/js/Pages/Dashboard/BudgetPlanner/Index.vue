@@ -865,6 +865,8 @@ const upcomingPayments = computed(() =>
                     </div>
 
                     <div class="px-5 py-4 border-t border-stone-100 flex gap-2">
+                        <button v-if="showEditItem && editingItem" @click="showEditItem = false; confirmArchiveItem(editingItem)"
+                            class="px-4 py-2.5 text-sm font-medium text-red-500 border border-red-100 rounded-xl hover:bg-red-50 transition-colors">{{ t('common.delete') }}</button>
                         <button @click="showAddItem = showEditItem = false"
                             class="flex-1 py-2.5 text-sm text-stone-600 border border-stone-200 rounded-xl hover:bg-stone-50 transition-colors">{{ t('dashboard.budget.modal.addItem.cancel') }}</button>
                         <button @click="saveItem"
