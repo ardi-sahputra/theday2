@@ -131,25 +131,6 @@
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
         }
 
-        /* Template card */
-        .template-card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            overflow: hidden;
-        }
-
-        .template-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 24px 48px rgba(0, 0, 0, 0.12);
-        }
-
-        .template-card:hover .template-overlay {
-            opacity: 1;
-        }
-
-        .template-overlay {
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
 
         /* Floating animation */
         @keyframes float {
@@ -359,18 +340,42 @@
           "mainEntity": [
             {
               "@type": "Question",
-              "name": "Apakah TheDay gratis?",
+              "name": "Saya sudah menikah, masih bisa pakai TheDay?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Ya, TheDay menyediakan paket gratis selamanya. Mencakup 1 undangan aktif, template dasar, konfirmasi RSVP, link undangan, peta lokasi, dan 5 foto galeri. Tidak perlu kartu kredit."
+                "text": "Bisa. Fitur Fase 3 (Setelah Nikah) seperti anniversary reminder, memory album, dan joint budget dirancang untuk pasangan yang sudah menikah. Fitur ini sedang dikembangkan dan akan tersedia bertahap. Daftar sekarang gratis untuk dapat akses awal saat rilis."
               }
             },
             {
               "@type": "Question",
-              "name": "Bagaimana cara membuat undangan digital di TheDay?",
+              "name": "Apakah saya wajib pakai fitur undangan?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Cukup 3 langkah mudah: (1) Pilih template pernikahan yang sesuai, (2) Isi detail acara seperti nama mempelai, tanggal, lokasi, dan foto, (3) Bagikan link undangan ke tamu via WhatsApp atau media sosial."
+                "text": "Tidak. Undangan digital adalah salah satu fitur unggulan, tapi kamu bisa pakai TheDay hanya untuk checklist persiapan, daftar tamu, RSVP, atau fitur setelah nikah. Bebas pilih sesuai kebutuhan."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Apa bedanya TheDay & Beyond dengan platform undangan lain?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "TheDay fokus ke perjalanan pernikahan jangka panjang, bukan cuma event sehari. Kami menggabungkan kualitas craft template undangan premium dengan fitur pendamping seumur hidup pasangan: dari persiapan, hari H, sampai kehidupan setelahnya. Dirancang khusus untuk pasangan Indonesia."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Fitur Setelah Nikah kapan tersedia?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Fitur Fase 3 (anniversary reminder, memory album, newlywed admin, joint budget) sedang dikembangkan dan akan dirilis bertahap. Kamu yang sudah daftar akan dapat notifikasi saat setiap fitur rilis."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Apa bedanya paket Free dan Premium?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Free: undangan digital dengan template terbatas, watermark TheDay, fitur dasar checklist dan RSVP. Premium: akses ke semua template premium, tanpa watermark, custom domain, amplop digital, dan priority support."
               }
             },
             {
@@ -379,22 +384,6 @@
               "acceptedAnswer": {
                 "@type": "Answer",
                 "text": "Ya, tamu dapat langsung konfirmasi hadir atau tidak dari halaman undangan digital. Rekap kehadiran tersedia secara real-time di dashboard pengelola undangan."
-              }
-            },
-            {
-              "@type": "Question",
-              "name": "Berapa banyak template undangan yang tersedia?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "TheDay menyediakan 50+ template premium undangan pernikahan dalam berbagai tema: romantis, modern, minimalis, vintage, hingga keraton. Semua template bisa dikustomisasi warna, font, dan kontennya."
-              }
-            },
-            {
-              "@type": "Question",
-              "name": "Apakah undangan digital bisa dibagikan via WhatsApp?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "Ya, setiap undangan TheDay menghasilkan satu link unik yang bisa langsung dibagikan ke semua tamu via WhatsApp, Instagram, email, atau media sosial lainnya."
               }
             }
           ]
