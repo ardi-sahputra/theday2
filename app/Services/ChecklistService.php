@@ -58,6 +58,7 @@ class ChecklistService
             'source'               => ChecklistTaskSource::User,
             'title'                => $data['title'],
             'description'          => $data['description'] ?? null,
+            'vendor'               => $data['vendor'] ?? null,
             'category'             => $data['category'],
             'priority'             => $data['priority'] ?? 'medium',
             'status'               => ChecklistTaskStatus::Todo,
@@ -77,6 +78,7 @@ class ChecklistService
         $task->update([
             'title'                => $data['title']       ?? $task->title,
             'description'          => array_key_exists('description', $data) ? $data['description'] : $task->description,
+            'vendor'               => array_key_exists('vendor', $data) ? $data['vendor'] : $task->vendor,
             'category'             => $data['category']    ?? $task->category,
             'priority'             => $data['priority']    ?? $task->priority,
             'due_date'             => array_key_exists('due_date', $data) ? $data['due_date'] : $task->due_date,

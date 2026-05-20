@@ -29,6 +29,7 @@ class ChecklistTask extends Model
         'template_id',
         'title',
         'description',
+        'vendor',
         'category',
         'priority',
         'status',
