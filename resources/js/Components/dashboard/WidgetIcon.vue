@@ -29,6 +29,7 @@ const paths = {
   cal:      '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/>',
   flag:     '<path d="M4 22V3M4 4h13l-2 5 2 5H4"/>',
   settings: '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8M4.6 9a1.7 1.7 0 0 0-.3-1.8"/>',
+  download: '<path d="M12 3v12M7 11l5 5 5-5M5 21h14"/>',
 };
 </script>
 
