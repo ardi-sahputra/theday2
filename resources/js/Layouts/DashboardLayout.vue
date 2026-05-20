@@ -462,7 +462,7 @@ const handleClickOutsideAvatar = (e) => {
         <div class="flex-1 flex flex-col min-w-0 pb-16 lg:pb-0">
 
             <!-- Top bar -->
-            <header class="sticky top-0 z-10 px-4 lg:px-6 h-16 flex items-center gap-4"
+            <header class="sticky top-0 z-10 px-4 lg:px-6 h-20 flex items-center gap-4"
                     style="background: rgba(238,242,234,0.78); backdrop-filter: blur(10px); border-bottom: 1px solid #D8DFD2;">
                 <!-- Mobile hamburger (HIDDEN — replaced by MobileBottomNav, kept for rollback) -->
                 <button
@@ -480,7 +480,7 @@ const handleClickOutsideAvatar = (e) => {
                 </div>
 
                 <!-- Search pill (desktop only) -->
-                <div class="hidden lg:flex items-center gap-2 rounded-full px-4 py-2 w-80"
+                <div class="hidden lg:flex items-center gap-2 rounded-full px-4 py-2.5 w-80"
                      style="background:#FBFCF9; border:1px solid #D8DFD2;"
                      :title="t('dashboard.layout.searchSoon')">
                   <svg class="w-4 h-4" style="color:#6C7A75;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
