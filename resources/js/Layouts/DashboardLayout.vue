@@ -241,7 +241,7 @@ const handleClickOutsideAvatar = (e) => {
 </script>
 
 <template>
-    <div class="min-h-screen flex flex-col" style="background-color: #F4F7F5">
+    <div class="min-h-screen flex flex-col" style="background-color: #EEF2EA">
 
         <!-- ── Partner Mode Banner ─────────────────────────────── -->
         <PartnerModeBanner />
@@ -261,11 +261,12 @@ const handleClickOutsideAvatar = (e) => {
         <aside
             :class="[
                 'fixed top-0 left-0 h-full z-30 flex flex-col transition-all duration-300',
-                'bg-white border-r border-stone-100 shadow-sm',
+                'border-r shadow-sm',
                 sidebarOpen ? 'translate-x-0' : '-translate-x-full',
                 'lg:translate-x-0 lg:sticky lg:top-0 lg:h-screen lg:z-auto',
                 sidebarCollapsed ? 'lg:w-16' : 'w-64',
             ]"
+            style="background: linear-gradient(180deg, #F6F8F3 0%, #EEF2EA 100%); border-color: #D8DFD2;"
         >
             <!-- Logo — expanded -->
             <div v-if="!sidebarCollapsed" class="flex items-center gap-3 px-5 py-4 border-b border-stone-100">
@@ -334,13 +335,13 @@ const handleClickOutsideAvatar = (e) => {
                                     :class="[
                                         'w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-all duration-150 cursor-pointer',
                                         isGroupActive(item)
-                                            ? 'bg-[#92A89C]/20 text-[#2C2417] font-semibold'
+                                            ? 'bg-[#1F2A2E] text-white font-semibold'
                                             : 'font-medium text-stone-500 hover:text-stone-800 hover:bg-[#92A89C]/8',
                                         sidebarCollapsed ? 'justify-center' : '',
                                     ]"
                                 >
                                     <svg class="w-5 h-5 flex-shrink-0"
-                                         :class="isGroupActive(item) ? 'text-[#92A89C]' : 'text-stone-400'"
+                                         :class="isGroupActive(item) ? 'text-white' : 'text-stone-400'"
                                          fill="none" viewBox="0 0 24 24" stroke="currentColor" v-html="item.icon"/>
                                     <span v-if="!sidebarCollapsed" class="flex-1 text-left">{{ item.label }}</span>
                                     <svg v-if="!sidebarCollapsed"
@@ -366,7 +367,7 @@ const handleClickOutsideAvatar = (e) => {
                                                   :class="[
                                                       'flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-all duration-150',
                                                       isActive(child)
-                                                          ? 'bg-[#92A89C]/20 text-[#2C2417] font-semibold'
+                                                          ? 'bg-[#1F2A2E] text-white font-semibold'
                                                           : 'font-medium text-stone-500 hover:text-stone-800 hover:bg-[#92A89C]/8',
                                                   ]"
                                             >
@@ -389,18 +390,18 @@ const handleClickOutsideAvatar = (e) => {
                                 :class="[
                                     'flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-all duration-150',
                                     isActive(item)
-                                        ? 'bg-[#92A89C]/20 text-[#2C2417] font-semibold'
+                                        ? 'bg-[#1F2A2E] text-white font-semibold'
                                         : 'font-medium text-stone-500 hover:text-stone-800 hover:bg-[#92A89C]/8',
                                     sidebarCollapsed ? 'justify-center' : '',
                                 ]"
                             >
-                                <svg class="w-5 h-5 flex-shrink-0" :class="isActive(item) ? 'text-[#92A89C]' : 'text-stone-400'"
+                                <svg class="w-5 h-5 flex-shrink-0" :class="isActive(item) ? 'text-white' : 'text-stone-400'"
                                      fill="none" viewBox="0 0 24 24" stroke="currentColor" v-html="item.icon"/>
                                 <span v-if="!sidebarCollapsed" class="flex-1">{{ item.label }}</span>
                                 <span
                                     v-if="!sidebarCollapsed && item.route === 'dashboard.checklist.index' && checklistTodo > 0"
                                     class="ml-auto min-w-[20px] h-5 px-1.5 rounded-full text-xs font-semibold flex items-center justify-center text-white"
-                                    style="background-color: #92A89C"
+                                    style="background-color: #C19089"
                                 >{{ checklistTodo }}</span>
                             </Link>
 
