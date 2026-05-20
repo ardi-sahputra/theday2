@@ -203,6 +203,9 @@ Route::middleware(['auth', 'verified', 'onboarding', 'couple'])->prefix('dashboa
     Route::patch( '/budget-planner/items/{item}/payment',   [BudgetItemController::class, 'updatePayment'])->name('budget-planner.items.payment');
     Route::delete('/budget-planner/items/{item}',           [BudgetItemController::class, 'destroy'])->name('budget-planner.items.destroy');
 
+    Route::post(  '/budget-planner/notes',          [\App\Http\Controllers\Dashboard\BudgetPlanner\BudgetNoteController::class, 'store'])->name('budget-planner.notes.store');
+    Route::delete('/budget-planner/notes/{note}',   [\App\Http\Controllers\Dashboard\BudgetPlanner\BudgetNoteController::class, 'destroy'])->name('budget-planner.notes.destroy');
+
     // ── Guest List ───────────────────────────────────────────────────────
     Route::get(   '/guest-list',                              [GuestListController::class, 'index'])->name('guest-list.index');
     Route::get(   '/guest-list/guests',                       [GuestListController::class, 'guests'])->name('guest-list.guests');
