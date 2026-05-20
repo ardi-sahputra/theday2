@@ -487,7 +487,7 @@ const handleClickOutsideAvatar = (e) => {
                     <circle cx="11" cy="11" r="7" /><path d="M21 21l-4.3-4.3" stroke-linecap="round" />
                   </svg>
                   <input disabled :placeholder="t('dashboard.layout.searchPlaceholder')"
-                         class="flex-1 bg-transparent outline-none text-sm cursor-default" style="color:#1F2A2E;" />
+                         class="flex-1 min-w-0 border-0 bg-transparent p-0 outline-none focus:ring-0 text-sm cursor-default" style="color:#1F2A2E;" />
                   <kbd class="font-jet text-[10.5px] px-1.5 py-0.5 rounded flex-shrink-0" style="background:#EEF2EA; color:#6C7A75; border:1px solid #D8DFD2;">⌘K</kbd>
                 </div>
 
