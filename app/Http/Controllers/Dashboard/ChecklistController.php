@@ -270,6 +270,47 @@ class ChecklistController extends Controller
         return response()->noContent();
     }
 
+    // ─── iCal Export ─────────────────────────────────────────────
+
+    public function exportCalendar(): \Illuminate\Http\Response
+    {
+        $plan  = $this->resolveOrCreatePlan();
+        $tasks = $plan->checklistTasks()
+            ->where('status', '!=', \App\Enums\ChecklistTaskStatus::Archived->value)
+            ->whereNotNull('due_date')
+            ->get();
+
+        $lines = [
+            'BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//TheDay//Checklist//ID', 'CALSCALE:GREGORIAN',
+            'X-WR-CALNAME:TheDay — Checklist Pernikahan',
+        ];
+
+        foreach ($tasks as $task) {
+            $date   = \Carbon\Carbon::parse($task->due_date)->format('Ymd');
+            $stamp  = now()->utc()->format('Ymd\THis\Z');
+            $catVal = $task->category instanceof \BackedEnum ? $task->category->value : (string) $task->category;
+            $desc   = trim($catVal.($task->vendor ? ' · '.$task->vendor : ''));
+            $esc    = fn (string $s) => addcslashes($s, ",;\\\n");
+            $lines[] = 'BEGIN:VEVENT';
+            $lines[] = 'UID:checklist-'.$task->id.'@theday';
+            $lines[] = 'DTSTAMP:'.$stamp;
+            $lines[] = 'DTSTART;VALUE=DATE:'.$date;
+            $lines[] = 'SUMMARY:'.$esc($task->title);
+            if ($desc !== '') {
+                $lines[] = 'DESCRIPTION:'.$esc($desc);
+            }
+            $lines[] = 'END:VEVENT';
+        }
+
+        $lines[] = 'END:VCALENDAR';
+        $body = implode("\r\n", $lines)."\r\n";
+
+        return response($body, 200, [
+            'Content-Type'        => 'text/calendar; charset=utf-8',
+            'Content-Disposition' => 'attachment; filename="theday-checklist.ics"',
+        ]);
+    }
+
     // ─── Helpers ──────────────────────────────────────────────────
 
     private function resolveOrCreatePlan(): WeddingPlan
