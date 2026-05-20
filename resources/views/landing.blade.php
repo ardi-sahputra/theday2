@@ -560,13 +560,13 @@
                     </div>
                 </div>
 
-                {{-- Hero Illustration (placeholder) --}}
+                {{-- Hero Illustration --}}
                 <div class="flex justify-center order-first md:order-last">
-                    {{-- PLACEHOLDER: swap to <img src="/images/landing/hero-journey.webp" alt="Perjalanan pasangan dari persiapan sampai kehidupan bersama" class="w-full max-w-lg mx-auto" loading="eager"> when ready --}}
-                    <div class="aspect-[4/3] w-full max-w-lg rounded-3xl flex items-center justify-center"
-                        style="background: rgba(146,168,156,0.15); border: 2px dashed rgba(146,168,156,0.4)">
-                        <span style="color: rgba(146,168,156,0.7); font-size: 0.875rem; font-weight: 500; text-align: center; padding: 1rem;">Ilustrasi: hero-journey<br>(couple journey path)</span>
-                    </div>
+                    <img src="{{ asset('images/landing/hero-journey.webp') }}"
+                         alt="Perjalanan pasangan dari persiapan sampai kehidupan bersama"
+                         class="w-full max-w-lg mx-auto"
+                         width="1672" height="941"
+                         loading="eager" fetchpriority="high" decoding="async">
                 </div>
             </div>
 
