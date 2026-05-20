@@ -479,16 +479,14 @@ const handleClickOutsideAvatar = (e) => {
                     <slot name="header" />
                 </div>
 
-                <!-- Search pill (desktop only) -->
-                <div class="hidden lg:flex self-center items-center gap-2 rounded-full px-5 py-3 w-80"
-                     style="background:#FBFCF9; border:1px solid #D8DFD2;"
+                <!-- Search bar (desktop only) — flat, no box -->
+                <div class="hidden lg:flex self-center items-center gap-2.5 w-80"
                      :title="t('dashboard.layout.searchSoon')">
-                  <svg class="w-4 h-4" style="color:#6C7A75;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                  <svg class="w-4 h-4 flex-shrink-0" style="color:#6C7A75;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
                     <circle cx="11" cy="11" r="7" /><path d="M21 21l-4.3-4.3" stroke-linecap="round" />
                   </svg>
                   <input disabled :placeholder="t('dashboard.layout.searchPlaceholder')"
-                         class="flex-1 bg-transparent outline-none text-[13.5px] cursor-default" style="color:#1F2A2E;" />
-                  <kbd class="font-jet text-[10.5px] px-1.5 py-0.5 rounded" style="background:#EEF2EA; color:#6C7A75; border:1px solid #D8DFD2;">⌘K</kbd>
+                         class="flex-1 bg-transparent outline-none text-sm cursor-default" style="color:#1F2A2E;" />
                 </div>
 
                 <!-- Right actions -->
