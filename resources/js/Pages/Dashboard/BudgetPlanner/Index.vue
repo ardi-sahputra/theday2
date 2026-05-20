@@ -573,18 +573,17 @@ const upcomingPayments = computed(() =>
                     </div>
                 </div>
 
-                <!-- Hero -->
-                <BudgetHero :summary="summary" />
+                <!-- Two-column: content (left) + rail (right, full height) -->
+                <div class="grid gap-5 lg:grid-cols-[1fr_320px] items-start">
+                    <!-- LEFT: hero + donut/bars + transactions -->
+                    <div class="min-w-0">
+                        <BudgetHero :summary="summary" />
 
-                <!-- Donut + Bars -->
-                <div class="grid gap-5 lg:grid-cols-[320px_1fr] mb-7">
-                    <BudgetDonutCard :categories="categoryBreakdown" />
-                    <CategoryBarsCard :categories="categoryBreakdown" />
-                </div>
+                        <div class="grid gap-5 lg:grid-cols-[300px_1fr] mt-6 mb-7">
+                            <BudgetDonutCard :categories="categoryBreakdown" />
+                            <CategoryBarsCard :categories="categoryBreakdown" />
+                        </div>
 
-                <!-- Transactions + Rail -->
-                <div class="grid gap-5 lg:grid-cols-[1fr_300px] items-start">
-                    <div>
                         <!-- Transactions header with search/filter/sort -->
                         <div class="flex items-end justify-between gap-3 mb-3 flex-wrap">
                             <div>
@@ -618,6 +617,7 @@ const upcomingPayments = computed(() =>
                         <TransactionsTable :items="items" @edit="openEditItem" />
                     </div>
 
+                    <!-- RIGHT: rail (full height) -->
                     <aside class="flex flex-col gap-4">
                         <UpcomingPaymentsRail :payments="upcomingPayments" />
                         <AiInsightRail />
