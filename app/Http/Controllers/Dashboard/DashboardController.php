@@ -8,10 +8,13 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Actions\BudgetPlanner\BuildBudgetSummaryAction;
 use App\Actions\BudgetPlanner\InitializeWeddingBudgetAction;
+use App\Enums\AttendanceStatus;
 use App\Enums\ChecklistTaskStatus;
 use App\Enums\InvitationStatus;
 use App\Http\Controllers\Controller;
 use App\Models\CoupleProfile;
+use App\Models\GuestMessage;
+use App\Models\Rsvp;
 use App\Models\Template;
 use App\Models\WeddingPlan;
 use App\Services\ChecklistService;
@@ -58,12 +61,55 @@ class DashboardController extends Controller
 
         $invitations = $effectiveUser->invitations()->withCount(['rsvps', 'views'])->get();
 
+        $coupleProfile = $effectiveUser->coupleProfile;
+
+        $invitationIds = $invitations->pluck('id');
+
+        $rsvpAttending = Rsvp::whereIn('invitation_id', $invitationIds)
+            ->where('attendance', AttendanceStatus::Hadir->value)->count();
+        $rsvpTotal     = Rsvp::whereIn('invitation_id', $invitationIds)->count();
+        $ucapanCount   = GuestMessage::whereIn('invitation_id', $invitationIds)
+            ->where('is_approved', true)->count();
+
+        $recentRsvps = Rsvp::whereIn('invitation_id', $invitationIds)
+            ->with('invitation:id,title')
+            ->latest()
+            ->limit(5)
+            ->get()
+            ->map(fn ($r) => [
+                'guest_name'       => $r->guest_name,
+                'attendance'       => $r->attendance instanceof AttendanceStatus ? $r->attendance->value : $r->attendance,
+                'guest_count'      => $r->guest_count,
+                'created_at_human' => $r->created_at?->diffForHumans(),
+                'invitation_title' => $r->invitation?->title,
+            ]);
+
+        $primaryInvitation = $invitations->sortByDesc('view_count')->first();
+        $inviteShare = $primaryInvitation ? [
+            'slug'         => $primaryInvitation->slug,
+            'url'          => url('/'.$primaryInvitation->slug),
+            'view_count'   => $primaryInvitation->view_count,
+            'rsvps_count'  => $primaryInvitation->rsvps_count,
+            'ucapan_count' => GuestMessage::where('invitation_id', $primaryInvitation->id)->where('is_approved', true)->count(),
+            'status'       => $primaryInvitation->status instanceof \App\Enums\InvitationStatus ? $primaryInvitation->status->value : $primaryInvitation->status,
+        ] : null;
+
+        $coupleData = $coupleProfile ? [
+            'groom_name'     => $coupleProfile->groom_name,
+            'groom_nickname' => $coupleProfile->groom_nickname,
+            'bride_name'     => $coupleProfile->bride_name,
+            'bride_nickname' => $coupleProfile->bride_nickname,
+        ] : null;
+
         $stats = [
             'total_invitations' => $invitations->count(),
             'draft_count'       => $invitations->where('status', InvitationStatus::Draft)->count(),
             'published_count'   => $invitations->where('status', InvitationStatus::Published)->count(),
             'total_views'       => $invitations->sum('view_count'),
             'total_rsvps'       => $invitations->sum('rsvps_count'),
+            'rsvp_attending'    => $rsvpAttending,
+            'rsvp_total'        => $rsvpTotal,
+            'ucapan_count'      => $ucapanCount,
         ];
 
         $recentInvitations = $effectiveUser->invitations()
@@ -119,7 +165,6 @@ class DashboardController extends Controller
             ]);
 
         // Hybrid wedding date: couple profile field → fallback earliest invitation event
-        $coupleProfile = $effectiveUser->coupleProfile;
         $weddingDate   = $coupleProfile?->wedding_date;
 
         if (! $weddingDate) {
@@ -139,6 +184,7 @@ class DashboardController extends Controller
             $daysUntil = $today->diffInDays($wd, false); // negative if past
             $countdown = [
                 'date'       => $wd->toDateString(),
+                'target'     => $wd->toIso8601String(),
                 'date_label' => $wd->translatedFormat('l, d F Y'),
                 'days_until' => (int) $daysUntil,
                 'is_past'    => $wd->lt($today),
@@ -196,7 +242,11 @@ class DashboardController extends Controller
                 'has_budget'                  => $budgetSummary['has_budget'],
                 'is_total_overbudget'         => $budgetSummary['is_total_overbudget'],
                 'formatted'                   => $budgetSummary['formatted'],
+                'categories'                  => $budgetSummary['categories'],
             ],
+            'couple'      => $coupleData,
+            'recentRsvps' => $recentRsvps,
+            'inviteShare' => $inviteShare,
         ]);
     }
 }

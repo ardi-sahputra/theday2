@@ -49,6 +49,17 @@ final class BuildBudgetSummaryAction
             'overbudget_amount'          => $overbudgetAmount,
             'overbudget_categories_count' => $overbudgetCategoriesCount,
             'has_budget'                 => $totalBudget !== null,
+            'categories'                 => $budget->activeCategories()
+                ->with('activeItems')
+                ->get()
+                ->map(fn ($cat) => [
+                    'name'    => $cat->name,
+                    'planned' => (int) $cat->activeItems->sum('planned_amount'),
+                    'actual'  => (int) $cat->activeItems->sum(fn ($i) => $i->terpakai),
+                ])
+                ->filter(fn ($c) => $c['planned'] > 0 || $c['actual'] > 0)
+                ->values()
+                ->all(),
             'formatted'                  => [
                 'total_budget'          => RupiahFormatter::format($totalBudget),
                 'total_planned'         => RupiahFormatter::formatOrZero($totalPlanned),
