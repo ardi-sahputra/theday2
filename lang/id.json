@@ -768,6 +768,15 @@
             }
         },
         "budget": {
+            "pageTitle": "Anggaran Pernikahan",
+            "pageSub": "Pantau setiap rupiah — dari rencana sampai pelunasan.",
+            "export": "Export CSV",
+            "setBudget": "Set Budget",
+            "addExpense": "Tambah Pengeluaran",
+            "transactions": {
+                "title": "Semua Pengeluaran",
+                "sub": "{count} item tercatat"
+            },
             "header": {
                 "title": "Budget Planner",
                 "subtitle": "Pantau rencana dan realisasi budget pernikahanmu.",
