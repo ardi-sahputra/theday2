@@ -935,92 +935,60 @@
         {{-- ============================================================ --}}
         {{-- HOW IT WORKS --}}
         {{-- ============================================================ --}}
-        <section id="cara-kerja" class="py-24" style="background-color: var(--color-secondary)">
+        <section id="cara-kerja" class="py-24" style="background-color: #FFFCF7">
             <div class="max-w-6xl mx-auto px-6">
-                <div class="text-center mb-16 reveal">
-                    <p class="text-sm font-semibold tracking-widest uppercase mb-3"
-                        style="color: var(--color-primary)" data-id="Mudah & Cepat" data-en="Easy & Fast">Mudah &
-                        Cepat</p>
-                    <h2 class="font-display text-3xl md:text-4xl font-semibold mb-4" style="color: var(--color-dark)"
-                        data-id="Buat Undangan dalam 3 Langkah" data-en="Create an Invitation in 3 Steps">
-                        Buat Undangan dalam 3 Langkah
-                    </h2>
-                    <p class="text-gray-500 max-w-xl mx-auto"
-                        data-id="Tidak perlu keahlian desain. Cukup isi detail acaramu, undanganmu siap dalam menit."
-                        data-en="No design skills needed. Just fill in your event details, your invitation is ready in minutes.">
-                        Tidak perlu keahlian desain. Cukup isi detail acaramu, undanganmu siap dalam menit.
+                <div class="text-center max-w-2xl mx-auto mb-16 reveal">
+                    <h2 class="font-display text-3xl md:text-4xl font-bold mb-4" style="color: #2C2417"
+                        data-id="3 langkah, mulai perjalanan" data-en="3 steps to start your journey">3 langkah, mulai perjalanan</h2>
+                    <p class="text-gray-500 text-lg"
+                        data-id="Bisa pakai dari fase mana aja, bahkan kalau kamu sudah menikah."
+                        data-en="Start from any phase, even if you're already married.">
+                        Bisa pakai dari fase mana aja, bahkan kalau kamu sudah menikah.
                     </p>
                 </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
-                    {{-- Connector line --}}
-                    <div class="hidden md:block absolute top-10 left-1/4 right-1/4 h-0.5 z-0"
-                        style="background: linear-gradient(90deg, var(--color-primary), var(--color-accent))"></div>
-
-                    @php
-                        $steps = [
-                            [
-                                'num' => '01',
-                                'id_title' => 'Pilih Template',
-                                'en_title' => 'Choose a Template',
-                                'id_desc' =>
-                                    'Jelajahi koleksi template undangan pernikahan premium. Pilih yang sesuai dengan tema acara nikahmu.',
-                                'en_desc' =>
-                                    'Browse our premium wedding invitation template collection. Pick one that matches your wedding theme.',
-                                'emoji' => '🎨',
-                            ],
-                            [
-                                'num' => '02',
-                                'id_title' => 'Isi Detail Acara',
-                                'en_title' => 'Fill in Event Details',
-                                'id_desc' =>
-                                    'Masukkan nama, tanggal, lokasi, dan foto. Semuanya bisa dikustomisasi sesuai selera.',
-                                'en_desc' =>
-                                    'Enter name, date, location, and photos. Everything can be customized to your liking.',
-                                'emoji' => '✏️',
-                            ],
-                            [
-                                'num' => '03',
-                                'id_title' => 'Bagikan ke Tamu',
-                                'en_title' => 'Share with Guests',
-                                'id_desc' =>
-                                    'Publikasikan dan bagikan link undangan via WhatsApp. Pantau RSVP dari dashboard.',
-                                'en_desc' =>
-                                    'Publish and share your invitation link via WhatsApp. Monitor RSVPs from the dashboard.',
-                                'emoji' => '🚀',
-                            ],
-                        ];
-                    @endphp
-
-                    @foreach ($steps as $step)
-                        <div class="relative z-10 flex flex-col items-center text-center reveal">
-                            <div class="w-20 h-20 rounded-2xl flex items-center justify-center text-3xl mb-6 shadow-md"
-                                style="background: white">
-                                {{ $step['emoji'] }}
-                            </div>
-                            <div class="inline-flex items-center justify-center w-8 h-8 rounded-full text-sm font-bold text-white mb-4"
-                                style="background: var(--color-primary)">
-                                {{ $step['num'] }}
-                            </div>
-                            <h3 class="font-semibold text-xl mb-3" style="color: var(--color-dark)"
-                                data-id="{{ $step['id_title'] }}" data-en="{{ $step['en_title'] }}">
-                                {{ $step['id_title'] }}</h3>
-                            <p class="text-gray-500 text-sm leading-relaxed max-w-xs"
-                                data-id="{{ $step['id_desc'] }}" data-en="{{ $step['en_desc'] }}">
-                                {{ $step['id_desc'] }}</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    {{-- Step 1 --}}
+                    <div class="text-center reveal">
+                        <div class="w-28 h-28 mx-auto rounded-2xl flex items-center justify-center mb-4"
+                            style="background: rgba(146,168,156,0.15); border: 2px dashed rgba(146,168,156,0.4)">
+                            <span style="color: rgba(146,168,156,0.7); font-size: 0.65rem; padding: 0.5rem; text-align: center;">Ilustrasi: step-1-daftar</span>
                         </div>
-                    @endforeach
-                </div>
-
-                <div class="text-center mt-12 reveal">
-                    <a href="/templates" class="btn-primary text-base py-3 px-8">
-                        <span data-id="Coba Sekarang — Gratis!" data-en="Try Now — Free!">Coba Sekarang —
-                            Gratis!</span>
-                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                            stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                        </svg>
-                    </a>
+                        <div class="w-8 h-8 mx-auto rounded-full text-white flex items-center justify-center font-bold mb-3 text-sm"
+                            style="background-color: #92A89C">1</div>
+                        <h3 class="text-lg font-bold mb-2" style="color: #2C2417"
+                            data-id="Daftar Gratis" data-en="Sign Up Free">Daftar Gratis</h3>
+                        <p class="text-sm text-gray-500"
+                            data-id="Buat akun TheDay dalam 30 detik. Tanpa kartu kredit."
+                            data-en="Create your TheDay account in 30 seconds. No credit card.">Buat akun TheDay dalam 30 detik. Tanpa kartu kredit.</p>
+                    </div>
+                    {{-- Step 2 --}}
+                    <div class="text-center reveal">
+                        <div class="w-28 h-28 mx-auto rounded-2xl flex items-center justify-center mb-4"
+                            style="background: rgba(146,168,156,0.15); border: 2px dashed rgba(146,168,156,0.4)">
+                            <span style="color: rgba(146,168,156,0.7); font-size: 0.65rem; padding: 0.5rem; text-align: center;">Ilustrasi: step-2-tanggal</span>
+                        </div>
+                        <div class="w-8 h-8 mx-auto rounded-full text-white flex items-center justify-center font-bold mb-3 text-sm"
+                            style="background-color: #92A89C">2</div>
+                        <h3 class="text-lg font-bold mb-2" style="color: #2C2417"
+                            data-id="Atur Tanggal & Lokasi" data-en="Set Date & Location">Atur Tanggal &amp; Lokasi</h3>
+                        <p class="text-sm text-gray-500"
+                            data-id="Set tanggal pernikahan kamu — atau anniversary kalau sudah menikah."
+                            data-en="Set your wedding date — or anniversary if already married.">Set tanggal pernikahan kamu — atau anniversary kalau sudah menikah.</p>
+                    </div>
+                    {{-- Step 3 --}}
+                    <div class="text-center reveal">
+                        <div class="w-28 h-28 mx-auto rounded-2xl flex items-center justify-center mb-4"
+                            style="background: rgba(146,168,156,0.15); border: 2px dashed rgba(146,168,156,0.4)">
+                            <span style="color: rgba(146,168,156,0.7); font-size: 0.65rem; padding: 0.5rem; text-align: center;">Ilustrasi: step-3-mulai</span>
+                        </div>
+                        <div class="w-8 h-8 mx-auto rounded-full text-white flex items-center justify-center font-bold mb-3 text-sm"
+                            style="background-color: #92A89C">3</div>
+                        <h3 class="text-lg font-bold mb-2" style="color: #2C2417"
+                            data-id="Mulai dari Fase Mana Aja" data-en="Start from Any Phase">Mulai dari Fase Mana Aja</h3>
+                        <p class="text-sm text-gray-500"
+                            data-id="Pilih checklist persiapan, atau langsung bikin undangan, atau atur anniversary. Bebas."
+                            data-en="Pick preparation checklist, or make an invitation, or set anniversary. Your choice.">Pilih checklist persiapan, atau langsung bikin undangan, atau atur anniversary. Bebas.</p>
+                    </div>
                 </div>
             </div>
         </section>
