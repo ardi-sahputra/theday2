@@ -22,7 +22,15 @@ class CoupleProfile extends Model
         'bride_nickname',
         'bride_instagram',
         'bride_parent_names',
+        'wedding_date',
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'wedding_date' => 'date',
+        ];
+    }
 
     public function user(): BelongsTo
     {
