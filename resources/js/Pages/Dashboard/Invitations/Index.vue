@@ -217,6 +217,12 @@ async function doDuplicate() {
                             >
                                 {{ t('dashboard.invitations.actionCustomize') }}
                             </Link>
+                            <Link
+                                :href="route('dashboard.invitations.customize-v2', inv.id)"
+                                class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold text-[#4A5A4C] border border-[#C7D0BE] hover:bg-[#92A89C]/10 transition-colors"
+                            >
+                                ✦ Editor baru
+                            </Link>
                             <button
                                 @click="openPicker(inv)"
                                 class="flex-1 text-center py-2 rounded-xl text-xs font-semibold border border-[#B8C7BF] text-[#73877C] hover:bg-[#92A89C]/10 transition-colors"
