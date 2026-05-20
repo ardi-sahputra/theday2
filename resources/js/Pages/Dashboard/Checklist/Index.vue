@@ -877,7 +877,7 @@ const currentPickerDate = computed(() =>
             </Transition>
 
             <!-- ── Desktop layout wrapper ─────────────────────────── -->
-            <div v-if="!isMobileView" class="max-w-[1200px] mx-auto">
+            <div v-if="!isMobileView" class="w-full">
 
                 <!-- Page heading + top actions -->
                 <div class="flex items-end justify-between gap-3 mb-4 flex-wrap">
