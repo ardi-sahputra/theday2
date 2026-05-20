@@ -98,19 +98,7 @@ const eventTypeLabel = computed(() => ({
     pernikahan: t('dashboard.index.eventType.pernikahan'),
 }));
 
-const tips = computed(() => [
-    { icon: '🎨', title: t('dashboard.index.tips.tip1.title'), desc: t('dashboard.index.tips.tip1.desc') },
-    { icon: '✏️', title: t('dashboard.index.tips.tip2.title'), desc: t('dashboard.index.tips.tip2.desc') },
-    { icon: '🚀', title: t('dashboard.index.tips.tip3.title'), desc: t('dashboard.index.tips.tip3.desc') },
-]);
-
 const templateColor = (inv) => inv.template?.default_config?.primary_color ?? '#92A89C';
-
-const priorityDot = {
-    high:   'bg-red-400',
-    medium: 'bg-[#92A89C]',
-    low:    'bg-stone-300',
-};
 
 // ── Countdown ─────────────────────────────────────────────────────────
 const showDateModal    = ref(false);
@@ -132,14 +120,6 @@ function saveWeddingDate() {
     );
 }
 
-function countdownHeadline() {
-    const c = props.countdown;
-    if (!c) return null;
-    if (c.days_until === 0) return t('dashboard.index.countdown.today');
-    if (!c.is_past) return t('dashboard.index.countdown.daysUntil', { days: c.days_until });
-    if (c.years_past >= 1) return t('dashboard.index.countdown.anniversary', { years: c.years_past });
-    return t('dashboard.index.countdown.married', { days: Math.abs(c.days_until) });
-}
 </script>
 
 <template>
