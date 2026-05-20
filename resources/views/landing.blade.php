@@ -697,6 +697,74 @@
 
 
         {{-- ============================================================ --}}
+        {{-- WHAT MAKES DIFFERENT --}}
+        {{-- ============================================================ --}}
+        <section class="py-24" style="background-color: #F5F8F6">
+            <div class="max-w-6xl mx-auto px-6">
+                <div class="text-center max-w-2xl mx-auto mb-16">
+                    <h2 class="font-display text-3xl md:text-4xl font-bold mb-4"
+                        style="color: #2C2417"
+                        data-id="Beda dari yang lain" data-en="Different from the rest">
+                        Beda dari yang lain
+                    </h2>
+                    <p class="text-gray-500 text-lg"
+                        data-id="Bukan cuma undangan. Bukan cuma planner. Pendamping seumur hidup pernikahan."
+                        data-en="Not just invitations. Not just a planner. A lifelong marriage companion.">
+                        Bukan cuma undangan. Bukan cuma planner. Pendamping seumur hidup pernikahan.
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-8">
+                    {{-- Lifecycle --}}
+                    <div class="text-center">
+                        <div class="w-32 h-32 mx-auto rounded-2xl flex items-center justify-center mb-5"
+                            style="background: rgba(146,168,156,0.15); border: 2px dashed rgba(146,168,156,0.4)">
+                            <span style="color: rgba(146,168,156,0.7); font-size: 0.65rem; font-weight: 500; padding: 0.5rem; text-align: center;">Ilustrasi: diff-lifecycle</span>
+                        </div>
+                        <h3 class="text-lg font-bold mb-2" style="color: #2C2417"
+                            data-id="Pendamping Seumur Hidup" data-en="Lifelong Companion">Pendamping Seumur Hidup</h3>
+                        <p class="text-sm text-gray-500"
+                            data-id="Dari sebelum sampai setelah pernikahan, dalam satu aplikasi. Bukan one-shot event app."
+                            data-en="From before to after the wedding, in one app. Not a one-shot event app.">
+                            Dari sebelum sampai setelah pernikahan, dalam satu aplikasi. Bukan one-shot event app.
+                        </p>
+                    </div>
+
+                    {{-- Indonesian --}}
+                    <div class="text-center">
+                        <div class="w-32 h-32 mx-auto rounded-2xl flex items-center justify-center mb-5"
+                            style="background: rgba(146,168,156,0.15); border: 2px dashed rgba(146,168,156,0.4)">
+                            <span style="color: rgba(146,168,156,0.7); font-size: 0.65rem; font-weight: 500; padding: 0.5rem; text-align: center;">Ilustrasi: diff-indonesian</span>
+                        </div>
+                        <h3 class="text-lg font-bold mb-2" style="color: #2C2417"
+                            data-id="Lokal Banget" data-en="Truly Local">Lokal Banget</h3>
+                        <p class="text-sm text-gray-500"
+                            data-id="Dirancang untuk pasangan Indonesia. Adat, bahasa, dan kebiasaan lokal terintegrasi."
+                            data-en="Built for Indonesian couples. Local customs, language, and habits integrated.">
+                            Dirancang untuk pasangan Indonesia. Adat, bahasa, dan kebiasaan lokal terintegrasi.
+                        </p>
+                    </div>
+
+                    {{-- Craft --}}
+                    <div class="text-center">
+                        <div class="w-32 h-32 mx-auto rounded-2xl flex items-center justify-center mb-5"
+                            style="background: rgba(146,168,156,0.15); border: 2px dashed rgba(146,168,156,0.4)">
+                            <span style="color: rgba(146,168,156,0.7); font-size: 0.65rem; font-weight: 500; padding: 0.5rem; text-align: center;">Ilustrasi: diff-craft</span>
+                        </div>
+                        <h3 class="text-lg font-bold mb-2" style="color: #2C2417"
+                            data-id="Kualitas Craft Premium" data-en="Premium Craft Quality">Kualitas Craft Premium</h3>
+                        <p class="text-sm text-gray-500"
+                            data-id="Template undangan berkualitas, design taste yang dipikirkan dengan detail."
+                            data-en="Quality invitation templates, design taste crafted with detail.">
+                            Template undangan berkualitas, design taste yang dipikirkan dengan detail.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        {{-- ============================================================ --}}
         {{-- STATS SECTION --}}
         {{-- ============================================================ --}}
         <section class="py-16 bg-white">
