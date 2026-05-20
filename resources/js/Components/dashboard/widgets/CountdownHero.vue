@@ -69,21 +69,21 @@ async function copyLink() {
           {{ countdown.date_label }}
         </p>
 
-        <div class="flex flex-wrap gap-2.5 mt-6">
+        <div class="flex gap-2.5 mt-6">
           <button v-if="!countdown" @click="emit('set-date')"
-                  class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-[13.5px] font-semibold transition-transform active:scale-95"
+                  class="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-full text-[13.5px] font-semibold transition-transform active:scale-95"
                   style="background:#FBFCF9; color:#1F2A2E;">
             <WidgetIcon name="cal" :size="14" stroke="#1F2A2E" />
             {{ t('dashboard.index.widgets.hero.setDate') }}
           </button>
           <button v-if="inviteUrl" @click="copyLink"
-                  class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-[13.5px] font-semibold transition-transform active:scale-95"
+                  class="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-full text-[13.5px] font-semibold transition-transform active:scale-95"
                   style="background:#FBFCF9; color:#1F2A2E;">
             <WidgetIcon name="share" :size="14" stroke="#1F2A2E" />
             {{ copied ? t('dashboard.index.widgets.hero.copied') : t('dashboard.index.widgets.hero.copyLink') }}
           </button>
           <a v-if="inviteUrl" :href="inviteUrl" target="_blank"
-             class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-[13.5px] font-semibold"
+             class="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-full text-[13.5px] font-semibold"
              style="background:transparent; color:#FBFCF9; border:1px solid rgba(251,252,249,0.3);">
             {{ t('dashboard.index.widgets.hero.preview') }}
           </a>
