@@ -7,9 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     {{-- ── SEO: Core ─────────────────────────────────────────────── --}}
-    <title>TheDay - Undangan Digital Pernikahan Online Premium | Gratis</title>
+    <title>TheDay & Beyond — Pernikahan dan Seterusnya | Aplikasi Pendamping Pasangan Indonesia</title>
     <meta name="description"
-        content="Buat undangan digital pernikahan yang elegan dalam hitungan menit. 50+ template premium, RSVP online real-time, bagikan via WhatsApp. Mulai gratis, tanpa kartu kredit.">
+        content="Aplikasi pendamping pasangan Indonesia dari persiapan, hari pernikahan, sampai kehidupan setelahnya. Undangan digital, RSVP, anniversary, dan lainnya.">
     <meta name="keywords"
         content="undangan digital pernikahan, undangan pernikahan digital, buat undangan nikah online gratis, undangan nikah digital, digital wedding invitation Indonesia, undangan online cantik, undangan pernikahan premium">
     <meta name="author" content="TheDay">
@@ -22,9 +22,9 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ url('/') }}">
     <meta property="og:site_name" content="TheDay">
-    <meta property="og:title" content="TheDay — Undangan Digital Pernikahan Premium | Gratis">
+    <meta property="og:title" content="TheDay & Beyond — Pernikahan dan Seterusnya">
     <meta property="og:description"
-        content="Buat undangan pernikahan digital yang cantik dalam hitungan menit. 50+ template elegan, RSVP online, bagikan via WhatsApp. Mulai gratis!">
+        content="Aplikasi pendamping pasangan Indonesia dari persiapan, hari pernikahan, sampai kehidupan setelahnya. Undangan digital, RSVP, anniversary, dan lainnya.">
     <meta property="og:image" content="{{ asset('image/logo.svg') }}">
     <meta property="og:image:width" content="300">
     <meta property="og:image:height" content="150">
@@ -34,9 +34,9 @@
 
     {{-- ── SEO: Twitter Card ─────────────────────────────────────── --}}
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="TheDay — Undangan Digital Pernikahan Premium Online">
+    <meta name="twitter:title" content="TheDay & Beyond — Pernikahan dan Seterusnya">
     <meta name="twitter:description"
-        content="Buat undangan pernikahan digital yang cantik dalam hitungan menit. 50+ template elegan, RSVP online, bagikan via WhatsApp.">
+        content="Aplikasi pendamping pasangan Indonesia dari persiapan, hari pernikahan, sampai kehidupan setelahnya. Undangan digital, RSVP, anniversary, dan lainnya.">
     <meta name="twitter:image" content="{{ asset('image/logo.svg') }}">
 
     {{-- ── SEO: Hreflang (bilingual ID / EN) ────────────────────── --}}
@@ -257,7 +257,7 @@
           "@id": "{{ url('/') }}/#website",
           "url": "{{ url('/') }}",
           "name": "TheDay",
-          "description": "Platform undangan digital pernikahan online terbaik di Indonesia.",
+          "description": "Aplikasi pendamping pasangan Indonesia dari persiapan, hari pernikahan, sampai kehidupan setelahnya. Undangan digital, RSVP, anniversary, dan lainnya.",
           "inLanguage": ["id-ID", "en-US"],
           "potentialAction": {
             "@type": "SearchAction",
@@ -291,7 +291,7 @@
           "applicationCategory": "LifestyleApplication",
           "operatingSystem": "Web",
           "url": "{{ url('/') }}",
-          "description": "Platform undangan digital pernikahan online. Buat undangan nikah cantik dalam hitungan menit dengan 50+ template elegan.",
+          "description": "Aplikasi pendamping pasangan Indonesia dari persiapan, hari pernikahan, sampai kehidupan setelahnya. Undangan digital, RSVP, anniversary, dan lainnya.",
           "offers": [
             {
               "@type": "Offer",
