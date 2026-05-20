@@ -390,12 +390,12 @@
             <div class="hidden md:flex items-center gap-8">
                 <a href="#fitur" class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors"
                     data-id="Fitur" data-en="Features">Fitur</a>
-                <a href="#template" class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors"
-                    data-id="Template" data-en="Template">Template</a>
                 <a href="#harga" class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors"
                     data-id="Harga" data-en="Pricing">Harga</a>
                 <a href="#cara-kerja" class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors"
                     data-id="Cara Kerja" data-en="How It Works">Cara Kerja</a>
+                <a href="#faq" class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors"
+                    data-id="FAQ" data-en="FAQ">FAQ</a>
             </div>
 
             {{-- CTA + Lang switcher --}}
@@ -421,8 +421,8 @@
                     <a href="/login"
                         class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors px-4 py-2"
                         data-id="Masuk" data-en="Login">Masuk</a>
-                    <a href="/templates" class="btn-primary text-sm py-2 px-5" data-id="Buat Undangan — Gratis"
-                        data-en="Create Invitation — Free">Buat Undangan — Gratis</a>
+                    <a href="/register" class="btn-primary text-sm py-2 px-5" data-id="Mulai Gratis"
+                        data-en="Start Free">Mulai Gratis</a>
                 @endauth
             </div>
 
@@ -447,12 +447,12 @@
             <div class="flex flex-col gap-4 px-2">
                 <a href="#fitur" class="text-sm font-medium text-gray-600" data-id="Fitur"
                     data-en="Features">Fitur</a>
-                <a href="#template" class="text-sm font-medium text-gray-600" data-id="Template"
-                    data-en="Template">Template</a>
                 <a href="#harga" class="text-sm font-medium text-gray-600" data-id="Harga"
                     data-en="Pricing">Harga</a>
                 <a href="#cara-kerja" class="text-sm font-medium text-gray-600" data-id="Cara Kerja"
                     data-en="How It Works">Cara Kerja</a>
+                <a href="#faq" class="text-sm font-medium text-gray-600" data-id="FAQ"
+                    data-en="FAQ">FAQ</a>
                 <div class="flex gap-3 pt-2">
                     @auth
                         <a href="/dashboard" class="btn-primary text-sm py-2 px-4 flex-1 justify-center"
@@ -460,8 +460,8 @@
                     @else
                         <a href="/login" class="btn-outline text-sm py-2 px-4 flex-1 justify-center" data-id="Masuk"
                             data-en="Login">Masuk</a>
-                        <a href="/templates" class="btn-primary text-sm py-2 px-4 flex-1 justify-center"
-                            data-id="Buat Undangan" data-en="Create Invitation">Buat Undangan</a>
+                        <a href="/register" class="btn-primary text-sm py-2 px-4 flex-1 justify-center"
+                            data-id="Mulai Gratis" data-en="Start Free">Mulai Gratis</a>
                     @endauth
                 </div>
             </div>
