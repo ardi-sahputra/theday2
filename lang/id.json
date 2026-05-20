@@ -950,6 +950,15 @@
                 "categoryAddError": "Gagal menambah kategori.",
                 "categoryArchived": "Kategori berhasil diarsipkan.",
                 "categoryArchiveError": "Gagal mengarsipkan kategori."
+            },
+            "hero": { "total": "Total Budget", "used": "Terpakai", "remaining": "Sisa", "status": "Status", "ofBudget": "{pct}% dari budget", "onTrack": "On track — sesuai timeline", "overBudget": "Melebihi budget", "forecast": "Forecast akhir" },
+            "donut": { "title": "Distribusi", "sub": "Komposisi terpakai", "used": "terpakai", "empty": "Belum ada data kategori" },
+            "bars": { "title": "Per Kategori", "sub": "Bandingkan budget vs terpakai", "empty": "Belum ada kategori" },
+            "table": { "expense": "Pengeluaran", "category": "Kategori", "vendor": "Vendor", "date": "Tanggal", "amount": "Jumlah", "status": "Status", "empty": "Belum ada pengeluaran" },
+            "rail": {
+                "upcoming": { "title": "Pembayaran Berikutnya", "sub": "Jatuh tempo terdekat", "empty": "Tidak ada pembayaran terjadwal" },
+                "ai": { "title": "Insight AI", "sample": "Kategori MUA & Busana baru terpakai sedikit — biasanya pasangan mulai fitting H-60. Cek estimasi vendor sekarang?", "cta": "Lihat rekomendasi" },
+                "notes": { "title": "Diskusi Pasangan", "sub": "{count} catatan", "placeholder": "Tulis catatan…", "send": "Kirim" }
             }
         },
         "guests": {

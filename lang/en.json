@@ -950,6 +950,15 @@
                 "categoryAddError": "Failed to add category.",
                 "categoryArchived": "Category archived successfully.",
                 "categoryArchiveError": "Failed to archive category."
+            },
+            "hero": { "total": "Total Budget", "used": "Spent", "remaining": "Remaining", "status": "Status", "ofBudget": "{pct}% of budget", "onTrack": "On track — within timeline", "overBudget": "Over budget", "forecast": "Final forecast" },
+            "donut": { "title": "Distribution", "sub": "Spend composition", "used": "spent", "empty": "No category data yet" },
+            "bars": { "title": "Per Category", "sub": "Budget vs spent", "empty": "No categories yet" },
+            "table": { "expense": "Expense", "category": "Category", "vendor": "Vendor", "date": "Date", "amount": "Amount", "status": "Status", "empty": "No expenses yet" },
+            "rail": {
+                "upcoming": { "title": "Up Next Payments", "sub": "Nearest due", "empty": "No scheduled payments" },
+                "ai": { "title": "AI Insight", "sample": "MUA & Attire is barely used — couples usually start fittings around H-60. Check vendor estimates now?", "cta": "See recommendations" },
+                "notes": { "title": "Couple Notes", "sub": "{count} notes", "placeholder": "Write a note…", "send": "Send" }
             }
         },
         "guests": {
