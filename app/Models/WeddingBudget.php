@@ -55,7 +55,7 @@ class WeddingBudget extends Model
             ->where('is_archived', false);
     }
 
-    public function notes(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function budgetNotes(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(WeddingBudgetNote::class, 'budget_id')->latest();
     }

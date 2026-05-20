@@ -20,7 +20,7 @@ class BudgetNoteController extends Controller
         $data   = $request->validate(['body' => 'required|string|max:1000']);
         $budget = $this->initialize->execute(EffectiveUser::resolve());
 
-        $note = $budget->notes()->create([
+        $note = $budget->budgetNotes()->create([
             'user_id' => $request->user()->id,
             'body'    => $data['body'],
         ])->load('author');

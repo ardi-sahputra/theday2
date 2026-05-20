@@ -49,8 +49,8 @@ class BudgetPlannerPageController extends Controller
             'items'             => $this->itemsTable->execute($budget, $filters),
             'categories'        => $categories,
             'filters'           => $filters,
-            'budgetNotes'       => $budget->notes()->with('author')->limit(20)->get()
-                ->map(fn ($n) => \App\Http\Controllers\Dashboard\BudgetPlanner\BudgetNoteController::resource($n, $request->user()->id))
+            'budgetNotes'       => $budget->budgetNotes()->with('author')->limit(20)->get()
+                ->map(fn ($n) => BudgetNoteController::resource($n, $request->user()->id))
                 ->values(),
         ]);
     }
