@@ -146,7 +146,16 @@
         "logout": "Keluar",
         "pricing": "Harga",
         "login": "Masuk",
-        "register": "Daftar"
+        "register": "Daftar",
+        "phase": {
+            "persiapan": "Persiapan",
+            "harih": "Hari H",
+            "setelah": "Setelah",
+            "akun": "Akun"
+        },
+        "anniversary": "Anniversary",
+        "memoryAlbum": "Memory Album",
+        "comingSoon": "Segera"
     },
     "validation": {
         "required": ":field wajib diisi",
@@ -161,6 +170,22 @@
             "greetingSubtitle": "Kelola hari bahagiamu dari sini.",
             "createNew": "Buat Undangan Baru",
             "upgradeNudge": "Upgrade",
+            "countdown": {
+                "daysUntil": "Hari H tinggal {days} hari",
+                "today": "Hari ini hari spesialmu!",
+                "married": "Sudah menikah {days} hari",
+                "anniversary": "{years} tahun pernikahan",
+                "setDate": "Atur tanggal pernikahan kamu",
+                "setDateHint": "Biar kami bisa hitung mundur ke hari spesialmu",
+                "setDateCta": "Simpan Tanggal",
+                "dateLabelPrefix": "Tanggal pernikahan:",
+                "change": "Ubah"
+            },
+            "phase3": {
+                "title": "Setelah Hari H",
+                "badge": "Segera Hadir",
+                "desc": "Kami sedang menyiapkan fitur untuk kehidupan setelah pernikahan kamu."
+            },
             "stats": {
                 "totalInvitations": "Total Undangan",
                 "totalInvitationsSub": "{draft} draft · {published} aktif",

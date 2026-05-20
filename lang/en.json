@@ -146,7 +146,16 @@
         "logout": "Logout",
         "pricing": "Pricing",
         "login": "Login",
-        "register": "Register"
+        "register": "Register",
+        "phase": {
+            "persiapan": "Preparation",
+            "harih": "The Day",
+            "setelah": "After",
+            "akun": "Account"
+        },
+        "anniversary": "Anniversary",
+        "memoryAlbum": "Memory Album",
+        "comingSoon": "Soon"
     },
     "validation": {
         "required": ":field is required",
@@ -161,6 +170,22 @@
             "greetingSubtitle": "Manage your happy day from here.",
             "createNew": "Create New Invitation",
             "upgradeNudge": "Upgrade",
+            "countdown": {
+                "daysUntil": "{days} days until the big day",
+                "today": "Today is your special day!",
+                "married": "Married for {days} days",
+                "anniversary": "{years} years of marriage",
+                "setDate": "Set your wedding date",
+                "setDateHint": "So we can count down to your special day",
+                "setDateCta": "Save Date",
+                "dateLabelPrefix": "Wedding date:",
+                "change": "Change"
+            },
+            "phase3": {
+                "title": "After The Day",
+                "badge": "Coming Soon",
+                "desc": "We're preparing features for your life after the wedding."
+            },
             "stats": {
                 "totalInvitations": "Total Invitations",
                 "totalInvitationsSub": "{draft} draft · {published} active",
