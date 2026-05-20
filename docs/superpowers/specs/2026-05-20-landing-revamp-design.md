@@ -86,7 +86,7 @@ Daftar / Login
 │  │•Tamu   │  │•QR     │  │•Goals  │                        │
 │  │        │  │        │  │        │                        │
 │  │ HADIR  │  │FLAGSHIP│  │ SEGERA │                        │
-│  │ BASIC  │  │  ★     │  │ HADIR  │                        │
+│  │        │  │  ★     │  │ HADIR  │                        │
 │  └────────┘  └────────┘  └────────┘                        │
 └────────────────────────────────────────────────────────────┘
 
@@ -264,7 +264,7 @@ Daftar / Login
   - ⏳ Newlywed Admin
   - ⏳ Memory Album
   - ⏳ Date Night Planner
-- Status badge: **"Segera Hadir · Q4 2026"** — outline pill, muted color
+- Status badge: **"Segera Hadir"** — outline pill, muted color (NO specific date)
 - Subtle "coming soon" visual treatment (slightly lower opacity background)
 
 ### Section 3: What Makes Different
@@ -361,7 +361,7 @@ Below tab content: small link "Lihat 30+ Tema Undangan →" (link to `/templates
 
 | Feature | Status | Description |
 |---------|--------|-------------|
-| Anniversary Reminder | SEGERA Q4 2026 | Notifikasi ulang tahun pernikahan + ide kado |
+| Anniversary Reminder | SEGERA | Notifikasi ulang tahun pernikahan + ide kado |
 | Newlywed Admin | SEGERA | Checklist update KK, KTP, sertifikat nikah |
 | Joint Budget | SEGERA | Anggaran rumah tangga bareng |
 | Memory Album | SEGERA | Galeri foto + cerita momen spesial |
@@ -405,7 +405,7 @@ Below tab content: small link "Lihat 30+ Tema Undangan →" (link to `/templates
 **Accordion 7 questions:**
 
 **Q1: "Saya udah nikah, masih bisa pakai TheDay?"**
-A: "Bisa! Fitur Fase 3 (Setelah Nikah) seperti anniversary reminder, memory album, dan joint budget dirancang untuk pasangan yang sudah menikah. Fitur ini sedang dikembangkan dan akan tersedia bertahap di Q4 2026. Daftar sekarang gratis biar dapat akses awal saat rilis."
+A: "Bisa! Fitur Fase 3 (Setelah Nikah) seperti anniversary reminder, memory album, dan joint budget dirancang untuk pasangan yang sudah menikah. Fitur ini sedang dikembangkan dan akan tersedia bertahap. Daftar sekarang gratis biar dapat akses awal saat rilis."
 
 **Q2: "Apakah saya wajib pakai fitur undangan?"**
 A: "Tidak. Undangan digital adalah salah satu fitur unggulan, tapi kamu bisa pakai TheDay cuma untuk checklist persiapan, daftar tamu, RSVP, atau (saat hadir) fitur setelah nikah. Bebas pilih sesuai kebutuhan."
@@ -414,7 +414,7 @@ A: "Tidak. Undangan digital adalah salah satu fitur unggulan, tapi kamu bisa pak
 A: "TheDay fokus ke perjalanan pernikahan jangka panjang — bukan cuma event sehari. Kami menggabungkan kualitas craft template undangan premium dengan fitur pendamping seumur hidup pasangan: dari persiapan, hari H, sampai kehidupan setelahnya. Dirancang khusus untuk pasangan Indonesia."
 
 **Q4: "Fitur Setelah Nikah kapan tersedia?"**
-A: "Roadmap: Anniversary reminder dan memory album rilis Q4 2026. Newlywed admin (update KK, KTP, sertifikat) dan joint budget menyusul Q1 2027. Kamu yang sudah daftar akan dapat notifikasi saat rilis."
+A: "Fitur Fase 3 (anniversary reminder, memory album, newlywed admin, joint budget) sedang dikembangkan dan akan dirilis bertahap. Kamu yang sudah daftar akan dapat notifikasi saat setiap fitur rilis."
 
 **Q5: "Apa bedanya paket Free dan Premium?"**
 A: "Free: undangan digital dengan template terbatas, watermark TheDay, fitur dasar checklist + RSVP. Premium: akses ke semua template premium (Netflix, Onyx, Astronomy, Spotify Wrapped, dan lain-lain), tanpa watermark, custom domain, amplop digital advance, dan priority support. [Lihat detail paket →](/paket)"
@@ -564,14 +564,14 @@ JavaScript existing `toggleLanguage()` function tetep handle switch. No changes 
 
 ---
 
-## Open Questions (untuk diskusi user review)
+## Open Questions — RESOLVED
 
-1. **Status badge nomenclature:** "Hadir" / "Segera Hadir" / "Q4 2026" — terlalu spesifik tanggal? Atau cukup "Coming Soon" generik?
-2. **Phase 2 visual emphasis:** Card "Hari H" di section 3-phase di-scale-up sedikit atau visual treatment lain? Atau equal weight 3 card?
-3. **Stats numbers:** "1.000+ pasangan" + "4.9 rating dari 2.000 ulasan" — angka existing landing. Lanjut pakai angka same atau audit dulu apakah masih representatif?
-4. **Testimonial:** Reuse 5 testimonial existing (Reza & Maya, Hendra & Lisa, dll) atau kurate ulang 3-4 testimonial baru yang mention multiple phase?
-5. **Newsletter signup di footer:** Existing landing ada? Kalau ada, dipertahankan. Kalau tidak, skip (don't add baru).
-6. **Activity feed toast** (kayak chara "Siti & Ahmad baru aja bikin undangan"): worth add buat social proof animation? Atau skip (over-engineering)?
+1. **Status badge nomenclature:** ✅ RESOLVED — pakai **"Segera Hadir"** generik (NO specific date Q4 2026 / Q1 2027). Konsisten dengan hybrid-honest policy: jangan commit tanggal yang bisa meleset.
+2. **Phase 2 visual emphasis:** ✅ RESOLVED — Card "Hari H" dapat subtle emphasis: `border-2` solid sage + `scale-[1.02]` (desktop only), gold "★ Flagship" badge. Bukan jarring, cuma signal "ini yang paling matang".
+3. **Stats numbers:** ✅ RESOLVED — Reuse angka existing landing (1.000+ pasangan, 4.9/5 dari 2.000+ ulasan, 32+ tema). Tidak audit ulang sekarang (no data to verify against; existing numbers already in production).
+4. **Testimonial:** ✅ RESOLVED — Reuse 5 testimonial existing (Reza & Maya, Hendra & Lisa, Arif & Dewi, Yoga & Tari, dll). Tidak curate baru.
+5. **Newsletter signup footer:** ✅ RESOLVED — Pertahankan kalau existing punya, JANGAN tambah baru kalau gak ada.
+6. **Activity feed toast:** ✅ RESOLVED — SKIP. Over-engineering untuk MVP positioning revamp. Bisa add nanti kalau mau social proof animation.
 
 ---
 
