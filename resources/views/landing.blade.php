@@ -561,6 +561,142 @@
 
 
         {{-- ============================================================ --}}
+        {{-- 3-PHASE JOURNEY --}}
+        {{-- ============================================================ --}}
+        <section id="phase-journey" class="py-24 bg-white">
+            <div class="max-w-6xl mx-auto px-6">
+                {{-- Section header --}}
+                <div class="text-center max-w-2xl mx-auto mb-16">
+                    <h2 class="font-display text-3xl md:text-4xl font-bold mb-4"
+                        style="color: #2C2417"
+                        data-id="Tiga fase, satu aplikasi" data-en="Three phases, one app">
+                        Tiga fase, satu aplikasi
+                    </h2>
+                    <p class="text-gray-500 text-lg"
+                        data-id="Pendamping kamu dari persiapan, perayaan, sampai kehidupan bersama setelahnya."
+                        data-en="Your companion from preparation, celebration, to shared life after.">
+                        Pendamping kamu dari persiapan, perayaan, sampai kehidupan bersama setelahnya.
+                    </p>
+                </div>
+
+                {{-- 3 phase cards --}}
+                <div class="grid md:grid-cols-3 gap-6">
+
+                    {{-- Card 1: Sebelum --}}
+                    <div class="rounded-2xl border p-6 md:p-8 hover:shadow-lg hover:-translate-y-1 transition-all duration-200"
+                        style="border-color: rgba(146,168,156,0.2); background-color: #FFFCF7">
+                        {{-- PLACEHOLDER illustration --}}
+                        <div class="aspect-square w-full rounded-xl flex items-center justify-center mb-5"
+                            style="background: rgba(146,168,156,0.15); border: 2px dashed rgba(146,168,156,0.4)">
+                            <span style="color: rgba(146,168,156,0.7); font-size: 0.75rem; font-weight: 500;">Ilustrasi: phase-1-sebelum</span>
+                        </div>
+                        <span class="inline-block px-2.5 py-1 rounded-full text-xs font-semibold mb-3"
+                            style="background: rgba(146,168,156,0.2); color: #73877C"
+                            data-id="FASE 1" data-en="PHASE 1">FASE 1</span>
+                        <h3 class="text-xl font-bold mb-2" style="color: #2C2417"
+                            data-id="Sebelum — Persiapan" data-en="Before — Preparation">Sebelum — Persiapan</h3>
+                        <p class="text-sm text-gray-500 mb-4"
+                            data-id="Atur acara dengan tenang. Checklist, daftar tamu, anggaran — semua tertata."
+                            data-en="Plan calmly. Checklist, guest list, budget — all organized.">
+                            Atur acara dengan tenang. Checklist, daftar tamu, anggaran — semua tertata.
+                        </p>
+                        <ul class="space-y-2 text-sm text-gray-600 mb-4">
+                            <li class="flex items-center gap-2">
+                                <span style="color: #92A89C">&#10003;</span>
+                                <span data-id="Checklist Persiapan" data-en="Preparation Checklist">Checklist Persiapan</span>
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <span style="color: #92A89C">&#10003;</span>
+                                <span data-id="Daftar Tamu" data-en="Guest List">Daftar Tamu</span>
+                            </li>
+                            <li class="flex items-center gap-2 text-gray-400">
+                                <span>&#8987;</span>
+                                <span data-id="Anggaran Pernikahan" data-en="Wedding Budget">Anggaran Pernikahan</span>
+                            </li>
+                            <li class="flex items-center gap-2 text-gray-400">
+                                <span>&#8987;</span>
+                                <span data-id="Wedding Planner" data-en="Wedding Planner">Wedding Planner</span>
+                            </li>
+                        </ul>
+                        <span class="inline-block px-3 py-1 rounded-full text-xs font-medium"
+                            style="border: 1px solid rgba(146,168,156,0.4); color: #73877C"
+                            data-id="Hadir" data-en="Available">Hadir</span>
+                    </div>
+
+                    {{-- Card 2: Hari H (FLAGSHIP — emphasized) --}}
+                    <div class="rounded-2xl p-6 md:p-8 shadow-lg transition-all duration-200 md:scale-[1.02] hover:shadow-xl"
+                        style="border: 2px solid #92A89C; background: white">
+                        <div class="aspect-square w-full rounded-xl flex items-center justify-center mb-5"
+                            style="background: rgba(146,168,156,0.15); border: 2px dashed rgba(146,168,156,0.4)">
+                            <span style="color: rgba(146,168,156,0.7); font-size: 0.75rem; font-weight: 500;">Ilustrasi: phase-2-hari-h</span>
+                        </div>
+                        <span class="inline-block px-2.5 py-1 rounded-full text-xs font-semibold text-white mb-3"
+                            style="background-color: #C8A26B"
+                            data-id="FASE 2 · UNGGULAN" data-en="PHASE 2 · FLAGSHIP">FASE 2 · UNGGULAN</span>
+                        <h3 class="text-xl font-bold mb-2" style="color: #2C2417"
+                            data-id="Hari H — Perayaan" data-en="The Day — Celebration">Hari H — Perayaan</h3>
+                        <p class="text-sm text-gray-500 mb-4"
+                            data-id="Wujudkan hari spesial. Undangan elegan, RSVP rapi, tamu terkelola."
+                            data-en="Bring your special day to life. Elegant invitations, neat RSVP, managed guests.">
+                            Wujudkan hari spesial. Undangan elegan, RSVP rapi, tamu terkelola.
+                        </p>
+                        <ul class="space-y-2 text-sm text-gray-600 mb-4">
+                            <li class="flex items-center gap-2">
+                                <span style="color: #92A89C">&#10003;</span>
+                                <span data-id="Undangan Digital 30+ tema" data-en="Digital Invitation 30+ themes">Undangan Digital 30+ tema</span>
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <span style="color: #92A89C">&#10003;</span>
+                                <span data-id="RSVP & Manajemen Tamu" data-en="RSVP & Guest Management">RSVP &amp; Manajemen Tamu</span>
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <span style="color: #92A89C">&#10003;</span>
+                                <span data-id="Amplop Digital" data-en="Digital Envelope">Amplop Digital</span>
+                            </li>
+                            <li class="flex items-center gap-2 text-gray-400">
+                                <span>&#8987;</span>
+                                <span data-id="QR Check-in" data-en="QR Check-in">QR Check-in</span>
+                            </li>
+                        </ul>
+                        <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold text-white"
+                            style="background-color: #C8A26B"
+                            data-id="★ Unggulan" data-en="★ Flagship">&#9733; Unggulan</span>
+                    </div>
+
+                    {{-- Card 3: Setelah (coming soon) --}}
+                    <div class="rounded-2xl border p-6 md:p-8 hover:shadow-lg hover:-translate-y-1 transition-all duration-200 opacity-80"
+                        style="border-color: rgba(146,168,156,0.2); background-color: rgba(255,252,247,0.6)">
+                        <div class="aspect-square w-full rounded-xl flex items-center justify-center mb-5"
+                            style="background: rgba(146,168,156,0.1); border: 2px dashed rgba(146,168,156,0.3)">
+                            <span style="color: rgba(146,168,156,0.6); font-size: 0.75rem; font-weight: 500;">Ilustrasi: phase-3-setelah</span>
+                        </div>
+                        <span class="inline-block px-2.5 py-1 rounded-full text-xs font-semibold mb-3"
+                            style="background: rgba(146,168,156,0.15); color: #73877C"
+                            data-id="FASE 3" data-en="PHASE 3">FASE 3</span>
+                        <h3 class="text-xl font-bold mb-2" style="color: #2C2417"
+                            data-id="Setelah — Jalani" data-en="After — Live It">Setelah — Jalani</h3>
+                        <p class="text-sm text-gray-500 mb-4"
+                            data-id="Pendamping setelah hari H. Anniversary, album kenangan, perjalanan bersama."
+                            data-en="Companion after the day. Anniversary, memory album, journey together.">
+                            Pendamping setelah hari H. Anniversary, album kenangan, perjalanan bersama.
+                        </p>
+                        <ul class="space-y-2 text-sm text-gray-400 mb-4">
+                            <li class="flex items-center gap-2"><span>&#8987;</span> <span data-id="Anniversary Reminder" data-en="Anniversary Reminder">Anniversary Reminder</span></li>
+                            <li class="flex items-center gap-2"><span>&#8987;</span> <span data-id="Newlywed Admin" data-en="Newlywed Admin">Newlywed Admin</span></li>
+                            <li class="flex items-center gap-2"><span>&#8987;</span> <span data-id="Memory Album" data-en="Memory Album">Memory Album</span></li>
+                            <li class="flex items-center gap-2"><span>&#8987;</span> <span data-id="Date Night Planner" data-en="Date Night Planner">Date Night Planner</span></li>
+                        </ul>
+                        <span class="inline-block px-3 py-1 rounded-full text-xs font-medium"
+                            style="border: 1px solid #D1D5DB; color: #6B7280"
+                            data-id="Segera Hadir" data-en="Coming Soon">Segera Hadir</span>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+
+        {{-- ============================================================ --}}
         {{-- STATS SECTION --}}
         {{-- ============================================================ --}}
         <section class="py-16 bg-white">
