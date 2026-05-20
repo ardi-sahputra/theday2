@@ -210,6 +210,37 @@ function countdownHeadline() {
                 </div>
             </section>
 
+            <!-- ── Stats Row (moved from hero) ──────────────────────── -->
+            <div class="grid grid-cols-3 gap-3 sm:gap-4">
+                <div class="bg-white rounded-2xl border border-stone-100 shadow-sm p-3 sm:p-4 text-center">
+                    <p class="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-brand-primary-hover/80">
+                        {{ t('dashboard.index.stats.totalInvitations') }}
+                    </p>
+                    <p class="text-xl sm:text-2xl font-bold text-brand-text mt-1 tabular-nums">{{ stats.total_invitations }}</p>
+                    <p class="text-[10px] text-stone-400 mt-0.5 hidden sm:block">
+                        {{ t('dashboard.index.stats.totalInvitationsSub', { draft: stats.draft_count, published: stats.published_count }) }}
+                    </p>
+                </div>
+                <div class="bg-white rounded-2xl border border-stone-100 shadow-sm p-3 sm:p-4 text-center">
+                    <p class="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-brand-primary-hover/80">
+                        {{ t('dashboard.index.stats.totalViews') }}
+                    </p>
+                    <p class="text-xl sm:text-2xl font-bold text-brand-text mt-1 tabular-nums">{{ stats.total_views.toLocaleString('id-ID') }}</p>
+                    <p class="text-[10px] text-stone-400 mt-0.5 hidden sm:block">
+                        {{ t('dashboard.index.stats.totalViewsSub') }}
+                    </p>
+                </div>
+                <div class="bg-white rounded-2xl border border-stone-100 shadow-sm p-3 sm:p-4 text-center">
+                    <p class="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-brand-primary-hover/80">
+                        {{ t('dashboard.index.stats.totalRsvp') }}
+                    </p>
+                    <p class="text-xl sm:text-2xl font-bold text-brand-text mt-1 tabular-nums">{{ stats.total_rsvps.toLocaleString('id-ID') }}</p>
+                    <p class="text-[10px] text-stone-400 mt-0.5 hidden sm:block">
+                        {{ t('dashboard.index.stats.totalRsvpSub') }}
+                    </p>
+                </div>
+            </div>
+
             <!-- ── Budget Widget ──────────────────────────────────── -->
             <Link
                 v-if="budgetWidget"
@@ -532,6 +563,24 @@ function countdownHeadline() {
                     <p class="text-xs text-stone-400 leading-relaxed">{{ tip.desc }}</p>
                 </div>
             </div>
+
+            <!-- ── Phase 3 Teaser Card ───────────────────────────────── -->
+            <section class="rounded-2xl border border-dashed border-brand-primary/30 bg-brand-bg/60 p-5 sm:p-6">
+                <div class="flex items-center gap-2 mb-3 flex-wrap">
+                    <h3 class="text-base font-semibold text-stone-700">{{ t('dashboard.index.phase3.title') }}</h3>
+                    <span class="text-[10px] px-2 py-0.5 rounded-full bg-stone-100 text-stone-400 font-semibold">
+                        {{ t('dashboard.index.phase3.badge') }}
+                    </span>
+                </div>
+                <p class="text-sm text-stone-500 mb-4">{{ t('dashboard.index.phase3.desc') }}</p>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                    <div v-for="f in ['Anniversary Reminder', 'Memory Album', 'Joint Budget', 'Date Night Planner']"
+                         :key="f"
+                         class="rounded-xl bg-white/60 border border-stone-100 p-3 text-center opacity-70">
+                        <p class="text-xs font-medium text-stone-500">{{ f }}</p>
+                    </div>
+                </div>
+            </section>
 
         </div>
 
