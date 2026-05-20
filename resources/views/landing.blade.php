@@ -245,6 +245,37 @@
             border-color: var(--color-primary);
             background: rgba(146, 168, 156, 0.08);
         }
+
+        /* Feature tabs */
+        .feature-tab {
+            background: #F5F8F6;
+            color: #73877C;
+        }
+        .feature-tab.is-active {
+            background: #92A89C;
+            color: white;
+        }
+        .feature-tab:hover:not(.is-active) {
+            background: rgba(146, 168, 156, 0.2);
+        }
+
+        /* FAQ accordion */
+        .faq-a {
+            transition: none;
+        }
+
+        /* Reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            .float-animation,
+            .float-animation-delay,
+            .float-animation-delay-2 {
+                animation: none;
+            }
+            .reveal {
+                opacity: 1;
+                transform: none;
+            }
+        }
     </style>
 
     {{-- ── JSON-LD Structured Data ───────────────────────────────── --}}
@@ -813,120 +844,113 @@
 
 
         {{-- ============================================================ --}}
-        {{-- FEATURES SECTION --}}
+        {{-- FEATURES PER PHASE (tabbed) --}}
         {{-- ============================================================ --}}
         <section id="fitur" class="py-24 bg-white">
             <div class="max-w-6xl mx-auto px-6">
-                {{-- Section header --}}
-                <div class="text-center mb-16 reveal">
-                    <p class="text-sm font-semibold tracking-widest uppercase mb-3"
-                        style="color: var(--color-primary)" data-id="Kenapa TheDay?" data-en="Why TheDay?">Kenapa
-                        TheDay?</p>
-                    <h2 class="font-display text-3xl md:text-4xl font-semibold mb-4" style="color: var(--color-dark)"
-                        data-id="Semua yang Kamu Butuhkan" data-en="Everything You Need">
-                        Semua yang Kamu Butuhkan
-                    </h2>
-                    <p class="text-gray-500 max-w-xl mx-auto"
-                        data-id="Dari template elegan hingga manajemen tamu — satu platform untuk semua kebutuhan undangan digitalmu."
-                        data-en="From elegant templates to guest management — one platform for all your digital invitation needs.">
-                        Dari template elegan hingga manajemen tamu — satu platform untuk semua kebutuhan undangan
-                        digitalmu.
-                    </p>
+                <div class="text-center max-w-2xl mx-auto mb-12">
+                    <h2 class="font-display text-3xl md:text-4xl font-bold mb-4" style="color: #2C2417"
+                        data-id="Apa yang bisa kamu lakukan" data-en="What you can do">Apa yang bisa kamu lakukan</h2>
+                    <p class="text-gray-500 text-lg"
+                        data-id="Fitur yang ada saat ini dan yang segera hadir."
+                        data-en="Features available now and coming soon.">Fitur yang ada saat ini dan yang segera hadir.</p>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    @php
-                        $features = [
-                            [
-                                'icon' =>
-                                    '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"/>',
-                                'id_title' => 'Template Cantik',
-                                'en_title' => 'Beautiful Templates',
-                                'id_desc' =>
-                                    'Pilih dari 50+ template undangan pernikahan elegan. Semua responsif & mobile-friendly.',
-                                'en_desc' =>
-                                    'Choose from 50+ elegant wedding invitation templates. All responsive & mobile-friendly.',
-                                'color' => 'rgba(146,168,156,0.12)',
-                                'iconColor' => '#92A89C',
-                            ],
-                            [
-                                'icon' =>
-                                    '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>',
-                                'id_title' => 'Konfirmasi Kehadiran',
-                                'en_title' => 'RSVP Confirmation',
-                                'id_desc' =>
-                                    'Tamu bisa konfirmasi hadir/tidak langsung dari undangan. Rekap otomatis tersedia di dashboard.',
-                                'en_desc' =>
-                                    'Guests can confirm attendance directly from the invitation. Automatic summary available in the dashboard.',
-                                'color' => 'rgba(204,213,174,0.2)',
-                                'iconColor' => '#7C9E5A',
-                            ],
-                            [
-                                'icon' =>
-                                    '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/>',
-                                'id_title' => 'Bagikan via WhatsApp',
-                                'en_title' => 'Share via WhatsApp',
-                                'id_desc' =>
-                                    'Satu link langsung bisa dibagikan ke semua tamu via WhatsApp, Instagram, atau email.',
-                                'en_desc' => 'One link can be shared to all guests via WhatsApp, Instagram, or email.',
-                                'color' => 'rgba(72,199,116,0.1)',
-                                'iconColor' => '#25D366',
-                            ],
-                            [
-                                'icon' =>
-                                    '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>',
-                                'id_title' => 'Analitik Real-time',
-                                'en_title' => 'Real-time Analytics',
-                                'id_desc' =>
-                                    'Pantau berapa kali undanganmu dibuka, dari mana asalnya, dan statistik RSVP secara langsung.',
-                                'en_desc' =>
-                                    'Track how many times your invitation is opened, where it came from, and RSVP statistics in real time.',
-                                'color' => 'rgba(59,130,246,0.1)',
-                                'iconColor' => '#73877C',
-                            ],
-                            [
-                                'icon' =>
-                                    '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/>',
-                                'id_title' => 'Peta Lokasi',
-                                'en_title' => 'Location Map',
-                                'id_desc' =>
-                                    'Tampilkan lokasi acara dengan Google Maps terintegrasi. Tamu tinggal klik untuk navigasi.',
-                                'en_desc' =>
-                                    'Display event location with integrated Google Maps. Guests just click for navigation.',
-                                'color' => 'rgba(239,68,68,0.1)',
-                                'iconColor' => '#EF4444',
-                            ],
-                            [
-                                'icon' =>
-                                    '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/>',
-                                'id_title' => 'Musik Latar',
-                                'en_title' => 'Background Music',
-                                'id_desc' =>
-                                    'Tambahkan sentuhan romantis dengan musik latar pilihan. Upload lagu sendiri (Premium).',
-                                'en_desc' =>
-                                    'Add a romantic touch with your choice of background music. Upload your own song (Premium).',
-                                'color' => 'rgba(168,85,247,0.1)',
-                                'iconColor' => '#A855F7',
-                            ],
-                        ];
-                    @endphp
+                {{-- Tabs --}}
+                <div class="flex justify-center gap-2 mb-10 flex-wrap">
+                    <button class="feature-tab px-5 py-2.5 rounded-full text-sm font-semibold transition-all cursor-pointer" data-tab="sebelum"
+                        data-id="Sebelum" data-en="Before">Sebelum</button>
+                    <button class="feature-tab is-active px-5 py-2.5 rounded-full text-sm font-semibold transition-all cursor-pointer" data-tab="harih"
+                        data-id="Hari H ★" data-en="The Day ★">Hari H &#9733;</button>
+                    <button class="feature-tab px-5 py-2.5 rounded-full text-sm font-semibold transition-all cursor-pointer" data-tab="setelah"
+                        data-id="Setelah" data-en="After">Setelah</button>
+                </div>
 
-                    @foreach ($features as $feature)
-                        <div class="feature-card bg-white rounded-2xl p-6 border border-gray-100 shadow-sm reveal">
-                            <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-4"
-                                style="background-color: {{ $feature['color'] }}">
-                                <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                                    style="color: {{ $feature['iconColor'] }}">
-                                    {!! $feature['icon'] !!}
-                                </svg>
+                {{-- Tab panels --}}
+                {{-- Sebelum --}}
+                <div class="feature-panel hidden" data-panel="sebelum">
+                    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                        @php $sebelum = [
+                            ['Checklist Persiapan','Preparation Checklist','HADIR','Available','Daftar to-do otomatis sesuai tahap persiapan','Auto to-do list by preparation stage'],
+                            ['Daftar Tamu','Guest List','HADIR','Available','Import dari Excel, manage list, integrasi RSVP','Import from Excel, manage list, RSVP integration'],
+                            ['Anggaran Pernikahan','Wedding Budget','SEGERA','Coming Soon','Budget tracker per kategori (catering, dekorasi, dll)','Budget tracker per category (catering, decor, etc.)'],
+                            ['Wedding Planner','Wedding Planner','SEGERA','Coming Soon','Timeline + vendor checklist integrated','Timeline + vendor checklist integrated'],
+                        ]; @endphp
+                        @foreach($sebelum as [$title,$title_en,$status,$status_en,$desc,$desc_en])
+                            <div class="rounded-xl border p-5 {{ $status==='SEGERA' ? 'opacity-70' : '' }}"
+                                style="border-color: rgba(146,168,156,0.15)">
+                                <div class="flex items-center justify-between mb-2">
+                                    <h3 class="font-semibold" style="color: #2C2417"
+                                        data-id="{{ $title }}" data-en="{{ $title_en }}">{{ $title }}</h3>
+                                    <span class="text-[10px] px-2 py-0.5 rounded-full font-semibold {{ $status==='HADIR' ? '' : '' }}"
+                                        style="{{ $status==='HADIR' ? 'background: rgba(146,168,156,0.2); color: #73877C' : 'border: 1px solid #D1D5DB; color: #9CA3AF' }}"
+                                        data-id="{{ $status }}" data-en="{{ $status_en }}">{{ $status }}</span>
+                                </div>
+                                <p class="text-sm text-gray-500"
+                                    data-id="{{ $desc }}" data-en="{{ $desc_en }}">{{ $desc }}</p>
                             </div>
-                            <h3 class="font-semibold text-lg mb-2" style="color: var(--color-dark)"
-                                data-id="{{ $feature['id_title'] }}" data-en="{{ $feature['en_title'] }}">
-                                {{ $feature['id_title'] }}</h3>
-                            <p class="text-sm text-gray-500 leading-relaxed" data-id="{{ $feature['id_desc'] }}"
-                                data-en="{{ $feature['en_desc'] }}">{{ $feature['id_desc'] }}</p>
-                        </div>
-                    @endforeach
+                        @endforeach
+                    </div>
+                </div>
+
+                {{-- Hari H --}}
+                <div class="feature-panel" data-panel="harih">
+                    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                        @php $harih = [
+                            ['Undangan Digital','Digital Invitation','HADIR','Available','30+ template, bebas ganti, mobile-friendly','30+ templates, swap freely, mobile-friendly'],
+                            ['RSVP Form','RSVP Form','HADIR','Available','Konfirmasi tamu real-time + analytics','Real-time guest confirmation + analytics'],
+                            ['Manajemen Tamu','Guest Management','HADIR','Available','Kelompokkan, broadcast, pantau RSVP','Group, broadcast, monitor RSVP'],
+                            ['Amplop Digital','Digital Envelope','HADIR','Available','Tamu transfer langsung, transparent tracker','Guests transfer directly, transparent tracker'],
+                            ['QR Check-in','QR Check-in','SEGERA','Coming Soon','Scan tamu masuk venue via QR personal','Scan guests into venue via personal QR'],
+                            ['Live Streaming','Live Streaming','SEGERA','Coming Soon','Stream upacara ke tamu yang gak hadir','Stream ceremony to absent guests'],
+                        ]; @endphp
+                        @foreach($harih as [$title,$title_en,$status,$status_en,$desc,$desc_en])
+                            <div class="rounded-xl border p-5 {{ $status==='SEGERA' ? 'opacity-70' : '' }}"
+                                style="border-color: rgba(146,168,156,0.15)">
+                                <div class="flex items-center justify-between mb-2">
+                                    <h3 class="font-semibold" style="color: #2C2417"
+                                        data-id="{{ $title }}" data-en="{{ $title_en }}">{{ $title }}</h3>
+                                    <span class="text-[10px] px-2 py-0.5 rounded-full font-semibold"
+                                        style="{{ $status==='HADIR' ? 'background: rgba(146,168,156,0.2); color: #73877C' : 'border: 1px solid #D1D5DB; color: #9CA3AF' }}"
+                                        data-id="{{ $status }}" data-en="{{ $status_en }}">{{ $status }}</span>
+                                </div>
+                                <p class="text-sm text-gray-500"
+                                    data-id="{{ $desc }}" data-en="{{ $desc_en }}">{{ $desc }}</p>
+                            </div>
+                        @endforeach
+                    </div>
+                    <div class="text-center mt-8">
+                        <a href="/templates" class="inline-flex items-center gap-1 font-semibold hover:underline"
+                            style="color: #92A89C"
+                            data-id="Lihat 30+ Tema Undangan →" data-en="See 30+ Invitation Themes →">Lihat 30+ Tema Undangan &#8594;</a>
+                    </div>
+                </div>
+
+                {{-- Setelah --}}
+                <div class="feature-panel hidden" data-panel="setelah">
+                    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                        @php $setelah = [
+                            ['Anniversary Reminder','Anniversary Reminder','SEGERA','Coming Soon','Notifikasi ulang tahun pernikahan + ide kado','Wedding anniversary notification + gift ideas'],
+                            ['Newlywed Admin','Newlywed Admin','SEGERA','Coming Soon','Checklist update KK, KTP, sertifikat nikah','Checklist for KK, KTP, marriage certificate update'],
+                            ['Joint Budget','Joint Budget','SEGERA','Coming Soon','Anggaran rumah tangga bareng','Joint household budget tracker'],
+                            ['Memory Album','Memory Album','SEGERA','Coming Soon','Galeri foto + cerita momen spesial','Photo gallery + stories of special moments'],
+                            ['Date Night Planner','Date Night Planner','SEGERA','Coming Soon','Suggestion + scheduler kencan rutin','Suggestion + scheduler for regular dates'],
+                        ]; @endphp
+                        @foreach($setelah as [$title,$title_en,$status,$status_en,$desc,$desc_en])
+                            <div class="rounded-xl border p-5 opacity-70"
+                                style="border-color: rgba(146,168,156,0.15)">
+                                <div class="flex items-center justify-between mb-2">
+                                    <h3 class="font-semibold" style="color: #2C2417"
+                                        data-id="{{ $title }}" data-en="{{ $title_en }}">{{ $title }}</h3>
+                                    <span class="text-[10px] px-2 py-0.5 rounded-full"
+                                        style="border: 1px solid #D1D5DB; color: #9CA3AF"
+                                        data-id="{{ $status }}" data-en="{{ $status_en }}">{{ $status }}</span>
+                                </div>
+                                <p class="text-sm text-gray-500"
+                                    data-id="{{ $desc }}" data-en="{{ $desc_en }}">{{ $desc }}</p>
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
             </div>
         </section>
@@ -1580,6 +1604,41 @@
                         behavior: 'smooth',
                         block: 'start'
                     });
+                }
+            });
+        });
+
+        // ============================================================
+        // FEATURE TABS
+        // ============================================================
+        document.querySelectorAll('.feature-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                const target = tab.dataset.tab;
+                document.querySelectorAll('.feature-tab').forEach(t => {
+                    t.classList.toggle('is-active', t === tab);
+                });
+                document.querySelectorAll('.feature-panel').forEach(p => {
+                    p.classList.toggle('hidden', p.dataset.panel !== target);
+                });
+            });
+        });
+
+        // ============================================================
+        // FAQ ACCORDION (single-open)
+        // ============================================================
+        document.querySelectorAll('.faq-q').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const item = btn.closest('.faq-item');
+                const answer = item.querySelector('.faq-a');
+                const icon = btn.querySelector('.faq-icon');
+                const isOpen = !answer.classList.contains('hidden');
+                // close all
+                document.querySelectorAll('.faq-a').forEach(a => a.classList.add('hidden'));
+                document.querySelectorAll('.faq-icon').forEach(i => i.textContent = '+');
+                // open this one if it was closed
+                if (!isOpen) {
+                    answer.classList.remove('hidden');
+                    icon.textContent = '−';
                 }
             });
         });
