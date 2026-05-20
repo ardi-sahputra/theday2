@@ -30,8 +30,8 @@ class DashboardWidgetsPayloadTest extends TestCase
         ]);
 
         $inv = Invitation::factory()->for($user)->create(['status' => 'published']);
-        Rsvp::factory()->for($inv)->create(['attendance' => 'hadir',       'guest_count' => 2]);
-        Rsvp::factory()->for($inv)->create(['attendance' => 'tidak_hadir', 'guest_count' => 1]);
+        Rsvp::factory()->for($inv)->hadir()->create(['guest_count' => 2]);
+        Rsvp::factory()->for($inv)->tidakHadir()->create(['guest_count' => 1]);
         GuestMessage::create(['invitation_id' => $inv->id, 'name' => 'Budi', 'message' => 'Selamat!', 'is_approved' => true]);
 
         $this->actingAs($user)

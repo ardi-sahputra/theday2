@@ -67,7 +67,7 @@ class DashboardController extends Controller
 
         $rsvpAttending = Rsvp::whereIn('invitation_id', $invitationIds)
             ->where('attendance', AttendanceStatus::Hadir->value)->count();
-        $rsvpTotal     = Rsvp::whereIn('invitation_id', $invitationIds)->count();
+        $rsvpTotal     = (int) $invitations->sum('rsvps_count');
         $ucapanCount   = GuestMessage::whereIn('invitation_id', $invitationIds)
             ->where('is_approved', true)->count();
 
@@ -91,7 +91,7 @@ class DashboardController extends Controller
             'view_count'   => $primaryInvitation->view_count,
             'rsvps_count'  => $primaryInvitation->rsvps_count,
             'ucapan_count' => GuestMessage::where('invitation_id', $primaryInvitation->id)->where('is_approved', true)->count(),
-            'status'       => $primaryInvitation->status instanceof \App\Enums\InvitationStatus ? $primaryInvitation->status->value : $primaryInvitation->status,
+            'status'       => $primaryInvitation->status instanceof InvitationStatus ? $primaryInvitation->status->value : $primaryInvitation->status,
         ] : null;
 
         $coupleData = $coupleProfile ? [
