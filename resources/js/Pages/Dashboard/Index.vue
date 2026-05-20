@@ -129,7 +129,7 @@ function saveWeddingDate() {
         </template>
 
         <div class="w-full space-y-5">
-          <CountdownHero :couple="couple" :countdown="countdown" :invite-url="inviteShare?.url ?? ''" />
+          <CountdownHero :couple="couple" :countdown="countdown" :invite-url="inviteShare?.url ?? ''" @set-date="showDateModal = true" />
 
           <QuickStats :stats="stats" :budget-widget="budgetWidget" :checklist-widget="checklistWidget" />
 

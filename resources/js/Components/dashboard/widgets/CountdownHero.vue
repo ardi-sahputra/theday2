@@ -8,6 +8,7 @@ const props = defineProps({
   countdown: { type: Object, default: null },
   inviteUrl: { type: String, default: '' },
 });
+const emit = defineEmits(['set-date']);
 const { t } = useLocale();
 
 const names = computed(() => {
@@ -69,6 +70,12 @@ async function copyLink() {
         </p>
 
         <div class="flex flex-wrap gap-2.5 mt-6">
+          <button v-if="!countdown" @click="emit('set-date')"
+                  class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-[13.5px] font-semibold transition-transform active:scale-95"
+                  style="background:#FBFCF9; color:#1F2A2E;">
+            <WidgetIcon name="cal" :size="14" stroke="#1F2A2E" />
+            {{ t('dashboard.index.widgets.hero.setDate') }}
+          </button>
           <button v-if="inviteUrl" @click="copyLink"
                   class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-[13.5px] font-semibold transition-transform active:scale-95"
                   style="background:#FBFCF9; color:#1F2A2E;">
