@@ -162,13 +162,14 @@ class InvitationCustomizeController extends Controller
             'file' => 'required|file|mimes:jpg,jpeg,png,webp|max:5120',
         ]);
 
+        $disk = config('filesystems.uploads');
         $path = $request->file('file')->store(
             "invitations/{$invitation->id}/sections/{$key}",
-            'public'
+            $disk
         );
 
         return response()->json([
-            'url' => Storage::disk('public')->url($path),
+            'url' => Storage::disk($disk)->url($path),
         ]);
     }
 }
