@@ -570,6 +570,7 @@ class InvitationController extends Controller
             'custom_config'               => 'required|array',
             'custom_config.primary_color' => 'nullable|string|max:20',
             'custom_config.font'          => 'nullable|string|max:100',
+            'custom_config.music_enabled' => 'nullable|boolean',
         ]);
 
         $existing = $invitation->custom_config ?? [];
