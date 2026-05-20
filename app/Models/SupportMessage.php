@@ -41,7 +41,7 @@ class SupportMessage extends Model
     public function attachmentUrl(): ?string
     {
         return $this->attachment_path
-            ? Storage::disk('public')->url($this->attachment_path)
+            ? Storage::disk(config('filesystems.uploads'))->url($this->attachment_path)
             : null;
     }
 }

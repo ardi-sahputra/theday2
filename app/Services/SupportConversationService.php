@@ -78,7 +78,7 @@ class SupportConversationService
 
     private function storeImage(UploadedFile $image): array
     {
-        $path = $image->store('support/'.now()->format('Y/m'), 'public');
+        $path = $image->store('support/'.now()->format('Y/m'), config('filesystems.uploads'));
         return [
             'path' => $path,
             'mime' => $image->getMimeType(),
