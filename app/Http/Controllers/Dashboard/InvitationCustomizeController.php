@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\Invitation;
+use App\Models\Template;
 use App\Support\EffectiveUser;
 use App\Support\SectionAccess;
 use Carbon\Carbon;
@@ -21,6 +22,47 @@ class InvitationCustomizeController extends Controller
     {
         abort_unless($invitation->user_id === EffectiveUser::resolve()->id, 403);
 
+        return Inertia::render('Dashboard/Invitations/Customize', $this->buildEditorProps($request, $invitation));
+    }
+
+    public function showV2(Request $request, Invitation $invitation): Response
+    {
+        abort_unless($invitation->user_id === EffectiveUser::resolve()->id, 403);
+
+        $props = $this->buildEditorProps($request, $invitation);
+
+        $props['templates'] = Template::active()
+            ->with('category:id,name,slug')
+            ->ordered()
+            ->get()
+            ->map(fn ($t) => [
+                'id'            => $t->id,
+                'name'          => $t->name,
+                'slug'          => $t->slug,
+                'thumbnail_url' => $t->thumbnail_url,
+                'tier'          => $t->tier->value,
+                'category'      => $t->category ? ['name' => $t->category->name, 'slug' => $t->category->slug] : null,
+            ])->toArray();
+
+        // Display fields for the Desain template card (reuse catalog data; no extra query).
+        $current = collect($props['templates'])->firstWhere('id', $invitation->template?->id);
+        $props['invitation']['template_name']          = $current['name'] ?? $invitation->template?->name;
+        $props['invitation']['template_category']      = $current['category']['name'] ?? null;
+        $props['invitation']['template_thumbnail_url'] = $current['thumbnail_url'] ?? null;
+
+        // Counts via direct queries (avoids guessing relation names for loadCount).
+        $props['stats'] = [
+            'view_count'   => $invitation->view_count ?? 0,
+            'rsvps_count'  => $invitation->rsvps()->count(),
+            'ucapan_count' => \App\Models\GuestMessage::where('invitation_id', $invitation->id)->count(),
+            'status'       => $invitation->status,
+        ];
+
+        return Inertia::render('Dashboard/Invitations/CustomizeV2', $props);
+    }
+
+    private function buildEditorProps(Request $request, Invitation $invitation): array
+    {
         $invitation->load([
             'details',
             'events'    => fn ($q) => $q->orderBy('sort_order')->orderBy('event_date'),
@@ -57,10 +99,11 @@ class InvitationCustomizeController extends Controller
             $invitation->custom_config             ?? []
         );
 
-        return Inertia::render('Dashboard/Invitations/Customize', [
+        return [
             'invitation'    => [
                 'id'                      => $invitation->id,
                 'slug'                    => $invitation->slug,
+                'template_id'             => $invitation->template?->id,
                 'template_slug'           => $invitation->template?->slug,
                 'template_category_slug'  => $invitation->template?->category?->slug,
                 'config'                  => $config,
@@ -114,7 +157,7 @@ class InvitationCustomizeController extends Controller
                 ['id' => 'marry-you',         'title' => 'Marry You — Bruno Mars',             'file_url' => '/music/Bruno-Mars-Marry-You-Official-Ly.mp3'],
                 ['id' => 'beautiful-in-white','title' => 'Beautiful In White — Westlife',      'file_url' => '/music/Westlife-Beautiful-in-white-Lyri.mp3'],
             ],
-        ]);
+        ];
     }
 
     public function update(Request $request, Invitation $invitation): JsonResponse

@@ -175,6 +175,7 @@ Route::middleware(['auth', 'verified', 'onboarding', 'couple'])->prefix('dashboa
 
     // Kustomisasi page (premium)
     Route::get( '/invitations/{invitation}/customize',                 [InvitationCustomizeController::class, 'show'])->name('invitations.customize');
+    Route::get('/invitations/{invitation}/customize-v2', [InvitationCustomizeController::class, 'showV2'])->name('invitations.customize-v2');
     Route::post('/invitations/{invitation}/customize',                 [InvitationCustomizeController::class, 'update'])->name('invitations.customize.update');
     Route::post('/invitations/{invitation}/sections/{key}/background', [InvitationCustomizeController::class, 'uploadBackground'])->name('invitations.sections.background');
 
