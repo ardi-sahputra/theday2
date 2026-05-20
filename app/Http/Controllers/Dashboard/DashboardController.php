@@ -11,11 +11,13 @@ use App\Actions\BudgetPlanner\InitializeWeddingBudgetAction;
 use App\Enums\ChecklistTaskStatus;
 use App\Enums\InvitationStatus;
 use App\Http\Controllers\Controller;
+use App\Models\CoupleProfile;
 use App\Models\Template;
 use App\Models\WeddingPlan;
 use App\Services\ChecklistService;
 use App\Support\EffectiveUser;
 use App\Support\SectionAccess;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -27,6 +29,20 @@ class DashboardController extends Controller
         private readonly BuildBudgetSummaryAction $buildSummary,
         private readonly ChecklistService $checklistService,
     ) {}
+
+    public function updateWeddingDate(Request $request): RedirectResponse
+    {
+        $validated = $request->validate([
+            'wedding_date' => 'required|date|after_or_equal:1900-01-01',
+        ]);
+
+        CoupleProfile::updateOrCreate(
+            ['user_id' => $request->user()->id],
+            ['wedding_date' => $validated['wedding_date']],
+        );
+
+        return back()->with('success', 'Tanggal pernikahan diperbarui.');
+    }
 
     public function index(Request $request): Response
     {
@@ -102,6 +118,35 @@ class DashboardController extends Controller
                 'is_overdue' => $t->due_date?->isPast(),
             ]);
 
+        // Hybrid wedding date: couple profile field → fallback earliest invitation event
+        $coupleProfile = $effectiveUser->coupleProfile;
+        $weddingDate   = $coupleProfile?->wedding_date;
+
+        if (! $weddingDate) {
+            $weddingDate = $effectiveUser->invitations()
+                ->with('events')
+                ->get()
+                ->flatMap(fn ($inv) => $inv->events)
+                ->pluck('event_date')
+                ->filter()
+                ->min();
+        }
+
+        $countdown = null;
+        if ($weddingDate) {
+            $wd       = \Carbon\Carbon::parse($weddingDate)->startOfDay();
+            $today    = now()->startOfDay();
+            $daysUntil = $today->diffInDays($wd, false); // negative if past
+            $countdown = [
+                'date'       => $wd->toDateString(),
+                'date_label' => $wd->translatedFormat('l, d F Y'),
+                'days_until' => (int) $daysUntil,
+                'is_past'    => $wd->lt($today),
+                'years_past' => $wd->lt($today) ? (int) $today->diffInYears($wd) : 0,
+                'source'     => $coupleProfile?->wedding_date ? 'profile' : 'invitation',
+            ];
+        }
+
         $canUsePremium = SectionAccess::isPremium($request->user());
         $templates     = Template::active()
             ->with('category:id,name,slug')
@@ -124,6 +169,8 @@ class DashboardController extends Controller
             'stats'             => $stats,
             'recentInvitations' => $recentInvitations,
             'templates'         => $templates,
+            'countdown'         => $countdown,
+            'hasWeddingDate'    => (bool) $weddingDate,
             'canUsePremium'     => $canUsePremium,
             'activePlan'        => [
                 'slug'             => $activePlan?->slug ?? 'free',
