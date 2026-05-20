@@ -773,29 +773,34 @@
                     @php
                         $stats = [
                             [
-                                'value' => '10.000+',
-                                'id' => 'Undangan Dibuat',
-                                'en' => 'Invitations Created',
-                                'icon' => '💌',
-                            ],
-                            ['value' => '500.000+', 'id' => 'Tamu Diundang', 'en' => 'Guests Invited', 'icon' => '👥'],
-                            [
-                                'value' => '50+',
-                                'id' => 'Template Tersedia',
-                                'en' => 'Templates Available',
-                                'icon' => '🎨',
+                                'value' => '1.000+',
+                                'id' => 'Pasangan Indonesia',
+                                'en' => 'Indonesian Couples',
+                                'icon' => '&#128145;',
                             ],
                             [
                                 'value' => '4.9/5',
-                                'id' => 'Rating Kepuasan',
-                                'en' => 'Satisfaction Rating',
-                                'icon' => '⭐',
+                                'id' => 'Rating dari 2.000+ Ulasan',
+                                'en' => 'Rating from 2,000+ Reviews',
+                                'icon' => '&#11088;',
+                            ],
+                            [
+                                'value' => '32+',
+                                'id' => 'Tema Undangan',
+                                'en' => 'Invitation Themes',
+                                'icon' => '&#127912;',
+                            ],
+                            [
+                                'value' => '3',
+                                'id' => 'Fase Perjalanan',
+                                'en' => 'Journey Phases',
+                                'icon' => '&#128154;',
                             ],
                         ];
                     @endphp
                     @foreach ($stats as $stat)
                         <div class="stat-card text-center">
-                            <div class="text-2xl mb-2">{{ $stat['icon'] }}</div>
+                            <div class="text-2xl mb-2">{!! $stat['icon'] !!}</div>
                             <div class="text-2xl md:text-3xl font-bold mb-1" style="color: var(--color-dark)">
                                 {{ $stat['value'] }}</div>
                             <div class="text-sm text-gray-500" data-id="{{ $stat['id'] }}"
