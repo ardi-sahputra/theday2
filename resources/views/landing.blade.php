@@ -1177,6 +1177,43 @@
 
 
         {{-- ============================================================ --}}
+        {{-- FAQ --}}
+        {{-- ============================================================ --}}
+        <section id="faq" class="py-24" style="background-color: #F5F8F6">
+            <div class="max-w-3xl mx-auto px-6">
+                <div class="text-center mb-14">
+                    <h2 class="font-display text-3xl md:text-4xl font-bold mb-4" style="color: #2C2417"
+                        data-id="Pertanyaan Umum" data-en="Frequently Asked Questions">Pertanyaan Umum</h2>
+                    <p class="text-gray-500 text-lg"
+                        data-id="Hal yang sering ditanyakan calon dan pasangan suami-istri."
+                        data-en="Common questions from couples and newlyweds.">Hal yang sering ditanyakan calon dan pasangan suami-istri.</p>
+                </div>
+                <div class="space-y-3">
+                    @php $faqs = [
+                        ['Saya udah nikah, masih bisa pakai TheDay?','Bisa! Fitur Fase 3 (Setelah Nikah) seperti anniversary reminder, memory album, dan joint budget dirancang untuk pasangan yang sudah menikah. Fitur ini sedang dikembangkan dan akan tersedia bertahap. Daftar sekarang gratis biar dapat akses awal saat rilis.'],
+                        ['Apakah saya wajib pakai fitur undangan?','Tidak. Undangan digital adalah salah satu fitur unggulan, tapi kamu bisa pakai TheDay cuma untuk checklist persiapan, daftar tamu, RSVP, atau (saat hadir) fitur setelah nikah. Bebas pilih sesuai kebutuhan.'],
+                        ['Apa bedanya TheDay & Beyond dengan platform undangan lain?','TheDay fokus ke perjalanan pernikahan jangka panjang — bukan cuma event sehari. Kami menggabungkan kualitas craft template undangan premium dengan fitur pendamping seumur hidup pasangan: dari persiapan, hari H, sampai kehidupan setelahnya. Dirancang khusus untuk pasangan Indonesia.'],
+                        ['Fitur Setelah Nikah kapan tersedia?','Fitur Fase 3 (anniversary reminder, memory album, newlywed admin, joint budget) sedang dikembangkan dan akan dirilis bertahap. Kamu yang sudah daftar akan dapat notifikasi saat setiap fitur rilis.'],
+                        ['Apa bedanya paket Free dan Premium?','Free: undangan digital dengan template terbatas, watermark TheDay, fitur dasar checklist + RSVP. Premium: akses ke semua template premium (Netflix, Onyx, Astronomy, Spotify Wrapped, dan lain-lain), tanpa watermark, custom domain, amplop digital advance, dan priority support.'],
+                        ['Bagaimana cara membatalkan langganan?','Premium subscription bisa dibatalkan kapan saja dari Dashboard → Settings → Subscription → Cancel. Tidak ada biaya pembatalan. Akses Premium tetap aktif sampai akhir periode yang sudah dibayar.'],
+                        ['Data saya aman?','Data kamu dienkripsi dan disimpan di server Indonesia (sesuai regulasi PP No. 71/2019). Kami tidak menjual data ke pihak ketiga. Detail lengkap di Kebijakan Privasi.'],
+                    ]; @endphp
+                    @foreach($faqs as $i => [$q,$a])
+                        <div class="faq-item rounded-xl bg-white overflow-hidden" style="border: 1px solid rgba(146,168,156,0.15)">
+                            <button class="faq-q w-full flex items-center justify-between text-left px-5 py-4 font-semibold cursor-pointer" style="color: #2C2417" data-faq="{{ $i }}">
+                                <span>{{ $q }}</span>
+                                <span class="faq-icon flex-shrink-0 ml-3 text-xl font-light" style="color: #92A89C">+</span>
+                            </button>
+                            <div class="faq-a hidden px-5 pb-4 text-sm text-gray-500 leading-relaxed">{{ $a }}</div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </section>
+        {{-- Note: FAQ copy is Indonesian-first for v1 (long answer text). English bilingual for FAQ is a follow-up task. --}}
+
+
+        {{-- ============================================================ --}}
         {{-- BLOG TEASER SECTION --}}
         {{-- ============================================================ --}}
         @if (isset($featuredArticles) && $featuredArticles->count() > 0)
