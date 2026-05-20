@@ -435,9 +435,10 @@ const handleClickOutsideAvatar = (e) => {
             <!-- User footer -->
             <div class="border-t border-stone-100 p-3">
                 <div :class="['flex items-center gap-3', sidebarCollapsed ? 'justify-center' : '']">
-                    <div class="w-9 h-9 rounded-full flex items-center justify-center text-white text-sm font-bold flex-shrink-0"
+                    <div class="w-9 h-9 rounded-full flex items-center justify-center text-white text-sm font-bold flex-shrink-0 overflow-hidden"
                          style="background-color: #92A89C">
-                        {{ avatarInitials }}
+                        <img v-if="user?.avatar_url" :src="user.avatar_url" :alt="user?.name" referrerpolicy="no-referrer" class="w-full h-full object-cover" />
+                        <span v-else>{{ avatarInitials }}</span>
                     </div>
                     <div v-if="!sidebarCollapsed" class="flex-1 min-w-0">
                         <p class="text-sm font-medium text-stone-800 truncate">{{ user?.name }}</p>
@@ -525,10 +526,11 @@ const handleClickOutsideAvatar = (e) => {
                     <div class="relative" ref="avatarDropdownRef">
                         <button
                             @click.stop="avatarDropdownOpen = !avatarDropdownOpen"
-                            class="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold focus:outline-none ring-2 ring-transparent focus:ring-[#92A89C]/50 transition-all cursor-pointer"
+                            class="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold focus:outline-none ring-2 ring-transparent focus:ring-[#92A89C]/50 transition-all cursor-pointer overflow-hidden"
                             style="background-color: #92A89C"
                         >
-                            {{ avatarInitials }}
+                            <img v-if="user?.avatar_url" :src="user.avatar_url" :alt="user?.name" referrerpolicy="no-referrer" class="w-full h-full object-cover" />
+                            <span v-else>{{ avatarInitials }}</span>
                         </button>
 
                         <Transition name="fade">
