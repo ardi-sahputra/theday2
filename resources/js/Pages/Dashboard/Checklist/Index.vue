@@ -871,7 +871,7 @@ const currentPickerDate = computed(() =>
                         <button type="button" @click="exportCalendar" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[12px] font-semibold" style="color:#4A5A4C; border:1px solid #C7D0BE;">
                             <WidgetIcon name="cal" :size="13" stroke="#4A5A4C" /> {{ t('dashboard.checklist.exportCalendar') }}
                         </button>
-                        <button type="button" @click="showForm = true" class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-[12px] font-semibold text-white" style="background:#1F2A2E;">
+                        <button type="button" @click="openCreate" class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-[12px] font-semibold text-white" style="background:#1F2A2E;">
                             <WidgetIcon name="plus" :size="13" stroke="#fff" /> {{ t('dashboard.checklist.addTask') }}
                         </button>
                     </div>
@@ -937,7 +937,7 @@ const currentPickerDate = computed(() =>
                             v-if="view === 'kanban'"
                             :columns="kanbanColumns"
                             @toggle="toggle"
-                            @edit="(tk) => { editingTask = tk; showForm = true; }"
+                            @edit="openEdit"
                         />
 
                         <!-- ── Timeline / List view ───────────────── -->
