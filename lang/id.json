@@ -604,7 +604,9 @@
                 "btnCancel": "Batal",
                 "btnSaving": "Menyimpan…",
                 "btnSave": "Simpan",
-                "btnAdd": "Tambah"
+                "btnAdd": "Tambah",
+                "vendor": "Vendor (opsional)",
+                "vendorPlaceholder": "mis. Pawon Catering"
             },
             "datePicker": {
                 "title": "Pilih Tanggal",
@@ -676,6 +678,63 @@
                 "thu": "Kam",
                 "fri": "Jum",
                 "sat": "Sab"
+            },
+            "hero": {
+                "overall": "Progress keseluruhan",
+                "doneOfTotal": "{done} dari {total} tugas selesai",
+                "done": "selesai",
+                "remaining": "tersisa",
+                "urgent": "mendesak",
+                "toTheDay": "menuju hari H",
+                "daysLeft": "{days} hari",
+                "noDate": "atur tanggal",
+                "aiSuggest": "Saran AI",
+                "aiSoon": "Saran AI segera hadir"
+            },
+            "stat": {
+                "urgent": "Mendesak minggu ini",
+                "due7d": "Jatuh tempo dalam 7 hari",
+                "doneMonth": "Selesai bulan ini",
+                "pic": "Beban Ayu / Rizki"
+            },
+            "chip": {
+                "all": "Semua",
+                "urgent": "Mendesak",
+                "todo": "Belum selesai",
+                "done": "Selesai"
+            },
+            "view": {
+                "list": "List",
+                "timeline": "Timeline",
+                "kanban": "Kanban"
+            },
+            "kanban": {
+                "empty": "Tidak ada tugas"
+            },
+            "exportCalendar": "Ekspor ke kalender",
+            "addTask": "Tugas Baru",
+            "pageTitle": "Checklist Pernikahan",
+            "pageSub": "{total} tugas total",
+            "toast": {
+                "templateApplied": "Template standar diterapkan"
+            },
+            "rail": {
+                "reminders": {
+                    "title": "Reminder Berikutnya",
+                    "sub": "Notifikasi otomatis ke kamu & pasangan",
+                    "empty": "Belum ada reminder terjadwal"
+                },
+                "templates": {
+                    "title": "Template TheDay",
+                    "sub": "Tambah preset siap pakai",
+                    "standard": "Paket Standar 12 Bulan",
+                    "standardSub": "Tugas dasar persiapan",
+                    "applied": "Sudah diterapkan"
+                },
+                "pic": {
+                    "title": "Pembagian Tugas",
+                    "sub": "Beban kamu & pasangan"
+                }
             }
         },
         "budget": {

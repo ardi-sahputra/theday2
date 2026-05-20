@@ -604,7 +604,9 @@
                 "btnCancel": "Cancel",
                 "btnSaving": "Saving…",
                 "btnSave": "Save",
-                "btnAdd": "Add"
+                "btnAdd": "Add",
+                "vendor": "Vendor (optional)",
+                "vendorPlaceholder": "e.g. Pawon Catering"
             },
             "datePicker": {
                 "title": "Pick Date",
@@ -676,6 +678,63 @@
                 "thu": "Thu",
                 "fri": "Fri",
                 "sat": "Sat"
+            },
+            "hero": {
+                "overall": "Overall progress",
+                "doneOfTotal": "{done} of {total} tasks done",
+                "done": "done",
+                "remaining": "left",
+                "urgent": "urgent",
+                "toTheDay": "until the day",
+                "daysLeft": "{days} days",
+                "noDate": "set a date",
+                "aiSuggest": "AI suggestions",
+                "aiSoon": "AI suggestions coming soon"
+            },
+            "stat": {
+                "urgent": "Urgent this week",
+                "due7d": "Due within 7 days",
+                "doneMonth": "Done this month",
+                "pic": "Bride / Groom load"
+            },
+            "chip": {
+                "all": "All",
+                "urgent": "Urgent",
+                "todo": "To do",
+                "done": "Done"
+            },
+            "view": {
+                "list": "List",
+                "timeline": "Timeline",
+                "kanban": "Kanban"
+            },
+            "kanban": {
+                "empty": "No tasks"
+            },
+            "exportCalendar": "Export to calendar",
+            "addTask": "New task",
+            "pageTitle": "Wedding Checklist",
+            "pageSub": "{total} tasks total",
+            "toast": {
+                "templateApplied": "Standard template applied"
+            },
+            "rail": {
+                "reminders": {
+                    "title": "Up Next Reminders",
+                    "sub": "Auto-notify you & your partner",
+                    "empty": "No reminders scheduled yet"
+                },
+                "templates": {
+                    "title": "TheDay Templates",
+                    "sub": "Add a ready-made preset",
+                    "standard": "Standard 12-Month Pack",
+                    "standardSub": "Core prep tasks",
+                    "applied": "Already applied"
+                },
+                "pic": {
+                    "title": "Task Split",
+                    "sub": "Your & partner's load"
+                }
             }
         },
         "budget": {
