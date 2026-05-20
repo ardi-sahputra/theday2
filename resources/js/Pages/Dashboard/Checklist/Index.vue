@@ -12,6 +12,10 @@ import ReminderRail from '@/Components/dashboard/checklist/rail/ReminderRail.vue
 import TemplatePresetsRail from '@/Components/dashboard/checklist/rail/TemplatePresetsRail.vue';
 import PicSplitRail from '@/Components/dashboard/checklist/rail/PicSplitRail.vue';
 import WidgetIcon from '@/Components/dashboard/WidgetIcon.vue';
+import MobileChecklist  from '@/Components/dashboard/checklist/mobile/MobileChecklist.vue';
+import MobileFilterSheet from '@/Components/dashboard/checklist/mobile/MobileFilterSheet.vue';
+import MobileTaskSheet   from '@/Components/dashboard/checklist/mobile/MobileTaskSheet.vue';
+import { useMediaQuery } from '@/Composables/useMediaQuery';
 
 const { t, locale } = useLocale();
 
@@ -498,6 +502,21 @@ const reminders = computed(() =>
             who: tk.assignee_type === 'groom' ? 'groom' : (tk.assignee_type === 'bride' ? 'bride' : null),
             urgent: isUrgentTask(tk) }))
 );
+// ── Mobile layout state ───────────────────────────────────────────────────
+const isMobileView     = useMediaQuery('(max-width: 1023px)');
+const showMobileFilter = ref(false);
+const mobileTask       = ref(null);
+const mobileSubtasks   = computed(() => mobileTask.value ? getSubtaskState(mobileTask.value.id) : { items: [], newTitle: '' });
+
+function openMobileTask(tk) { mobileTask.value = tk; loadSubtasks(tk.id); }
+function closeMobileTask()  { mobileTask.value = null; }
+function mobileEdit(tk)     { mobileTask.value = null; openEdit(tk); }
+function resetMobileFilters() { filterStatus.value=''; filterCat.value=''; filterPriority.value=''; filterAssignee.value=''; sortBy.value=''; activeChip.value='all'; }
+
+const mobileBuckets   = computed(() => timelineGroups.value.filter(g => g.cat !== 'done'));
+const mobileDoneCount = computed(() => summary.value.done);
+const resultCount     = computed(() => displayList.value.length);
+
 async function applyStandardTemplate() {
     if (props.weddingPlan?.initialized) { showToast(t('dashboard.checklist.rail.templates.applied')); return; }
     await axios.post(route('dashboard.checklist.initialize'));
@@ -858,7 +877,7 @@ const currentPickerDate = computed(() =>
             </Transition>
 
             <!-- ── Desktop layout wrapper ─────────────────────────── -->
-            <div class="max-w-[1200px] mx-auto">
+            <div v-if="!isMobileView" class="max-w-[1200px] mx-auto">
 
                 <!-- Page heading + top actions -->
                 <div class="flex items-end justify-between gap-3 mb-4 flex-wrap">
@@ -1295,16 +1314,30 @@ const currentPickerDate = computed(() =>
                 </div><!-- end grid -->
             </div><!-- end desktop wrapper -->
 
-        </template>
+            <!-- ── Mobile layout branch ──────────────────────────── -->
+            <template v-if="isMobileView">
+                <MobileChecklist
+                    :progress="summary.progress" :done="summary.done" :total="summary.total"
+                    :urgent-count="urgentCount" :upcoming7d="summary.upcoming_7d" :days-until="daysUntil" :has-event-date="summary.has_event_date"
+                    :chips="filterChips" :active-chip="activeChip" :buckets="mobileBuckets" :done-count="mobileDoneCount"
+                    @select="onChip" @open-filter="showMobileFilter = true" @add-task="openCreate"
+                    @open-task="openMobileTask" @toggle="toggle" @show-done="onChip('done')" />
+            </template>
 
-        <!-- ── FAB mobile ─────────────────────────────────────────── -->
-        <button @click="openCreate"
-                class="fixed bottom-20 right-6 lg:hidden w-14 h-14 rounded-full shadow-lg flex items-center justify-center text-white z-20"
-                style="background-color: #92A89C">
-            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-            </svg>
-        </button>
+            <MobileFilterSheet
+                :open="showMobileFilter" :sort-by="sortBy" :filter-status="filterStatus" :filter-cat="filterCat"
+                :filter-assignee="filterAssignee" :categories="categories" :result-count="resultCount"
+                @close="showMobileFilter = false" @reset="resetMobileFilters"
+                @update:sort-by="sortBy = $event" @update:filter-status="filterStatus = $event"
+                @update:filter-cat="filterCat = $event" @update:filter-assignee="filterAssignee = $event" />
+
+            <MobileTaskSheet
+                :task="mobileTask" :subtask-state="mobileSubtasks"
+                @close="closeMobileTask" @toggle-done="(tk) => { toggle(tk); }" @edit="mobileEdit"
+                @add-subtask="addSubtask(mobileTask)" @toggle-subtask="(s) => toggleSubtask(mobileTask, s)"
+                @delete-subtask="(s) => deleteSubtask(mobileTask, s)" />
+
+        </template>
 
         <!-- ── Task Form Modal ────────────────────────────────────── -->
         <Transition name="fade">
