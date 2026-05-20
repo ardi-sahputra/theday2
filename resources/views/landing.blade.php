@@ -81,6 +81,7 @@
             background: linear-gradient(135deg, #F5F8F6 0%, #EBF0ED 45%, #DDEAE4 100%);
         }
 
+
         /* Gold button */
         .btn-primary {
             background-color: var(--color-primary);
@@ -560,11 +561,12 @@
                     </div>
                 </div>
 
-                {{-- Hero Illustration --}}
+                {{-- Hero Illustration — contained, soft rounded card to resolve bg seam --}}
                 <div class="flex justify-center order-first md:order-last">
                     <img src="{{ asset('images/landing/hero-journey.webp') }}"
                          alt="Perjalanan pasangan dari persiapan sampai kehidupan bersama"
-                         class="w-full max-w-lg mx-auto"
+                         class="w-full max-w-lg mx-auto rounded-3xl"
+                         style="box-shadow: 0 20px 50px -20px rgba(115,135,124,0.35); background-color: #FBF7EF;"
                          width="1672" height="941"
                          loading="eager" fetchpriority="high" decoding="async">
                 </div>
