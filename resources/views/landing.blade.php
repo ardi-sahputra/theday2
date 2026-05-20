@@ -518,9 +518,10 @@
                     </div>
 
                     {{-- Title --}}
-                    <h1 class="font-display text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-3"
-                        style="color: #2C2417">
-                        TheDay <span style="color: #92A89C">&amp; Beyond</span>
+                    <h1 class="font-display text-5xl md:text-6xl lg:text-7xl font-bold mb-3"
+                        style="color: #2C2417; line-height: 1.05">
+                        TheDay <span class="italic font-normal" style="color: #92A89C">&amp;</span><br>
+                        <span style="color: #92A89C">Beyond</span>
                     </h1>
 
                     {{-- Subtitle --}}
@@ -548,27 +549,73 @@
                         </a>
                     </div>
 
-                    {{-- Social proof inline --}}
-                    <div class="flex items-center gap-4 text-sm text-gray-500 justify-center md:justify-start">
-                        <span data-id="1.000+ pasangan Indonesia sudah memulai"
-                            data-en="1,000+ Indonesian couples started here">
-                            <strong style="color: #2C2417">1.000+</strong> pasangan Indonesia
-                        </span>
-                        <span class="text-gray-300">·</span>
-                        <span>⭐ <strong style="color: #2C2417">4.9</strong>
+                    {{-- Social proof --}}
+                    <div class="space-y-2">
+                        <div class="flex items-center gap-3 text-sm text-gray-500 justify-center md:justify-start">
+                            {{-- Color palette swatch (brand tone hint) --}}
+                            <div class="flex -space-x-1.5" aria-hidden="true">
+                                <span class="w-5 h-5 rounded-full ring-2 ring-white" style="background-color:#B8C7BF"></span>
+                                <span class="w-5 h-5 rounded-full ring-2 ring-white" style="background-color:#E8C5C0"></span>
+                                <span class="w-5 h-5 rounded-full ring-2 ring-white" style="background-color:#F0E6D2"></span>
+                                <span class="w-5 h-5 rounded-full ring-2 ring-white" style="background-color:#92A89C"></span>
+                            </div>
+                            <span data-id="1.000+ pasangan Indonesia sudah memulai"
+                                data-en="1,000+ Indonesian couples started here">
+                                <strong style="color: #2C2417">1.000+</strong> pasangan Indonesia sudah memulai
+                            </span>
+                        </div>
+                        <div class="flex items-center gap-1.5 text-sm text-gray-500 justify-center md:justify-start">
+                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="#C8A26B"><path d="M12 2l2.39 7.36H22l-6.18 4.49L18.21 22 12 17.27 5.79 22l2.39-8.15L2 9.36h7.61z"/></svg>
+                            <strong style="color: #2C2417">4.9</strong>
                             <span data-id="dari 2.000 ulasan" data-en="from 2,000 reviews">dari 2.000 ulasan</span>
-                        </span>
+                        </div>
                     </div>
                 </div>
 
-                {{-- Hero Illustration — contained, soft rounded card to resolve bg seam --}}
-                <div class="flex justify-center order-first md:order-last">
-                    <img src="{{ asset('images/landing/hero-journey.webp') }}"
-                         alt="Perjalanan pasangan dari persiapan sampai kehidupan bersama"
-                         class="w-full max-w-lg mx-auto rounded-3xl"
-                         style="box-shadow: 0 20px 50px -20px rgba(115,135,124,0.35); background-color: #FBF7EF;"
-                         width="1672" height="941"
-                         loading="eager" fetchpriority="high" decoding="async">
+                {{-- Hero Illustration — framed card with floating product-proof cards --}}
+                <div class="order-first md:order-last">
+                    <div class="relative max-w-lg mx-auto">
+                        {{-- Illustration --}}
+                        <img src="{{ asset('images/landing/hero-journey.webp') }}"
+                             alt="Perjalanan pasangan dari persiapan sampai kehidupan bersama"
+                             class="w-full rounded-3xl border border-stone-200/60"
+                             style="box-shadow: 0 24px 60px -24px rgba(115,135,124,0.4); background-color: #FBF7EF;"
+                             width="1672" height="941"
+                             loading="eager" fetchpriority="high" decoding="async">
+
+                        {{-- Floating: D-Day countdown (top-left) --}}
+                        <div class="absolute -top-5 -left-3 sm:-left-5 bg-white rounded-2xl shadow-xl px-4 py-3"
+                             style="box-shadow: 0 12px 30px -10px rgba(44,36,23,0.18)">
+                            <p class="text-[10px] font-semibold uppercase tracking-wider text-stone-400">D-Day</p>
+                            <p class="leading-none mt-0.5">
+                                <span class="font-display text-2xl font-bold" style="color:#2C2417">120</span>
+                                <span class="text-sm text-stone-500" data-id="hari" data-en="days">hari</span>
+                            </p>
+                            <p class="text-[11px] text-stone-400 mt-1 tabular-nums">22 · 11 · 2026</p>
+                        </div>
+
+                        {{-- Floating: RSVP progress (bottom-right) --}}
+                        <div class="absolute -bottom-6 -right-3 sm:-right-5 bg-white rounded-2xl shadow-xl px-4 py-3 w-52"
+                             style="box-shadow: 0 12px 30px -10px rgba(44,36,23,0.18)">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0" style="background-color:#D1FAE5">
+                                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                                </span>
+                                <div class="min-w-0">
+                                    <p class="text-xs font-semibold text-stone-800 leading-tight" data-id="RSVP terkirim" data-en="RSVP confirmed">RSVP terkirim</p>
+                                    <p class="text-[11px] text-stone-400 leading-tight">
+                                        <span class="tabular-nums">184</span>
+                                        <span data-id="dari" data-en="of">dari</span>
+                                        <span class="tabular-nums">220</span>
+                                        <span data-id="tamu" data-en="guests">tamu</span>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="h-1.5 bg-stone-100 rounded-full overflow-hidden">
+                                <div class="h-full rounded-full" style="width:84%; background-color:#92A89C"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
