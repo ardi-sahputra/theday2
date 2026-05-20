@@ -138,6 +138,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 Route::middleware(['auth', 'verified', 'onboarding', 'couple'])->prefix('dashboard')->name('dashboard.')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('index');
+    Route::patch('/wedding-date', [DashboardController::class, 'updateWeddingDate'])->name('wedding-date.update');
     Route::get('/templates', [TemplateController::class, 'index'])->name('templates');
     Route::get('/buku-tamu', [BukuTamuHubController::class, 'index'])->name('buku-tamu.index');
 

@@ -16,6 +16,8 @@ const props = defineProps({
     checklistWidget:   Object,
     templates:         { type: Array,   default: () => [] },
     canUsePremium:     { type: Boolean, default: false },
+    countdown:         { type: Object,  default: null },
+    hasWeddingDate:    { type: Boolean, default: false },
 });
 
 // ── Delete ────────────────────────────────────────────────────────────
@@ -97,6 +99,35 @@ const priorityDot = {
     medium: 'bg-[#92A89C]',
     low:    'bg-stone-300',
 };
+
+// ── Countdown ─────────────────────────────────────────────────────────
+const showDateModal    = ref(false);
+const weddingDateInput = ref(props.countdown?.date ?? '');
+const savingDate       = ref(false);
+
+function saveWeddingDate() {
+    if (!weddingDateInput.value) return;
+    savingDate.value = true;
+    router.patch(route('dashboard.wedding-date.update'),
+        { wedding_date: weddingDateInput.value },
+        {
+            preserveScroll: true,
+            onFinish: () => {
+                savingDate.value = false;
+                showDateModal.value = false;
+            },
+        }
+    );
+}
+
+function countdownHeadline() {
+    const c = props.countdown;
+    if (!c) return null;
+    if (c.days_until === 0) return t('dashboard.index.countdown.today');
+    if (!c.is_past) return t('dashboard.index.countdown.daysUntil', { days: c.days_until });
+    if (c.years_past >= 1) return t('dashboard.index.countdown.anniversary', { years: c.years_past });
+    return t('dashboard.index.countdown.married', { days: Math.abs(c.days_until) });
+}
 </script>
 
 <template>
@@ -148,37 +179,67 @@ const priorityDot = {
                     </div>
                 </div>
 
-                <!-- inline stats -->
-                <div class="relative grid grid-cols-3 gap-px rounded-2xl bg-brand-primary-soft/30 overflow-hidden">
-                    <div class="bg-white/90 backdrop-blur-sm p-3 sm:p-4 text-center">
-                        <p class="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-brand-primary-hover/80">
-                            {{ t('dashboard.index.stats.totalInvitations') }}
-                        </p>
-                        <p class="text-xl sm:text-2xl font-bold text-brand-text mt-1 tabular-nums">{{ stats.total_invitations }}</p>
-                        <p class="text-[10px] text-stone-400 mt-0.5 hidden sm:block">
-                            {{ t('dashboard.index.stats.totalInvitationsSub', { draft: stats.draft_count, published: stats.published_count }) }}
-                        </p>
-                    </div>
-                    <div class="bg-white/90 backdrop-blur-sm p-3 sm:p-4 text-center">
-                        <p class="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-brand-primary-hover/80">
-                            {{ t('dashboard.index.stats.totalViews') }}
-                        </p>
-                        <p class="text-xl sm:text-2xl font-bold text-brand-text mt-1 tabular-nums">{{ stats.total_views.toLocaleString('id-ID') }}</p>
-                        <p class="text-[10px] text-stone-400 mt-0.5 hidden sm:block">
-                            {{ t('dashboard.index.stats.totalViewsSub') }}
-                        </p>
-                    </div>
-                    <div class="bg-white/90 backdrop-blur-sm p-3 sm:p-4 text-center">
-                        <p class="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-brand-primary-hover/80">
-                            {{ t('dashboard.index.stats.totalRsvp') }}
-                        </p>
-                        <p class="text-xl sm:text-2xl font-bold text-brand-text mt-1 tabular-nums">{{ stats.total_rsvps.toLocaleString('id-ID') }}</p>
-                        <p class="text-[10px] text-stone-400 mt-0.5 hidden sm:block">
-                            {{ t('dashboard.index.stats.totalRsvpSub') }}
-                        </p>
-                    </div>
+                <!-- ── Countdown Hero ─────────────────────────────────── -->
+                <div v-if="countdown" class="mt-2">
+                    <p class="text-3xl sm:text-4xl font-bold text-brand-text leading-tight"
+                       style="font-family: 'Playfair Display', serif">
+                        {{ countdownHeadline() }}
+                    </p>
+                    <p class="text-sm text-stone-500 mt-2 flex items-center gap-1.5 flex-wrap">
+                        <span>{{ t('dashboard.index.countdown.dateLabelPrefix') }}</span>
+                        <span class="font-medium text-stone-600">{{ countdown.date_label }}</span>
+                        <button @click="showDateModal = true"
+                                class="ml-1 text-brand-primary hover:underline text-xs cursor-pointer transition-colors">
+                            {{ t('dashboard.index.countdown.change') }}
+                        </button>
+                    </p>
+                </div>
+
+                <!-- No date: CTA -->
+                <div v-else class="mt-4">
+                    <button @click="showDateModal = true"
+                            class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white transition-all hover:opacity-90 cursor-pointer"
+                            style="background-color: #92A89C">
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                        </svg>
+                        {{ t('dashboard.index.countdown.setDate') }}
+                    </button>
+                    <p class="text-xs text-stone-400 mt-2">{{ t('dashboard.index.countdown.setDateHint') }}</p>
                 </div>
             </section>
+
+            <!-- ── Stats Row (moved from hero) ──────────────────────── -->
+            <div class="grid grid-cols-3 gap-3 sm:gap-4">
+                <div class="bg-white rounded-2xl border border-stone-100 shadow-sm p-3 sm:p-4 text-center">
+                    <p class="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-brand-primary-hover/80">
+                        {{ t('dashboard.index.stats.totalInvitations') }}
+                    </p>
+                    <p class="text-xl sm:text-2xl font-bold text-brand-text mt-1 tabular-nums">{{ stats.total_invitations }}</p>
+                    <p class="text-[10px] text-stone-400 mt-0.5 hidden sm:block">
+                        {{ t('dashboard.index.stats.totalInvitationsSub', { draft: stats.draft_count, published: stats.published_count }) }}
+                    </p>
+                </div>
+                <div class="bg-white rounded-2xl border border-stone-100 shadow-sm p-3 sm:p-4 text-center">
+                    <p class="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-brand-primary-hover/80">
+                        {{ t('dashboard.index.stats.totalViews') }}
+                    </p>
+                    <p class="text-xl sm:text-2xl font-bold text-brand-text mt-1 tabular-nums">{{ stats.total_views.toLocaleString('id-ID') }}</p>
+                    <p class="text-[10px] text-stone-400 mt-0.5 hidden sm:block">
+                        {{ t('dashboard.index.stats.totalViewsSub') }}
+                    </p>
+                </div>
+                <div class="bg-white rounded-2xl border border-stone-100 shadow-sm p-3 sm:p-4 text-center">
+                    <p class="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-brand-primary-hover/80">
+                        {{ t('dashboard.index.stats.totalRsvp') }}
+                    </p>
+                    <p class="text-xl sm:text-2xl font-bold text-brand-text mt-1 tabular-nums">{{ stats.total_rsvps.toLocaleString('id-ID') }}</p>
+                    <p class="text-[10px] text-stone-400 mt-0.5 hidden sm:block">
+                        {{ t('dashboard.index.stats.totalRsvpSub') }}
+                    </p>
+                </div>
+            </div>
 
             <!-- ── Budget Widget ──────────────────────────────────── -->
             <Link
@@ -503,7 +564,63 @@ const priorityDot = {
                 </div>
             </div>
 
+            <!-- ── Phase 3 Teaser Card ───────────────────────────────── -->
+            <section class="rounded-2xl border border-dashed border-brand-primary/30 bg-brand-bg/60 p-5 sm:p-6">
+                <div class="flex items-center gap-2 mb-3 flex-wrap">
+                    <h3 class="text-base font-semibold text-stone-700">{{ t('dashboard.index.phase3.title') }}</h3>
+                    <span class="text-[10px] px-2 py-0.5 rounded-full bg-stone-100 text-stone-400 font-semibold">
+                        {{ t('dashboard.index.phase3.badge') }}
+                    </span>
+                </div>
+                <p class="text-sm text-stone-500 mb-4">{{ t('dashboard.index.phase3.desc') }}</p>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                    <div v-for="f in ['Anniversary Reminder', 'Memory Album', 'Joint Budget', 'Date Night Planner']"
+                         :key="f"
+                         class="rounded-xl bg-white/60 border border-stone-100 p-3 text-center opacity-70">
+                        <p class="text-xs font-medium text-stone-500">{{ f }}</p>
+                    </div>
+                </div>
+            </section>
+
         </div>
+
+        <!-- Set Wedding Date Modal -->
+        <Teleport to="body">
+            <Transition name="modal">
+                <div v-if="showDateModal"
+                     class="fixed inset-0 z-[70] flex items-center justify-center p-4"
+                     style="background: rgba(0,0,0,0.6); backdrop-filter: blur(4px)"
+                     @click.self="showDateModal = false">
+                    <div class="bg-white rounded-3xl shadow-2xl w-full max-w-sm p-6">
+                        <h3 class="text-base font-semibold text-stone-800 mb-1">{{ t('dashboard.index.countdown.setDate') }}</h3>
+                        <p class="text-sm text-stone-500 mb-4">{{ t('dashboard.index.countdown.setDateHint') }}</p>
+                        <input v-model="weddingDateInput"
+                               type="date"
+                               class="w-full rounded-xl border border-stone-200 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:border-brand-primary mb-4"
+                               style="focus-ring-color: rgba(146,168,156,0.3)" />
+                        <div class="flex gap-2">
+                            <button @click="showDateModal = false"
+                                    class="flex-1 py-2.5 rounded-xl text-sm font-medium border border-stone-200 text-stone-600 hover:bg-stone-50 transition-colors cursor-pointer">
+                                {{ t('common.cancel') }}
+                            </button>
+                            <button @click="saveWeddingDate"
+                                    :disabled="savingDate || !weddingDateInput"
+                                    class="flex-1 py-2.5 rounded-xl text-sm font-semibold text-white transition-all hover:opacity-90 disabled:opacity-60 cursor-pointer"
+                                    style="background-color: #92A89C">
+                                <span v-if="savingDate" class="flex items-center justify-center gap-2">
+                                    <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
+                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
+                                    </svg>
+                                    {{ t('dashboard.index.countdown.saving') }}
+                                </span>
+                                <span v-else>{{ t('dashboard.index.countdown.setDateCta') }}</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </Transition>
+        </Teleport>
 
         <!-- Template Picker -->
         <Teleport to="body">
@@ -640,4 +757,7 @@ const priorityDot = {
 
 .toast-enter-active, .toast-leave-active { transition: all 0.2s; }
 .toast-enter-from, .toast-leave-to { opacity: 0; transform: translateY(8px); }
+
+.modal-enter-active, .modal-leave-active { transition: all 0.2s ease; }
+.modal-enter-from, .modal-leave-to { opacity: 0; transform: scale(0.96); }
 </style>
