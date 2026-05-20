@@ -2,6 +2,32 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ── Dashboard redesign palette (theday3 mockup) ──────────────── */
+:root {
+  --d-bg: #EEF2EA;
+  --d-bg-2: #E4ECDF;
+  --d-surface: #F6F8F3;
+  --d-surface-2: #FBFCF9;
+  --d-sage: #92A89C;        /* brand primary (not mockup #9CAB8E) */
+  --d-sage-dark: #6F8270;
+  --d-sage-deep: #4A5A4C;
+  --d-sage-tint: #C7D3BC;
+  --d-sage-soft: #DCE4D3;
+  --d-ink: #1F2A2E;
+  --d-ink-2: #3D4A4D;
+  --d-muted: #6C7A75;
+  --d-line: #D8DFD2;
+  --d-line-2: #C7D0BE;
+  --d-cream: #F4EDDC;
+  --d-cream-2: #E9DFC4;
+  --d-blush: #D9B5B0;
+  --d-blush-deep: #C19089;
+  --d-gold: #C9A45B;
+  --d-amber: #D9A24A;
+}
+.font-cormorant { font-family: 'Cormorant', 'Cormorant Garamond', serif; }
+.font-jet { font-family: 'JetBrains Mono', monospace; }
+
 /* ── Self-hosted Helvetica Neue ────────────────────────────── */
 @font-face {
     font-family: 'Helvetica Neue';
