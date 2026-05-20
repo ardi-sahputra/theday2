@@ -241,7 +241,7 @@ const handleClickOutsideAvatar = (e) => {
 </script>
 
 <template>
-    <div class="min-h-screen flex flex-col" style="background-color: #EEF2EA">
+    <div class="min-h-screen flex flex-col" style="background-color: #EEF2EA; font-family: 'Inter', 'Figtree', system-ui, sans-serif;">
 
         <!-- ── Partner Mode Banner ─────────────────────────────── -->
         <PartnerModeBanner />
@@ -492,7 +492,7 @@ const handleClickOutsideAvatar = (e) => {
                 </div>
 
                 <!-- Right actions -->
-                <div class="flex items-center gap-2">
+                <div class="flex flex-1 justify-end items-center gap-2">
                     <!-- Share invitation button -->
                     <a :href="route('dashboard.invitations.index')"
                        class="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-full text-[13px] font-semibold text-white transition-transform active:scale-95"

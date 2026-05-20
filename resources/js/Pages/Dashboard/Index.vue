@@ -128,7 +128,7 @@ function saveWeddingDate() {
             <h1 class="text-base font-semibold text-stone-800 truncate">{{ t('dashboard.index.pageTitle') }}</h1>
         </template>
 
-        <div class="max-w-7xl mx-auto space-y-5">
+        <div class="w-full space-y-5">
           <CountdownHero :couple="couple" :countdown="countdown" :invite-url="inviteShare?.url ?? ''" />
 
           <QuickStats :stats="stats" :budget-widget="budgetWidget" :checklist-widget="checklistWidget" />
