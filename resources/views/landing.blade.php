@@ -485,176 +485,68 @@
             <div class="absolute top-1/2 left-1/2 w-32 h-32 rounded-full opacity-10 float-animation-delay-2"
                 style="background: radial-gradient(circle, #92A89C, transparent)"></div>
 
-            <div class="max-w-6xl mx-auto px-6 py-20 relative z-10">
-                <div class="flex flex-col lg:flex-row items-center gap-16">
-
-                    {{-- Hero Text --}}
-                    <div class="flex-1 text-center lg:text-left">
-                        {{-- Badge --}}
-                        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium mb-6"
-                            style="background-color: rgba(146,168,156,0.15); color: var(--color-primary-dark)">
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                <path
-                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                            </svg>
-                            <span data-id="Dipercaya 10.000+ pasangan di Indonesia"
-                                data-en="Trusted by 10,000+ couples in Indonesia">Dipercaya 10.000+ pasangan di
-                                Indonesia</span>
-                        </div>
-
-                        <h1 class="font-display text-4xl md:text-5xl lg:text-6xl font-semibold leading-tight mb-6"
-                            style="color: var(--color-dark)">
-                            <span data-id="Buat Momen Spesialmu" data-en="Make Your Special Moment">Buat Momen
-                                Spesialmu</span><br>
-                            <span style="color: var(--color-primary)" data-id="Tak Terlupakan"
-                                data-en="Unforgettable">Tak Terlupakan</span>
-                        </h1>
-
-                        <p class="text-lg text-gray-600 mb-8 max-w-xl leading-relaxed"
-                            data-id="Undangan pernikahan digital yang elegan dan berkesan. Bagikan lewat WhatsApp, terima konfirmasi kehadiran secara real-time."
-                            data-en="Elegant digital wedding invitations that leave a lasting impression. Share via WhatsApp, receive attendance confirmations in real-time.">
-                            Undangan pernikahan digital yang elegan dan berkesan. Bagikan lewat WhatsApp, terima
-                            konfirmasi kehadiran secara real-time.
-                        </p>
-
-                        <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                            <a href="/templates" class="btn-primary text-base py-3 px-8">
-                                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                                    stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
-                                </svg>
-                                <span data-id="Buat Undangan Gratis" data-en="Create Free Invitation">Buat Undangan
-                                    Gratis</span>
-                            </a>
-                            <a href="#template" class="btn-outline text-base py-3 px-8">
-                                <span data-id="Lihat Template" data-en="View Templates">Lihat Template</span>
-                                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                                    stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                                </svg>
-                            </a>
-                        </div>
-
-                        {{-- Social proof --}}
-                        <div class="mt-10 flex items-center gap-4 justify-center lg:justify-start">
-                            <div class="flex -space-x-2">
-                                @foreach (['bg-rose-300', 'bg-[#92A89C]/50', 'bg-emerald-300', 'bg-[#B8C7BF]', 'bg-purple-300'] as $color)
-                                    <div
-                                        class="w-9 h-9 rounded-full border-2 border-white {{ $color }} flex items-center justify-center text-xs font-bold text-white">
-                                        {{ chr(65 + $loop->index) }}
-                                    </div>
-                                @endforeach
-                            </div>
-                            <div>
-                                <div class="flex items-center gap-1">
-                                    @for ($i = 0; $i < 5; $i++)
-                                        <svg class="w-4 h-4 text-[#C8A26B]" fill="currentColor" viewBox="0 0 20 20">
-                                            <path
-                                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                        </svg>
-                                    @endfor
-                                </div>
-                                <p class="text-xs text-gray-500 mt-0.5" data-id="4.9/5 dari 2.000+ ulasan"
-                                    data-en="4.9/5 from 2,000+ reviews">4.9/5 dari 2.000+ ulasan</p>
-                            </div>
-                        </div>
+            <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center relative z-10 py-20">
+                {{-- Hero Text --}}
+                <div class="text-center md:text-left">
+                    {{-- Eyebrow badge --}}
+                    <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-6"
+                        style="background-color: rgba(146,168,156,0.15)">
+                        <span class="w-2 h-2 rounded-full" style="background-color: #92A89C"></span>
+                        <span class="text-xs font-semibold" style="color: #73877C"
+                            data-id="Hari Itu & Seterusnya" data-en="The Day And Beyond">Hari Itu &amp; Seterusnya</span>
                     </div>
 
-                    {{-- Hero Mock --}}
-                    <div class="flex-1 flex justify-center items-center relative">
-                        {{-- Phone mockup --}}
-                        <div class="relative w-72 float-animation">
-                            <div class="bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-100"
-                                style="box-shadow: 0 40px 80px rgba(146,168,156,0.25)">
-                                {{-- Phone notch --}}
-                                <div class="bg-gray-900 h-7 flex items-center justify-center">
-                                    <div class="w-20 h-4 bg-gray-800 rounded-full"></div>
-                                </div>
-                                {{-- Invitation preview --}}
-                                <div class="relative"
-                                    style="background: linear-gradient(160deg, #EBF0ED, #DDEAE4); height: 480px;">
-                                    {{-- Decorative elements --}}
-                                    <div
-                                        class="absolute inset-0 flex flex-col items-center justify-center text-center px-6">
-                                        <div class="w-16 h-px mb-4" style="background: var(--color-primary)"></div>
-                                        <p class="text-xs text-gray-500 tracking-widest uppercase mb-2"
-                                            data-id="Undangan Pernikahan" data-en="Wedding Invitation">Undangan
-                                            Pernikahan</p>
-                                        <h3 class="font-display text-3xl font-semibold mb-1"
-                                            style="color: var(--color-dark)">Rina</h3>
-                                        <div class="flex items-center gap-2 mb-1">
-                                            <div class="w-8 h-px" style="background: var(--color-primary)"></div>
-                                            <span class="text-xs" style="color: var(--color-primary)">&amp;</span>
-                                            <div class="w-8 h-px" style="background: var(--color-primary)"></div>
-                                        </div>
-                                        <h3 class="font-display text-3xl font-semibold mb-6"
-                                            style="color: var(--color-dark)">Budi</h3>
+                    {{-- Title --}}
+                    <h1 class="font-display text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-3"
+                        style="color: #2C2417">
+                        TheDay <span style="color: #92A89C">&amp; Beyond</span>
+                    </h1>
 
-                                        <div class="bg-white bg-opacity-60 rounded-xl px-6 py-3 mb-4 w-full">
-                                            <p class="text-xs text-gray-500 mb-0.5" data-id="Sabtu, 12 Juli 2025"
-                                                data-en="Saturday, July 12, 2025">Sabtu, 12 Juli 2025</p>
-                                            <p class="text-sm font-semibold" style="color: var(--color-dark)"
-                                                data-id="09.00 WIB — Selesai" data-en="09:00 AM — Until Finish">09.00
-                                                WIB — Selesai</p>
-                                        </div>
-                                        <div class="bg-white bg-opacity-60 rounded-xl px-6 py-3 w-full">
-                                            <p class="text-xs text-gray-500 mb-0.5" data-id="Lokasi"
-                                                data-en="Location">Lokasi</p>
-                                            <p class="text-sm font-semibold" style="color: var(--color-dark)">Hotel
-                                                Mulia Senayan</p>
-                                            <p class="text-xs text-gray-500" data-id="Jakarta Selatan"
-                                                data-en="South Jakarta">Jakarta Selatan</p>
-                                        </div>
+                    {{-- Subtitle --}}
+                    <h2 class="text-xl md:text-2xl text-gray-600 mb-4 font-medium"
+                        data-id="Pernikahan dan seterusnya" data-en="The wedding and what's next">
+                        Pernikahan dan seterusnya
+                    </h2>
 
-                                        <button class="mt-5 w-full py-2.5 rounded-xl text-sm font-semibold text-white"
-                                            style="background: var(--color-primary)" data-id="Konfirmasi Kehadiran"
-                                            data-en="Confirm Attendance">
-                                            Konfirmasi Kehadiran
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
+                    {{-- Description --}}
+                    <p class="text-base md:text-lg text-gray-500 leading-relaxed mb-8 max-w-lg mx-auto md:mx-0"
+                        data-id="Pendamping pasangan dari hari spesial sampai kehidupan bersama. Mulai dari undangan digital, lanjut ke persiapan dan perjalanan pernikahan kamu."
+                        data-en="Companion app for couples — from the special day to your shared life. Start with digital invitations, continue with planning and married life.">
+                        Pendamping pasangan dari hari spesial sampai kehidupan bersama. Mulai dari undangan digital, lanjut ke persiapan dan perjalanan pernikahan kamu.
+                    </p>
 
-                            {{-- Floating badges --}}
-                            <div
-                                class="absolute -right-6 top-16 bg-white rounded-xl shadow-lg px-3 py-2 flex items-center gap-2 float-animation-delay">
-                                <div class="w-8 h-8 rounded-full flex items-center justify-center"
-                                    style="background: rgba(146,168,156,0.15)">
-                                    <svg class="w-4 h-4" style="color: var(--color-primary)" fill="none"
-                                        viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M5 13l4 4L19 7" />
-                                    </svg>
-                                </div>
-                                <div>
-                                    <p class="text-xs font-semibold text-gray-800" data-id="128 Hadir"
-                                        data-en="128 Attending">128 Hadir</p>
-                                    <p class="text-xs text-gray-400" data-id="dari 200 tamu" data-en="of 200 guests">
-                                        dari 200 tamu</p>
-                                </div>
-                            </div>
-
-                            <div
-                                class="absolute -left-8 bottom-24 bg-white rounded-xl shadow-lg px-3 py-2 flex items-center gap-2 float-animation-delay-2">
-                                <div class="w-8 h-8 rounded-full flex items-center justify-center bg-green-50">
-                                    <svg class="w-4 h-4 text-green-500" fill="none" viewBox="0 0 24 24"
-                                        stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                                    </svg>
-                                </div>
-                                <div>
-                                    <p class="text-xs font-semibold text-gray-800" data-id="1.240 Dilihat"
-                                        data-en="1,240 Viewed">1.240 Dilihat</p>
-                                    <p class="text-xs text-gray-400" data-id="hari ini" data-en="today">hari ini</p>
-                                </div>
-                            </div>
-                        </div>
+                    {{-- CTAs --}}
+                    <div class="flex flex-col sm:flex-row gap-3 mb-8 justify-center md:justify-start">
+                        <a href="/register" class="btn-primary text-base py-3 px-6"
+                            data-id="Mulai Perjalanan Bersama" data-en="Start Your Journey">
+                            Mulai Perjalanan Bersama
+                        </a>
+                        <a href="#phase-journey" class="btn-outline text-base py-3 px-6"
+                            data-id="Pelajari Lebih" data-en="Learn More">
+                            Pelajari Lebih
+                        </a>
                     </div>
 
+                    {{-- Social proof inline --}}
+                    <div class="flex items-center gap-4 text-sm text-gray-500 justify-center md:justify-start">
+                        <span data-id="1.000+ pasangan Indonesia sudah memulai"
+                            data-en="1,000+ Indonesian couples started here">
+                            <strong style="color: #2C2417">1.000+</strong> pasangan Indonesia
+                        </span>
+                        <span class="text-gray-300">·</span>
+                        <span>⭐ <strong style="color: #2C2417">4.9</strong>
+                            <span data-id="dari 2.000 ulasan" data-en="from 2,000 reviews">dari 2.000 ulasan</span>
+                        </span>
+                    </div>
+                </div>
+
+                {{-- Hero Illustration (placeholder) --}}
+                <div class="flex justify-center order-first md:order-last">
+                    {{-- PLACEHOLDER: swap to <img src="/images/landing/hero-journey.webp" alt="Perjalanan pasangan dari persiapan sampai kehidupan bersama" class="w-full max-w-lg mx-auto" loading="eager"> when ready --}}
+                    <div class="aspect-[4/3] w-full max-w-lg rounded-3xl flex items-center justify-center"
+                        style="background: rgba(146,168,156,0.15); border: 2px dashed rgba(146,168,156,0.4)">
+                        <span style="color: rgba(146,168,156,0.7); font-size: 0.875rem; font-weight: 500; text-align: center; padding: 1rem;">Ilustrasi: hero-journey<br>(couple journey path)</span>
+                    </div>
                 </div>
             </div>
 
