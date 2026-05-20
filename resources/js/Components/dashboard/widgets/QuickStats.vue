@@ -1,0 +1,58 @@
+<script setup>
+import { computed } from 'vue';
+import WidgetIcon from '@/Components/dashboard/WidgetIcon.vue';
+import { useLocale } from '@/Composables/useLocale';
+
+const props = defineProps({
+  stats:           { type: Object, required: true },
+  budgetWidget:    { type: Object, required: true },
+  checklistWidget: { type: Object, required: true },
+});
+const { t } = useLocale();
+
+const cards = computed(() => [
+  {
+    label: t('dashboard.index.widgets.stats.rsvp'),
+    value: String(props.stats.rsvp_attending ?? 0),
+    sub:   t('dashboard.index.widgets.stats.rsvpSub', { total: props.stats.rsvp_total ?? 0 }),
+    color: '#92A89C', icon: 'guest', demo: false,
+  },
+  {
+    label: t('dashboard.index.widgets.stats.budget'),
+    value: (props.budgetWidget?.usage_percentage ?? 0) + '%',
+    sub:   props.budgetWidget?.has_budget ? `${props.budgetWidget.formatted.total_actual} / ${props.budgetWidget.formatted.total_budget}` : t('dashboard.index.widgets.stats.budgetEmpty'),
+    color: '#C19089', icon: 'budget', demo: false,
+  },
+  {
+    label: t('dashboard.index.widgets.stats.checklist'),
+    value: String(props.checklistWidget?.done ?? 0),
+    sub:   t('dashboard.index.widgets.stats.checklistSub', { total: props.checklistWidget?.total ?? 0 }),
+    color: '#D9A24A', icon: 'check', demo: false,
+  },
+  {
+    label: t('dashboard.index.widgets.stats.ucapan'),
+    value: String(props.stats.ucapan_count ?? 0),
+    sub:   t('dashboard.index.widgets.stats.ucapanSub'),
+    color: '#6F8270', icon: 'gift', demo: true,
+  },
+]);
+</script>
+
+<template>
+  <div class="grid gap-4 grid-cols-2 lg:grid-cols-4">
+    <div v-for="(s, i) in cards" :key="i"
+         class="relative overflow-hidden rounded-[18px] p-[18px]"
+         style="background:#FBFCF9; border:1px solid #D8DFD2;">
+      <div class="flex items-start justify-between mb-2.5">
+        <div class="w-8 h-8 rounded-[9px] grid place-items-center" :style="{ background: s.color }">
+          <WidgetIcon :name="s.icon" :size="16" stroke="#fff" />
+        </div>
+        <span v-if="s.demo" class="text-[9.5px] font-semibold px-1.5 py-0.5 rounded-full"
+              style="background: rgba(217,162,74,0.16); color:#B07D2A;">{{ t('dashboard.index.widgets.demoBadge') }}</span>
+      </div>
+      <div class="text-xs font-medium mb-1" style="color:#6C7A75;">{{ s.label }}</div>
+      <div class="font-cormorant font-medium leading-none tracking-tight text-[34px]" style="color:#1F2A2E;">{{ s.value }}</div>
+      <div class="text-xs mt-1.5" style="color:#6C7A75;">{{ s.sub }}</div>
+    </div>
+  </div>
+</template>
