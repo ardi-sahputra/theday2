@@ -1114,149 +1114,63 @@
         {{-- PRICING SECTION --}}
         {{-- ============================================================ --}}
         <section id="harga" class="py-24 bg-white">
-            <div class="max-w-6xl mx-auto px-6">
-                <div class="text-center mb-16 reveal">
-                    <p class="text-sm font-semibold tracking-widest uppercase mb-3"
-                        style="color: var(--color-primary)" data-id="Harga" data-en="Pricing">Harga</p>
-                    <h2 class="font-display text-3xl md:text-4xl font-semibold mb-4" style="color: var(--color-dark)"
-                        data-id="Pilih Paket yang Tepat" data-en="Choose the Right Plan">
-                        Pilih Paket yang Tepat
-                    </h2>
-                    <p class="text-gray-500 max-w-xl mx-auto"
-                        data-id="Mulai gratis, upgrade kapan saja. Tidak ada biaya tersembunyi."
-                        data-en="Start for free, upgrade anytime. No hidden fees.">
-                        Mulai gratis, upgrade kapan saja. Tidak ada biaya tersembunyi.
-                    </p>
+            <div class="max-w-4xl mx-auto px-6">
+                <div class="text-center max-w-2xl mx-auto mb-14">
+                    <h2 class="font-display text-3xl md:text-4xl font-bold mb-4" style="color: #2C2417"
+                        data-id="Mulai gratis, upgrade kapan kamu butuh" data-en="Start free, upgrade when you need">Mulai gratis, upgrade kapan kamu butuh</h2>
+                    <p class="text-gray-500 text-lg"
+                        data-id="Tanpa kartu kredit. Cancel kapan saja."
+                        data-en="No credit card. Cancel anytime.">Tanpa kartu kredit. Cancel kapan saja.</p>
                 </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-2xl mx-auto">
-                    @php
-                        use App\Support\PlanFormatter;
-
-                        $premiumDiscount = isset($plans['premium']) ? $plans['premium']->currentDiscount() : null;
-
-                        $pricingTiers = [
-                            [
-                                'id_name'          => 'Gratis',
-                                'en_name'          => 'Free',
-                                'price'            => PlanFormatter::price((int) ($plans['free']->price ?? 0)),
-                                'original_price'   => null,
-                                'has_discount'     => false,
-                                'discount_percent' => null,
-                                'discount_label'   => null,
-                                'id_period'        => PlanFormatter::period((int) ($plans['free']->duration_days ?? 0), 'id'),
-                                'en_period'        => PlanFormatter::period((int) ($plans['free']->duration_days ?? 0), 'en'),
-                                'popular'          => false,
-                                'id_features'      => $plans['free']->features ?? [],
-                                'en_features'      => $plans['free']->features ?? [],
-                                'id_disabled'      => ['Custom URL', 'Upload musik sendiri', 'Analitik lengkap'],
-                                'en_disabled'      => ['Custom URL', 'Upload own music', 'Full analytics'],
-                                'id_cta'           => 'Mulai Gratis',
-                                'en_cta'           => 'Start Free',
-                            ],
-                            [
-                                'id_name'          => 'Premium',
-                                'en_name'          => 'Premium',
-                                'price'            => PlanFormatter::price((int) (isset($plans['premium']) ? $plans['premium']->effectivePrice() : 49000)),
-                                'original_price'   => PlanFormatter::price((int) ($plans['premium']->price ?? 49000)),
-                                'has_discount'     => $premiumDiscount !== null,
-                                'discount_percent' => $premiumDiscount?->percent,
-                                'discount_label'   => $premiumDiscount?->label,
-                                'id_period'        => PlanFormatter::period((int) ($plans['premium']->duration_days ?? 365), 'id'),
-                                'en_period'        => PlanFormatter::period((int) ($plans['premium']->duration_days ?? 365), 'en'),
-                                'popular'          => true,
-                                'id_features'      => $plans['premium']->features ?? [],
-                                'en_features'      => $plans['premium']->features ?? [],
-                                'id_disabled'      => [],
-                                'en_disabled'      => [],
-                                'id_cta'           => 'Pilih Premium',
-                                'en_cta'           => 'Choose Premium',
-                            ],
-                        ];
-                    @endphp
-
-                    @foreach ($pricingTiers as $plan)
-                        <div
-                            class="rounded-2xl p-6 border reveal flex flex-col {{ $plan['popular'] ? 'pricing-popular shadow-2xl scale-105 border-transparent' : 'border-gray-200 shadow-sm' }}">
-                            @if ($plan['popular'])
-                                <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white bg-opacity-20 text-xs font-semibold mb-4"
-                                    data-id="Paling Populer" data-en="Most Popular">
-                                    Paling Populer
-                                </div>
-                            @endif
-
-                            <h3 class="font-semibold text-lg mb-1 {{ $plan['popular'] ? 'text-white' : '' }}"
-                                style="{{ !$plan['popular'] ? 'color: var(--color-dark)' : '' }}"
-                                data-id="{{ $plan['id_name'] }}" data-en="{{ $plan['en_name'] }}">
-                                {{ $plan['id_name'] }}
-                            </h3>
-                            <div class="mb-6">
-                                @if (!empty($plan['has_discount']))
-                                    <div class="flex items-center gap-2 mb-1">
-                                        <span class="text-xs px-2 py-0.5 rounded-md font-semibold {{ $plan['popular'] ? 'bg-white/20 text-white' : 'bg-red-100 text-red-700' }}">
-                                            {{ PlanFormatter::discountBadge((int) $plan['discount_percent']) }}
-                                        </span>
-                                        <span class="text-xs italic {{ $plan['popular'] ? 'text-white/80' : 'text-stone-500' }}" data-id="{{ $plan['discount_label'] }}" data-en="{{ $plan['discount_label'] }}">
-                                            {{ $plan['discount_label'] }}
-                                        </span>
-                                    </div>
-                                    <div class="flex items-baseline gap-2">
-                                        <span class="text-3xl font-bold {{ $plan['popular'] ? 'text-white' : '' }}" style="{{ !$plan['popular'] ? 'color: var(--color-dark)' : '' }}">
-                                            {{ $plan['price'] }}
-                                        </span>
-                                        <s class="text-sm {{ $plan['popular'] ? 'text-white/70' : 'text-stone-400' }}">{{ $plan['original_price'] }}</s>
-                                    </div>
-                                @else
-                                    <span class="text-3xl font-bold {{ $plan['popular'] ? 'text-white' : '' }}"
-                                        style="{{ !$plan['popular'] ? 'color: var(--color-dark)' : '' }}">
-                                        {{ $plan['price'] }}
-                                    </span>
-                                @endif
-                                <span
-                                    class="text-sm {{ $plan['popular'] ? 'text-white text-opacity-80' : 'text-gray-400' }}"
-                                    data-id="/ {{ $plan['id_period'] }}" data-en="/ {{ $plan['en_period'] }}">
-                                    / {{ $plan['id_period'] }}
-                                </span>
-                            </div>
-
-                            <ul class="space-y-3 mb-8 flex-1">
-                                @foreach ($plan['id_features'] as $fi => $feature)
-                                    <li
-                                        class="flex items-center gap-2.5 text-sm {{ $plan['popular'] ? 'text-white' : 'text-gray-600' }}">
-                                        <svg class="w-4 h-4 flex-shrink-0 {{ $plan['popular'] ? 'text-white' : '' }}"
-                                            style="{{ !$plan['popular'] ? 'color: var(--color-primary)' : '' }}"
-                                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
-                                                d="M5 13l4 4L19 7" />
-                                        </svg>
-                                        <span data-id="{{ $feature }}"
-                                            data-en="{{ $plan['en_features'][$fi] }}">{{ $feature }}</span>
-                                    </li>
-                                @endforeach
-                                @foreach ($plan['id_disabled'] as $di => $feature)
-                                    <li class="flex items-center gap-2.5 text-sm text-gray-300 line-through">
-                                        <svg class="w-4 h-4 flex-shrink-0 text-gray-300" fill="none"
-                                            viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M6 18L18 6M6 6l12 12" />
-                                        </svg>
-                                        <span data-id="{{ $feature }}"
-                                            data-en="{{ $plan['en_disabled'][$di] }}">{{ $feature }}</span>
-                                    </li>
-                                @endforeach
-                            </ul>
-
-                            <a href="/templates"
-                                class="block text-center py-3 rounded-xl font-semibold text-sm transition-all
-                   {{ $plan['popular'] ? 'bg-white hover:bg-gray-50' : 'border-2 hover:text-white hover:bg-opacity-100' }}"
-                                style="{{ $plan['popular']
-                                    ? 'color: var(--color-primary-dark)'
-                                    : 'border-color: var(--color-primary); color: var(--color-primary); hover:background-color: var(--color-primary)' }}"
-                                data-id="{{ $plan['id_cta'] }}" data-en="{{ $plan['en_cta'] }}">
-                                {{ $plan['id_cta'] }}
-                            </a>
-                        </div>
-                    @endforeach
+                <div class="grid md:grid-cols-2 gap-6">
+                    {{-- Free --}}
+                    <div class="rounded-2xl border p-8" style="border-color: rgba(146,168,156,0.2)">
+                        <h3 class="text-xl font-bold mb-1" style="color: #2C2417"
+                            data-id="Free" data-en="Free">Free</h3>
+                        <p class="text-3xl font-bold mb-1" style="color: #2C2417">Rp 0</p>
+                        <p class="text-sm text-gray-400 mb-6"
+                            data-id="Selamanya" data-en="Forever">Selamanya</p>
+                        <ul class="space-y-3 text-sm text-gray-600 mb-8">
+                            <li class="flex gap-2">
+                                <span style="color: #92A89C">&#10003;</span>
+                                <span data-id="Undangan digital (template terbatas)" data-en="Digital invitation (limited templates)">Undangan digital (template terbatas)</span>
+                            </li>
+                            <li class="flex gap-2">
+                                <span style="color: #92A89C">&#10003;</span>
+                                <span data-id="Checklist & Daftar Tamu" data-en="Checklist & Guest List">Checklist &amp; Daftar Tamu</span>
+                            </li>
+                            <li class="flex gap-2">
+                                <span style="color: #92A89C">&#10003;</span>
+                                <span data-id="RSVP & Wishes" data-en="RSVP & Wishes">RSVP &amp; Wishes</span>
+                            </li>
+                            <li class="flex gap-2 text-gray-400">
+                                <span>&#8226;</span>
+                                <span data-id="Watermark TheDay" data-en="TheDay watermark">Watermark TheDay</span>
+                            </li>
+                        </ul>
+                        <a href="/register" class="btn-outline w-full text-center block py-2.5"
+                            data-id="Mulai Gratis" data-en="Start Free">Mulai Gratis</a>
+                    </div>
+                    {{-- Premium --}}
+                    <div class="rounded-2xl p-8 relative" style="border: 2px solid #C8A26B">
+                        <span class="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-xs font-semibold text-white"
+                            style="background-color: #C8A26B"
+                            data-id="Direkomendasikan" data-en="Recommended">Direkomendasikan</span>
+                        <h3 class="text-xl font-bold mb-1" style="color: #2C2417"
+                            data-id="Premium" data-en="Premium">Premium</h3>
+                        <p class="text-2xl font-bold mb-6" style="color: #C8A26B"
+                            data-id="Lihat Detail Paket" data-en="See Plan Details">Lihat Detail Paket</p>
+                        <ul class="space-y-3 text-sm text-gray-600 mb-8">
+                            <li class="flex gap-2"><span style="color: #C8A26B">&#10003;</span> <span data-id="Semua tema premium (Onyx, Astronomy, dll)" data-en="All premium themes (Onyx, Astronomy, etc.)">Semua tema premium (Onyx, Astronomy, dll)</span></li>
+                            <li class="flex gap-2"><span style="color: #C8A26B">&#10003;</span> <span data-id="Tanpa watermark" data-en="No watermark">Tanpa watermark</span></li>
+                            <li class="flex gap-2"><span style="color: #C8A26B">&#10003;</span> <span data-id="Custom domain" data-en="Custom domain">Custom domain</span></li>
+                            <li class="flex gap-2"><span style="color: #C8A26B">&#10003;</span> <span data-id="Amplop digital + analytics" data-en="Digital envelope + analytics">Amplop digital + analytics</span></li>
+                            <li class="flex gap-2"><span style="color: #C8A26B">&#10003;</span> <span data-id="Priority support" data-en="Priority support">Priority support</span></li>
+                        </ul>
+                        <a href="/paket" class="w-full text-center block py-2.5 rounded-xl font-semibold text-white transition-all hover:opacity-90"
+                            style="background-color: #C8A26B"
+                            data-id="Lihat Paket Lengkap →" data-en="See Full Plans →">Lihat Paket Lengkap &#8594;</a>
+                    </div>
                 </div>
             </div>
         </section>
