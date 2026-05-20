@@ -189,6 +189,7 @@ Route::middleware(['auth', 'verified', 'onboarding', 'couple'])->prefix('dashboa
 
     // ── Budget Planner ───────────────────────────────────────────────────
     Route::get( '/budget-planner',                    [BudgetPlannerPageController::class, 'index'])->name('budget-planner.index');
+    Route::get( '/budget-planner/export.csv',         [BudgetPlannerPageController::class, 'exportCsv'])->name('budget-planner.export');
     Route::post('/budget-planner/initialize',         [InitializeBudgetPlannerController::class, 'store'])->name('budget-planner.initialize');
     Route::patch('/budget-planner/budget',            [UpdateBudgetController::class, 'update'])->name('budget-planner.budget.update');
 

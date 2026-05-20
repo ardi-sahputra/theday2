@@ -23,6 +23,38 @@ class BudgetPlannerPageController extends Controller
         private readonly GetBudgetItemsTableAction $itemsTable,
     ) {}
 
+    public function exportCsv(): \Illuminate\Http\Response
+    {
+        $budget = $this->initialize->execute(EffectiveUser::resolve());
+        $items  = $budget->activeItems()->with('category')->get();
+
+        $rows = [['Pengeluaran', 'Kategori', 'Vendor', 'Jatuh tempo', 'Rencana', 'Terpakai', 'Status']];
+        foreach ($items as $item) {
+            $rows[] = [
+                $item->title,
+                $item->category?->name ?? '',
+                $item->vendor_name ?? '',
+                $item->due_date?->format('Y-m-d') ?? '',
+                (string) $item->planned_amount,
+                (string) $item->terpakai,
+                $item->payment_status instanceof \BackedEnum ? $item->payment_status->value : (string) $item->payment_status,
+            ];
+        }
+
+        $out = fopen('php://temp', 'r+');
+        foreach ($rows as $row) {
+            fputcsv($out, $row);
+        }
+        rewind($out);
+        $csv = stream_get_contents($out);
+        fclose($out);
+
+        return response($csv, 200, [
+            'Content-Type'        => 'text/csv; charset=utf-8',
+            'Content-Disposition' => 'attachment; filename="laporan-anggaran.csv"',
+        ]);
+    }
+
     public function index(Request $request): Response
     {
         $budget = $this->initialize->execute(EffectiveUser::resolve());
