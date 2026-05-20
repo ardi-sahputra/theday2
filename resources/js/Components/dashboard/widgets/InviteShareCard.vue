@@ -29,7 +29,7 @@ async function copy() {
             {{ inviteShare.status === 'published' ? t('dashboard.index.widgets.invite.live') : t('dashboard.index.widgets.invite.draft') }}
           </div>
         </div>
-        <div class="flex gap-6 mt-4.5 text-xs" style="color:#3D4A4D;">
+        <div class="flex gap-6 mt-[18px] text-xs" style="color:#3D4A4D;">
           <div><strong class="font-bold" style="color:#1F2A2E;">{{ inviteShare.view_count.toLocaleString('id-ID') }}</strong> {{ t('dashboard.index.widgets.invite.visits') }}</div>
           <div><strong class="font-bold" style="color:#1F2A2E;">{{ inviteShare.rsvps_count }}</strong> RSVP</div>
           <div><strong class="font-bold" style="color:#1F2A2E;">{{ inviteShare.ucapan_count }}</strong> {{ t('dashboard.index.widgets.invite.ucapan') }}</div>
