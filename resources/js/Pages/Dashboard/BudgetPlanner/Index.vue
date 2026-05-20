@@ -561,6 +561,9 @@ const upcomingPayments = computed(() =>
                         <button type="button" @click="exportCsv" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[12px] font-semibold" style="color:#4A5A4C; border:1px solid #C7D0BE;">
                             <WidgetIcon name="download" :size="13" stroke="#4A5A4C" /> {{ t('dashboard.budget.export') }}
                         </button>
+                        <button type="button" @click="showManageCats = true" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[12px] font-semibold" style="color:#4A5A4C; border:1px solid #C7D0BE;">
+                            {{ t('dashboard.budget.header.manageCategories') }}
+                        </button>
                         <button type="button" @click="showSetBudget = true" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[12px] font-semibold" style="color:#4A5A4C; border:1px solid #C7D0BE;">
                             {{ t('dashboard.budget.setBudget') }}
                         </button>
