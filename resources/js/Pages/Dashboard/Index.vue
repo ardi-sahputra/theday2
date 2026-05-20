@@ -601,7 +601,7 @@ function countdownHeadline() {
                         <div class="flex gap-2">
                             <button @click="showDateModal = false"
                                     class="flex-1 py-2.5 rounded-xl text-sm font-medium border border-stone-200 text-stone-600 hover:bg-stone-50 transition-colors cursor-pointer">
-                                Batal
+                                {{ t('common.cancel') }}
                             </button>
                             <button @click="saveWeddingDate"
                                     :disabled="savingDate || !weddingDateInput"
@@ -612,7 +612,7 @@ function countdownHeadline() {
                                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
                                         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
                                     </svg>
-                                    Menyimpan...
+                                    {{ t('dashboard.index.countdown.saving') }}
                                 </span>
                                 <span v-else>{{ t('dashboard.index.countdown.setDateCta') }}</span>
                             </button>

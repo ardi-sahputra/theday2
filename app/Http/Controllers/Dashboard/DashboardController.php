@@ -142,7 +142,7 @@ class DashboardController extends Controller
                 'date_label' => $wd->translatedFormat('l, d F Y'),
                 'days_until' => (int) $daysUntil,
                 'is_past'    => $wd->lt($today),
-                'years_past' => $wd->lt($today) ? (int) $today->diffInYears($wd) : 0,
+                'years_past' => $wd->lt($today) ? (int) abs($today->diffInYears($wd)) : 0,
                 'source'     => $coupleProfile?->wedding_date ? 'profile' : 'invitation',
             ];
         }
