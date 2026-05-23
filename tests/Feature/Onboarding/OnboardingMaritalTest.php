@@ -44,12 +44,13 @@ class OnboardingMaritalTest extends TestCase
         $this->actingAs($user)->get(route('dashboard'))->assertOk();
     }
 
-    public function test_preparing_couple_still_creates_invitation(): void
+    public function test_preparing_couple_with_chosen_template_creates_invitation(): void
     {
-        Template::factory()->free()->create();
+        $template = Template::factory()->free()->create();
         $user = User::factory()->create();
 
         $this->actingAs($user)
+            ->withSession(['pending_template' => $template->id])
             ->post(route('onboarding.store'), [
                 'groom_name'     => 'Rizki',
                 'bride_name'     => 'Ayu',

@@ -48,7 +48,51 @@ class CreateInvitationFromTemplateAction
             $invitation->details()->create(['invitation_id' => $invitation->id]);
         }
 
+        $this->applyPendingCoupleData($invitation);
+
         return $invitation;
+    }
+
+    /**
+     * Pre-fill the invitation with couple data stashed during onboarding
+     * (template-first flow), then clear it.
+     */
+    private function applyPendingCoupleData(Invitation $invitation): void
+    {
+        $pending = session('pending_couple_data');
+        if (! is_array($pending)) {
+            return;
+        }
+
+        $invitation->update([
+            'title'          => trim(($pending['groom_name'] ?? '') . ' & ' . ($pending['bride_name'] ?? '')),
+            'marital_status' => $pending['marital_status'] ?? null,
+            'wedding_type'   => $pending['wedding_type'] ?? null,
+            'city'           => $pending['city'] ?? null,
+            'intended_plan'  => $pending['intended_plan'] ?? null,
+        ]);
+
+        $invitation->details()->update([
+            'groom_name'     => $pending['groom_name'] ?? null,
+            'groom_nickname' => $pending['groom_nickname'] ?? null,
+            'bride_name'     => $pending['bride_name'] ?? null,
+            'bride_nickname' => $pending['bride_nickname'] ?? null,
+        ]);
+
+        if (! empty($pending['wedding_date'])) {
+            $invitation->events()->updateOrCreate(
+                ['invitation_id' => $invitation->id, 'sort_order' => 0],
+                [
+                    'event_name'    => 'Akad & Resepsi',
+                    'event_date'    => $pending['wedding_date'],
+                    'start_time'    => $pending['start_time'] ?? null,
+                    'venue_name'    => $pending['venue_name'] ?? '',
+                    'venue_address' => $pending['venue_address'] ?? null,
+                ],
+            );
+        }
+
+        session()->forget('pending_couple_data');
     }
 
     private function generateUniqueSlug(): string
