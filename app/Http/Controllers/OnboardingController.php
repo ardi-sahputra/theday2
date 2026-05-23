@@ -37,7 +37,15 @@ class OnboardingController extends Controller
             ],
             'plans' => \App\Models\Plan::whereIn('slug', ['free', 'premium'])
                 ->orderBy('sort_order')
-                ->get(['slug', 'name', 'price'])
+                ->with('discounts')
+                ->get()
+                ->map(fn ($p) => [
+                    'slug'             => $p->slug,
+                    'name'             => $p->name,
+                    'price'            => (int) $p->price,
+                    'effective_price'  => $p->effectivePrice(),
+                    'discount_percent' => $p->currentDiscount()?->percent,
+                ])
                 ->values(),
         ]);
     }
@@ -73,6 +81,7 @@ class OnboardingController extends Controller
             'wedding_date.required' => 'Tanggal pernikahan wajib diisi, atau centang "Belum menentukan tanggal".',
         ]);
 
+        /** @var \App\Models\User $user */
         $user = $request->user();
 
         // Update user phone if provided and changed

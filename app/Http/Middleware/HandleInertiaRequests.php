@@ -23,6 +23,9 @@ class HandleInertiaRequests extends Middleware
     public function share(Request $request): array
     {
         $user = $request->user();
+        // Only the regular User carries a locale preference (admin guard uses
+        // a separate Admin model without it).
+        $localeUser = $user instanceof \App\Models\User ? $user : null;
 
         // Explicit choice this request (toggle sets header + cookie).
         $explicit = $request->header('X-Locale') ?? $request->cookie('locale');
@@ -32,7 +35,7 @@ class HandleInertiaRequests extends Middleware
 
         // Priority: explicit toggle → user's saved locale → app default.
         $locale = $explicit
-            ?? ($user?->preferredLocale())
+            ?? $localeUser?->preferredLocale()
             ?? config('app.locale');
 
         if (! in_array($locale, ['id', 'en'], true)) {
@@ -41,8 +44,8 @@ class HandleInertiaRequests extends Middleware
         app()->setLocale($locale);
 
         // Persist an explicit toggle onto the account so emails + other devices follow.
-        if ($user && $explicit && $user->locale !== $explicit) {
-            $user->forceFill(['locale' => $explicit])->saveQuietly();
+        if ($localeUser && $explicit && $localeUser->locale !== $explicit) {
+            $localeUser->forceFill(['locale' => $explicit])->saveQuietly();
         }
 
         $translationsPath = lang_path("{$locale}.json");

@@ -69,13 +69,14 @@ class ChecklistTemplateSeeder extends Seeder
                 'sort_order' => 50,
             ],
             [
-                'name'       => 'Konfirmasi venue',
-                'category'   => 'venue',
-                'title'      => 'Konfirmasi ulang detail venue (layout, catering, parkir)',
-                'description'=> null,
-                'day_offset' => -30,
-                'priority'   => 'medium',
-                'sort_order' => 60,
+                'name'         => 'Konfirmasi venue',
+                'category'     => 'venue',
+                'wedding_types'=> ['akad-resepsi', 'destination'],
+                'title'        => 'Konfirmasi ulang detail venue (layout, catering, parkir)',
+                'description'  => null,
+                'day_offset'   => -30,
+                'priority'     => 'medium',
+                'sort_order'   => 60,
             ],
 
             // ── Vendor ───────────────────────────────────────────────────
@@ -89,22 +90,24 @@ class ChecklistTemplateSeeder extends Seeder
                 'sort_order' => 70,
             ],
             [
-                'name'       => 'Pilih MC',
-                'category'   => 'vendor',
-                'title'      => 'Tentukan MC acara',
-                'description'=> null,
-                'day_offset' => -150,
-                'priority'   => 'medium',
-                'sort_order' => 80,
+                'name'         => 'Pilih MC',
+                'category'     => 'vendor',
+                'wedding_types'=> ['akad-resepsi', 'destination'],
+                'title'        => 'Tentukan MC acara',
+                'description'  => null,
+                'day_offset'   => -150,
+                'priority'     => 'medium',
+                'sort_order'   => 80,
             ],
             [
-                'name'       => 'Pilih dekorasi',
-                'category'   => 'vendor',
-                'title'      => 'Pilih vendor dekorasi & konsultasi konsep',
-                'description'=> null,
-                'day_offset' => -180,
-                'priority'   => 'high',
-                'sort_order' => 90,
+                'name'         => 'Pilih dekorasi',
+                'category'     => 'vendor',
+                'wedding_types'=> ['akad-resepsi', 'destination'],
+                'title'        => 'Pilih vendor dekorasi & konsultasi konsep',
+                'description'  => null,
+                'day_offset'   => -180,
+                'priority'     => 'high',
+                'sort_order'   => 90,
             ],
             [
                 'name'       => 'Konfirmasi vendor',
@@ -147,13 +150,14 @@ class ChecklistTemplateSeeder extends Seeder
                 'sort_order' => 130,
             ],
             [
-                'name'       => 'Cetak undangan fisik',
-                'category'   => 'undangan',
-                'title'      => 'Order cetak undangan fisik',
-                'description'=> null,
-                'day_offset' => -45,
-                'priority'   => 'medium',
-                'sort_order' => 140,
+                'name'         => 'Cetak undangan fisik',
+                'category'     => 'undangan',
+                'wedding_types'=> ['akad-resepsi'],
+                'title'        => 'Order cetak undangan fisik',
+                'description'  => null,
+                'day_offset'   => -45,
+                'priority'     => 'medium',
+                'sort_order'   => 140,
             ],
             [
                 'name'       => 'Sebar undangan',
@@ -196,13 +200,14 @@ class ChecklistTemplateSeeder extends Seeder
                 'sort_order' => 180,
             ],
             [
-                'name'       => 'Gladi bersih',
-                'category'   => 'acara',
-                'title'      => 'Lakukan gladi bersih prosesi',
-                'description'=> null,
-                'day_offset' => -1,
-                'priority'   => 'medium',
-                'sort_order' => 190,
+                'name'         => 'Gladi bersih',
+                'category'     => 'acara',
+                'wedding_types'=> ['akad-resepsi', 'destination'],
+                'title'        => 'Lakukan gladi bersih prosesi',
+                'description'  => null,
+                'day_offset'   => -1,
+                'priority'     => 'medium',
+                'sort_order'   => 190,
             ],
 
             // ── Dokumentasi ──────────────────────────────────────────────
@@ -233,6 +238,38 @@ class ChecklistTemplateSeeder extends Seeder
                 'priority'   => 'medium',
                 'sort_order' => 220,
             ],
+
+            // ── Destination only ─────────────────────────────────────────
+            [
+                'name'         => 'Izin & legalitas lokasi',
+                'category'     => 'administrasi',
+                'wedding_types'=> ['destination'],
+                'title'        => 'Urus izin & legalitas venue (luar kota/negeri)',
+                'description'  => 'Cek persyaratan dokumen, izin acara, dan legalitas pernikahan di lokasi tujuan.',
+                'day_offset'   => -180,
+                'priority'     => 'high',
+                'sort_order'   => 35,
+            ],
+            [
+                'name'         => 'Akomodasi tamu',
+                'category'     => 'venue',
+                'wedding_types'=> ['destination'],
+                'title'        => 'Atur akomodasi & penginapan tamu',
+                'description'  => 'Booking blok kamar hotel/villa dan info penginapan untuk tamu dari luar kota.',
+                'day_offset'   => -120,
+                'priority'     => 'high',
+                'sort_order'   => 55,
+            ],
+            [
+                'name'         => 'Transport destination',
+                'category'     => 'vendor',
+                'wedding_types'=> ['destination'],
+                'title'        => 'Atur transport tamu & vendor ke lokasi',
+                'description'  => 'Koordinasi transport (shuttle/sewa) untuk tamu dan pengiriman kebutuhan vendor.',
+                'day_offset'   => -90,
+                'priority'     => 'medium',
+                'sort_order'   => 105,
+            ],
         ];
 
         foreach ($templates as $template) {
@@ -242,13 +279,16 @@ class ChecklistTemplateSeeder extends Seeder
                 ->exists();
 
             $payload = [
-                'title'       => $template['title'],
-                'description' => $template['description'],
-                'day_offset'  => $template['day_offset'],
-                'priority'    => $template['priority'],
-                'is_active'   => true,
-                'sort_order'  => $template['sort_order'],
-                'updated_at'  => $now,
+                'title'         => $template['title'],
+                'description'   => $template['description'],
+                'wedding_types' => isset($template['wedding_types'])
+                    ? json_encode($template['wedding_types'])
+                    : null,
+                'day_offset'    => $template['day_offset'],
+                'priority'      => $template['priority'],
+                'is_active'     => true,
+                'sort_order'    => $template['sort_order'],
+                'updated_at'    => $now,
             ];
 
             if ($exists) {

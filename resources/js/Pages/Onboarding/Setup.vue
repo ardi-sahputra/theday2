@@ -524,12 +524,16 @@ watch([timeHour, timeMinute], ([h, m]) => {
                                     @click="form.intended_plan = p.slug">
                                 <div class="ob-planrow">
                                     <div>
-                                        <div class="ob-planname">{{ p.name }}</div>
-                                        <div class="ob-planfeat">{{ t('onboarding.plan_feat_' + p.slug) }}</div>
+                                        <div class="ob-planname">
+                                            {{ p.name }}
+                                            <span v-if="p.discount_percent" class="ob-plandisc">−{{ p.discount_percent }}%</span>
+                                        </div>
+                                        <div class="ob-planfeat">{{ t('onboarding.plan_feat_' + p.slug + (isMarried ? '_married' : '')) }}</div>
                                     </div>
                                     <div class="ob-planright">
-                                        <div class="ob-planprice">{{ rupiah(p.price) }}</div>
-                                        <div v-if="Number(p.price) > 0" class="ob-planper">{{ t('onboarding.plan_per') }}</div>
+                                        <div v-if="p.discount_percent" class="ob-planorig">{{ rupiah(p.price) }}</div>
+                                        <div class="ob-planprice">{{ rupiah(p.effective_price ?? p.price) }}</div>
+                                        <div v-if="Number(p.effective_price ?? p.price) > 0" class="ob-planper">{{ t('onboarding.plan_per') }}</div>
                                     </div>
                                 </div>
                                 <div v-if="form.intended_plan === p.slug" class="ob-planon">
@@ -748,6 +752,8 @@ watch([timeHour, timeMinute], ([h, m]) => {
 .ob-planname { font-family: 'Cormorant', serif; font-size: 22px; font-weight: 600; color: var(--ink); letter-spacing: -0.01em; line-height: 1; }
 .ob-planfeat { font-family: 'Cormorant', serif; font-style: italic; font-size: 13px; color: var(--muted); margin-top: 5px; }
 .ob-planright { text-align: right; flex-shrink: 0; }
+.ob-plandisc { display: inline-block; margin-left: 6px; font-size: 10px; font-weight: 700; letter-spacing: 0.02em; color: #fff; background: var(--blushD); border-radius: 999px; padding: 2px 7px; vertical-align: middle; font-family: 'JetBrains Mono', monospace; }
+.ob-planorig { font-size: 12px; color: var(--muted); text-decoration: line-through; line-height: 1; margin-bottom: 3px; }
 .ob-planprice { font-family: 'Cormorant', serif; font-size: 22px; font-weight: 500; color: var(--ink); letter-spacing: -0.02em; line-height: 1; }
 .ob-planper { font-size: 9.5px; color: var(--muted); margin-top: 3px; letter-spacing: 0.05em; text-transform: uppercase; }
 .ob-planon { display: flex; align-items: center; gap: 6px; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line); font-size: 12px; color: var(--sageDeep); font-weight: 600; }

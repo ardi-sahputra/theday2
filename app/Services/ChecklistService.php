@@ -10,6 +10,7 @@ use App\Enums\ChecklistTaskSource;
 use App\Enums\ChecklistTaskStatus;
 use App\Models\ChecklistTask;
 use App\Models\ChecklistTemplate;
+use App\Models\Invitation;
 use App\Models\WeddingPlan;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
@@ -26,7 +27,19 @@ class ChecklistService
         }
 
         DB::transaction(function () use ($plan) {
+            // Resolve the couple's wedding type (from the linked invitation,
+            // falling back to any invitation the user owns). When undecided
+            // ('belum') or unknown, every task applies (full checklist).
+            $weddingType = $plan->primaryInvitation?->wedding_type
+                ?? Invitation::where('user_id', $plan->user_id)->value('wedding_type');
+
             $templates = ChecklistTemplate::active()->ordered()->get();
+
+            if ($weddingType !== null && $weddingType !== 'belum') {
+                $templates = $templates
+                    ->filter(fn (ChecklistTemplate $t) => empty($t->wedding_types) || in_array($weddingType, $t->wedding_types, true))
+                    ->values();
+            }
 
             foreach ($templates as $i => $template) {
                 $dueDate = $this->calculateDueDate($plan->event_date, $template->day_offset);
