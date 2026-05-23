@@ -35,6 +35,10 @@ class OnboardingController extends Controller
                 'name'  => $request->user()->name,
                 'phone' => $request->user()->phone,
             ],
+            'plans' => \App\Models\Plan::whereIn('slug', ['free', 'premium'])
+                ->orderBy('sort_order')
+                ->get(['slug', 'name', 'price'])
+                ->values(),
         ]);
     }
 
@@ -57,6 +61,10 @@ class OnboardingController extends Controller
             'start_time'     => ['nullable', 'date_format:H:i'],
             'venue_name'     => ['nullable', 'string', 'max:255'],
             'venue_address'  => ['nullable', 'string', 'max:1000'],
+            'marital_status' => ['nullable', 'string', 'in:belum,sudah'],
+            'wedding_type'   => ['nullable', 'string', 'in:akad-resepsi,intimate,destination,belum'],
+            'city'           => ['nullable', 'string', 'max:120'],
+            'intended_plan'  => ['nullable', 'string', 'in:free,premium'],
         ], [
             'groom_name.required'   => 'Nama mempelai pria wajib diisi.',
             'bride_name.required'   => 'Nama mempelai wanita wajib diisi.',
@@ -88,6 +96,10 @@ class OnboardingController extends Controller
             'template_id' => $template->id,
             'title'       => $title,
             'event_type'  => 'pernikahan',
+            'marital_status' => $data['marital_status'] ?? null,
+            'wedding_type' => $data['wedding_type'] ?? null,
+            'city'         => $data['city'] ?? null,
+            'intended_plan' => $data['intended_plan'] ?? null,
             'slug'        => $slug,
             'status'      => 'draft',
         ]);
