@@ -1,7 +1,7 @@
 @extends('layouts.legal')
 
 @section('title', 'Kebijakan Cookie')
-@section('meta_description', 'Kebijakan Cookie TheDay — pelajari cookie apa saja yang kami gunakan dan bagaimana mengatur preferensimu.')
+@section('meta_description', 'Kebijakan Cookie Theday — pelajari cookie apa saja yang kami gunakan dan bagaimana mengatur preferensimu.')
 @section('breadcrumb', 'Kebijakan Cookie')
 @section('page_title', 'Kebijakan Cookie')
 @section('last_updated', '16 April 2026')
@@ -29,7 +29,7 @@
         membantu website memberikan pengalaman yang lebih baik dan personal untukmu.
     </p>
     <p>
-        TheDay menggunakan cookie seminimal mungkin — hanya yang benar-benar diperlukan untuk menjalankan
+        Theday menggunakan cookie seminimal mungkin — hanya yang benar-benar diperlukan untuk menjalankan
         layanan dan meningkatkan pengalamanmu.
     </p>
 </section>
@@ -40,12 +40,12 @@
 
     <h3>Cookie Sesi (Wajib)</h3>
     <p>
-        Cookie ini <strong>wajib</strong> untuk menjalankan TheDay dan tidak dapat dinonaktifkan.
+        Cookie ini <strong>wajib</strong> untuk menjalankan Theday dan tidak dapat dinonaktifkan.
     </p>
     <ul>
         <li>
             <strong>theday_session</strong> — menyimpan sesi login kamu. Tanpa cookie ini, kamu tidak bisa
-            masuk ke akun dan menggunakan fitur TheDay. Cookie ini dihapus otomatis saat kamu menutup
+            masuk ke akun dan menggunakan fitur Theday. Cookie ini dihapus otomatis saat kamu menutup
             browser (kecuali kamu memilih "Ingat Saya").
         </li>
         <li>
@@ -67,13 +67,13 @@
 
     <h3>Cookie Analitik (Opsional)</h3>
     <p>
-        Cookie ini membantu kami memahami cara pengguna menggunakan TheDay, sehingga kami dapat
+        Cookie ini membantu kami memahami cara pengguna menggunakan Theday, sehingga kami dapat
         terus meningkatkan produk. Data analitik bersifat anonim dan tidak digunakan untuk
         mengidentifikasi dirimu secara personal.
     </p>
     <ul>
         <li>
-            Saat ini TheDay belum menggunakan layanan analitik pihak ketiga seperti Google Analytics.
+            Saat ini Theday belum menggunakan layanan analitik pihak ketiga seperti Google Analytics.
             Jika kami menambahkan layanan ini di masa mendatang, kebijakan ini akan diperbarui
             dan kamu akan diberitahu.
         </li>
@@ -116,20 +116,20 @@
 <section id="dampak" data-section>
     <h2>4. Dampak Menonaktifkan Cookie</h2>
     <p>
-        Menonaktifkan cookie tertentu akan memengaruhi pengalamanmu di TheDay:
+        Menonaktifkan cookie tertentu akan memengaruhi pengalamanmu di Theday:
     </p>
     <ul>
         <li>
             <strong>Cookie sesi dinonaktifkan</strong> — kamu <strong>tidak akan bisa masuk ke akun</strong>
-            TheDay. Fitur pembuatan undangan, dashboard, dan semua fitur yang memerlukan login tidak akan
+            Theday. Fitur pembuatan undangan, dashboard, dan semua fitur yang memerlukan login tidak akan
             dapat digunakan.
         </li>
         <li>
             <strong>Cookie preferensi dinonaktifkan</strong> — pilihan bahasamu (ID/EN) tidak akan tersimpan,
-            sehingga perlu diatur ulang setiap kali kamu membuka TheDay. Semua fitur lainnya tetap berfungsi normal.
+            sehingga perlu diatur ulang setiap kali kamu membuka Theday. Semua fitur lainnya tetap berfungsi normal.
         </li>
         <li>
-            <strong>Cookie analitik dinonaktifkan</strong> — tidak ada dampak pada fungsionalitas TheDay.
+            <strong>Cookie analitik dinonaktifkan</strong> — tidak ada dampak pada fungsionalitas Theday.
             Kamu hanya tidak akan membantu kami mengumpulkan data untuk peningkatan produk, yang tentu saja
             sepenuhnya menjadi hakmu.
         </li>
@@ -144,7 +144,7 @@
 <section id="kontak" data-section>
     <h2>5. Kontak</h2>
     <p>
-        Jika kamu memiliki pertanyaan tentang penggunaan cookie di TheDay, hubungi kami di:
+        Jika kamu memiliki pertanyaan tentang penggunaan cookie di Theday, hubungi kami di:
     </p>
     <ul>
         <li>Email: <a href="mailto:hello@theday.id">hello@theday.id</a></li>

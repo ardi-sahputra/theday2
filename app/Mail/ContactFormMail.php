@@ -27,7 +27,7 @@ class ContactFormMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: "[Kontak TheDay] {$this->topic} — dari {$this->senderName}",
+            subject: "[Kontak Theday] {$this->topic} — dari {$this->senderName}",
             replyTo: [new \Illuminate\Mail\Mailables\Address($this->senderEmail, $this->senderName)],
         );
     }

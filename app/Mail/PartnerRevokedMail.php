@@ -20,7 +20,7 @@ class PartnerRevokedMail extends Mailable
 
     public function envelope(): Envelope
     {
-        return new Envelope(subject: 'Akses ke akun TheDay dicabut');
+        return new Envelope(subject: 'Akses ke akun Theday dicabut');
     }
 
     public function content(): Content

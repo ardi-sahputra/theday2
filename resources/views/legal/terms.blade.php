@@ -1,7 +1,7 @@
 @extends('layouts.legal')
 
 @section('title', 'Syarat & Ketentuan')
-@section('meta_description', 'Syarat dan Ketentuan penggunaan TheDay — platform undangan pernikahan digital Indonesia.')
+@section('meta_description', 'Syarat dan Ketentuan penggunaan Theday — platform undangan pernikahan digital Indonesia.')
 @section('breadcrumb', 'Syarat & Ketentuan')
 @section('page_title', 'Syarat & Ketentuan')
 @section('last_updated', '16 April 2026')
@@ -26,14 +26,14 @@
 <section id="pendahuluan" data-section>
     <h2>1. Pendahuluan</h2>
     <p>
-        Selamat datang di TheDay. Dengan mendaftar atau menggunakan layanan kami, kamu menyetujui
-        untuk terikat oleh Syarat & Ketentuan ini. Mohon baca dengan seksama sebelum menggunakan TheDay.
+        Selamat datang di Theday. Dengan mendaftar atau menggunakan layanan kami, kamu menyetujui
+        untuk terikat oleh Syarat & Ketentuan ini. Mohon baca dengan seksama sebelum menggunakan Theday.
     </p>
     <p>
-        Jika kamu tidak menyetujui syarat ini, kamu tidak dapat menggunakan layanan TheDay.
+        Jika kamu tidak menyetujui syarat ini, kamu tidak dapat menggunakan layanan Theday.
     </p>
     <ul>
-        <li>Usia minimum untuk menggunakan TheDay adalah <strong>17 tahun</strong></li>
+        <li>Usia minimum untuk menggunakan Theday adalah <strong>17 tahun</strong></li>
         <li>Syarat ini berlaku sejak tanggal yang tercantum di bagian atas halaman ini</li>
         <li>Syarat ini dibuat dalam Bahasa Indonesia dan diatur oleh hukum Republik Indonesia</li>
     </ul>
@@ -49,7 +49,7 @@
             diakses oleh pihak yang tidak berwenang.
         </li>
         <li>
-            <strong>Satu akun per pengguna</strong> — Setiap orang hanya boleh memiliki satu akun TheDay.
+            <strong>Satu akun per pengguna</strong> — Setiap orang hanya boleh memiliki satu akun Theday.
             Mendaftarkan beberapa akun untuk menghindari batasan layanan tidak diizinkan.
         </li>
         <li>
@@ -57,7 +57,7 @@
             saat mendaftar. Akun yang menggunakan informasi palsu dapat dihentikan.
         </li>
         <li>
-            <strong>Penangguhan akun</strong> — TheDay berhak menangguhkan atau menghentikan akun yang terbukti
+            <strong>Penangguhan akun</strong> — Theday berhak menangguhkan atau menghentikan akun yang terbukti
             melanggar Syarat & Ketentuan ini, tanpa pemberitahuan sebelumnya jika diperlukan.
         </li>
     </ul>
@@ -67,14 +67,14 @@
 <section id="layanan" data-section>
     <h2>3. Layanan yang Disediakan</h2>
     <p>
-        TheDay adalah platform Software as a Service (SaaS) yang menyediakan alat untuk membuat,
+        Theday adalah platform Software as a Service (SaaS) yang menyediakan alat untuk membuat,
         menyesuaikan, dan mendistribusikan undangan pernikahan digital secara online.
     </p>
 
     <h3>Paket Layanan</h3>
     <ul>
         <li>
-            <strong>Paket Free</strong> — gratis selamanya, akses ke template dasar, dengan watermark TheDay
+            <strong>Paket Free</strong> — gratis selamanya, akses ke template dasar, dengan watermark Theday
         </li>
         <li>
             <strong>Paket Premium</strong> — tanpa watermark, upload musik sendiri, analitik lengkap,
@@ -82,7 +82,7 @@
         </li>
     </ul>
     <p>
-        Detail fitur setiap paket dapat berubah. TheDay akan memberikan pemberitahuan kepada pengguna
+        Detail fitur setiap paket dapat berubah. Theday akan memberikan pemberitahuan kepada pengguna
         aktif jika ada perubahan signifikan pada fitur yang sudah mereka bayar.
     </p>
 
@@ -94,7 +94,7 @@
 
     <h3>Ketersediaan Layanan</h3>
     <p>
-        Kami berupaya keras menjaga TheDay tetap online dan dapat diakses. Namun, layanan dapat mengalami
+        Kami berupaya keras menjaga Theday tetap online dan dapat diakses. Namun, layanan dapat mengalami
         gangguan sesekali karena pemeliharaan, pembaruan, atau kejadian di luar kendali kami.
         Kami tidak menjamin uptime 100%.
     </p>
@@ -106,7 +106,7 @@
     <ul>
         <li>
             <strong>Pemrosesan pembayaran</strong> — semua transaksi diproses melalui <strong>Midtrans</strong>,
-            payment gateway berlisensi Bank Indonesia. TheDay tidak menyimpan data kartu kreditmu.
+            payment gateway berlisensi Bank Indonesia. Theday tidak menyimpan data kartu kreditmu.
         </li>
         <li>
             <strong>Harga</strong> — harga dapat berubah sewaktu-waktu, namun kami akan memberikan pemberitahuan
@@ -117,7 +117,7 @@
             berhasil dikonfirmasi.
         </li>
         <li>
-            <strong>Tidak ada perpanjangan otomatis</strong> — TheDay menggunakan sistem pembayaran sekali bayar
+            <strong>Tidak ada perpanjangan otomatis</strong> — Theday menggunakan sistem pembayaran sekali bayar
             (one-time payment). Tidak ada langganan berulang otomatis.
         </li>
         <li>
@@ -136,8 +136,8 @@
 <section id="konten-pengguna" data-section>
     <h2>5. Konten Pengguna</h2>
     <p>
-        Konten yang kamu unggah dan buat di TheDay (foto, teks, musik, dll.) sepenuhnya menjadi
-        tanggung jawabmu. Dengan menggunakan TheDay, kamu menyatakan bahwa:
+        Konten yang kamu unggah dan buat di Theday (foto, teks, musik, dll.) sepenuhnya menjadi
+        tanggung jawabmu. Dengan menggunakan Theday, kamu menyatakan bahwa:
     </p>
     <ul>
         <li>Kamu memiliki hak untuk menggunakan semua konten yang kamu unggah</li>
@@ -146,11 +146,11 @@
             atau hal-hal yang dilarang oleh hukum Indonesia</li>
     </ul>
     <p>
-        TheDay berhak menghapus konten yang melanggar ketentuan ini tanpa pemberitahuan terlebih dahulu,
+        Theday berhak menghapus konten yang melanggar ketentuan ini tanpa pemberitahuan terlebih dahulu,
         dan dapat menangguhkan akun yang berulang kali melanggar.
     </p>
     <p>
-        TheDay tidak bertanggung jawab atas pesan yang dikirimkan tamu melalui fitur Buku Tamu.
+        Theday tidak bertanggung jawab atas pesan yang dikirimkan tamu melalui fitur Buku Tamu.
         Kamu dapat menghapus pesan yang tidak sesuai melalui panel dashboard undanganmu.
     </p>
 </section>
@@ -160,21 +160,21 @@
     <h2>6. Hak Kekayaan Intelektual</h2>
     <ul>
         <li>
-            <strong>Template desain</strong> — semua template, desain antarmuka, dan aset visual TheDay adalah
-            milik TheDay dan dilindungi oleh hak cipta. Kamu boleh menggunakannya untuk membuat undanganmu
+            <strong>Template desain</strong> — semua template, desain antarmuka, dan aset visual Theday adalah
+            milik Theday dan dilindungi oleh hak cipta. Kamu boleh menggunakannya untuk membuat undanganmu
             sendiri, namun tidak boleh mengkopi, menjual, atau mendistribusikannya.
         </li>
         <li>
             <strong>Konten kamu</strong> — teks, foto, dan konten lain yang kamu buat atau unggah tetap menjadi
-            milikmu sepenuhnya. TheDay tidak mengklaim kepemilikan atas konten yang kamu buat.
+            milikmu sepenuhnya. Theday tidak mengklaim kepemilikan atas konten yang kamu buat.
         </li>
         <li>
-            <strong>Lisensi terbatas</strong> — dengan mengunggah konten ke TheDay, kamu memberikan TheDay
+            <strong>Lisensi terbatas</strong> — dengan mengunggah konten ke Theday, kamu memberikan Theday
             lisensi terbatas, non-eksklusif, dan bebas royalti untuk menyimpan, menampilkan, dan
             memproses kontenmu semata-mata untuk keperluan menyediakan layanan kepadamu.
         </li>
         <li>
-            <strong>Nama & merek TheDay</strong> — nama "TheDay", logo, dan merek terkait adalah milik TheDay
+            <strong>Nama & merek Theday</strong> — nama "Theday", logo, dan merek terkait adalah milik Theday
             dan tidak boleh digunakan tanpa izin tertulis.
         </li>
     </ul>
@@ -184,23 +184,23 @@
 <section id="pembatasan" data-section>
     <h2>7. Pembatasan Tanggung Jawab</h2>
     <p>
-        TheDay menyediakan layanan "sebagaimana adanya" (<em>as is</em>). Sejauh diizinkan oleh hukum yang berlaku:
+        Theday menyediakan layanan "sebagaimana adanya" (<em>as is</em>). Sejauh diizinkan oleh hukum yang berlaku:
     </p>
     <ul>
         <li>
-            TheDay tidak bertanggung jawab atas kerugian tidak langsung, insidental, atau konsekuensial
+            Theday tidak bertanggung jawab atas kerugian tidak langsung, insidental, atau konsekuensial
             yang timbul dari penggunaan atau ketidakmampuan menggunakan layanan kami.
         </li>
         <li>
-            TheDay tidak bertanggung jawab atas kehilangan data akibat kejadian yang di luar kendali kami
+            Theday tidak bertanggung jawab atas kehilangan data akibat kejadian yang di luar kendali kami
             (force majeure, bencana alam, serangan siber oleh pihak ketiga).
         </li>
         <li>
-            TheDay tidak bertanggung jawab atas konten yang dikirimkan oleh tamu melalui fitur Buku Tamu
+            Theday tidak bertanggung jawab atas konten yang dikirimkan oleh tamu melalui fitur Buku Tamu
             atau RSVP undanganmu.
         </li>
         <li>
-            TheDay tidak menjamin bahwa undangan digitalmu akan dapat diakses 100% sepanjang waktu,
+            Theday tidak menjamin bahwa undangan digitalmu akan dapat diakses 100% sepanjang waktu,
             meskipun kami berupaya semaksimal mungkin untuk memastikan ketersediaan layanan.
         </li>
     </ul>
@@ -215,7 +215,7 @@
             di dashboard. Penghapusan akun bersifat permanen dan tidak dapat dibatalkan.
         </li>
         <li>
-            <strong>Oleh TheDay</strong> — jika TheDay memutuskan untuk menghentikan layanan secara keseluruhan,
+            <strong>Oleh Theday</strong> — jika Theday memutuskan untuk menghentikan layanan secara keseluruhan,
             kami akan memberikan pemberitahuan minimal 30 hari sebelumnya melalui email terdaftar,
             sehingga kamu punya waktu untuk mengunduh data undanganmu.
         </li>
@@ -234,7 +234,7 @@
         Syarat & Ketentuan ini diatur oleh dan ditafsirkan berdasarkan hukum <strong>Republik Indonesia</strong>.
     </p>
     <p>
-        Jika terjadi perselisihan antara kamu dan TheDay terkait layanan ini, kami mendorong penyelesaian
+        Jika terjadi perselisihan antara kamu dan Theday terkait layanan ini, kami mendorong penyelesaian
         melalui <strong>musyawarah mufakat</strong> terlebih dahulu. Jika tidak tercapai kesepakatan,
         perselisihan akan diselesaikan melalui pengadilan yang berwenang di <strong>Jakarta, Indonesia</strong>.
     </p>
@@ -244,12 +244,12 @@
 <section id="perubahan-syarat" data-section>
     <h2>10. Perubahan Syarat</h2>
     <p>
-        TheDay berhak memperbarui Syarat & Ketentuan ini dari waktu ke waktu. Jika ada perubahan
+        Theday berhak memperbarui Syarat & Ketentuan ini dari waktu ke waktu. Jika ada perubahan
         yang bersifat material, kami akan memberitahumu melalui email atau notifikasi di dalam aplikasi
         setidaknya 14 hari sebelum perubahan berlaku.
     </p>
     <p>
-        Dengan terus menggunakan TheDay setelah perubahan berlaku, kamu dianggap telah menyetujui
+        Dengan terus menggunakan Theday setelah perubahan berlaku, kamu dianggap telah menyetujui
         syarat yang telah diperbarui. Jika tidak setuju, kamu dapat menghapus akunmu sebelum
         perubahan berlaku.
     </p>

@@ -170,10 +170,14 @@
                 "demoBadgeTitle": "Sample data — this feature is still in development",
                 "hero": {
                     "greeting": "Counting down to your big day",
+                    "greetMorning": "Good morning",
+                    "greetAfternoon": "Good afternoon",
+                    "greetEvening": "Good evening",
+                    "greetNight": "Good evening",
                     "married": "Congratulations on your marriage",
                     "noDate": "Set your wedding date",
                     "fallbackTitle": "Happy Couple",
-                    "toTheDay": "until the day",
+                    "toTheday": "until the day",
                     "days": "Days",
                     "hours": "Hours",
                     "minutes": "Minutes",
@@ -374,7 +378,7 @@
             "freeLimitInvitation": "• 1 active invitation",
             "freeLimitPhoto": "• 5 photos per invitation",
             "freeLimitTemplate": "• Free templates only",
-            "freeLimitWatermark": "• TheDay watermark",
+            "freeLimitWatermark": "• Theday watermark",
             "ctaUpgrade": "Upgrade Now →",
             "ctaRenew": "Renew →",
             "ctaAlreadyPremium": "Already Premium ✓",
@@ -392,7 +396,7 @@
             "freeFeaturePhoto": "5 gallery photos",
             "freeFeatureTemplate": "Free templates",
             "freeFeatureMusic": "Default music",
-            "freeFeatureWatermark": "\"Made with TheDay\" watermark",
+            "freeFeatureWatermark": "\"Made with Theday\" watermark",
             "premiumPriceCta": "Everything you need for your dream invitation",
             "premiumFeatureInvitation": "Unlimited active invitations",
             "premiumFeaturePhoto": "Unlimited gallery photos",
@@ -686,7 +690,7 @@
                 "done": "done",
                 "remaining": "left",
                 "urgent": "urgent",
-                "toTheDay": "until the day",
+                "toTheday": "until the day",
                 "daysLeft": "{days} days",
                 "noDate": "set a date",
                 "aiSuggest": "AI suggestions",
@@ -726,7 +730,7 @@
                     "empty": "No upcoming deadlines"
                 },
                 "templates": {
-                    "title": "TheDay Templates",
+                    "title": "Theday Templates",
                     "sub": "Add a ready-made preset",
                     "standard": "Standard 12-Month Pack",
                     "standardSub": "Core prep tasks",
@@ -1604,9 +1608,9 @@
         }
     },
     "auth": {
-        "login_title": "Sign In — TheDay",
+        "login_title": "Sign In — Theday",
         "welcome_back": "Welcome back",
-        "login_headline": "Capture your\nspecial moments\nwith TheDay.",
+        "login_headline": "Capture your\nspecial moments\nwith Theday.",
         "login_sub": "Create elegant, unforgettable digital wedding invitations in minutes.",
         "failed": "The email or password you entered is incorrect. Please try again.",
         "password": "Password",
@@ -1619,15 +1623,59 @@
         "login_submit": "Sign In",
         "login_submitting": "Signing in…",
         "or": "or",
+        "or_email": "or with email",
         "login_with_google": "Continue with Google",
         "back_home": "← Back to home",
+        "login_v2_eyebrow": "welcome back",
+        "login_v2_headline": "Back to your journey together.",
+        "login_v2_sub": "Continue your invitation prep, RSVPs, and plans with your partner.",
+        "login_v2_submit": "Sign in to Dashboard",
+        "login_v2_footer": "New to Theday?",
+        "login_v2_create": "Create couple account",
+        "login_v2_art_h1": "For that day,",
+        "login_v2_art_h2": "and every day after.",
+        "login_v2_art_tag": "A companion for couples — from digital invitation to life together.",
+        "register_v2_eyebrow": "for couples",
+        "register_v2_headline": "Begin your story.",
+        "register_v2_sub": "Create your couple account in 2 minutes. Details can come later.",
+        "register_v2_or": "or fill in your details",
+        "register_v2_terms_agree": "I agree to the",
+        "register_v2_tos": "Terms of Service",
+        "register_v2_terms_and": "and",
+        "register_v2_privacy": "Privacy Policy",
+        "register_v2_submit": "Create Couple Account",
+        "register_v2_pw_weak": "Weak",
+        "register_v2_pw_fair": "Fair",
+        "register_v2_pw_good": "Good",
+        "register_v2_pw_strong": "Strong",
+        "verify_page_title": "Verify Email — Theday",
+        "verify_eyebrow": "One step left",
+        "verify_left_title_1": "Your email",
+        "verify_left_title_2": "awaits confirmation",
+        "verify_left_sub": "We sent a verification link to your inbox. Check your Spam folder too if it's not in your Inbox.",
+        "verify_card_done": "Account created",
+        "verify_card_sub": "Verify your email to get started",
+        "verify_heading": "Verify Your Email",
+        "verify_desc": "We've sent a verification link to your email. Click it to activate your account and start preparing your special day.",
+        "verify_step_account": "Create account",
+        "verify_step_verify": "Verify email",
+        "verify_step_waiting": "Pending",
+        "verify_step_start": "Start preparing",
+        "verify_sent_title": "Email resent!",
+        "verify_sent_sub": "Check your inbox, including the Spam folder.",
+        "verify_btn_sending": "Sending…",
+        "verify_btn_cooldown": "Resend in {n}s",
+        "verify_btn_resend": "Resend Verification Email",
+        "verify_hint": "Didn't get the email? Wait a few minutes then click resend. Check your Spam or Promotions folder too.",
+        "verify_back": "Back to home",
+        "verify_logout": "Sign out",
         "card_invitation": "Wedding Invitation",
         "card_confirmed": "Confirmed guests",
         "card_count": "142 people",
-        "register_title": "Register — TheDay",
+        "register_title": "Register — Theday",
         "start_journey": "Start your journey",
         "register_headline": "Create unforgettable\ndigital\ninvitations.",
-        "register_sub": "Join 10,000+ couples who have trusted their special moments to TheDay.",
+        "register_sub": "Join 10,000+ couples who have trusted their special moments to Theday.",
         "feature_free": "Free forever for basic templates",
         "feature_rsvp": "Real-time RSVP confirmations",
         "feature_wa": "Share via WhatsApp in 1 click",
@@ -1672,7 +1720,7 @@
             "dateLocation": "Date & Location",
             "photoGallery": "Photo Gallery",
             "confirmAttendance": "Confirm Attendance",
-            "madeWithTheDay": "Made with TheDay",
+            "madeWithTheday": "Made with Theday",
             "defaultDescription": "An elegant template fully customizable to your needs.",
             "colorPalette": "Color Palette",
             "colorPrimary": "Primary",
@@ -1697,7 +1745,7 @@
     },
     "gift": {
         "common": {
-            "tim_theday": "TheDay Team"
+            "tim_theday": "Theday Team"
         },
         "flash": {
             "purchase_error": "Payment could not be processed. Please try again or contact support.",
@@ -1710,7 +1758,7 @@
             "plan_invalid": "Invalid plan for a gift."
         },
         "mail": {
-            "received_subject": "You received a premium gift from TheDay!",
+            "received_subject": "You received a premium gift from Theday!",
             "claimed_subject": "Your gift has been claimed!",
             "received_heading": "Congratulations! You received a premium gift 🎁",
             "received_greeting": "Hello,",
@@ -1796,7 +1844,7 @@
                 "field_valid_until": "Valid Until",
                 "field_claimed_at": "Claimed At",
                 "field_message": "Message",
-                "wa_text": "Hi! I sent you a premium gift from TheDay. Claim it here: {url}"
+                "wa_text": "Hi! I sent you a premium gift from Theday. Claim it here: {url}"
             }
         },
         "claim": {
@@ -1862,7 +1910,7 @@
             "pending_heading": "Awaiting payment confirmation...",
             "pending_sub": "Please wait a moment. This page will refresh automatically.",
             "pending_back": "Back to Dashboard",
-            "wa_text": "🎁 I sent you a premium TheDay gift! Claim it here: {url}"
+            "wa_text": "🎁 I sent you a premium Theday gift! Claim it here: {url}"
         },
         "admin": {
             "index": {
@@ -1959,7 +2007,7 @@
                 "field_claimed_at": "Claimed At",
                 "field_claimed_by": "Claimed By",
                 "field_message": "Message",
-                "wa_text": "Hi! You have a premium gift at TheDay. Claim it here: {url}"
+                "wa_text": "Hi! You have a premium gift at Theday. Claim it here: {url}"
             }
         }
     },
@@ -2016,7 +2064,7 @@
     "notifications.preferences.categories.engagement": "Suggestions & engagement",
     "notifications.preferences.categories.engagement_desc": "Upgrade suggestions and engagement tips",
     "notifications.preferences.categories.system": "System announcements",
-    "notifications.preferences.categories.system_desc": "Important announcements from TheDay team",
+    "notifications.preferences.categories.system_desc": "Important announcements from Theday team",
     "notifications.categories.guest": "Guest activity",
     "notifications.categories.payment": "Payment",
     "notifications.categories.gift": "Gift",

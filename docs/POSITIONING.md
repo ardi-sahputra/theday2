@@ -1,22 +1,22 @@
-# TheDay & Beyond — Brand Positioning & Product Vision
+# Theday & Beyond — Brand Positioning & Product Vision
 
 **Date:** 2026-05-19
 **Status:** Active — applies to all UX/copy/marketing work from this point forward.
-**Trigger context:** Following competitor analysis vs chara.id (`docs/research/2026-05-19-chara-id-competitor-analysis.md`), decision to reposition TheDay from "invitation-first" to "couple lifecycle companion" — invitation jadi salah satu fase (yang flagship), bukan satu-satunya.
+**Trigger context:** Following competitor analysis vs chara.id (`docs/research/2026-05-19-chara-id-competitor-analysis.md`), decision to reposition Theday from "invitation-first" to "couple lifecycle companion" — invitation jadi salah satu fase (yang flagship), bukan satu-satunya.
 
 ---
 
 ## TL;DR (for future sessions)
 
-**Brand name:** Tetap **TheDay** (no rebrand, no domain change).
+**Brand name:** Tetap **Theday** (no rebrand, no domain change).
 
-**Positioning:** **"TheDay & Beyond"** — couple companion app yang cover 3 fase: persiapan, hari spesial, kehidupan setelahnya.
+**Positioning:** **"Theday & Beyond"** — couple companion app yang cover 3 fase: persiapan, hari spesial, kehidupan setelahnya.
 
 **Current implementation scope:** Phase 2 (Hari H — invitation, RSVP, guest mgmt) udah jalan. Phase 1 + 3 = roadmap, gradual rollout.
 
 **Copy/UX implication:** Landing + dashboard + brand voice harus reflect 3-fase scope. Invitation = flagship feature, BUKAN entire product. Don't lead with "undangan digital" only.
 
-**What to NOT do:** Full rebrand. Drop "TheDay" name. Build vendor marketplace / crowdfund (chara's lane, big effort, skip for now).
+**What to NOT do:** Full rebrand. Drop "Theday" name. Build vendor marketplace / crowdfund (chara's lane, big effort, skip for now).
 
 ---
 
@@ -24,12 +24,12 @@
 
 | Aspect | Status |
 |--------|--------|
-| Brand name | **TheDay** (unchanged) |
+| Brand name | **Theday** (unchanged) |
 | Logo | Unchanged |
 | Domain | theday.id (unchanged) |
 | Visual identity (colors, fonts, design system) | Unchanged |
-| Tagline | **NEW: "TheDay & Beyond"** |
-| Sub-tagline / descriptor | **NEW: "Pernikahan dan seterusnya"** |
+| Tagline | **NEW: "Theday & Beyond"** |
+| Sub-tagline / descriptor | **"Merayakan hari, merawat cerita"** (updated 2026-05-23, was "Pernikahan dan seterusnya") |
 | Long-form descriptor (optional) | "Pendamping pasangan dari hari spesial sampai kehidupan bersama" |
 | Brand voice | Warm, friendly, supportive, Indo native, sedikit poetic — bukan corporate, bukan terlalu casual meme |
 
@@ -95,7 +95,7 @@
 1. **Hero & landing**: framing 3-fase OK (visual roadmap), tapi pakai bahasa "Mulai dari undangan, sampai selamanya" — jelas bahwa invitation = entry point.
 2. **Feature section landing**: cuma highlight yang udah ada. Phase 1 & 3 future cuma di teaser section terpisah dengan label "Coming Soon" / "Roadmap".
 3. **Dashboard**: menu organize by phase, tapi item Phase 3 belum ada = sembunyiin atau "Segera Hadir" badge. JANGAN tampilin link mati.
-4. **Marketing / social media**: bebas pakai "TheDay & Beyond" positioning ambisius, tapi konsep gak boleh menyalahgunakan trust (e.g. "Dashboard wedding planner lengkap" padahal cuma checklist basic).
+4. **Marketing / social media**: bebas pakai "Theday & Beyond" positioning ambisius, tapi konsep gak boleh menyalahgunakan trust (e.g. "Dashboard wedding planner lengkap" padahal cuma checklist basic).
 
 ---
 
@@ -125,10 +125,12 @@
 ### Concrete tagline candidates
 
 **Primary tagline (locked):**
-> **TheDay & Beyond**
+> **Theday & Beyond**
 
-**Sub-tagline / descriptor (locked):**
-> Pernikahan dan seterusnya
+**Sub-tagline / descriptor (locked — updated 2026-05-23):**
+> Merayakan hari, merawat cerita
+
+_(Previous sub-tagline "Pernikahan dan seterusnya" retired 2026-05-23; kept as alternative slogan below.)_
 
 **Long-form descriptor (optional use di landing hero copy, footer, about):**
 > Pendamping pasangan dari hari spesial sampai kehidupan bersama
@@ -138,13 +140,14 @@
 - "Dari undangan, sampai selamanya"  ← journey story
 - "Mulai dari hari pernikahan, lanjut ke setiap hari setelahnya"  ← long form
 - "Hari Itu & Seterusnya"  ← Indo-only variant (puitis)
+- "Pernikahan dan seterusnya"  ← previous sub-tagline (retired 2026-05-23)
 
 **Typography note:**
 - Pakai `&` (ampersand), bukan literal "and" — convention branding.
-- "TheDay" tetap satu kata, capital "T" + capital "D" (sesuai brand existing).
+- "Theday" tetap satu kata, capital "T" doang — sisanya huruf kecil. BUKAN camelCase "TheDay". (updated 2026-05-23)
 - "Beyond" capital "B".
 - Dash separator pakai em-dash "—" (preferred) atau en-dash "–". JANGAN hyphen "-" untuk separator.
-- Contoh final form: **"TheDay & Beyond — pernikahan dan seterusnya"**
+- Contoh final form: **"Theday & Beyond — Merayakan Hari, Merawat Cerita"**
 
 ---
 
@@ -157,17 +160,17 @@
 > Kirim undangan elegan ke ratusan tamu, kelola RSVP, semua dari satu dashboard.
 
 **After (proposed):**
-> # TheDay & Beyond
-> ## Pernikahan dan seterusnya
+> # Theday & Beyond
+> ## Merayakan hari, merawat cerita
 > Pendamping pasangan dari hari spesial sampai kehidupan bersama. Mulai dari undangan digital, lanjut ke persiapan dan perjalanan pernikahan.
 
 ### Dashboard welcome
 
 **Before:**
-> Selamat datang di TheDay. Buat undangan pernikahan kamu di sini.
+> Selamat datang di Theday. Buat undangan pernikahan kamu di sini.
 
 **After (proposed):**
-> Selamat datang di TheDay. Aplikasi pendamping persiapan, perayaan, dan perjalanan pernikahan kamu.
+> Selamat datang di Theday. Aplikasi pendamping persiapan, perayaan, dan perjalanan pernikahan kamu.
 
 ### CTA buttons
 
@@ -218,7 +221,7 @@
 **Step 5: Basic Anggaran budget tracker MVP** (2 minggu — optional, kalau mau jadi positioning realistic)
 - Add table `wedding_budgets` with items + target/spent
 - Simple UI di dashboard sidebar "Anggaran"
-- Justify "TheDay & Beyond" positioning lebih kongkret
+- Justify "Theday & Beyond" positioning lebih kongkret
 
 **Total UI revamp: ~1 minggu** (steps 1-4). Optional +2 minggu untuk step 5 (basic planner).
 
@@ -226,7 +229,7 @@
 
 ## What This Does NOT Mean
 
-1. **No full rebrand** — TheDay nama tetep, domain tetep, logo tetep.
+1. **No full rebrand** — Theday nama tetep, domain tetep, logo tetep.
 2. **No invitation deprecation** — Undangan tetep flagship, paling kongkret, paling polished.
 3. **No wedding OS pivot full** — gak bangun vendor marketplace, crowdfund, full wedding planner. Itu chara's lane.
 4. **No theme volume race** — gak chase 50+ themes asal banyak. Stay craft-quality. Add Indo regional/sosmed pack selectively kalau ada strategic gap.
@@ -238,7 +241,7 @@
 
 1. **Anniversary date capture** — saat onboarding? Atau post-wedding survey? Foundation buat Phase 3 features.
 2. **Phase 3 feature priority** — anniversary reminder vs newlywed admin vs joint budget. Mana yang first build kalau ada bandwidth?
-3. **Sub-product naming** — kalau Phase 3 features dibangun, dipakai brand "TheDay" atau sub-brand baru ("TheDay Family" / "TheDay Life")?
+3. **Sub-product naming** — kalau Phase 3 features dibangun, dipakai brand "Theday" atau sub-brand baru ("Theday Family" / "Theday Life")?
 4. **Onboarding wizard flow** — saat user register, langsung tanya tanggal nikah? Atau biar mereka explore dulu?
 5. **"Coming Soon" CTA behavior** — user click → form waiting list (collect emails buat future launch)? Atau just badge static?
 6. **Lifecycle email marketing** — anniversary reminder email annual cycle butuh queue + cron + email template. Layak build sekarang atau Phase 3 work?
@@ -258,7 +261,7 @@
 
 Saat sesi baru dibuka dan user minta kerja landing/dashboard/copy:
 1. **READ THIS FILE FIRST** sebelum write code apapun.
-2. Pastiin output mencerminkan "TheDay & Beyond" positioning, bukan invitation-only.
+2. Pastiin output mencerminkan "Theday & Beyond" positioning, bukan invitation-only.
 3. Cek setting expectation policy (Z hybrid honest) — jangan over-promise feature yang belum ada.
 4. Brand voice ikutin section "Brand Voice / Copy Guidelines" di atas.
 5. Kalau ada konflik decision baru vs file ini, KONFIRMASI ke user dulu sebelum write code. Update file ini kalau decision berubah.

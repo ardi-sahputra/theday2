@@ -4,7 +4,7 @@ import StoryFrame from './StoryFrame.vue'
 import TheDayLogo from '../netflix/TheDayLogo.vue'
 
 defineProps({
-    brandName:     { type: String, default: 'TheDay' },
+    brandName:     { type: String, default: 'Theday' },
     groomNick:     { type: String, default: '' },
     brideNick:     { type: String, default: '' },
     closingText:   { type: String, default: '' },

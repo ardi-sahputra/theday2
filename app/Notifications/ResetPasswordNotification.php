@@ -17,7 +17,7 @@ class ResetPasswordNotification extends ResetPassword
         ], false));
 
         return (new MailMessage)
-            ->subject('Reset Kata Sandi — TheDay')
+            ->subject('Reset Kata Sandi — Theday')
             ->view('mail.reset-password', ['url' => $url, 'user' => $notifiable]);
     }
 }

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="{{ asset('image/favicon.svg') }}">
-    <title>@yield('title') — TheDay</title>
+    <title>@yield('title') — Theday</title>
     <meta name="description" content="@yield('meta_description')">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -133,7 +133,7 @@
                             d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                     </svg>
                 </div>
-                <span class="font-semibold text-stone-800 brand-font text-lg">TheDay</span>
+                <span class="font-semibold text-stone-800 brand-font text-lg">Theday</span>
             </a>
 
             <div class="flex items-center gap-3">
@@ -236,9 +236,9 @@
                                 d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                         </svg>
                     </div>
-                    <span class="text-white text-sm font-semibold brand-font">TheDay</span>
+                    <span class="text-white text-sm font-semibold brand-font">Theday</span>
                 </a>
-                <p class="text-xs">© {{ date('Y') }} TheDay. Dibuat dengan ❤️ di Indonesia.</p>
+                <p class="text-xs">© {{ date('Y') }} Theday. Dibuat dengan ❤️ di Indonesia.</p>
                 <div class="flex items-center gap-5 text-xs">
                     <a href="{{ route('legal.privacy') }}" class="hover:text-white transition-colors">Privasi</a>
                     <a href="{{ route('legal.terms') }}" class="hover:text-white transition-colors">Ketentuan</a>

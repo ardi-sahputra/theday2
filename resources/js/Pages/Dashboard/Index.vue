@@ -15,7 +15,7 @@ import VendorLineupCard  from '@/Components/dashboard/widgets/VendorLineupCard.v
 import BeyondPeekCard    from '@/Components/dashboard/widgets/BeyondPeekCard.vue';
 import ActivityFeedCard  from '@/Components/dashboard/widgets/ActivityFeedCard.vue';
 
-const { t } = useLocale();
+const { t, locale } = useLocale();
 
 const props = defineProps({
     stats:             Object,
@@ -105,6 +105,58 @@ const showDateModal    = ref(false);
 const weddingDateInput = ref(props.countdown?.date ?? '');
 const savingDate       = ref(false);
 
+// ── Date picker (mirror of StepAcara calendar) ────────────────────────
+const MONTHS_ID = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+const MONTHS_EN = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const DAYS_ID   = ['Min','Sen','Sel','Rab','Kam','Jum','Sab'];
+const DAYS_EN   = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const calMonths    = computed(() => locale.value === 'id' ? MONTHS_ID : MONTHS_EN);
+const calDayNames  = computed(() => locale.value === 'id' ? DAYS_ID : DAYS_EN);
+
+const calToday  = new Date();
+const calYear   = ref(calToday.getFullYear());
+const calMonth  = ref(calToday.getMonth());
+
+function openDateModal() {
+    if (weddingDateInput.value) {
+        const [y, m] = weddingDateInput.value.split('-').map(Number);
+        calYear.value = y; calMonth.value = m - 1;
+    } else {
+        calYear.value = calToday.getFullYear(); calMonth.value = calToday.getMonth();
+    }
+    showDateModal.value = true;
+}
+function prevCalMonth() {
+    if (calMonth.value === 0) { calMonth.value = 11; calYear.value--; } else calMonth.value--;
+}
+function nextCalMonth() {
+    if (calMonth.value === 11) { calMonth.value = 0; calYear.value++; } else calMonth.value++;
+}
+const calDays = computed(() => {
+    const first = new Date(calYear.value, calMonth.value, 1).getDay();
+    const total = new Date(calYear.value, calMonth.value + 1, 0).getDate();
+    const cells = [];
+    for (let i = 0; i < first; i++) cells.push(null);
+    for (let d = 1; d <= total; d++) cells.push(d);
+    return cells;
+});
+function pickDay(day) {
+    if (!day) return;
+    const m = String(calMonth.value + 1).padStart(2, '0');
+    const d = String(day).padStart(2, '0');
+    weddingDateInput.value = `${calYear.value}-${m}-${d}`;
+}
+function isPickedDay(day) {
+    if (!day || !weddingDateInput.value) return false;
+    const [y, m, d] = weddingDateInput.value.split('-').map(Number);
+    return y === calYear.value && m === calMonth.value + 1 && d === day;
+}
+function calDisplayDate(dateStr) {
+    if (!dateStr) return '';
+    const [y, m, d] = dateStr.split('-').map(Number);
+    return new Date(y, m - 1, d).toLocaleDateString(locale.value === 'id' ? 'id-ID' : 'en-US', { day: 'numeric', month: 'long', year: 'numeric' });
+}
+
 function saveWeddingDate() {
     if (!weddingDateInput.value) return;
     savingDate.value = true;
@@ -129,14 +181,13 @@ function saveWeddingDate() {
         </template>
 
         <div class="w-full space-y-5">
-          <CountdownHero :couple="couple" :countdown="countdown" :invite-url="inviteShare?.url ?? ''" @set-date="showDateModal = true" />
+          <CountdownHero :couple="couple" :countdown="countdown" :invite-url="inviteShare?.url ?? ''" @set-date="openDateModal" />
 
           <QuickStats :stats="stats" :budget-widget="budgetWidget" :checklist-widget="checklistWidget" />
 
-          <div class="grid gap-5 lg:grid-cols-[1.5fr_1fr]">
-            <ChecklistCard :checklist-widget="checklistWidget" :countdown="countdown" />
-            <InviteShareCard :invite-share="inviteShare" />
-          </div>
+          <InviteShareCard :invite-share="inviteShare" />
+
+          <ChecklistCard :checklist-widget="checklistWidget" :countdown="countdown" />
 
           <div class="grid gap-5 lg:grid-cols-[1.2fr_1fr]">
             <BudgetDonutCard :budget-widget="budgetWidget" />
@@ -342,10 +393,41 @@ function saveWeddingDate() {
                     <div class="bg-white rounded-3xl shadow-2xl w-full max-w-sm p-6">
                         <h3 class="text-base font-semibold text-stone-800 mb-1">{{ t('dashboard.index.countdown.setDate') }}</h3>
                         <p class="text-sm text-stone-500 mb-4">{{ t('dashboard.index.countdown.setDateHint') }}</p>
-                        <input v-model="weddingDateInput"
-                               type="date"
-                               class="w-full rounded-xl border border-stone-200 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:border-brand-primary mb-4"
-                               style="focus-ring-color: rgba(146,168,156,0.3)" />
+
+                        <!-- Calendar picker -->
+                        <div class="rounded-2xl border border-stone-200 overflow-hidden mb-4">
+                            <div class="flex items-center justify-between px-3 py-2.5">
+                                <button type="button" @click="prevCalMonth"
+                                        class="w-8 h-8 rounded-full flex items-center justify-center text-stone-500 hover:bg-stone-100 transition-colors">
+                                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+                                    </svg>
+                                </button>
+                                <span class="text-sm font-semibold text-stone-700">{{ calMonths[calMonth] }} {{ calYear }}</span>
+                                <button type="button" @click="nextCalMonth"
+                                        class="w-8 h-8 rounded-full flex items-center justify-center text-stone-500 hover:bg-stone-100 transition-colors">
+                                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="grid grid-cols-7 px-2">
+                                <div v-for="d in calDayNames" :key="d"
+                                     class="text-center text-xs font-semibold py-1"
+                                     :class="(locale === 'id' ? d === 'Min' : d === 'Sun') ? 'text-rose-400' : 'text-stone-400'">{{ d }}</div>
+                            </div>
+                            <div class="grid grid-cols-7 px-2 pb-2 gap-y-1">
+                                <div v-for="(day, i) in calDays" :key="i" class="flex items-center justify-center aspect-square">
+                                    <button v-if="day" type="button" @click="pickDay(day)"
+                                            class="w-9 h-9 rounded-full text-sm font-medium transition-all"
+                                            :class="isPickedDay(day) ? 'text-white font-bold shadow-sm' : 'text-stone-700 hover:bg-[#92A89C]/10 active:bg-[#92A89C]/20'"
+                                            :style="isPickedDay(day) ? 'background-color:#92A89C' : ''">
+                                        {{ day }}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="flex gap-2">
                             <button @click="showDateModal = false"
                                     class="flex-1 py-2.5 rounded-xl text-sm font-medium border border-stone-200 text-stone-600 hover:bg-stone-50 transition-colors cursor-pointer">

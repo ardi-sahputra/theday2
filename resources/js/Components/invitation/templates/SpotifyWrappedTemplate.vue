@@ -42,7 +42,7 @@ const {
 
 // Config
 const cfg               = computed(() => props.invitation.config ?? {})
-const brandName         = computed(() => cfg.value.sw_brand_name        ?? 'TheDay Wrapped')
+const brandName         = computed(() => cfg.value.sw_brand_name        ?? 'Theday Wrapped')
 const year              = computed(() => cfg.value.sw_year               ?? new Date().getFullYear().toString())
 const slideOrder        = computed(() => Array.isArray(cfg.value.sw_slide_order) && cfg.value.sw_slide_order.length
     ? cfg.value.sw_slide_order

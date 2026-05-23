@@ -1,7 +1,7 @@
 @extends('layouts.legal')
 
 @section('title', 'Kebijakan Privasi')
-@section('meta_description', 'Kebijakan Privasi TheDay — pelajari bagaimana kami mengumpulkan, menggunakan, dan melindungi data pribadimu.')
+@section('meta_description', 'Kebijakan Privasi Theday — pelajari bagaimana kami mengumpulkan, menggunakan, dan melindungi data pribadimu.')
 @section('breadcrumb', 'Kebijakan Privasi')
 @section('page_title', 'Kebijakan Privasi')
 @section('last_updated', '16 April 2026')
@@ -24,7 +24,7 @@
 <section id="pendahuluan" data-section>
     <h2>1. Pendahuluan</h2>
     <p>
-        Selamat datang di TheDay. Kami adalah platform undangan pernikahan digital yang membantu pasangan
+        Selamat datang di Theday. Kami adalah platform undangan pernikahan digital yang membantu pasangan
         di seluruh Indonesia menciptakan undangan yang elegan, personal, dan mudah dibagikan.
     </p>
     <p>
@@ -32,11 +32,11 @@
         data apa yang kami kumpulkan, bagaimana kami menggunakannya, dan bagaimana kami melindunginya.
     </p>
     <p>
-        Kebijakan ini berlaku ketika kamu menggunakan layanan TheDay — baik saat mendaftar akun,
+        Kebijakan ini berlaku ketika kamu menggunakan layanan Theday — baik saat mendaftar akun,
         membuat undangan, maupun sekadar mengunjungi situs kami di <a href="https://theday.id">theday.id</a>.
     </p>
     <p>
-        Dengan menggunakan TheDay, kamu menyetujui praktik yang dijelaskan dalam kebijakan ini.
+        Dengan menggunakan Theday, kamu menyetujui praktik yang dijelaskan dalam kebijakan ini.
         Jika ada yang kurang jelas, jangan ragu untuk menghubungi kami di <a href="mailto:hello@theday.id">hello@theday.id</a>.
     </p>
 </section>
@@ -74,7 +74,7 @@
 
     <h3>Data Penggunaan</h3>
     <ul>
-        <li>Halaman yang kamu kunjungi di TheDay</li>
+        <li>Halaman yang kamu kunjungi di Theday</li>
         <li>Fitur yang kamu gunakan dan frekuensi penggunaannya</li>
         <li>Waktu dan durasi sesi penggunaan</li>
     </ul>
@@ -89,7 +89,7 @@
     <h3>Data Pembayaran</h3>
     <p>
         Transaksi pembayaran diproses sepenuhnya oleh <strong>Midtrans</strong>, payment gateway terpercaya
-        yang telah berlisensi Bank Indonesia. <strong>TheDay tidak menyimpan data kartu kredit, nomor kartu,
+        yang telah berlisensi Bank Indonesia. <strong>Theday tidak menyimpan data kartu kredit, nomor kartu,
         atau informasi pembayaran sensitif lainnya</strong> di server kami.
     </p>
 </section>
@@ -117,7 +117,7 @@
     <h2>4. Berbagi Data dengan Pihak Ketiga</h2>
     <p>
         Kami hanya membagikan data yang diperlukan kepada penyedia layanan terpercaya yang kami gunakan
-        untuk menjalankan TheDay. Berikut daftarnya secara transparan:
+        untuk menjalankan Theday. Berikut daftarnya secara transparan:
     </p>
     <ul>
         <li>
@@ -142,7 +142,7 @@
         </li>
     </ul>
     <p>
-        Selain daftar di atas, <strong>TheDay tidak membagikan, menjual, menyewakan, atau
+        Selain daftar di atas, <strong>Theday tidak membagikan, menjual, menyewakan, atau
         mentransfer data pribadimu kepada pihak ketiga manapun</strong>.
     </p>
 </section>
@@ -153,7 +153,7 @@
     <ul>
         <li>Data disimpan di server yang berlokasi di wilayah Asia Tenggara (Singapore/Amsterdam)</li>
         <li>Password disimpan menggunakan algoritma hashing bcrypt — tidak dapat dibaca bahkan oleh tim kami</li>
-        <li>Komunikasi antara browsermu dan server TheDay dienkripsi menggunakan HTTPS/TLS</li>
+        <li>Komunikasi antara browsermu dan server Theday dienkripsi menggunakan HTTPS/TLS</li>
         <li>Akses ke database produksi dibatasi hanya untuk tim teknis yang berwenang</li>
         <li>Backup dilakukan secara berkala untuk mencegah kehilangan data</li>
     </ul>
@@ -187,13 +187,13 @@
 <section id="cookie" data-section>
     <h2>7. Cookie</h2>
     <p>
-        TheDay menggunakan cookie untuk memastikan layanan berjalan dengan baik dan memberikan
+        Theday menggunakan cookie untuk memastikan layanan berjalan dengan baik dan memberikan
         pengalaman yang lebih nyaman untukmu.
     </p>
     <ul>
         <li><strong>Cookie sesi (wajib)</strong> — diperlukan untuk proses login dan menjaga keamanan sesimu. Tanpa cookie ini, kamu tidak bisa masuk ke akun.</li>
         <li><strong>Cookie preferensi</strong> — menyimpan pilihan bahasa (Indonesia/English) agar tidak perlu diatur ulang setiap kunjungan.</li>
-        <li><strong>Cookie analitik (opsional)</strong> — membantu kami memahami cara pengguna menggunakan TheDay sehingga kami dapat meningkatkan produk.</li>
+        <li><strong>Cookie analitik (opsional)</strong> — membantu kami memahami cara pengguna menggunakan Theday sehingga kami dapat meningkatkan produk.</li>
     </ul>
     <p>
         Kamu dapat menonaktifkan cookie melalui pengaturan browser. Namun perlu diperhatikan bahwa
@@ -212,7 +212,7 @@
     </p>
     <p>
         Tanggal "Terakhir diperbarui" di bagian atas halaman ini akan selalu mencerminkan versi terkini.
-        Dengan terus menggunakan TheDay setelah perubahan berlaku, kamu menyetujui kebijakan yang telah diperbarui.
+        Dengan terus menggunakan Theday setelah perubahan berlaku, kamu menyetujui kebijakan yang telah diperbarui.
     </p>
 </section>
 

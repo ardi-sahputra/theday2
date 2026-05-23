@@ -43,6 +43,7 @@ class GoogleController extends Controller
                 'google_id'         => $googleUser->getId(),
                 'avatar_url'        => $googleUser->getAvatar(),
                 'email_verified_at' => now(),
+                'locale'            => app()->getLocale(),
             ]);
 
             $assignFreeSubscription->execute($user);
