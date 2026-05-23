@@ -59,10 +59,10 @@
 </head>
 <body>
     <div class="card">
-        <div class="logo">TheDay</div>
+        <div class="logo">Theday</div>
         <h1>Undangan Partner Akun</h1>
         <p>
-            <strong>{{ $ownerName }}</strong> mengundang kamu untuk mengelola undangan pernikahan bersama di TheDay.
+            <strong>{{ $ownerName }}</strong> mengundang kamu untuk mengelola undangan pernikahan bersama di Theday.
         </p>
         <p>
             Setelah menerima undangan ini, kamu bisa mengakses semua fitur (undangan, checklist, budget, dll) di akun mereka dengan login kamu sendiri.
@@ -71,7 +71,7 @@
         <p class="note">
             Undangan ini berlaku selama {{ $expiresIn }}. Jika kamu tidak mengenal pengirim ini, abaikan email ini.
         </p>
-        <p class="note">Salam,<br>TheDay</p>
+        <p class="note">Salam,<br>Theday</p>
     </div>
 </body>
 </html>

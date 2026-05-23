@@ -386,7 +386,7 @@ function scrollToRsvp() { rsvpRef.value?.scrollIntoView({ behavior: 'smooth' }) 
                     <p
                         v-if="!invitation?.user?.activeSubscription"
                         class="bp-watermark"
-                    >TheDay</p>
+                    >Theday</p>
                 </section>
             </div>
         </Transition>

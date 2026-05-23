@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Reset Kata Sandi — TheDay</title>
+<title>Reset Kata Sandi — Theday</title>
 </head>
 <body style="margin:0; padding:0; background-color:#f4f0e8; font-family:Georgia,'Times New Roman',serif;">
 
@@ -24,7 +24,7 @@
               <span style="color:#FFFCF7; font-family:Georgia,serif; font-size:20px; font-weight:600; line-height:36px; letter-spacing:-1px;">d<span style="color:#C8A26B;">.</span></span>
             </td>
             <td style="padding-left:10px;">
-              <span style="color:#ffffff; font-size:20px; font-weight:600; font-family:Georgia,serif; letter-spacing:-0.3px;">TheDay</span>
+              <span style="color:#ffffff; font-size:20px; font-weight:600; font-family:Georgia,serif; letter-spacing:-0.3px;">Theday</span>
             </td>
           </tr>
         </table>
@@ -60,7 +60,7 @@
         </p>
 
         <p style="margin:0 0 24px; font-size:15px; color:#6B5B3E; font-family:Arial,sans-serif; line-height:1.75;">
-          Kami menerima permintaan untuk mereset kata sandi akun <strong style="color:#2C2417;">TheDay</strong> Anda. Klik tombol di bawah untuk membuat kata sandi baru.
+          Kami menerima permintaan untuk mereset kata sandi akun <strong style="color:#2C2417;">Theday</strong> Anda. Klik tombol di bawah untuk membuat kata sandi baru.
         </p>
 
         <!-- CTA Button -->
@@ -125,7 +125,7 @@
         <table width="100%" cellpadding="0" cellspacing="0">
           <tr>
             <td>
-              <p style="margin:0 0 4px; font-size:13px; font-weight:600; color:#2C2417; font-family:Georgia,serif;">TheDay</p>
+              <p style="margin:0 0 4px; font-size:13px; font-weight:600; color:#2C2417; font-family:Georgia,serif;">Theday</p>
               <p style="margin:0; font-size:12px; color:#B0A090; font-family:Arial,sans-serif;">Platform Undangan Pernikahan Digital Indonesia</p>
             </td>
             <td align="right" style="vertical-align:top;">
@@ -135,7 +135,7 @@
         </table>
         <p style="margin:16px 0 0; font-size:11px; color:#C8BEB0; font-family:Arial,sans-serif; line-height:1.6;">
           Email ini dikirim otomatis. Mohon jangan membalas email ini langsung.<br>
-          © {{ date('Y') }} TheDay. Semua hak dilindungi.
+          © {{ date('Y') }} Theday. Semua hak dilindungi.
         </p>
       </td>
     </tr>

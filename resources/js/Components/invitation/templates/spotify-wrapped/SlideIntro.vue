@@ -3,7 +3,7 @@
 import Equalizer from './Equalizer.vue'
 
 defineProps({
-    brandName:      { type: String,  default: 'TheDay Wrapped' },
+    brandName:      { type: String,  default: 'Theday Wrapped' },
     groomNick:      { type: String,  default: '' },
     brideNick:      { type: String,  default: '' },
     year:           { type: String,  default: '2026' },
@@ -51,7 +51,7 @@ const emit = defineEmits(['start'])
 
             <Equalizer :bars="5" :speed="equalizerSpeed" color="#FFFFFF" :height="40" class="sw-intro-eq"/>
 
-            <p v-if="!isPremium" class="sw-watermark sw-watermark-intro">Powered by TheDay</p>
+            <p v-if="!isPremium" class="sw-watermark sw-watermark-intro">Powered by Theday</p>
         </div>
     </section>
 </template>

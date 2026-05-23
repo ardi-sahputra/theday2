@@ -52,8 +52,24 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        $exceptions->render(function (\Illuminate\Session\TokenMismatchException $e, $request) {
-            return redirect('/');
-        });
+        // Session / CSRF expired (419). Catch by status code so it works
+        // regardless of the underlying exception class. Returning a redirect
+        // back keeps the user on the same page with a fresh CSRF token and a
+        // friendly flash — instead of Inertia showing the raw 419 error page
+        // inside a modal overlay.
+        $exceptions->respond(function (
+            \Symfony\Component\HttpFoundation\Response $response,
+            \Throwable $e,
+            \Illuminate\Http\Request $request,
+        ) {
+            if ($response->getStatusCode() === 419) {
+                $message = app()->getLocale() === 'en'
+                    ? 'Your session expired. The page was refreshed — please try again.'
+                    : 'Sesi kamu kedaluwarsa. Halaman dimuat ulang — silakan coba lagi.';
 
+                return back(303)->with('error', $message);
+            }
+
+            return $response;
+        });
     })->create();

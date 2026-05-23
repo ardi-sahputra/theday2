@@ -22,10 +22,18 @@ Route::middleware('guest')->group(function () {
 
     Route::post('register', [RegisteredUserController::class, 'store']);
 
+    // Old register design — kept for reference. Posts to same 'register' action.
+    Route::get('register-classic', [RegisteredUserController::class, 'createClassic'])
+        ->name('register.classic');
+
     Route::get('login', [AuthenticatedSessionController::class, 'create'])
         ->name('login');
 
     Route::post('login', [AuthenticatedSessionController::class, 'store']);
+
+    // Old login design — kept for reference. Posts to same 'login' action.
+    Route::get('login-classic', [AuthenticatedSessionController::class, 'createClassic'])
+        ->name('login.classic');
 
     Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])
         ->name('password.request');

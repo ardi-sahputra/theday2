@@ -22,7 +22,7 @@ class PartnerInviteMail extends Mailable
 
     public function envelope(): Envelope
     {
-        return new Envelope(subject: "{$this->ownerName} mengundang kamu di TheDay");
+        return new Envelope(subject: "{$this->ownerName} mengundang kamu di Theday");
     }
 
     public function content(): Content

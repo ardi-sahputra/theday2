@@ -16,10 +16,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Notifications\ResetPasswordNotification;
 use App\Notifications\VerifyEmailNotification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Translation\HasLocalePreference;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable implements MustVerifyEmail, HasLocalePreference
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory, HasUuids, Notifiable, SoftDeletes;
@@ -29,6 +30,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'email',
         'password',
         'phone',
+        'locale',
         'avatar_url',
         'google_id',
         'onboarding_completed_at',
@@ -62,6 +64,17 @@ class User extends Authenticatable implements MustVerifyEmail
     public function hasCompletedOnboarding(): bool
     {
         return $this->onboarding_completed_at !== null;
+    }
+
+    /**
+     * Locale used for notifications/emails (HasLocalePreference).
+     * Falls back to app default when not set.
+     */
+    public function preferredLocale(): ?string
+    {
+        return in_array($this->locale, ['id', 'en'], true)
+            ? $this->locale
+            : config('app.locale');
     }
 
     // ─── Model Events ─────────────────────────────────────────────

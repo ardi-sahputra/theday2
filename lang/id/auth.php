@@ -9,9 +9,9 @@ return [
     */
 
     // Login — Left panel
-    'login_title'    => 'Masuk — TheDay',
+    'login_title'    => 'Masuk — Theday',
     'welcome_back'   => 'Selamat datang kembali',
-    'login_headline' => "Abadikan\nmomen spesialmu\nbersama TheDay.",
+    'login_headline' => "Abadikan\nmomen spesialmu\nbersama Theday.",
     'login_sub'      => 'Buat undangan digital pernikahan yang elegan dan tak terlupakan dalam hitungan menit.',
 
     // Auth errors
@@ -28,8 +28,17 @@ return [
     'login_submit'     => 'Masuk',
     'login_submitting' => 'Masuk…',
     'or'               => 'atau',
+    'or_email'         => 'atau dengan email',
     'login_with_google'=> 'Masuk dengan Google',
     'back_home'        => '← Kembali ke beranda',
+
+    // Login V2 — mobile
+    'login_v2_eyebrow'  => 'selamat datang kembali',
+    'login_v2_headline' => 'Masuk ke perjalanan kalian.',
+    'login_v2_sub'      => 'Lanjutkan persiapan undangan, RSVP, dan rencana bersama pasanganmu.',
+    'login_v2_submit'   => 'Masuk ke Dashboard',
+    'login_v2_footer'   => 'Baru di Theday?',
+    'login_v2_create'   => 'Buat akun pasangan',
 
     // Login — Decorative card
     'card_invitation'  => 'Undangan Pernikahan',
@@ -37,10 +46,10 @@ return [
     'card_count'       => '142 orang',
 
     // Register — Left panel
-    'register_title'    => 'Daftar — TheDay',
+    'register_title'    => 'Daftar — Theday',
     'start_journey'     => 'Mulai perjalananmu',
     'register_headline' => "Buat undangan\ndigital yang\ntak terlupakan.",
-    'register_sub'      => 'Bergabung bersama 10.000+ pasangan yang telah mempercayakan momen spesial mereka kepada TheDay.',
+    'register_sub'      => 'Bergabung bersama 10.000+ pasangan yang telah mempercayakan momen spesial mereka kepada Theday.',
     'feature_free'      => 'Gratis selamanya untuk template dasar',
     'feature_rsvp'      => 'Konfirmasi kehadiran (RSVP) real-time',
     'feature_wa'        => 'Bagikan lewat WhatsApp dalam 1 klik',

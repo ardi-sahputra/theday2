@@ -48,15 +48,15 @@
 </head>
 <body>
     <div class="card">
-        <div class="logo">TheDay</div>
+        <div class="logo">Theday</div>
         <h1>Partner Terhubung</h1>
         <p>
-            <strong>{{ $partnerName }}</strong> sudah menerima undangan dan sekarang punya akses penuh ke akun TheDay kamu.
+            <strong>{{ $partnerName }}</strong> sudah menerima undangan dan sekarang punya akses penuh ke akun Theday kamu.
         </p>
         <p>
             Mereka bisa mengakses undangan, checklist, budget, dan billing bersama kamu.
         </p>
-        <p class="note">Salam,<br>TheDay</p>
+        <p class="note">Salam,<br>Theday</p>
     </div>
 </body>
 </html>

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 return [
     'common' => [
-        'tim_theday' => 'TheDay Team',
+        'tim_theday' => 'Theday Team',
     ],
     'flash' => [
         'purchase_error' => 'Payment could not be processed. Please try again or contact support.',
@@ -17,7 +17,7 @@ return [
         'plan_invalid' => 'Invalid plan for a gift.',
     ],
     'mail' => [
-        'received_subject' => 'You received a premium gift from TheDay!',
+        'received_subject' => 'You received a premium gift from Theday!',
         'claimed_subject'  => 'Your gift has been claimed!',
         'received_heading' => 'Congratulations! You received a premium gift 🎁',
         'received_greeting' => 'Hello,',

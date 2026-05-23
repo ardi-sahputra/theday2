@@ -460,7 +460,7 @@ onUnmounted(() => clearInterval(cdTimer));
               <p class="p-closing-label" :style="{ color: primaryLight + 'cc', fontFamily: fontBody }">DENGAN CINTA,</p>
               <h2 class="p-closing-names shimmer-gold" :style="{ fontFamily: fontTitle }">{{ groomName }} &amp; {{ brideName }}</h2>
               <p class="p-closing-blessing" :style="{ color: bgColor + 'cc', fontFamily: fontHeading }">Wassalamu'alaikum Warahmatullahi Wabarakatuh</p>
-              <p class="p-footer" :style="{ color: primaryLight + '80', fontFamily: fontBody }">Undangan ini dibuat dengan penuh cinta menggunakan TheDay</p>
+              <p class="p-footer" :style="{ color: primaryLight + '80', fontFamily: fontBody }">Undangan ini dibuat dengan penuh cinta menggunakan Theday</p>
             </div>
           </div>
         </section>

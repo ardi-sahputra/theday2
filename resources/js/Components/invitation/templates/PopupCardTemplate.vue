@@ -589,7 +589,7 @@ const showWatermark = computed(() => !hasActiveSub.value)
                                     <h2 class="pc-closing-names">{{ groomName }} &amp; {{ brideName }}</h2>
                                     <p class="pc-body pc-body--italic pc-body--center">{{ closingText }}</p>
                                     <span class="pc-script-lg">Terima Kasih</span>
-                                    <p v-if="showWatermark" class="pc-watermark">TheDay</p>
+                                    <p v-if="showWatermark" class="pc-watermark">Theday</p>
                                 </div>
                             </PopupLayer>
                         </template>

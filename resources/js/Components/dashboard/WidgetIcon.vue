@@ -30,6 +30,7 @@ const paths = {
   flag:     '<path d="M4 22V3M4 4h13l-2 5 2 5H4"/>',
   settings: '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8M4.6 9a1.7 1.7 0 0 0-.3-1.8"/>',
   download: '<path d="M12 3v12M7 11l5 5 5-5M5 21h14"/>',
+  eye:      '<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/>',
 };
 </script>
 

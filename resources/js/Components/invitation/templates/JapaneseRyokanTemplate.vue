@@ -458,7 +458,7 @@ const showWatermark = computed(() => !hasActiveSub.value)
                         />
                         <p v-if="closingText" class="ryokan-closing-text">{{ closingText }}</p>
                         <p class="ryokan-closing-footer">
-                            <span class="ryokan-closing-mark">TheDay</span>
+                            <span class="ryokan-closing-mark">Theday</span>
                             <span class="ryokan-closing-thanks">ありがとうございます · Thank You</span>
                         </p>
                     </div>
@@ -485,7 +485,7 @@ const showWatermark = computed(() => !hasActiveSub.value)
 
                 <!-- ── Watermark (free tier) ── -->
                 <div v-if="showWatermark" class="ryokan-watermark">
-                    <span>Made with</span> <strong>TheDay</strong>
+                    <span>Made with</span> <strong>Theday</strong>
                 </div>
             </div>
         </Transition>

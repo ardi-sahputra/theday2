@@ -43,7 +43,9 @@ Route::get('/maintenance', function (\Illuminate\Http\Request $request) {
     ]);
 })->name('maintenance');
 
-Route::get('/', function () {
+$renderLanding = function (string $locale) {
+    app()->setLocale($locale);
+
     $featuredArticles = \App\Models\Article::published()
         ->with('category')
         ->orderByRaw('featured DESC, published_at DESC')
@@ -67,13 +69,19 @@ Route::get('/', function () {
     return view('landing', [
         'featuredArticles' => $featuredArticles,
         'plans'            => $plans,
+        'locale'           => $locale,
     ]);
-})->name('home');
+};
+
+// Indonesian (default) + English variant — distinct URLs for multilingual SEO.
+Route::get('/', fn () => $renderLanding('id'))->name('home');
+Route::get('/en', fn () => $renderLanding('en'))->name('home.en');
 
 // ── Sitemap ──────────────────────────────────────────────────────────────────
 Route::get('/sitemap.xml', function () {
     $pages = [
         ['url' => url('/'),                      'priority' => '1.0', 'changefreq' => 'weekly'],
+        ['url' => url('/en'),                    'priority' => '0.9', 'changefreq' => 'weekly'],
         ['url' => url('/templates'),             'priority' => '0.9', 'changefreq' => 'daily'],
         ['url' => url('/blog'),                  'priority' => '0.8', 'changefreq' => 'daily'],
         ['url' => url('/register'),              'priority' => '0.6', 'changefreq' => 'monthly'],

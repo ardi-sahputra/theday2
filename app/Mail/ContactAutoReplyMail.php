@@ -24,7 +24,7 @@ class ContactAutoReplyMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Pesan kamu sudah kami terima — TheDay',
+            subject: 'Pesan kamu sudah kami terima — Theday',
         );
     }
 

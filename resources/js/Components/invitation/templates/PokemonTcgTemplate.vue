@@ -152,7 +152,7 @@ const showCountdown = computed(() => sectionEnabled('countdown') && targetDate.v
                         :art-url="coverPhotoUrl"
                         name="WELCOME"
                         :description="openingText"
-                        :edition-text="`${cardNumber} ✦ Illus. TheDay`"
+                        :edition-text="`${cardNumber} ✦ Illus. Theday`"
                         :holo-intensity="holoIntensityValue"
                         :tilt-enabled="tiltEnabled"
                         size="md"

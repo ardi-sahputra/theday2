@@ -44,7 +44,7 @@ const igUsername      = computed(() => cfg.value.ig_username          ?? 'theday
 const igRingStyle     = computed(() => cfg.value.ig_avatar_ring_style ?? 'gradient')
 const igStoryDuration = computed(() => Number(cfg.value.ig_story_duration ?? 6))
 const igAutoAdvance   = computed(() => cfg.value.ig_auto_advance       ?? true)
-const igBrandName     = computed(() => cfg.value.ig_brand_name         ?? 'TheDay')
+const igBrandName     = computed(() => cfg.value.ig_brand_name         ?? 'Theday')
 const igStoryOrder    = computed(() => cfg.value.ig_story_order ?? [
     'opening','couple','love_story','events','countdown','gallery','rsvp','gift','wishes','closing'
 ])

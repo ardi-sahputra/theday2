@@ -1,7 +1,7 @@
 @component('mail::message')
 # Chat baru dari {{ $userName }}
 
-**{{ $userEmail }}** baru kirim chat di TheDay support.
+**{{ $userEmail }}** baru kirim chat di Theday support.
 
 **Pesan:**
 > {{ $messageBody ?? '[Gambar dilampirkan]' }}

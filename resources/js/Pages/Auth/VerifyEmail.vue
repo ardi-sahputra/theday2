@@ -1,10 +1,16 @@
 <script setup>
 import { computed, ref, onMounted, onUnmounted } from 'vue';
-import { Head, Link, useForm } from '@inertiajs/vue3';
+import { Head, Link, useForm, usePage } from '@inertiajs/vue3';
+import { useLocale } from '@/Composables/useLocale';
 
 const props = defineProps({
     status: { type: String },
 });
+
+const { locale, toggleLocale, t } = useLocale();
+
+const page = usePage();
+const flashError = computed(() => page.props.flash?.error);
 
 const form = useForm({});
 const mounted = ref(false);
@@ -35,7 +41,7 @@ const submit = () => {
 </script>
 
 <template>
-    <Head title="Verifikasi Email — TheDay" />
+    <Head :title="t('auth.verify_page_title')" />
 
     <div class="min-h-screen flex" style="background-color: #FFFCF7; font-family: 'DM Sans', sans-serif">
 
@@ -74,7 +80,7 @@ const submit = () => {
 
                 <!-- Center content -->
                 <div class="flex-1 flex flex-col justify-center">
-                    <p class="text-[#B8C7BF]/60 text-xs font-medium uppercase tracking-widest mb-5">Satu langkah lagi</p>
+                    <p class="text-[#B8C7BF]/60 text-xs font-medium uppercase tracking-widest mb-5">{{ t('auth.verify_eyebrow') }}</p>
 
                     <!-- Decorative envelope illustration -->
                     <div class="mb-8 relative w-fit">
@@ -92,10 +98,10 @@ const submit = () => {
                     </div>
 
                     <h1 class="text-white text-4xl font-semibold leading-tight mb-4" style="font-family: 'Playfair Display', serif">
-                        Email Anda<br /><em>menunggu konfirmasi</em>
+                        {{ t('auth.verify_left_title_1') }}<br /><em>{{ t('auth.verify_left_title_2') }}</em>
                     </h1>
                     <p class="text-[#B8C7BF]/60 text-sm leading-relaxed max-w-xs">
-                        Kami mengirim tautan verifikasi ke kotak masuk Anda. Periksa juga folder <em>Spam</em> jika tidak ada di Inbox.
+                        {{ t('auth.verify_left_sub') }}
                     </p>
                 </div>
 
@@ -110,8 +116,8 @@ const submit = () => {
                                 </svg>
                             </div>
                             <div>
-                                <p class="text-white text-xs font-semibold">Akun dibuat</p>
-                                <p class="text-white/40 text-xs">Verifikasi email untuk memulai</p>
+                                <p class="text-white text-xs font-semibold">{{ t('auth.verify_card_done') }}</p>
+                                <p class="text-white/40 text-xs">{{ t('auth.verify_card_sub') }}</p>
                             </div>
                         </div>
                     </div>
@@ -121,6 +127,17 @@ const submit = () => {
 
         <!-- ── Right panel ──────────────────────────────────────────── -->
         <div class="flex-1 flex flex-col relative">
+
+            <!-- Lang toggle -->
+            <div class="absolute top-4 right-4 z-10">
+                <button
+                    @click="toggleLocale"
+                    class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-stone-100 hover:bg-stone-200 transition-colors text-xs font-semibold text-stone-600 border border-stone-200"
+                >
+                    <span>{{ locale === 'en' ? '🇬🇧' : '🇮🇩' }}</span>
+                    <span>{{ locale === 'en' ? 'EN' : 'ID' }}</span>
+                </button>
+            </div>
 
             <!-- Mobile logo -->
             <div class="lg:hidden flex items-center px-6 pt-6">
@@ -156,10 +173,10 @@ const submit = () => {
                          :class="mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'"
                          style="transition: opacity 0.5s ease 0.1s, transform 0.5s ease 0.1s">
                         <h2 class="text-2xl font-semibold text-stone-900 mb-2" style="font-family: 'Playfair Display', serif">
-                            Verifikasi Email Anda
+                            {{ t('auth.verify_heading') }}
                         </h2>
                         <p class="text-sm text-stone-500 leading-relaxed">
-                            Kami telah mengirim tautan verifikasi ke email Anda. Klik tautan tersebut untuk mengaktifkan akun dan mulai membuat undangan pernikahan impian Anda.
+                            {{ t('auth.verify_desc') }}
                         </p>
                     </div>
 
@@ -176,7 +193,7 @@ const submit = () => {
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
                                     </svg>
                                 </div>
-                                <span class="text-sm text-stone-500 line-through">Buat akun</span>
+                                <span class="text-sm text-stone-500 line-through">{{ t('auth.verify_step_account') }}</span>
                             </div>
                             <!-- Connector -->
                             <div class="ml-3 w-px h-3 bg-stone-200" />
@@ -187,9 +204,9 @@ const submit = () => {
                                     <span class="w-2 h-2 rounded-full" style="background-color: #92A89C" />
                                     <span class="absolute w-6 h-6 rounded-full animate-ping" style="border: 1px solid #92A89C; opacity: 0.4" />
                                 </div>
-                                <span class="text-sm font-medium text-stone-800">Verifikasi email</span>
+                                <span class="text-sm font-medium text-stone-800">{{ t('auth.verify_step_verify') }}</span>
                                 <span class="ml-auto text-xs px-2 py-0.5 rounded-full font-medium"
-                                      style="background-color: #EFF4F2; color: #73877C">Menunggu</span>
+                                      style="background-color: #EFF4F2; color: #73877C">{{ t('auth.verify_step_waiting') }}</span>
                             </div>
                             <!-- Connector -->
                             <div class="ml-3 w-px h-3 bg-stone-200" />
@@ -198,10 +215,28 @@ const submit = () => {
                                 <div class="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 border-2 border-stone-300">
                                     <span class="w-2 h-2 rounded-full bg-stone-300" />
                                 </div>
-                                <span class="text-sm text-stone-500">Mulai membuat undangan</span>
+                                <span class="text-sm text-stone-500">{{ t('auth.verify_step_start') }}</span>
                             </div>
                         </div>
                     </div>
+
+                    <!-- Session expired (419) notice -->
+                    <transition
+                        enter-active-class="transition-all duration-500 ease-out"
+                        enter-from-class="opacity-0 -translate-y-2 scale-95"
+                        enter-to-class="opacity-100 translate-y-0 scale-100">
+                        <div v-if="flashError"
+                             class="mb-6 flex items-start gap-3 px-4 py-3.5 rounded-xl"
+                             style="background-color: #FDF3F0; border: 1px solid #E8C9C2">
+                            <div class="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"
+                                 style="background-color: #C19089">
+                                <svg class="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v4m0 4h.01" />
+                                </svg>
+                            </div>
+                            <p class="text-sm" style="color: #9C5B4E">{{ flashError }}</p>
+                        </div>
+                    </transition>
 
                     <!-- Success notification -->
                     <transition
@@ -221,8 +256,8 @@ const submit = () => {
                                 </svg>
                             </div>
                             <div>
-                                <p class="text-sm font-semibold" style="color: #4A7060">Email terkirim ulang!</p>
-                                <p class="text-xs mt-0.5" style="color: #73877C">Cek kotak masuk Anda, termasuk folder Spam.</p>
+                                <p class="text-sm font-semibold" style="color: #4A7060">{{ t('auth.verify_sent_title') }}</p>
+                                <p class="text-xs mt-0.5" style="color: #73877C">{{ t('auth.verify_sent_sub') }}</p>
                             </div>
                         </div>
                     </transition>
@@ -244,33 +279,33 @@ const submit = () => {
                                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
                                         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
                                     </svg>
-                                    Mengirim...
+                                    {{ t('auth.verify_btn_sending') }}
                                 </template>
                                 <template v-else-if="cooldown > 0">
                                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                                     </svg>
-                                    Kirim ulang dalam {{ cooldown }}s
+                                    {{ t('auth.verify_btn_cooldown', { n: cooldown }) }}
                                 </template>
                                 <template v-else>
                                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                         <path stroke-linecap="round" stroke-linejoin="round"
                                             d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                                     </svg>
-                                    Kirim Ulang Email Verifikasi
+                                    {{ t('auth.verify_btn_resend') }}
                                 </template>
                             </button>
                         </form>
 
                         <!-- Hint text -->
                         <p class="text-center text-xs text-stone-400 mt-4 leading-relaxed">
-                            Tidak menerima email? Tunggu beberapa menit lalu klik kirim ulang.<br />Periksa juga folder <strong class="text-stone-500">Spam</strong> atau <strong class="text-stone-500">Promosi</strong>.
+                            {{ t('auth.verify_hint') }}
                         </p>
 
                         <!-- Divider -->
                         <div class="my-6 flex items-center gap-3">
                             <div class="flex-1 h-px bg-stone-100" />
-                            <span class="text-xs text-stone-300">atau</span>
+                            <span class="text-xs text-stone-300">{{ t('auth.or') }}</span>
                             <div class="flex-1 h-px bg-stone-100" />
                         </div>
 
@@ -280,7 +315,7 @@ const submit = () => {
                                 <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                                 </svg>
-                                Kembali ke beranda
+                                {{ t('auth.verify_back') }}
                             </a>
 
                             <Link
@@ -289,7 +324,7 @@ const submit = () => {
                                 as="button"
                                 class="text-sm text-stone-400 hover:text-red-500 transition-colors"
                             >
-                                Keluar
+                                {{ t('auth.verify_logout') }}
                             </Link>
                         </div>
                     </div>

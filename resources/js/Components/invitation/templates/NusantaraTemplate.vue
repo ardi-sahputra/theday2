@@ -1107,7 +1107,7 @@ onMounted(() => {
                         <!-- Footer -->
                         <p class="n-footer" :style="{ color: primaryLight + '40', fontFamily: fontBody }">
                             Undangan ini dibuat dengan penuh cinta menggunakan
-                            <span :style="{ color: primaryLight + '60' }">TheDay</span>
+                            <span :style="{ color: primaryLight + '60' }">Theday</span>
                         </p>
                     </div>
                 </div>

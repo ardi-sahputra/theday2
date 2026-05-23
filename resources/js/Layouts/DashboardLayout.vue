@@ -465,9 +465,9 @@ const handleClickOutsideAvatar = (e) => {
             <!-- Top bar -->
             <header class="sticky top-0 z-10 px-4 lg:px-6 h-20 flex items-center gap-4"
                     style="background: rgba(238,242,234,0.78); backdrop-filter: blur(10px); border-bottom: 1px solid #D8DFD2;">
-                <!-- Mobile hamburger (HIDDEN — replaced by MobileBottomNav, kept for rollback) -->
+                <!-- Mobile hamburger — opens full sidebar drawer (bottom nav stays too) -->
                 <button
-                    class="hidden lg:hidden p-2 -ml-1 rounded-lg text-stone-500 hover:bg-stone-100 transition-colors cursor-pointer"
+                    class="flex lg:hidden p-2 -ml-1 rounded-lg text-stone-500 hover:bg-stone-100 transition-colors cursor-pointer"
                     @click="sidebarOpen = !sidebarOpen"
                 >
                     <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">

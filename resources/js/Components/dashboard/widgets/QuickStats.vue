@@ -39,20 +39,26 @@ const cards = computed(() => [
 </script>
 
 <template>
-  <div class="grid gap-4 grid-cols-2 lg:grid-cols-4">
+  <div class="qs-scroll flex gap-4 overflow-x-auto snap-x snap-mandatory pb-1
+              lg:grid lg:grid-cols-4 lg:overflow-visible lg:pb-0">
     <div v-for="(s, i) in cards" :key="i"
-         class="relative overflow-hidden rounded-[18px] p-[18px]"
+         class="relative overflow-hidden rounded-[16px] px-4 py-3 snap-start shrink-0 w-[76%] sm:w-[44%] lg:w-auto"
          style="background:#FBFCF9; border:1px solid #D8DFD2;">
-      <div class="flex items-start justify-between mb-2.5">
-        <div class="w-8 h-8 rounded-[9px] grid place-items-center" :style="{ background: s.color }">
-          <WidgetIcon :name="s.icon" :size="16" stroke="#fff" />
+      <div class="flex items-center gap-2 mb-2">
+        <div class="w-6 h-6 rounded-[7px] grid place-items-center shrink-0" :style="{ background: s.color }">
+          <WidgetIcon :name="s.icon" :size="13" stroke="#fff" />
         </div>
-        <span v-if="s.demo" class="text-[9.5px] font-semibold px-1.5 py-0.5 rounded-full"
+        <span class="text-xs font-medium truncate" style="color:#6C7A75;">{{ s.label }}</span>
+        <span v-if="s.demo" class="ml-auto text-[9.5px] font-semibold px-1.5 py-0.5 rounded-full shrink-0"
               style="background: rgba(217,162,74,0.16); color:#B07D2A;">{{ t('dashboard.index.widgets.demoBadge') }}</span>
       </div>
-      <div class="text-xs font-medium mb-1" style="color:#6C7A75;">{{ s.label }}</div>
-      <div class="font-cormorant font-medium leading-none tracking-tight text-[34px]" style="color:#1F2A2E;">{{ s.value }}</div>
-      <div class="text-xs mt-1.5" style="color:#6C7A75;">{{ s.sub }}</div>
+      <div class="font-cormorant font-medium leading-none tracking-tight text-[28px]" style="color:#1F2A2E;">{{ s.value }}</div>
+      <div class="text-xs mt-1" style="color:#6C7A75;">{{ s.sub }}</div>
     </div>
   </div>
 </template>
+
+<style scoped>
+.qs-scroll { scrollbar-width: none; -ms-overflow-style: none; }
+.qs-scroll::-webkit-scrollbar { display: none; }
+</style>
