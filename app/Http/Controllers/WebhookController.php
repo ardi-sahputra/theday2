@@ -18,6 +18,17 @@ class WebhookController extends Controller
 
     public function mayar(Request $request): JsonResponse
     {
+        // Verify the webhook token (set in the Mayar dashboard). Enforced only
+        // when MAYAR_WEBHOOK_TOKEN is configured, so existing setups keep working.
+        $expectedToken = (string) config('mayar.webhook_token');
+        if ($expectedToken !== '') {
+            $given = (string) $request->header('X-Callback-Token', '');
+            if (! hash_equals($expectedToken, $given)) {
+                Log::warning('Mayar webhook: invalid callback token');
+                return response()->json(['error' => 'Invalid token'], 401);
+            }
+        }
+
         $payload = $request->all();
         $event   = $payload['event'] ?? '';
         $data    = $payload['data']  ?? [];

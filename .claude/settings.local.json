@@ -90,7 +90,9 @@
       "Bash(grep -nE 'protected \\\\$fillable' -A 20 app/Models/Invitation.php)",
       "Bash(php -l app/Http/Controllers/OnboardingController.php)",
       "Bash(php -l app/Models/Invitation.php)",
-      "Bash(xargs echo \"non-build files remaining:\")"
+      "Bash(xargs echo \"non-build files remaining:\")",
+      "Bash(php -l app/Http/Controllers/Dashboard/SubscriptionController.php)",
+      "Bash(unzip -o \"c:/laragon/www/theday2/theday\\(9\\).zip\" \"onboardflow.jsx\" -d theday9)"
     ],
     "defaultMode": "bypassPermissions",
     "additionalDirectories": [

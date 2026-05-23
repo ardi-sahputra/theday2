@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, watch, onMounted } from 'vue';
+import { ref, computed, watch, onMounted, onUnmounted } from 'vue';
 import { Head, useForm } from '@inertiajs/vue3';
 import { useLocale } from '@/Composables/useLocale';
 
@@ -129,6 +129,19 @@ function tryNext() {
     if (!canProceed.value) return;
     if (step.value < LAST) goNext();
 }
+
+// Keyboard: Enter advances form steps (desktop convenience).
+function onKeydown(e) {
+    if (e.key !== 'Enter') return;
+    if (showDateModal.value || step.value === 0 || step.value === 6) return;
+    if (e.target && e.target.tagName === 'TEXTAREA') return; // allow newlines in address
+    if (canProceed.value) {
+        e.preventDefault();
+        tryNext();
+    }
+}
+onMounted(() => window.addEventListener('keydown', onKeydown));
+onUnmounted(() => window.removeEventListener('keydown', onKeydown));
 
 // ── Restore from localStorage on mount ───────────────────────────
 onMounted(() => {
@@ -394,26 +407,31 @@ watch([timeHour, timeMinute], ([h, m]) => {
                         <p class="ob-sub">{{ t('onboarding.pasangan_sub') }}</p>
 
                         <div class="ob-fields">
-                            <!-- Bride -->
-                            <div class="ob-field">
-                                <label class="ob-label">{{ t('onboarding.label_bride') }} <span class="ob-req">*</span></label>
-                                <input v-model="form.bride_name" class="ob-input ob-input-name" type="text" placeholder="Ayu" autofocus />
-                            </div>
-                            <div class="ob-field-sub">
-                                <input v-model="form.bride_nickname" class="ob-input ob-input-nick" type="text" maxlength="10" :placeholder="t('onboarding.nick_ph')" />
-                                <span class="ob-count">{{ form.bride_nickname.length }}/10</span>
-                            </div>
+                            <!-- Couple names (side-by-side on desktop) -->
+                            <div class="ob-couple">
+                                <div class="ob-couple-col">
+                                    <div class="ob-field">
+                                        <label class="ob-label">{{ t('onboarding.label_bride') }} <span class="ob-req">*</span></label>
+                                        <input v-model="form.bride_name" class="ob-input ob-input-name" type="text" placeholder="Ayu" autofocus />
+                                    </div>
+                                    <div class="ob-field-sub">
+                                        <input v-model="form.bride_nickname" class="ob-input ob-input-nick" type="text" maxlength="10" :placeholder="t('onboarding.nick_ph')" />
+                                        <span class="ob-count">{{ form.bride_nickname.length }}/10</span>
+                                    </div>
+                                </div>
 
-                            <div class="ob-amp">&amp;</div>
+                                <div class="ob-amp">&amp;</div>
 
-                            <!-- Groom -->
-                            <div class="ob-field">
-                                <label class="ob-label">{{ t('onboarding.label_groom') }} <span class="ob-req">*</span></label>
-                                <input v-model="form.groom_name" class="ob-input ob-input-name" type="text" placeholder="Rizki" />
-                            </div>
-                            <div class="ob-field-sub">
-                                <input v-model="form.groom_nickname" class="ob-input ob-input-nick" type="text" maxlength="10" :placeholder="t('onboarding.nick_ph')" />
-                                <span class="ob-count">{{ form.groom_nickname.length }}/10</span>
+                                <div class="ob-couple-col">
+                                    <div class="ob-field">
+                                        <label class="ob-label">{{ t('onboarding.label_groom') }} <span class="ob-req">*</span></label>
+                                        <input v-model="form.groom_name" class="ob-input ob-input-name" type="text" placeholder="Rizki" />
+                                    </div>
+                                    <div class="ob-field-sub">
+                                        <input v-model="form.groom_nickname" class="ob-input ob-input-nick" type="text" maxlength="10" :placeholder="t('onboarding.nick_ph')" />
+                                        <span class="ob-count">{{ form.groom_nickname.length }}/10</span>
+                                    </div>
+                                </div>
                             </div>
 
                             <!-- Phone -->
@@ -553,6 +571,7 @@ watch([timeHour, timeMinute], ([h, m]) => {
 
                     <!-- action follows the fields directly -->
                     <div class="ob-actions">
+                        <span class="ob-enter-hint">{{ t('onboarding.enter_hint') }}</span>
                         <button type="button" class="ob-btn-primary" :disabled="!canProceed" @click="tryNext">
                             {{ t('onboarding.continue') }}
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
@@ -848,4 +867,74 @@ watch([timeHour, timeMinute], ([h, m]) => {
 .ob-modal-enter-active .ob-sheet, .ob-modal-leave-active .ob-sheet { transition: transform .22s ease; }
 .ob-modal-enter-from, .ob-modal-leave-to { opacity: 0; }
 .ob-modal-enter-from .ob-sheet, .ob-modal-leave-to .ob-sheet { transform: translateY(40px); }
+
+/* Couple names: stacked on mobile, side-by-side on desktop */
+.ob-couple { display: flex; flex-direction: column; gap: 12px; }
+.ob-couple-col { display: flex; flex-direction: column; gap: 12px; }
+
+/* Enter hint hidden on mobile (touch); shown on desktop */
+.ob-enter-hint { display: none; font-size: 12.5px; color: var(--muted); }
+
+/* ── TABLET PORTRAIT (480–1023px) — drop the phone-frame card, keep single column ── */
+@media (min-width: 480px) and (max-width: 1023px) {
+    .ob-frame { max-width: none; box-shadow: none; }
+    .ob-body { max-width: 480px; margin-left: auto; margin-right: auto; }
+    .ob-welcome-foot, .ob-bottombar-clear { max-width: 380px; margin-left: auto; margin-right: auto; }
+}
+
+/* ── DESKTOP (≥1024px) — wide centered stage, à la onboardflow ── */
+@media (min-width: 1024px) {
+    .ob-frame {
+        max-width: none;          /* full page, not a centered panel */
+        box-shadow: none;
+        background:
+            radial-gradient(900px 700px at 0% 0%, rgba(199,211,188,0.15), transparent 60%),
+            radial-gradient(700px 600px at 110% 110%, rgba(217,181,176,0.10), transparent 65%),
+            var(--bg);
+    }
+    /* Welcome: roomier text + larger journey illustration */
+    .ob-welcome-sub { max-width: 100%; }
+    .ob-welcome-desc { max-width: 480px; font-size: 15px; }
+    .ob-journey { max-width: 480px; margin-top: 40px; }
+
+    .ob-header { padding: 28px 48px 8px; }
+    .ob-body {
+        flex: 1; max-width: 760px; margin: 0 auto; padding: 24px 48px;
+        display: flex; flex-direction: column; justify-content: center; text-align: center;
+    }
+    .ob-title { font-size: clamp(40px, 4vw, 56px); }
+    .ob-sub { font-size: 16px; max-width: 540px; margin-left: auto; margin-right: auto; }
+    .ob-fields { max-width: 620px; margin: 28px auto 0; text-align: left; }
+
+    /* Names side-by-side */
+    .ob-couple { display: grid; grid-template-columns: 1fr auto 1fr; align-items: start; gap: 16px; }
+    .ob-couple .ob-amp { align-self: start; margin-top: 30px; }
+
+    /* Date preview + selectors a touch wider */
+    .ob-date-preview { max-width: 360px; margin-left: auto; margin-right: auto; }
+
+    /* Type 2-col, Plan 3-col */
+    .ob-typegrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; max-width: 620px; margin-left: auto; margin-right: auto; }
+    /* Two real plans (Free + Premium) → balanced 2-col, equal height */
+    .ob-plangrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; max-width: 600px; margin-left: auto; margin-right: auto; align-items: stretch; }
+    .ob-plancard { display: flex; flex-direction: column; }
+    .ob-planrow { flex-direction: column; gap: 10px; flex: 1; }
+    .ob-planright { text-align: left; }
+
+    /* Action row: Enter hint left, button right (not full-width, not sticky) */
+    .ob-actions { max-width: 620px; margin: 36px auto 0; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .ob-enter-hint { display: inline; }
+    .ob-btn-primary { width: auto; padding: 13px 30px; border-radius: 999px; }
+
+    /* Welcome / Done: bigger hero, content stays centered */
+    .ob-welcome-title { font-size: clamp(56px, 6vw, 84px); }
+    .ob-welcome-foot, .ob-bottombar-clear { max-width: 420px; margin-left: auto; margin-right: auto; }
+    .ob-welcome-foot .ob-btn-primary, .ob-bottombar-clear .ob-btn-primary { width: 100%; }
+
+    /* Date picker: centered dialog instead of bottom-sheet */
+    .ob-modal-overlay { align-items: center; }
+    .ob-sheet { max-width: 420px; border-radius: 20px; }
+    .ob-sheet-handle { display: none; }
+    .ob-modal-enter-from .ob-sheet, .ob-modal-leave-to .ob-sheet { transform: translateY(12px) scale(0.98); }
+}
 </style>

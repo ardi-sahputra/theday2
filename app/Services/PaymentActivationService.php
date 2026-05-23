@@ -50,6 +50,18 @@ class PaymentActivationService
             return false;
         }
 
+        // Defense in depth: the amount Mayar reports as paid must not be less
+        // than what we expect. Fail-open only when Mayar omits the amount field.
+        $paidAmount = $invoice['amount'] ?? $invoice['total'] ?? null;
+        if ($paidAmount !== null && (int) $paidAmount < (int) $transaction->amount) {
+            Log::warning('Payment amount mismatch — activation blocked', [
+                'transaction_id' => $transaction->id,
+                'expected'       => (int) $transaction->amount,
+                'paid'           => (int) $paidAmount,
+            ]);
+            return false;
+        }
+
         DB::transaction(function () use ($transaction, $invoice) {
             $transaction->update([
                 'status'           => PaymentStatus::Paid,

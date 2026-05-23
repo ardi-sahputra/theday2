@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import axios from 'axios';
 import DashboardLayout from '@/Layouts/DashboardLayout.vue';
 import { useLocale } from '@/Composables/useLocale';
@@ -7,8 +7,9 @@ import { useLocale } from '@/Composables/useLocale';
 const { t } = useLocale();
 
 const props = defineProps({
-    currentPlan: { type: Object, required: true },
-    premiumPlan: { type: Object, default: null },
+    currentPlan:  { type: Object,  required: true },
+    premiumPlan:  { type: Object,  default: null },
+    autoCheckout: { type: Boolean, default: false },
 });
 
 const formatRupiah = (n) => Number(n ?? 0).toLocaleString('id-ID');
@@ -82,6 +83,13 @@ const startCheckout = async () => {
         isCheckingOut.value = false;
     }
 };
+
+// Arriving from onboarding with a Premium choice → start checkout immediately.
+onMounted(() => {
+    if (props.autoCheckout && !isPremium.value && !premiumCtaDisabled.value) {
+        startCheckout();
+    }
+});
 
 // ── Feature comparison rows ───────────────────────────────────────────────────
 const features = computed(() => [

@@ -89,60 +89,84 @@ class OnboardingController extends Controller
             $user->update(['phone' => $data['phone']]);
         }
 
-        // Resolve template: use pending session or fall back to first active free template
-        $pendingTemplateId = session()->pull('pending_template');
-        $template = $pendingTemplateId
-            ? Template::find($pendingTemplateId)
-            : Template::active()->where('tier', 'free')->ordered()->first();
+        $isMarried = ($data['marital_status'] ?? null) === 'sudah';
 
-        // Build title and auto-generate slug
-        $title = trim("{$data['groom_name']} & {$data['bride_name']}");
-        $slug  = $this->generateUniqueSlug($data);
+        if ($isMarried) {
+            // Already married → no wedding invitation to send. Persist couple
+            // data (names + wedding date) to the profile as the anniversary
+            // foundation; they can create event invitations later if they want.
+            \App\Models\CoupleProfile::updateOrCreate(
+                ['user_id' => $user->id],
+                [
+                    'groom_name'     => $data['groom_name'],
+                    'groom_nickname' => $data['groom_nickname'] ?? null,
+                    'bride_name'     => $data['bride_name'],
+                    'bride_nickname' => $data['bride_nickname'] ?? null,
+                    'wedding_date'   => $noDate ? null : ($data['wedding_date'] ?? null),
+                ],
+            );
+        } else {
+            // Resolve template: use pending session or fall back to first active free template
+            $pendingTemplateId = session()->pull('pending_template');
+            $template = $pendingTemplateId
+                ? Template::find($pendingTemplateId)
+                : Template::active()->where('tier', 'free')->ordered()->first();
 
-        // Create the first invitation draft
-        $invitation = Invitation::create([
-            'user_id'    => $user->id,
-            'template_id' => $template->id,
-            'title'       => $title,
-            'event_type'  => 'pernikahan',
-            'marital_status' => $data['marital_status'] ?? null,
-            'wedding_type' => $data['wedding_type'] ?? null,
-            'city'         => $data['city'] ?? null,
-            'intended_plan' => $data['intended_plan'] ?? null,
-            'slug'        => $slug,
-            'status'      => 'draft',
-        ]);
+            // Build title and auto-generate slug
+            $title = trim("{$data['groom_name']} & {$data['bride_name']}");
+            $slug  = $this->generateUniqueSlug($data);
 
-        // Create invitation details with couple data
-        $invitation->details()->create([
-            'invitation_id'  => $invitation->id,
-            'groom_name'     => $data['groom_name'],
-            'groom_nickname' => $data['groom_nickname'] ?? null,
-            'bride_name'     => $data['bride_name'],
-            'bride_nickname' => $data['bride_nickname'] ?? null,
-        ]);
-
-        // Create event if date is provided
-        if (! $noDate && ! empty($data['wedding_date'])) {
-            $invitation->events()->create([
-                'event_name'    => 'Akad & Resepsi',
-                'event_date'    => $data['wedding_date'],
-                'start_time'    => $data['start_time'] ?? null,
-                'venue_name'    => $data['venue_name'] ?? '',
-                'venue_address' => $data['venue_address'] ?? null,
-                'sort_order'    => 0,
+            // Create the first invitation draft
+            $invitation = Invitation::create([
+                'user_id'    => $user->id,
+                'template_id' => $template->id,
+                'title'       => $title,
+                'event_type'  => 'pernikahan',
+                'marital_status' => $data['marital_status'] ?? null,
+                'wedding_type' => $data['wedding_type'] ?? null,
+                'city'         => $data['city'] ?? null,
+                'intended_plan' => $data['intended_plan'] ?? null,
+                'slug'        => $slug,
+                'status'      => 'draft',
             ]);
+
+            // Create invitation details with couple data
+            $invitation->details()->create([
+                'invitation_id'  => $invitation->id,
+                'groom_name'     => $data['groom_name'],
+                'groom_nickname' => $data['groom_nickname'] ?? null,
+                'bride_name'     => $data['bride_name'],
+                'bride_nickname' => $data['bride_nickname'] ?? null,
+            ]);
+
+            // Create event if date is provided
+            if (! $noDate && ! empty($data['wedding_date'])) {
+                $invitation->events()->create([
+                    'event_name'    => 'Akad & Resepsi',
+                    'event_date'    => $data['wedding_date'],
+                    'start_time'    => $data['start_time'] ?? null,
+                    'venue_name'    => $data['venue_name'] ?? '',
+                    'venue_address' => $data['venue_address'] ?? null,
+                    'sort_order'    => 0,
+                ]);
+            }
         }
 
         // Mark onboarding as complete
         $user->update(['onboarding_completed_at' => now()]);
 
-        return redirect()
-            ->route('dashboard')
-            ->with('flash', [
-                'type'    => 'success',
-                'message' => 'Selamat! Setup selesai. Undanganmu siap dikustomisasi.',
-            ]);
+        // Premium intent → go straight to the plan page, which auto-starts the
+        // Mayar checkout. Otherwise land on the dashboard.
+        $redirect = ($data['intended_plan'] ?? null) === 'premium'
+            ? redirect()->route('dashboard.paket', ['checkout' => 'premium'])
+            : redirect()->route('dashboard');
+
+        return $redirect->with('flash', [
+            'type'    => 'success',
+            'message' => $isMarried
+                ? 'Selamat! Profil pasangan kalian tersimpan.'
+                : 'Selamat! Setup selesai. Undanganmu siap dikustomisasi.',
+        ]);
     }
 
     private function generateUniqueSlug(array $data): string
