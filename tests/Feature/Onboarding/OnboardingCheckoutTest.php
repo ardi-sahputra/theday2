@@ -32,12 +32,13 @@ class OnboardingCheckoutTest extends TestCase
             ->assertRedirect(route('dashboard.paket', ['checkout' => 'premium']));
     }
 
-    public function test_free_choice_redirects_to_dashboard(): void
+    public function test_free_choice_with_chosen_template_redirects_to_dashboard(): void
     {
-        Template::factory()->free()->create();
+        $template = Template::factory()->free()->create();
         $user = User::factory()->create();
 
         $this->actingAs($user)
+            ->withSession(['pending_template' => $template->id])
             ->post(route('onboarding.store'), $this->payload(['intended_plan' => 'free']))
             ->assertRedirect(route('dashboard'));
     }

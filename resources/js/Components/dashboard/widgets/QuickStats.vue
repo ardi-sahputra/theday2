@@ -10,37 +10,45 @@ const props = defineProps({
 });
 const { t } = useLocale();
 
-const cards = computed(() => [
-  {
+// RSVP & Ucapan only make sense once an invitation is published.
+const hasPublished = computed(() => (props.stats.published_count ?? 0) > 0);
+
+const cards = computed(() => {
+  const rsvp = {
     label: t('dashboard.index.widgets.stats.rsvp'),
     value: String(props.stats.rsvp_attending ?? 0),
     sub:   t('dashboard.index.widgets.stats.rsvpSub', { total: props.stats.rsvp_total ?? 0 }),
     color: '#92A89C', icon: 'guest', demo: false,
-  },
-  {
+  };
+  const budget = {
     label: t('dashboard.index.widgets.stats.budget'),
     value: (props.budgetWidget?.usage_percentage ?? 0) + '%',
     sub:   props.budgetWidget?.has_budget ? `${props.budgetWidget.formatted.total_actual} / ${props.budgetWidget.formatted.total_budget}` : t('dashboard.index.widgets.stats.budgetEmpty'),
     color: '#C19089', icon: 'budget', demo: false,
-  },
-  {
+  };
+  const checklist = {
     label: t('dashboard.index.widgets.stats.checklist'),
     value: String(props.checklistWidget?.done ?? 0),
     sub:   t('dashboard.index.widgets.stats.checklistSub', { total: props.checklistWidget?.total ?? 0 }),
     color: '#D9A24A', icon: 'check', demo: false,
-  },
-  {
+  };
+  const ucapan = {
     label: t('dashboard.index.widgets.stats.ucapan'),
     value: String(props.stats.ucapan_count ?? 0),
     sub:   t('dashboard.index.widgets.stats.ucapanSub'),
-    color: '#6F8270', icon: 'gift', demo: true,
-  },
-]);
+    color: '#6F8270', icon: 'gift', demo: false,
+  };
+
+  return hasPublished.value
+    ? [rsvp, budget, checklist, ucapan]
+    : [budget, checklist];
+});
 </script>
 
 <template>
-  <div class="qs-scroll flex gap-4 overflow-x-auto snap-x snap-mandatory pb-1
-              lg:grid lg:grid-cols-4 lg:overflow-visible lg:pb-0">
+  <div class="qs-scroll qs-grid flex gap-4 overflow-x-auto snap-x snap-mandatory pb-1
+              lg:grid lg:overflow-visible lg:pb-0"
+       :style="{ '--qs-cols': cards.length }">
     <div v-for="(s, i) in cards" :key="i"
          class="relative overflow-hidden rounded-[16px] px-4 py-3 snap-start shrink-0 w-[76%] sm:w-[44%] lg:w-auto"
          style="background:#FBFCF9; border:1px solid #D8DFD2;">
@@ -61,4 +69,7 @@ const cards = computed(() => [
 <style scoped>
 .qs-scroll { scrollbar-width: none; -ms-overflow-style: none; }
 .qs-scroll::-webkit-scrollbar { display: none; }
+@media (min-width: 1024px) {
+  .qs-grid { grid-template-columns: repeat(var(--qs-cols, 4), minmax(0, 1fr)); }
+}
 </style>

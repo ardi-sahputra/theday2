@@ -92,7 +92,8 @@
       "Bash(php -l app/Models/Invitation.php)",
       "Bash(xargs echo \"non-build files remaining:\")",
       "Bash(php -l app/Http/Controllers/Dashboard/SubscriptionController.php)",
-      "Bash(unzip -o \"c:/laragon/www/theday2/theday\\(9\\).zip\" \"onboardflow.jsx\" -d theday9)"
+      "Bash(unzip -o \"c:/laragon/www/theday2/theday\\(9\\).zip\" \"onboardflow.jsx\" -d theday9)",
+      "Bash(php -l app/Actions/CreateInvitationFromTemplateAction.php)"
     ],
     "defaultMode": "bypassPermissions",
     "additionalDirectories": [
