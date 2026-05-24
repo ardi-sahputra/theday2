@@ -1,5 +1,6 @@
 <script setup>
 import { ref, computed } from 'vue';
+import { Link } from '@inertiajs/vue3';
 import WidgetIcon from '@/Components/dashboard/WidgetIcon.vue';
 import { useLocale } from '@/Composables/useLocale';
 
@@ -62,8 +63,16 @@ async function copy() {
         </div>
       </div>
     </template>
-    <div v-else class="p-6 text-center text-sm" style="color:#6C7A75;">
-      {{ t('dashboard.index.widgets.invite.empty') }}
+    <div v-else class="p-6 text-center">
+      <p class="text-sm mb-3" style="color:#6C7A75;">{{ t('dashboard.index.widgets.invite.empty') }}</p>
+      <Link :href="route('dashboard.templates')"
+            class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold text-white transition-all hover:opacity-90"
+            style="background:#92A89C;">
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/>
+        </svg>
+        {{ t('dashboard.index.widgets.invite.emptyCta') }}
+      </Link>
     </div>
   </div>
 </template>

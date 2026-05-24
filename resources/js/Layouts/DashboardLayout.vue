@@ -364,6 +364,7 @@ const handleClickOutsideAvatar = (e) => {
                                             </span>
                                             <Link v-else
                                                   :href="route(child.route)"
+                                                  prefetch
                                                   :class="[
                                                       'flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-all duration-150',
                                                       isActive(child)
@@ -387,6 +388,7 @@ const handleClickOutsideAvatar = (e) => {
                             <Link
                                 v-else
                                 :href="route(item.route)"
+                                prefetch
                                 :class="[
                                     'flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-all duration-150',
                                     isActive(item)

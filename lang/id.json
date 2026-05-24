@@ -291,7 +291,8 @@
                     "copy": "Salin link",
                     "copied": "Tersalin!",
                     "open": "Buka",
-                    "empty": "Belum ada undangan"
+                    "empty": "Belum ada undangan",
+                    "emptyCta": "Tambah Undangan"
                 },
                 "budget": {
                     "title": "Anggaran Pernikahan",
@@ -800,6 +801,18 @@
             "toast": {
                 "templateApplied": "Template standar diterapkan"
             },
+            "setup": {
+                "title": "Mulai checklist kamu",
+                "sub": "Pilih cara mulai checklist persiapanmu.",
+                "recommended": "Disarankan",
+                "standardTitle": "Pakai checklist standar",
+                "standardDesc": "Tugas otomatis tersusun, disesuaikan dengan tipe pernikahanmu. Bisa kamu ubah kapan saja.",
+                "applying": "Menyiapkan…",
+                "blankTitle": "Mulai dari kosong",
+                "blankDesc": "Susun sendiri daftar tugasmu dari nol. Cocok kalau kamu sudah punya rencana sendiri.",
+                "preparing": "Menyiapkan…",
+                "note": "Tenang, pilihan ini bisa diubah nanti."
+            },
             "rail": {
                 "reminders": {
                     "title": "Reminder Berikutnya",
@@ -832,6 +845,7 @@
                     "newest": "Terbaru"
                 },
                 "aiHint": "4 tugas baru berdasarkan progress kamu",
+                "applyStandardSub": "Tambah tugas siap pakai sesuai tipe pernikahanmu",
                 "tasks": "tugas",
                 "doneTasks": "Tugas selesai",
                 "see": "Lihat",

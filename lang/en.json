@@ -291,7 +291,8 @@
                     "copy": "Copy link",
                     "copied": "Copied!",
                     "open": "Open",
-                    "empty": "No invitation yet"
+                    "empty": "No invitation yet",
+                    "emptyCta": "Add Invitation"
                 },
                 "budget": {
                     "title": "Wedding Budget",
@@ -800,6 +801,18 @@
             "toast": {
                 "templateApplied": "Standard template applied"
             },
+            "setup": {
+                "title": "Start your checklist",
+                "sub": "Choose how to begin your prep checklist.",
+                "recommended": "Recommended",
+                "standardTitle": "Use the standard checklist",
+                "standardDesc": "Tasks auto-generated and tailored to your wedding type. You can edit them anytime.",
+                "applying": "Setting up…",
+                "blankTitle": "Start from scratch",
+                "blankDesc": "Build your own task list from zero. Great if you already have a plan.",
+                "preparing": "Setting up…",
+                "note": "Don't worry — you can change this later."
+            },
             "rail": {
                 "reminders": {
                     "title": "Up Next",
@@ -832,6 +845,7 @@
                     "newest": "Newest"
                 },
                 "aiHint": "4 new tasks based on your progress",
+                "applyStandardSub": "Add ready-made tasks for your wedding type",
                 "tasks": "tasks",
                 "doneTasks": "Completed tasks",
                 "see": "View",

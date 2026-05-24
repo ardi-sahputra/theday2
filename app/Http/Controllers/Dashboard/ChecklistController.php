@@ -38,14 +38,22 @@ class ChecklistController extends Controller
 
     // ─── API: Initialize ──────────────────────────────────────────
 
-    public function initialize(): JsonResponse
+    public function initialize(Request $request): JsonResponse
     {
         $plan = $this->resolveOrCreatePlan();
 
-        if ($plan->isChecklistInitialized()) {
-            return response()->json(['message' => 'Already initialized.'], 200);
+        // "Isi sendiri" — record that the couple made their choice (so we stop
+        // prompting) without generating any template tasks. They can still apply
+        // the standard set later from the rail.
+        if ($request->input('mode') === 'blank') {
+            if (! $plan->isChecklistInitialized()) {
+                $plan->update(['checklist_initialized_at' => now()]);
+            }
+
+            return response()->json(['message' => 'Blank checklist ready.'], 201);
         }
 
+        // Standard set. The service is idempotent on existing system tasks.
         $this->service->initialize($plan);
 
         return response()->json(['message' => 'Checklist initialized.'], 201);

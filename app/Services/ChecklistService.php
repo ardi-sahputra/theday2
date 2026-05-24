@@ -22,7 +22,9 @@ class ChecklistService
 
     public function initialize(WeddingPlan $plan): void
     {
-        if ($plan->isChecklistInitialized()) {
+        // Idempotent on the system template set, not just the initialized flag —
+        // so a couple who started blank can still apply the standard set later.
+        if ($plan->checklistTasks()->where('source', ChecklistTaskSource::System)->exists()) {
             return;
         }
 

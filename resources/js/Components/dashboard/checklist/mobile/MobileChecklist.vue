@@ -16,8 +16,9 @@ defineProps({
   activeChip:   { type: String, default: 'all' },
   buckets:      { type: Array, default: () => [] },
   doneCount:    { type: Number, default: 0 },
+  hasSystemTasks: { type: Boolean, default: true },
 });
-const emit = defineEmits(['select', 'openFilter', 'addTask', 'openTask', 'toggle', 'showDone']);
+const emit = defineEmits(['select', 'openFilter', 'addTask', 'openTask', 'toggle', 'showDone', 'applyTemplate']);
 const { t } = useLocale();
 
 const stampColor = (cat) => ({ overdue: '#C19089', today: '#C19089', week: '#D9A24A' }[cat] || '#92A89C');
@@ -43,6 +44,18 @@ const stampColor = (cat) => ({ overdue: '#C19089', today: '#C19089', week: '#D9A
         </div>
       </div>
     </div>
+
+    <!-- Apply standard template — only when the couple started blank -->
+    <button v-if="!hasSystemTasks" type="button" @click="emit('applyTemplate')"
+            class="w-full rounded-[12px] px-3.5 py-3 mb-3.5 flex items-center gap-2.5 text-left"
+            style="background:linear-gradient(135deg, #F4EDDC, #E9DFC4); border:1px solid #E0D2BD;">
+      <div class="w-8 h-8 rounded-lg grid place-items-center flex-shrink-0" style="background:#92A89C;"><WidgetIcon name="check" :size="16" stroke="#fff" /></div>
+      <div class="flex-1 min-w-0">
+        <div class="text-[13px] font-semibold" style="color:#1F2A2E;">{{ t('dashboard.checklist.setup.standardTitle') }}</div>
+        <div class="text-[11px]" style="color:#8E6515;">{{ t('dashboard.checklist.mobile.applyStandardSub') }}</div>
+      </div>
+      <WidgetIcon name="plus" :size="16" stroke="#8E6515" />
+    </button>
 
     <div class="rounded-[12px] px-3.5 py-2.5 mb-3.5 flex items-center gap-2.5" style="background:#F4EDDC; border:1px solid #E0D2BD;">
       <div class="w-7 h-7 rounded-lg grid place-items-center flex-shrink-0" style="background:#fff; color:#8E6515;"><WidgetIcon name="sparkle" :size="15" stroke="#8E6515" /></div>

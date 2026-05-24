@@ -16,6 +16,7 @@ import MobileChecklist  from '@/Components/dashboard/checklist/mobile/MobileChec
 import MobileFilterSheet from '@/Components/dashboard/checklist/mobile/MobileFilterSheet.vue';
 import MobileTaskSheet   from '@/Components/dashboard/checklist/mobile/MobileTaskSheet.vue';
 import { useMediaQuery } from '@/Composables/useMediaQuery';
+import { checklistCache } from '@/Composables/checklistCache';
 
 const { t, locale } = useLocale();
 
@@ -23,10 +24,14 @@ const props = defineProps({
     weddingPlan: Object,
 });
 
+const SUMMARY_DEFAULT = { total: 0, todo: 0, done: 0, archived: 0, progress: 0, overdue: 0, upcoming_7d: 0, has_event_date: false };
+
 // ── State ──────────────────────────────────────────────────────────────────
-const tasks          = ref([]);
-const summary        = ref({ total: 0, todo: 0, done: 0, archived: 0, progress: 0, overdue: 0, upcoming_7d: 0, has_event_date: false });
-const loading        = ref(true);
+// Hydrate from the SPA-lived cache so returning to the Planner is instant —
+// no spinner on every revisit; we revalidate quietly in the background instead.
+const tasks          = ref(checklistCache.tasks ?? []);
+const summary        = ref(checklistCache.summary ?? { ...SUMMARY_DEFAULT });
+const loading        = ref(checklistCache.tasks === null && !!props.weddingPlan?.initialized);
 const error          = ref(null);
 const filterStatus   = ref('');
 const filterCat      = ref('');
@@ -43,6 +48,12 @@ const togglingId     = ref(null);
 const moveDoneToBottom = ref(false);
 const view           = ref('timeline');  // 'timeline' | 'list' | 'kanban'
 const activeChip     = ref('all');
+
+// ── First-run setup choice ────────────────────────────────────────────────
+// The plan is "initialized" once the couple picks standard template OR blank.
+const initialized  = ref(!!props.weddingPlan?.initialized);
+const setupLoading = ref(null); // 'standard' | 'blank' while a choice is saving
+const hasSystemTasks = computed(() => tasks.value.some(t => t.source === 'system'));
 
 // ── Expand state — default empty = all closed ─────────────────────────────
 const EXPAND_KEY = 'checklist_expanded_v1';
@@ -518,10 +529,44 @@ const mobileDoneCount = computed(() => summary.value.done);
 const resultCount     = computed(() => displayList.value.length);
 
 async function applyStandardTemplate() {
-    if (props.weddingPlan?.initialized) { showToast(t('dashboard.checklist.rail.templates.applied')); return; }
+    // The standard set is "applied" only when system tasks actually exist —
+    // a blank-started plan is initialized but still has none.
+    if (hasSystemTasks.value) { showToast(t('dashboard.checklist.rail.templates.applied')); return; }
     await axios.post(route('dashboard.checklist.initialize'));
+    initialized.value = true;
     await Promise.all([loadTasks(), loadSummary()]);
     showToast(t('dashboard.checklist.toast.templateApplied'));
+}
+
+// ── First-run choice: standard template vs. start blank ───────────────────
+async function chooseStandard() {
+    if (setupLoading.value) return;
+    setupLoading.value = 'standard';
+    try {
+        await axios.post(route('dashboard.checklist.initialize'));
+        initialized.value = true;
+        await Promise.all([loadTasks(), loadSummary()]);
+        playSwipeHint();
+        showToast(t('dashboard.checklist.toast.templateApplied'));
+    } catch {
+        error.value = t('dashboard.checklist.error.loadFailed');
+    } finally {
+        setupLoading.value = null;
+    }
+}
+
+async function chooseBlank() {
+    if (setupLoading.value) return;
+    setupLoading.value = 'blank';
+    try {
+        await axios.post(route('dashboard.checklist.initialize'), { mode: 'blank' });
+        initialized.value = true;
+        await Promise.all([loadTasks(), loadSummary()]);
+    } catch {
+        error.value = t('dashboard.checklist.error.loadFailed');
+    } finally {
+        setupLoading.value = null;
+    }
 }
 function exportCalendar() { window.location.href = route('dashboard.checklist.export'); }
 
@@ -552,11 +597,19 @@ async function playSwipeHint() {
 // ── Bootstrap ──────────────────────────────────────────────────────────────
 onMounted(async () => {
     try {
-        if (!props.weddingPlan?.initialized) {
-            await axios.post(route('dashboard.checklist.initialize'));
+        // Don't auto-apply the template anymore. New couples get a choice
+        // (standard vs. blank); only load existing data here.
+        if (!initialized.value) return;
+
+        if (checklistCache.tasks !== null) {
+            // Have cached data → show it instantly, revalidate in background.
+            loading.value = false;
+            Promise.all([loadTasks(), loadSummary()]).catch(() => {});
+        } else {
+            // First load this session → wait + show the spinner once.
+            await Promise.all([loadTasks(), loadSummary()]);
+            playSwipeHint();
         }
-        await Promise.all([loadTasks(), loadSummary()]);
-        playSwipeHint();
     } catch {
         error.value = t('dashboard.checklist.error.loadFailed');
     } finally {
@@ -567,11 +620,13 @@ onMounted(async () => {
 async function loadTasks() {
     const { data } = await axios.get(route('dashboard.checklist.tasks'));
     tasks.value = data.tasks;
+    checklistCache.tasks = data.tasks;
 }
 
 async function loadSummary() {
     const { data } = await axios.get(route('dashboard.checklist.summary'));
     summary.value = data;
+    checklistCache.summary = data;
 }
 
 async function saveEventDate() {
@@ -856,9 +911,65 @@ const currentPickerDate = computed(() =>
 
         <template v-else>
 
+            <!-- ── First-run setup choice ─────────────────────────── -->
+            <div v-if="!initialized" class="max-w-2xl mx-auto py-10 sm:py-16 px-1">
+                <div class="text-center mb-7">
+                    <div class="w-14 h-14 mx-auto mb-4 rounded-2xl flex items-center justify-center bg-[#92A89C]/10">
+                        <svg class="w-7 h-7 text-[#92A89C]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                  d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/>
+                        </svg>
+                    </div>
+                    <h2 class="font-cormorant font-medium text-[28px] tracking-tight" style="color:#1F2A2E;">{{ t('dashboard.checklist.setup.title') }}</h2>
+                    <p class="text-[13px] mt-1" style="color:#6C7A75;">{{ t('dashboard.checklist.setup.sub') }}</p>
+                </div>
+
+                <div class="grid gap-3 sm:grid-cols-2">
+                    <!-- Standard (recommended) -->
+                    <button type="button" @click="chooseStandard" :disabled="!!setupLoading"
+                            class="group relative text-left rounded-2xl border-2 p-5 transition-all hover:-translate-y-0.5 disabled:opacity-60 disabled:translate-y-0"
+                            style="border-color:#92A89C; background:#FBFCF9;">
+                        <span class="absolute top-3 right-3 text-[10px] font-semibold px-2 py-0.5 rounded-full"
+                              style="background:rgba(146,168,156,0.18); color:#4A5A4C;">{{ t('dashboard.checklist.setup.recommended') }}</span>
+                        <div class="w-10 h-10 rounded-xl grid place-items-center mb-3" style="background:#92A89C;">
+                            <WidgetIcon name="check" :size="18" stroke="#fff" />
+                        </div>
+                        <div class="text-[15px] font-semibold mb-1" style="color:#1F2A2E;">{{ t('dashboard.checklist.setup.standardTitle') }}</div>
+                        <p class="text-[12.5px] leading-relaxed" style="color:#6C7A75;">{{ t('dashboard.checklist.setup.standardDesc') }}</p>
+                        <span v-if="setupLoading === 'standard'" class="mt-3 inline-flex items-center gap-2 text-[12px] font-medium" style="color:#4A5A4C;">
+                            <svg class="w-3.5 h-3.5 animate-spin" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
+                            </svg>
+                            {{ t('dashboard.checklist.setup.applying') }}
+                        </span>
+                    </button>
+
+                    <!-- Start blank -->
+                    <button type="button" @click="chooseBlank" :disabled="!!setupLoading"
+                            class="group text-left rounded-2xl border-2 border-stone-200 p-5 transition-all hover:-translate-y-0.5 hover:border-stone-300 disabled:opacity-60 disabled:translate-y-0"
+                            style="background:#FFFFFF;">
+                        <div class="w-10 h-10 rounded-xl grid place-items-center mb-3 bg-stone-100">
+                            <WidgetIcon name="plus" :size="18" stroke="#6C7A75" />
+                        </div>
+                        <div class="text-[15px] font-semibold mb-1" style="color:#1F2A2E;">{{ t('dashboard.checklist.setup.blankTitle') }}</div>
+                        <p class="text-[12.5px] leading-relaxed" style="color:#6C7A75;">{{ t('dashboard.checklist.setup.blankDesc') }}</p>
+                        <span v-if="setupLoading === 'blank'" class="mt-3 inline-flex items-center gap-2 text-[12px] font-medium text-stone-500">
+                            <svg class="w-3.5 h-3.5 animate-spin" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
+                            </svg>
+                            {{ t('dashboard.checklist.setup.preparing') }}
+                        </span>
+                    </button>
+                </div>
+
+                <p class="text-center text-[11.5px] mt-4" style="color:#9AA69F;">{{ t('dashboard.checklist.setup.note') }}</p>
+            </div>
+
             <!-- ── Bulk action bar ────────────────────────────────── -->
             <Transition name="slide-down">
-                <div v-if="bulkMode"
+                <div v-if="bulkMode && initialized"
                      class="sticky top-0 z-20 mb-4 px-4 py-3 bg-white border border-stone-200 rounded-xl shadow-sm flex items-center gap-2">
                     <span class="text-sm font-medium text-stone-700 flex-1">{{ t('dashboard.checklist.bulk.selected', { count: selectedIds.size }) }}</span>
                     <button @click="doBulkAction('done')" :disabled="bulking"
@@ -877,7 +988,7 @@ const currentPickerDate = computed(() =>
             </Transition>
 
             <!-- ── Desktop layout wrapper ─────────────────────────── -->
-            <div v-if="!isMobileView" class="w-full">
+            <div v-if="initialized && !isMobileView" class="w-full">
 
                 <!-- Page heading + top actions -->
                 <div class="flex items-end justify-between gap-3 mb-4 flex-wrap">
@@ -1307,7 +1418,7 @@ const currentPickerDate = computed(() =>
                     <!-- ── Right rail (desktop only) ───────────────── -->
                     <aside class="hidden lg:flex flex-col gap-4">
                         <ReminderRail :reminders="reminders" />
-                        <TemplatePresetsRail :initialized="!!props.weddingPlan?.initialized" @apply="applyStandardTemplate" />
+                        <TemplatePresetsRail :initialized="hasSystemTasks" @apply="applyStandardTemplate" />
                         <PicSplitRail :bride-pct="picSplit.bridePct" :groom-pct="picSplit.groomPct" :bride-count="picSplit.brideCount" :groom-count="picSplit.groomCount" />
                     </aside>
 
@@ -1315,13 +1426,15 @@ const currentPickerDate = computed(() =>
             </div><!-- end desktop wrapper -->
 
             <!-- ── Mobile layout branch ──────────────────────────── -->
-            <template v-if="isMobileView">
+            <template v-if="initialized && isMobileView">
                 <MobileChecklist
                     :progress="summary.progress" :done="summary.done" :total="summary.total"
                     :urgent-count="urgentCount" :upcoming7d="summary.upcoming_7d" :days-until="daysUntil" :has-event-date="summary.has_event_date"
                     :chips="filterChips" :active-chip="activeChip" :buckets="mobileBuckets" :done-count="mobileDoneCount"
+                    :has-system-tasks="hasSystemTasks"
                     @select="onChip" @open-filter="showMobileFilter = true" @add-task="openCreate"
-                    @open-task="openMobileTask" @toggle="toggle" @show-done="onChip('done')" />
+                    @open-task="openMobileTask" @toggle="toggle" @show-done="onChip('done')"
+                    @apply-template="applyStandardTemplate" />
             </template>
 
             <MobileFilterSheet

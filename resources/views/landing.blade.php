@@ -63,6 +63,19 @@
     {{-- ── SEO: Sitemap Discovery ────────────────────────────────── --}}
     <link rel="sitemap" type="application/xml" title="Sitemap" href="{{ url('/sitemap.xml') }}">
 
+    {{-- ── Prefetch app entry pages so the first tap into the app feels instant.
+         Guests head to login/register; Speculation Rules degrade gracefully where
+         unsupported. Authed users go to /dashboard (heavy) so we don't prefetch it. --}}
+    @guest
+    <script type="speculationrules">
+    {
+        "prefetch": [
+            { "source": "list", "urls": ["/login", "/register"] }
+        ]
+    }
+    </script>
+    @endguest
+
     {{-- ── Fonts ─────────────────────────────────────────────────── --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -70,7 +83,9 @@
         href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap"
         rel="stylesheet">
 
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    {{-- Landing is pure Blade + vanilla JS (no Inertia/Vue mount), so it only
+         needs the compiled CSS — not the ~900KB app bundle. --}}
+    @vite(['resources/css/app.css'])
 
     <style>
         :root {

@@ -77,6 +77,44 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
             : config('app.locale');
     }
 
+    /**
+     * Name to use as the payment customer identity (e.g. Mayar invoice).
+     * Prefers the couple's names over the raw account name, because the
+     * account name is often a Google display name unrelated to the wedding.
+     */
+    public function customerDisplayName(): string
+    {
+        $profile = $this->coupleProfile;
+        if ($profile && ($profile->groom_name || $profile->bride_name)) {
+            return $this->coupleLabel($profile->groom_name, $profile->bride_name);
+        }
+
+        $details = $this->invitations()
+            ->whereHas('details')
+            ->with('details')
+            ->latest()
+            ->first()?->details;
+
+        if ($details && ($details->groom_name || $details->bride_name)) {
+            return $this->coupleLabel($details->groom_name, $details->bride_name);
+        }
+
+        return $this->name;
+    }
+
+    private function coupleLabel(?string $groom, ?string $bride): string
+    {
+        $groom = trim((string) $groom);
+        $bride = trim((string) $bride);
+
+        return match (true) {
+            $groom !== '' && $bride !== '' => "{$groom} & {$bride}",
+            $groom !== ''                  => $groom,
+            $bride !== ''                  => $bride,
+            default                        => $this->name,
+        };
+    }
+
     // ─── Model Events ─────────────────────────────────────────────
 
     protected static function booted(): void

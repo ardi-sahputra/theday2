@@ -55,9 +55,6 @@ class DashboardController extends Controller
         $user = $request->user()->load([
             'activeSubscription.plan',
         ]);
-        $effectiveUser->load([
-            'invitations' => fn ($q) => $q->with('template')->latest()->limit(3),
-        ]);
 
         $invitations = $effectiveUser->invitations()->withCount(['rsvps', 'views'])->get();
 

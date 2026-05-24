@@ -76,12 +76,17 @@ const isMoreActive = computed(() => {
             v-for="tab in tabs"
             :key="tab.routeName"
             :href="route(tab.routeName)"
+            prefetch="mount"
+            cache-for="1m"
             :aria-label="tab.label"
             :aria-current="isActive(tab.activePatterns) ? 'page' : undefined"
-            class="flex-1 flex flex-col items-center justify-center py-2 min-h-[56px] text-[10px] font-medium transition-colors"
-            :class="isActive(tab.activePatterns) ? 'text-[#73877C]' : 'text-stone-400'"
+            class="flex-1 flex flex-col items-center justify-center py-1.5 min-h-[56px] text-[10px] transition-colors"
+            :class="isActive(tab.activePatterns) ? 'text-[#1F2A2E] font-semibold' : 'text-stone-400 font-medium'"
         >
-            <svg class="w-6 h-6 mb-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" v-html="tab.icon" />
+            <span class="grid place-items-center w-12 h-7 rounded-full mb-0.5 transition-colors"
+                  :class="isActive(tab.activePatterns) ? 'bg-[#92A89C]/30' : 'bg-transparent'">
+                <svg class="w-[22px] h-[22px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" v-html="tab.icon" />
+            </span>
             <span>{{ tab.label }}</span>
         </Link>
 
@@ -90,13 +95,16 @@ const isMoreActive = computed(() => {
             :aria-label="'More menu'"
             :aria-expanded="moreOpen"
             :aria-current="isMoreActive ? 'page' : undefined"
-            class="flex-1 flex flex-col items-center justify-center py-2 min-h-[56px] text-[10px] font-medium transition-colors cursor-pointer"
-            :class="(moreOpen || isMoreActive) ? 'text-[#73877C]' : 'text-stone-400'"
+            class="flex-1 flex flex-col items-center justify-center py-1.5 min-h-[56px] text-[10px] transition-colors cursor-pointer"
+            :class="(moreOpen || isMoreActive) ? 'text-[#1F2A2E] font-semibold' : 'text-stone-400 font-medium'"
             @click="emit('toggle-more')"
         >
-            <svg class="w-6 h-6 mb-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"/>
-            </svg>
+            <span class="grid place-items-center w-12 h-7 rounded-full mb-0.5 transition-colors"
+                  :class="(moreOpen || isMoreActive) ? 'bg-[#92A89C]/30' : 'bg-transparent'">
+                <svg class="w-[22px] h-[22px]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"/>
+                </svg>
+            </span>
             <span>More</span>
         </button>
     </nav>
