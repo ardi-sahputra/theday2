@@ -10,6 +10,7 @@ use App\Enums\ChecklistTaskSource;
 use App\Enums\ChecklistTaskStatus;
 use App\Models\ChecklistTask;
 use App\Models\ChecklistTemplate;
+use App\Models\Invitation;
 use App\Models\WeddingPlan;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
@@ -21,12 +22,26 @@ class ChecklistService
 
     public function initialize(WeddingPlan $plan): void
     {
-        if ($plan->isChecklistInitialized()) {
+        // Idempotent on the system template set, not just the initialized flag —
+        // so a couple who started blank can still apply the standard set later.
+        if ($plan->checklistTasks()->where('source', ChecklistTaskSource::System)->exists()) {
             return;
         }
 
         DB::transaction(function () use ($plan) {
+            // Resolve the couple's wedding type (from the linked invitation,
+            // falling back to any invitation the user owns). When undecided
+            // ('belum') or unknown, every task applies (full checklist).
+            $weddingType = $plan->primaryInvitation?->wedding_type
+                ?? Invitation::where('user_id', $plan->user_id)->value('wedding_type');
+
             $templates = ChecklistTemplate::active()->ordered()->get();
+
+            if ($weddingType !== null && $weddingType !== 'belum') {
+                $templates = $templates
+                    ->filter(fn (ChecklistTemplate $t) => empty($t->wedding_types) || in_array($weddingType, $t->wedding_types, true))
+                    ->values();
+            }
 
             foreach ($templates as $i => $template) {
                 $dueDate = $this->calculateDueDate($plan->event_date, $template->day_offset);
@@ -58,6 +73,7 @@ class ChecklistService
             'source'               => ChecklistTaskSource::User,
             'title'                => $data['title'],
             'description'          => $data['description'] ?? null,
+            'vendor'               => $data['vendor'] ?? null,
             'category'             => $data['category'],
             'priority'             => $data['priority'] ?? 'medium',
             'status'               => ChecklistTaskStatus::Todo,
@@ -77,6 +93,7 @@ class ChecklistService
         $task->update([
             'title'                => $data['title']       ?? $task->title,
             'description'          => array_key_exists('description', $data) ? $data['description'] : $task->description,
+            'vendor'               => array_key_exists('vendor', $data) ? $data['vendor'] : $task->vendor,
             'category'             => $data['category']    ?? $task->category,
             'priority'             => $data['priority']    ?? $task->priority,
             'due_date'             => array_key_exists('due_date', $data) ? $data['due_date'] : $task->due_date,

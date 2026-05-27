@@ -43,7 +43,9 @@ Route::get('/maintenance', function (\Illuminate\Http\Request $request) {
     ]);
 })->name('maintenance');
 
-Route::get('/', function () {
+$renderLanding = function (string $locale) {
+    app()->setLocale($locale);
+
     $featuredArticles = \App\Models\Article::published()
         ->with('category')
         ->orderByRaw('featured DESC, published_at DESC')
@@ -67,13 +69,19 @@ Route::get('/', function () {
     return view('landing', [
         'featuredArticles' => $featuredArticles,
         'plans'            => $plans,
+        'locale'           => $locale,
     ]);
-})->name('home');
+};
+
+// Indonesian (default) + English variant — distinct URLs for multilingual SEO.
+Route::get('/', fn () => $renderLanding('id'))->name('home');
+Route::get('/en', fn () => $renderLanding('en'))->name('home.en');
 
 // ── Sitemap ──────────────────────────────────────────────────────────────────
 Route::get('/sitemap.xml', function () {
     $pages = [
         ['url' => url('/'),                      'priority' => '1.0', 'changefreq' => 'weekly'],
+        ['url' => url('/en'),                    'priority' => '0.9', 'changefreq' => 'weekly'],
         ['url' => url('/templates'),             'priority' => '0.9', 'changefreq' => 'daily'],
         ['url' => url('/blog'),                  'priority' => '0.8', 'changefreq' => 'daily'],
         ['url' => url('/register'),              'priority' => '0.6', 'changefreq' => 'monthly'],
@@ -138,6 +146,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 Route::middleware(['auth', 'verified', 'onboarding', 'couple'])->prefix('dashboard')->name('dashboard.')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('index');
+    Route::patch('/wedding-date', [DashboardController::class, 'updateWeddingDate'])->name('wedding-date.update');
     Route::get('/templates', [TemplateController::class, 'index'])->name('templates');
     Route::get('/buku-tamu', [BukuTamuHubController::class, 'index'])->name('buku-tamu.index');
 
@@ -174,6 +183,7 @@ Route::middleware(['auth', 'verified', 'onboarding', 'couple'])->prefix('dashboa
 
     // Kustomisasi page (premium)
     Route::get( '/invitations/{invitation}/customize',                 [InvitationCustomizeController::class, 'show'])->name('invitations.customize');
+    Route::get('/invitations/{invitation}/customize-v2', [InvitationCustomizeController::class, 'showV2'])->name('invitations.customize-v2');
     Route::post('/invitations/{invitation}/customize',                 [InvitationCustomizeController::class, 'update'])->name('invitations.customize.update');
     Route::post('/invitations/{invitation}/sections/{key}/background', [InvitationCustomizeController::class, 'uploadBackground'])->name('invitations.sections.background');
 
@@ -188,6 +198,7 @@ Route::middleware(['auth', 'verified', 'onboarding', 'couple'])->prefix('dashboa
 
     // ── Budget Planner ───────────────────────────────────────────────────
     Route::get( '/budget-planner',                    [BudgetPlannerPageController::class, 'index'])->name('budget-planner.index');
+    Route::get( '/budget-planner/export.csv',         [BudgetPlannerPageController::class, 'exportCsv'])->name('budget-planner.export');
     Route::post('/budget-planner/initialize',         [InitializeBudgetPlannerController::class, 'store'])->name('budget-planner.initialize');
     Route::patch('/budget-planner/budget',            [UpdateBudgetController::class, 'update'])->name('budget-planner.budget.update');
 
@@ -201,6 +212,9 @@ Route::middleware(['auth', 'verified', 'onboarding', 'couple'])->prefix('dashboa
     Route::patch( '/budget-planner/items/{item}',           [BudgetItemController::class, 'update'])->name('budget-planner.items.update');
     Route::patch( '/budget-planner/items/{item}/payment',   [BudgetItemController::class, 'updatePayment'])->name('budget-planner.items.payment');
     Route::delete('/budget-planner/items/{item}',           [BudgetItemController::class, 'destroy'])->name('budget-planner.items.destroy');
+
+    Route::post(  '/budget-planner/notes',          [\App\Http\Controllers\Dashboard\BudgetPlanner\BudgetNoteController::class, 'store'])->name('budget-planner.notes.store');
+    Route::delete('/budget-planner/notes/{note}',   [\App\Http\Controllers\Dashboard\BudgetPlanner\BudgetNoteController::class, 'destroy'])->name('budget-planner.notes.destroy');
 
     // ── Guest List ───────────────────────────────────────────────────────
     Route::get(   '/guest-list',                              [GuestListController::class, 'index'])->name('guest-list.index');
@@ -245,6 +259,7 @@ Route::middleware(['auth', 'verified', 'onboarding', 'couple'])->prefix('dashboa
     Route::patch( '/checklist/tasks/{id}/restore',       [ChecklistController::class, 'restore'])->name('checklist.tasks.restore');
     Route::delete('/checklist/tasks/{id}',               [ChecklistController::class, 'destroy'])->name('checklist.tasks.destroy');
     Route::get(   '/checklist/summary',                  [ChecklistController::class, 'summary'])->name('checklist.summary');
+    Route::get(   '/checklist/export.ics',               [ChecklistController::class, 'exportCalendar'])->name('checklist.export');
     Route::patch( '/checklist/event-date',               [ChecklistController::class, 'updateEventDate'])->name('checklist.event-date');
     Route::get(   '/checklist/tasks/{taskId}/subtasks',              [ChecklistController::class, 'subtasks'])->name('checklist.tasks.subtasks.index');
     Route::post(  '/checklist/tasks/{taskId}/subtasks',              [ChecklistController::class, 'storeSubtask'])->name('checklist.tasks.subtasks.store');
@@ -312,6 +327,14 @@ Route::middleware(['auth', 'couple'])->group(function () {
         Route::post('/',        [\App\Http\Controllers\Dashboard\GiftController::class, 'store'])->name('store');
         Route::get('/{gift}',   [\App\Http\Controllers\Dashboard\GiftController::class, 'show'])->name('show');
     });
+});
+
+// Support chat (user-side)
+Route::middleware(['auth', 'verified'])->prefix('dashboard/support')->name('dashboard.support.')->group(function () {
+    Route::get('/',           [\App\Http\Controllers\Dashboard\SupportController::class, 'show'])->name('show');
+    Route::get('/messages',   [\App\Http\Controllers\Dashboard\SupportController::class, 'pollMessages'])->name('poll')->middleware('throttle:120,1');
+    Route::post('/messages',  [\App\Http\Controllers\Dashboard\SupportController::class, 'sendMessage'])->name('send')->middleware('throttle:30,60');
+    Route::post('/mark-read', [\App\Http\Controllers\Dashboard\SupportController::class, 'markRead'])->name('mark-read');
 });
 
 // ── Webhooks (no auth) ──────────────────────────────────────────────────

@@ -1,10 +1,21 @@
 <script setup>
 import DashboardLayout from '@/Layouts/DashboardLayout.vue';
-import { router, usePage } from '@inertiajs/vue3';
+import { router } from '@inertiajs/vue3';
 import { computed, ref, watch } from 'vue';
 import { useLocale } from '@/Composables/useLocale';
+import axios from 'axios';
 
-const { t } = useLocale();
+// ── New widget imports ─────────────────────────────────────────────────────
+import BudgetHero            from '@/Components/dashboard/budget/BudgetHero.vue';
+import BudgetDonutCard       from '@/Components/dashboard/budget/BudgetDonutCard.vue';
+import CategoryBarsCard      from '@/Components/dashboard/budget/CategoryBarsCard.vue';
+import TransactionsTable     from '@/Components/dashboard/budget/TransactionsTable.vue';
+import UpcomingPaymentsRail  from '@/Components/dashboard/budget/rail/UpcomingPaymentsRail.vue';
+import AiInsightRail         from '@/Components/dashboard/budget/rail/AiInsightRail.vue';
+import CoupleNotesRail       from '@/Components/dashboard/budget/rail/CoupleNotesRail.vue';
+import WidgetIcon            from '@/Components/dashboard/WidgetIcon.vue';
+
+const { t, locale } = useLocale();
 
 const props = defineProps({
     budget:            Object,
@@ -13,6 +24,7 @@ const props = defineProps({
     items:             Array,
     categories:        Array,
     filters:           Object,
+    budgetNotes:       { type: Array, default: () => [] },
 });
 
 // ─── View state ───────────────────────────────────────────────────────────────
@@ -102,83 +114,6 @@ const statusConfig = computed(() => ({
 
 function statusCfg(status) {
     return statusConfig.value[status] ?? statusConfig.value.no_data;
-}
-
-// ─── Donut chart ──────────────────────────────────────────────────────────────
-
-const selectedSlice = ref(null);
-
-const donutSlices = computed(() => {
-    const breakdown = props.categoryBreakdown ?? [];
-    const hasBudget = props.summary?.has_budget;
-    const useActual = hasBudget; // use terpakai when budget is set, else planned
-
-    const total = breakdown.reduce((s, c) => s + (useActual ? c.actual_total : c.planned_total), 0);
-    if (total === 0) return [];
-
-    // Limit to 8 slices, group rest as "Lainnya"
-    const sorted = [...breakdown].sort((a, b) => {
-        const av = useActual ? a.actual_total : a.planned_total;
-        const bv = useActual ? b.actual_total : b.planned_total;
-        return bv - av;
-    });
-
-    let slices = [];
-    let othersTotal = 0;
-    sorted.forEach((cat, i) => {
-        const val = useActual ? cat.actual_total : cat.planned_total;
-        if (val === 0) return;
-        if (i < 7) {
-            slices.push({ id: cat.id, name: cat.name, value: val, color: catColor(cat, i) });
-        } else {
-            othersTotal += val;
-        }
-    });
-    if (othersTotal > 0) {
-        slices.push({ id: '__others__', name: t('dashboard.budget.chart.others'), value: othersTotal, color: '#D4C4A8' });
-    }
-
-    let cum = 0;
-    return slices.map(s => {
-        const pct = (s.value / total) * 100;
-        const result = { ...s, pct, offset: cum, total };
-        cum += pct;
-        return result;
-    });
-});
-
-const donutCenterLabel = computed(() => {
-    const s = props.summary;
-    if (!s) return { primary: t('dashboard.budget.summary.totalBudget'), amount: 'Rp 0', secondary: null };
-
-    if (selectedSlice.value) {
-        const sl = donutSlices.value.find(x => x.id === selectedSlice.value);
-        if (sl) {
-            return {
-                primary:   sl.name,
-                amount:    formatRupiah(sl.value),
-                secondary: (sl.pct).toFixed(1) + '%',
-            };
-        }
-    }
-
-    if (s.has_budget) {
-        return {
-            primary:   t('dashboard.budget.donut.used'),
-            amount:    s.formatted.total_actual,
-            secondary: t('dashboard.budget.donut.from', { total: s.formatted.total_budget }),
-            overbudget: s.is_total_overbudget,
-        };
-    }
-    return {
-        primary:   t('dashboard.budget.donut.totalPlanned'),
-        amount:    s.formatted.total_planned,
-        secondary: null,
-    };
-});
-
-function selectSlice(id) {
-    selectedSlice.value = selectedSlice.value === id ? null : id;
 }
 
 // ─── Computed ─────────────────────────────────────────────────────────────────
@@ -449,6 +384,103 @@ async function archiveCategory(cat) {
         showToast(err.response?.data?.message ?? t('dashboard.budget.toasts.categoryArchiveError'), 'error');
     }
 }
+
+// ─── Date Picker ─────────────────────────────────────────────────────────────
+
+const MONTHS_ID = computed(() => [
+    t('dashboard.checklist.months.jan'), t('dashboard.checklist.months.feb'),
+    t('dashboard.checklist.months.mar'), t('dashboard.checklist.months.apr'),
+    t('dashboard.checklist.months.may'), t('dashboard.checklist.months.jun'),
+    t('dashboard.checklist.months.jul'), t('dashboard.checklist.months.aug'),
+    t('dashboard.checklist.months.sep'), t('dashboard.checklist.months.oct'),
+    t('dashboard.checklist.months.nov'), t('dashboard.checklist.months.dec'),
+]);
+const DAYS_ID = computed(() => [
+    t('dashboard.checklist.days.sun'), t('dashboard.checklist.days.mon'),
+    t('dashboard.checklist.days.tue'), t('dashboard.checklist.days.wed'),
+    t('dashboard.checklist.days.thu'), t('dashboard.checklist.days.fri'),
+    t('dashboard.checklist.days.sat'),
+]);
+
+const showDatePicker  = ref(false);
+const datePickerMode  = ref('');
+const calToday        = new Date();
+const calYear         = ref(calToday.getFullYear());
+const calMonth        = ref(calToday.getMonth());
+
+function openDatePicker(mode) {
+    datePickerMode.value = mode;
+    const val = mode === 'due_date' ? itemForm.value.due_date : itemForm.value.payment_date;
+    if (val) {
+        const [y, m] = val.split('-').map(Number);
+        calYear.value  = y;
+        calMonth.value = m - 1;
+    } else {
+        calYear.value  = calToday.getFullYear();
+        calMonth.value = calToday.getMonth();
+    }
+    showDatePicker.value = true;
+}
+function closeDatePicker() { showDatePicker.value = false; }
+function prevCalMonth() {
+    if (calMonth.value === 0) { calMonth.value = 11; calYear.value--; }
+    else calMonth.value--;
+}
+function nextCalMonth() {
+    if (calMonth.value === 11) { calMonth.value = 0; calYear.value++; }
+    else calMonth.value++;
+}
+const calDays = computed(() => {
+    const first = new Date(calYear.value, calMonth.value, 1).getDay();
+    const total = new Date(calYear.value, calMonth.value + 1, 0).getDate();
+    const cells = [];
+    for (let i = 0; i < first; i++) cells.push(null);
+    for (let d = 1; d <= total; d++) cells.push(d);
+    return cells;
+});
+function pickDay(day) {
+    if (!day) return;
+    const m   = String(calMonth.value + 1).padStart(2, '0');
+    const d   = String(day).padStart(2, '0');
+    const val = `${calYear.value}-${m}-${d}`;
+    if (datePickerMode.value === 'due_date') itemForm.value.due_date = val;
+    else itemForm.value.payment_date = val;
+}
+function isPickedDay(day) {
+    if (!day) return false;
+    const val = datePickerMode.value === 'due_date' ? itemForm.value.due_date : itemForm.value.payment_date;
+    if (!val) return false;
+    const [y, m, d] = val.split('-').map(Number);
+    return y === calYear.value && m === calMonth.value + 1 && d === day;
+}
+function calDisplayDate(dateStr) {
+    if (!dateStr) return '';
+    const [y, m, d] = dateStr.split('-').map(Number);
+    return new Date(y, m - 1, d).toLocaleDateString(locale.value === 'en' ? 'en-US' : 'id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+}
+const currentPickerDate = computed(() =>
+    datePickerMode.value === 'due_date' ? itemForm.value.due_date : itemForm.value.payment_date
+);
+
+// ─── Notes + Export (new) ─────────────────────────────────────────────────────
+
+const notes = ref([...(props.budgetNotes ?? [])]);
+
+async function postNote(body) {
+    const { data } = await axios.post(route('dashboard.budget-planner.notes.store'), { body });
+    notes.value.unshift(data);
+}
+
+async function deleteNote(id) {
+    await axios.delete(route('dashboard.budget-planner.notes.destroy', id));
+    notes.value = notes.value.filter(n => n.id !== id);
+}
+
+function exportCsv() { window.location.href = route('dashboard.budget-planner.export'); }
+
+const upcomingPayments = computed(() =>
+    (props.items ?? []).filter(it => it.payment_status !== 'paid' && it.due_date).slice(0, 4)
+);
 </script>
 
 <template>
@@ -457,7 +489,7 @@ async function archiveCategory(cat) {
             <h1 class="text-base font-semibold text-stone-800 truncate">{{ t('dashboard.budget.header.title') }}</h1>
         </template>
 
-        <div class="max-w-5xl mx-auto pb-28">
+        <div class="w-full pb-28">
 
             <!-- ── Toast ──────────────────────────────────────────────────── -->
             <Transition name="slide-down">
@@ -478,31 +510,6 @@ async function archiveCategory(cat) {
                     {{ toast.message }}
                 </div>
             </Transition>
-
-            <!-- ── Page Header ─────────────────────────────────────────────── -->
-            <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-6">
-                <div>
-                    <h2 class="text-xl font-semibold text-stone-800" style="font-family: 'Playfair Display', serif">{{ t('dashboard.budget.header.title') }}</h2>
-                    <p class="text-sm text-stone-500 mt-0.5">{{ t('dashboard.budget.header.subtitle') }}</p>
-                </div>
-                <div class="flex items-center gap-2 flex-shrink-0">
-                    <button @click="showManageCats = true"
-                        class="flex items-center gap-1.5 px-3 py-2 text-sm text-stone-600 border border-stone-200 rounded-xl hover:bg-stone-50 transition-colors">
-                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A2 2 0 013 12V7a2 2 0 012-2z"/>
-                        </svg>
-                        {{ t('dashboard.budget.header.manageCategories') }}
-                    </button>
-                    <button @click="openAddItem()"
-                        class="hidden sm:flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-white rounded-xl transition-opacity hover:opacity-90"
-                        style="background-color: #92A89C">
-                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/>
-                        </svg>
-                        {{ t('dashboard.budget.header.addItem') }}
-                    </button>
-                </div>
-            </div>
 
             <!-- ── Onboarding Card ─────────────────────────────────────────── -->
             <div v-if="isFirstTime" class="bg-white border border-[#B8C7BF]/50 rounded-2xl p-6 shadow-sm mb-6">
@@ -542,453 +549,84 @@ async function archiveCategory(cat) {
                 <button @click="openSetBudget" class="ml-auto font-semibold text-[#73877C] underline whitespace-nowrap">{{ t('dashboard.budget.noBudgetNotice.action') }}</button>
             </div>
 
-            <!-- ── Donut Chart + Summary ───────────────────────────────────── -->
-            <div class="bg-white border border-stone-100 rounded-2xl shadow-sm p-4 mb-4">
-                <div class="flex flex-col lg:flex-row lg:items-center gap-6">
-
-                    <!-- Donut chart -->
-                    <div class="flex flex-col items-center flex-shrink-0">
-                        <div class="relative w-44 h-44">
-                            <svg viewBox="0 0 36 36" class="w-full h-full -rotate-90">
-                                <!-- Background ring -->
-                                <circle cx="18" cy="18" r="15.9155" fill="none" stroke="#F5F0EB" stroke-width="3.8"/>
-                                <!-- Slices -->
-                                <circle
-                                    v-for="(slice, i) in donutSlices" :key="slice.id"
-                                    cx="18" cy="18" r="15.9155"
-                                    fill="none"
-                                    :stroke="slice.color"
-                                    stroke-width="3.8"
-                                    :stroke-dasharray="`${slice.pct} ${100 - slice.pct}`"
-                                    :stroke-dashoffset="25 - slice.offset"
-                                    :class="['cursor-pointer transition-all duration-150', selectedSlice === slice.id ? 'opacity-100' : (selectedSlice ? 'opacity-50' : 'opacity-100')]"
-                                    @click.prevent="selectSlice(slice.id)"
-                                />
-                            </svg>
-                            <!-- Center label -->
-                            <div class="absolute inset-0 flex flex-col items-center justify-center text-center px-2">
-                                <template v-if="donutSlices.length === 0">
-                                    <span class="text-xs text-stone-400">{{ t('dashboard.budget.chart.setBudgetFirst') }}</span>
-                                </template>
-                                <template v-else>
-                                    <span class="text-xs text-stone-400 leading-tight">{{ donutCenterLabel.primary }}</span>
-                                    <span
-                                        class="text-sm font-bold leading-tight mt-0.5"
-                                        :class="donutCenterLabel.overbudget ? 'text-rose-600' : 'text-stone-800'"
-                                    >{{ donutCenterLabel.amount }}</span>
-                                    <span v-if="donutCenterLabel.secondary" class="text-xs text-stone-400 leading-tight mt-0.5 truncate w-full px-1">
-                                        {{ donutCenterLabel.secondary }}
-                                    </span>
-                                </template>
-                            </div>
-                        </div>
-
-                        <!-- Legend (mobile: scrollable row) -->
-                        <div class="flex flex-wrap justify-center gap-x-3 gap-y-1 mt-3 max-w-xs">
-                            <button
-                                v-for="(slice, i) in donutSlices" :key="slice.id"
-                                @click="selectSlice(slice.id)"
-                                class="flex items-center gap-1 text-xs text-stone-600 hover:text-stone-800"
-                            >
-                                <span class="w-2 h-2 rounded-full flex-shrink-0" :style="{ backgroundColor: slice.color }"/>
-                                <span class="truncate max-w-[80px]">{{ slice.name }}</span>
-                            </button>
-                        </div>
+            <!-- ══════════════ NEW MOCKUP COMPOSITION ════════════════════════ -->
+            <div class="w-full">
+                <!-- Page header row -->
+                <div class="flex items-end justify-between gap-3 mb-5 flex-wrap">
+                    <div>
+                        <h1 class="font-cormorant font-medium text-[30px] tracking-tight" style="color:#1F2A2E;">{{ t('dashboard.budget.pageTitle') }}</h1>
+                        <p class="text-[13px] max-w-xl" style="color:#6C7A75;">{{ t('dashboard.budget.pageSub') }}</p>
                     </div>
-
-                    <!-- Summary stats -->
-                    <div class="flex-1 grid grid-cols-2 gap-3">
-                        <!-- Total Budget -->
-                        <div class="bg-stone-50 rounded-xl p-3">
-                            <p class="text-xs text-stone-400 font-medium">{{ t('dashboard.budget.summary.totalBudget') }}</p>
-                            <p class="text-base font-bold text-stone-800 mt-0.5 leading-tight">
-                                {{ summary.has_budget ? summary.formatted.total_budget : '—' }}
-                            </p>
-                            <button @click="openSetBudget" class="mt-1 text-xs font-medium transition-colors" style="color: #92A89C">
-                                {{ summary.has_budget ? t('dashboard.budget.summary.changeBudget') : t('dashboard.budget.summary.setBudget') }}
-                            </button>
-                        </div>
-
-                        <!-- Total Planned -->
-                        <div class="bg-stone-50 rounded-xl p-3">
-                            <p class="text-xs text-stone-400 font-medium">{{ t('dashboard.budget.summary.totalPlanned') }}</p>
-                            <p class="text-base font-bold text-stone-800 mt-0.5 leading-tight">
-                                {{ summary.formatted.total_planned }}
-                            </p>
-                            <p class="mt-1 text-xs text-stone-400">{{ t('dashboard.budget.summary.fromAllItems') }}</p>
-                        </div>
-
-                        <!-- Used -->
-                        <div class="bg-stone-50 rounded-xl p-3">
-                            <p class="text-xs text-stone-400 font-medium">{{ t('dashboard.budget.summary.used') }}</p>
-                            <p class="text-base font-bold mt-0.5 leading-tight"
-                               :class="summary.is_total_overbudget ? 'text-rose-600' : 'text-stone-800'">
-                                {{ summary.formatted.total_actual }}
-                            </p>
-                            <p v-if="summary.is_total_overbudget" class="mt-1 text-xs text-rose-500 font-medium">
-                                {{ t('dashboard.budget.summary.overBudget') }}
-                            </p>
-                            <p v-else class="mt-1 text-xs text-stone-400">{{ t('dashboard.budget.summary.recorded') }}</p>
-                        </div>
-
-                        <!-- Remaining -->
-                        <div class="bg-stone-50 rounded-xl p-3">
-                            <p class="text-xs text-stone-400 font-medium">{{ t('dashboard.budget.summary.remaining') }}</p>
-                            <p class="text-base font-bold mt-0.5 leading-tight"
-                               :class="summary.remaining_budget < 0 ? 'text-rose-600' : 'text-stone-800'">
-                                {{ summary.has_budget ? summary.formatted.remaining_budget : '—' }}
-                            </p>
-                            <p v-if="summary.overbudget_categories_count > 0" class="mt-1 text-xs text-[#73877C]">
-                                {{ t('dashboard.budget.summary.categoriesOver', { count: summary.overbudget_categories_count }) }}
-                            </p>
-                            <p v-else class="mt-1 text-xs text-stone-400">
-                                {{ summary.has_budget ? t('dashboard.budget.summary.fundsLeft') : t('dashboard.budget.summary.setBudgetFirst') }}
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Progress bar (only when budget set) -->
-                <div v-if="hasBudget" class="mt-4 pt-4 border-t border-stone-100">
-                    <div class="flex items-center justify-between mb-1.5">
-                        <p class="text-xs text-stone-500">{{ t('dashboard.budget.summary.budgetUsed') }}</p>
-                        <div class="flex items-center gap-2">
-                            <span v-if="summary.is_total_overbudget"
-                                  class="text-xs font-semibold bg-rose-100 text-rose-700 px-2 py-0.5 rounded-full">{{ t('dashboard.budget.summary.overbudgetBadge') }}</span>
-                            <span class="text-xs font-bold text-stone-700">{{ progressPct }}%</span>
-                        </div>
-                    </div>
-                    <div class="h-2.5 bg-stone-100 rounded-full overflow-hidden">
-                        <div class="h-full rounded-full transition-all duration-500"
-                             :style="{ width: progressPct + '%', backgroundColor: progressColor }"/>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ── View Toggle ─────────────────────────────────────────────── -->
-            <div class="flex items-center gap-1 bg-stone-100 rounded-xl p-1 mb-4 w-fit">
-                <button
-                    @click="activeView = 'category'"
-                    :class="['px-4 py-1.5 text-sm font-medium rounded-lg transition-all', activeView === 'category' ? 'bg-white text-stone-800 shadow-sm' : 'text-stone-500 hover:text-stone-700']"
-                >{{ t('dashboard.budget.view.byCategory') }}</button>
-                <button
-                    @click="activeView = 'item'"
-                    :class="['px-4 py-1.5 text-sm font-medium rounded-lg transition-all', activeView === 'item' ? 'bg-white text-stone-800 shadow-sm' : 'text-stone-500 hover:text-stone-700']"
-                >{{ t('dashboard.budget.view.byItem') }}</button>
-            </div>
-
-            <!-- ═══════════════ CATEGORY VIEW ═══════════════════════════════ -->
-            <template v-if="activeView === 'category'">
-                <div v-if="!categoryBreakdown?.length" class="bg-white border border-stone-100 rounded-2xl p-8 text-center shadow-sm">
-                    <div class="w-12 h-12 bg-stone-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                        <svg class="w-6 h-6 text-stone-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A2 2 0 013 12V7a2 2 0 012-2z"/>
-                        </svg>
-                    </div>
-                    <p class="text-sm font-medium text-stone-600">{{ t('dashboard.budget.category.emptyTitle') }}</p>
-                    <p class="text-xs text-stone-400 mt-1">{{ t('dashboard.budget.category.emptySubtitle') }}</p>
-                    <button @click="openAddItem()" class="mt-3 text-sm font-medium" style="color: #92A89C">{{ t('dashboard.budget.category.emptyAction') }}</button>
-                </div>
-
-                <div v-else class="space-y-2">
-                    <div
-                        v-for="(cat, catIdx) in categoryBreakdown" :key="cat.id"
-                        class="bg-white border border-stone-100 rounded-2xl shadow-sm overflow-hidden"
-                    >
-                        <!-- Category header (always visible) -->
-                        <button
-                            class="w-full px-4 pt-4 pb-3 flex items-start gap-3 text-left"
-                            @click="toggleCat(cat.id)"
-                        >
-                            <!-- Color dot -->
-                            <span class="mt-0.5 w-3 h-3 rounded-full flex-shrink-0"
-                                  :style="{ backgroundColor: catColor(cat, catIdx) }"/>
-
-                            <div class="flex-1 min-w-0">
-                                <div class="flex items-center gap-2 flex-wrap">
-                                    <h3 class="text-sm font-semibold text-stone-800">{{ cat.name }}</h3>
-                                    <!-- Status badge -->
-                                    <span :class="['text-xs font-medium px-2 py-0.5 rounded-full flex items-center gap-1', statusCfg(cat.status).bg, statusCfg(cat.status).text]">
-                                        <span class="w-1.5 h-1.5 rounded-full" :style="{ backgroundColor: statusCfg(cat.status).dot }"/>
-                                        {{ statusCfg(cat.status).label }}
-                                    </span>
-                                </div>
-
-                                <!-- Compact amount row (mobile) -->
-                                <p class="text-xs text-stone-400 mt-0.5 sm:hidden">
-                                    {{ cat.formatted.actual_total }} / {{ cat.formatted.planned_total }}
-                                </p>
-
-                                <!-- Mini progress bar -->
-                                <div class="h-1 bg-stone-100 rounded-full overflow-hidden mt-2">
-                                    <div class="h-full rounded-full transition-all duration-500"
-                                         :style="{ width: cat.usage_percentage + '%', backgroundColor: statusCfg(cat.status).bar }"/>
-                                </div>
-
-                                <!-- Desktop amount row -->
-                                <div class="hidden sm:grid grid-cols-3 gap-2 text-xs mt-2">
-                                    <div>
-                                        <p class="text-stone-400">{{ t('dashboard.budget.item.planned') }}</p>
-                                        <p class="font-semibold text-stone-700">{{ cat.formatted.planned_total }}</p>
-                                    </div>
-                                    <div>
-                                        <p class="text-stone-400">{{ t('dashboard.budget.item.used') }}</p>
-                                        <p class="font-semibold" :class="cat.status === 'melebihi' ? 'text-rose-600' : 'text-stone-700'">
-                                            {{ cat.formatted.actual_total }}
-                                        </p>
-                                    </div>
-                                    <div>
-                                        <p class="text-stone-400">{{ t('dashboard.budget.item.remaining') }}</p>
-                                        <p class="font-semibold" :class="cat.remaining < 0 ? 'text-rose-600' : 'text-stone-700'">
-                                            {{ cat.formatted.remaining }}
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Expand chevron + item count -->
-                            <div class="flex items-center gap-2 flex-shrink-0 mt-0.5">
-                                <span class="text-xs text-stone-400">{{ cat.items_count }}</span>
-                                <svg class="w-4 h-4 text-stone-400 transition-transform duration-200"
-                                     :class="expandedCats.has(cat.id) ? 'rotate-180' : ''"
-                                     fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                                </svg>
-                            </div>
+                    <div class="flex items-center gap-2 flex-wrap">
+                        <button type="button" @click="exportCsv" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[12px] font-semibold" style="color:#4A5A4C; border:1px solid #C7D0BE;">
+                            <WidgetIcon name="download" :size="13" stroke="#4A5A4C" /> {{ t('dashboard.budget.export') }}
                         </button>
+                        <button type="button" @click="showManageCats = true" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[12px] font-semibold" style="color:#4A5A4C; border:1px solid #C7D0BE;">
+                            {{ t('dashboard.budget.header.manageCategories') }}
+                        </button>
+                        <button type="button" @click="showSetBudget = true" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[12px] font-semibold" style="color:#4A5A4C; border:1px solid #C7D0BE;">
+                            {{ t('dashboard.budget.setBudget') }}
+                        </button>
+                        <button type="button" @click="showAddItem = true" class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-[12px] font-semibold text-white" style="background:#1F2A2E;">
+                            <WidgetIcon name="plus" :size="13" stroke="#fff" /> {{ t('dashboard.budget.addExpense') }}
+                        </button>
+                    </div>
+                </div>
 
-                        <!-- Inline item list (expanded) -->
-                        <Transition name="expand">
-                            <div v-if="expandedCats.has(cat.id)" class="border-t border-stone-100">
-                                <!-- Empty state for category -->
-                                <div v-if="!cat.items?.length" class="px-4 py-5 text-center">
-                                    <p class="text-xs text-stone-400">{{ t('dashboard.budget.category.noItems') }}</p>
-                                    <button @click="openAddItem(cat.id)" class="mt-2 text-xs font-medium" style="color: #92A89C">
-                                        {{ t('dashboard.budget.category.addItem') }}
-                                    </button>
-                                </div>
+                <!-- Two-column: content (left) + rail (right, full height) -->
+                <div class="grid gap-5 lg:grid-cols-[1fr_320px] items-start">
+                    <!-- LEFT: hero + donut/bars + transactions -->
+                    <div class="min-w-0">
+                        <BudgetHero :summary="summary" />
 
-                                <!-- Item rows -->
-                                <div v-else class="divide-y divide-stone-50">
-                                    <div v-for="item in cat.items" :key="item.id" class="px-4 py-3">
-                                        <div class="flex items-start justify-between gap-2">
-                                            <div class="flex-1 min-w-0">
-                                                <div class="flex items-center gap-2 flex-wrap">
-                                                    <p class="text-sm font-medium text-stone-800 truncate">{{ item.title }}</p>
-                                                    <!-- Payment badge -->
-                                                    <span :class="['text-xs font-medium px-2 py-0.5 rounded-full', paymentBadge[item.payment_status]]">
-                                                        {{ paymentLabel[item.payment_status] }}
-                                                    </span>
-                                                    <!-- Due date warning -->
-                                                    <span v-if="item.due_date_warning === 'overdue'"
-                                                          class="text-xs font-medium px-2 py-0.5 rounded-full bg-rose-100 text-rose-700">
-                                                        {{ t('dashboard.budget.item.overdue') }}
-                                                    </span>
-                                                    <span v-else-if="item.due_date_warning === 'soon'"
-                                                          class="text-xs font-medium px-2 py-0.5 rounded-full bg-[#92A89C]/20 text-[#73877C]">
-                                                        {{ t('dashboard.budget.item.soon') }}
-                                                    </span>
-                                                </div>
+                        <div class="grid gap-5 lg:grid-cols-[300px_1fr] mt-6 mb-7">
+                            <BudgetDonutCard :categories="categoryBreakdown" />
+                            <CategoryBarsCard :categories="categoryBreakdown" />
+                        </div>
 
-                                                <p v-if="item.vendor_name" class="text-xs text-stone-400 mt-0.5">{{ item.vendor_name }}</p>
-
-                                                <!-- Amounts -->
-                                                <div class="flex items-center gap-3 text-xs mt-1.5 flex-wrap">
-                                                    <span class="text-stone-400">
-                                                        {{ t('dashboard.budget.item.planned') }}: <span class="text-stone-600 font-medium">{{ item.formatted.planned_amount }}</span>
-                                                    </span>
-                                                    <span class="text-stone-400">
-                                                        {{ t('dashboard.budget.item.used') }}: <span :class="['font-medium', item.sisa < 0 ? 'text-rose-600' : 'text-stone-600']">{{ item.formatted.terpakai }}</span>
-                                                    </span>
-                                                    <span class="text-stone-400">
-                                                        {{ t('dashboard.budget.item.remaining') }}: <span :class="['font-medium', item.sisa < 0 ? 'text-rose-600' : 'text-stone-600']">
-                                                            {{ item.sisa < 0 ? '-' : '' }}{{ item.formatted.sisa }}
-                                                        </span>
-                                                    </span>
-                                                </div>
-
-                                                <!-- DP / Pelunasan tracking -->
-                                                <div v-if="item.dp_amount !== null || item.final_amount !== null" class="flex items-center gap-3 mt-1.5 text-xs flex-wrap">
-                                                    <button
-                                                        v-if="item.dp_amount !== null"
-                                                        @click="togglePayment(item, 'dp_paid')"
-                                                        :class="['flex items-center gap-1 px-2 py-1 rounded-lg border transition-colors',
-                                                            item.dp_paid ? 'bg-emerald-50 border-emerald-200 text-emerald-700' : 'border-stone-200 text-stone-500 hover:bg-stone-50']"
-                                                    >
-                                                        <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                            <path v-if="item.dp_paid" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
-                                                            <path v-else stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
-                                                        </svg>
-                                                        {{ t('dashboard.budget.item.dp', { amount: item.formatted.dp_amount }) }}
-                                                    </button>
-                                                    <button
-                                                        v-if="item.final_amount !== null"
-                                                        @click="togglePayment(item, 'final_paid')"
-                                                        :class="['flex items-center gap-1 px-2 py-1 rounded-lg border transition-colors',
-                                                            item.final_paid ? 'bg-emerald-50 border-emerald-200 text-emerald-700' : 'border-stone-200 text-stone-500 hover:bg-stone-50']"
-                                                    >
-                                                        <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                            <path v-if="item.final_paid" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
-                                                            <path v-else stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
-                                                        </svg>
-                                                        {{ t('dashboard.budget.item.settlement', { amount: item.formatted.final_amount }) }}
-                                                    </button>
-                                                </div>
-
-                                                <!-- Due date -->
-                                                <p v-if="item.due_date_label" class="text-xs text-stone-400 mt-1">
-                                                    📅 {{ t('dashboard.budget.item.dueDate', { date: item.due_date_label }) }}
-                                                </p>
-                                            </div>
-
-                                            <!-- Edit / Archive -->
-                                            <div class="flex items-center gap-1 flex-shrink-0">
-                                                <button @click="openEditItem(item)"
-                                                    class="p-1.5 text-stone-400 hover:text-stone-700 hover:bg-stone-100 rounded-lg transition-colors"
-                                                    :title="t('dashboard.budget.modal.addItem.titleEdit')">
-                                                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
-                                                    </svg>
-                                                </button>
-                                                <button @click="confirmArchiveItem(item)"
-                                                    class="p-1.5 text-stone-400 hover:text-rose-500 hover:bg-rose-50 rounded-lg transition-colors"
-                                                    :title="t('dashboard.budget.modal.confirmArchive.confirm')">
-                                                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/>
-                                                    </svg>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Add item to this category -->
-                                <div class="px-4 py-3 border-t border-stone-50">
-                                    <button @click="openAddItem(cat.id)"
-                                        class="flex items-center gap-1.5 text-xs font-medium transition-colors"
-                                        style="color: #92A89C">
-                                        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/>
-                                        </svg>
-                                        {{ t('dashboard.budget.category.addItemTo', { name: cat.name }) }}
-                                    </button>
-                                </div>
+                        <!-- Transactions header with search/filter/sort -->
+                        <div class="flex items-end justify-between gap-3 mb-3 flex-wrap">
+                            <div>
+                                <h2 class="font-cormorant font-medium text-[24px] tracking-tight" style="color:#1F2A2E;">{{ t('dashboard.budget.transactions.title') }}</h2>
+                                <p class="text-[12.5px]" style="color:#6C7A75;">{{ t('dashboard.budget.transactions.sub', { count: items?.length ?? 0 }) }}</p>
                             </div>
-                        </Transition>
-                    </div>
-                </div>
-            </template>
-
-            <!-- ═══════════════ ITEM LIST VIEW ═══════════════════════════════ -->
-            <template v-else>
-                <!-- Search + Filter row -->
-                <div class="flex gap-2 mb-3">
-                    <div class="relative flex-1">
-                        <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                        </svg>
-                        <input v-model="searchQuery" type="search" :placeholder="t('dashboard.budget.itemList.searchPlaceholder')"
-                            class="w-full pl-9 pr-3 py-2.5 text-sm bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:border-transparent"
-                            style="--tw-ring-color: #92A89C" />
-                    </div>
-                    <button @click="showFilterSheet = true"
-                        :class="['flex items-center gap-1.5 px-3 py-2.5 text-sm border rounded-xl transition-colors',
-                            (filterStatus !== 'all' || filterCategory || sortBy !== 'newest')
-                                ? 'bg-[#92A89C]/10 border-[#B8C7BF] text-[#73877C] font-medium'
-                                : 'bg-white border-stone-200 text-stone-600 hover:bg-stone-50']"
-                    >
-                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2a1 1 0 01-.293.707L13 13.414V19a1 1 0 01-.553.894l-4 2A1 1 0 017 21v-7.586L3.293 6.707A1 1 0 013 6V4z"/>
-                        </svg>
-                        {{ t('dashboard.budget.itemList.filter') }}
-                    </button>
-                </div>
-
-                <!-- Empty state -->
-                <div v-if="!items?.length" class="bg-white border border-stone-100 rounded-2xl p-8 text-center shadow-sm">
-                    <div class="w-12 h-12 bg-stone-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                        <svg class="w-6 h-6 text-stone-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
-                        </svg>
-                    </div>
-                    <template v-if="searchQuery || filterStatus !== 'all' || filterCategory">
-                        <p class="text-sm font-medium text-stone-600">{{ t('dashboard.budget.itemList.emptyNoMatch') }}</p>
-                        <p class="text-xs text-stone-400 mt-1">{{ t('dashboard.budget.itemList.emptyNoMatchHint') }}</p>
-                        <button @click="clearFilters" class="mt-3 text-sm font-medium" style="color: #92A89C">{{ t('dashboard.budget.itemList.resetFilter') }}</button>
-                    </template>
-                    <template v-else>
-                        <p class="text-sm font-medium text-stone-600">{{ t('dashboard.budget.itemList.emptyTitle') }}</p>
-                        <p class="text-xs text-stone-400 mt-1">{{ t('dashboard.budget.itemList.emptySubtitle') }}</p>
-                        <button @click="openAddItem()" class="mt-3 text-sm font-medium" style="color: #92A89C">{{ t('dashboard.budget.itemList.emptyAction') }}</button>
-                    </template>
-                </div>
-
-                <!-- Item cards -->
-                <div v-else class="space-y-2">
-                    <div v-for="item in items" :key="item.id" class="bg-white border border-stone-100 rounded-2xl p-4 shadow-sm">
-                        <div class="flex items-start justify-between gap-3">
-                            <div class="flex-1 min-w-0">
-                                <div class="flex items-center gap-2 flex-wrap mb-1">
-                                    <p class="text-sm font-semibold text-stone-800 truncate">{{ item.title }}</p>
-                                    <span :class="['text-xs font-medium px-2 py-0.5 rounded-full', paymentBadge[item.payment_status]]">
-                                        {{ paymentLabel[item.payment_status] }}
-                                    </span>
-                                    <span v-if="item.due_date_warning === 'overdue'"
-                                          class="text-xs font-medium px-2 py-0.5 rounded-full bg-rose-100 text-rose-700">{{ t('dashboard.budget.item.overdue') }}</span>
-                                    <span v-else-if="item.due_date_warning === 'soon'"
-                                          class="text-xs font-medium px-2 py-0.5 rounded-full bg-[#92A89C]/20 text-[#73877C]">{{ t('dashboard.budget.item.soon') }}</span>
-                                </div>
-                                <p class="text-xs text-stone-400 mb-2">
-                                    {{ item.category?.name }}
-                                    <span v-if="item.vendor_name"> · {{ item.vendor_name }}</span>
-                                </p>
-                                <div class="flex items-center gap-4 text-xs flex-wrap">
-                                    <span class="text-stone-400">{{ t('dashboard.budget.item.planned') }}: <span class="font-semibold text-stone-700">{{ item.formatted.planned_amount }}</span></span>
-                                    <span class="text-stone-400">{{ t('dashboard.budget.item.used') }}: <span :class="['font-semibold', item.sisa < 0 ? 'text-rose-600' : 'text-stone-700']">{{ item.formatted.terpakai }}</span></span>
-                                </div>
-                                <!-- DP / final inline -->
-                                <div v-if="item.dp_amount !== null || item.final_amount !== null" class="flex gap-2 mt-1.5 text-xs flex-wrap">
-                                    <button v-if="item.dp_amount !== null"
-                                        @click="togglePayment(item, 'dp_paid')"
-                                        :class="['flex items-center gap-1 px-2 py-1 rounded-lg border transition-colors',
-                                            item.dp_paid ? 'bg-emerald-50 border-emerald-200 text-emerald-700' : 'border-stone-200 text-stone-500 hover:bg-stone-50']">
-                                        <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path v-if="item.dp_paid" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
-                                            <path v-else stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
-                                        </svg>
-                                        {{ t('dashboard.budget.item.dp', { amount: item.formatted.dp_amount }) }}
-                                    </button>
-                                    <button v-if="item.final_amount !== null"
-                                        @click="togglePayment(item, 'final_paid')"
-                                        :class="['flex items-center gap-1 px-2 py-1 rounded-lg border transition-colors',
-                                            item.final_paid ? 'bg-emerald-50 border-emerald-200 text-emerald-700' : 'border-stone-200 text-stone-500 hover:bg-stone-50']">
-                                        <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path v-if="item.final_paid" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
-                                            <path v-else stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
-                                        </svg>
-                                        {{ t('dashboard.budget.item.settlement', { amount: item.formatted.final_amount }) }}
-                                    </button>
-                                </div>
-                                <p v-if="item.due_date_label" class="text-xs text-stone-400 mt-1">📅 {{ t('dashboard.budget.item.dueDate', { date: item.due_date_label }) }}</p>
-                            </div>
-                            <div class="flex items-center gap-1 flex-shrink-0">
-                                <button @click="openEditItem(item)"
-                                    class="p-2 text-stone-400 hover:text-stone-700 hover:bg-stone-100 rounded-lg transition-colors" :title="t('dashboard.budget.modal.addItem.titleEdit')">
-                                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                            <!-- Search + Filter controls (reload logic preserved) -->
+                            <div class="flex gap-2 items-center">
+                                <div class="relative">
+                                    <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                                     </svg>
-                                </button>
-                                <button @click="confirmArchiveItem(item)"
-                                    class="p-2 text-stone-400 hover:text-rose-500 hover:bg-rose-50 rounded-lg transition-colors" :title="t('dashboard.budget.modal.confirmArchive.confirm')">
+                                    <input v-model="searchQuery" type="search" :placeholder="t('dashboard.budget.itemList.searchPlaceholder')"
+                                        class="pl-9 pr-3 py-2 text-sm bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:border-transparent w-44"
+                                        style="--tw-ring-color: #92A89C" />
+                                </div>
+                                <button @click="showFilterSheet = true"
+                                    :class="['flex items-center gap-1.5 px-3 py-2 text-sm border rounded-xl transition-colors',
+                                        (filterStatus !== 'all' || filterCategory || sortBy !== 'newest')
+                                            ? 'bg-[#92A89C]/10 border-[#B8C7BF] text-[#73877C] font-medium'
+                                            : 'bg-white border-stone-200 text-stone-600 hover:bg-stone-50']"
+                                >
                                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2a1 1 0 01-.293.707L13 13.414V19a1 1 0 01-.553.894l-4 2A1 1 0 017 21v-7.586L3.293 6.707A1 1 0 013 6V4z"/>
                                     </svg>
+                                    {{ t('dashboard.budget.itemList.filter') }}
                                 </button>
                             </div>
                         </div>
+
+                        <TransactionsTable :items="items" @edit="openEditItem" />
                     </div>
+
+                    <!-- RIGHT: rail (full height) -->
+                    <aside class="flex flex-col gap-4">
+                        <UpcomingPaymentsRail :payments="upcomingPayments" />
+                        <AiInsightRail />
+                        <CoupleNotesRail :notes="notes" @post="postNote" @delete="deleteNote" />
+                    </aside>
                 </div>
-            </template>
+            </div>
+            <!-- ════════════════ END MOCKUP ═══════════════════════════════════ -->
+
         </div>
 
         <!-- ── Mobile FAB ──────────────────────────────────────────────────── -->
@@ -1227,6 +865,8 @@ async function archiveCategory(cat) {
                     </div>
 
                     <div class="px-5 py-4 border-t border-stone-100 flex gap-2">
+                        <button v-if="showEditItem && editingItem" @click="showEditItem = false; confirmArchiveItem(editingItem)"
+                            class="px-4 py-2.5 text-sm font-medium text-red-500 border border-red-100 rounded-xl hover:bg-red-50 transition-colors">{{ t('common.delete') }}</button>
                         <button @click="showAddItem = showEditItem = false"
                             class="flex-1 py-2.5 text-sm text-stone-600 border border-stone-200 rounded-xl hover:bg-stone-50 transition-colors">{{ t('dashboard.budget.modal.addItem.cancel') }}</button>
                         <button @click="saveItem"
@@ -1355,6 +995,7 @@ async function archiveCategory(cat) {
                 </div>
             </div>
         </Transition>
+
         <!-- ── Date Picker Modal ──────────────────────────────────────────── -->
         <Teleport to="body">
             <Transition name="modal">
@@ -1395,7 +1036,7 @@ async function archiveCategory(cat) {
                         <div class="grid grid-cols-7 px-4 pb-1">
                             <div v-for="d in DAYS_ID" :key="d"
                                  class="text-center text-xs font-semibold py-1"
-                                 :class="d === 'Min' ? 'text-rose-400' : 'text-stone-400'">{{ d }}</div>
+                                 :class="d === t('dashboard.checklist.days.sun') ? 'text-rose-400' : 'text-stone-400'">{{ d }}</div>
                         </div>
                         <div class="grid grid-cols-7 px-4 pb-3 gap-y-1">
                             <div v-for="(day, i) in calDays" :key="i" class="flex items-center justify-center aspect-square">

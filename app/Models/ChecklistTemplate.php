@@ -20,6 +20,7 @@ class ChecklistTemplate extends Model
     protected $fillable = [
         'name',
         'category',
+        'wedding_types',
         'title',
         'description',
         'day_offset',
@@ -31,11 +32,12 @@ class ChecklistTemplate extends Model
     protected function casts(): array
     {
         return [
-            'category'   => ChecklistTaskCategory::class,
-            'priority'   => ChecklistTaskPriority::class,
-            'is_active'  => 'boolean',
-            'day_offset' => 'integer',
-            'sort_order' => 'integer',
+            'category'      => ChecklistTaskCategory::class,
+            'priority'      => ChecklistTaskPriority::class,
+            'wedding_types' => 'array',
+            'is_active'     => 'boolean',
+            'day_offset'    => 'integer',
+            'sort_order'    => 'integer',
         ];
     }
 

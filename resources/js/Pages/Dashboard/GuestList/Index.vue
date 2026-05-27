@@ -3,6 +3,7 @@ import DashboardLayout from '@/Layouts/DashboardLayout.vue';
 import { ref, reactive, computed, onMounted, watch } from 'vue';
 import axios from 'axios';
 import { useLocale } from '@/Composables/useLocale';
+import { guestListCache } from '@/Composables/guestListCache';
 
 const { t } = useLocale();
 
@@ -14,11 +15,12 @@ const props = defineProps({
 });
 
 // ── State ──────────────────────────────────────────────────────────────────
-const guests      = ref([]);
-const guestsMeta  = ref({ total: 0, current_page: 1, last_page: 1, per_page: 20 });
-const summary     = ref({ total: 0, not_sent: 0, sent: 0, opened: 0, attending: 0, not_attending: 0, pending_rsvp: 0 });
-const categories  = ref([]);
-const loading     = ref(true);
+// Hydrate from the SPA-lived cache so returning is instant (revalidate quietly).
+const guests      = ref(guestListCache.guests ?? []);
+const guestsMeta  = ref(guestListCache.guestsMeta ?? { total: 0, current_page: 1, last_page: 1, per_page: 20 });
+const summary     = ref(guestListCache.summary ?? { total: 0, not_sent: 0, sent: 0, opened: 0, attending: 0, not_attending: 0, pending_rsvp: 0 });
+const categories  = ref(guestListCache.categories ?? []);
+const loading     = ref(guestListCache.summary === null);
 const loadingGuests = ref(false);
 const error       = ref(null);
 
@@ -139,7 +141,13 @@ const suggestedCategories = computed(() => {
 // ── Bootstrap ──────────────────────────────────────────────────────────────
 onMounted(async () => {
     try {
-        await Promise.all([loadGuests(), loadSummary(), loadCategories()]);
+        if (guestListCache.summary !== null) {
+            // Cached → render instantly, revalidate in the background.
+            loading.value = false;
+            Promise.all([loadGuests(), loadSummary(), loadCategories()]).catch(() => {});
+        } else {
+            await Promise.all([loadGuests(), loadSummary(), loadCategories()]);
+        }
     } catch (e) {
         error.value = t('dashboard.guests.loadError');
     } finally {
@@ -151,6 +159,13 @@ onMounted(async () => {
         templateForm.content = props.defaultTemplate.content;
     }
 });
+
+// Only the default (unfiltered, first-page) view matches a fresh mount, so we
+// only cache that — otherwise a revisit could flash stale, filtered results.
+function isDefaultGuestView() {
+    return !search.value && !filters.send_status && !filters.rsvp_status
+        && !filters.category && !filters.invitation_id && page.value === 1;
+}
 
 // ── Watchers ───────────────────────────────────────────────────────────────
 watch(search, () => {
@@ -175,6 +190,10 @@ async function loadGuests() {
         guests.value     = data.data;
         guestsMeta.value = data.meta;
         selected.value   = [];
+        if (isDefaultGuestView()) {
+            guestListCache.guests     = data.data;
+            guestListCache.guestsMeta = data.meta;
+        }
     } finally {
         loadingGuests.value = false;
     }
@@ -185,11 +204,13 @@ async function loadSummary() {
     if (filters.invitation_id) params.invitation_id = filters.invitation_id;
     const { data } = await axios.get(route('dashboard.guest-list.summary'), { params });
     summary.value = data;
+    if (!filters.invitation_id) guestListCache.summary = data;
 }
 
 async function loadCategories() {
     const { data } = await axios.get(route('dashboard.guest-list.categories'));
     categories.value = data.categories;
+    guestListCache.categories = data.categories;
 }
 
 async function changePage(p) {

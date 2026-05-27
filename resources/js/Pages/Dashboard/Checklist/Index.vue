@@ -3,6 +3,20 @@ import DashboardLayout from '@/Layouts/DashboardLayout.vue';
 import { ref, computed, reactive, onMounted, watch } from 'vue';
 import axios from 'axios';
 import { useLocale } from '@/Composables/useLocale';
+import ChecklistProgressHero from '@/Components/dashboard/checklist/ChecklistProgressHero.vue';
+import ChecklistStatStrip from '@/Components/dashboard/checklist/ChecklistStatStrip.vue';
+import ChecklistFilterChips from '@/Components/dashboard/checklist/ChecklistFilterChips.vue';
+import ChecklistViewToggle from '@/Components/dashboard/checklist/ChecklistViewToggle.vue';
+import TaskKanban from '@/Components/dashboard/checklist/TaskKanban.vue';
+import ReminderRail from '@/Components/dashboard/checklist/rail/ReminderRail.vue';
+import TemplatePresetsRail from '@/Components/dashboard/checklist/rail/TemplatePresetsRail.vue';
+import PicSplitRail from '@/Components/dashboard/checklist/rail/PicSplitRail.vue';
+import WidgetIcon from '@/Components/dashboard/WidgetIcon.vue';
+import MobileChecklist  from '@/Components/dashboard/checklist/mobile/MobileChecklist.vue';
+import MobileFilterSheet from '@/Components/dashboard/checklist/mobile/MobileFilterSheet.vue';
+import MobileTaskSheet   from '@/Components/dashboard/checklist/mobile/MobileTaskSheet.vue';
+import { useMediaQuery } from '@/Composables/useMediaQuery';
+import { checklistCache } from '@/Composables/checklistCache';
 
 const { t, locale } = useLocale();
 
@@ -10,10 +24,14 @@ const props = defineProps({
     weddingPlan: Object,
 });
 
+const SUMMARY_DEFAULT = { total: 0, todo: 0, done: 0, archived: 0, progress: 0, overdue: 0, upcoming_7d: 0, has_event_date: false };
+
 // ── State ──────────────────────────────────────────────────────────────────
-const tasks          = ref([]);
-const summary        = ref({ total: 0, todo: 0, done: 0, archived: 0, progress: 0, overdue: 0, upcoming_7d: 0, has_event_date: false });
-const loading        = ref(true);
+// Hydrate from the SPA-lived cache so returning to the Planner is instant —
+// no spinner on every revisit; we revalidate quietly in the background instead.
+const tasks          = ref(checklistCache.tasks ?? []);
+const summary        = ref(checklistCache.summary ?? { ...SUMMARY_DEFAULT });
+const loading        = ref(checklistCache.tasks === null && !!props.weddingPlan?.initialized);
 const error          = ref(null);
 const filterStatus   = ref('');
 const filterCat      = ref('');
@@ -28,6 +46,14 @@ const showForm       = ref(false);
 const editingTask    = ref(null);
 const togglingId     = ref(null);
 const moveDoneToBottom = ref(false);
+const view           = ref('timeline');  // 'timeline' | 'list' | 'kanban'
+const activeChip     = ref('all');
+
+// ── First-run setup choice ────────────────────────────────────────────────
+// The plan is "initialized" once the couple picks standard template OR blank.
+const initialized  = ref(!!props.weddingPlan?.initialized);
+const setupLoading = ref(null); // 'standard' | 'blank' while a choice is saving
+const hasSystemTasks = computed(() => tasks.value.some(t => t.source === 'system'));
 
 // ── Expand state — default empty = all closed ─────────────────────────────
 const EXPAND_KEY = 'checklist_expanded_v1';
@@ -212,6 +238,7 @@ const emptyForm = () => ({
     assignee_label:       '',
     reminder_enabled:     false,
     reminder_offset_days: 7,
+    vendor:               '',
 });
 
 const form      = ref(emptyForm());
@@ -415,7 +442,7 @@ function assigneeGroups(list) {
 }
 
 const groups = computed(() => {
-    const list = baseList.value;
+    const list = displayList.value;
     if (groupBy.value === 'deadline') return deadlineGroups(list);
     if (groupBy.value === 'assignee') return assigneeGroups(list);
     return categoryGroups(list);
@@ -424,6 +451,124 @@ const groups = computed(() => {
 const allDone = computed(() =>
     summary.value.total > 0 && summary.value.todo === 0
 );
+
+// ── New desktop redesign computeds ────────────────────────────────────────
+const daysUntil = computed(() => {
+    const ed = props.weddingPlan?.event_date || summary.value.event_date;
+    if (!ed) return null;
+    const now = new Date(); now.setHours(0,0,0,0);
+    const d = new Date(ed + 'T00:00:00');
+    return Math.max(0, Math.round((d - now) / 86400000));
+});
+function isUrgentTask(tk) {
+    if (tk.status !== 'todo' || !tk.due_date) return false;
+    const now = new Date(); now.setHours(0,0,0,0);
+    const diff = Math.round((new Date(tk.due_date + 'T00:00:00') - now) / 86400000);
+    return diff <= 1 || (tk.priority === 'high' && diff <= 7);
+}
+const urgentCount   = computed(() => activeTasks.value.filter(isUrgentTask).length);
+const doneThisMonth = computed(() => {
+    const n = new Date(); const y = n.getFullYear(); const m = n.getMonth();
+    return tasks.value.filter(tk => tk.status === 'done' && tk.completed_at &&
+        new Date(tk.completed_at).getFullYear() === y && new Date(tk.completed_at).getMonth() === m).length;
+});
+const picSplit = computed(() => {
+    const b = activeTasks.value.filter(tk => tk.assignee_type === 'bride').length;
+    const g = activeTasks.value.filter(tk => tk.assignee_type === 'groom').length;
+    const tot = b + g;
+    return { brideCount: b, groomCount: g, bridePct: tot ? Math.round(b/tot*100) : 0, groomPct: tot ? Math.round(g/tot*100) : 0 };
+});
+const filterChips = computed(() => {
+    const base = activeTasks.value;
+    const chips = [
+        { key: 'all',    label: t('dashboard.checklist.chip.all'),    count: base.length },
+        { key: 'urgent', label: t('dashboard.checklist.chip.urgent'), count: urgentCount.value },
+        { key: 'todo',   label: t('dashboard.checklist.chip.todo'),   count: base.filter(tk => tk.status === 'todo').length },
+        { key: 'done',   label: t('dashboard.checklist.chip.done'),   count: base.filter(tk => tk.status === 'done').length },
+    ];
+    for (const c of ['venue','vendor','dekorasi','busana','dokumentasi','acara']) {
+        const n = base.filter(tk => tk.category === c).length;
+        if (n > 0) chips.push({ key: 'cat:' + c, label: categoryLabel(c), count: n });
+    }
+    return chips;
+});
+function onChip(key) {
+    activeChip.value = key;
+    filterStatus.value = ''; filterCat.value = ''; filterPriority.value = '';
+    if (key === 'todo' || key === 'done') filterStatus.value = key;
+    else if (key.startsWith('cat:')) filterCat.value = key.slice(4);
+}
+const H_STAMP = { overdue: 'LEWAT', today: 'TODAY', week: '7 HARI', month: 'BULAN INI', later: 'NANTI', done: '✓' };
+const displayList = computed(() => {
+    let list = baseList.value;
+    if (activeChip.value === 'urgent') list = list.filter(isUrgentTask);
+    return list;
+});
+const timelineGroups = computed(() => deadlineGroups(displayList.value).map(g => ({ ...g, stamp: H_STAMP[g.cat] ?? g.cat.toUpperCase() })));
+const kanbanColumns  = computed(() => categoryGroups(displayList.value).map(g => ({ key: g.cat, label: g.label, tasks: g.tasks })));
+const reminders = computed(() =>
+    activeTasks.value.filter(tk => tk.status === 'todo' && tk.due_date)
+        .sort((a, b) => new Date(a.due_date) - new Date(b.due_date)).slice(0, 4)
+        .map(tk => ({ when: tk.due_date, title: tk.title,
+            who: tk.assignee_type === 'groom' ? 'groom' : (tk.assignee_type === 'bride' ? 'bride' : null),
+            urgent: isUrgentTask(tk) }))
+);
+// ── Mobile layout state ───────────────────────────────────────────────────
+const isMobileView     = useMediaQuery('(max-width: 1023px)');
+const showMobileFilter = ref(false);
+const mobileTask       = ref(null);
+const mobileSubtasks   = computed(() => mobileTask.value ? getSubtaskState(mobileTask.value.id) : { items: [], newTitle: '' });
+
+function openMobileTask(tk) { mobileTask.value = tk; loadSubtasks(tk.id); }
+function closeMobileTask()  { mobileTask.value = null; }
+function mobileEdit(tk)     { mobileTask.value = null; openEdit(tk); }
+function resetMobileFilters() { filterStatus.value=''; filterCat.value=''; filterPriority.value=''; filterAssignee.value=''; sortBy.value=''; activeChip.value='all'; }
+
+const mobileBuckets   = computed(() => timelineGroups.value.filter(g => g.cat !== 'done'));
+const mobileDoneCount = computed(() => summary.value.done);
+const resultCount     = computed(() => displayList.value.length);
+
+async function applyStandardTemplate() {
+    // The standard set is "applied" only when system tasks actually exist —
+    // a blank-started plan is initialized but still has none.
+    if (hasSystemTasks.value) { showToast(t('dashboard.checklist.rail.templates.applied')); return; }
+    await axios.post(route('dashboard.checklist.initialize'));
+    initialized.value = true;
+    await Promise.all([loadTasks(), loadSummary()]);
+    showToast(t('dashboard.checklist.toast.templateApplied'));
+}
+
+// ── First-run choice: standard template vs. start blank ───────────────────
+async function chooseStandard() {
+    if (setupLoading.value) return;
+    setupLoading.value = 'standard';
+    try {
+        await axios.post(route('dashboard.checklist.initialize'));
+        initialized.value = true;
+        await Promise.all([loadTasks(), loadSummary()]);
+        playSwipeHint();
+        showToast(t('dashboard.checklist.toast.templateApplied'));
+    } catch {
+        error.value = t('dashboard.checklist.error.loadFailed');
+    } finally {
+        setupLoading.value = null;
+    }
+}
+
+async function chooseBlank() {
+    if (setupLoading.value) return;
+    setupLoading.value = 'blank';
+    try {
+        await axios.post(route('dashboard.checklist.initialize'), { mode: 'blank' });
+        initialized.value = true;
+        await Promise.all([loadTasks(), loadSummary()]);
+    } catch {
+        error.value = t('dashboard.checklist.error.loadFailed');
+    } finally {
+        setupLoading.value = null;
+    }
+}
+function exportCalendar() { window.location.href = route('dashboard.checklist.export'); }
 
 // ── Swipe hint (peek animation on load) ───────────────────────────────────
 const swipeHintId = ref(null);
@@ -452,11 +597,19 @@ async function playSwipeHint() {
 // ── Bootstrap ──────────────────────────────────────────────────────────────
 onMounted(async () => {
     try {
-        if (!props.weddingPlan?.initialized) {
-            await axios.post(route('dashboard.checklist.initialize'));
+        // Don't auto-apply the template anymore. New couples get a choice
+        // (standard vs. blank); only load existing data here.
+        if (!initialized.value) return;
+
+        if (checklistCache.tasks !== null) {
+            // Have cached data → show it instantly, revalidate in background.
+            loading.value = false;
+            Promise.all([loadTasks(), loadSummary()]).catch(() => {});
+        } else {
+            // First load this session → wait + show the spinner once.
+            await Promise.all([loadTasks(), loadSummary()]);
+            playSwipeHint();
         }
-        await Promise.all([loadTasks(), loadSummary()]);
-        playSwipeHint();
     } catch {
         error.value = t('dashboard.checklist.error.loadFailed');
     } finally {
@@ -467,11 +620,13 @@ onMounted(async () => {
 async function loadTasks() {
     const { data } = await axios.get(route('dashboard.checklist.tasks'));
     tasks.value = data.tasks;
+    checklistCache.tasks = data.tasks;
 }
 
 async function loadSummary() {
     const { data } = await axios.get(route('dashboard.checklist.summary'));
     summary.value = data;
+    checklistCache.summary = data;
 }
 
 async function saveEventDate() {
@@ -582,6 +737,7 @@ function openEdit(task) {
         assignee_label:       task.assignee_label ?? '',
         reminder_enabled:     task.reminder_enabled ?? false,
         reminder_offset_days: task.reminder_offset_days ?? 7,
+        vendor:               task.vendor ?? '',
     };
     formError.value = {};
     showForm.value = true;
@@ -755,9 +911,65 @@ const currentPickerDate = computed(() =>
 
         <template v-else>
 
+            <!-- ── First-run setup choice ─────────────────────────── -->
+            <div v-if="!initialized" class="max-w-2xl mx-auto py-10 sm:py-16 px-1">
+                <div class="text-center mb-7">
+                    <div class="w-14 h-14 mx-auto mb-4 rounded-2xl flex items-center justify-center bg-[#92A89C]/10">
+                        <svg class="w-7 h-7 text-[#92A89C]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                  d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/>
+                        </svg>
+                    </div>
+                    <h2 class="font-cormorant font-medium text-[28px] tracking-tight" style="color:#1F2A2E;">{{ t('dashboard.checklist.setup.title') }}</h2>
+                    <p class="text-[13px] mt-1" style="color:#6C7A75;">{{ t('dashboard.checklist.setup.sub') }}</p>
+                </div>
+
+                <div class="grid gap-3 sm:grid-cols-2">
+                    <!-- Standard (recommended) -->
+                    <button type="button" @click="chooseStandard" :disabled="!!setupLoading"
+                            class="group relative text-left rounded-2xl border-2 p-5 transition-all hover:-translate-y-0.5 disabled:opacity-60 disabled:translate-y-0"
+                            style="border-color:#92A89C; background:#FBFCF9;">
+                        <span class="absolute top-3 right-3 text-[10px] font-semibold px-2 py-0.5 rounded-full"
+                              style="background:rgba(146,168,156,0.18); color:#4A5A4C;">{{ t('dashboard.checklist.setup.recommended') }}</span>
+                        <div class="w-10 h-10 rounded-xl grid place-items-center mb-3" style="background:#92A89C;">
+                            <WidgetIcon name="check" :size="18" stroke="#fff" />
+                        </div>
+                        <div class="text-[15px] font-semibold mb-1" style="color:#1F2A2E;">{{ t('dashboard.checklist.setup.standardTitle') }}</div>
+                        <p class="text-[12.5px] leading-relaxed" style="color:#6C7A75;">{{ t('dashboard.checklist.setup.standardDesc') }}</p>
+                        <span v-if="setupLoading === 'standard'" class="mt-3 inline-flex items-center gap-2 text-[12px] font-medium" style="color:#4A5A4C;">
+                            <svg class="w-3.5 h-3.5 animate-spin" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
+                            </svg>
+                            {{ t('dashboard.checklist.setup.applying') }}
+                        </span>
+                    </button>
+
+                    <!-- Start blank -->
+                    <button type="button" @click="chooseBlank" :disabled="!!setupLoading"
+                            class="group text-left rounded-2xl border-2 border-stone-200 p-5 transition-all hover:-translate-y-0.5 hover:border-stone-300 disabled:opacity-60 disabled:translate-y-0"
+                            style="background:#FFFFFF;">
+                        <div class="w-10 h-10 rounded-xl grid place-items-center mb-3 bg-stone-100">
+                            <WidgetIcon name="plus" :size="18" stroke="#6C7A75" />
+                        </div>
+                        <div class="text-[15px] font-semibold mb-1" style="color:#1F2A2E;">{{ t('dashboard.checklist.setup.blankTitle') }}</div>
+                        <p class="text-[12.5px] leading-relaxed" style="color:#6C7A75;">{{ t('dashboard.checklist.setup.blankDesc') }}</p>
+                        <span v-if="setupLoading === 'blank'" class="mt-3 inline-flex items-center gap-2 text-[12px] font-medium text-stone-500">
+                            <svg class="w-3.5 h-3.5 animate-spin" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
+                            </svg>
+                            {{ t('dashboard.checklist.setup.preparing') }}
+                        </span>
+                    </button>
+                </div>
+
+                <p class="text-center text-[11.5px] mt-4" style="color:#9AA69F;">{{ t('dashboard.checklist.setup.note') }}</p>
+            </div>
+
             <!-- ── Bulk action bar ────────────────────────────────── -->
             <Transition name="slide-down">
-                <div v-if="bulkMode"
+                <div v-if="bulkMode && initialized"
                      class="sticky top-0 z-20 mb-4 px-4 py-3 bg-white border border-stone-200 rounded-xl shadow-sm flex items-center gap-2">
                     <span class="text-sm font-medium text-stone-700 flex-1">{{ t('dashboard.checklist.bulk.selected', { count: selectedIds.size }) }}</span>
                     <button @click="doBulkAction('done')" :disabled="bulking"
@@ -775,232 +987,168 @@ const currentPickerDate = computed(() =>
                 </div>
             </Transition>
 
-            <!-- ── Summary cards ──────────────────────────────────── -->
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
-                <div class="bg-white rounded-xl border border-stone-100 p-4">
-                    <p class="text-xs text-stone-400 mb-1">{{ t('dashboard.checklist.summary.progress') }}</p>
-                    <p class="text-2xl font-bold text-stone-800">{{ summary.progress }}<span class="text-sm font-normal text-stone-400">%</span></p>
-                    <div class="mt-2 h-1.5 rounded-full bg-stone-100 overflow-hidden">
-                        <div class="h-full rounded-full transition-all duration-500"
-                             style="background-color: #92A89C"
-                             :style="{ width: summary.progress + '%' }"/>
+            <!-- ── Desktop layout wrapper ─────────────────────────── -->
+            <div v-if="initialized && !isMobileView" class="w-full">
+
+                <!-- Page heading + top actions -->
+                <div class="flex items-end justify-between gap-3 mb-4 flex-wrap">
+                    <div>
+                        <h1 class="font-cormorant font-medium text-[30px] tracking-tight" style="color:#1F2A2E;">{{ t('dashboard.checklist.pageTitle') }}</h1>
+                        <p class="text-[13px]" style="color:#6C7A75;">{{ t('dashboard.checklist.pageSub', { total: summary.total }) }}</p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <ChecklistViewToggle :view="view" @update="view = $event" />
+                        <button type="button" @click="exportCalendar" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[12px] font-semibold" style="color:#4A5A4C; border:1px solid #C7D0BE;">
+                            <WidgetIcon name="cal" :size="13" stroke="#4A5A4C" /> {{ t('dashboard.checklist.exportCalendar') }}
+                        </button>
+                        <button type="button" @click="openCreate" class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-[12px] font-semibold text-white" style="background:#1F2A2E;">
+                            <WidgetIcon name="plus" :size="13" stroke="#fff" /> {{ t('dashboard.checklist.addTask') }}
+                        </button>
                     </div>
                 </div>
-                <div class="bg-white rounded-xl border border-stone-100 p-4">
-                    <p class="text-xs text-stone-400 mb-1">{{ t('dashboard.checklist.summary.done') }}</p>
-                    <p class="text-2xl font-bold text-green-600">{{ summary.done }}</p>
-                    <p class="text-xs text-stone-400 mt-1">{{ t('dashboard.checklist.summary.doneOf', { total: summary.total }) }}</p>
-                </div>
-                <div
-                    class="rounded-xl border p-4 cursor-pointer transition-colors"
-                    :class="summary.overdue > 0
-                        ? 'bg-red-50 border-red-100 hover:bg-red-100'
-                        : 'bg-white border-stone-100'"
-                    @click="summary.overdue > 0 && (groupBy = 'deadline')"
-                >
-                    <p class="text-xs mb-1" :class="summary.overdue > 0 ? 'text-red-400' : 'text-stone-400'">{{ t('dashboard.checklist.summary.overdue') }}</p>
-                    <p class="text-2xl font-bold" :class="summary.overdue > 0 ? 'text-red-600' : 'text-stone-300'">{{ summary.overdue }}</p>
-                    <p class="text-xs mt-1" :class="summary.overdue > 0 ? 'text-red-400' : 'text-stone-300'">{{ t('dashboard.checklist.summary.overdueTask') }}</p>
-                </div>
-                <div
-                    class="rounded-xl border p-4 cursor-pointer transition-colors"
-                    :class="summary.upcoming_7d > 0
-                        ? 'bg-amber-50 border-amber-100 hover:bg-amber-100'
-                        : 'bg-white border-stone-100'"
-                    @click="summary.upcoming_7d > 0 && (groupBy = 'deadline')"
-                >
-                    <p class="text-xs mb-1" :class="summary.upcoming_7d > 0 ? 'text-amber-500' : 'text-stone-400'">{{ t('dashboard.checklist.summary.upcoming') }}</p>
-                    <p class="text-2xl font-bold" :class="summary.upcoming_7d > 0 ? 'text-amber-600' : 'text-stone-300'">{{ summary.upcoming_7d }}</p>
-                    <p class="text-xs mt-1" :class="summary.upcoming_7d > 0 ? 'text-amber-500' : 'text-stone-300'">{{ t('dashboard.checklist.summary.upcomingDeadline') }}</p>
-                </div>
-            </div>
 
-            <!-- ── All done celebration ───────────────────────────── -->
-            <Transition name="slide-down">
-                <div v-if="allDone"
-                     class="mb-4 px-4 py-3 rounded-xl bg-emerald-50 border border-emerald-100 text-sm text-emerald-700 flex items-center gap-2">
-                    <span class="text-lg">🎉</span>
-                    <span class="font-medium">{{ t('dashboard.checklist.allDone') }}</span>
-                </div>
-            </Transition>
+                <div class="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-5 items-start">
+                    <!-- ── Main column ────────────────────────────── -->
+                    <div>
+                        <ChecklistProgressHero
+                            :progress="summary.progress"
+                            :done="summary.done"
+                            :total="summary.total"
+                            :remaining="summary.todo"
+                            :urgent-count="urgentCount"
+                            :days-until="daysUntil"
+                            :has-event-date="summary.has_event_date"
+                        />
+                        <ChecklistStatStrip
+                            :urgent-count="urgentCount"
+                            :upcoming7d="summary.upcoming_7d"
+                            :done-this-month="doneThisMonth"
+                            :pic-split="picSplit"
+                        />
+                        <ChecklistFilterChips :chips="filterChips" :active="activeChip" @select="onChip" />
 
-            <!-- ── No event date prompt ───────────────────────────── -->
-            <div v-if="!summary.has_event_date"
-                 class="mb-4 px-4 py-3 rounded-xl bg-[#92A89C]/10 border border-[#B8C7BF]/50 text-sm text-[#73877C]">
-                <div class="flex items-center gap-2 mb-2">
-                    <svg class="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                    </svg>
-                    <span>{{ t('dashboard.checklist.eventDate.prompt') }}</span>
-                </div>
-                <div class="flex items-center gap-2">
-                    <button type="button" @click="openDatePicker('event')"
-                            class="flex-1 border rounded-lg px-3 py-1.5 text-sm text-left bg-white transition-colors hover:border-[#92A89C]/60"
-                            :class="eventDateError ? 'border-red-300' : 'border-[#B8C7BF]'">
-                        <span v-if="eventDate" class="text-stone-800">{{ calDisplayDate(eventDate) }}</span>
-                        <span v-else class="text-stone-400">{{ t('dashboard.checklist.eventDate.placeholder') }}</span>
-                    </button>
-                    <button @click="saveEventDate" :disabled="!eventDate || savingDate"
-                            class="px-4 py-1.5 rounded-lg text-sm font-medium text-white transition-opacity hover:opacity-90 disabled:opacity-40"
-                            style="background-color: #92A89C">
-                        {{ savingDate ? t('dashboard.checklist.eventDate.saving') : t('dashboard.checklist.eventDate.save') }}
-                    </button>
-                </div>
-                <p v-if="eventDateError" class="mt-1.5 text-xs text-red-500">{{ eventDateError }}</p>
-            </div>
-
-            <!-- ── Controls row ───────────────────────────────────── -->
-            <div class="mb-5 space-y-2">
-                <div class="grid grid-cols-2 sm:flex sm:flex-wrap gap-2">
-                    <!-- Group by -->
-                    <select v-model="groupBy"
-                            class="w-full sm:w-auto text-sm border border-stone-200 rounded-lg pl-3 pr-8 py-2 bg-white text-stone-700 focus:outline-none focus:ring-2 focus:ring-[#92A89C]/30">
-                        <option value="category">{{ t('dashboard.checklist.controls.groupCategory') }}</option>
-                        <option value="deadline">{{ t('dashboard.checklist.controls.groupDeadline') }}</option>
-                        <option value="assignee">{{ t('dashboard.checklist.controls.groupAssignee') }}</option>
-                    </select>
-
-                    <select v-model="filterStatus"
-                            class="w-full sm:w-auto text-sm border border-stone-200 rounded-lg pl-3 pr-8 py-2 bg-white text-stone-700 focus:outline-none focus:ring-2 focus:ring-[#92A89C]/30">
-                        <option value="">{{ t('dashboard.checklist.controls.statusAll') }}</option>
-                        <option value="todo">{{ t('dashboard.checklist.controls.statusTodo') }}</option>
-                        <option value="done">{{ t('dashboard.checklist.controls.statusDone') }}</option>
-                        <option value="archived">{{ t('dashboard.checklist.controls.statusArchived') }}</option>
-                    </select>
-
-                    <select v-model="filterCat"
-                            class="w-full sm:w-auto text-sm border border-stone-200 rounded-lg pl-3 pr-8 py-2 bg-white text-stone-700 focus:outline-none focus:ring-2 focus:ring-[#92A89C]/30">
-                        <option value="">{{ t('dashboard.checklist.controls.categoryAll') }}</option>
-                        <option v-for="c in categories" :key="c.value" :value="c.value">{{ c.label }}</option>
-                    </select>
-
-                    <select v-model="filterPriority"
-                            class="w-full sm:w-auto text-sm border border-stone-200 rounded-lg pl-3 pr-8 py-2 bg-white text-stone-700 focus:outline-none focus:ring-2 focus:ring-[#92A89C]/30">
-                        <option value="">{{ t('dashboard.checklist.controls.priorityAll') }}</option>
-                        <option value="high">{{ t('dashboard.checklist.priority.high') }}</option>
-                        <option value="medium">{{ t('dashboard.checklist.priority.medium') }}</option>
-                        <option value="low">{{ t('dashboard.checklist.priority.low') }}</option>
-                    </select>
-
-                    <select v-model="filterAssignee"
-                            class="w-full sm:w-auto text-sm border border-stone-200 rounded-lg pl-3 pr-8 py-2 bg-white text-stone-700 focus:outline-none focus:ring-2 focus:ring-[#92A89C]/30">
-                        <option value="">{{ t('dashboard.checklist.controls.assigneeAll') }}</option>
-                        <option v-for="o in ASSIGNEE_OPTIONS" :key="o.value" :value="o.value">{{ o.label }}</option>
-                    </select>
-
-                    <select v-model="sortBy"
-                            class="w-full sm:w-auto text-sm border border-stone-200 rounded-lg pl-3 pr-8 py-2 bg-white text-stone-700 focus:outline-none focus:ring-2 focus:ring-[#92A89C]/30">
-                        <option value="">{{ t('dashboard.checklist.controls.sortDefault') }}</option>
-                        <option value="due_date">{{ t('dashboard.checklist.controls.sortDueDate') }}</option>
-                        <option value="priority">{{ t('dashboard.checklist.controls.sortPriority') }}</option>
-                    </select>
-                </div>
-
-                <!-- Toggle + Add button row -->
-                <div class="flex items-center gap-3">
-                    <label class="flex items-center gap-1.5 text-xs text-stone-500 cursor-pointer select-none">
-                        <div class="relative w-8 h-4 flex-shrink-0"
-                             @click="moveDoneToBottom = !moveDoneToBottom">
-                            <div class="w-full h-full rounded-full transition-colors"
-                                 :class="moveDoneToBottom ? 'bg-[#92A89C]' : 'bg-stone-200'"/>
-                            <div class="absolute top-0.5 left-0.5 w-3 h-3 rounded-full bg-white shadow transition-transform"
-                                 :class="moveDoneToBottom ? 'translate-x-4' : 'translate-x-0'"/>
-                        </div>
-                        {{ t('dashboard.checklist.controls.moveDoneToBottom') }}
-                    </label>
-                          <div class="group relative flex-shrink-0">
-                            <svg class="w-3.5 h-3.5 text-stone-400 cursor-help" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                      d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                            </svg>
-                            <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-48 px-3 py-2 rounded-lg bg-stone-800 text-white text-xs leading-relaxed
-                                        opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-150 pointer-events-none z-50">
-                                {{ t('dashboard.checklist.controls.moveDoneTooltip') }}
-                                <div class="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-stone-800"/>
+                        <!-- ── All done celebration ───────────────── -->
+                        <Transition name="slide-down">
+                            <div v-if="allDone"
+                                 class="mb-4 px-4 py-3 rounded-xl bg-emerald-50 border border-emerald-100 text-sm text-emerald-700 flex items-center gap-2">
+                                <span class="text-lg">🎉</span>
+                                <span class="font-medium">{{ t('dashboard.checklist.allDone') }}</span>
                             </div>
+                        </Transition>
+
+                        <!-- ── No event date prompt ───────────────── -->
+                        <div v-if="!summary.has_event_date"
+                             class="mb-4 px-4 py-3 rounded-xl bg-[#92A89C]/10 border border-[#B8C7BF]/50 text-sm text-[#73877C]">
+                            <div class="flex items-center gap-2 mb-2">
+                                <svg class="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                          d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                </svg>
+                                <span>{{ t('dashboard.checklist.eventDate.prompt') }}</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <button type="button" @click="openDatePicker('event')"
+                                        class="flex-1 border rounded-lg px-3 py-1.5 text-sm text-left bg-white transition-colors hover:border-[#92A89C]/60"
+                                        :class="eventDateError ? 'border-red-300' : 'border-[#B8C7BF]'">
+                                    <span v-if="eventDate" class="text-stone-800">{{ calDisplayDate(eventDate) }}</span>
+                                    <span v-else class="text-stone-400">{{ t('dashboard.checklist.eventDate.placeholder') }}</span>
+                                </button>
+                                <button @click="saveEventDate" :disabled="!eventDate || savingDate"
+                                        class="px-4 py-1.5 rounded-lg text-sm font-medium text-white transition-opacity hover:opacity-90 disabled:opacity-40"
+                                        style="background-color: #92A89C">
+                                    {{ savingDate ? t('dashboard.checklist.eventDate.saving') : t('dashboard.checklist.eventDate.save') }}
+                                </button>
+                            </div>
+                            <p v-if="eventDateError" class="mt-1.5 text-xs text-red-500">{{ eventDateError }}</p>
                         </div>
 
-                    <button @click="openCreate"
-                            class="ml-auto flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium text-white transition-opacity hover:opacity-90"
-                            style="background-color: #92A89C">
-                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-                        </svg>
-                        {{ t('dashboard.checklist.controls.addTask') }}
-                    </button>
-                </div>
-            </div>
+                        <!-- ── Kanban view ────────────────────────── -->
+                        <TaskKanban
+                            v-if="view === 'kanban'"
+                            :columns="kanbanColumns"
+                            @toggle="toggle"
+                            @edit="openEdit"
+                        />
 
-            <!-- ── Empty state (no tasks at all) ─────────────────── -->
-            <div v-if="tasks.length === 0" class="py-16 text-center">
-                <div class="w-16 h-16 mx-auto mb-4 rounded-2xl flex items-center justify-center bg-[#92A89C]/10">
-                    <svg class="w-8 h-8 text-[#92A89C]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                              d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
-                    </svg>
-                </div>
-                <h3 class="text-stone-700 font-medium mb-1">{{ t('dashboard.checklist.empty.noTasks') }}</h3>
-                <p class="text-stone-400 text-sm mb-4">{{ t('dashboard.checklist.empty.noTasksHint') }}</p>
-                <button @click="openCreate"
-                        class="px-4 py-2 rounded-xl text-sm font-medium text-white"
-                        style="background-color: #92A89C">
-                    {{ t('dashboard.checklist.empty.addTask') }}
-                </button>
-            </div>
+                        <!-- ── Timeline / List view ───────────────── -->
+                        <template v-else>
 
-            <!-- ── Empty state (filtered) ─────────────────────────── -->
-            <div v-else-if="groups.length === 0" class="py-12 text-center">
-                <p class="text-stone-400 text-sm">{{ t('dashboard.checklist.empty.noFilterMatch') }}</p>
-            </div>
-
-            <!-- ── Groups ─────────────────────────────────────────── -->
-            <div v-else class="space-y-1">
-                <div v-for="group in groups" :key="group.cat">
-
-                    <!-- Group header -->
-                    <button
-                        class="w-full flex items-center gap-2.5 py-2.5 px-1 text-left select-none hover:bg-stone-50 rounded-lg transition-colors"
-                        @click="toggleGroup(group.cat)"
-                    >
-                        <svg class="w-4 h-4 text-stone-400 flex-shrink-0 transition-transform duration-200"
-                             :class="expandedGroups.has(group.cat) ? 'rotate-90' : ''"
-                             fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                        </svg>
-
-                        <!-- Overdue indicator dot -->
-                        <span v-if="group.cat === 'overdue'"
-                              class="w-2 h-2 rounded-full bg-red-500 flex-shrink-0"/>
-
-                        <span class="text-sm font-semibold"
-                              :class="group.cat === 'overdue' ? 'text-red-600' : 'text-stone-700'">
-                            {{ group.label }}
-                        </span>
-                        <span class="text-xs text-stone-400">{{ group.done }}/{{ group.total }}</span>
-                        <div class="flex-1 h-1.5 rounded-full bg-stone-100 overflow-hidden max-w-24">
-                            <div class="h-full rounded-full transition-all duration-500"
-                                 :style="{
-                                     width: group.progress + '%',
-                                     backgroundColor: group.cat === 'overdue' ? '#ef4444' : '#92A89C',
-                                 }"/>
+                        <!-- ── Empty state (no tasks at all) ───────── -->
+                        <div v-if="tasks.length === 0" class="py-16 text-center">
+                            <div class="w-16 h-16 mx-auto mb-4 rounded-2xl flex items-center justify-center bg-[#92A89C]/10">
+                                <svg class="w-8 h-8 text-[#92A89C]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                          d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                                </svg>
+                            </div>
+                            <h3 class="text-stone-700 font-medium mb-1">{{ t('dashboard.checklist.empty.noTasks') }}</h3>
+                            <p class="text-stone-400 text-sm mb-4">{{ t('dashboard.checklist.empty.noTasksHint') }}</p>
+                            <button @click="openCreate"
+                                    class="px-4 py-2 rounded-xl text-sm font-medium text-white"
+                                    style="background-color: #92A89C">
+                                {{ t('dashboard.checklist.empty.addTask') }}
+                            </button>
                         </div>
-                        <span v-if="!expandedGroups.has(group.cat)"
-                              class="text-xs text-stone-400 ml-auto">
-                            {{ t('dashboard.checklist.group.taskCount', { count: group.tasks.length }) }}
-                        </span>
-                    </button>
 
-                    <!-- Task list -->
-                    <Transition
-                        enter-active-class="transition-all duration-200 ease-out"
-                        enter-from-class="opacity-0 -translate-y-1"
-                        enter-to-class="opacity-100 translate-y-0"
-                        leave-active-class="transition-all duration-150 ease-in"
-                        leave-from-class="opacity-100 translate-y-0"
-                        leave-to-class="opacity-0 -translate-y-1"
-                    >
-                        <div v-show="expandedGroups.has(group.cat)" class="space-y-1.5 pb-3 pl-6">
+                        <!-- ── Empty state (filtered) ────────────── -->
+                        <div v-else-if="(view === 'timeline' ? timelineGroups : groups).length === 0" class="py-12 text-center">
+                            <p class="text-stone-400 text-sm">{{ t('dashboard.checklist.empty.noFilterMatch') }}</p>
+                        </div>
+
+                        <!-- ── Groups ─────────────────────────────── -->
+                        <div v-else class="space-y-1">
+                            <div v-for="group in (view === 'timeline' ? timelineGroups : groups)" :key="group.cat">
+
+                                <!-- Group header -->
+                                <button
+                                    class="w-full flex items-center gap-2.5 py-2.5 px-1 text-left select-none hover:bg-stone-50 rounded-lg transition-colors"
+                                    @click="toggleGroup(group.cat)"
+                                >
+                                    <svg class="w-4 h-4 text-stone-400 flex-shrink-0 transition-transform duration-200"
+                                         :class="expandedGroups.has(group.cat) ? 'rotate-90' : ''"
+                                         fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                    </svg>
+
+                                    <!-- Overdue indicator dot -->
+                                    <span v-if="group.cat === 'overdue'"
+                                          class="w-2 h-2 rounded-full bg-red-500 flex-shrink-0"/>
+
+                                    <!-- Timeline stamp pill -->
+                                    <span v-if="view === 'timeline' && group.stamp"
+                                          class="text-[10px] font-bold px-1.5 py-0.5 rounded-full tracking-wider"
+                                          :class="group.cat === 'overdue' ? 'bg-red-100 text-red-600' : 'bg-stone-100 text-stone-500'">
+                                        {{ group.stamp }}
+                                    </span>
+
+                                    <span class="text-sm font-semibold"
+                                          :class="group.cat === 'overdue' ? 'text-red-600' : 'text-stone-700'">
+                                        {{ group.label }}
+                                    </span>
+                                    <span class="text-xs text-stone-400">{{ group.done }}/{{ group.total }}</span>
+                                    <div class="flex-1 h-1.5 rounded-full bg-stone-100 overflow-hidden max-w-24">
+                                        <div class="h-full rounded-full transition-all duration-500"
+                                             :style="{
+                                                 width: group.progress + '%',
+                                                 backgroundColor: group.cat === 'overdue' ? '#ef4444' : '#92A89C',
+                                             }"/>
+                                    </div>
+                                    <span v-if="!expandedGroups.has(group.cat)"
+                                          class="text-xs text-stone-400 ml-auto">
+                                        {{ t('dashboard.checklist.group.taskCount', { count: group.tasks.length }) }}
+                                    </span>
+                                </button>
+
+                                <!-- Task list -->
+                                <Transition
+                                    enter-active-class="transition-all duration-200 ease-out"
+                                    enter-from-class="opacity-0 -translate-y-1"
+                                    enter-to-class="opacity-100 translate-y-0"
+                                    leave-active-class="transition-all duration-150 ease-in"
+                                    leave-from-class="opacity-100 translate-y-0"
+                                    leave-to-class="opacity-0 -translate-y-1"
+                                >
+                                <div v-show="expandedGroups.has(group.cat)" class="space-y-1.5 pb-3 pl-6">
 
                             <div v-for="task in group.tasks" :key="task.id"
                                  class="relative overflow-hidden rounded-xl"
@@ -1036,7 +1184,8 @@ const currentPickerDate = computed(() =>
 
                                 <!-- Task card -->
                                 <div
-                                    class="relative z-10 bg-white border rounded-xl px-3 py-3 transition-opacity"
+                                    class="relative z-10 rounded-[14px] px-3 py-3 transition-opacity"
+                                    style="background:#FBFCF9; border:1px solid #D8DFD2;"
                                     :class="[
                                         task.status === 'done' || task.status === 'archived' ? 'opacity-60' : '',
                                         expandedTasks.has(task.id) ? 'rounded-b-none border-b-0' : '',
@@ -1094,6 +1243,11 @@ const currentPickerDate = computed(() =>
                                                class="text-xs text-stone-400 mt-0.5 truncate">
                                                 {{ task.description }}
                                             </p>
+
+                                            <!-- Vendor line -->
+                                            <span v-if="task.vendor" class="inline-flex items-center gap-1 text-[11px] mt-0.5" style="color:#6F8270;">
+                                                <WidgetIcon name="vendor" :size="11" stroke="#6F8270" /> {{ task.vendor }}
+                                            </span>
 
                                             <div class="flex flex-wrap items-center gap-1.5 mt-1.5">
                                                 <!-- Priority -->
@@ -1253,21 +1407,50 @@ const currentPickerDate = computed(() =>
 
                             </div>
 
+                                </div>
+                                </Transition>
+                            </div>
                         </div>
-                    </Transition>
-                </div>
-            </div>
+
+                        </template><!-- end timeline/list view -->
+                    </div><!-- end main column -->
+
+                    <!-- ── Right rail (desktop only) ───────────────── -->
+                    <aside class="hidden lg:flex flex-col gap-4">
+                        <ReminderRail :reminders="reminders" />
+                        <TemplatePresetsRail :initialized="hasSystemTasks" @apply="applyStandardTemplate" />
+                        <PicSplitRail :bride-pct="picSplit.bridePct" :groom-pct="picSplit.groomPct" :bride-count="picSplit.brideCount" :groom-count="picSplit.groomCount" />
+                    </aside>
+
+                </div><!-- end grid -->
+            </div><!-- end desktop wrapper -->
+
+            <!-- ── Mobile layout branch ──────────────────────────── -->
+            <template v-if="initialized && isMobileView">
+                <MobileChecklist
+                    :progress="summary.progress" :done="summary.done" :total="summary.total"
+                    :urgent-count="urgentCount" :upcoming7d="summary.upcoming_7d" :days-until="daysUntil" :has-event-date="summary.has_event_date"
+                    :chips="filterChips" :active-chip="activeChip" :buckets="mobileBuckets" :done-count="mobileDoneCount"
+                    :has-system-tasks="hasSystemTasks"
+                    @select="onChip" @open-filter="showMobileFilter = true" @add-task="openCreate"
+                    @open-task="openMobileTask" @toggle="toggle" @show-done="onChip('done')"
+                    @apply-template="applyStandardTemplate" />
+            </template>
+
+            <MobileFilterSheet
+                :open="showMobileFilter" :sort-by="sortBy" :filter-status="filterStatus" :filter-cat="filterCat"
+                :filter-assignee="filterAssignee" :categories="categories" :result-count="resultCount"
+                @close="showMobileFilter = false" @reset="resetMobileFilters"
+                @update:sort-by="sortBy = $event" @update:filter-status="filterStatus = $event"
+                @update:filter-cat="filterCat = $event" @update:filter-assignee="filterAssignee = $event" />
+
+            <MobileTaskSheet
+                :task="mobileTask" :subtask-state="mobileSubtasks"
+                @close="closeMobileTask" @toggle-done="(tk) => { toggle(tk); }" @edit="mobileEdit"
+                @add-subtask="addSubtask(mobileTask)" @toggle-subtask="(s) => toggleSubtask(mobileTask, s)"
+                @delete-subtask="(s) => deleteSubtask(mobileTask, s)" />
 
         </template>
-
-        <!-- ── FAB mobile ─────────────────────────────────────────── -->
-        <button @click="openCreate"
-                class="fixed bottom-20 right-6 lg:hidden w-14 h-14 rounded-full shadow-lg flex items-center justify-center text-white z-20"
-                style="background-color: #92A89C">
-            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-            </svg>
-        </button>
 
         <!-- ── Task Form Modal ────────────────────────────────────── -->
         <Transition name="fade">
@@ -1332,6 +1515,14 @@ const currentPickerDate = computed(() =>
                                    type="text"
                                    :placeholder="t('dashboard.checklist.form.assigneeCustomPlaceholder')"
                                    class="mt-1.5 w-full border border-stone-200 rounded-lg px-3 py-2 text-sm text-stone-800 focus:outline-none focus:ring-2 focus:ring-[#92A89C]/30"/>
+                        </div>
+
+                        <!-- Vendor -->
+                        <div>
+                            <label class="block text-xs font-medium text-stone-500 mb-1">{{ t('dashboard.checklist.form.vendor') }}</label>
+                            <input v-model="form.vendor" type="text" maxlength="120"
+                                   class="w-full rounded-xl border border-stone-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:border-brand-primary"
+                                   :placeholder="t('dashboard.checklist.form.vendorPlaceholder')" />
                         </div>
 
                         <!-- Due date -->

@@ -8,6 +8,11 @@ import LanguageSwitcher from '@/Components/LanguageSwitcher.vue';
 import NotificationBell from '@/Components/Notifications/NotificationBell.vue';
 import PartnerModeBanner from '@/Components/PartnerModeBanner.vue';
 import { useLocale } from '@/Composables/useLocale';
+import { useMediaQuery } from '@/Composables/useMediaQuery';
+import SupportBubble from '@/Components/Support/SupportBubble.vue';
+import SupportHeaderIcon from '@/Components/Support/SupportHeaderIcon.vue';
+
+const isMobile = useMediaQuery('(max-width: 767px)');
 
 const { t } = useLocale();
 
@@ -21,101 +26,145 @@ const moreMenuOpen = ref(false);
 const sidebarCollapsed = ref(false);
 const expandedGroups = ref({});
 
-const navItems = computed(() => [
+const menuGroups = computed(() => [
     {
-        id: 'dashboard',
-        label: t('nav.dashboard'),
-        route: 'dashboard',
-        icon: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>`,
-    },
-    {
-        id: 'myInvitations',
-        label: t('nav.myInvitations'),
-        route: 'dashboard.invitations.index',
-        activePattern: 'dashboard.invitations.*',
-        icon: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>`,
-    },
-    {
-        id: 'guests',
-        label: t('nav.guests'),
-        group: true,
-        icon: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>`,
-        children: [
+        heading: null,
+        items: [
             {
-                id: 'guestList',
-                label: t('nav.guestList'),
-                route: 'dashboard.guest-list.index',
-                activePattern: 'dashboard.guest-list.*',
-                premiumOnly: true,
-            },
-            {
-                id: 'rsvp',
-                label: t('nav.rsvp'),
-                route: 'dashboard.rsvp.index',
-                activePattern: 'dashboard.rsvp.*',
-            },
-            {
-                id: 'ucapan',
-                label: t('nav.ucapan'),
-                route: 'dashboard.buku-tamu.index',
-                activePattern: 'dashboard.buku-tamu.*',
+                id: 'dashboard',
+                label: t('nav.dashboard'),
+                route: 'dashboard',
+                icon: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>`,
             },
         ],
     },
     {
-        id: 'weddingPlanner',
-        label: t('nav.weddingPlanner'),
-        route: 'dashboard.checklist.index',
-        icon: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>`,
+        heading: t('nav.phase.persiapan'),
+        items: [
+            {
+                id: 'weddingPlanner',
+                label: t('nav.weddingPlanner'),
+                route: 'dashboard.checklist.index',
+                icon: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>`,
+            },
+            {
+                id: 'budgetPlanner',
+                label: t('nav.budgetPlanner'),
+                route: 'dashboard.budget-planner.index',
+                icon: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>`,
+            },
+        ],
     },
     {
-        id: 'budgetPlanner',
-        label: t('nav.budgetPlanner'),
-        route: 'dashboard.budget-planner.index',
-        icon: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>`,
+        heading: t('nav.phase.harih'),
+        items: [
+            {
+                id: 'myInvitations',
+                label: t('nav.myInvitations'),
+                route: 'dashboard.invitations.index',
+                activePattern: 'dashboard.invitations.*',
+                icon: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>`,
+            },
+            {
+                id: 'guests',
+                label: t('nav.guests'),
+                group: true,
+                icon: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>`,
+                children: [
+                    {
+                        id: 'guestList',
+                        label: t('nav.guestList'),
+                        route: 'dashboard.guest-list.index',
+                        activePattern: 'dashboard.guest-list.*',
+                        premiumOnly: true,
+                    },
+                    {
+                        id: 'rsvp',
+                        label: t('nav.rsvp'),
+                        route: 'dashboard.rsvp.index',
+                        activePattern: 'dashboard.rsvp.*',
+                    },
+                    {
+                        id: 'ucapan',
+                        label: t('nav.ucapan'),
+                        route: 'dashboard.buku-tamu.index',
+                        activePattern: 'dashboard.buku-tamu.*',
+                    },
+                ],
+            },
+            {
+                id: 'templates',
+                label: t('nav.templates'),
+                route: 'dashboard.templates',
+                icon: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"/>`,
+            },
+            {
+                id: 'gifts',
+                label: 'Gift Premium',
+                route: 'dashboard.gifts.index',
+                activePattern: 'dashboard.gifts.*',
+                icon: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/>`,
+            },
+        ],
     },
     {
-        id: 'templates',
-        label: t('nav.templates'),
-        route: 'dashboard.templates',
-        icon: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"/>`,
+        heading: t('nav.phase.setelah'),
+        items: [
+            {
+                id: 'anniversary',
+                label: t('nav.anniversary'),
+                disabled: true,
+                badge: t('nav.comingSoon'),
+                icon: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>`,
+            },
+            {
+                id: 'memoryAlbum',
+                label: t('nav.memoryAlbum'),
+                disabled: true,
+                badge: t('nav.comingSoon'),
+                icon: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>`,
+            },
+        ],
     },
     {
-        id: 'paket',
-        label: t('nav.paket'),
-        route: 'dashboard.paket',
-        icon: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>`,
-    },
-    {
-        id: 'gifts',
-        label: 'Gift Premium',
-        route: 'dashboard.gifts.index',
-        activePattern: 'dashboard.gifts.*',
-        icon: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/>`,
-    },
-    {
-        id: 'transactions',
-        label: t('nav.transactions'),
-        route: 'dashboard.transactions.index',
-        icon: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>`,
-    },
-    {
-        id: 'settings',
-        label: t('nav.settings'),
-        route: 'profile.edit',
-        icon: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>`,
+        heading: t('nav.phase.akun'),
+        items: [
+            {
+                id: 'paket',
+                label: t('nav.paket'),
+                route: 'dashboard.paket',
+                icon: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>`,
+            },
+            {
+                id: 'transactions',
+                label: t('nav.transactions'),
+                route: 'dashboard.transactions.index',
+                icon: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>`,
+            },
+            {
+                id: 'settings',
+                label: t('nav.settings'),
+                route: 'profile.edit',
+                icon: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>`,
+            },
+        ],
     },
 ]);
+
+// Flat list of all items (for auto-expand logic + badge on checklist)
+const navItems = computed(() => menuGroups.value.flatMap(g => g.items));
 
 const checklistTodo        = computed(() => page.props.checklist_todo ?? 0);
 const canCreateInvitation  = computed(() => page.props.can_create_invitation ?? true);
@@ -192,7 +241,7 @@ const handleClickOutsideAvatar = (e) => {
 </script>
 
 <template>
-    <div class="min-h-screen flex flex-col" style="background-color: #F4F7F5">
+    <div class="min-h-screen flex flex-col" style="background-color: #EEF2EA; font-family: 'Inter', 'Figtree', system-ui, sans-serif;">
 
         <!-- ── Partner Mode Banner ─────────────────────────────── -->
         <PartnerModeBanner />
@@ -212,11 +261,12 @@ const handleClickOutsideAvatar = (e) => {
         <aside
             :class="[
                 'fixed top-0 left-0 h-full z-30 flex flex-col transition-all duration-300',
-                'bg-white border-r border-stone-100 shadow-sm',
+                'border-r shadow-sm',
                 sidebarOpen ? 'translate-x-0' : '-translate-x-full',
                 'lg:translate-x-0 lg:sticky lg:top-0 lg:h-screen lg:z-auto',
                 sidebarCollapsed ? 'lg:w-16' : 'w-64',
             ]"
+            style="background: linear-gradient(180deg, #F6F8F3 0%, #EEF2EA 100%); border-color: #D8DFD2;"
         >
             <!-- Logo — expanded -->
             <div v-if="!sidebarCollapsed" class="flex items-center gap-3 px-5 py-4 border-b border-stone-100">
@@ -248,89 +298,117 @@ const handleClickOutsideAvatar = (e) => {
                 </button>
             </div>
 
-            <!-- Nav Items -->
-            <nav class="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
-                <template v-for="item in navItems" :key="item.id">
+            <!-- Nav Items (grouped by phase) -->
+            <nav class="flex-1 px-3 py-4 overflow-y-auto">
+                <template v-for="group in menuGroups" :key="group.heading ?? '__standalone__'">
 
-                    <!-- Group (with children) -->
-                    <template v-if="item.group">
-                        <!-- Group header button -->
-                        <button
-                            @click="toggleGroup(item.id)"
-                            :class="[
-                                'w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-all duration-150 cursor-pointer',
-                                isGroupActive(item)
-                                    ? 'bg-[#92A89C]/20 text-[#2C2417] font-semibold'
-                                    : 'font-medium text-stone-500 hover:text-stone-800 hover:bg-[#92A89C]/8',
-                                sidebarCollapsed ? 'justify-center' : '',
-                            ]"
-                        >
-                            <svg class="w-5 h-5 flex-shrink-0"
-                                 :class="isGroupActive(item) ? 'text-[#92A89C]' : 'text-stone-400'"
-                                 fill="none" viewBox="0 0 24 24" stroke="currentColor" v-html="item.icon"/>
-                            <span v-if="!sidebarCollapsed" class="flex-1 text-left">{{ item.label }}</span>
-                            <svg v-if="!sidebarCollapsed"
-                                 class="w-4 h-4 flex-shrink-0 transition-transform duration-200"
-                                 :class="expandedGroups[item.id] ? 'rotate-180' : ''"
-                                 fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                            </svg>
-                        </button>
+                    <!-- Phase section header (expanded) or thin divider (collapsed) -->
+                    <p v-if="group.heading && !sidebarCollapsed"
+                       class="px-3 mt-5 mb-1.5 text-[10px] font-semibold uppercase tracking-wider text-stone-400">
+                        {{ group.heading }}
+                    </p>
+                    <div v-else-if="group.heading && sidebarCollapsed" class="my-3 mx-1 border-t border-stone-200"></div>
 
-                        <!-- Sub-items -->
-                        <Transition name="expand">
-                            <div v-if="!sidebarCollapsed && expandedGroups[item.id]"
-                                 class="mt-1 ml-4 pl-3 border-l border-stone-100 space-y-0.5">
-                                <template v-for="child in item.children" :key="child.id">
-                                    <!-- Coming soon: non-clickable -->
-                                    <span v-if="child.comingSoon"
-                                          class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-stone-400 cursor-default select-none">
-                                        {{ child.label }}
-                                        <span class="text-xs px-1.5 py-0.5 rounded-full bg-stone-100 text-stone-400 font-medium">{{ t('dashboard.layout.dropdown.comingSoon') }}</span>
-                                    </span>
-                                    <!-- Normal child link -->
-                                    <Link v-else
-                                          :href="route(child.route)"
-                                          :class="[
-                                              'flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-all duration-150',
-                                              isActive(child)
-                                                  ? 'bg-[#92A89C]/20 text-[#2C2417] font-semibold'
-                                                  : 'font-medium text-stone-500 hover:text-stone-800 hover:bg-[#92A89C]/8',
-                                          ]"
-                                    >
-                                        {{ child.label }}
-                                        <span v-if="child.premiumOnly && plan?.plan_slug !== 'premium'"
-                                              class="ml-auto text-xs font-semibold px-1.5 py-0.5 rounded-md"
-                                              style="background-color:#C8A26B20;color:#C8A26B">
-                                            Pro
-                                        </span>
-                                    </Link>
-                                </template>
+                    <!-- Items within group -->
+                    <div class="space-y-0.5">
+                        <template v-for="item in group.items" :key="item.id">
+
+                            <!-- Disabled item (Phase 3 roadmap) -->
+                            <div v-if="item.disabled"
+                                 :class="[
+                                     'flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm opacity-50 cursor-not-allowed select-none',
+                                     sidebarCollapsed ? 'justify-center' : '',
+                                 ]"
+                                 :title="t('nav.comingSoon')">
+                                <svg class="w-5 h-5 flex-shrink-0 text-stone-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" v-html="item.icon"/>
+                                <span v-if="!sidebarCollapsed" class="flex-1 text-left text-stone-500">{{ item.label }}</span>
+                                <span v-if="!sidebarCollapsed && item.badge"
+                                      class="text-[9px] px-1.5 py-0.5 rounded-full bg-stone-100 text-stone-400 font-semibold flex-shrink-0">
+                                    {{ item.badge }}
+                                </span>
                             </div>
-                        </Transition>
-                    </template>
 
-                    <!-- Regular item -->
-                    <Link
-                        v-else
-                        :href="route(item.route)"
-                        :class="[
-                            'flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-all duration-150',
-                            isActive(item)
-                                ? 'bg-[#92A89C]/20 text-[#2C2417] font-semibold'
-                                : 'font-medium text-stone-500 hover:text-stone-800 hover:bg-[#92A89C]/8',
-                            sidebarCollapsed ? 'justify-center' : '',
-                        ]"
-                    >
-                        <svg class="w-5 h-5 flex-shrink-0" :class="isActive(item) ? 'text-[#92A89C]' : 'text-stone-400'"
-                             fill="none" viewBox="0 0 24 24" stroke="currentColor" v-html="item.icon"/>
-                        <span v-if="!sidebarCollapsed" class="flex-1">{{ item.label }}</span>
-                        <span
-                            v-if="!sidebarCollapsed && item.route === 'dashboard.checklist.index' && checklistTodo > 0"
-                            class="ml-auto min-w-[20px] h-5 px-1.5 rounded-full text-xs font-semibold flex items-center justify-center text-white"
-                            style="background-color: #92A89C"
-                        >{{ checklistTodo }}</span>
-                    </Link>
+                            <!-- Group item (with children dropdown — e.g. Tamu) -->
+                            <template v-else-if="item.group">
+                                <button
+                                    @click="toggleGroup(item.id)"
+                                    :class="[
+                                        'w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-all duration-150 cursor-pointer',
+                                        isGroupActive(item)
+                                            ? 'bg-[#1F2A2E] text-white font-semibold'
+                                            : 'font-medium text-stone-500 hover:text-stone-800 hover:bg-[#92A89C]/8',
+                                        sidebarCollapsed ? 'justify-center' : '',
+                                    ]"
+                                >
+                                    <svg class="w-5 h-5 flex-shrink-0"
+                                         :class="isGroupActive(item) ? 'text-white' : 'text-stone-400'"
+                                         fill="none" viewBox="0 0 24 24" stroke="currentColor" v-html="item.icon"/>
+                                    <span v-if="!sidebarCollapsed" class="flex-1 text-left">{{ item.label }}</span>
+                                    <svg v-if="!sidebarCollapsed"
+                                         class="w-4 h-4 flex-shrink-0 transition-transform duration-200"
+                                         :class="expandedGroups[item.id] ? 'rotate-180' : ''"
+                                         fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                                    </svg>
+                                </button>
+
+                                <!-- Sub-items -->
+                                <Transition name="expand">
+                                    <div v-if="!sidebarCollapsed && expandedGroups[item.id]"
+                                         class="mt-1 ml-4 pl-3 border-l border-stone-100 space-y-0.5">
+                                        <template v-for="child in item.children" :key="child.id">
+                                            <span v-if="child.comingSoon"
+                                                  class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-stone-400 cursor-default select-none">
+                                                {{ child.label }}
+                                                <span class="text-xs px-1.5 py-0.5 rounded-full bg-stone-100 text-stone-400 font-medium">{{ t('dashboard.layout.dropdown.comingSoon') }}</span>
+                                            </span>
+                                            <Link v-else
+                                                  :href="route(child.route)"
+                                                  prefetch
+                                                  :class="[
+                                                      'flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-all duration-150',
+                                                      isActive(child)
+                                                          ? 'bg-[#1F2A2E] text-white font-semibold'
+                                                          : 'font-medium text-stone-500 hover:text-stone-800 hover:bg-[#92A89C]/8',
+                                                  ]"
+                                            >
+                                                {{ child.label }}
+                                                <span v-if="child.premiumOnly && plan?.plan_slug !== 'premium'"
+                                                      class="ml-auto text-xs font-semibold px-1.5 py-0.5 rounded-md"
+                                                      style="background-color:#C8A26B20;color:#C8A26B">
+                                                    Pro
+                                                </span>
+                                            </Link>
+                                        </template>
+                                    </div>
+                                </Transition>
+                            </template>
+
+                            <!-- Regular nav item -->
+                            <Link
+                                v-else
+                                :href="route(item.route)"
+                                prefetch
+                                :class="[
+                                    'flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-all duration-150',
+                                    isActive(item)
+                                        ? 'bg-[#1F2A2E] text-white font-semibold'
+                                        : 'font-medium text-stone-500 hover:text-stone-800 hover:bg-[#92A89C]/8',
+                                    sidebarCollapsed ? 'justify-center' : '',
+                                ]"
+                            >
+                                <svg class="w-5 h-5 flex-shrink-0" :class="isActive(item) ? 'text-white' : 'text-stone-400'"
+                                     fill="none" viewBox="0 0 24 24" stroke="currentColor" v-html="item.icon"/>
+                                <span v-if="!sidebarCollapsed" class="flex-1">{{ item.label }}</span>
+                                <span
+                                    v-if="!sidebarCollapsed && item.route === 'dashboard.checklist.index' && checklistTodo > 0"
+                                    class="ml-auto min-w-[20px] h-5 px-1.5 rounded-full text-xs font-semibold flex items-center justify-center text-white"
+                                    style="background-color: #C19089"
+                                >{{ checklistTodo }}</span>
+                            </Link>
+
+                        </template>
+                    </div>
 
                 </template>
             </nav>
@@ -359,9 +437,10 @@ const handleClickOutsideAvatar = (e) => {
             <!-- User footer -->
             <div class="border-t border-stone-100 p-3">
                 <div :class="['flex items-center gap-3', sidebarCollapsed ? 'justify-center' : '']">
-                    <div class="w-9 h-9 rounded-full flex items-center justify-center text-white text-sm font-bold flex-shrink-0"
+                    <div class="w-9 h-9 rounded-full flex items-center justify-center text-white text-sm font-bold flex-shrink-0 overflow-hidden"
                          style="background-color: #92A89C">
-                        {{ avatarInitials }}
+                        <img v-if="user?.avatar_url" :src="user.avatar_url" :alt="user?.name" referrerpolicy="no-referrer" class="w-full h-full object-cover" />
+                        <span v-else>{{ avatarInitials }}</span>
                     </div>
                     <div v-if="!sidebarCollapsed" class="flex-1 min-w-0">
                         <p class="text-sm font-medium text-stone-800 truncate">{{ user?.name }}</p>
@@ -386,10 +465,11 @@ const handleClickOutsideAvatar = (e) => {
         <div class="flex-1 flex flex-col min-w-0 pb-16 lg:pb-0">
 
             <!-- Top bar -->
-            <header class="sticky top-0 z-10 bg-white border-b border-stone-100 px-4 lg:px-6 h-14 flex items-center gap-4">
-                <!-- Mobile hamburger (HIDDEN — replaced by MobileBottomNav, kept for rollback) -->
+            <header class="sticky top-0 z-10 px-4 lg:px-6 h-20 flex items-center gap-4"
+                    style="background: rgba(238,242,234,0.78); backdrop-filter: blur(10px); border-bottom: 1px solid #D8DFD2;">
+                <!-- Mobile hamburger — opens full sidebar drawer (bottom nav stays too) -->
                 <button
-                    class="hidden lg:hidden p-2 -ml-1 rounded-lg text-stone-500 hover:bg-stone-100 transition-colors cursor-pointer"
+                    class="flex lg:hidden p-2 -ml-1 rounded-lg text-stone-500 hover:bg-stone-100 transition-colors cursor-pointer"
                     @click="sidebarOpen = !sidebarOpen"
                 >
                     <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -402,8 +482,28 @@ const handleClickOutsideAvatar = (e) => {
                     <slot name="header" />
                 </div>
 
+                <!-- Search pill (desktop only) -->
+                <div class="hidden lg:flex self-center items-center gap-2.5 rounded-full px-4 py-2.5 w-80"
+                     style="background:#FBFCF9; border:1px solid #D8DFD2;"
+                     :title="t('dashboard.layout.searchSoon')">
+                  <svg class="w-4 h-4 flex-shrink-0" style="color:#6C7A75;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                    <circle cx="11" cy="11" r="7" /><path d="M21 21l-4.3-4.3" stroke-linecap="round" />
+                  </svg>
+                  <input disabled :placeholder="t('dashboard.layout.searchPlaceholder')"
+                         class="flex-1 min-w-0 border-0 bg-transparent p-0 outline-none focus:ring-0 text-sm cursor-default" style="color:#1F2A2E;" />
+                </div>
+
                 <!-- Right actions -->
-                <div class="flex items-center gap-2">
+                <div class="flex flex-1 justify-end items-center gap-2">
+                    <!-- Share invitation button -->
+                    <a :href="route('dashboard.invitations.index')"
+                       class="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-full text-[13px] font-semibold text-white transition-transform active:scale-95"
+                       style="background:#1F2A2E;">
+                      <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="1.8">
+                        <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4" stroke-linecap="round"/>
+                      </svg>
+                      {{ t('dashboard.layout.shareInvite') }}
+                    </a>
                     <!-- Flash message -->
                     <Transition name="slide-down">
                         <div v-if="flash?.success"
@@ -418,6 +518,9 @@ const handleClickOutsideAvatar = (e) => {
                     <!-- Language switcher -->
                     <LanguageSwitcher />
 
+                    <!-- Support icon (mobile only) -->
+                    <SupportHeaderIcon v-if="isMobile" />
+
                     <!-- Notification bell -->
                     <NotificationBell />
 
@@ -425,10 +528,11 @@ const handleClickOutsideAvatar = (e) => {
                     <div class="relative" ref="avatarDropdownRef">
                         <button
                             @click.stop="avatarDropdownOpen = !avatarDropdownOpen"
-                            class="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold focus:outline-none ring-2 ring-transparent focus:ring-[#92A89C]/50 transition-all cursor-pointer"
+                            class="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold focus:outline-none ring-2 ring-transparent focus:ring-[#92A89C]/50 transition-all cursor-pointer overflow-hidden"
                             style="background-color: #92A89C"
                         >
-                            {{ avatarInitials }}
+                            <img v-if="user?.avatar_url" :src="user.avatar_url" :alt="user?.name" referrerpolicy="no-referrer" class="w-full h-full object-cover" />
+                            <span v-else>{{ avatarInitials }}</span>
                         </button>
 
                         <Transition name="fade">
@@ -582,6 +686,9 @@ const handleClickOutsideAvatar = (e) => {
             :open="moreMenuOpen"
             @close="moreMenuOpen = false"
         />
+
+        <!-- Support chat bubble (desktop only) -->
+        <SupportBubble v-if="!isMobile" />
 
     </div>
 </template>

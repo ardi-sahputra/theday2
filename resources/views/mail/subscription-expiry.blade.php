@@ -22,7 +22,7 @@
                 <span style="color:#FFFCF7; font-family:Georgia,serif; font-size:18px; font-weight:600; line-height:32px; letter-spacing:-1px;">d<span style="color:#C8A26B;">.</span></span>
             </td>
             <td style="padding-left:10px; vertical-align:middle;">
-                <span style="font-size:18px; font-weight:700; color:#2C2417; letter-spacing:-0.3px; font-family:Georgia,serif;">TheDay</span>
+                <span style="font-size:18px; font-weight:700; color:#2C2417; letter-spacing:-0.3px; font-family:Georgia,serif;">Theday</span>
             </td>
         </tr>
     </table>
@@ -46,7 +46,7 @@
 
     <div class="footer">
         <p style="margin:0">Pertanyaan? Hubungi kami di <strong>hello@theday.id</strong></p>
-        <p style="margin:8px 0 0">TheDay — Undangan Pernikahan Digital</p>
+        <p style="margin:8px 0 0">Theday — Undangan Pernikahan Digital</p>
     </div>
 </div>
 </body>

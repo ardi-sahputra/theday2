@@ -23,6 +23,12 @@ class RegisteredUserController extends Controller
 {
     public function create(): Response
     {
+        return Inertia::render('Auth/RegisterV2');
+    }
+
+    // Old register design — kept for reference at /register-classic.
+    public function createClassic(): Response
+    {
         return Inertia::render('Auth/Register');
     }
 
@@ -50,6 +56,7 @@ class RegisteredUserController extends Controller
             'name'     => $request->name,
             'email'    => $request->email,
             'password' => Hash::make($request->password),
+            'locale'   => app()->getLocale(),
         ]);
 
         $assignFreeSubscription->execute($user);

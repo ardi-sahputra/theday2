@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 return [
     'common' => [
-        'tim_theday' => 'Tim TheDay',
+        'tim_theday' => 'Tim Theday',
     ],
     'flash' => [
         'purchase_error' => 'Pembayaran gagal diproses. Silakan coba lagi atau hubungi support.',
@@ -17,7 +17,7 @@ return [
         'plan_invalid' => 'Plan tidak valid untuk gift.',
     ],
     'mail' => [
-        'received_subject' => 'Kamu dapat gift premium TheDay!',
+        'received_subject' => 'Kamu dapat gift premium Theday!',
         'claimed_subject'  => 'Gift kamu sudah diklaim!',
         'received_heading' => 'Selamat! Kamu dapat gift premium 🎁',
         'received_greeting' => 'Halo,',

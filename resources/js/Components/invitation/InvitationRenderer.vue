@@ -10,6 +10,7 @@ import SectionMessages from '@/Pages/Invitation/Sections/SectionMessages.vue';
 import SectionClosing  from '@/Pages/Invitation/Sections/SectionClosing.vue';
 
 import { TEMPLATE_MAP } from '@/Components/invitation/templates/registry';
+import { isMusicEnabled } from '@/utils/invitationMusic';
 
 const props = defineProps({
     invitation: { type: Object,  required: true },
@@ -28,6 +29,9 @@ const premiumTemplate = computed(() =>
 const cfg          = computed(() => props.invitation.config ?? {});
 const primaryColor = computed(() => cfg.value.primary_color ?? '#92A89C');
 const fontFamily   = computed(() => cfg.value.font_title    ?? cfg.value.font ?? 'Playfair Display');
+
+// Background music only plays when a track exists AND it isn't disabled in config
+const musicOn = computed(() => isMusicEnabled(props.invitation));
 
 // ── Open / reveal state ────────────────────────────────────────────────────
 const opened = ref(props.isDemo || props.autoOpen);
@@ -62,7 +66,7 @@ function toggleMusic() {
 
 function handleOpenAndPlay() {
     openInvitation();
-    if (props.invitation.music?.file_url && audioEl.value) {
+    if (musicOn.value && audioEl.value) {
         audioEl.value.play().then(() => { musicPlaying.value = true; }).catch(() => {});
     }
 }
@@ -111,7 +115,7 @@ onUnmounted(() => observer?.disconnect());
 
     <!-- Background audio -->
     <audio
-        v-if="invitation.music?.file_url"
+        v-if="musicOn"
         ref="audioEl"
         :src="invitation.music.file_url"
         loop
@@ -177,7 +181,7 @@ onUnmounted(() => observer?.disconnect());
 
         <!-- Floating music button -->
         <button
-            v-if="invitation.music?.file_url"
+            v-if="musicOn"
             @click="toggleMusic"
             :class="['fixed bottom-6 right-4 z-40 w-12 h-12 rounded-full shadow-lg flex items-center justify-center transition-all active:scale-90',
                      musicPlaying ? 'animate-spin-slow' : '']"

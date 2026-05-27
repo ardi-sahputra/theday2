@@ -38,14 +38,22 @@ class ChecklistController extends Controller
 
     // ─── API: Initialize ──────────────────────────────────────────
 
-    public function initialize(): JsonResponse
+    public function initialize(Request $request): JsonResponse
     {
         $plan = $this->resolveOrCreatePlan();
 
-        if ($plan->isChecklistInitialized()) {
-            return response()->json(['message' => 'Already initialized.'], 200);
+        // "Isi sendiri" — record that the couple made their choice (so we stop
+        // prompting) without generating any template tasks. They can still apply
+        // the standard set later from the rail.
+        if ($request->input('mode') === 'blank') {
+            if (! $plan->isChecklistInitialized()) {
+                $plan->update(['checklist_initialized_at' => now()]);
+            }
+
+            return response()->json(['message' => 'Blank checklist ready.'], 201);
         }
 
+        // Standard set. The service is idempotent on existing system tasks.
         $this->service->initialize($plan);
 
         return response()->json(['message' => 'Checklist initialized.'], 201);
@@ -77,6 +85,7 @@ class ChecklistController extends Controller
             'priority'             => 'sometimes|string|in:low,medium,high',
             'due_date'             => 'nullable|date',
             'description'          => 'nullable|string|max:1000',
+            'vendor'               => 'nullable|string|max:120',
             'assignee_type'        => 'nullable|string|in:bride,groom,both,parents,family,wo,custom',
             'assignee_label'       => 'nullable|string|max:100',
             'reminder_enabled'     => 'sometimes|boolean',
@@ -104,6 +113,7 @@ class ChecklistController extends Controller
             'priority'             => 'sometimes|string|in:low,medium,high',
             'due_date'             => 'nullable|date',
             'description'          => 'nullable|string|max:1000',
+            'vendor'               => 'nullable|string|max:120',
             'assignee_type'        => 'nullable|string|in:bride,groom,both,parents,family,wo,custom',
             'assignee_label'       => 'nullable|string|max:100',
             'reminder_enabled'     => 'sometimes|boolean',
@@ -268,6 +278,47 @@ class ChecklistController extends Controller
         return response()->noContent();
     }
 
+    // ─── iCal Export ─────────────────────────────────────────────
+
+    public function exportCalendar(): \Illuminate\Http\Response
+    {
+        $plan  = $this->resolveOrCreatePlan();
+        $tasks = $plan->checklistTasks()
+            ->where('status', '!=', \App\Enums\ChecklistTaskStatus::Archived->value)
+            ->whereNotNull('due_date')
+            ->get();
+
+        $lines = [
+            'BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//TheDay//Checklist//ID', 'CALSCALE:GREGORIAN',
+            'X-WR-CALNAME:TheDay — Checklist Pernikahan',
+        ];
+
+        foreach ($tasks as $task) {
+            $date   = \Carbon\Carbon::parse($task->due_date)->format('Ymd');
+            $stamp  = now()->utc()->format('Ymd\THis\Z');
+            $catVal = $task->category instanceof \BackedEnum ? $task->category->value : (string) $task->category;
+            $desc   = trim($catVal.($task->vendor ? ' · '.$task->vendor : ''));
+            $esc    = fn (string $s) => addcslashes($s, ",;\\\n");
+            $lines[] = 'BEGIN:VEVENT';
+            $lines[] = 'UID:checklist-'.$task->id.'@theday';
+            $lines[] = 'DTSTAMP:'.$stamp;
+            $lines[] = 'DTSTART;VALUE=DATE:'.$date;
+            $lines[] = 'SUMMARY:'.$esc($task->title);
+            if ($desc !== '') {
+                $lines[] = 'DESCRIPTION:'.$esc($desc);
+            }
+            $lines[] = 'END:VEVENT';
+        }
+
+        $lines[] = 'END:VCALENDAR';
+        $body = implode("\r\n", $lines)."\r\n";
+
+        return response($body, 200, [
+            'Content-Type'        => 'text/calendar; charset=utf-8',
+            'Content-Disposition' => 'attachment; filename="theday-checklist.ics"',
+        ]);
+    }
+
     // ─── Helpers ──────────────────────────────────────────────────
 
     private function resolveOrCreatePlan(): WeddingPlan
@@ -306,6 +357,7 @@ class ChecklistController extends Controller
             'source'               => $task->source->value,
             'title'                => $task->title,
             'description'          => $task->description,
+            'vendor'               => $task->vendor,
             'category'             => $task->category->value,
             'priority'             => $task->priority->value,
             'status'               => $task->status->value,

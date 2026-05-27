@@ -24,7 +24,7 @@ class MayarService
 
         $response = Http::withToken(config('mayar.api_key'))
             ->post(config('mayar.base_url') . '/invoice/create', [
-                'name'        => $user->name,
+                'name'        => $user->customerDisplayName(),
                 'email'       => $user->email,
                 'mobile'      => $phone,
                 'description' => $itemName,

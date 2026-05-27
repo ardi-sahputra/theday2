@@ -10,8 +10,8 @@ const { t } = useLocale();
 
         <AppNavbar />
 
-        <!-- Page content -->
-        <main class="flex-1">
+        <!-- Page content (pt-20 offsets fixed navbar height ~5rem) -->
+        <main class="flex-1 pt-20">
             <slot />
         </main>
 

@@ -27,10 +27,11 @@ final class BuildBudgetSummaryAction
             $usagePercentage = min(round(($totalActual / $totalBudget) * 100, 2), 100);
         }
 
-        // Count overbudget categories — use terpakai accessor for each item so DP tracking is included
-        $overbudgetCategoriesCount = $budget->activeCategories()
-            ->with('activeItems')
-            ->get()
+        // Load categories with their items once; reused for the overbudget count and the
+        // per-category breakdown below. Uses the terpakai accessor so DP tracking is included.
+        $categoriesWithItems = $budget->activeCategories()->with('activeItems')->get();
+
+        $overbudgetCategoriesCount = $categoriesWithItems
             ->filter(function ($cat) {
                 $planned = $cat->activeItems->sum('planned_amount');
                 $actual  = $cat->activeItems->sum(fn ($i) => $i->terpakai);
@@ -49,6 +50,15 @@ final class BuildBudgetSummaryAction
             'overbudget_amount'          => $overbudgetAmount,
             'overbudget_categories_count' => $overbudgetCategoriesCount,
             'has_budget'                 => $totalBudget !== null,
+            'categories'                 => $categoriesWithItems
+                ->map(fn ($cat) => [
+                    'name'    => $cat->name,
+                    'planned' => (int) $cat->activeItems->sum('planned_amount'),
+                    'actual'  => (int) $cat->activeItems->sum(fn ($i) => $i->terpakai),
+                ])
+                ->filter(fn ($c) => $c['planned'] > 0 || $c['actual'] > 0)
+                ->values()
+                ->all(),
             'formatted'                  => [
                 'total_budget'          => RupiahFormatter::format($totalBudget),
                 'total_planned'         => RupiahFormatter::formatOrZero($totalPlanned),

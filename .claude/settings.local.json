@@ -1,6 +1,5 @@
 {
   "permissions": {
-    "defaultMode": "bypassPermissions",
     "allow": [
       "Bash(rtk php:*)",
       "Bash(rtk grep:*)",
@@ -84,8 +83,19 @@
       "Bash(git -C C:/laragon/www/theday show 096a484:config/midtrans.php)",
       "Bash(php /c/laragon/www/theday/artisan make:migration add_mayar_to_payment_method_enum --path=database/migrations)",
       "Bash(php /c/laragon/www/theday/artisan test tests/Feature/Payment/MayarServiceTest.php)",
-      "Bash(php /c/laragon/www/theday/artisan test tests/Feature/Payment/SubscriptionCheckoutTest.php)"
+      "Bash(php /c/laragon/www/theday/artisan test tests/Feature/Payment/SubscriptionCheckoutTest.php)",
+      "Bash(cp \"/c/Users/Ardi/Downloads/theday\\(9\\).zip\" \"c:/laragon/www/theday2/theday\\(9\\).zip\")",
+      "Bash(unzip -l \"theday\\(9\\).zip\")",
+      "Bash(unzip -o \"c:/laragon/www/theday2/theday\\(9\\).zip\" \"onboardflow.jsx\" \"monboard.jsx\" \"Onboarding.html\" \"Onboarding Mobile.html\" -d theday9)",
+      "Bash(grep -nE 'protected \\\\$fillable' -A 20 app/Models/Invitation.php)",
+      "Bash(php -l app/Http/Controllers/OnboardingController.php)",
+      "Bash(php -l app/Models/Invitation.php)",
+      "Bash(xargs echo \"non-build files remaining:\")",
+      "Bash(php -l app/Http/Controllers/Dashboard/SubscriptionController.php)",
+      "Bash(unzip -o \"c:/laragon/www/theday2/theday\\(9\\).zip\" \"onboardflow.jsx\" -d theday9)",
+      "Bash(php -l app/Actions/CreateInvitationFromTemplateAction.php)"
     ],
+    "defaultMode": "bypassPermissions",
     "additionalDirectories": [
       "C:\\laragon\\www\\theday\\docs\\superpowers\\specs"
     ]

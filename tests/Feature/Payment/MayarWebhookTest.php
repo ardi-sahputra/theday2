@@ -128,6 +128,74 @@ class MayarWebhookTest extends TestCase
         ]);
     }
 
+    public function test_webhook_does_not_activate_when_paid_amount_is_less_than_expected(): void
+    {
+        $user = User::factory()->create();
+        $plan = Plan::create(['name' => 'Premium', 'slug' => 'premium', 'price' => 35000, 'duration_days' => 90]);
+        $this->makePendingTransaction($user, $plan, 'mayar-uuid-wh-amt'); // amount 35000
+
+        Http::fake([
+            config('mayar.base_url') . '/invoice/mayar-uuid-wh-amt' => Http::response([
+                'data' => ['transactionStatus' => 'paid', 'amount' => 100],
+            ]),
+        ]);
+
+        $response = $this->postJson('/webhooks/mayar', [
+            'event' => 'payment.received',
+            'data'  => ['id' => 'mayar-uuid-wh-amt'],
+        ]);
+
+        $response->assertOk()->assertJsonPath('status', 'not_paid');
+        $this->assertDatabaseHas('transactions', [
+            'payment_gateway_id' => 'mayar-uuid-wh-amt',
+            'status'             => 'pending',
+        ]);
+    }
+
+    public function test_webhook_rejects_invalid_callback_token(): void
+    {
+        config(['mayar.webhook_token' => 'whsec_secret']);
+
+        $user = User::factory()->create();
+        $plan = Plan::create(['name' => 'Premium', 'slug' => 'premium', 'price' => 35000, 'duration_days' => 90]);
+        $this->makePendingTransaction($user, $plan, 'mayar-uuid-wh-tok');
+
+        $this->postJson('/webhooks/mayar', [
+            'event' => 'payment.received',
+            'data'  => ['id' => 'mayar-uuid-wh-tok'],
+        ])->assertStatus(401);
+
+        $this->assertDatabaseHas('transactions', [
+            'payment_gateway_id' => 'mayar-uuid-wh-tok',
+            'status'             => 'pending',
+        ]);
+        Http::assertNothingSent();
+    }
+
+    public function test_webhook_accepts_valid_callback_token(): void
+    {
+        Mail::fake();
+        config(['mayar.webhook_token' => 'whsec_secret']);
+
+        $user = User::factory()->create();
+        $plan = Plan::create(['name' => 'Premium', 'slug' => 'premium', 'price' => 35000, 'duration_days' => 90]);
+        $this->makePendingTransaction($user, $plan, 'mayar-uuid-wh-tok2');
+
+        Http::fake([
+            config('mayar.base_url') . '/invoice/mayar-uuid-wh-tok2' => Http::response([
+                'data' => ['transactionStatus' => 'paid', 'amount' => 35000],
+            ]),
+        ]);
+
+        $this->withHeaders(['X-Callback-Token' => 'whsec_secret'])
+            ->postJson('/webhooks/mayar', [
+                'event' => 'payment.received',
+                'data'  => ['id' => 'mayar-uuid-wh-tok2'],
+            ])
+            ->assertOk()
+            ->assertJsonPath('status', 'OK');
+    }
+
     public function test_webhook_activates_addon_for_addon_transactions(): void
     {
         Mail::fake();

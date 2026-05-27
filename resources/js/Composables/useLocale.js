@@ -14,6 +14,9 @@ export function useLocale() {
         locale.value = lang;
         try { localStorage.setItem(LANG_KEY, lang); } catch (_) {}
         axios.defaults.headers.common['X-Locale'] = lang;
+        // Persist as a cookie so the server reads it on full page loads + OAuth
+        // redirects (where the X-Locale header is absent). 1 year, site-wide.
+        try { document.cookie = `locale=${lang};path=/;max-age=31536000;SameSite=Lax`; } catch (_) {}
         // Refresh translations prop from server for the new locale
         router.reload({ only: ['translations', 'locale'] });
     }

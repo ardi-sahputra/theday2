@@ -35,6 +35,18 @@ class OnboardingController extends Controller
                 'name'  => $request->user()->name,
                 'phone' => $request->user()->phone,
             ],
+            'plans' => \App\Models\Plan::whereIn('slug', ['free', 'premium'])
+                ->orderBy('sort_order')
+                ->with('discounts')
+                ->get()
+                ->map(fn ($p) => [
+                    'slug'             => $p->slug,
+                    'name'             => $p->name,
+                    'price'            => (int) $p->price,
+                    'effective_price'  => $p->effectivePrice(),
+                    'discount_percent' => $p->currentDiscount()?->percent,
+                ])
+                ->values(),
         ]);
     }
 
@@ -57,6 +69,10 @@ class OnboardingController extends Controller
             'start_time'     => ['nullable', 'date_format:H:i'],
             'venue_name'     => ['nullable', 'string', 'max:255'],
             'venue_address'  => ['nullable', 'string', 'max:1000'],
+            'marital_status' => ['nullable', 'string', 'in:belum,sudah'],
+            'wedding_type'   => ['nullable', 'string', 'in:akad-resepsi,intimate,destination,belum'],
+            'city'           => ['nullable', 'string', 'max:120'],
+            'intended_plan'  => ['nullable', 'string', 'in:free,premium'],
         ], [
             'groom_name.required'   => 'Nama mempelai pria wajib diisi.',
             'bride_name.required'   => 'Nama mempelai wanita wajib diisi.',
@@ -65,6 +81,7 @@ class OnboardingController extends Controller
             'wedding_date.required' => 'Tanggal pernikahan wajib diisi, atau centang "Belum menentukan tanggal".',
         ]);
 
+        /** @var \App\Models\User $user */
         $user = $request->user();
 
         // Update user phone if provided and changed
@@ -72,56 +89,105 @@ class OnboardingController extends Controller
             $user->update(['phone' => $data['phone']]);
         }
 
-        // Resolve template: use pending session or fall back to first active free template
-        $pendingTemplateId = session()->pull('pending_template');
-        $template = $pendingTemplateId
-            ? Template::find($pendingTemplateId)
-            : Template::active()->where('tier', 'free')->ordered()->first();
+        $isMarried = ($data['marital_status'] ?? null) === 'sudah';
 
-        // Build title and auto-generate slug
-        $title = trim("{$data['groom_name']} & {$data['bride_name']}");
-        $slug  = $this->generateUniqueSlug($data);
+        if ($isMarried) {
+            // Already married → no wedding invitation to send. Persist couple
+            // data (names + wedding date) to the profile as the anniversary
+            // foundation; they can create event invitations later if they want.
+            \App\Models\CoupleProfile::updateOrCreate(
+                ['user_id' => $user->id],
+                [
+                    'groom_name'     => $data['groom_name'],
+                    'groom_nickname' => $data['groom_nickname'] ?? null,
+                    'bride_name'     => $data['bride_name'],
+                    'bride_nickname' => $data['bride_nickname'] ?? null,
+                    'wedding_date'   => $noDate ? null : ($data['wedding_date'] ?? null),
+                ],
+            );
+            $needsDesign = false;
+        } else {
+            // Preparing for the wedding. Only create the invitation now if a
+            // design was already chosen (picked before registering). Otherwise
+            // stash the couple data and let them pick a template first.
+            $pendingTemplateId = session()->pull('pending_template');
+            $template = $pendingTemplateId ? Template::find($pendingTemplateId) : null;
 
-        // Create the first invitation draft
-        $invitation = Invitation::create([
-            'user_id'    => $user->id,
-            'template_id' => $template->id,
-            'title'       => $title,
-            'event_type'  => 'pernikahan',
-            'slug'        => $slug,
-            'status'      => 'draft',
-        ]);
+            if ($template) {
+                $invitation = Invitation::create([
+                    'user_id'    => $user->id,
+                    'template_id' => $template->id,
+                    'title'       => trim("{$data['groom_name']} & {$data['bride_name']}"),
+                    'event_type'  => 'pernikahan',
+                    'marital_status' => $data['marital_status'] ?? null,
+                    'wedding_type' => $data['wedding_type'] ?? null,
+                    'city'         => $data['city'] ?? null,
+                    'intended_plan' => $data['intended_plan'] ?? null,
+                    'slug'        => $this->generateUniqueSlug($data),
+                    'status'      => 'draft',
+                ]);
 
-        // Create invitation details with couple data
-        $invitation->details()->create([
-            'invitation_id'  => $invitation->id,
-            'groom_name'     => $data['groom_name'],
-            'groom_nickname' => $data['groom_nickname'] ?? null,
-            'bride_name'     => $data['bride_name'],
-            'bride_nickname' => $data['bride_nickname'] ?? null,
-        ]);
+                $invitation->details()->create([
+                    'invitation_id'  => $invitation->id,
+                    'groom_name'     => $data['groom_name'],
+                    'groom_nickname' => $data['groom_nickname'] ?? null,
+                    'bride_name'     => $data['bride_name'],
+                    'bride_nickname' => $data['bride_nickname'] ?? null,
+                ]);
 
-        // Create event if date is provided
-        if (! $noDate && ! empty($data['wedding_date'])) {
-            $invitation->events()->create([
-                'event_name'    => 'Akad & Resepsi',
-                'event_date'    => $data['wedding_date'],
-                'start_time'    => $data['start_time'] ?? null,
-                'venue_name'    => $data['venue_name'] ?? '',
-                'venue_address' => $data['venue_address'] ?? null,
-                'sort_order'    => 0,
-            ]);
+                if (! $noDate && ! empty($data['wedding_date'])) {
+                    $invitation->events()->create([
+                        'event_name'    => 'Akad & Resepsi',
+                        'event_date'    => $data['wedding_date'],
+                        'start_time'    => $data['start_time'] ?? null,
+                        'venue_name'    => $data['venue_name'] ?? '',
+                        'venue_address' => $data['venue_address'] ?? null,
+                        'sort_order'    => 0,
+                    ]);
+                }
+
+                $needsDesign = false;
+            } else {
+                // No design chosen → remember the couple data so it pre-fills the
+                // invitation once they pick a template from the gallery.
+                session(['pending_couple_data' => [
+                    'groom_name'     => $data['groom_name'],
+                    'groom_nickname' => $data['groom_nickname'] ?? null,
+                    'bride_name'     => $data['bride_name'],
+                    'bride_nickname' => $data['bride_nickname'] ?? null,
+                    'wedding_date'   => $noDate ? null : ($data['wedding_date'] ?? null),
+                    'start_time'     => $data['start_time'] ?? null,
+                    'venue_name'     => $data['venue_name'] ?? null,
+                    'venue_address'  => $data['venue_address'] ?? null,
+                    'wedding_type'   => $data['wedding_type'] ?? null,
+                    'city'           => $data['city'] ?? null,
+                    'intended_plan'  => $data['intended_plan'] ?? null,
+                ]]);
+                $needsDesign = true;
+            }
         }
 
         // Mark onboarding as complete
         $user->update(['onboarding_completed_at' => now()]);
 
-        return redirect()
-            ->route('dashboard')
-            ->with('flash', [
-                'type'    => 'success',
-                'message' => 'Selamat! Setup selesai. Undanganmu siap dikustomisasi.',
-            ]);
+        // Routing: Premium intent → checkout. Else, if no design chosen yet →
+        // template gallery to pick one. Otherwise the dashboard.
+        if (($data['intended_plan'] ?? null) === 'premium') {
+            return redirect()->route('dashboard.paket', ['checkout' => 'premium'])
+                ->with('flash', ['type' => 'success', 'message' => 'Setup selesai — lanjut pilih paket Premium.']);
+        }
+
+        if ($needsDesign) {
+            return redirect()->route('dashboard.templates')
+                ->with('flash', ['type' => 'success', 'message' => 'Sip! Sekarang pilih desain undangan kalian.']);
+        }
+
+        return redirect()->route('dashboard')->with('flash', [
+            'type'    => 'success',
+            'message' => $isMarried
+                ? 'Selamat! Profil pasangan kalian tersimpan.'
+                : 'Selamat! Setup selesai. Undanganmu siap dikustomisasi.',
+        ]);
     }
 
     private function generateUniqueSlug(array $data): string

@@ -1,60 +1,91 @@
 {{-- resources/views/landing.blade.php --}}
+@php
+    $locale    = $locale ?? 'id';
+    $isEn      = $locale === 'en';
+    $urlId     = url('/');
+    $urlEn     = url('/en');
+    $canonical = $isEn ? $urlEn : $urlId;
+
+    $seoTitle = $isEn
+        ? 'Theday & Beyond — Celebrate the Day, Cherish the Story | Indonesian Couple Companion App'
+        : 'Theday & Beyond — Merayakan Hari, Merawat Cerita | Aplikasi Pendamping Pasangan Indonesia';
+    $seoDesc = $isEn
+        ? 'An Indonesian couple companion app — from preparation, through your wedding day, to life beyond. Digital invitations, RSVP, anniversary, and more.'
+        : 'Aplikasi pendamping pasangan Indonesia dari persiapan, hari pernikahan, sampai kehidupan setelahnya. Undangan digital, RSVP, anniversary, dan lainnya.';
+    $seoKeywords = $isEn
+        ? 'digital wedding invitation Indonesia, online wedding invitation, couple companion app, wedding RSVP, anniversary tracker, premium digital invitation'
+        : 'undangan digital pernikahan, undangan pernikahan digital, buat undangan nikah online gratis, undangan nikah digital, digital wedding invitation Indonesia, undangan online cantik, undangan pernikahan premium';
+    $ogTitle = $isEn
+        ? 'Theday & Beyond — Celebrate the Day, Cherish the Story'
+        : 'Theday & Beyond — Merayakan Hari, Merawat Cerita';
+@endphp
 <!DOCTYPE html>
-<html lang="id" id="html-root">
+<html lang="{{ $isEn ? 'en' : 'id' }}" id="html-root">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     {{-- ── SEO: Core ─────────────────────────────────────────────── --}}
-    <title>TheDay - Undangan Digital Pernikahan Online Premium | Gratis</title>
-    <meta name="description"
-        content="Buat undangan digital pernikahan yang elegan dalam hitungan menit. 50+ template premium, RSVP online real-time, bagikan via WhatsApp. Mulai gratis, tanpa kartu kredit.">
-    <meta name="keywords"
-        content="undangan digital pernikahan, undangan pernikahan digital, buat undangan nikah online gratis, undangan nikah digital, digital wedding invitation Indonesia, undangan online cantik, undangan pernikahan premium">
-    <meta name="author" content="TheDay">
+    <title>{{ $seoTitle }}</title>
+    <meta name="description" content="{{ $seoDesc }}">
+    <meta name="keywords" content="{{ $seoKeywords }}">
+    <meta name="author" content="Theday">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-    <link rel="canonical" href="{{ url('/') }}">
+    <link rel="canonical" href="{{ $canonical }}">
     <link rel="icon" type="image/svg+xml" href="{{ asset('image/favicon.svg') }}">
     <link rel="icon" type="image/png" sizes="96x96" href="{{ asset('image/favicon-96x96.png') }}">
 
     {{-- ── SEO: Open Graph (WhatsApp / Facebook / LinkedIn) ─────── --}}
     <meta property="og:type" content="website">
-    <meta property="og:url" content="{{ url('/') }}">
-    <meta property="og:site_name" content="TheDay">
-    <meta property="og:title" content="TheDay — Undangan Digital Pernikahan Premium | Gratis">
-    <meta property="og:description"
-        content="Buat undangan pernikahan digital yang cantik dalam hitungan menit. 50+ template elegan, RSVP online, bagikan via WhatsApp. Mulai gratis!">
+    <meta property="og:url" content="{{ $canonical }}">
+    <meta property="og:site_name" content="Theday">
+    <meta property="og:title" content="{{ $ogTitle }}">
+    <meta property="og:description" content="{{ $seoDesc }}">
     <meta property="og:image" content="{{ asset('image/logo.svg') }}">
     <meta property="og:image:width" content="300">
     <meta property="og:image:height" content="150">
-    <meta property="og:image:alt" content="TheDay — Platform Undangan Digital Pernikahan Premium Online">
-    <meta property="og:locale" content="id_ID">
-    <meta property="og:locale:alternate" content="en_US">
+    <meta property="og:image:alt" content="Theday — Platform Undangan Digital Pernikahan Premium Online">
+    <meta property="og:locale" content="{{ $isEn ? 'en_US' : 'id_ID' }}">
+    <meta property="og:locale:alternate" content="{{ $isEn ? 'id_ID' : 'en_US' }}">
 
     {{-- ── SEO: Twitter Card ─────────────────────────────────────── --}}
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="TheDay — Undangan Digital Pernikahan Premium Online">
-    <meta name="twitter:description"
-        content="Buat undangan pernikahan digital yang cantik dalam hitungan menit. 50+ template elegan, RSVP online, bagikan via WhatsApp.">
+    <meta name="twitter:title" content="{{ $ogTitle }}">
+    <meta name="twitter:description" content="{{ $seoDesc }}">
     <meta name="twitter:image" content="{{ asset('image/logo.svg') }}">
 
-    {{-- ── SEO: Hreflang (bilingual ID / EN) ────────────────────── --}}
-    <link rel="alternate" hreflang="id" href="{{ url('/') }}">
-    <link rel="alternate" hreflang="en" href="{{ url('/') }}">
-    <link rel="alternate" hreflang="x-default" href="{{ url('/') }}">
+    {{-- ── SEO: Hreflang (bilingual ID / EN — distinct URLs) ─────── --}}
+    <link rel="alternate" hreflang="id" href="{{ $urlId }}">
+    <link rel="alternate" hreflang="en" href="{{ $urlEn }}">
+    <link rel="alternate" hreflang="x-default" href="{{ $urlId }}">
 
     {{-- ── SEO: Sitemap Discovery ────────────────────────────────── --}}
     <link rel="sitemap" type="application/xml" title="Sitemap" href="{{ url('/sitemap.xml') }}">
+
+    {{-- ── Prefetch app entry pages so the first tap into the app feels instant.
+         Guests head to login/register; Speculation Rules degrade gracefully where
+         unsupported. Authed users go to /dashboard (heavy) so we don't prefetch it. --}}
+    @guest
+    <script type="speculationrules">
+    {
+        "prefetch": [
+            { "source": "list", "urls": ["/login", "/register"] }
+        ]
+    }
+    </script>
+    @endguest
 
     {{-- ── Fonts ─────────────────────────────────────────────────── --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap"
         rel="stylesheet">
 
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    {{-- Landing is pure Blade + vanilla JS (no Inertia/Vue mount), so it only
+         needs the compiled CSS — not the ~900KB app bundle. --}}
+    @vite(['resources/css/app.css'])
 
     <style>
         :root {
@@ -67,7 +98,7 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Montserrat', sans-serif;
             background-color: var(--color-bg);
             color: var(--color-dark);
         }
@@ -76,10 +107,35 @@
             font-family: 'Playfair Display', serif;
         }
 
+        /* Hero serif — matches Landing Page.html (Cormorant) */
+        .font-serif-hero {
+            font-family: 'Cormorant', 'Times New Roman', serif;
+            font-weight: 500;
+        }
+
+        .italic-serif-hero {
+            font-family: 'Cormorant', serif;
+            font-style: italic;
+            font-weight: 500;
+        }
+
+        /* Hero title — Cormorant editorial serif */
+        .font-hero-display {
+            font-family: 'Cormorant', 'Times New Roman', serif;
+            font-weight: 700;
+        }
+
+        .hero-amp {
+            font-family: 'Cormorant', serif;
+            font-style: italic;
+            font-weight: 600;
+        }
+
         /* Hero gradient */
         .hero-gradient {
-            background: linear-gradient(135deg, #F5F8F6 0%, #EBF0ED 45%, #DDEAE4 100%);
+            background: #fcf8f3;
         }
+
 
         /* Gold button */
         .btn-primary {
@@ -121,6 +177,11 @@
             transform: translateY(-1px);
         }
 
+        .btn-primary:active,
+        .btn-outline:active {
+            transform: translateY(0) scale(0.97);
+        }
+
         /* Card hover effect */
         .feature-card {
             transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -131,25 +192,6 @@
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
         }
 
-        /* Template card */
-        .template-card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            overflow: hidden;
-        }
-
-        .template-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 24px 48px rgba(0, 0, 0, 0.12);
-        }
-
-        .template-card:hover .template-overlay {
-            opacity: 1;
-        }
-
-        .template-overlay {
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
 
         /* Floating animation */
         @keyframes float {
@@ -176,16 +218,122 @@
             animation: float 4s ease-in-out infinite 2s;
         }
 
-        /* Scroll reveal */
-        .reveal {
+        /* ── Scroll reveal (animation-based so card hover transforms stay intact) ── */
+        .reveal,
+        .reveal-fade {
             opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.6s ease, transform 0.6s ease;
         }
 
-        .reveal.visible {
+        .reveal {
+            transform: translateY(30px);
+        }
+
+        .reveal.reveal-scale {
+            transform: scale(0.96);
+        }
+
+        .reveal.is-in {
+            animation: revealRise 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        .reveal.reveal-scale.is-in {
+            animation: revealScale 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        .reveal-fade.is-in {
+            animation: revealFade 0.7s ease forwards;
+        }
+
+        /* Resting state after entrance — no transform lock, so :hover lift still works */
+        .reveal.done,
+        .reveal-fade.done {
             opacity: 1;
-            transform: translateY(0);
+            transform: none;
+        }
+
+        @keyframes revealRise {
+            from { opacity: 0; transform: translateY(30px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes revealScale {
+            from { opacity: 0; transform: scale(0.96); }
+            to   { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes revealFade {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+
+        /* ── Hero entrance (on page load) ── */
+        @keyframes heroRise {
+            from { opacity: 0; transform: translateY(26px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes heroScale {
+            from { opacity: 0; transform: scale(0.96) translateY(18px); }
+            to   { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .hero-anim {
+            opacity: 0;
+            animation: heroRise 0.75s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        .hero-illustration {
+            opacity: 0;
+            animation: heroScale 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.3s forwards;
+        }
+
+        /* Gentle float for hero floating mockup cards */
+        @keyframes mockupFloat {
+            0%, 100% { transform: translateY(0); }
+            50%      { transform: translateY(-8px); }
+        }
+
+        .hero-mockup-float {
+            animation: mockupFloat 5s ease-in-out infinite;
+        }
+
+        .hero-mockup-float-delay {
+            animation: mockupFloat 5s ease-in-out infinite 1.4s;
+        }
+
+        /* ── Progress bar fill (scaleX = GPU-friendly), triggers when its card reveals ── */
+        .bar-fill {
+            transform: scaleX(0);
+            transform-origin: left center;
+            transition: transform 1.1s cubic-bezier(0.22, 1, 0.36, 1) 0.2s;
+        }
+
+        .is-in .bar-fill,
+        .done .bar-fill {
+            transform: scaleX(1);
+        }
+
+        /* ── Nav link animated underline ── */
+        .nav-link {
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -3px;
+            height: 1.5px;
+            width: 100%;
+            background: var(--color-primary);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .nav-link:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
         }
 
         /* Decorative dots */
@@ -245,6 +393,84 @@
             border-color: var(--color-primary);
             background: rgba(146, 168, 156, 0.08);
         }
+
+        /* Feature tabs */
+        .feature-tab {
+            background: #F5F8F6;
+            color: #73877C;
+        }
+
+        .feature-tab.is-active {
+            background: #92A89C;
+            color: white;
+        }
+
+        .feature-tab:hover:not(.is-active) {
+            background: rgba(146, 168, 156, 0.2);
+        }
+
+        /* FAQ accordion (smooth open/close) */
+        .faq-a {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            padding-top: 0;
+            padding-bottom: 0;
+            transition: max-height 0.4s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s ease, padding 0.4s ease;
+        }
+
+        .faq-item.is-open .faq-a {
+            max-height: 500px;
+            opacity: 1;
+            padding-bottom: 1rem;
+        }
+
+        .faq-icon {
+            transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .faq-item.is-open .faq-icon {
+            transform: rotate(45deg);
+        }
+
+        /* Reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+
+            .float-animation,
+            .float-animation-delay,
+            .float-animation-delay-2,
+            .hero-mockup-float,
+            .hero-mockup-float-delay {
+                animation: none !important;
+            }
+
+            .hero-anim,
+            .hero-illustration {
+                opacity: 1 !important;
+                animation: none !important;
+            }
+
+            .reveal,
+            .reveal-fade {
+                opacity: 1 !important;
+                transform: none !important;
+            }
+
+            .reveal.is-in,
+            .reveal.reveal-scale.is-in,
+            .reveal-fade.is-in {
+                animation: none !important;
+            }
+
+            .bar-fill {
+                transform: scaleX(1) !important;
+                transition: none !important;
+            }
+
+            .faq-a {
+                transition: none !important;
+            }
+        }
     </style>
 
     {{-- ── JSON-LD Structured Data ───────────────────────────────── --}}
@@ -256,8 +482,8 @@
           "@type": "WebSite",
           "@id": "{{ url('/') }}/#website",
           "url": "{{ url('/') }}",
-          "name": "TheDay",
-          "description": "Platform undangan digital pernikahan online terbaik di Indonesia.",
+          "name": "Theday",
+          "description": "Aplikasi pendamping pasangan Indonesia dari persiapan, hari pernikahan, sampai kehidupan setelahnya. Undangan digital, RSVP, anniversary, dan lainnya.",
           "inLanguage": ["id-ID", "en-US"],
           "potentialAction": {
             "@type": "SearchAction",
@@ -271,7 +497,7 @@
         {
           "@type": "Organization",
           "@id": "{{ url('/') }}/#organization",
-          "name": "TheDay",
+          "name": "Theday",
           "url": "{{ url('/') }}",
           "logo": {
             "@type": "ImageObject",
@@ -287,11 +513,11 @@
         {
           "@type": "SoftwareApplication",
           "@id": "{{ url('/') }}/#app",
-          "name": "TheDay",
+          "name": "Theday",
           "applicationCategory": "LifestyleApplication",
           "operatingSystem": "Web",
           "url": "{{ url('/') }}",
-          "description": "Platform undangan digital pernikahan online. Buat undangan nikah cantik dalam hitungan menit dengan 50+ template elegan.",
+          "description": "Aplikasi pendamping pasangan Indonesia dari persiapan, hari pernikahan, sampai kehidupan setelahnya. Undangan digital, RSVP, anniversary, dan lainnya.",
           "offers": [
             {
               "@type": "Offer",
@@ -314,32 +540,49 @@
               "priceCurrency": "IDR",
               "description": "Undangan tidak terbatas, white label, custom domain, laporan Excel"
             }
-          ],
-          "aggregateRating": {
-            "@type": "AggregateRating",
-            "ratingValue": "4.9",
-            "reviewCount": "2000",
-            "bestRating": "5",
-            "worstRating": "1"
-          }
+          ]
         },
         {
           "@type": "FAQPage",
           "mainEntity": [
             {
               "@type": "Question",
-              "name": "Apakah TheDay gratis?",
+              "name": "Saya sudah menikah, masih bisa pakai Theday?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Ya, TheDay menyediakan paket gratis selamanya. Mencakup 1 undangan aktif, template dasar, konfirmasi RSVP, link undangan, peta lokasi, dan 5 foto galeri. Tidak perlu kartu kredit."
+                "text": "Bisa. Fitur Fase 3 (Setelah Nikah) seperti anniversary reminder, memory album, dan joint budget dirancang untuk pasangan yang sudah menikah. Fitur ini sedang dikembangkan dan akan tersedia bertahap. Daftar sekarang gratis untuk dapat akses awal saat rilis."
               }
             },
             {
               "@type": "Question",
-              "name": "Bagaimana cara membuat undangan digital di TheDay?",
+              "name": "Apakah saya wajib pakai fitur undangan?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Cukup 3 langkah mudah: (1) Pilih template pernikahan yang sesuai, (2) Isi detail acara seperti nama mempelai, tanggal, lokasi, dan foto, (3) Bagikan link undangan ke tamu via WhatsApp atau media sosial."
+                "text": "Tidak. Undangan digital adalah salah satu fitur unggulan, tapi kamu bisa pakai Theday hanya untuk checklist persiapan, daftar tamu, RSVP, atau fitur setelah nikah. Bebas pilih sesuai kebutuhan."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Apa bedanya Theday & Beyond dengan platform undangan lain?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Theday fokus ke perjalanan pernikahan jangka panjang, bukan cuma event sehari. Kami menggabungkan kualitas craft template undangan premium dengan fitur pendamping seumur hidup pasangan: dari persiapan, hari H, sampai kehidupan setelahnya. Dirancang khusus untuk pasangan Indonesia."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Fitur Setelah Nikah kapan tersedia?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Fitur Fase 3 (anniversary reminder, memory album, newlywed admin, joint budget) sedang dikembangkan dan akan dirilis bertahap. Kamu yang sudah daftar akan dapat notifikasi saat setiap fitur rilis."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Apa bedanya paket Free dan Premium?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Free: undangan digital dengan template terbatas, watermark Theday, fitur dasar checklist dan RSVP. Premium: akses ke semua template premium, tanpa watermark, custom domain, amplop digital, dan priority support."
               }
             },
             {
@@ -348,22 +591,6 @@
               "acceptedAnswer": {
                 "@type": "Answer",
                 "text": "Ya, tamu dapat langsung konfirmasi hadir atau tidak dari halaman undangan digital. Rekap kehadiran tersedia secara real-time di dashboard pengelola undangan."
-              }
-            },
-            {
-              "@type": "Question",
-              "name": "Berapa banyak template undangan yang tersedia?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "TheDay menyediakan 50+ template premium undangan pernikahan dalam berbagai tema: romantis, modern, minimalis, vintage, hingga keraton. Semua template bisa dikustomisasi warna, font, dan kontennya."
-              }
-            },
-            {
-              "@type": "Question",
-              "name": "Apakah undangan digital bisa dibagikan via WhatsApp?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "Ya, setiap undangan TheDay menghasilkan satu link unik yang bisa langsung dibagikan ke semua tamu via WhatsApp, Instagram, email, atau media sosial lainnya."
               }
             }
           ]
@@ -383,19 +610,19 @@
         <div class="max-w-6xl mx-auto flex items-center justify-between">
             {{-- Logo --}}
             <a href="/" class="flex items-center">
-                <img src="{{ asset('image/logo.svg') }}" alt="TheDay" class="h-10 w-auto">
+                <img src="{{ asset('image/logo.svg') }}" alt="Theday" class="h-10 w-auto">
             </a>
 
             {{-- Desktop Nav Links --}}
             <div class="hidden md:flex items-center gap-8">
-                <a href="#fitur" class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors"
+                <a href="#fitur" class="nav-link text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors"
                     data-id="Fitur" data-en="Features">Fitur</a>
-                <a href="#template" class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors"
-                    data-id="Template" data-en="Template">Template</a>
-                <a href="#harga" class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors"
+                <a href="#harga" class="nav-link text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors"
                     data-id="Harga" data-en="Pricing">Harga</a>
-                <a href="#cara-kerja" class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors"
+                <a href="#cara-kerja" class="nav-link text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors"
                     data-id="Cara Kerja" data-en="How It Works">Cara Kerja</a>
+                <a href="#faq" class="nav-link text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors"
+                    data-id="FAQ" data-en="FAQ">FAQ</a>
             </div>
 
             {{-- CTA + Lang switcher --}}
@@ -421,8 +648,8 @@
                     <a href="/login"
                         class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors px-4 py-2"
                         data-id="Masuk" data-en="Login">Masuk</a>
-                    <a href="/templates" class="btn-primary text-sm py-2 px-5" data-id="Buat Undangan — Gratis"
-                        data-en="Create Invitation — Free">Buat Undangan — Gratis</a>
+                    <a href="/register" class="btn-primary text-sm py-2 px-5" data-id="Mulai Gratis"
+                        data-en="Start Free">Mulai Gratis</a>
                 @endauth
             </div>
 
@@ -447,12 +674,11 @@
             <div class="flex flex-col gap-4 px-2">
                 <a href="#fitur" class="text-sm font-medium text-gray-600" data-id="Fitur"
                     data-en="Features">Fitur</a>
-                <a href="#template" class="text-sm font-medium text-gray-600" data-id="Template"
-                    data-en="Template">Template</a>
                 <a href="#harga" class="text-sm font-medium text-gray-600" data-id="Harga"
                     data-en="Pricing">Harga</a>
                 <a href="#cara-kerja" class="text-sm font-medium text-gray-600" data-id="Cara Kerja"
                     data-en="How It Works">Cara Kerja</a>
+                <a href="#faq" class="text-sm font-medium text-gray-600" data-id="FAQ" data-en="FAQ">FAQ</a>
                 <div class="flex gap-3 pt-2">
                     @auth
                         <a href="/dashboard" class="btn-primary text-sm py-2 px-4 flex-1 justify-center"
@@ -460,8 +686,8 @@
                     @else
                         <a href="/login" class="btn-outline text-sm py-2 px-4 flex-1 justify-center" data-id="Masuk"
                             data-en="Login">Masuk</a>
-                        <a href="/templates" class="btn-primary text-sm py-2 px-4 flex-1 justify-center"
-                            data-id="Buat Undangan" data-en="Create Invitation">Buat Undangan</a>
+                        <a href="/register" class="btn-primary text-sm py-2 px-4 flex-1 justify-center"
+                            data-id="Mulai Gratis" data-en="Start Free">Mulai Gratis</a>
                     @endauth
                 </div>
             </div>
@@ -473,7 +699,7 @@
     {{-- HERO SECTION --}}
     {{-- ============================================================ --}}
     <main id="main-content">
-        <section class="hero-gradient min-h-screen flex items-center relative overflow-hidden pt-20">
+        <section class="hero-gradient relative overflow-hidden flex items-center min-h-dvh pt-28 pb-20">
             {{-- Background decoration --}}
             <div class="absolute inset-0 dot-pattern opacity-40"></div>
 
@@ -485,176 +711,161 @@
             <div class="absolute top-1/2 left-1/2 w-32 h-32 rounded-full opacity-10 float-animation-delay-2"
                 style="background: radial-gradient(circle, #92A89C, transparent)"></div>
 
-            <div class="max-w-6xl mx-auto px-6 py-20 relative z-10">
-                <div class="flex flex-col lg:flex-row items-center gap-16">
+            <div
+                class="max-w-7xl mx-auto px-8 grid md:grid-cols-[1fr_1.1fr] gap-x-[72px] gap-y-12 items-center relative z-10">
+                {{-- Hero Text --}}
+                <div class="text-center md:text-left">
+                    {{-- Eyebrow badge --}}
+                    <div class="hero-anim inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-6"
+                        style="background-color: rgba(146,168,156,0.15); animation-delay: 0.05s">
+                        <span class="w-2 h-2 rounded-full" style="background-color: #92A89C"></span>
+                        <span class="text-xs font-semibold" style="color: #73877C"
+                            data-id="Persiapkan · Rayakan · Jalani" data-en="Prepare · Celebrate · Live">Persiapkan ·
+                            Rayakan · Jalani</span>
+                    </div>
 
-                    {{-- Hero Text --}}
-                    <div class="flex-1 text-center lg:text-left">
-                        {{-- Badge --}}
-                        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium mb-6"
-                            style="background-color: rgba(146,168,156,0.15); color: var(--color-primary-dark)">
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                <path
-                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    {{-- Title --}}
+                    <h1 class="hero-anim font-hero-display mb-3"
+                        style="color: #2C2417; font-size: clamp(34px, 5vw, 58px); line-height: 1.05; letter-spacing: -0.015em; animation-delay: 0.12s">
+                        Theday <span class="hero-amp" style="color: #92A89C; font-size: 0.9em">&amp;</span>
+                        <span style="color: #92A89C">Beyond</span>
+                    </h1>
+
+                    {{-- Subtitle --}}
+                    <h2 class="hero-anim italic-serif-hero text-gray-600 mt-2.5 mb-7"
+                        style="font-size: clamp(22px, 2.2vw, 30px); font-weight: 400; animation-delay: 0.19s"
+                        data-id="Merayakan hari, merawat cerita" data-en="Celebrate the day, cherish the story">
+                        Merayakan hari, merawat cerita
+                    </h2>
+
+                    {{-- Description --}}
+                    <p class="hero-anim text-gray-500 mb-8 mx-auto md:mx-0"
+                        style="font-size: 16.5px; line-height: 1.65; max-width: 520px; animation-delay: 0.26s"
+                        data-id="Pendamping pasangan dari hari spesial sampai kehidupan bersama. Mulai dari undangan digital, lanjut ke persiapan dan perjalanan pernikahan kamu."
+                        data-en="Companion app for couples — from the special day to your shared life. Start with digital invitations, continue with planning and married life.">
+                        Pendamping pasangan dari hari spesial sampai kehidupan bersama. Mulai dari undangan digital,
+                        lanjut ke persiapan dan perjalanan pernikahan kamu.
+                    </p>
+
+                    {{-- CTAs --}}
+                    <div class="hero-anim flex flex-col sm:flex-row gap-3 mb-8 justify-center md:justify-start"
+                        style="animation-delay: 0.33s">
+                        <a href="/register" class="btn-primary text-base py-3 px-6"
+                            data-id="Mulai Perjalanan Bersama" data-en="Start Your Journey">
+                            Mulai Perjalanan Bersama
+                        </a>
+                        <a href="#phase-journey" class="btn-outline text-base py-3 px-6"
+                            data-id="Lihat Perjalanannya" data-en="See the Journey">
+                            Lihat Perjalanannya
+                        </a>
+                    </div>
+
+                    {{-- Trust signals (honest, non-fabricated) --}}
+                    <div class="hero-anim space-y-2" style="animation-delay: 0.40s">
+                        <div class="flex items-center gap-3 text-sm text-gray-500 justify-center md:justify-start">
+                            {{-- Color palette swatch (brand tone hint) --}}
+                            <div class="flex -space-x-1.5" aria-hidden="true">
+                                <span class="w-5 h-5 rounded-full ring-2 ring-white"
+                                    style="background-color:#B8C7BF"></span>
+                                <span class="w-5 h-5 rounded-full ring-2 ring-white"
+                                    style="background-color:#E8C5C0"></span>
+                                <span class="w-5 h-5 rounded-full ring-2 ring-white"
+                                    style="background-color:#F0E6D2"></span>
+                                <span class="w-5 h-5 rounded-full ring-2 ring-white"
+                                    style="background-color:#92A89C"></span>
+                            </div>
+                            <span data-id="Mulai gratis — tanpa kartu kredit" data-en="Start free — no credit card">
+                                Mulai gratis — tanpa kartu kredit
+                            </span>
+                        </div>
+                        <div class="flex items-center gap-1.5 text-sm text-gray-500 justify-center md:justify-start">
+                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="#92A89C"
+                                stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M20 6 9 17l-5-5" />
                             </svg>
-                            <span data-id="Dipercaya 10.000+ pasangan di Indonesia"
-                                data-en="Trusted by 10,000+ couples in Indonesia">Dipercaya 10.000+ pasangan di
-                                Indonesia</span>
+                            <span data-id="32+ tema undangan premium siap pakai"
+                                data-en="32+ premium invitation themes ready to use">
+                                32+ tema undangan premium siap pakai
+                            </span>
                         </div>
+                    </div>
+                </div>
 
-                        <h1 class="font-display text-4xl md:text-5xl lg:text-6xl font-semibold leading-tight mb-6"
-                            style="color: var(--color-dark)">
-                            <span data-id="Buat Momen Spesialmu" data-en="Make Your Special Moment">Buat Momen
-                                Spesialmu</span><br>
-                            <span style="color: var(--color-primary)" data-id="Tak Terlupakan"
-                                data-en="Unforgettable">Tak Terlupakan</span>
-                        </h1>
-
-                        <p class="text-lg text-gray-600 mb-8 max-w-xl leading-relaxed"
-                            data-id="Undangan pernikahan digital yang elegan dan berkesan. Bagikan lewat WhatsApp, terima konfirmasi kehadiran secara real-time."
-                            data-en="Elegant digital wedding invitations that leave a lasting impression. Share via WhatsApp, receive attendance confirmations in real-time.">
-                            Undangan pernikahan digital yang elegan dan berkesan. Bagikan lewat WhatsApp, terima
-                            konfirmasi kehadiran secara real-time.
-                        </p>
-
-                        <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                            <a href="/templates" class="btn-primary text-base py-3 px-8">
-                                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                                    stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
-                                </svg>
-                                <span data-id="Buat Undangan Gratis" data-en="Create Free Invitation">Buat Undangan
-                                    Gratis</span>
-                            </a>
-                            <a href="#template" class="btn-outline text-base py-3 px-8">
-                                <span data-id="Lihat Template" data-en="View Templates">Lihat Template</span>
-                                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                                    stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                                </svg>
-                            </a>
-                        </div>
-
-                        {{-- Social proof --}}
-                        <div class="mt-10 flex items-center gap-4 justify-center lg:justify-start">
-                            <div class="flex -space-x-2">
-                                @foreach (['bg-rose-300', 'bg-[#92A89C]/50', 'bg-emerald-300', 'bg-[#B8C7BF]', 'bg-purple-300'] as $color)
-                                    <div
-                                        class="w-9 h-9 rounded-full border-2 border-white {{ $color }} flex items-center justify-center text-xs font-bold text-white">
-                                        {{ chr(65 + $loop->index) }}
-                                    </div>
-                                @endforeach
+                {{-- Hero Illustration — line-art journey card (matches Landing Page.html) --}}
+                <div class="hero-illustration order-first md:order-last">
+                    <div class="relative mx-auto" style="max-width: 600px">
+                        {{-- Illustration card --}}
+                        <div class="relative w-full overflow-hidden"
+                            style="aspect-ratio: 720 / 480; border-radius: 28px;
+                                    background: linear-gradient(135deg, #F6F1E2 0%, #F4EDDC 60%, #EDE3C6 100%);
+                                    box-shadow: 0 30px 60px -30px rgba(74,90,76,0.35), 0 2px 0 rgba(255,255,255,0.6) inset;
+                                    border: 1px solid rgba(201,164,91,0.18);">
+                            {{-- corner blob accents --}}
+                            <div
+                                style="position:absolute; top:-40px; left:-30px; width:220px; height:220px; border-radius:50%; filter:blur(2px); opacity:.7; background:#DCE4D3;">
                             </div>
-                            <div>
-                                <div class="flex items-center gap-1">
-                                    @for ($i = 0; $i < 5; $i++)
-                                        <svg class="w-4 h-4 text-[#C8A26B]" fill="currentColor" viewBox="0 0 20 20">
-                                            <path
-                                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                        </svg>
-                                    @endfor
+                            <div
+                                style="position:absolute; bottom:-50px; right:-40px; width:180px; height:180px; border-radius:50%; filter:blur(2px); opacity:.7; background:#E9DFC4;">
+                            </div>
+                            <div
+                                style="position:absolute; top:40px; right:60px; width:90px; height:90px; border-radius:50%; filter:blur(2px); opacity:.7; background:rgba(217,181,176,0.35);">
+                            </div>
+
+                            <img src="{{ asset('images/landing/hero-journey.webp') }}"
+                                alt="Perjalanan pasangan dari persiapan, hari pernikahan, sampai kehidupan bersama"
+                                width="1672" height="941" loading="eager" fetchpriority="high" decoding="async"
+                                style="position:relative; width:100%; height:100%; object-fit:cover; display:block;">
+
+                            {{-- dashed border accent --}}
+                            <div
+                                style="position:absolute; inset:12px; border:1px dashed rgba(146,168,156,0.35); border-radius:20px; pointer-events:none;">
+                            </div>
+                        </div>
+
+                        {{-- Floating: D-Day countdown (top-left) --}}
+                        <div class="hero-mockup-float absolute -top-4 -left-3 sm:-top-7 sm:-left-7"
+                            style="background:rgba(251,252,249,0.95); backdrop-filter:blur(8px); border-radius:16px; padding:14px 18px; box-shadow:0 20px 40px -20px rgba(74,90,76,0.35); border:1px solid rgba(216,223,210,0.8);">
+                            <p
+                                style="font-size:11px; color:#6C7A75; font-weight:500; letter-spacing:0.04em; text-transform:uppercase; margin:0;">
+                                D-Day</p>
+                            <p style="margin:4px 0 0; line-height:1;">
+                                <span
+                                    style="font-family:'Cormorant',serif; font-size:34px; font-weight:500; color:#1F2A2E;">120</span>
+                                <span style="font-size:14px; font-weight:600; color:#73877C;" data-id="hari"
+                                    data-en="days">hari</span>
+                            </p>
+                            <p class="tabular-nums" style="font-size:11px; color:#6C7A75; margin:6px 0 0;">22 · 11 ·
+                                2026</p>
+                        </div>
+
+                        {{-- Floating: RSVP progress (bottom-right) --}}
+                        <div class="hero-mockup-float-delay absolute -bottom-4 -right-2 sm:-bottom-6 sm:-right-3"
+                            style="background:rgba(251,252,249,0.95); backdrop-filter:blur(8px); border-radius:16px; padding:14px 16px; box-shadow:0 20px 40px -20px rgba(74,90,76,0.35); border:1px solid rgba(216,223,210,0.8); min-width:220px;">
+                            <div style="display:flex; align-items:center; gap:10px;">
+                                <span
+                                    style="width:34px; height:34px; border-radius:10px; background:#DCE4D3; display:grid; place-items:center; flex-shrink:0;">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                        stroke="#4A5A4C" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M20 6 9 17l-5-5" />
+                                    </svg>
+                                </span>
+                                <div>
+                                    <p style="font-size:12.5px; font-weight:600; color:#1F2A2E; margin:0;"
+                                        data-id="RSVP terkirim" data-en="RSVP confirmed">RSVP terkirim</p>
+                                    <p style="font-size:11px; color:#6C7A75; margin:0;">
+                                        <span class="tabular-nums">184</span>
+                                        <span data-id="dari" data-en="of">dari</span>
+                                        <span class="tabular-nums">220</span>
+                                        <span data-id="tamu" data-en="guests">tamu</span>
+                                    </p>
                                 </div>
-                                <p class="text-xs text-gray-500 mt-0.5" data-id="4.9/5 dari 2.000+ ulasan"
-                                    data-en="4.9/5 from 2,000+ reviews">4.9/5 dari 2.000+ ulasan</p>
+                            </div>
+                            <div
+                                style="margin-top:10px; height:5px; background:#DCE4D3; border-radius:999px; overflow:hidden;">
+                                <div style="width:83%; height:100%; background:#92A89C; border-radius:999px;"></div>
                             </div>
                         </div>
                     </div>
-
-                    {{-- Hero Mock --}}
-                    <div class="flex-1 flex justify-center items-center relative">
-                        {{-- Phone mockup --}}
-                        <div class="relative w-72 float-animation">
-                            <div class="bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-100"
-                                style="box-shadow: 0 40px 80px rgba(146,168,156,0.25)">
-                                {{-- Phone notch --}}
-                                <div class="bg-gray-900 h-7 flex items-center justify-center">
-                                    <div class="w-20 h-4 bg-gray-800 rounded-full"></div>
-                                </div>
-                                {{-- Invitation preview --}}
-                                <div class="relative"
-                                    style="background: linear-gradient(160deg, #EBF0ED, #DDEAE4); height: 480px;">
-                                    {{-- Decorative elements --}}
-                                    <div
-                                        class="absolute inset-0 flex flex-col items-center justify-center text-center px-6">
-                                        <div class="w-16 h-px mb-4" style="background: var(--color-primary)"></div>
-                                        <p class="text-xs text-gray-500 tracking-widest uppercase mb-2"
-                                            data-id="Undangan Pernikahan" data-en="Wedding Invitation">Undangan
-                                            Pernikahan</p>
-                                        <h3 class="font-display text-3xl font-semibold mb-1"
-                                            style="color: var(--color-dark)">Rina</h3>
-                                        <div class="flex items-center gap-2 mb-1">
-                                            <div class="w-8 h-px" style="background: var(--color-primary)"></div>
-                                            <span class="text-xs" style="color: var(--color-primary)">&amp;</span>
-                                            <div class="w-8 h-px" style="background: var(--color-primary)"></div>
-                                        </div>
-                                        <h3 class="font-display text-3xl font-semibold mb-6"
-                                            style="color: var(--color-dark)">Budi</h3>
-
-                                        <div class="bg-white bg-opacity-60 rounded-xl px-6 py-3 mb-4 w-full">
-                                            <p class="text-xs text-gray-500 mb-0.5" data-id="Sabtu, 12 Juli 2025"
-                                                data-en="Saturday, July 12, 2025">Sabtu, 12 Juli 2025</p>
-                                            <p class="text-sm font-semibold" style="color: var(--color-dark)"
-                                                data-id="09.00 WIB — Selesai" data-en="09:00 AM — Until Finish">09.00
-                                                WIB — Selesai</p>
-                                        </div>
-                                        <div class="bg-white bg-opacity-60 rounded-xl px-6 py-3 w-full">
-                                            <p class="text-xs text-gray-500 mb-0.5" data-id="Lokasi"
-                                                data-en="Location">Lokasi</p>
-                                            <p class="text-sm font-semibold" style="color: var(--color-dark)">Hotel
-                                                Mulia Senayan</p>
-                                            <p class="text-xs text-gray-500" data-id="Jakarta Selatan"
-                                                data-en="South Jakarta">Jakarta Selatan</p>
-                                        </div>
-
-                                        <button class="mt-5 w-full py-2.5 rounded-xl text-sm font-semibold text-white"
-                                            style="background: var(--color-primary)" data-id="Konfirmasi Kehadiran"
-                                            data-en="Confirm Attendance">
-                                            Konfirmasi Kehadiran
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {{-- Floating badges --}}
-                            <div
-                                class="absolute -right-6 top-16 bg-white rounded-xl shadow-lg px-3 py-2 flex items-center gap-2 float-animation-delay">
-                                <div class="w-8 h-8 rounded-full flex items-center justify-center"
-                                    style="background: rgba(146,168,156,0.15)">
-                                    <svg class="w-4 h-4" style="color: var(--color-primary)" fill="none"
-                                        viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M5 13l4 4L19 7" />
-                                    </svg>
-                                </div>
-                                <div>
-                                    <p class="text-xs font-semibold text-gray-800" data-id="128 Hadir"
-                                        data-en="128 Attending">128 Hadir</p>
-                                    <p class="text-xs text-gray-400" data-id="dari 200 tamu" data-en="of 200 guests">
-                                        dari 200 tamu</p>
-                                </div>
-                            </div>
-
-                            <div
-                                class="absolute -left-8 bottom-24 bg-white rounded-xl shadow-lg px-3 py-2 flex items-center gap-2 float-animation-delay-2">
-                                <div class="w-8 h-8 rounded-full flex items-center justify-center bg-green-50">
-                                    <svg class="w-4 h-4 text-green-500" fill="none" viewBox="0 0 24 24"
-                                        stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                                    </svg>
-                                </div>
-                                <div>
-                                    <p class="text-xs font-semibold text-gray-800" data-id="1.240 Dilihat"
-                                        data-en="1,240 Viewed">1.240 Dilihat</p>
-                                    <p class="text-xs text-gray-400" data-id="hari ini" data-en="today">hari ini</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
             </div>
 
@@ -669,162 +880,440 @@
 
 
         {{-- ============================================================ --}}
-        {{-- STATS SECTION --}}
+        {{-- 3-PHASE JOURNEY --}}
         {{-- ============================================================ --}}
-        <section class="py-16 bg-white">
+        <section id="phase-journey" class="py-24 bg-white">
             <div class="max-w-6xl mx-auto px-6">
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-6 reveal">
-                    @php
-                        $stats = [
-                            [
-                                'value' => '10.000+',
-                                'id' => 'Undangan Dibuat',
-                                'en' => 'Invitations Created',
-                                'icon' => '💌',
-                            ],
-                            ['value' => '500.000+', 'id' => 'Tamu Diundang', 'en' => 'Guests Invited', 'icon' => '👥'],
-                            [
-                                'value' => '50+',
-                                'id' => 'Template Tersedia',
-                                'en' => 'Templates Available',
-                                'icon' => '🎨',
-                            ],
-                            [
-                                'value' => '4.9/5',
-                                'id' => 'Rating Kepuasan',
-                                'en' => 'Satisfaction Rating',
-                                'icon' => '⭐',
-                            ],
-                        ];
-                    @endphp
-                    @foreach ($stats as $stat)
-                        <div class="stat-card text-center">
-                            <div class="text-2xl mb-2">{{ $stat['icon'] }}</div>
-                            <div class="text-2xl md:text-3xl font-bold mb-1" style="color: var(--color-dark)">
-                                {{ $stat['value'] }}</div>
-                            <div class="text-sm text-gray-500" data-id="{{ $stat['id'] }}"
-                                data-en="{{ $stat['en'] }}">{{ $stat['id'] }}</div>
-                        </div>
-                    @endforeach
+                {{-- Section header --}}
+                <div class="reveal text-center max-w-2xl mx-auto mb-16">
+                    <h2 class="font-display text-3xl md:text-4xl font-bold mb-4" style="color: #2C2417"
+                        data-id="Satu pendamping, tiga fase perjalanan" data-en="One companion, three phases">
+                        Satu pendamping, tiga fase perjalanan
+                    </h2>
+                    <p class="text-gray-500 text-lg"
+                        data-id="Pendamping kamu dari persiapan, perayaan, sampai kehidupan bersama setelahnya."
+                        data-en="Your companion from preparation, celebration, to shared life after.">
+                        Pendamping kamu dari persiapan, perayaan, sampai kehidupan bersama setelahnya.
+                    </p>
+                </div>
+
+                {{-- 3 phase cards --}}
+                <div class="grid md:grid-cols-3 gap-6">
+
+                    {{-- Card 1: Sebelum --}}
+                    <div class="reveal-fade rounded-2xl border p-6 md:p-8 hover:shadow-lg hover:-translate-y-1 transition-all duration-200"
+                        style="border-color: rgba(146,168,156,0.2); background-color: #FFFCF7">
+                        <img src="{{ asset('images/landing/phase-1.webp') }}" loading="lazy"
+                            class="aspect-square w-full rounded-xl object-cover mb-5"
+                            alt="Pasangan menyiapkan pernikahan — checklist, anggaran, daftar tamu">
+                        <span class="inline-block px-2.5 py-1 rounded-full text-xs font-semibold mb-3"
+                            style="background: rgba(146,168,156,0.2); color: #73877C" data-id="FASE 1"
+                            data-en="PHASE 1">FASE 1</span>
+                        <h3 class="text-xl font-bold mb-2" style="color: #2C2417" data-id="Sebelum — Persiapan"
+                            data-en="Before — Preparation">Sebelum — Persiapan</h3>
+                        <p class="text-sm text-gray-500 mb-4"
+                            data-id="Atur acara dengan tenang. Checklist, daftar tamu, anggaran — semua tertata."
+                            data-en="Plan calmly. Checklist, guest list, budget — all organized.">
+                            Atur acara dengan tenang. Checklist, daftar tamu, anggaran — semua tertata.
+                        </p>
+                        <ul class="space-y-2 text-sm text-gray-600 mb-4">
+                            <li class="flex items-center gap-2">
+                                <span style="color: #92A89C">&#10003;</span>
+                                <span data-id="Checklist Persiapan" data-en="Preparation Checklist">Checklist
+                                    Persiapan</span>
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <span style="color: #92A89C">&#10003;</span>
+                                <span data-id="Daftar Tamu" data-en="Guest List">Daftar Tamu</span>
+                            </li>
+                            <li class="flex items-center gap-2 text-gray-400">
+                                <span>&#8987;</span>
+                                <span data-id="Anggaran Pernikahan" data-en="Wedding Budget">Anggaran
+                                    Pernikahan</span>
+                            </li>
+                            <li class="flex items-center gap-2 text-gray-400">
+                                <span>&#8987;</span>
+                                <span data-id="Wedding Planner" data-en="Wedding Planner">Wedding Planner</span>
+                            </li>
+                        </ul>
+                        <span class="inline-block px-3 py-1 rounded-full text-xs font-medium"
+                            style="border: 1px solid rgba(146,168,156,0.4); color: #73877C" data-id="Hadir"
+                            data-en="Available">Hadir</span>
+                    </div>
+
+                    {{-- Card 2: Hari H (FLAGSHIP — emphasized) --}}
+                    <div class="reveal-fade rounded-2xl p-6 md:p-8 shadow-lg transition-all duration-200 md:scale-[1.02] hover:shadow-xl"
+                        style="border: 2px solid #92A89C; background: white; animation-delay: 0.12s">
+                        <img src="{{ asset('images/landing/phase-2.webp') }}" loading="lazy"
+                            class="aspect-square w-full rounded-xl object-cover mb-5"
+                            alt="Hari pernikahan — undangan digital, RSVP, manajemen tamu">
+                        <span class="inline-block px-2.5 py-1 rounded-full text-xs font-semibold text-white mb-3"
+                            style="background-color: #C8A26B" data-id="FASE 2 · UNGGULAN"
+                            data-en="PHASE 2 · FLAGSHIP">FASE 2 · UNGGULAN</span>
+                        <h3 class="text-xl font-bold mb-2" style="color: #2C2417" data-id="Hari H — Perayaan"
+                            data-en="The Day — Celebration">Hari H — Perayaan</h3>
+                        <p class="text-sm text-gray-500 mb-4"
+                            data-id="Wujudkan hari spesial. Undangan elegan, RSVP rapi, tamu terkelola."
+                            data-en="Bring your special day to life. Elegant invitations, neat RSVP, managed guests.">
+                            Wujudkan hari spesial. Undangan elegan, RSVP rapi, tamu terkelola.
+                        </p>
+                        <ul class="space-y-2 text-sm text-gray-600 mb-4">
+                            <li class="flex items-center gap-2">
+                                <span style="color: #92A89C">&#10003;</span>
+                                <span data-id="Undangan Digital 30+ tema"
+                                    data-en="Digital Invitation 30+ themes">Undangan Digital 30+ tema</span>
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <span style="color: #92A89C">&#10003;</span>
+                                <span data-id="RSVP & Manajemen Tamu" data-en="RSVP & Guest Management">RSVP &amp;
+                                    Manajemen Tamu</span>
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <span style="color: #92A89C">&#10003;</span>
+                                <span data-id="Amplop Digital" data-en="Digital Envelope">Amplop Digital</span>
+                            </li>
+                            <li class="flex items-center gap-2 text-gray-400">
+                                <span>&#8987;</span>
+                                <span data-id="QR Check-in" data-en="QR Check-in">QR Check-in</span>
+                            </li>
+                        </ul>
+                        <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold text-white"
+                            style="background-color: #C8A26B" data-id="★ Unggulan" data-en="★ Flagship">&#9733;
+                            Unggulan</span>
+                    </div>
+
+                    {{-- Card 3: Setelah (coming soon) --}}
+                    <div class="reveal-fade rounded-2xl border p-6 md:p-8 hover:shadow-lg hover:-translate-y-1 transition-all duration-200"
+                        style="border-color: rgba(146,168,156,0.2); background-color: rgba(255,252,247,0.6); animation-delay: 0.24s">
+                        <img src="{{ asset('images/landing/phase-3.webp') }}" loading="lazy"
+                            class="aspect-square w-full rounded-xl object-cover mb-5"
+                            alt="Kehidupan setelah menikah — anniversary, album kenangan, perjalanan bersama">
+                        <span class="inline-block px-2.5 py-1 rounded-full text-xs font-semibold mb-3"
+                            style="background: rgba(146,168,156,0.15); color: #73877C" data-id="FASE 3"
+                            data-en="PHASE 3">FASE 3</span>
+                        <h3 class="text-xl font-bold mb-2" style="color: #2C2417" data-id="Setelah — Jalani"
+                            data-en="After — Live It">Setelah — Jalani</h3>
+                        <p class="text-sm text-gray-500 mb-4"
+                            data-id="Pendamping setelah hari H. Anniversary, album kenangan, perjalanan bersama."
+                            data-en="Companion after the day. Anniversary, memory album, journey together.">
+                            Pendamping setelah hari H. Anniversary, album kenangan, perjalanan bersama.
+                        </p>
+                        <ul class="space-y-2 text-sm text-gray-400 mb-4">
+                            <li class="flex items-center gap-2"><span>&#8987;</span> <span
+                                    data-id="Anniversary Reminder" data-en="Anniversary Reminder">Anniversary
+                                    Reminder</span></li>
+                            <li class="flex items-center gap-2"><span>&#8987;</span> <span data-id="Newlywed Admin"
+                                    data-en="Newlywed Admin">Newlywed Admin</span></li>
+                            <li class="flex items-center gap-2"><span>&#8987;</span> <span data-id="Memory Album"
+                                    data-en="Memory Album">Memory Album</span></li>
+                            <li class="flex items-center gap-2"><span>&#8987;</span> <span
+                                    data-id="Date Night Planner" data-en="Date Night Planner">Date Night
+                                    Planner</span></li>
+                        </ul>
+                        <span class="inline-block px-3 py-1 rounded-full text-xs font-medium"
+                            style="border: 1px solid #D1D5DB; color: #6B7280" data-id="Segera Hadir"
+                            data-en="Coming Soon">Segera Hadir</span>
+                    </div>
+
                 </div>
             </div>
         </section>
 
 
         {{-- ============================================================ --}}
-        {{-- FEATURES SECTION --}}
+        {{-- FITUR — "Satu aplikasi, seluruh perjalanan" (ported from theday(5)/sections.jsx) --}}
         {{-- ============================================================ --}}
-        <section id="fitur" class="py-24 bg-white">
+        <section id="fitur" class="py-24" style="background-color: #F5F8F6">
             <div class="max-w-6xl mx-auto px-6">
-                {{-- Section header --}}
-                <div class="text-center mb-16 reveal">
-                    <p class="text-sm font-semibold tracking-widest uppercase mb-3"
-                        style="color: var(--color-primary)" data-id="Kenapa TheDay?" data-en="Why TheDay?">Kenapa
-                        TheDay?</p>
-                    <h2 class="font-display text-3xl md:text-4xl font-semibold mb-4" style="color: var(--color-dark)"
-                        data-id="Semua yang Kamu Butuhkan" data-en="Everything You Need">
-                        Semua yang Kamu Butuhkan
+                {{-- Section head --}}
+                <div class="reveal max-w-2xl mb-12">
+                    <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-5"
+                        style="background-color: rgba(146,168,156,0.15)">
+                        <span class="w-2 h-2 rounded-full" style="background-color: #92A89C"></span>
+                        <span class="text-xs font-semibold" style="color: #73877C" data-id="Fitur Lengkap"
+                            data-en="Full Toolkit">Fitur Lengkap</span>
+                    </div>
+                    <h2 class="font-serif-hero"
+                        style="color: #2C2417; font-size: clamp(34px, 5vw, 52px); line-height: 1.05; letter-spacing: -0.01em">
+                        <span data-id="Satu aplikasi," data-en="One app,">Satu aplikasi,</span>
+                        <span class="italic-serif-hero" style="color: #73877C" data-id="seluruh"
+                            data-en="your whole">seluruh</span>
+                        <span data-id="perjalanan" data-en="journey">perjalanan</span>
                     </h2>
-                    <p class="text-gray-500 max-w-xl mx-auto"
-                        data-id="Dari template elegan hingga manajemen tamu — satu platform untuk semua kebutuhan undangan digitalmu."
-                        data-en="From elegant templates to guest management — one platform for all your digital invitation needs.">
-                        Dari template elegan hingga manajemen tamu — satu platform untuk semua kebutuhan undangan
-                        digitalmu.
+                    <p class="text-gray-500 mt-4" style="font-size: 16.5px; line-height: 1.6"
+                        data-id="Dari menyebar undangan, mengelola tamu, sampai membangun rumah tangga. Setiap fase punya alatnya sendiri — dirancang dengan rasa hangat ala Indonesia."
+                        data-en="From sharing invitations and managing guests to building a home together. Every phase has its own tools — designed with Indonesian warmth.">
+                        Dari menyebar undangan, mengelola tamu, sampai membangun rumah tangga. Setiap fase punya alatnya
+                        sendiri — dirancang dengan rasa hangat ala Indonesia.
                     </p>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    @php
-                        $features = [
-                            [
-                                'icon' =>
-                                    '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"/>',
-                                'id_title' => 'Template Cantik',
-                                'en_title' => 'Beautiful Templates',
-                                'id_desc' =>
-                                    'Pilih dari 50+ template undangan pernikahan elegan. Semua responsif & mobile-friendly.',
-                                'en_desc' =>
-                                    'Choose from 50+ elegant wedding invitation templates. All responsive & mobile-friendly.',
-                                'color' => 'rgba(146,168,156,0.12)',
-                                'iconColor' => '#92A89C',
-                            ],
-                            [
-                                'icon' =>
-                                    '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>',
-                                'id_title' => 'Konfirmasi Kehadiran',
-                                'en_title' => 'RSVP Confirmation',
-                                'id_desc' =>
-                                    'Tamu bisa konfirmasi hadir/tidak langsung dari undangan. Rekap otomatis tersedia di dashboard.',
-                                'en_desc' =>
-                                    'Guests can confirm attendance directly from the invitation. Automatic summary available in the dashboard.',
-                                'color' => 'rgba(204,213,174,0.2)',
-                                'iconColor' => '#7C9E5A',
-                            ],
-                            [
-                                'icon' =>
-                                    '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/>',
-                                'id_title' => 'Bagikan via WhatsApp',
-                                'en_title' => 'Share via WhatsApp',
-                                'id_desc' =>
-                                    'Satu link langsung bisa dibagikan ke semua tamu via WhatsApp, Instagram, atau email.',
-                                'en_desc' => 'One link can be shared to all guests via WhatsApp, Instagram, or email.',
-                                'color' => 'rgba(72,199,116,0.1)',
-                                'iconColor' => '#25D366',
-                            ],
-                            [
-                                'icon' =>
-                                    '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>',
-                                'id_title' => 'Analitik Real-time',
-                                'en_title' => 'Real-time Analytics',
-                                'id_desc' =>
-                                    'Pantau berapa kali undanganmu dibuka, dari mana asalnya, dan statistik RSVP secara langsung.',
-                                'en_desc' =>
-                                    'Track how many times your invitation is opened, where it came from, and RSVP statistics in real time.',
-                                'color' => 'rgba(59,130,246,0.1)',
-                                'iconColor' => '#73877C',
-                            ],
-                            [
-                                'icon' =>
-                                    '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/>',
-                                'id_title' => 'Peta Lokasi',
-                                'en_title' => 'Location Map',
-                                'id_desc' =>
-                                    'Tampilkan lokasi acara dengan Google Maps terintegrasi. Tamu tinggal klik untuk navigasi.',
-                                'en_desc' =>
-                                    'Display event location with integrated Google Maps. Guests just click for navigation.',
-                                'color' => 'rgba(239,68,68,0.1)',
-                                'iconColor' => '#EF4444',
-                            ],
-                            [
-                                'icon' =>
-                                    '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/>',
-                                'id_title' => 'Musik Latar',
-                                'en_title' => 'Background Music',
-                                'id_desc' =>
-                                    'Tambahkan sentuhan romantis dengan musik latar pilihan. Upload lagu sendiri (Premium).',
-                                'en_desc' =>
-                                    'Add a romantic touch with your choice of background music. Upload your own song (Premium).',
-                                'color' => 'rgba(168,85,247,0.1)',
-                                'iconColor' => '#A855F7',
-                            ],
-                        ];
-                    @endphp
+                {{-- Feature cards --}}
+                @php
+                    $features = [
+                        [
+                            'invite',
+                            'Undangan',
+                            'Invitation',
+                            'Undangan digital yang berkelas',
+                            'Digital invitations with class',
+                            'Pilih dari 30+ template elegan, kustomisasi warna, font, dan musik. Sebar ke ratusan tamu cukup satu link.',
+                            'Pick from 30+ elegant templates, customize color, font, and music. Share to hundreds of guests with one link.',
+                            true,
+                        ],
+                        [
+                            'rsvp',
+                            'Manajemen Tamu',
+                            'Guest Management',
+                            'RSVP & daftar tamu otomatis',
+                            'Automatic RSVP & guest list',
+                            'Tamu konfirmasi langsung di link undangan. Filter per keluarga, kerjaan, atau lokasi. Ekspor buat vendor catering.',
+                            'Guests confirm right on the invitation link. Filter by family, work, or location. Export for catering vendors.',
+                            true,
+                        ],
+                        [
+                            'timeline',
+                            'Perencanaan',
+                            'Planning',
+                            'Checklist & timeline yang ramah',
+                            'A friendly checklist & timeline',
+                            'Template 12 bulan sebelum hari H. Bagi tugas sama pasangan, atur reminder, simpan kontak vendor di satu tempat.',
+                            'A 12-month-out template. Split tasks with your partner, set reminders, keep vendor contacts in one place.',
+                            true,
+                        ],
+                        [
+                            'budget',
+                            'Keuangan',
+                            'Finance',
+                            'Budget tracker tanpa drama',
+                            'Budget tracking, no drama',
+                            'Set anggaran per kategori, catat pengeluaran, lihat sisa. Diskusi keuangan sama pasangan jadi jelas dan transparan.',
+                            'Set budgets per category, log spending, see what is left. Money talks with your partner get clear.',
+                            false,
+                        ],
+                        [
+                            'gift',
+                            'Hadiah',
+                            'Gifts',
+                            'Amplop & kado digital',
+                            'Digital envelope & gifts',
+                            'Terima ucapan dan hadiah langsung lewat QRIS atau transfer. Riwayat tamu tercatat otomatis buat balasan.',
+                            'Receive wishes and gifts via QRIS or transfer. Guest history logged automatically for thank-yous.',
+                            true,
+                        ],
+                        [
+                            'beyond',
+                            'Beyond',
+                            'Beyond',
+                            'Pendamping setelah hari H',
+                            'A companion after the day',
+                            'Album bersama, anniversary tracker, jurnal pasangan, dan goal keuangan rumah tangga — perjalanan tidak berhenti.',
+                            'Shared album, anniversary tracker, couple journal, and household money goals — the journey doesn\'t stop.',
+                            false,
+                        ],
+                    ];
+                @endphp
+                <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                    @foreach ($features as [$visual, $tag, $tag_en, $title, $title_en, $desc, $desc_en, $live])
+                        <article
+                            class="reveal-fade rounded-[22px] overflow-hidden border bg-white transition duration-200 hover:-translate-y-1 hover:shadow-xl"
+                            style="background-color: #FFFCF7; border-color: rgba(146,168,156,0.2); animation-delay: {{ ($loop->index % 3) * 90 }}ms">
+                            {{-- Visual mockup --}}
+                            <div class="relative h-[200px] border-b"
+                                style="background: linear-gradient(135deg, #E8EDE3 0%, #DCE4D3 100%); border-color: rgba(146,168,156,0.2)">
+                                @unless ($live)
+                                    <span
+                                        class="absolute top-3 right-3 z-10 text-[10px] font-semibold px-2.5 py-1 rounded-full"
+                                        style="background: rgba(255,255,255,0.9); border: 1px solid #D1D5DB; color: #6B7280"
+                                        data-id="Segera" data-en="Coming Soon">Segera</span>
+                                @endunless
 
-                    @foreach ($features as $feature)
-                        <div class="feature-card bg-white rounded-2xl p-6 border border-gray-100 shadow-sm reveal">
-                            <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-4"
-                                style="background-color: {{ $feature['color'] }}">
-                                <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                                    style="color: {{ $feature['iconColor'] }}">
-                                    {!! $feature['icon'] !!}
-                                </svg>
+                                @if ($visual === 'invite')
+                                    <div class="absolute"
+                                        style="top: 20px; left: 30px; width: 140px; height: 110px; background: #FBFCF9; border: 1px solid rgba(146,168,156,0.4); border-radius: 10px; padding: 14px; box-shadow: 0 12px 30px -15px rgba(74,90,76,0.4); transform: rotate(-6deg)">
+                                        <div class="italic-serif-hero" style="color: #73877C; font-size: 12px">The
+                                            wedding of</div>
+                                        <div
+                                            style="font-family: 'Cormorant', serif; font-size: 22px; line-height: 1; font-weight: 500; color: #2C2417; margin-top: 6px">
+                                            Ayu &amp; Rizki</div>
+                                        <div style="height: 1px; background: rgba(146,168,156,0.4); margin: 10px 0">
+                                        </div>
+                                        <div style="font-size: 10px; color: #9CA3AF; letter-spacing: 0.18em">22 · 11 ·
+                                            2026</div>
+                                    </div>
+                                    <div class="absolute"
+                                        style="top: 50px; left: 110px; width: 140px; height: 110px; background: #F4EDDC; border: 1px solid rgba(146,168,156,0.4); border-radius: 10px; padding: 14px; box-shadow: 0 12px 30px -15px rgba(74,90,76,0.4); transform: rotate(5deg)">
+                                        <div class="italic-serif-hero" style="color: #C8895E; font-size: 12px">Save
+                                            the date</div>
+                                        <div
+                                            style="font-family: 'Cormorant', serif; font-size: 20px; line-height: 1; font-weight: 500; color: #2C2417; margin-top: 6px">
+                                            Dito &amp; Mira</div>
+                                        <div style="height: 1px; background: #E8C5C0; margin: 10px 0"></div>
+                                        <div style="font-size: 10px; color: #9CA3AF; letter-spacing: 0.18em">14 · 06 ·
+                                            2026</div>
+                                    </div>
+                                @elseif($visual === 'rsvp')
+                                    <div class="absolute"
+                                        style="inset: 16px 24px; background: #fff; border-radius: 12px; padding: 14px; box-shadow: 0 8px 20px -10px rgba(74,90,76,0.25); border: 1px solid rgba(146,168,156,0.2)">
+                                        <div class="flex justify-between items-center mb-3">
+                                            <span style="font-size: 11px; font-weight: 600; color: #2C2417">Daftar
+                                                Tamu</span>
+                                            <span class="font-mono"
+                                                style="font-size: 10px; color: #73877C; background: #DCE4D3; border-radius: 4px; padding: 2px 6px; font-weight: 600">184
+                                                / 220</span>
+                                        </div>
+                                        @foreach ([['BS', 'Bp. Surya & Ibu', true], ['DN', 'Dewi Nugraha', true], ['RP', 'Rian Pratama', false], ['LH', 'Lia Hartono', true]] as $r => [$init, $name, $hadir])
+                                            <div class="flex items-center gap-2"
+                                                style="padding: 5px 0; {{ $r ? 'border-top: 1px solid rgba(146,168,156,0.2)' : '' }}">
+                                                <div
+                                                    style="width: 18px; height: 18px; border-radius: 50%; background: #DCE4D3; display: grid; place-items: center; font-size: 8px; font-weight: 700; color: #4A5A4C">
+                                                    {{ $init }}</div>
+                                                <div style="font-size: 10px; color: #2C2417; flex: 1">
+                                                    {{ $name }}</div>
+                                                <div
+                                                    style="font-size: 9px; font-weight: 600; color: {{ $hadir ? '#73877C' : '#9CA3AF' }}">
+                                                    {{ $hadir ? '✓ Hadir' : 'menunggu' }}</div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                @elseif($visual === 'timeline')
+                                    <div class="absolute flex flex-col" style="inset: 14px 22px; gap: 6px">
+                                        @foreach ([['12 bln', 'Tentukan tanggal', true], ['9 bln', 'Booking venue', true], ['6 bln', 'Pilih vendor catering', true], ['3 bln', 'Fitting baju', false], ['1 bln', 'Kirim undangan', false]] as [$when, $what, $done])
+                                            <div class="flex items-center gap-2.5"
+                                                style="background: #fff; border-radius: 10px; padding: 7px 10px; border: 1px solid rgba(146,168,156,0.2)">
+                                                <div
+                                                    style="width: 16px; height: 16px; border-radius: 50%; border: 2px solid {{ $done ? '#92A89C' : '#D1D5DB' }}; background: {{ $done ? '#92A89C' : 'transparent' }}; display: grid; place-items: center">
+                                                    @if ($done)
+                                                        <span
+                                                            style="color: #fff; font-size: 9px; font-weight: 700">✓</span>
+                                                    @endif
+                                                </div>
+                                                <div class="font-mono"
+                                                    style="font-size: 9px; color: #9CA3AF; min-width: 32px">
+                                                    {{ $when }}</div>
+                                                <div
+                                                    style="font-size: 10.5px; color: #2C2417; flex: 1; {{ $done ? 'text-decoration: line-through; opacity: 0.6' : '' }}">
+                                                    {{ $what }}</div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                @elseif($visual === 'budget')
+                                    <div class="absolute"
+                                        style="inset: 16px 22px; background: #fff; border-radius: 12px; padding: 14px; border: 1px solid rgba(146,168,156,0.2)">
+                                        <div class="flex justify-between mb-3">
+                                            <div>
+                                                <div
+                                                    style="font-size: 9px; color: #9CA3AF; letter-spacing: 0.08em; text-transform: uppercase">
+                                                    Total budget</div>
+                                                <div
+                                                    style="font-family: 'Cormorant', serif; font-size: 20px; font-weight: 500; color: #2C2417; line-height: 1">
+                                                    Rp 285jt</div>
+                                            </div>
+                                            <div class="text-right">
+                                                <div style="font-size: 9px; color: #9CA3AF">terpakai</div>
+                                                <div style="font-size: 13px; color: #73877C; font-weight: 600">62%
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @foreach ([['Venue & Catering', 65, '#92A89C'], ['Dekorasi', 80, '#C8895E'], ['Foto & Video', 45, '#C8A26B'], ['Souvenir', 30, '#B8C7BF']] as [$n, $p, $c])
+                                            <div style="margin-bottom: 8px">
+                                                <div class="flex justify-between"
+                                                    style="font-size: 9.5px; color: #5C6B63; margin-bottom: 3px">
+                                                    <span>{{ $n }}</span><span
+                                                        class="font-mono">{{ $p }}%</span></div>
+                                                <div
+                                                    style="height: 4px; background: #DCE4D3; border-radius: 999px; overflow: hidden">
+                                                    <div class="bar-fill"
+                                                        style="width: {{ $p }}%; height: 100%; background: {{ $c }}; border-radius: 999px">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                @elseif($visual === 'gift')
+                                    <div class="absolute text-center"
+                                        style="inset: 18px 28px; background: #fff; border-radius: 12px; border: 1px solid rgba(146,168,156,0.2); padding: 14px">
+                                        <div class="italic-serif-hero" style="font-size: 13px; color: #73877C">amplop
+                                            digital</div>
+                                        <div
+                                            style="margin: 10px auto; width: 70px; height: 70px; background: #fff; border-radius: 12px; border: 1px solid rgba(146,168,156,0.2); display: grid; place-items: center">
+                                            <div
+                                                style="display: grid; grid-template-columns: repeat(8,1fr); gap: 2px; width: 54px; height: 54px">
+                                                @for ($i = 0; $i < 64; $i++)
+                                                    <div
+                                                        style="background: {{ ($i * 7) % 3 === 0 || $i % 5 === 0 || $i === 0 || $i === 7 || $i === 56 ? '#2C2417' : 'transparent' }}; border-radius: 1px">
+                                                    </div>
+                                                @endfor
+                                            </div>
+                                        </div>
+                                        <div class="flex justify-center gap-1.5" style="margin-top: 8px">
+                                            <div
+                                                style="font-size: 9px; padding: 3px 8px; background: #DCE4D3; border-radius: 999px; color: #4A5A4C; font-weight: 600">
+                                                QRIS</div>
+                                            <div
+                                                style="font-size: 9px; padding: 3px 8px; background: #F4EDDC; border-radius: 999px; color: #C8895E; font-weight: 600">
+                                                Transfer</div>
+                                        </div>
+                                    </div>
+                                @elseif($visual === 'beyond')
+                                    <div class="absolute flex flex-col" style="inset: 16px 22px; gap: 8px">
+                                        <div class="flex items-center gap-2.5"
+                                            style="background: #fff; border: 1px solid rgba(146,168,156,0.2); border-radius: 10px; padding: 10px 12px">
+                                            <div
+                                                style="width: 32px; height: 32px; border-radius: 8px; background: #E8C5C0; display: grid; place-items: center">
+                                                <svg width="16" height="16" viewBox="0 0 24 24"
+                                                    fill="#fff">
+                                                    <path
+                                                        d="M12 21s-7-4.5-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 11c0 5.5-7 10-7 10z" />
+                                                </svg>
+                                            </div>
+                                            <div style="flex: 1">
+                                                <div style="font-size: 10px; color: #9CA3AF">1st Anniversary</div>
+                                                <div style="font-size: 11.5px; color: #2C2417; font-weight: 600">
+                                                    tinggal 248 hari</div>
+                                            </div>
+                                        </div>
+                                        <div
+                                            style="background: #fff; border: 1px solid rgba(146,168,156,0.2); border-radius: 10px; padding: 10px 12px">
+                                            <div
+                                                style="font-size: 9px; color: #9CA3AF; letter-spacing: 0.08em; text-transform: uppercase">
+                                                Goal · DP Rumah</div>
+                                            <div class="flex justify-between" style="margin-top: 4px">
+                                                <span style="font-size: 11px; color: #2C2417; font-weight: 600">Rp 38jt
+                                                    / 150jt</span>
+                                                <span class="font-mono"
+                                                    style="font-size: 10px; color: #73877C; font-weight: 600">25%</span>
+                                            </div>
+                                            <div
+                                                style="height: 4px; background: #DCE4D3; border-radius: 999px; margin-top: 6px">
+                                                <div class="bar-fill"
+                                                    style="width: 25%; height: 100%; background: #92A89C; border-radius: 999px">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center gap-2"
+                                            style="background: #fff; border: 1px solid rgba(146,168,156,0.2); border-radius: 10px; padding: 8px 12px">
+                                            <div class="italic-serif-hero" style="font-size: 15px; color: #73877C">
+                                                "hari pertama jadi suami"</div>
+                                        </div>
+                                    </div>
+                                @endif
                             </div>
-                            <h3 class="font-semibold text-lg mb-2" style="color: var(--color-dark)"
-                                data-id="{{ $feature['id_title'] }}" data-en="{{ $feature['en_title'] }}">
-                                {{ $feature['id_title'] }}</h3>
-                            <p class="text-sm text-gray-500 leading-relaxed" data-id="{{ $feature['id_desc'] }}"
-                                data-en="{{ $feature['en_desc'] }}">{{ $feature['id_desc'] }}</p>
-                        </div>
+
+                            {{-- Card body --}}
+                            <div style="padding: 22px 24px 26px">
+                                <div class="uppercase font-semibold"
+                                    style="font-size: 11px; letter-spacing: 0.12em; color: #73877C; margin-bottom: 10px"
+                                    data-id="{{ $tag }}" data-en="{{ $tag_en }}">{{ $tag }}
+                                </div>
+                                <h3 style="font-family: 'Cormorant', serif; font-size: 25px; line-height: 1.1; color: #2C2417; margin-bottom: 10px; font-weight: 500; letter-spacing: -0.01em"
+                                    data-id="{{ $title }}" data-en="{{ $title_en }}">{{ $title }}
+                                </h3>
+                                <p style="font-size: 14.5px; color: #5C6B63; line-height: 1.6"
+                                    data-id="{{ $desc }}" data-en="{{ $desc_en }}">{{ $desc }}
+                                </p>
+                            </div>
+                        </article>
                     @endforeach
                 </div>
             </div>
@@ -834,347 +1323,58 @@
         {{-- ============================================================ --}}
         {{-- HOW IT WORKS --}}
         {{-- ============================================================ --}}
-        <section id="cara-kerja" class="py-24" style="background-color: var(--color-secondary)">
+        <section id="cara-kerja" class="py-24" style="background-color: #FFFCF7">
             <div class="max-w-6xl mx-auto px-6">
-                <div class="text-center mb-16 reveal">
-                    <p class="text-sm font-semibold tracking-widest uppercase mb-3"
-                        style="color: var(--color-primary)" data-id="Mudah & Cepat" data-en="Easy & Fast">Mudah &
-                        Cepat</p>
-                    <h2 class="font-display text-3xl md:text-4xl font-semibold mb-4" style="color: var(--color-dark)"
-                        data-id="Buat Undangan dalam 3 Langkah" data-en="Create an Invitation in 3 Steps">
-                        Buat Undangan dalam 3 Langkah
-                    </h2>
-                    <p class="text-gray-500 max-w-xl mx-auto"
-                        data-id="Tidak perlu keahlian desain. Cukup isi detail acaramu, undanganmu siap dalam menit."
-                        data-en="No design skills needed. Just fill in your event details, your invitation is ready in minutes.">
-                        Tidak perlu keahlian desain. Cukup isi detail acaramu, undanganmu siap dalam menit.
+                <div class="text-center max-w-2xl mx-auto mb-16 reveal">
+                    <h2 class="font-display text-3xl md:text-4xl font-bold mb-4" style="color: #2C2417"
+                        data-id="3 langkah, mulai perjalanan" data-en="3 steps to start your journey">3 langkah, mulai
+                        perjalanan</h2>
+                    <p class="text-gray-500 text-lg"
+                        data-id="Bisa pakai dari fase mana aja, bahkan kalau kamu sudah menikah."
+                        data-en="Start from any phase, even if you're already married.">
+                        Bisa pakai dari fase mana aja, bahkan kalau kamu sudah menikah.
                     </p>
                 </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
-                    {{-- Connector line --}}
-                    <div class="hidden md:block absolute top-10 left-1/4 right-1/4 h-0.5 z-0"
-                        style="background: linear-gradient(90deg, var(--color-primary), var(--color-accent))"></div>
-
-                    @php
-                        $steps = [
-                            [
-                                'num' => '01',
-                                'id_title' => 'Pilih Template',
-                                'en_title' => 'Choose a Template',
-                                'id_desc' =>
-                                    'Jelajahi koleksi template undangan pernikahan premium. Pilih yang sesuai dengan tema acara nikahmu.',
-                                'en_desc' =>
-                                    'Browse our premium wedding invitation template collection. Pick one that matches your wedding theme.',
-                                'emoji' => '🎨',
-                            ],
-                            [
-                                'num' => '02',
-                                'id_title' => 'Isi Detail Acara',
-                                'en_title' => 'Fill in Event Details',
-                                'id_desc' =>
-                                    'Masukkan nama, tanggal, lokasi, dan foto. Semuanya bisa dikustomisasi sesuai selera.',
-                                'en_desc' =>
-                                    'Enter name, date, location, and photos. Everything can be customized to your liking.',
-                                'emoji' => '✏️',
-                            ],
-                            [
-                                'num' => '03',
-                                'id_title' => 'Bagikan ke Tamu',
-                                'en_title' => 'Share with Guests',
-                                'id_desc' =>
-                                    'Publikasikan dan bagikan link undangan via WhatsApp. Pantau RSVP dari dashboard.',
-                                'en_desc' =>
-                                    'Publish and share your invitation link via WhatsApp. Monitor RSVPs from the dashboard.',
-                                'emoji' => '🚀',
-                            ],
-                        ];
-                    @endphp
-
-                    @foreach ($steps as $step)
-                        <div class="relative z-10 flex flex-col items-center text-center reveal">
-                            <div class="w-20 h-20 rounded-2xl flex items-center justify-center text-3xl mb-6 shadow-md"
-                                style="background: white">
-                                {{ $step['emoji'] }}
-                            </div>
-                            <div class="inline-flex items-center justify-center w-8 h-8 rounded-full text-sm font-bold text-white mb-4"
-                                style="background: var(--color-primary)">
-                                {{ $step['num'] }}
-                            </div>
-                            <h3 class="font-semibold text-xl mb-3" style="color: var(--color-dark)"
-                                data-id="{{ $step['id_title'] }}" data-en="{{ $step['en_title'] }}">
-                                {{ $step['id_title'] }}</h3>
-                            <p class="text-gray-500 text-sm leading-relaxed max-w-xs"
-                                data-id="{{ $step['id_desc'] }}" data-en="{{ $step['en_desc'] }}">
-                                {{ $step['id_desc'] }}</p>
-                        </div>
-                    @endforeach
-                </div>
-
-                <div class="text-center mt-12 reveal">
-                    <a href="/templates" class="btn-primary text-base py-3 px-8">
-                        <span data-id="Coba Sekarang — Gratis!" data-en="Try Now — Free!">Coba Sekarang —
-                            Gratis!</span>
-                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                            stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                        </svg>
-                    </a>
-                </div>
-            </div>
-        </section>
-
-
-        {{-- ============================================================ --}}
-        {{-- TEMPLATE SHOWCASE --}}
-        {{-- ============================================================ --}}
-        <section id="template" class="py-24 bg-white">
-            <div class="max-w-6xl mx-auto px-6">
-                <div class="text-center mb-16 reveal">
-                    <p class="text-sm font-semibold tracking-widest uppercase mb-3"
-                        style="color: var(--color-primary)" data-id="Template Pilihan" data-en="Featured Templates">
-                        Template Pilihan</p>
-                    <h2 class="font-display text-3xl md:text-4xl font-semibold mb-4" style="color: var(--color-dark)"
-                        data-id="Desain untuk Setiap Momen" data-en="Design for Every Moment">
-                        Desain untuk Setiap Momen
-                    </h2>
-                    <p class="text-gray-500 max-w-xl mx-auto"
-                        data-id="50+ template premium siap pakai. Semua bisa dikustomisasi warna, font, dan isinya."
-                        data-en="50+ premium ready-to-use templates. All customizable in color, font, and content.">
-                        50+ template premium siap pakai. Semua bisa dikustomisasi warna, font, dan isinya.
-                    </p>
-                </div>
-
-                {{-- Category tabs --}}
-                @php
-                    $tabs = [
-                        ['id' => 'Semua', 'en' => 'All'],
-                        ['id' => 'Pernikahan', 'en' => 'Wedding'],
-                        ['id' => 'Nusantara', 'en' => 'Nusantara'],
-                        ['id' => 'Romantis', 'en' => 'Romantic'],
-                        ['id' => 'Modern', 'en' => 'Modern'],
-                        ['id' => 'Minimalis', 'en' => 'Minimalist'],
-                    ];
-                @endphp
-                <div class="flex items-center justify-center gap-3 mb-10 flex-wrap reveal">
-                    @foreach ($tabs as $tab)
-                        <button
-                            class="px-5 py-2 rounded-full text-sm font-medium transition-all
-                {{ $tab['id'] === 'Semua' ? 'text-white shadow-md' : 'text-gray-500 hover:text-gray-700 bg-gray-50 hover:bg-gray-100' }}"
-                            style="{{ $tab['id'] === 'Semua' ? 'background-color: var(--color-primary)' : '' }}"
-                            data-id="{{ $tab['id'] }}" data-en="{{ $tab['en'] }}">
-                            {{ $tab['id'] }}
-                        </button>
-                    @endforeach
-                </div>
-
-                {{-- Template grid --}}
-                <div class="grid grid-cols-2 lg:grid-cols-4 gap-5">
-                    @php
-                        $templates = [
-                            [
-                                'id_name' => 'Bunga Abadi',
-                                'en_name' => 'Eternal Flower',
-                                'id_type' => 'Pernikahan',
-                                'en_type' => 'Wedding',
-                                'bg' => 'linear-gradient(160deg, #FFF5E6, #F9E4C8)',
-                                'primary' => '#C8956C',
-                            ],
-                            [
-                                'id_name' => 'Langit Senja',
-                                'en_name' => 'Dusk Sky',
-                                'id_type' => 'Romantis',
-                                'en_type' => 'Romantic',
-                                'bg' => 'linear-gradient(160deg, #FDE8E8, #FCCBCB)',
-                                'primary' => '#E57070',
-                            ],
-                            [
-                                'id_name' => 'Hijau Daun',
-                                'en_name' => 'Leaf Green',
-                                'id_type' => 'Pernikahan',
-                                'en_type' => 'Wedding',
-                                'bg' => 'linear-gradient(160deg, #E8F5E9, #C8E6C9)',
-                                'primary' => '#66BB6A',
-                            ],
-                            [
-                                'id_name' => 'Nusantara',
-                                'en_name' => 'Nusantara',
-                                'id_type' => 'Nusantara',
-                                'en_type' => 'Nusantara',
-                                'bg' => 'linear-gradient(160deg, #F5F0E8, #E8D5A3)',
-                                'primary' => '#8B6914',
-                            ],
-                            [
-                                'id_name' => 'Ungu Malam',
-                                'en_name' => 'Night Purple',
-                                'id_type' => 'Romantis',
-                                'en_type' => 'Romantic',
-                                'bg' => 'linear-gradient(160deg, #EDE7F6, #D1C4E9)',
-                                'primary' => '#9575CD',
-                            ],
-                            [
-                                'id_name' => 'Hitam Elegan',
-                                'en_name' => 'Elegant Black',
-                                'id_type' => 'Modern',
-                                'en_type' => 'Modern',
-                                'bg' => 'linear-gradient(160deg, #263238, #37474F)',
-                                'primary' => '#CFD8DC',
-                            ],
-                            [
-                                'id_name' => 'Ivory Klasik',
-                                'en_name' => 'Classic Ivory',
-                                'id_type' => 'Minimalis',
-                                'en_type' => 'Minimalist',
-                                'bg' => 'linear-gradient(160deg, #FDFBF7, #F5EFE6)',
-                                'primary' => '#B8956A',
-                            ],
-                            [
-                                'id_name' => 'Sage Minimalis',
-                                'en_name' => 'Sage Minimal',
-                                'id_type' => 'Minimalis',
-                                'en_type' => 'Minimalist',
-                                'bg' => 'linear-gradient(160deg, #F1F8E9, #DCEDC8)',
-                                'primary' => '#8BC34A',
-                            ],
-                        ];
-                    @endphp
-
-                    @foreach ($templates as $i => $tmpl)
-                        <div class="template-card rounded-2xl shadow-md cursor-pointer reveal"
-                            style="{{ $loop->index >= 4 ? 'animation-delay: 0.15s' : '' }}">
-                            <div class="relative"
-                                style="background: {{ $tmpl['bg'] }}; height: 220px; border-radius: 1rem 1rem 0 0;">
-                                {{-- Mini invitation preview --}}
-                                <div
-                                    class="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
-                                    <div class="w-8 h-px mb-2" style="background: {{ $tmpl['primary'] }}"></div>
-                                    <p class="text-xs font-semibold mb-1" style="color: {{ $tmpl['primary'] }}"
-                                        data-id="{{ $tmpl['id_type'] }}" data-en="{{ $tmpl['en_type'] }}">
-                                        {{ $tmpl['id_type'] }}</p>
-                                    <p class="font-display text-lg font-semibold"
-                                        style="color: {{ str_contains($tmpl['bg'], '263238') ? '#FFF' : '#2D2D2D' }}">
-                                        Rina & Budi
-                                    </p>
-                                    <div class="w-8 h-px mt-2" style="background: {{ $tmpl['primary'] }}"></div>
-                                </div>
-                                {{-- Hover overlay --}}
-                                <div
-                                    class="template-overlay absolute inset-0 bg-black bg-opacity-40 rounded-t-2xl flex items-center justify-center">
-                                    <a href="/templates" class="bg-white text-sm font-semibold px-5 py-2 rounded-full"
-                                        style="color: var(--color-dark)" data-id="Gunakan Template"
-                                        data-en="Use Template">
-                                        Gunakan Template
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="p-3 border border-t-0 border-gray-100 rounded-b-2xl bg-white">
-                                <p class="font-medium text-sm" style="color: var(--color-dark)"
-                                    data-id="{{ $tmpl['id_name'] }}" data-en="{{ $tmpl['en_name'] }}">
-                                    {{ $tmpl['id_name'] }}</p>
-                                <p class="text-xs text-gray-400" data-id="{{ $tmpl['id_type'] }}"
-                                    data-en="{{ $tmpl['en_type'] }}">{{ $tmpl['id_type'] }}</p>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-
-                <div class="text-center mt-10 reveal">
-                    <a href="/templates" class="btn-outline text-sm py-2.5 px-6" data-id="Lihat Semua Template (50+)"
-                        data-en="View All Templates (50+)">
-                        Lihat Semua Template (50+)
-                    </a>
-                </div>
-            </div>
-        </section>
-
-
-        {{-- ============================================================ --}}
-        {{-- TESTIMONIALS --}}
-        {{-- ============================================================ --}}
-        <section class="py-24" style="background: linear-gradient(135deg, #F5F8F6, #EBF0ED)">
-            <div class="max-w-6xl mx-auto px-6">
-                <div class="text-center mb-16 reveal">
-                    <p class="text-sm font-semibold tracking-widest uppercase mb-3"
-                        style="color: var(--color-primary)" data-id="Cerita Mereka" data-en="Their Stories">Cerita
-                        Mereka</p>
-                    <h2 class="font-display text-3xl md:text-4xl font-semibold mb-4" style="color: var(--color-dark)"
-                        data-id="Dipercaya Ribuan Pasangan" data-en="Trusted by Thousands of Couples">
-                        Dipercaya Ribuan Pasangan
-                    </h2>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    @php
-                        $testimonials = [
-                            [
-                                'name' => 'Dewi Rahayu',
-                                'id_role' => 'Pengantin Perempuan',
-                                'en_role' => 'Bride',
-                                'avatar' => 'DR',
-                                'color' => 'bg-rose-300',
-                                'id_text' =>
-                                    '"Undangan digitalnya cantik banget! Tamu-tamu kami heran karena tampilannya se-elegan ini. Proses buatnya juga gampang, cuma 30 menit sudah selesai 😍"',
-                                'en_text' =>
-                                    '"The digital invitation is so beautiful! Our guests were amazed at how elegant it looked. The creation process was easy too, just 30 minutes to finish 😍"',
-                                'id_event' => 'Pernikahan — Januari 2025',
-                                'en_event' => 'Wedding — January 2025',
-                            ],
-                            [
-                                'name' => 'Rizky Pratama',
-                                'id_role' => 'Pengantin Pria',
-                                'en_role' => 'Groom',
-                                'avatar' => 'RP',
-                                'color' => 'bg-[#B8C7BF]',
-                                'id_text' =>
-                                    '"Fitur RSVP-nya sangat membantu. Kami bisa langsung tahu siapa saja yang hadir tanpa perlu hubungi satu per satu. Hemat waktu dan tenaga!"',
-                                'en_text' =>
-                                    '"The RSVP feature is so helpful. We could immediately know who would attend without having to contact everyone one by one. Saves time and energy!"',
-                                'id_event' => 'Pernikahan — Februari 2025',
-                                'en_event' => 'Wedding — February 2025',
-                            ],
-                            [
-                                'name' => 'Sari Putri',
-                                'id_role' => 'Event Organizer',
-                                'en_role' => 'Event Organizer',
-                                'avatar' => 'SP',
-                                'color' => 'bg-[#92A89C]/50',
-                                'id_text' =>
-                                    '"Saya sudah pakai TheDay untuk 15 klien dan semuanya puas. Template-nya premium, sistemnya stabil, dan harganya sangat terjangkau. Highly recommended!"',
-                                'en_text' =>
-                                    '"I\'ve used TheDay for 15 clients and all of them are satisfied. The templates are premium, the system is stable, and the price is very affordable. Highly recommended!"',
-                                'id_event' => 'EO Professional — Bandung',
-                                'en_event' => 'Professional EO — Bandung',
-                            ],
-                        ];
-                    @endphp
-
-                    @foreach ($testimonials as $testi)
-                        <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-50 reveal">
-                            <div class="flex items-center gap-1 mb-4">
-                                @for ($i = 0; $i < 5; $i++)
-                                    <svg class="w-4 h-4 text-[#C8A26B]" fill="currentColor" viewBox="0 0 20 20">
-                                        <path
-                                            d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                    </svg>
-                                @endfor
-                            </div>
-                            <p class="text-sm text-gray-600 leading-relaxed mb-5 italic"
-                                data-id="{{ $testi['id_text'] }}" data-en="{{ $testi['en_text'] }}">
-                                {{ $testi['id_text'] }}</p>
-                            <div class="flex items-center gap-3">
-                                <div
-                                    class="w-10 h-10 rounded-full {{ $testi['color'] }} flex items-center justify-center text-white text-sm font-bold flex-shrink-0">
-                                    {{ $testi['avatar'] }}
-                                </div>
-                                <div>
-                                    <p class="font-semibold text-sm" style="color: var(--color-dark)">
-                                        {{ $testi['name'] }}</p>
-                                    <p class="text-xs text-gray-400" data-id="{{ $testi['id_event'] }}"
-                                        data-en="{{ $testi['en_event'] }}">{{ $testi['id_event'] }}</p>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    {{-- Step 1 --}}
+                    <div class="text-center reveal">
+                        <img src="{{ asset('images/landing/step-1.webp') }}" alt="Daftar Gratis" loading="lazy"
+                            class="w-28 h-28 mx-auto rounded-2xl object-contain mb-4">
+                        <div class="w-8 h-8 mx-auto rounded-full text-white flex items-center justify-center font-bold mb-3 text-sm"
+                            style="background-color: #92A89C">1</div>
+                        <h3 class="text-lg font-bold mb-2" style="color: #2C2417" data-id="Daftar Gratis"
+                            data-en="Sign Up Free">Daftar Gratis</h3>
+                        <p class="text-sm text-gray-500"
+                            data-id="Buat akun Theday dalam 30 detik. Tanpa kartu kredit."
+                            data-en="Create your Theday account in 30 seconds. No credit card.">Buat akun Theday dalam
+                            30 detik. Tanpa kartu kredit.</p>
+                    </div>
+                    {{-- Step 2 --}}
+                    <div class="text-center reveal">
+                        <img src="{{ asset('images/landing/step-2.webp') }}" alt="Atur Tanggal & Lokasi" loading="lazy"
+                            class="w-28 h-28 mx-auto rounded-2xl object-contain mb-4">
+                        <div class="w-8 h-8 mx-auto rounded-full text-white flex items-center justify-center font-bold mb-3 text-sm"
+                            style="background-color: #92A89C">2</div>
+                        <h3 class="text-lg font-bold mb-2" style="color: #2C2417" data-id="Atur Tanggal & Lokasi"
+                            data-en="Set Date & Location">Atur Tanggal &amp; Lokasi</h3>
+                        <p class="text-sm text-gray-500"
+                            data-id="Set tanggal pernikahan kamu — atau anniversary kalau sudah menikah."
+                            data-en="Set your wedding date — or anniversary if already married.">Set tanggal pernikahan
+                            kamu — atau anniversary kalau sudah menikah.</p>
+                    </div>
+                    {{-- Step 3 --}}
+                    <div class="text-center reveal">
+                        <img src="{{ asset('images/landing/step-3.webp') }}" alt="Mulai dari Fase Mana Aja" loading="lazy"
+                            class="w-28 h-28 mx-auto rounded-2xl object-contain mb-4">
+                        <div class="w-8 h-8 mx-auto rounded-full text-white flex items-center justify-center font-bold mb-3 text-sm"
+                            style="background-color: #92A89C">3</div>
+                        <h3 class="text-lg font-bold mb-2" style="color: #2C2417" data-id="Mulai dari Fase Mana Aja"
+                            data-en="Start from Any Phase">Mulai dari Fase Mana Aja</h3>
+                        <p class="text-sm text-gray-500"
+                            data-id="Pilih checklist persiapan, atau langsung bikin undangan, atau atur anniversary. Bebas."
+                            data-en="Pick preparation checklist, or make an invitation, or set anniversary. Your choice.">
+                            Pilih checklist persiapan, atau langsung bikin undangan, atau atur anniversary. Bebas.</p>
+                    </div>
                 </div>
             </div>
         </section>
@@ -1184,152 +1384,156 @@
         {{-- PRICING SECTION --}}
         {{-- ============================================================ --}}
         <section id="harga" class="py-24 bg-white">
-            <div class="max-w-6xl mx-auto px-6">
-                <div class="text-center mb-16 reveal">
-                    <p class="text-sm font-semibold tracking-widest uppercase mb-3"
-                        style="color: var(--color-primary)" data-id="Harga" data-en="Pricing">Harga</p>
-                    <h2 class="font-display text-3xl md:text-4xl font-semibold mb-4" style="color: var(--color-dark)"
-                        data-id="Pilih Paket yang Tepat" data-en="Choose the Right Plan">
-                        Pilih Paket yang Tepat
-                    </h2>
-                    <p class="text-gray-500 max-w-xl mx-auto"
-                        data-id="Mulai gratis, upgrade kapan saja. Tidak ada biaya tersembunyi."
-                        data-en="Start for free, upgrade anytime. No hidden fees.">
-                        Mulai gratis, upgrade kapan saja. Tidak ada biaya tersembunyi.
-                    </p>
+            <div class="max-w-4xl mx-auto px-6">
+                <div class="reveal text-center max-w-2xl mx-auto mb-14">
+                    <h2 class="font-display text-3xl md:text-4xl font-bold mb-4" style="color: #2C2417"
+                        data-id="Mulai gratis, upgrade kapan kamu butuh" data-en="Start free, upgrade when you need">
+                        Mulai gratis, upgrade kapan kamu butuh</h2>
+                    <p class="text-gray-500 text-lg" data-id="Tanpa kartu kredit. Cancel kapan saja."
+                        data-en="No credit card. Cancel anytime.">Tanpa kartu kredit. Cancel kapan saja.</p>
                 </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-2xl mx-auto">
-                    @php
-                        use App\Support\PlanFormatter;
-
-                        $premiumDiscount = isset($plans['premium']) ? $plans['premium']->currentDiscount() : null;
-
-                        $pricingTiers = [
-                            [
-                                'id_name'          => 'Gratis',
-                                'en_name'          => 'Free',
-                                'price'            => PlanFormatter::price((int) ($plans['free']->price ?? 0)),
-                                'original_price'   => null,
-                                'has_discount'     => false,
-                                'discount_percent' => null,
-                                'discount_label'   => null,
-                                'id_period'        => PlanFormatter::period((int) ($plans['free']->duration_days ?? 0), 'id'),
-                                'en_period'        => PlanFormatter::period((int) ($plans['free']->duration_days ?? 0), 'en'),
-                                'popular'          => false,
-                                'id_features'      => $plans['free']->features ?? [],
-                                'en_features'      => $plans['free']->features ?? [],
-                                'id_disabled'      => ['Custom URL', 'Upload musik sendiri', 'Analitik lengkap'],
-                                'en_disabled'      => ['Custom URL', 'Upload own music', 'Full analytics'],
-                                'id_cta'           => 'Mulai Gratis',
-                                'en_cta'           => 'Start Free',
-                            ],
-                            [
-                                'id_name'          => 'Premium',
-                                'en_name'          => 'Premium',
-                                'price'            => PlanFormatter::price((int) (isset($plans['premium']) ? $plans['premium']->effectivePrice() : 49000)),
-                                'original_price'   => PlanFormatter::price((int) ($plans['premium']->price ?? 49000)),
-                                'has_discount'     => $premiumDiscount !== null,
-                                'discount_percent' => $premiumDiscount?->percent,
-                                'discount_label'   => $premiumDiscount?->label,
-                                'id_period'        => PlanFormatter::period((int) ($plans['premium']->duration_days ?? 365), 'id'),
-                                'en_period'        => PlanFormatter::period((int) ($plans['premium']->duration_days ?? 365), 'en'),
-                                'popular'          => true,
-                                'id_features'      => $plans['premium']->features ?? [],
-                                'en_features'      => $plans['premium']->features ?? [],
-                                'id_disabled'      => [],
-                                'en_disabled'      => [],
-                                'id_cta'           => 'Pilih Premium',
-                                'en_cta'           => 'Choose Premium',
-                            ],
-                        ];
-                    @endphp
-
-                    @foreach ($pricingTiers as $plan)
-                        <div
-                            class="rounded-2xl p-6 border reveal flex flex-col {{ $plan['popular'] ? 'pricing-popular shadow-2xl scale-105 border-transparent' : 'border-gray-200 shadow-sm' }}">
-                            @if ($plan['popular'])
-                                <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white bg-opacity-20 text-xs font-semibold mb-4"
-                                    data-id="Paling Populer" data-en="Most Popular">
-                                    Paling Populer
-                                </div>
+                <div class="grid md:grid-cols-2 gap-6">
+                    {{-- Free --}}
+                    <div class="reveal rounded-2xl border p-8" style="border-color: rgba(146,168,156,0.2)">
+                        <h3 class="text-xl font-bold mb-1" style="color: #2C2417" data-id="Free" data-en="Free">Free
+                        </h3>
+                        <p class="text-3xl font-bold mb-1" style="color: #2C2417">Rp 0</p>
+                        <p class="text-sm text-gray-400 mb-6" data-id="Selamanya" data-en="Forever">Selamanya</p>
+                        <ul class="space-y-3 text-sm text-gray-600 mb-8">
+                            <li class="flex gap-2">
+                                <span style="color: #92A89C">&#10003;</span>
+                                <span data-id="Undangan digital (template terbatas)"
+                                    data-en="Digital invitation (limited templates)">Undangan digital (template
+                                    terbatas)</span>
+                            </li>
+                            <li class="flex gap-2">
+                                <span style="color: #92A89C">&#10003;</span>
+                                <span data-id="Checklist & Daftar Tamu" data-en="Checklist & Guest List">Checklist
+                                    &amp; Daftar Tamu</span>
+                            </li>
+                            <li class="flex gap-2">
+                                <span style="color: #92A89C">&#10003;</span>
+                                <span data-id="RSVP & Wishes" data-en="RSVP & Wishes">RSVP &amp; Wishes</span>
+                            </li>
+                            <li class="flex gap-2 text-gray-400">
+                                <span>&#8226;</span>
+                                <span data-id="Watermark Theday" data-en="Theday watermark">Watermark Theday</span>
+                            </li>
+                        </ul>
+                        <a href="/register" class="btn-outline w-full text-center block py-2.5"
+                            data-id="Mulai Gratis" data-en="Start Free">Mulai Gratis</a>
+                    </div>
+                    {{-- Premium --}}
+                    <div class="reveal rounded-2xl p-8 relative" style="border: 2px solid #C8A26B; animation-delay: 0.12s">
+                        <span
+                            class="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-xs font-semibold text-white"
+                            style="background-color: #C8A26B" data-id="Paling Dipilih" data-en="Most Popular">Paling
+                            Dipilih</span>
+                        <h3 class="text-xl font-bold mb-1" style="color: #2C2417" data-id="Premium"
+                            data-en="Premium">Premium</h3>
+                        @php
+                            $premiumPlan = $plans['premium'] ?? null;
+                            $premiumPrice = $premiumPlan ? $premiumPlan->effectivePrice() : 49000;
+                            $premiumDuration = $premiumPlan->duration_days ?? 365;
+                        @endphp
+                        <div class="mb-6">
+                            @if ($premiumPlan && $premiumPlan->hasActiveDiscount())
+                                <span class="text-base text-gray-400 line-through">Rp
+                                    {{ number_format((int) $premiumPlan->price, 0, ',', '.') }}</span>
                             @endif
+                            <p class="text-3xl font-bold" style="color: #C8A26B">Rp
+                                {{ number_format($premiumPrice, 0, ',', '.') }}</p>
+                            <p class="text-sm text-gray-400" data-id="untuk {{ $premiumDuration }} hari aktif"
+                                data-en="for {{ $premiumDuration }} active days">untuk {{ $premiumDuration }} hari
+                                aktif</p>
+                        </div>
+                        <ul class="space-y-3 text-sm text-gray-600 mb-8">
+                            <li class="flex gap-2"><span style="color: #C8A26B">&#10003;</span> <span
+                                    data-id="Semua tema premium (Onyx, Astronomy, dll)"
+                                    data-en="All premium themes (Onyx, Astronomy, etc.)">Semua tema premium (Onyx,
+                                    Astronomy, dll)</span></li>
+                            <li class="flex gap-2"><span style="color: #C8A26B">&#10003;</span> <span
+                                    data-id="Tanpa watermark" data-en="No watermark">Tanpa watermark</span></li>
+                            <li class="flex gap-2"><span style="color: #C8A26B">&#10003;</span> <span
+                                    data-id="Custom domain" data-en="Custom domain">Custom domain</span></li>
+                            <li class="flex gap-2"><span style="color: #C8A26B">&#10003;</span> <span
+                                    data-id="Amplop digital + analytics" data-en="Digital envelope + analytics">Amplop
+                                    digital + analytics</span></li>
+                            <li class="flex gap-2"><span style="color: #C8A26B">&#10003;</span> <span
+                                    data-id="Priority support" data-en="Priority support">Priority support</span></li>
+                        </ul>
+                        <a href="{{ auth()->check() ? '/paket' : '/register' }}"
+                            class="w-full text-center block py-2.5 rounded-xl font-semibold text-white transition-all hover:opacity-90"
+                            style="background-color: #C8A26B" data-id="Pilih Premium" data-en="Choose Premium">Pilih
+                            Premium</a>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-                            <h3 class="font-semibold text-lg mb-1 {{ $plan['popular'] ? 'text-white' : '' }}"
-                                style="{{ !$plan['popular'] ? 'color: var(--color-dark)' : '' }}"
-                                data-id="{{ $plan['id_name'] }}" data-en="{{ $plan['en_name'] }}">
-                                {{ $plan['id_name'] }}
-                            </h3>
-                            <div class="mb-6">
-                                @if (!empty($plan['has_discount']))
-                                    <div class="flex items-center gap-2 mb-1">
-                                        <span class="text-xs px-2 py-0.5 rounded-md font-semibold {{ $plan['popular'] ? 'bg-white/20 text-white' : 'bg-red-100 text-red-700' }}">
-                                            {{ PlanFormatter::discountBadge((int) $plan['discount_percent']) }}
-                                        </span>
-                                        <span class="text-xs italic {{ $plan['popular'] ? 'text-white/80' : 'text-stone-500' }}" data-id="{{ $plan['discount_label'] }}" data-en="{{ $plan['discount_label'] }}">
-                                            {{ $plan['discount_label'] }}
-                                        </span>
-                                    </div>
-                                    <div class="flex items-baseline gap-2">
-                                        <span class="text-3xl font-bold {{ $plan['popular'] ? 'text-white' : '' }}" style="{{ !$plan['popular'] ? 'color: var(--color-dark)' : '' }}">
-                                            {{ $plan['price'] }}
-                                        </span>
-                                        <s class="text-sm {{ $plan['popular'] ? 'text-white/70' : 'text-stone-400' }}">{{ $plan['original_price'] }}</s>
-                                    </div>
-                                @else
-                                    <span class="text-3xl font-bold {{ $plan['popular'] ? 'text-white' : '' }}"
-                                        style="{{ !$plan['popular'] ? 'color: var(--color-dark)' : '' }}">
-                                        {{ $plan['price'] }}
-                                    </span>
-                                @endif
-                                <span
-                                    class="text-sm {{ $plan['popular'] ? 'text-white text-opacity-80' : 'text-gray-400' }}"
-                                    data-id="/ {{ $plan['id_period'] }}" data-en="/ {{ $plan['en_period'] }}">
-                                    / {{ $plan['id_period'] }}
-                                </span>
-                            </div>
 
-                            <ul class="space-y-3 mb-8 flex-1">
-                                @foreach ($plan['id_features'] as $fi => $feature)
-                                    <li
-                                        class="flex items-center gap-2.5 text-sm {{ $plan['popular'] ? 'text-white' : 'text-gray-600' }}">
-                                        <svg class="w-4 h-4 flex-shrink-0 {{ $plan['popular'] ? 'text-white' : '' }}"
-                                            style="{{ !$plan['popular'] ? 'color: var(--color-primary)' : '' }}"
-                                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
-                                                d="M5 13l4 4L19 7" />
-                                        </svg>
-                                        <span data-id="{{ $feature }}"
-                                            data-en="{{ $plan['en_features'][$fi] }}">{{ $feature }}</span>
-                                    </li>
-                                @endforeach
-                                @foreach ($plan['id_disabled'] as $di => $feature)
-                                    <li class="flex items-center gap-2.5 text-sm text-gray-300 line-through">
-                                        <svg class="w-4 h-4 flex-shrink-0 text-gray-300" fill="none"
-                                            viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M6 18L18 6M6 6l12 12" />
-                                        </svg>
-                                        <span data-id="{{ $feature }}"
-                                            data-en="{{ $plan['en_disabled'][$di] }}">{{ $feature }}</span>
-                                    </li>
-                                @endforeach
-                            </ul>
-
-                            <a href="/templates"
-                                class="block text-center py-3 rounded-xl font-semibold text-sm transition-all
-                   {{ $plan['popular'] ? 'bg-white hover:bg-gray-50' : 'border-2 hover:text-white hover:bg-opacity-100' }}"
-                                style="{{ $plan['popular']
-                                    ? 'color: var(--color-primary-dark)'
-                                    : 'border-color: var(--color-primary); color: var(--color-primary); hover:background-color: var(--color-primary)' }}"
-                                data-id="{{ $plan['id_cta'] }}" data-en="{{ $plan['en_cta'] }}">
-                                {{ $plan['id_cta'] }}
-                            </a>
+        {{-- ============================================================ --}}
+        {{-- FAQ --}}
+        {{-- ============================================================ --}}
+        <section id="faq" class="py-24" style="background-color: #F5F8F6">
+            <div class="max-w-3xl mx-auto px-6">
+                <div class="reveal text-center mb-14">
+                    <h2 class="font-display text-3xl md:text-4xl font-bold mb-4" style="color: #2C2417"
+                        data-id="Pertanyaan Umum" data-en="Frequently Asked Questions">Pertanyaan Umum</h2>
+                    <p class="text-gray-500 text-lg"
+                        data-id="Hal yang sering ditanyakan calon dan pasangan suami-istri."
+                        data-en="Common questions from couples and newlyweds.">Hal yang sering ditanyakan calon dan
+                        pasangan suami-istri.</p>
+                </div>
+                <div class="space-y-3">
+                    @php $faqs = [
+                            [
+                                'Saya udah nikah, masih bisa pakai Theday?',
+                                'Bisa! Fitur Fase 3 (Setelah Nikah) seperti anniversary reminder, memory album, dan joint budget dirancang untuk pasangan yang sudah menikah. Fitur ini sedang dikembangkan dan akan tersedia bertahap. Daftar sekarang gratis biar dapat akses awal saat rilis.',
+                            ],
+                            [
+                                'Apakah saya wajib pakai fitur undangan?',
+                                'Tidak. Undangan digital adalah salah satu fitur unggulan, tapi kamu bisa pakai Theday cuma untuk checklist persiapan, daftar tamu, RSVP, atau (saat hadir) fitur setelah nikah. Bebas pilih sesuai kebutuhan.',
+                            ],
+                            [
+                                'Apa bedanya Theday & Beyond dengan platform undangan lain?',
+                                'Theday fokus ke perjalanan pernikahan jangka panjang — bukan cuma event sehari. Kami menggabungkan kualitas craft template undangan premium dengan fitur pendamping seumur hidup pasangan: dari persiapan, hari H, sampai kehidupan setelahnya. Dirancang khusus untuk pasangan Indonesia.',
+                            ],
+                            [
+                                'Fitur Setelah Nikah kapan tersedia?',
+                                'Fitur Fase 3 (anniversary reminder, memory album, newlywed admin, joint budget) sedang dikembangkan dan akan dirilis bertahap. Kamu yang sudah daftar akan dapat notifikasi saat setiap fitur rilis.',
+                            ],
+                            [
+                                'Apa bedanya paket Free dan Premium?',
+                                'Free: undangan digital dengan template terbatas, watermark Theday, fitur dasar checklist + RSVP. Premium: akses ke semua template premium (Netflix, Onyx, Astronomy, Spotify Wrapped, dan lain-lain), tanpa watermark, custom domain, amplop digital advance, dan priority support.',
+                            ],
+                            [
+                                'Bagaimana cara membatalkan langganan?',
+                                'Premium subscription bisa dibatalkan kapan saja dari Dashboard → Settings → Subscription → Cancel. Tidak ada biaya pembatalan. Akses Premium tetap aktif sampai akhir periode yang sudah dibayar.',
+                            ],
+                            [
+                                'Data saya aman?',
+                                'Data kamu dienkripsi dan disimpan di server Indonesia (sesuai regulasi PP No. 71/2019). Kami tidak menjual data ke pihak ketiga. Detail lengkap di Kebijakan Privasi.',
+                            ],
+                    ]; @endphp
+                    @foreach ($faqs as $i => [$q, $a])
+                        <div class="faq-item reveal-fade rounded-xl bg-white overflow-hidden"
+                            style="border: 1px solid rgba(146,168,156,0.15); animation-delay: {{ $i * 60 }}ms">
+                            <button
+                                class="faq-q w-full flex items-center justify-between text-left px-5 py-4 font-semibold cursor-pointer"
+                                style="color: #2C2417" data-faq="{{ $i }}" aria-expanded="false">
+                                <span>{{ $q }}</span>
+                                <span class="faq-icon flex-shrink-0 ml-3 text-xl font-light"
+                                    style="color: #92A89C">+</span>
+                            </button>
+                            <div class="faq-a px-5 text-sm text-gray-500 leading-relaxed">
+                                {{ $a }}</div>
                         </div>
                     @endforeach
                 </div>
             </div>
         </section>
+        {{-- Note: FAQ copy is Indonesian-first for v1 (long answer text). English bilingual for FAQ is a follow-up task. --}}
 
 
         {{-- ============================================================ --}}
@@ -1426,36 +1630,24 @@
             </div>
 
             <div class="max-w-3xl mx-auto px-6 text-center relative z-10 reveal">
-                <div class="text-4xl mb-6">💌</div>
                 <h2 class="font-display text-3xl md:text-5xl font-semibold text-white mb-4">
-                    <span data-id="Siap Membuat" data-en="Ready to Create">Siap Membuat</span><br>
-                    <span style="color: var(--color-primary)" data-id="Hari Istimewamu?"
-                        data-en="Your Special Day?">Hari Istimewamu?</span>
+                    <span data-id="Siap memulai perjalanan?" data-en="Ready to start your journey?">Siap memulai
+                        perjalanan?</span>
                 </h2>
                 <p class="text-gray-400 text-lg mb-8 max-w-xl mx-auto"
-                    data-id="Bergabung dengan 10.000+ pasangan yang sudah mempercayai TheDay untuk hari paling spesial mereka."
-                    data-en="Join 10,000+ couples who have trusted TheDay for their most special day.">
-                    Bergabung dengan 10.000+ pasangan yang sudah mempercayai TheDay untuk hari paling spesial mereka.
+                    data-id="Daftar gratis hari ini, mulai dari fase mana aja."
+                    data-en="Sign up free today, start from any phase.">
+                    Daftar gratis hari ini, mulai dari fase mana aja.
                 </p>
-                <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <a href="/templates" class="btn-primary text-base py-3.5 px-10">
-                        <span data-id="Buat Undangan Sekarang" data-en="Create Invitation Now">Buat Undangan
-                            Sekarang</span>
-                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                            stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                        </svg>
-                    </a>
-                    <a href="/login" class="btn-outline text-base py-3.5 px-10"
-                        style="border-color: rgba(255,255,255,0.3); color: white" data-id="Sudah punya akun? Masuk"
-                        data-en="Already have an account? Login">
-                        Sudah punya akun? Masuk
+                <div class="flex flex-col sm:flex-row gap-4 justify-center mb-5">
+                    <a href="/register" class="btn-primary text-base py-3.5 px-10">
+                        <span data-id="Mulai Perjalanan Bersama →" data-en="Start Your Journey →">Mulai Perjalanan
+                            Bersama &#8594;</span>
                     </a>
                 </div>
-                <p class="text-gray-500 text-sm mt-5"
-                    data-id="Gratis selamanya · Tidak perlu kartu kredit · Siap dalam 5 menit"
-                    data-en="Free forever · No credit card required · Ready in 5 minutes">
-                    Gratis selamanya · Tidak perlu kartu kredit · Siap dalam 5 menit
+                <p class="text-gray-500 text-sm" data-id="Gratis · Tanpa kartu kredit · Cancel kapan saja"
+                    data-en="Free · No credit card · Cancel anytime">
+                    Gratis · Tanpa kartu kredit · Cancel kapan saja
                 </p>
             </div>
         </section>
@@ -1468,17 +1660,20 @@
     {{-- ============================================================ --}}
     <footer style="background-color: #111; color: #888">
         <div class="max-w-6xl mx-auto px-6 py-16">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-10 mb-12">
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-8 mb-12">
                 {{-- Brand --}}
-                <div class="md:col-span-1">
+                <div class="col-span-2 md:col-span-1">
                     <a href="/" class="flex items-center mb-4">
-                        <img src="{{ asset('image/logo.svg') }}" alt="TheDay"
+                        <img src="{{ asset('image/logo.svg') }}" alt="Theday"
                             class="h-10 w-auto brightness-0 invert">
                     </a>
+                    <p class="text-sm leading-relaxed mb-1 font-semibold" style="color: #92A89C">
+                        Theday &amp; Beyond
+                    </p>
                     <p class="text-sm leading-relaxed mb-5"
-                        data-id="Platform undangan pernikahan digital online premium terbaik di Indonesia."
-                        data-en="Indonesia's best premium digital wedding invitation platform.">
-                        Platform undangan pernikahan digital online premium terbaik di Indonesia.
+                        data-id="Merayakan hari, merawat cerita — pendamping pasangan Indonesia."
+                        data-en="Celebrate the day, cherish the story — companion for Indonesian couples.">
+                        Merayakan hari, merawat cerita — pendamping pasangan Indonesia.
                     </p>
                     <div class="flex items-center gap-3">
                         @foreach (['instagram', 'tiktok', 'whatsapp'] as $social)
@@ -1511,30 +1706,37 @@
                             'id_cat' => 'Produk',
                             'en_cat' => 'Product',
                             'links' => [
-                                ['id' => 'Template', 'en' => 'Template', 'href' => '/templates'],
                                 ['id' => 'Fitur', 'en' => 'Features', 'href' => '/#fitur'],
+                                ['id' => 'Tema', 'en' => 'Themes', 'href' => '/templates'],
                                 ['id' => 'Harga', 'en' => 'Pricing', 'href' => '/#harga'],
-                                ['id' => 'Cara Kerja', 'en' => 'How It Works', 'href' => '/#cara-kerja'],
+                                ['id' => 'FAQ', 'en' => 'FAQ', 'href' => '/#faq'],
+                            ],
+                        ],
+                        [
+                            'id_cat' => 'Perusahaan',
+                            'en_cat' => 'Company',
+                            'links' => [
+                                ['id' => 'Tentang', 'en' => 'About', 'href' => '#'],
                                 ['id' => 'Blog', 'en' => 'Blog', 'href' => route('blog.index')],
+                                ['id' => 'Kontak', 'en' => 'Contact', 'href' => route('contact')],
                             ],
                         ],
                         [
                             'id_cat' => 'Bantuan',
-                            'en_cat' => 'Support',
+                            'en_cat' => 'Help',
                             'links' => [
-                                ['id' => 'Pusat Bantuan', 'en' => 'Help Center', 'href' => '#'],
-                                ['id' => 'Kontak', 'en' => 'Contact', 'href' => route('contact')],
-                                [
-                                    'id' => 'Kebijakan Privasi',
-                                    'en' => 'Privacy Policy',
-                                    'href' => route('legal.privacy'),
-                                ],
-                                [
-                                    'id' => 'Syarat & Ketentuan',
-                                    'en' => 'Terms & Conditions',
-                                    'href' => route('legal.terms'),
-                                ],
-                                ['id' => 'Kebijakan Cookie', 'en' => 'Cookie Policy', 'href' => route('legal.cookie')],
+                                ['id' => 'FAQ', 'en' => 'FAQ', 'href' => '/#faq'],
+                                ['id' => 'Panduan', 'en' => 'Guide', 'href' => '#'],
+                                ['id' => 'Kontak Support', 'en' => 'Contact Support', 'href' => route('contact')],
+                            ],
+                        ],
+                        [
+                            'id_cat' => 'Legal',
+                            'en_cat' => 'Legal',
+                            'links' => [
+                                ['id' => 'Privasi', 'en' => 'Privacy', 'href' => route('legal.privacy')],
+                                ['id' => 'Syarat', 'en' => 'Terms', 'href' => route('legal.terms')],
+                                ['id' => 'Cookie', 'en' => 'Cookie', 'href' => route('legal.cookie')],
                             ],
                         ],
                     ];
@@ -1560,9 +1762,9 @@
             {{-- Bottom bar --}}
             <div class="border-t pt-8 flex flex-col md:flex-row items-center justify-between gap-4"
                 style="border-color: rgba(255,255,255,0.08)">
-                <p class="text-xs" data-id="© {{ date('Y') }} TheDay. Dibuat dengan ❤️ di Indonesia."
-                    data-en="© {{ date('Y') }} TheDay. Made with ❤️ in Indonesia.">© {{ date('Y') }}
-                    TheDay. Dibuat dengan ❤️ di Indonesia.</p>
+                <p class="text-xs" data-id="© {{ date('Y') }} Theday. Dibuat dengan ❤️ di Indonesia."
+                    data-en="© {{ date('Y') }} Theday. Made with ❤️ in Indonesia.">© {{ date('Y') }}
+                    Theday. Dibuat dengan ❤️ di Indonesia.</p>
                 <div class="flex items-center gap-6">
                     <a href="{{ route('legal.privacy') }}" class="text-xs hover:text-white transition-colors"
                         data-id="Privasi" data-en="Privacy">Privasi</a>
@@ -1580,7 +1782,8 @@
         // LANGUAGE SWITCHER
         // ============================================================
         const LANG_KEY = 'theday_lang';
-        let currentLang = localStorage.getItem(LANG_KEY) || 'id';
+        // Locale is driven by the URL (/ = id, /en = en) for SEO. Server passes it in.
+        let currentLang = @json($locale);
 
         function applyLanguage(lang) {
             currentLang = lang;
@@ -1605,10 +1808,14 @@
         }
 
         function toggleLanguage() {
-            applyLanguage(currentLang === 'id' ? 'en' : 'id');
+            // Navigate to the other locale's URL so the language has its own
+            // crawlable URL (and persist for in-app pages via localStorage).
+            const next = currentLang === 'id' ? 'en' : 'id';
+            localStorage.setItem(LANG_KEY, next);
+            window.location.assign(next === 'en' ? '/en' : '/');
         }
 
-        // Apply saved language on page load
+        // Apply the server-driven language on page load
         applyLanguage(currentLang);
 
         // ============================================================
@@ -1648,18 +1855,23 @@
         // ============================================================
         // SCROLL REVEAL
         // ============================================================
-        const reveals = document.querySelectorAll('.reveal');
+        const reveals = document.querySelectorAll('.reveal, .reveal-fade');
         const observer = new IntersectionObserver((entries) => {
-            entries.forEach((entry, i) => {
+            entries.forEach((entry) => {
                 if (entry.isIntersecting) {
-                    setTimeout(() => {
-                        entry.target.classList.add('visible');
-                    }, i * 60);
-                    observer.unobserve(entry.target);
+                    const el = entry.target;
+                    el.classList.add('is-in');
+                    // Drop the animation lock once it finishes so :hover transforms stay free.
+                    el.addEventListener('animationend', () => {
+                        el.classList.remove('is-in');
+                        el.classList.add('done');
+                    }, { once: true });
+                    observer.unobserve(el);
                 }
             });
         }, {
-            threshold: 0.1
+            threshold: 0.12,
+            rootMargin: '0px 0px -40px 0px'
         });
 
         reveals.forEach(el => observer.observe(el));
@@ -1674,6 +1886,42 @@
                         behavior: 'smooth',
                         block: 'start'
                     });
+                }
+            });
+        });
+
+        // ============================================================
+        // FEATURE TABS
+        // ============================================================
+        document.querySelectorAll('.feature-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                const target = tab.dataset.tab;
+                document.querySelectorAll('.feature-tab').forEach(t => {
+                    t.classList.toggle('is-active', t === tab);
+                });
+                document.querySelectorAll('.feature-panel').forEach(p => {
+                    p.classList.toggle('hidden', p.dataset.panel !== target);
+                });
+            });
+        });
+
+        // ============================================================
+        // FAQ ACCORDION (single-open)
+        // ============================================================
+        document.querySelectorAll('.faq-q').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const item = btn.closest('.faq-item');
+                const isOpen = item.classList.contains('is-open');
+                // close all (single-open)
+                document.querySelectorAll('.faq-item').forEach(i => {
+                    i.classList.remove('is-open');
+                    const q = i.querySelector('.faq-q');
+                    if (q) q.setAttribute('aria-expanded', 'false');
+                });
+                // open this one if it was closed
+                if (!isOpen) {
+                    item.classList.add('is-open');
+                    btn.setAttribute('aria-expanded', 'true');
                 }
             });
         });

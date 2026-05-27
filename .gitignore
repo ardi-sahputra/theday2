@@ -24,3 +24,10 @@ Homestead.yaml
 Thumbs.db
 .superpowers/brainstorm/
 .gstack/
+.serena/
+
+# Design export dumps + scratch previews (not part of the app)
+/theday*.zip
+/Landing Page.html
+/public/email-preview-*.html
+/theday(*)/

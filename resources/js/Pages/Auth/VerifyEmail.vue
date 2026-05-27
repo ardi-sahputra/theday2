@@ -1,10 +1,16 @@
 <script setup>
 import { computed, ref, onMounted, onUnmounted } from 'vue';
-import { Head, Link, useForm } from '@inertiajs/vue3';
+import { Head, Link, useForm, usePage } from '@inertiajs/vue3';
+import { useLocale } from '@/Composables/useLocale';
 
 const props = defineProps({
     status: { type: String },
 });
+
+const { locale, toggleLocale, t } = useLocale();
+
+const page = usePage();
+const flashError = computed(() => page.props.flash?.error);
 
 const form = useForm({});
 const mounted = ref(false);
@@ -35,7 +41,7 @@ const submit = () => {
 </script>
 
 <template>
-    <Head title="Verifikasi Email — TheDay" />
+    <Head :title="t('auth.verify_page_title')" />
 
     <div class="min-h-screen flex" style="background-color: #FFFCF7; font-family: 'DM Sans', sans-serif">
 
@@ -45,85 +51,60 @@ const submit = () => {
         <component :is="'link'" rel="stylesheet"
             href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500&family=DM+Sans:wght@300;400;500;600&display=swap" />
 
-        <!-- ── Left decorative panel ─────────────────────────────────── -->
+        <!-- ── Left art panel (matches Login/Register V2) ─────────────── -->
         <div class="hidden lg:flex lg:w-5/12 xl:w-1/2 flex-col relative overflow-hidden"
-             style="background: linear-gradient(160deg, #1A2720 0%, #243830 60%, #2E4A3C 100%)">
+             style="padding: 56px; background: radial-gradient(700px 500px at 0% 0%, rgba(217,181,176,0.22), transparent 60%), radial-gradient(600px 500px at 100% 100%, rgba(156,171,142,0.25), transparent 65%), linear-gradient(150deg, #2E4A3C 0%, #243830 55%, #1A2720 100%)">
 
-            <!-- Dot pattern -->
-            <div class="absolute inset-0 opacity-10"
-                 style="background-image: radial-gradient(circle, #92A89C 1px, transparent 1px); background-size: 28px 28px" />
+            <!-- art center -->
+            <div class="flex-1 flex flex-col items-center justify-center text-center">
+                <h2 style="font-family: 'Cormorant', serif; font-weight: 500; font-size: clamp(38px, 4.5vw, 52px); line-height: 1.05; letter-spacing: -0.02em; color: #FBFCF9; text-shadow: 0 2px 14px rgba(31,42,46,0.2); margin: 0">
+                    {{ t('auth.login_v2_art_h1') }}<br /><em style="font-style: italic; color: #F4EDDC; font-weight: 400">{{ t('auth.login_v2_art_h2') }}</em>
+                </h2>
+                <p style="font-family: 'Cormorant', serif; font-style: italic; font-size: 20px; color: rgba(251,252,249,0.85); margin: 18px auto 0; max-width: 360px; line-height: 1.4">
+                    {{ t('auth.login_v2_art_tag') }}
+                </p>
 
-            <!-- Floating rings -->
-            <div class="absolute top-1/4 -left-16 w-64 h-64 rounded-full border border-[#92A89C]/10 animate-pulse-slow" />
-            <div class="absolute top-1/3 -left-8 w-40 h-40 rounded-full border border-[#92A89C]/10" style="animation: drift 8s ease-in-out infinite" />
-            <div class="absolute bottom-1/4 right-12 w-56 h-56 rounded-full border border-white/5" style="animation: drift 12s ease-in-out infinite reverse" />
+                <!-- Journey illustration -->
+                <svg viewBox="0 0 460 200" xmlns="http://www.w3.org/2000/svg" style="margin-top: 32px; max-width: 460px; width: 100%">
+                    <path d="M 20 160 C 100 160, 130 100, 230 100 S 360 60, 440 60" stroke="rgba(251,252,249,0.45)" stroke-width="6" stroke-linecap="round" fill="none"/>
+                    <path d="M 20 160 C 100 160, 130 100, 230 100 S 360 60, 440 60" stroke="rgba(251,252,249,0.9)" stroke-width="1.5" stroke-linecap="round" fill="none" stroke-dasharray="2 8"/>
+                    <g transform="translate(20, 160)"><circle r="10" fill="#FBFCF9"/><circle r="5" fill="#4A5A4C"/></g>
+                    <g transform="translate(160, 130)"><circle r="14" fill="#FBFCF9"/><path d="M -5 0 L -2 3 L 5 -4" stroke="#4A5A4C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></g>
+                    <g transform="translate(280, 90)"><circle r="18" fill="#FBFCF9"/><path d="M -8 0 c 0 -8 16 -8 16 0 c 0 6 -8 12 -8 12 c 0 0 -8 -6 -8 -12 z" fill="#D9B5B0"/></g>
+                    <g transform="translate(440, 60)"><circle r="14" fill="#FBFCF9"/><path d="M 0 -6 L -6 -2 L -6 5 L 6 5 L 6 -2 Z" fill="#C19089"/><path d="M -6 -2 L 0 -8 L 6 -2" stroke="#C19089" stroke-width="1.5" fill="none" stroke-linecap="round"/></g>
+                    <text x="20" y="190" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="rgba(251,252,249,0.7)" letter-spacing="1">DAFTAR</text>
+                    <text x="160" y="160" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="rgba(251,252,249,0.7)" letter-spacing="1">UNDANGAN</text>
+                    <text x="280" y="120" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="rgba(251,252,249,0.7)" letter-spacing="1">HARI H</text>
+                    <text x="440" y="90" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="rgba(251,252,249,0.7)" letter-spacing="1">BEYOND</text>
+                    <g fill="rgba(251,252,249,0.5)">
+                        <circle cx="80" cy="40" r="2"/><circle cx="150" cy="30" r="2"/><circle cx="350" cy="20" r="2"/><circle cx="380" cy="120" r="2"/><circle cx="60" cy="100" r="2"/>
+                    </g>
+                </svg>
+            </div>
 
-            <!-- Content -->
-            <div class="relative z-10 flex flex-col h-full px-12 py-10">
-
-                <!-- Logo -->
-                <a href="/" class="flex items-center gap-2.5 w-fit">
-                    <div class="w-9 h-9 rounded-xl flex items-center justify-center" style="background-color: #92A89C">
-                        <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                        </svg>
-                    </div>
-                    <span class="text-white font-semibold text-xl tracking-tight" style="font-family: 'Playfair Display', serif">TheDay</span>
-                </a>
-
-                <!-- Center content -->
-                <div class="flex-1 flex flex-col justify-center">
-                    <p class="text-[#B8C7BF]/60 text-xs font-medium uppercase tracking-widest mb-5">Satu langkah lagi</p>
-
-                    <!-- Decorative envelope illustration -->
-                    <div class="mb-8 relative w-fit">
-                        <div class="w-20 h-20 rounded-2xl flex items-center justify-center"
-                             style="background: rgba(146,168,156,0.15); border: 1px solid rgba(146,168,156,0.2)">
-                            <svg class="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="#92A89C" stroke-width="1.5">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
-                            </svg>
-                        </div>
-                        <!-- Ping dot -->
-                        <span class="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-[#92A89C] flex items-center justify-center">
-                            <span class="absolute inline-flex h-full w-full rounded-full bg-[#92A89C] opacity-75 animate-ping" />
-                        </span>
-                    </div>
-
-                    <h1 class="text-white text-4xl font-semibold leading-tight mb-4" style="font-family: 'Playfair Display', serif">
-                        Email Anda<br /><em>menunggu konfirmasi</em>
-                    </h1>
-                    <p class="text-[#B8C7BF]/60 text-sm leading-relaxed max-w-xs">
-                        Kami mengirim tautan verifikasi ke kotak masuk Anda. Periksa juga folder <em>Spam</em> jika tidak ada di Inbox.
-                    </p>
-                </div>
-
-                <!-- Decorative card -->
-                <div class="mb-10">
-                    <div class="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm px-5 py-4">
-                        <div class="flex items-center gap-3">
-                            <div class="w-8 h-8 rounded-full bg-[#92A89C]/20 flex items-center justify-center flex-shrink-0">
-                                <svg class="w-4 h-4 text-[#B8C7BF]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                            </div>
-                            <div>
-                                <p class="text-white text-xs font-semibold">Akun dibuat</p>
-                                <p class="text-white/40 text-xs">Verifikasi email untuk memulai</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <!-- art bottom meta -->
+            <div class="flex justify-between items-end">
+                <div style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.18em; color: rgba(251,252,249,0.55); text-transform: uppercase">VOL. I · 2026</div>
+                <div style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.18em; color: rgba(251,252,249,0.55); text-transform: uppercase">DIBUAT DENGAN ♡ DI JAKARTA</div>
             </div>
         </div>
 
         <!-- ── Right panel ──────────────────────────────────────────── -->
         <div class="flex-1 flex flex-col relative">
 
-            <!-- Mobile logo -->
-            <div class="lg:hidden flex items-center px-6 pt-6">
+            <!-- Lang toggle -->
+            <div class="absolute top-4 right-4 z-10">
+                <button
+                    @click="toggleLocale"
+                    class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-stone-100 hover:bg-stone-200 transition-colors text-xs font-semibold text-stone-600 border border-stone-200"
+                >
+                    <span>{{ locale === 'en' ? '🇬🇧' : '🇮🇩' }}</span>
+                    <span>{{ locale === 'en' ? 'EN' : 'ID' }}</span>
+                </button>
+            </div>
+
+            <!-- Logo -->
+            <div class="flex items-center px-6 pt-6">
                 <a href="/" class="flex items-center">
                     <img src="/image/logo.svg" alt="TheDay" class="h-7 w-auto" />
                 </a>
@@ -156,10 +137,10 @@ const submit = () => {
                          :class="mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'"
                          style="transition: opacity 0.5s ease 0.1s, transform 0.5s ease 0.1s">
                         <h2 class="text-2xl font-semibold text-stone-900 mb-2" style="font-family: 'Playfair Display', serif">
-                            Verifikasi Email Anda
+                            {{ t('auth.verify_heading') }}
                         </h2>
                         <p class="text-sm text-stone-500 leading-relaxed">
-                            Kami telah mengirim tautan verifikasi ke email Anda. Klik tautan tersebut untuk mengaktifkan akun dan mulai membuat undangan pernikahan impian Anda.
+                            {{ t('auth.verify_desc') }}
                         </p>
                     </div>
 
@@ -176,7 +157,7 @@ const submit = () => {
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
                                     </svg>
                                 </div>
-                                <span class="text-sm text-stone-500 line-through">Buat akun</span>
+                                <span class="text-sm text-stone-500 line-through">{{ t('auth.verify_step_account') }}</span>
                             </div>
                             <!-- Connector -->
                             <div class="ml-3 w-px h-3 bg-stone-200" />
@@ -187,9 +168,9 @@ const submit = () => {
                                     <span class="w-2 h-2 rounded-full" style="background-color: #92A89C" />
                                     <span class="absolute w-6 h-6 rounded-full animate-ping" style="border: 1px solid #92A89C; opacity: 0.4" />
                                 </div>
-                                <span class="text-sm font-medium text-stone-800">Verifikasi email</span>
+                                <span class="text-sm font-medium text-stone-800">{{ t('auth.verify_step_verify') }}</span>
                                 <span class="ml-auto text-xs px-2 py-0.5 rounded-full font-medium"
-                                      style="background-color: #EFF4F2; color: #73877C">Menunggu</span>
+                                      style="background-color: #EFF4F2; color: #73877C">{{ t('auth.verify_step_waiting') }}</span>
                             </div>
                             <!-- Connector -->
                             <div class="ml-3 w-px h-3 bg-stone-200" />
@@ -198,10 +179,28 @@ const submit = () => {
                                 <div class="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 border-2 border-stone-300">
                                     <span class="w-2 h-2 rounded-full bg-stone-300" />
                                 </div>
-                                <span class="text-sm text-stone-500">Mulai membuat undangan</span>
+                                <span class="text-sm text-stone-500">{{ t('auth.verify_step_start') }}</span>
                             </div>
                         </div>
                     </div>
+
+                    <!-- Session expired (419) notice -->
+                    <transition
+                        enter-active-class="transition-all duration-500 ease-out"
+                        enter-from-class="opacity-0 -translate-y-2 scale-95"
+                        enter-to-class="opacity-100 translate-y-0 scale-100">
+                        <div v-if="flashError"
+                             class="mb-6 flex items-start gap-3 px-4 py-3.5 rounded-xl"
+                             style="background-color: #FDF3F0; border: 1px solid #E8C9C2">
+                            <div class="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"
+                                 style="background-color: #C19089">
+                                <svg class="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v4m0 4h.01" />
+                                </svg>
+                            </div>
+                            <p class="text-sm" style="color: #9C5B4E">{{ flashError }}</p>
+                        </div>
+                    </transition>
 
                     <!-- Success notification -->
                     <transition
@@ -221,8 +220,8 @@ const submit = () => {
                                 </svg>
                             </div>
                             <div>
-                                <p class="text-sm font-semibold" style="color: #4A7060">Email terkirim ulang!</p>
-                                <p class="text-xs mt-0.5" style="color: #73877C">Cek kotak masuk Anda, termasuk folder Spam.</p>
+                                <p class="text-sm font-semibold" style="color: #4A7060">{{ t('auth.verify_sent_title') }}</p>
+                                <p class="text-xs mt-0.5" style="color: #73877C">{{ t('auth.verify_sent_sub') }}</p>
                             </div>
                         </div>
                     </transition>
@@ -244,33 +243,33 @@ const submit = () => {
                                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
                                         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
                                     </svg>
-                                    Mengirim...
+                                    {{ t('auth.verify_btn_sending') }}
                                 </template>
                                 <template v-else-if="cooldown > 0">
                                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                                     </svg>
-                                    Kirim ulang dalam {{ cooldown }}s
+                                    {{ t('auth.verify_btn_cooldown', { n: cooldown }) }}
                                 </template>
                                 <template v-else>
                                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                         <path stroke-linecap="round" stroke-linejoin="round"
                                             d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                                     </svg>
-                                    Kirim Ulang Email Verifikasi
+                                    {{ t('auth.verify_btn_resend') }}
                                 </template>
                             </button>
                         </form>
 
                         <!-- Hint text -->
                         <p class="text-center text-xs text-stone-400 mt-4 leading-relaxed">
-                            Tidak menerima email? Tunggu beberapa menit lalu klik kirim ulang.<br />Periksa juga folder <strong class="text-stone-500">Spam</strong> atau <strong class="text-stone-500">Promosi</strong>.
+                            {{ t('auth.verify_hint') }}
                         </p>
 
                         <!-- Divider -->
                         <div class="my-6 flex items-center gap-3">
                             <div class="flex-1 h-px bg-stone-100" />
-                            <span class="text-xs text-stone-300">atau</span>
+                            <span class="text-xs text-stone-300">{{ t('auth.or') }}</span>
                             <div class="flex-1 h-px bg-stone-100" />
                         </div>
 
@@ -280,7 +279,7 @@ const submit = () => {
                                 <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                                 </svg>
-                                Kembali ke beranda
+                                {{ t('auth.verify_back') }}
                             </a>
 
                             <Link
@@ -289,7 +288,7 @@ const submit = () => {
                                 as="button"
                                 class="text-sm text-stone-400 hover:text-red-500 transition-colors"
                             >
-                                Keluar
+                                {{ t('auth.verify_logout') }}
                             </Link>
                         </div>
                     </div>

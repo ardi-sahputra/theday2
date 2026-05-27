@@ -13,6 +13,20 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     // Authenticated admin only
     Route::middleware('auth:admin')->group(function () {
+        // Support chat
+        Route::prefix('support')->name('support.')->group(function () {
+            // Settings BEFORE {conversation} to avoid wildcard match
+            Route::get('settings/work-hours',         [\App\Http\Controllers\Admin\AdminSupportController::class, 'editWorkHours'])->name('settings.work-hours.edit');
+            Route::put('settings/work-hours',         [\App\Http\Controllers\Admin\AdminSupportController::class, 'updateWorkHours'])->name('settings.work-hours.update');
+
+            Route::get('/',                            [\App\Http\Controllers\Admin\AdminSupportController::class, 'index'])->name('index');
+            Route::get('{conversation}',               [\App\Http\Controllers\Admin\AdminSupportController::class, 'show'])->name('show')->where('conversation', '\d+');
+            Route::get('{conversation}/messages',      [\App\Http\Controllers\Admin\AdminSupportController::class, 'pollMessages'])->name('poll')->middleware('throttle:120,1')->where('conversation', '\d+');
+            Route::post('{conversation}/messages',     [\App\Http\Controllers\Admin\AdminSupportController::class, 'sendMessage'])->name('send')->where('conversation', '\d+');
+            Route::post('{conversation}/resolve',      [\App\Http\Controllers\Admin\AdminSupportController::class, 'resolve'])->name('resolve')->where('conversation', '\d+');
+            Route::post('{conversation}/mark-read',    [\App\Http\Controllers\Admin\AdminSupportController::class, 'markRead'])->name('mark-read')->where('conversation', '\d+');
+        });
+
         Route::get('/', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
         Route::post('logout', [\App\Http\Controllers\Admin\Auth\LoginController::class, 'logout'])->name('logout');
         Route::get('users', [\App\Http\Controllers\Admin\UserController::class, 'index'])->name('users.index');

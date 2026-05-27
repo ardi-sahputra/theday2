@@ -64,6 +64,8 @@ class SubscriptionController extends Controller
                 'has_discount'     => $premiumPlan->hasActiveDiscount(),
                 'discount_percent' => $premiumPlan->currentDiscount()?->percent,
             ] : null,
+            // Set when arriving from onboarding with a Premium choice → auto-start checkout.
+            'autoCheckout' => $request->query('checkout') === 'premium',
         ]);
     }
 

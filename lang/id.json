@@ -1,4 +1,81 @@
 {
+    "onboarding": {
+        "page_title": "Setup Undangan — Theday",
+        "continue": "Lanjut",
+        "back": "Kembali",
+        "enter_hint": "tekan Enter untuk lanjut",
+        "welcome_title": "Selamat datang",
+        "welcome_sub": "di hari pertama perjalanan kalian",
+        "welcome_desc": "Ceritakan sedikit tentang pernikahan kalian — beberapa langkah singkat, sisanya bisa dilengkapi nanti di dashboard.",
+        "welcome_preparing": "Lagi siap-siap nikah",
+        "welcome_married": "Kami sudah menikah",
+        "welcome_note": "~ 2 MENIT · TERSIMPAN OTOMATIS",
+        "journey_start": "MULAI",
+        "journey_ready": "SIAP",
+        "journey_dday": "HARI H",
+        "journey_beyond": "BEYOND",
+        "s_pasangan": "Pasangan",
+        "pasangan_title": "Siapa nama kalian berdua?",
+        "pasangan_sub": "Nama ini akan muncul di undangan, dashboard, dan semua dokumen. Bisa diubah nanti.",
+        "label_bride": "Pasangan Wanita",
+        "label_groom": "Pasangan Pria",
+        "nick_ph": "Panggilan (maks. 10, tampil di undangan)",
+        "label_phone": "Nomor WhatsApp",
+        "optional": "(opsional)",
+        "couple_note": "Undangan kalian akan tertulis",
+        "s_tanggal": "Tanggal",
+        "tanggal_title": "Kapan hari H kalian?",
+        "tanggal_title_married": "Kapan kalian menikah?",
+        "tanggal_sub": "Tanggal ini menggerakkan countdown, timeline checklist, dan reminder otomatis.",
+        "tanggal_sub_married": "Kami simpan sebagai tanggal pernikahan kalian — jadi dasar anniversary & momen bersama.",
+        "date_pick": "Pilih tanggal & waktu…",
+        "nodate_t": "Belum menentukan tanggal",
+        "nodate_d": "Countdown & reminder aktif setelah kamu set tanggal di dashboard.",
+        "s_lokasi": "Lokasi",
+        "lokasi_title": "Di mana acaranya?",
+        "lokasi_sub": "Opsional — bisa dilengkapi nanti. Lokasi akan tampil di undangan & peta.",
+        "label_venue": "Nama Gedung / Tempat",
+        "venue_ph": "Ballroom Hotel Grand, Masjid Al-Akbar…",
+        "label_address": "Alamat Lengkap",
+        "address_ph": "Jl. Pemuda No. 1, Surabaya, Jawa Timur",
+        "s_tipe": "Tipe",
+        "tipe_title": "Jenis pernikahan seperti apa?",
+        "tipe_sub": "Membantu kami menyiapkan template checklist yang pas. Opsional — bisa diubah nanti.",
+        "label_city": "Kota / Lokasi",
+        "city_ph": "Bandung, Jakarta, Bali…",
+        "type_akad_n": "Akad & Resepsi",
+        "type_akad_d": "Susunan tradisional Indonesia · 100–500 tamu",
+        "type_intimate_n": "Intimate",
+        "type_intimate_d": "30–80 tamu terdekat · hangat & personal",
+        "type_dest_n": "Destination",
+        "type_dest_d": "Luar kota · Bali · luar negeri",
+        "type_belum_n": "Masih dipikirkan",
+        "type_belum_d": "Bisa di-set kapan saja, kami sesuaikan",
+        "s_paket": "Paket",
+        "paket_title": "Pilih paket yang pas",
+        "paket_sub": "Gak perlu bayar sekarang — mulai gratis, upgrade kapan saja dari dashboard.",
+        "paket_hint": "Upgrade tidak menagih apa pun sekarang — kamu atur pembayaran nanti.",
+        "plan_feat_free": "Undangan + RSVP dasar · daftar tamu",
+        "plan_feat_premium": "Semua template · amplop QRIS · tamu tak terbatas",
+        "plan_feat_free_married": "Simpan profil & tanggal pernikahan · undangan momen",
+        "plan_feat_premium_married": "Semua template undangan · amplop QRIS",
+        "plan_free": "Gratis",
+        "plan_selected": "Dipilih",
+        "plan_per": "/ bulan",
+        "modal_pick_date": "Pilih Tanggal",
+        "modal_start_time": "Waktu Mulai",
+        "modal_hour": "Jam",
+        "modal_minute": "Menit",
+        "modal_save": "Simpan",
+        "modal_pick_first": "Pilih tanggal dulu",
+        "done_title": "Dashboard {couple} siap dipakai",
+        "done_sub": "Undangan pertama kalian sudah kami siapkan untuk dikustomisasi.",
+        "enter_dashboard": "Masuk Dashboard",
+        "edit_data": "← Ubah data",
+        "preparing_label": "Menyiapkan…",
+        "date_tbd": "Tanggal menyusul",
+        "errors_title": "Ada yang perlu diperbaiki:"
+    },
     "admin": {
         "plans": {
             "index": {
@@ -146,7 +223,16 @@
         "logout": "Keluar",
         "pricing": "Harga",
         "login": "Masuk",
-        "register": "Daftar"
+        "register": "Daftar",
+        "phase": {
+            "persiapan": "Persiapan",
+            "harih": "Hari H",
+            "setelah": "Setelah",
+            "akun": "Akun"
+        },
+        "anniversary": "Anniversary",
+        "memoryAlbum": "Memory Album",
+        "comingSoon": "Segera"
     },
     "validation": {
         "required": ":field wajib diisi",
@@ -156,11 +242,114 @@
     },
     "dashboard": {
         "index": {
+            "widgets": {
+                "demoBadge": "Contoh",
+                "demoBadgeTitle": "Data contoh — fitur ini masih dalam pengembangan",
+                "hero": {
+                    "greeting": "Menuju hari bahagia kalian",
+                    "greetMorning": "Selamat pagi",
+                    "greetAfternoon": "Selamat siang",
+                    "greetEvening": "Selamat sore",
+                    "greetNight": "Selamat malam",
+                    "married": "Selamat menempuh hidup baru",
+                    "noDate": "Atur tanggal pernikahan kalian",
+                    "fallbackTitle": "Pasangan Bahagia",
+                    "toTheday": "menuju hari H",
+                    "days": "Hari",
+                    "hours": "Jam",
+                    "minutes": "Menit",
+                    "seconds": "Detik",
+                    "copyLink": "Bagikan",
+                    "copied": "Tersalin!",
+                    "preview": "Pratinjau",
+                    "setDate": "Atur tanggal pernikahan"
+                },
+                "stats": {
+                    "rsvp": "RSVP Hadir",
+                    "rsvpSub": "dari {total} RSVP",
+                    "budget": "Anggaran Terpakai",
+                    "budgetEmpty": "Belum ada anggaran",
+                    "checklist": "Checklist Selesai",
+                    "checklistSub": "dari {total} tugas",
+                    "ucapan": "Ucapan Masuk",
+                    "ucapanSub": "ucapan dari tamu"
+                },
+                "checklist": {
+                    "title": "Checklist Berikutnya",
+                    "sub": "{done} dari {total} selesai",
+                    "add": "Tugas baru",
+                    "urgent": "Mendesak",
+                    "allDone": "Semua tugas selesai 🎉",
+                    "empty": "Checklist belum diaktifkan"
+                },
+                "invite": {
+                    "label": "Halaman undangan",
+                    "live": "Live",
+                    "draft": "Draft",
+                    "visits": "kunjungan",
+                    "ucapan": "ucapan",
+                    "copy": "Salin link",
+                    "copied": "Tersalin!",
+                    "open": "Buka",
+                    "empty": "Belum ada undangan",
+                    "emptyCta": "Tambah Undangan"
+                },
+                "budget": {
+                    "title": "Anggaran Pernikahan",
+                    "sub": "Total budget · {total}",
+                    "detail": "Detail",
+                    "used": "terpakai",
+                    "empty": "Belum ada kategori anggaran"
+                },
+                "rsvp": {
+                    "title": "RSVP Terbaru",
+                    "sub": "konfirmasi tamu terakhir",
+                    "all": "Lihat semua",
+                    "persons": "{n} orang",
+                    "attending": "Hadir",
+                    "notAttending": "Tidak hadir",
+                    "empty": "Belum ada RSVP"
+                },
+                "vendor": {
+                    "title": "Vendor",
+                    "sub": "contoh data vendor"
+                },
+                "activity": {
+                    "title": "Aktivitas Terbaru"
+                },
+                "beyond": {
+                    "eyebrow": "Beyond · pratinjau",
+                    "titlePre": "Sudah punya rencana",
+                    "titleEm": "setelah",
+                    "titlePost": "hari H?",
+                    "desc": "Mulai jurnal pasangan, set goal DP rumah, atau atur tradisi anniversary. Aktif otomatis setelah resepsi.",
+                    "activate": "Aktifkan Beyond",
+                    "learn": "Pelajari",
+                    "soon": "Segera hadir"
+                }
+            },
             "pageTitle": "Dashboard",
             "greeting": "Selamat datang kembali",
             "greetingSubtitle": "Kelola hari bahagiamu dari sini.",
             "createNew": "Buat Undangan Baru",
             "upgradeNudge": "Upgrade",
+            "countdown": {
+                "daysUntil": "Hari H tinggal {days} hari",
+                "today": "Hari ini hari spesialmu!",
+                "married": "Sudah menikah {days} hari",
+                "anniversary": "{years} tahun pernikahan",
+                "setDate": "Atur tanggal pernikahan kamu",
+                "setDateHint": "Biar kami bisa hitung mundur ke hari spesialmu",
+                "setDateCta": "Simpan Tanggal",
+                "saving": "Menyimpan...",
+                "dateLabelPrefix": "Tanggal pernikahan:",
+                "change": "Ubah"
+            },
+            "phase3": {
+                "title": "Setelah Hari H",
+                "badge": "Segera Hadir",
+                "desc": "Kami sedang menyiapkan fitur untuk kehidupan setelah pernikahan kamu."
+            },
             "stats": {
                 "totalInvitations": "Total Undangan",
                 "totalInvitationsSub": "{draft} draft · {published} aktif",
@@ -267,7 +456,7 @@
             "freeLimitInvitation": "• 1 undangan aktif",
             "freeLimitPhoto": "• 5 foto per undangan",
             "freeLimitTemplate": "• Template gratis saja",
-            "freeLimitWatermark": "• Watermark TheDay",
+            "freeLimitWatermark": "• Watermark Theday",
             "ctaUpgrade": "Upgrade Sekarang →",
             "ctaRenew": "Perpanjang →",
             "ctaAlreadyPremium": "Sudah Premium ✓",
@@ -285,7 +474,7 @@
             "freeFeaturePhoto": "5 foto gallery",
             "freeFeatureTemplate": "Template gratis",
             "freeFeatureMusic": "Musik default",
-            "freeFeatureWatermark": "Watermark \"Dibuat dengan TheDay\"",
+            "freeFeatureWatermark": "Watermark \"Dibuat dengan Theday\"",
             "premiumPriceCta": "Semua yang kamu butuhkan untuk undangan impian",
             "premiumFeatureInvitation": "Unlimited undangan aktif",
             "premiumFeaturePhoto": "Unlimited foto gallery",
@@ -498,7 +687,9 @@
                 "btnCancel": "Batal",
                 "btnSaving": "Menyimpan…",
                 "btnSave": "Simpan",
-                "btnAdd": "Tambah"
+                "btnAdd": "Tambah",
+                "vendor": "Vendor (opsional)",
+                "vendorPlaceholder": "mis. Pawon Catering"
             },
             "datePicker": {
                 "title": "Pilih Tanggal",
@@ -570,9 +761,118 @@
                 "thu": "Kam",
                 "fri": "Jum",
                 "sat": "Sab"
+            },
+            "hero": {
+                "overall": "Progress keseluruhan",
+                "doneOfTotal": "{done} dari {total} tugas selesai",
+                "done": "selesai",
+                "remaining": "tersisa",
+                "urgent": "mendesak",
+                "toTheday": "menuju hari H",
+                "daysLeft": "{days} hari",
+                "noDate": "atur tanggal",
+                "aiSuggest": "Saran AI",
+                "aiSoon": "Saran AI segera hadir"
+            },
+            "stat": {
+                "urgent": "Mendesak minggu ini",
+                "due7d": "Jatuh tempo dalam 7 hari",
+                "doneMonth": "Selesai bulan ini",
+                "pic": "Beban Ayu / Rizki"
+            },
+            "chip": {
+                "all": "Semua",
+                "urgent": "Mendesak",
+                "todo": "Belum selesai",
+                "done": "Selesai"
+            },
+            "view": {
+                "list": "List",
+                "timeline": "Timeline",
+                "kanban": "Kanban"
+            },
+            "kanban": {
+                "empty": "Tidak ada tugas"
+            },
+            "exportCalendar": "Ekspor ke kalender",
+            "addTask": "Tugas Baru",
+            "pageTitle": "Checklist Pernikahan",
+            "pageSub": "{total} tugas total",
+            "toast": {
+                "templateApplied": "Template standar diterapkan"
+            },
+            "setup": {
+                "title": "Mulai checklist kamu",
+                "sub": "Pilih cara mulai checklist persiapanmu.",
+                "recommended": "Disarankan",
+                "standardTitle": "Pakai checklist standar",
+                "standardDesc": "Tugas otomatis tersusun, disesuaikan dengan tipe pernikahanmu. Bisa kamu ubah kapan saja.",
+                "applying": "Menyiapkan…",
+                "blankTitle": "Mulai dari kosong",
+                "blankDesc": "Susun sendiri daftar tugasmu dari nol. Cocok kalau kamu sudah punya rencana sendiri.",
+                "preparing": "Menyiapkan…",
+                "note": "Tenang, pilihan ini bisa diubah nanti."
+            },
+            "rail": {
+                "reminders": {
+                    "title": "Reminder Berikutnya",
+                    "sub": "Tenggat terdekat kamu & pasangan",
+                    "empty": "Belum ada tenggat terdekat"
+                },
+                "templates": {
+                    "title": "Template Theday",
+                    "sub": "Tambah preset siap pakai",
+                    "standard": "Paket Standar 12 Bulan",
+                    "standardSub": "Tugas dasar persiapan",
+                    "applied": "Sudah diterapkan"
+                },
+                "pic": {
+                    "title": "Pembagian Tugas",
+                    "sub": "Beban kamu & pasangan"
+                }
+            },
+            "mobile": {
+                "filter": "Filter",
+                "sortLabel": "Urutkan",
+                "statusLabel": "Status",
+                "categoryLabel": "Kategori",
+                "picLabel": "Penanggung Jawab",
+                "reset": "Reset",
+                "apply": "Terapkan · {count} tugas",
+                "sort": {
+                    "due": "Jatuh tempo terdekat",
+                    "priority": "Mendesak dulu",
+                    "newest": "Terbaru"
+                },
+                "aiHint": "4 tugas baru berdasarkan progress kamu",
+                "applyStandardSub": "Tambah tugas siap pakai sesuai tipe pernikahanmu",
+                "tasks": "tugas",
+                "doneTasks": "Tugas selesai",
+                "see": "Lihat",
+                "addTask": "Tambah tugas",
+                "detail": {
+                    "due": "Jatuh tempo",
+                    "priority": "Prioritas",
+                    "pic": "Penanggung Jawab",
+                    "change": "Ganti",
+                    "substeps": "Sub-langkah",
+                    "addStep": "Tambah sub-langkah",
+                    "note": "Catatan",
+                    "markDone": "Tandai Selesai",
+                    "markUndone": "Batalkan Selesai"
+                }
             }
         },
         "budget": {
+            "pageTitle": "Anggaran Pernikahan",
+            "pageSub": "Pantau setiap rupiah — dari rencana sampai pelunasan.",
+            "export": "Export CSV",
+            "setBudget": "Set Budget",
+            "addExpense": "Tambah Pengeluaran",
+            "transactions": {
+                "title": "Semua Pengeluaran",
+                "sub": "{count} item tercatat"
+            },
             "header": {
                 "title": "Budget Planner",
                 "subtitle": "Pantau rencana dan realisasi budget pernikahanmu.",
@@ -608,11 +908,6 @@
             "chart": {
                 "setBudgetFirst": "Atur budget dulu",
                 "others": "Lainnya"
-            },
-            "donut": {
-                "used": "Terpakai",
-                "from": "dari {total}",
-                "totalPlanned": "Total Planned"
             },
             "view": {
                 "byCategory": "Kategori",
@@ -746,6 +1041,15 @@
                 "categoryAddError": "Gagal menambah kategori.",
                 "categoryArchived": "Kategori berhasil diarsipkan.",
                 "categoryArchiveError": "Gagal mengarsipkan kategori."
+            },
+            "hero": { "total": "Total Budget", "used": "Terpakai", "remaining": "Sisa", "status": "Status", "ofBudget": "{pct}% dari budget", "onTrack": "On track — sesuai timeline", "overBudget": "Melebihi budget", "forecast": "Forecast akhir" },
+            "donut": { "title": "Distribusi", "sub": "Komposisi terpakai", "used": "terpakai", "empty": "Belum ada data kategori" },
+            "bars": { "title": "Per Kategori", "sub": "Bandingkan budget vs terpakai", "empty": "Belum ada kategori" },
+            "table": { "expense": "Pengeluaran", "category": "Kategori", "vendor": "Vendor", "date": "Tanggal", "amount": "Jumlah", "status": "Status", "empty": "Belum ada pengeluaran" },
+            "rail": {
+                "upcoming": { "title": "Pembayaran Berikutnya", "sub": "Jatuh tempo terdekat", "empty": "Tidak ada pembayaran terjadwal" },
+                "ai": { "title": "Insight AI", "sample": "Kategori MUA & Busana baru terpakai sedikit — biasanya pasangan mulai fitting H-60. Cek estimasi vendor sekarang?", "cta": "Lihat rekomendasi" },
+                "notes": { "title": "Diskusi Pasangan", "sub": "{count} catatan", "placeholder": "Tulis catatan…", "send": "Kirim" }
             }
         },
         "guests": {
@@ -1388,13 +1692,16 @@
             },
             "dropdown": {
                 "comingSoon": "Segera"
-            }
+            },
+            "searchPlaceholder": "Cari tamu, vendor, dokumen...",
+            "searchSoon": "Pencarian segera hadir",
+            "shareInvite": "Bagikan undangan"
         }
     },
     "auth": {
-        "login_title": "Masuk — TheDay",
+        "login_title": "Masuk — Theday",
         "welcome_back": "Selamat datang kembali",
-        "login_headline": "Abadikan\nmomen spesialmu\nbersama TheDay.",
+        "login_headline": "Abadikan\nmomen spesialmu\nbersama Theday.",
         "login_sub": "Buat undangan digital pernikahan yang elegan dan tak terlupakan dalam hitungan menit.",
         "failed": "Email atau password yang kamu masukkan salah. Silakan coba lagi.",
         "password": "Password",
@@ -1407,15 +1714,59 @@
         "login_submit": "Masuk",
         "login_submitting": "Masuk…",
         "or": "atau",
+        "or_email": "atau dengan email",
         "login_with_google": "Masuk dengan Google",
         "back_home": "← Kembali ke beranda",
+        "login_v2_eyebrow": "selamat datang kembali",
+        "login_v2_headline": "Masuk ke perjalanan kalian.",
+        "login_v2_sub": "Lanjutkan persiapan undangan, RSVP, dan rencana bersama pasanganmu.",
+        "login_v2_submit": "Masuk ke Dashboard",
+        "login_v2_footer": "Baru di Theday?",
+        "login_v2_create": "Buat akun pasangan",
+        "login_v2_art_h1": "Untuk hari itu,",
+        "login_v2_art_h2": "dan setiap hari setelahnya.",
+        "login_v2_art_tag": "Pendamping pasangan dari undangan digital sampai kehidupan bersama.",
+        "register_v2_eyebrow": "untuk pasangan",
+        "register_v2_headline": "Mulai cerita kalian.",
+        "register_v2_sub": "Buat akun pasangan dalam 2 menit. Detail bisa dilengkapi nanti.",
+        "register_v2_or": "atau isi data",
+        "register_v2_terms_agree": "Saya setuju dengan",
+        "register_v2_tos": "Syarat Layanan",
+        "register_v2_terms_and": "dan",
+        "register_v2_privacy": "Kebijakan Privasi",
+        "register_v2_submit": "Buat Akun Pasangan",
+        "register_v2_pw_weak": "Lemah",
+        "register_v2_pw_fair": "Cukup",
+        "register_v2_pw_good": "Bagus",
+        "register_v2_pw_strong": "Kuat",
+        "verify_page_title": "Verifikasi Email — Theday",
+        "verify_eyebrow": "Satu langkah lagi",
+        "verify_left_title_1": "Email kamu",
+        "verify_left_title_2": "menunggu konfirmasi",
+        "verify_left_sub": "Kami mengirim tautan verifikasi ke kotak masuk kamu. Cek juga folder Spam kalau tidak ada di Inbox.",
+        "verify_card_done": "Akun dibuat",
+        "verify_card_sub": "Verifikasi email untuk memulai",
+        "verify_heading": "Verifikasi Email Kamu",
+        "verify_desc": "Kami sudah mengirim tautan verifikasi ke email kamu. Klik tautannya untuk mengaktifkan akun dan mulai menyiapkan hari spesial kalian.",
+        "verify_step_account": "Buat akun",
+        "verify_step_verify": "Verifikasi email",
+        "verify_step_waiting": "Menunggu",
+        "verify_step_start": "Mulai persiapan",
+        "verify_sent_title": "Email terkirim ulang!",
+        "verify_sent_sub": "Cek kotak masuk kamu, termasuk folder Spam.",
+        "verify_btn_sending": "Mengirim…",
+        "verify_btn_cooldown": "Kirim ulang dalam {n}s",
+        "verify_btn_resend": "Kirim Ulang Email Verifikasi",
+        "verify_hint": "Tidak menerima email? Tunggu beberapa menit lalu klik kirim ulang. Cek juga folder Spam atau Promosi.",
+        "verify_back": "Kembali ke beranda",
+        "verify_logout": "Keluar",
         "card_invitation": "Undangan Pernikahan",
         "card_confirmed": "Tamu dikonfirmasi",
         "card_count": "142 orang",
-        "register_title": "Daftar — TheDay",
+        "register_title": "Daftar — Theday",
         "start_journey": "Mulai perjalananmu",
         "register_headline": "Buat undangan\ndigital yang\ntak terlupakan.",
-        "register_sub": "Bergabung bersama 10.000+ pasangan yang telah mempercayakan momen spesial mereka kepada TheDay.",
+        "register_sub": "Bergabung bersama 10.000+ pasangan yang telah mempercayakan momen spesial mereka kepada Theday.",
         "feature_free": "Gratis selamanya untuk template dasar",
         "feature_rsvp": "Konfirmasi kehadiran (RSVP) real-time",
         "feature_wa": "Bagikan lewat WhatsApp dalam 1 klik",
@@ -1460,7 +1811,7 @@
             "dateLocation": "Waktu & Lokasi",
             "photoGallery": "Galeri Foto",
             "confirmAttendance": "Konfirmasi Kehadiran",
-            "madeWithTheDay": "Dibuat dengan TheDay",
+            "madeWithTheday": "Dibuat dengan Theday",
             "defaultDescription": "Template elegan yang dapat dikustomisasi sesuai kebutuhanmu.",
             "colorPalette": "Palet Warna",
             "colorPrimary": "Primer",
@@ -1485,7 +1836,7 @@
     },
     "gift": {
         "common": {
-            "tim_theday": "Tim TheDay"
+            "tim_theday": "Tim Theday"
         },
         "flash": {
             "purchase_error": "Pembayaran gagal diproses. Silakan coba lagi atau hubungi support.",
@@ -1498,7 +1849,7 @@
             "plan_invalid": "Plan tidak valid untuk gift."
         },
         "mail": {
-            "received_subject": "Kamu dapat gift premium TheDay!",
+            "received_subject": "Kamu dapat gift premium Theday!",
             "claimed_subject": "Gift kamu sudah diklaim!",
             "received_heading": "Selamat! Kamu dapat gift premium 🎁",
             "received_greeting": "Halo,",
@@ -1584,7 +1935,7 @@
                 "field_valid_until": "Berlaku Hingga",
                 "field_claimed_at": "Diklaim Pada",
                 "field_message": "Pesan",
-                "wa_text": "Halo! Aku kirim gift premium untukmu di TheDay. Klaim di sini: {url}"
+                "wa_text": "Halo! Aku kirim gift premium untukmu di Theday. Klaim di sini: {url}"
             }
         },
         "claim": {
@@ -1650,7 +2001,7 @@
             "pending_heading": "Menunggu konfirmasi pembayaran...",
             "pending_sub": "Mohon tunggu sebentar. Halaman ini akan otomatis refresh.",
             "pending_back": "Kembali ke Dashboard",
-            "wa_text": "🎁 Aku kirim gift premium TheDay untukmu! Klaim di sini: {url}"
+            "wa_text": "🎁 Aku kirim gift premium Theday untukmu! Klaim di sini: {url}"
         },
         "admin": {
             "index": {
@@ -1747,7 +2098,7 @@
                 "field_claimed_at": "Diklaim Pada",
                 "field_claimed_by": "Diklaim Oleh",
                 "field_message": "Pesan",
-                "wa_text": "Halo! Kamu dapat gift premium di TheDay. Klaim di sini: {url}"
+                "wa_text": "Halo! Kamu dapat gift premium di Theday. Klaim di sini: {url}"
             }
         }
     },
@@ -1804,7 +2155,7 @@
     "notifications.preferences.categories.engagement": "Saran & engagement",
     "notifications.preferences.categories.engagement_desc": "Saran upgrade plan dan tips engagement",
     "notifications.preferences.categories.system": "Pengumuman sistem",
-    "notifications.preferences.categories.system_desc": "Pengumuman penting dari admin TheDay",
+    "notifications.preferences.categories.system_desc": "Pengumuman penting dari admin Theday",
     "notifications.categories.guest": "Aktivitas tamu",
     "notifications.categories.payment": "Pembayaran",
     "notifications.categories.gift": "Gift",

@@ -69,7 +69,7 @@ function onOpen() {
         </div>
 
         <footer class="cb-cover-foot">
-            <span class="cb-cover-imprint">EST. 2026 — TheDay Publishing</span>
+            <span class="cb-cover-imprint">EST. 2026 — Theday Publishing</span>
             <span class="cb-cover-reader">READER NO. {{ guestName }}</span>
         </footer>
     </section>

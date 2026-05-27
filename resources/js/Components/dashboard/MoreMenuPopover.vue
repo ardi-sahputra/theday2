@@ -64,6 +64,8 @@ watch(() => props.open, (val) => {
                 v-for="item in items"
                 :key="item.routeName"
                 :href="route(item.routeName)"
+                prefetch="mount"
+                cache-for="1m"
                 role="menuitem"
                 class="flex items-center gap-3 px-4 py-3 text-sm text-stone-700 hover:bg-stone-50 transition-colors border-b border-stone-50 last:border-b-0"
                 @click="emit('close')"
