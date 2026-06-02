@@ -1,22 +1,30 @@
 <script setup>
+import { computed } from 'vue';
+
 const props = defineProps({
   sectionsData: { type: Object, required: true }, // reactive: { [key]: { data, is_enabled } }
+  caps:         { type: Object, default: () => ({}) }, // template capability flags
 });
 
 const emit = defineEmits(['toggle-section']); // (key)
 
-// [key, name, sub] — keys match real backend section_key values (see SectionVariantSeeder).
-// Required sections (cover/opening/events/closing) are intentionally omitted —
-// the toggle endpoint rejects them with 422.
-const ROWS = [
-  ['love_story', 'Kisah Kami',     'Timeline cerita perjalanan kalian'],
-  ['quote',      'Quote / Salam',  'Kutipan pembuka di undangan'],
-  ['gallery',    'Galeri Foto',    'Foto pre-wedding'],
-  ['rsvp',       'Formulir RSVP',  'Konfirmasi kehadiran tamu'],
-  ['envelope',   'Amplop Digital', 'QRIS & nomor rekening'],
-  ['gift',       'Hadiah',         'Daftar kado / gift registry'],
-  ['wishes',     'Ucapan & Doa',   'Buku tamu publik'],
+// [key, name, sub, capKey] — section_key matches backend (see SectionVariantSeeder).
+// Required sections (cover/opening/events/closing) are omitted (toggle 422s them).
+const ALL_ROWS = [
+  ['love_story',     'Kisah Kami',     'Timeline cerita perjalanan kalian', 'loveStory'],
+  ['quote',          'Quote / Salam',  'Kutipan pembuka di undangan',       'quote'],
+  ['gallery',        'Galeri Foto',    'Foto pre-wedding',                  'gallery'],
+  ['rsvp',           'Formulir RSVP',  'Konfirmasi kehadiran tamu',         'rsvp'],
+  ['envelope',       'Amplop Digital', 'QRIS & nomor rekening',             'envelope'],
+  ['gift',           'Hadiah',         'Daftar kado / gift registry',       'gift'],
+  ['wishes',         'Ucapan & Doa',   'Buku tamu publik',                  'wishes'],
+  ['live_streaming', 'Live Streaming', 'YouTube live untuk tamu jauh',      'liveStreaming'],
 ];
+
+// Show a row only if the template supports it AND the section exists on this invitation.
+const ROWS = computed(() => ALL_ROWS.filter(([key, , , capKey]) =>
+  props.caps[capKey] !== false && props.sectionsData?.[key] != null
+));
 
 function isOn(key) { return !!props.sectionsData?.[key]?.is_enabled; }
 </script>

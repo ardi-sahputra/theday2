@@ -4,6 +4,7 @@ import { computed } from 'vue';
 const props = defineProps({
   events: { type: Array,  required: true }, // [{ id, event_name, event_date, start_time, end_time, venue_name, venue_address, maps_url }]
   config: { type: Object, default: () => ({}) }, // custom_config; livestream flag lives here
+  caps:   { type: Object, default: () => ({}) }, // template capability flags
 });
 
 const emit = defineEmits([
@@ -69,7 +70,7 @@ function toggleLivestream() { emit('save-config', { livestream_enabled: !livestr
       </button>
     </div>
 
-    <div class="section-block">
+    <div v-if="caps.liveStreaming" class="section-block">
       <h4>Live Streaming</h4>
       <div class="toggle">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6F8270" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M3 7h4l2-3h6l2 3h4v13H3z"/><circle cx="12" cy="13" r="4"/></svg>

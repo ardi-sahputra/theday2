@@ -15,6 +15,7 @@ import MobileEditorTopNav from '@/Components/editor/v2/MobileEditorTopNav.vue';
 import MobilePreviewOverlay from '@/Components/editor/v2/MobilePreviewOverlay.vue';
 import { useEditorV2 } from '@/Composables/useEditorV2';
 import { useMediaQuery } from '@/Composables/useMediaQuery';
+import { templateCaps } from '@/Components/invitation/templates/capabilities';
 
 const props = defineProps({
   invitation:    { type: Object,  required: true },
@@ -31,6 +32,9 @@ const previewOpen = ref(false);
 
 const isMobile = useMediaQuery('(max-width: 767px)');
 const editor = useEditorV2(props.invitation);
+
+// Which inputs to show, per the active template's capabilities (reactive to template switch).
+const caps = computed(() => templateCaps(editor.state.template_slug));
 
 const statusText = { saved: 'tersimpan', saving: 'menyimpan…', error: 'gagal simpan' };
 const statusSubtitle = computed(() => `Live · ${statusText[editor.saveStatus.value] ?? ''}`);
@@ -80,17 +84,17 @@ function saveConfig(patch)  { editor.saveConfig(patch).catch(() => {}); }
             />
             <ContentPanelV2
               v-else-if="activeTab === 'Konten'"
-              :details="editor.details" :sections-data="editor.sectionsData" :events="editor.events.value"
+              :details="editor.details" :sections-data="editor.sectionsData" :events="editor.events.value" :caps="caps"
               @save-details="saveDetails" @upload-photo="uploadPhoto" @save-quote="saveQuote" @save-event="saveEvent"
             />
             <EventsPanelV2
               v-else-if="activeTab === 'Acara'"
-              :events="editor.events.value" :config="editor.config"
+              :events="editor.events.value" :config="editor.config" :caps="caps"
               @add-event="addEvent" @save-event="saveEvent" @delete-event="deleteEvent" @save-config="saveConfig"
             />
             <SectionsPanelV2
               v-else-if="activeTab === 'Bagian'"
-              :sections-data="editor.sectionsData"
+              :sections-data="editor.sectionsData" :caps="caps"
               @toggle-section="toggleSection"
             />
             <SharePanelV2

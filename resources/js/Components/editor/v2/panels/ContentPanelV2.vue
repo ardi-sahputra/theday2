@@ -5,6 +5,7 @@ const props = defineProps({
   details:      { type: Object, required: true }, // reactive: groom_name, bride_name, *_parent_names, *_photo_url
   sectionsData: { type: Object, required: true }, // reactive: { quote: { data: { text, source } } }
   events:       { type: Array,  default: () => [] },
+  caps:         { type: Object, default: () => ({}) }, // template capability flags
 });
 
 const emit = defineEmits([
@@ -80,7 +81,7 @@ function onBrideFile(e) { const f = e.target.files?.[0]; if (f) emit('upload-pho
           <input class="input" v-model="details.bride_nickname" @input="onDetailInput" maxlength="20" placeholder="mis. Ayu" />
         </div>
       </div>
-      <div class="field-row">
+      <div v-if="caps.instagram !== false" class="field-row">
         <div class="field">
           <label class="label">Instagram Pria</label>
           <input class="input" v-model="details.groom_instagram" @input="onDetailInput" placeholder="@username" />
@@ -90,7 +91,7 @@ function onBrideFile(e) { const f = e.target.files?.[0]; if (f) emit('upload-pho
           <input class="input" v-model="details.bride_instagram" @input="onDetailInput" placeholder="@username" />
         </div>
       </div>
-      <div class="field-row">
+      <div v-if="caps.parents !== false" class="field-row">
         <div class="field">
           <label class="label">Putra dari</label>
           <input class="input" v-model="details.groom_parent_names" @input="onDetailInput" placeholder="Bp. … & Ibu …" />
@@ -120,7 +121,7 @@ function onBrideFile(e) { const f = e.target.files?.[0]; if (f) emit('upload-pho
         </div>
       </div>
       <p v-if="!firstEvent" class="help" style="margin-top:-8px;margin-bottom:14px;">Tambahkan acara di tab Acara untuk mengatur tanggal.</p>
-      <div class="field" style="margin-bottom:0;">
+      <div v-if="caps.quote !== false" class="field" style="margin-bottom:0;">
         <label class="label">Kutipan / Quote</label>
         <textarea class="textarea" v-model="quote.text" @input="onQuoteInput"></textarea>
         <div class="help">Akan tampil di section Kisah Kami / Quote</div>
@@ -128,7 +129,7 @@ function onBrideFile(e) { const f = e.target.files?.[0]; if (f) emit('upload-pho
     </div>
 
     <!-- Foto Pengantin -->
-    <div class="section-block">
+    <div v-if="caps.photos !== false" class="section-block">
       <h4>Foto Pengantin</h4>
       <div class="desc">Unggah maks 5MB · JPG/PNG/WebP · 1:1 disarankan</div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
