@@ -54,7 +54,7 @@ function saveConfig(patch)  { editor.saveConfig(patch).catch(() => {}); }
 
 <template>
   <Head title="Editor Undangan" />
-  <DashboardLayout>
+  <DashboardLayout :sticky-header="false">
     <template #header>
       <h1 class="text-base font-semibold text-stone-800 truncate">Editor Undangan</h1>
     </template>
@@ -64,7 +64,8 @@ function saveConfig(patch)  { editor.saveConfig(patch).catch(() => {}); }
       <EditorV2Shell
         :tabs="TABS" v-model:active-tab="activeTab"
         :slug="invitation.slug" :save-status="editor.saveStatus.value"
-        @preview="openPreview" @publish="publish"
+        :status="invitation.status ?? 'draft'"
+        @preview="openPreview" @publish="publish" @share="activeTab = 'Bagikan'"
       />
       <div class="md:grid md:grid-cols-[380px_minmax(0,1fr)]">
         <!-- Left: editor panel (380px) -->

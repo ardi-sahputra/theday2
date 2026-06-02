@@ -12,6 +12,12 @@ import { useMediaQuery } from '@/Composables/useMediaQuery';
 import SupportBubble from '@/Components/Support/SupportBubble.vue';
 import SupportHeaderIcon from '@/Components/Support/SupportHeaderIcon.vue';
 
+const props = defineProps({
+  // Let pages opt out of the sticky top header (e.g. the editor, which has its
+  // own sticky toolbar — two stacked sticky bars feels cramped).
+  stickyHeader: { type: Boolean, default: true },
+});
+
 const isMobile = useMediaQuery('(max-width: 767px)');
 
 const { t } = useLocale();
@@ -465,7 +471,7 @@ const handleClickOutsideAvatar = (e) => {
         <div class="flex-1 flex flex-col min-w-0 pb-16 lg:pb-0">
 
             <!-- Top bar -->
-            <header class="sticky top-0 z-10 px-4 lg:px-6 h-20 flex items-center gap-4"
+            <header :class="['z-10 px-4 lg:px-6 h-20 flex items-center gap-4', stickyHeader ? 'sticky top-0' : '']"
                     style="background: rgba(238,242,234,0.78); backdrop-filter: blur(10px); border-bottom: 1px solid #D8DFD2;">
                 <!-- Mobile hamburger — opens full sidebar drawer (bottom nav stays too) -->
                 <button

@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useStaggerReveal } from '@/Composables/useReveal.js';
 
 const props = defineProps({
@@ -11,12 +11,13 @@ const props = defineProps({
 const el = ref(null);
 useStaggerReveal(el, '.item', 140);
 
-const details    = props.invitation.details ?? {};
-const isWedding  = props.invitation.event_type === 'pernikahan';
-const openingText = details.opening_text
-    ?? (isWedding
+// Computed so the live editor preview reflects edits as the user types.
+const details    = computed(() => props.invitation.details ?? {});
+const isWedding  = computed(() => props.invitation.event_type === 'pernikahan');
+const openingText = computed(() => details.value.opening_text
+    ?? (isWedding.value
         ? 'Dengan memohon rahmat dan ridho Allah SWT, kami mengundang Bapak/Ibu/Saudara/i untuk hadir di hari bahagia kami.'
-        : 'Dengan penuh sukacita, kami mengundang Bapak/Ibu/Saudara/i untuk turut merayakan hari istimewa ini.');
+        : 'Dengan penuh sukacita, kami mengundang Bapak/Ibu/Saudara/i untuk turut merayakan hari istimewa ini.'));
 </script>
 
 <template>

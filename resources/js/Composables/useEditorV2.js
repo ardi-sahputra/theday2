@@ -2,6 +2,7 @@
 import { reactive, ref, computed } from 'vue'
 import axios from 'axios'
 import { isMusicEnabled } from '@/utils/invitationMusic'
+import { compressImage } from '@/utils/imageCompress'
 
 /**
  * v2 editor state + persistence. Reuses existing endpoints only.
@@ -25,6 +26,10 @@ export function useEditorV2(invitation, { http = axios } = {}) {
   const details = reactive({
     groom_name:         invitation.details?.groom_name         ?? '',
     bride_name:         invitation.details?.bride_name         ?? '',
+    groom_nickname:     invitation.details?.groom_nickname     ?? '',
+    bride_nickname:     invitation.details?.bride_nickname     ?? '',
+    groom_instagram:    invitation.details?.groom_instagram    ?? '',
+    bride_instagram:    invitation.details?.bride_instagram    ?? '',
     groom_parent_names: invitation.details?.groom_parent_names ?? '',
     bride_parent_names: invitation.details?.bride_parent_names ?? '',
     groom_photo_url:    invitation.details?.groom_photo_url    ?? null,
@@ -91,7 +96,7 @@ export function useEditorV2(invitation, { http = axios } = {}) {
   async function saveDetails() {
     await run(async () => {
       const fd = new FormData()
-      const fields = ['groom_name', 'bride_name', 'groom_parent_names', 'bride_parent_names']
+      const fields = ['groom_name', 'bride_name', 'groom_nickname', 'bride_nickname', 'groom_instagram', 'bride_instagram', 'groom_parent_names', 'bride_parent_names']
       fields.forEach(f => { if (details[f] != null) fd.append(f, details[f]) })
       const res = await http.post(`/api/invitations/${id}/details`, fd, {
         headers: { 'Content-Type': 'multipart/form-data' },
@@ -102,8 +107,9 @@ export function useEditorV2(invitation, { http = axios } = {}) {
 
   async function uploadCouplePhoto(side, file) {
     await run(async () => {
+      const compressed = await compressImage(file)
       const fd = new FormData()
-      fd.append(`${side}_photo`, file) // 'groom' | 'bride'
+      fd.append(`${side}_photo`, compressed) // 'groom' | 'bride'
       const res = await http.post(`/api/invitations/${id}/details`, fd, {
         headers: { 'Content-Type': 'multipart/form-data' },
       })

@@ -11,9 +11,10 @@ const props = defineProps({
 const el = ref(null);
 useReveal(el);
 
-const details = props.invitation.details ?? {};
-const closingText = details.closing_text
-    ?? 'Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir. Atas kehadiran dan doa restu Anda, kami ucapkan terima kasih.';
+// Computed so the live editor preview reflects edits as the user types.
+const details = computed(() => props.invitation.details ?? {});
+const closingText = computed(() => details.value.closing_text
+    ?? 'Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir. Atas kehadiran dan doa restu Anda, kami ucapkan terima kasih.');
 
 // ── Countdown ────────────────────────────────────────────────────────────────
 // Target = first upcoming event date

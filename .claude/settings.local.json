@@ -110,7 +110,8 @@
       "Bash(cygpath -w __TRACKED_VAR__/Undangan.html)",
       "Bash(grep -oE \">[A-Z][a-zA-Z &/]{3,30}<\" ueditor.jsx)",
       "Bash(npx eslint *)",
-      "Bash(grep -vE \"^$\")"
+      "Bash(grep -vE \"^$\")",
+      "Bash(php -l app/Http/Controllers/Dashboard/InvitationCustomizeController.php)"
     ],
     "defaultMode": "bypassPermissions",
     "additionalDirectories": [

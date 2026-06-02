@@ -346,6 +346,9 @@
 .ev2 .btn-primary:hover{ background:var(--sage-dark); }
 .ev2 .btn-ghost{ background:transparent; color:var(--sage-deep); border-color:var(--line-2); }
 .ev2 .btn-ghost:hover{ background:var(--sage-soft); }
+.ev2 .btn-dark{ background:var(--ink); color:#fff; }
+.ev2 .btn-dark:hover{ background:#16201f; }
+.ev2 .btn-sm{ padding:6px 12px; font-size:12px; }
 .ev2 .icon-btn{ width:36px; height:36px; border-radius:10px; background:var(--surface-2); border:1px solid var(--line); display:grid; place-items:center; cursor:pointer; color:var(--muted); }
 
 /* Card (event item etc.) */

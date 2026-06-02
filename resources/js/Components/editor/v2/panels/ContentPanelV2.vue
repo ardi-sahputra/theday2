@@ -59,6 +59,7 @@ function onBrideFile(e) { const f = e.target.files?.[0]; if (f) emit('upload-pho
     <!-- Pasangan -->
     <div class="section-block">
       <h4>Pasangan</h4>
+      <div class="desc">Nama ini juga dipakai di dashboard & dokumen kalian.</div>
       <div class="field-row">
         <div class="field">
           <label class="label">Nama Pengantin Pria</label>
@@ -67,6 +68,26 @@ function onBrideFile(e) { const f = e.target.files?.[0]; if (f) emit('upload-pho
         <div class="field">
           <label class="label">Nama Pengantin Wanita</label>
           <input class="input" v-model="details.bride_name" @input="onDetailInput" />
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label class="label">Panggilan Pria</label>
+          <input class="input" v-model="details.groom_nickname" @input="onDetailInput" maxlength="20" placeholder="mis. Rizki" />
+        </div>
+        <div class="field">
+          <label class="label">Panggilan Wanita</label>
+          <input class="input" v-model="details.bride_nickname" @input="onDetailInput" maxlength="20" placeholder="mis. Ayu" />
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label class="label">Instagram Pria</label>
+          <input class="input" v-model="details.groom_instagram" @input="onDetailInput" placeholder="@username" />
+        </div>
+        <div class="field">
+          <label class="label">Instagram Wanita</label>
+          <input class="input" v-model="details.bride_instagram" @input="onDetailInput" placeholder="@username" />
         </div>
       </div>
       <div class="field-row">
@@ -87,15 +108,15 @@ function onBrideFile(e) { const f = e.target.files?.[0]; if (f) emit('upload-pho
       <div class="field-row-3">
         <div class="field">
           <label class="label">Tanggal</label>
-          <input class="input" type="number" min="1" max="31" v-model="day" @input="onDateInput" :disabled="!firstEvent" placeholder="22" />
+          <input class="input" type="number" min="1" max="31" v-model="day" @input="onDateInput" :disabled="!firstEvent" placeholder="DD" />
         </div>
         <div class="field">
           <label class="label">Bulan</label>
-          <input class="input" type="number" min="1" max="12" v-model="month" @input="onDateInput" :disabled="!firstEvent" placeholder="11" />
+          <input class="input" type="number" min="1" max="12" v-model="month" @input="onDateInput" :disabled="!firstEvent" placeholder="MM" />
         </div>
         <div class="field">
           <label class="label">Tahun</label>
-          <input class="input" type="number" v-model="year" @input="onDateInput" :disabled="!firstEvent" placeholder="2026" />
+          <input class="input" type="number" v-model="year" @input="onDateInput" :disabled="!firstEvent" placeholder="YYYY" />
         </div>
       </div>
       <p v-if="!firstEvent" class="help" style="margin-top:-8px;margin-bottom:14px;">Tambahkan acara di tab Acara untuk mengatur tanggal.</p>

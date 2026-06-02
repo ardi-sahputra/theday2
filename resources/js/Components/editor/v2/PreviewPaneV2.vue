@@ -15,7 +15,7 @@ const device = ref('phone'); // 'phone' | 'desktop'
 <template>
   <div class="flex flex-col items-center gap-4">
     <!-- toolbar (browser-pill) -->
-    <div class="preview-toolbar w-full max-w-[340px]">
+    <div class="preview-toolbar w-full max-w-[360px]">
       <span class="url truncate"><strong>theday.id</strong>/{{ previewInvitation.slug }}</span>
       <button type="button" @click="device = 'phone'" :class="['device-btn', device==='phone' ? 'active' : '']" aria-label="Phone">
         <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M10 18h4"/></svg>
@@ -25,7 +25,7 @@ const device = ref('phone'); // 'phone' | 'desktop'
       </button>
     </div>
 
-    <PhoneMockup :size="device === 'desktop' ? 'lg' : 'default'" screen-bg="#fff">
+    <PhoneMockup size="lg" screen-bg="#fff">
       <InvitationRenderer
         :key="previewInvitation.template_slug"
         :invitation="previewInvitation"

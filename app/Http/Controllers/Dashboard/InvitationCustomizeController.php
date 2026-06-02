@@ -123,6 +123,7 @@ class InvitationCustomizeController extends Controller
             'invitation'    => [
                 'id'                      => $invitation->id,
                 'slug'                    => $invitation->slug,
+                'event_type'              => $invitation->event_type,
                 'template_id'             => $invitation->template?->id,
                 'template_slug'           => $invitation->template?->slug,
                 'template_category_slug'  => $invitation->template?->category?->slug,
