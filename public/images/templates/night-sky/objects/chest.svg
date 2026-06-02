@@ -1,0 +1,29 @@
+<svg width="140" height="120" viewBox="0 0 140 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="chestGold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F5D27A"/>
+      <stop offset="100%" stop-color="#C9962F"/>
+    </linearGradient>
+    <radialGradient id="chestGlow" cx="50%" cy="40%" r="55%">
+      <stop offset="0%" stop-color="#FFE9A8" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#FFE9A8" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <ellipse cx="70" cy="44" rx="46" ry="28" fill="url(#chestGlow)"/>
+  <!-- lid (open) -->
+  <path d="M26 50 Q70 18 114 50 L114 56 L26 56 Z" fill="#2E3F6F" stroke="url(#chestGold)" stroke-width="3"/>
+  <path d="M26 50 Q70 18 114 50" fill="none" stroke="url(#chestGold)" stroke-width="3"/>
+  <!-- inner glow / treasure -->
+  <path d="M34 56 L106 56 L100 66 L40 66 Z" fill="#FFE9A8"/>
+  <circle cx="58" cy="60" r="3" fill="#FFF4C2"/>
+  <circle cx="74" cy="61" r="2.5" fill="#FFF4C2"/>
+  <circle cx="88" cy="60" r="3" fill="#FFF4C2"/>
+  <!-- chest body -->
+  <rect x="26" y="64" width="88" height="46" rx="6" fill="#1B2A4A" stroke="url(#chestGold)" stroke-width="3"/>
+  <!-- metal bands -->
+  <rect x="44" y="64" width="6" height="46" fill="url(#chestGold)"/>
+  <rect x="90" y="64" width="6" height="46" fill="url(#chestGold)"/>
+  <!-- lock -->
+  <rect x="63" y="78" width="14" height="14" rx="3" fill="url(#chestGold)"/>
+  <circle cx="70" cy="85" r="2.5" fill="#1B2A4A"/>
+</svg>

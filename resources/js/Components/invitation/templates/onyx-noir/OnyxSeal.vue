@@ -34,10 +34,10 @@ function crack() {
                 :aria-label="cracked ? 'Membuka segel' : 'Tap untuk membuka segel'"
             >
                 <span class="onyx-seal-half onyx-seal-half--left">
-                    <img src="/images/templates/onyx-noir/wax-seal.png" alt="" draggable="false"/>
+                    <img src="/images/templates/onyx-noir/wax-seal.svg" alt="" draggable="false"/>
                 </span>
                 <span class="onyx-seal-half onyx-seal-half--right">
-                    <img src="/images/templates/onyx-noir/wax-seal.png" alt="" draggable="false"/>
+                    <img src="/images/templates/onyx-noir/wax-seal.svg" alt="" draggable="false"/>
                 </span>
                 <span class="onyx-seal-monogram">{{ monogramText }}</span>
             </button>
@@ -109,8 +109,8 @@ function crack() {
     font-family: 'Cormorant Garamond', serif;
     font-style: italic;
     font-size: 36px;
-    color: #0a0a0a;
-    text-shadow: 0 1px 0 rgba(255,255,255,0.2);
+    color: #d4af37;
+    text-shadow: 0 1px 0 rgba(0,0,0,0.6), 0 0 12px rgba(212,175,55,0.25);
     pointer-events: none;
 }
 .onyx-seal-greet {

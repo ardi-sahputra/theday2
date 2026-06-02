@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="96" height="112" viewBox="0 0 96 112">
+  <defs>
+    <filter id="st" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.5" numOctaves="2" seed="33" stitchTiles="stitch" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 0.5 0 0 0 0 0.4 0 0 0 0 0.26 0 0 0 0.07 0"/>
+    </filter>
+  </defs>
+  <rect width="96" height="112" fill="#f4ead5"/>
+  <rect x="6" y="6" width="84" height="100" fill="#e8dcc4"/>
+  <rect x="6" y="6" width="84" height="100" fill="none" stroke="#f4ead5" stroke-width="3"
+        stroke-dasharray="0.1 6" stroke-linecap="round"/>
+  <rect x="12" y="12" width="72" height="88" fill="none" stroke="#8b3a3a" stroke-width="1.5"/>
+  <!-- Mount Fuji behind -->
+  <path d="M20 70 L42 38 Q48 32 54 38 L76 70 Z" fill="#2c4a3e" fill-opacity="0.18" stroke="#2c4a3e" stroke-opacity="0.4" stroke-width="1"/>
+  <path d="M40 41 L42 38 Q48 32 54 38 L56 41 L51 44 L48 41 L45 44 Z" fill="#f4ead5"/>
+  <!-- sun -->
+  <circle cx="68" cy="32" r="6" fill="#8b3a3a" fill-opacity="0.7"/>
+  <!-- torii gate -->
+  <g transform="translate(48,52)" stroke="#8b3a3a" stroke-width="3" stroke-linecap="round">
+    <line x1="-20" y1="-8" x2="20" y2="-8"/>
+    <line x1="-22" y1="-2" x2="22" y2="-2"/>
+    <line x1="-13" y1="-8" x2="-13" y2="18"/>
+    <line x1="13" y1="-8" x2="13" y2="18"/>
+  </g>
+  <text x="48" y="92" font-family="Georgia, serif" font-size="9" text-anchor="middle" fill="#3a2d1f" letter-spacing="2">TOKYO</text>
+  <rect width="96" height="112" filter="url(#st)"/>
+</svg>

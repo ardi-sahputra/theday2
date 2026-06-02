@@ -8,7 +8,7 @@ import LetterpressHero     from './letterpress/LetterpressHero.vue'
 import LetterpressMonogram from './letterpress/LetterpressMonogram.vue'
 import LetterpressOrnament from './letterpress/LetterpressOrnament.vue'
 import LetterpressDivider  from './letterpress/LetterpressDivider.vue'
-import TheDayLogo          from './netflix/TheDayLogo.vue'
+import BrandWatermark          from './BrandWatermark.vue'
 
 const props = defineProps({
     invitation: { type: Object,  required: true },
@@ -365,7 +365,7 @@ onMounted(() => {
                     <h2 class="lp-closing-names">{{ groomName }} &amp; {{ brideName }}</h2>
                     <LetterpressDivider :width="60" />
                     <p v-if="closingText" class="lp-closing-text">{{ closingText }}</p>
-                    <TheDayLogo v-if="showWatermark" class="lp-watermark" :height="18" muted />
+                    <BrandWatermark v-if="showWatermark" class="lp-watermark" :height="18" muted />
                 </section>
 
                 <Transition name="lp-toast">

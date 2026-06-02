@@ -29,6 +29,7 @@ class Template extends Model
         'tier',
         'is_active',
         'sort_order',
+        'is_featured',
     ];
 
     protected function casts(): array
@@ -39,6 +40,7 @@ class Template extends Model
             'tier'           => TemplateTier::class,
             'is_active'      => 'boolean',
             'sort_order'     => 'integer',
+            'is_featured'    => 'boolean',
         ];
     }
 

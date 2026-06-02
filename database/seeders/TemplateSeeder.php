@@ -93,7 +93,7 @@ class TemplateSeeder extends Seeder
                 'category_id'    => $pernikahan->id,
                 'name'           => 'Bunga Abadi',
                 'slug'           => 'bunga-abadi',
-                'thumbnail_url'  => null,
+                'thumbnail_url'  => '/images/templates/bunga-abadi/thumbnail.jpg',
                 'description'    => 'Template pernikahan elegan dengan sentuhan bunga dan nuansa hangat keemasan.',
                 'default_config' => [
                     'primary_color'   => '#D4A373',
@@ -113,59 +113,8 @@ class TemplateSeeder extends Seeder
                 ]]),
                 'tier'           => 'free',
                 'is_active'      => true,
-                'sort_order'     => 1,
-            ],
-            [
-                'category_id'    => $pernikahan->id,
-                'name'           => 'Langit Senja',
-                'slug'           => 'langit-senja',
-                'thumbnail_url'  => null,
-                'description'    => 'Template pernikahan romantis dengan palet warna sunset yang memukau.',
-                'default_config' => [
-                    'primary_color'   => '#E57070',
-                    'secondary_color' => '#FDE8E8',
-                    'accent_color'    => '#F4A261',
-                    'font_title'      => 'Cormorant Garamond',
-                    'font_body'       => 'Lato',
-                    'layout'          => 'vertical-scroll',
-                    'animation'       => 'slide-up',
-                    'bg_pattern'      => 'watercolor',
-                ],
-                'demo_data'      => array_merge($weddingDemo, ['custom_config' => [
-                    'primary_color'   => '#E57070',
-                    'secondary_color' => '#FDE8E8',
-                    'font_title'      => 'Cormorant Garamond',
-                    'font_body'       => 'Lato',
-                ]]),
-                'tier'           => 'premium',
-                'is_active'      => true,
-                'sort_order'     => 2,
-            ],
-            [
-                'category_id'    => $pernikahan->id,
-                'name'           => 'Hijau Daun',
-                'slug'           => 'hijau-daun',
-                'thumbnail_url'  => null,
-                'description'    => 'Template pernikahan segar dengan nuansa alam dan dedaunan hijau.',
-                'default_config' => [
-                    'primary_color'   => '#52796F',
-                    'secondary_color' => '#CAD2C5',
-                    'accent_color'    => '#84A98C',
-                    'font_title'      => 'DM Serif Display',
-                    'font_body'       => 'Nunito',
-                    'layout'          => 'vertical-scroll',
-                    'animation'       => 'fade-in',
-                    'bg_pattern'      => 'leaves',
-                ],
-                'demo_data'      => array_merge($weddingDemo, ['custom_config' => [
-                    'primary_color'   => '#52796F',
-                    'secondary_color' => '#CAD2C5',
-                    'font_title'      => 'DM Serif Display',
-                    'font_body'       => 'Nunito',
-                ]]),
-                'tier'           => 'premium',
-                'is_active'      => true,
-                'sort_order'     => 3,
+                'sort_order'     => 99,
+                'is_featured'    => false,
             ],
 
             // ── Storybook (scene/illustrated templates) ────────────
@@ -211,8 +160,8 @@ class TemplateSeeder extends Seeder
                 'category_id'    => $pernikahan->id,
                 'name'           => 'Nusantara',
                 'slug'           => 'nusantara',
-                'thumbnail_url'  => null,
-                'description'    => 'Template pernikahan premium bergaya keraton Jawa — megah, sakral, dan agung. Dilengkapi animasi gapura, ornamen batik kawung, sulur lung-lungan, dan mandala teratai.',
+                'thumbnail_url'  => '/images/templates/nusantara/thumbnail.jpg',
+                'description'    => 'Template pernikahan mewah bergaya keraton Jawa — megah, sakral, dan agung. Dilengkapi animasi gapura, ornamen batik kawung, sulur lung-lungan, dan mandala teratai.',
                 'default_config' => [
                     'primary_color'       => '#8B6914',
                     'primary_color_light' => '#C9A84C',
@@ -239,7 +188,7 @@ class TemplateSeeder extends Seeder
                     'font_heading'        => 'Cormorant Garamond',
                     'font_body'           => 'Crimson Text',
                 ]]),
-                'tier'           => 'premium',
+                'tier'           => 'free',
                 'is_active'      => true,
                 'sort_order'     => 4,
             ],
@@ -290,7 +239,7 @@ class TemplateSeeder extends Seeder
                 'category_id'    => $cinema->id,
                 'name'           => 'Netflix',
                 'slug'           => 'netflix',
-                'thumbnail_url'  => null,
+                'thumbnail_url'  => '/images/templates/netflix/thumbnail.jpg',
                 'description'    => 'Template undangan pernikahan bertema Netflix — cinematic, bold, dan ikonik. Tamu diajak masuk lewat layar "Who\'s Watching?" sebelum menikmati undangan seperti sebuah Netflix Original.',
                 'default_config' => [
                     'netflix_subtitle' => 'Sebuah Kisah Cinta',
@@ -303,6 +252,7 @@ class TemplateSeeder extends Seeder
                 'tier'           => 'premium',
                 'is_active'      => true,
                 'sort_order'     => 8,
+                'is_featured'    => true,
             ],
 
             // ── Art Deco Gatsby (Premium, multi-phase orchestrator) ─
@@ -432,6 +382,7 @@ class TemplateSeeder extends Seeder
                 'tier'           => 'premium',
                 'is_active'      => true,
                 'sort_order'     => 11,
+                'is_featured'    => true,
             ],
 
             // ── Astronomy Celestial (Premium) ────────────────────
@@ -626,7 +577,7 @@ class TemplateSeeder extends Seeder
                 'category_id'    => $cinema->id,
                 'name'           => 'Spotify Wrapped',
                 'slug'           => 'spotify-wrapped',
-                'thumbnail_url'  => '/images/templates/spotify-wrapped/thumbnail.svg',
+                'thumbnail_url'  => '/images/templates/spotify-wrapped/thumbnail.webp',
                 'description'    => 'Undangan single-scroll story-format — 10 slide gradient cycling ala annual recap. Couple sebagai Top Artists, love story sebagai Top Songs, event sebagai Listening Schedule. Untuk pasangan millennial/Gen-Z yang ingin undangan viral-shareable di IG Story.',
                 'default_config' => [
                     'primary_color'        => '#1ED760',
@@ -713,7 +664,9 @@ class TemplateSeeder extends Seeder
                 'category_id'    => $storybook->id,
                 'name'           => 'Photo Album Old-School',
                 'slug'           => 'photo-album',
-                'thumbnail_url'  => '/images/templates/photo-album/thumbnail.jpg',
+                // Photo-centric template — demo has no photos, so a render is blank-grey.
+                // Null falls back to the styled mock card until a real photo thumbnail exists.
+                'thumbnail_url'  => null,
                 'description'    => 'Album foto fisik 1970-90an — page-flip 3D, photo corners, washi tape, caption tulisan tangan. Untuk pasangan storytelling-heavy yang ingin undangan tactile dan nostalgik.',
                 'default_config' => [
                     'primary_color'        => '#d4a574',
@@ -1222,6 +1175,7 @@ class TemplateSeeder extends Seeder
                 'tier'           => 'free',
                 'is_active'      => true,
                 'sort_order'     => 30,
+                'is_featured'    => true,
             ],
 
             // ── Islamic Geometric (Free, No-Photo, Halal-Wedding) ───
@@ -1414,6 +1368,7 @@ class TemplateSeeder extends Seeder
                 'tier'           => 'free',
                 'is_active'      => true,
                 'sort_order'     => 33,
+                'is_featured'    => true,
             ],
         ];
 
@@ -1421,7 +1376,10 @@ class TemplateSeeder extends Seeder
             Template::updateOrCreate(['slug' => $template['slug']], $template);
         }
 
-        // Remove leftover birthday templates
-        Template::whereIn('slug', ['confetti-ceria', 'biru-bintang', 'peach-balon'])->delete();
+        // Remove leftover / retired templates
+        Template::whereIn('slug', [
+            'confetti-ceria', 'biru-bintang', 'peach-balon', // birthday
+            'langit-senja', 'hijau-daun',                    // retired premium
+        ])->delete();
     }
 }

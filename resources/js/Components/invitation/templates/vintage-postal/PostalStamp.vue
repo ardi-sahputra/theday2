@@ -17,12 +17,12 @@ const assetUrl = computed(() => {
     const base = '/images/templates/vintage-postal'
     if (props.city) {
         const slug = props.city.toLowerCase().trim()
-        if (CITY_ASSETS.includes(slug)) return `${base}/stamp-${slug}.png`
+        if (CITY_ASSETS.includes(slug)) return `${base}/stamp-${slug}.svg`
     }
     if (props.theme && THEME_ASSETS.includes(props.theme)) {
-        return `${base}/stamp-${props.theme}.png`
+        return `${base}/stamp-${props.theme}.svg`
     }
-    return `${base}/stamp-wedding.png`
+    return `${base}/stamp-wedding.svg`
 })
 
 const altText = computed(() => {

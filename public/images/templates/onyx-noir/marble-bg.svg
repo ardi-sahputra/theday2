@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080" preserveAspectRatio="none">
+  <defs>
+    <linearGradient id="onx-marble-base" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#101010"/>
+      <stop offset="50%" stop-color="#0a0a0a"/>
+      <stop offset="100%" stop-color="#050505"/>
+    </linearGradient>
+
+    <!-- grey marble veining via fractal turbulence + displacement -->
+    <filter id="onx-marble-vein" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.012 0.022" numOctaves="4" seed="7" result="noise"/>
+      <feColorMatrix in="noise" type="matrix"
+        values="0 0 0 0 0.55
+                0 0 0 0 0.55
+                0 0 0 0 0.55
+                0 0 0 2.2 -1.1" result="veinAlpha"/>
+      <feGaussianBlur in="veinAlpha" stdDeviation="0.6" result="veinSoft"/>
+      <feComposite in="veinSoft" in2="SourceGraphic" operator="over"/>
+    </filter>
+
+    <!-- faint gold veining, sparser -->
+    <filter id="onx-marble-gold" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="turbulence" baseFrequency="0.008 0.016" numOctaves="3" seed="29" result="gnoise"/>
+      <feColorMatrix in="gnoise" type="matrix"
+        values="0 0 0 0 0.72
+                0 0 0 0 0.54
+                0 0 0 0 0.14
+                0 0 0 3.0 -2.4" result="goldAlpha"/>
+      <feGaussianBlur in="goldAlpha" stdDeviation="0.5"/>
+    </filter>
+  </defs>
+
+  <!-- near-black base -->
+  <rect width="1920" height="1080" fill="url(#onx-marble-base)"/>
+
+  <!-- subtle grey vein layer -->
+  <rect width="1920" height="1080" fill="#0a0a0a" filter="url(#onx-marble-vein)" opacity="0.5"/>
+
+  <!-- sparse gold flecks/veins -->
+  <rect width="1920" height="1080" filter="url(#onx-marble-gold)" opacity="0.18"/>
+
+  <!-- a few hand-drawn cracked veins for structure -->
+  <g fill="none" stroke="#3a3a3a" stroke-width="1.4" opacity="0.4" stroke-linecap="round">
+    <path d="M-50 240 Q420 300 760 200 T1500 260 Q1740 300 1980 240"/>
+    <path d="M-50 700 Q380 760 820 680 Q1280 600 1980 720"/>
+    <path d="M520 -40 Q580 360 540 760 T600 1120"/>
+    <path d="M1360 -40 Q1420 420 1380 880 T1440 1120"/>
+  </g>
+  <g fill="none" stroke="#7a5e16" stroke-width="0.8" opacity="0.22" stroke-linecap="round">
+    <path d="M-50 440 Q500 500 980 420 T1980 480"/>
+    <path d="M900 -40 Q960 540 920 1120"/>
+  </g>
+</svg>

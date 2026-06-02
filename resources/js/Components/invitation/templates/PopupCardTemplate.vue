@@ -749,7 +749,7 @@ const showWatermark = computed(() => !hasActiveSub.value)
     border-radius: 2px;
     background-image:
         linear-gradient(rgba(255,255,255,0.04), rgba(255,255,255,0.04)),
-        url('/images/templates/popup-card/paper-texture.webp');
+        url('/images/templates/popup-card/paper-texture.svg');
     background-size: cover;
 }
 .pc-scene-bg--cream { background-color: var(--pc-paper); }

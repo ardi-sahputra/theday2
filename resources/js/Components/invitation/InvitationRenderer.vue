@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue';
+import { ref, computed, watch, onMounted, onUnmounted } from 'vue';
 import SectionCover    from '@/Pages/Invitation/Sections/SectionCover.vue';
 import SectionOpening  from '@/Pages/Invitation/Sections/SectionOpening.vue';
 import SectionEvents   from '@/Pages/Invitation/Sections/SectionEvents.vue';
@@ -20,6 +20,9 @@ const props = defineProps({
     autoOpen:   { type: Boolean, default: false },
 });
 
+// Let the host (e.g. demo page) react to open state — bottom CTA, etc.
+const emit = defineEmits(['opened']);
+
 // Check if this invitation uses a premium template with its own renderer
 const premiumTemplate = computed(() =>
     TEMPLATE_MAP[props.invitation.template_slug] ?? null
@@ -34,7 +37,10 @@ const fontFamily   = computed(() => cfg.value.font_title    ?? cfg.value.font ??
 const musicOn = computed(() => isMusicEnabled(props.invitation));
 
 // ── Open / reveal state ────────────────────────────────────────────────────
-const opened = ref(props.isDemo || props.autoOpen);
+// Demo still shows the opening gate (auto-open is the explicit override).
+// isDemo only changes RSVP/message behaviour, not whether the gate is skipped.
+const opened = ref(props.autoOpen);
+watch(opened, (v) => emit('opened', v), { immediate: true });
 
 function openInvitation() { opened.value = true; }
 
@@ -157,11 +163,11 @@ onUnmounted(() => observer?.disconnect());
 
                 <button
                     @click="handleOpenAndPlay"
-                    class="w-full py-4 rounded-2xl text-white text-sm font-semibold tracking-wide transition-all active:scale-95 shadow-lg"
+                    class="inv-breathe w-full py-4 rounded-2xl text-white text-sm font-semibold tracking-wide transition-all hover:opacity-90 active:scale-95 shadow-lg"
                     :style="{ backgroundColor: primaryColor }"
                 >
                     Buka Undangan
-                    <svg class="inline-block w-4 h-4 ml-2 -mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg class="inline-block w-4 h-4 ml-2 -mt-0.5 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                     </svg>
                 </button>
@@ -194,7 +200,7 @@ onUnmounted(() => observer?.disconnect());
         </button>
 
         <div data-section="cover" :ref="setSectionRef('cover')">
-            <SectionCover :invitation="invitation" :primary-color="primaryColor" :font-family="fontFamily"/>
+            <SectionCover :invitation="invitation" :primary-color="primaryColor" :font-family="fontFamily" :opened="opened"/>
         </div>
 
         <div data-section="opening" :ref="setSectionRef('opening')">

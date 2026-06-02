@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" width="1600" height="1000" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <!-- Warm Tuscan sky: cream-gold high, hazy terracotta low -->
+    <linearGradient id="tv-sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"  stop-color="#fbf4e7"/>
+      <stop offset="42%" stop-color="#f6e6c6"/>
+      <stop offset="100%" stop-color="#eccba0"/>
+    </linearGradient>
+    <linearGradient id="tv-hill-far" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"  stop-color="#bcc6a2"/>
+      <stop offset="100%" stop-color="#a7b48c"/>
+    </linearGradient>
+    <linearGradient id="tv-hill-mid" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"  stop-color="#9aac7c"/>
+      <stop offset="100%" stop-color="#8b9d6f"/>
+    </linearGradient>
+    <linearGradient id="tv-hill-near" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"  stop-color="#6f8056"/>
+      <stop offset="100%" stop-color="#5f7048"/>
+    </linearGradient>
+    <!-- Gentle atmospheric blur for a soft, dreamy horizon -->
+    <filter id="tv-soft" x="-5%" y="-5%" width="110%" height="110%">
+      <feGaussianBlur stdDeviation="6"/>
+    </filter>
+  </defs>
+
+  <!-- Sky -->
+  <rect width="1600" height="1000" fill="url(#tv-sky)"/>
+
+  <g filter="url(#tv-soft)">
+    <!-- Far rolling hills -->
+    <path d="M0 480 C 260 420 460 470 720 440 C 980 410 1240 470 1600 430 L1600 1000 L0 1000 Z"
+          fill="url(#tv-hill-far)" opacity="0.85"/>
+    <!-- Mid hills -->
+    <path d="M0 600 C 300 540 520 600 820 560 C 1100 524 1340 600 1600 560 L1600 1000 L0 1000 Z"
+          fill="url(#tv-hill-mid)" opacity="0.9"/>
+    <!-- Near hills -->
+    <path d="M0 740 C 240 690 540 760 880 710 C 1180 666 1400 760 1600 720 L1600 1000 L0 1000 Z"
+          fill="url(#tv-hill-near)"/>
+  </g>
+</svg>

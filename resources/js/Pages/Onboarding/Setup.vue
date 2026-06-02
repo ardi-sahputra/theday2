@@ -10,14 +10,6 @@ const props = defineProps({
     plans: { type: Array,  default: () => [] },
 });
 
-// Wedding-type options (Tipe step) — labels via i18n keys.
-const WEDDING_TYPES = [
-    { k: 'akad-resepsi', tn: 'type_akad_n',     td: 'type_akad_d',     ic: '⛩' },
-    { k: 'intimate',     tn: 'type_intimate_n', td: 'type_intimate_d', ic: '❀' },
-    { k: 'destination',  tn: 'type_dest_n',     td: 'type_dest_d',     ic: '✈' },
-    { k: 'belum',        tn: 'type_belum_n',    td: 'type_belum_d',    ic: '…' },
-];
-
 const rupiah = (v) => Number(v) > 0
     ? 'Rp ' + Number(v).toLocaleString('id-ID')
     : t('onboarding.plan_free');
@@ -40,7 +32,6 @@ function saveProgress() {
             start_time:     form.start_time,
             venue_name:     form.venue_name,
             venue_address:  form.venue_address,
-            wedding_type:   form.wedding_type,
             city:           form.city,
             intended_plan:  form.intended_plan,
         },
@@ -52,17 +43,15 @@ function clearProgress() {
 }
 
 // ── Step management ───────────────────────────────────────────────
-// 0 Welcome · 1 Pasangan · 2 Tanggal · 3 Lokasi · 4 Tipe · 5 Paket · 6 Selesai
+// 0 Welcome · 1 Pasangan · 2 Tanggal · 3 Lokasi · 5 Paket · 6 Selesai
 const step  = ref(0);
 const LAST  = 6;
-// The numbered input steps (for the progress bar): Pasangan…Paket.
-const FORM_STEPS = 5;
 
 // Form-step sequence depends on status. Married couples skip Lokasi (venue of a
-// past wedding) and Tipe (wedding-prep type). 0 = Welcome, 6 = Selesai.
-//   preparing: 1 Pasangan · 2 Tanggal · 3 Lokasi · 4 Tipe · 5 Paket
+// past wedding). 0 = Welcome, 6 = Selesai.
+//   preparing: 1 Pasangan · 2 Tanggal · 3 Lokasi · 5 Paket
 //   married:   1 Pasangan · 2 Tanggal · 5 Paket
-const sequence = () => (form.marital_status === 'sudah' ? [1, 2, 5] : [1, 2, 3, 4, 5]);
+const sequence = () => (form.marital_status === 'sudah' ? [1, 2, 5] : [1, 2, 3, 5]);
 
 function goNext() {
     const seq = sequence();
@@ -92,7 +81,6 @@ const form = useForm({
     start_time:     '',
     venue_name:     '',
     venue_address:  '',
-    wedding_type:   '',
     city:           '',
     intended_plan:  'free',
 });
@@ -151,6 +139,8 @@ onMounted(() => {
         const { step: savedStep, form: savedForm } = JSON.parse(saved);
         Object.assign(form, savedForm);
         step.value = Math.min(savedStep ?? 0, LAST);
+        // The Tipe step (4) was removed — nudge any stale saved progress forward.
+        if (step.value === 4) step.value = 5;
         if (savedForm.wedding_date) {
             const [y, m] = savedForm.wedding_date.split('-').map(Number);
             calYear.value  = y;
@@ -499,35 +489,12 @@ watch([timeHour, timeMinute], ([h, m]) => {
                                 <label class="ob-label">{{ t('onboarding.label_address') }}</label>
                                 <textarea v-model="form.venue_address" rows="3" class="ob-input ob-input-nick ob-textarea" :placeholder="t('onboarding.address_ph')"/>
                             </div>
+                            <div class="ob-field">
+                                <label class="ob-label">{{ t('onboarding.label_city') }} <span class="ob-opt">{{ t('onboarding.optional') }}</span></label>
+                                <input v-model="form.city" class="ob-input ob-input-nick" type="text" :placeholder="t('onboarding.city_ph')" />
+                            </div>
                         </div>
 
-                    </div>
-
-                    <!-- ── STEP 4 · TIPE ── -->
-                    <div v-else-if="step === 4">
-                        <div class="ob-eyebrow">{{ stepNum }} · {{ t('onboarding.s_tipe') }}</div>
-                        <h1 class="ob-title">{{ t('onboarding.tipe_title') }}</h1>
-                        <p class="ob-sub">{{ t('onboarding.tipe_sub') }}</p>
-
-                        <div class="ob-typegrid">
-                            <button v-for="wt in WEDDING_TYPES" :key="wt.k" type="button"
-                                    class="ob-typecard" :class="{ 'ob-typecard-on': form.wedding_type === wt.k }"
-                                    @click="form.wedding_type = form.wedding_type === wt.k ? '' : wt.k">
-                                <div class="ob-typeic" :class="{ 'ob-typeic-on': form.wedding_type === wt.k }">{{ wt.ic }}</div>
-                                <div class="ob-typebody">
-                                    <div class="ob-typename">{{ t('onboarding.' + wt.tn) }}</div>
-                                    <div class="ob-typedesc">{{ t('onboarding.' + wt.td) }}</div>
-                                </div>
-                                <div v-if="form.wedding_type === wt.k" class="ob-typecheck">
-                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
-                                </div>
-                            </button>
-                        </div>
-
-                        <div class="ob-field" style="margin-top: 16px">
-                            <label class="ob-label">{{ t('onboarding.label_city') }} <span class="ob-opt">{{ t('onboarding.optional') }}</span></label>
-                            <input v-model="form.city" class="ob-input ob-input-nick" type="text" :placeholder="t('onboarding.city_ph')" />
-                        </div>
                     </div>
 
                     <!-- ── STEP 5 · PAKET ── -->

@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue';
-import { useReveal } from '@/Composables/useReveal.js';
+import { useReveal, useStaggerReveal } from '@/Composables/useReveal.js';
 
 const props = defineProps({
     galleries:    { type: Array,  default: () => [] },
@@ -8,7 +8,9 @@ const props = defineProps({
 });
 
 const heading = ref(null);
+const grid    = ref(null);
 useReveal(heading);
+useStaggerReveal(grid, '.item', 60);
 
 // Lightbox
 const lightboxIndex = ref(null);
@@ -45,10 +47,10 @@ function onTouchEnd(e) {
 <template>
     <section class="py-20 bg-white">
         <!-- Heading -->
-        <div ref="heading" class="reveal text-center px-6 mb-8 space-y-2">
+        <div ref="heading" class="reveal-blur text-center px-6 mb-8 space-y-2">
             <div class="flex items-center justify-center gap-2">
                 <div class="h-px w-10" :style="{ backgroundColor: primaryColor }"/>
-                <svg class="w-4 h-4" :style="{ color: primaryColor }" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg class="inv-float w-4 h-4" :style="{ color: primaryColor }" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                           d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                 </svg>
@@ -58,20 +60,20 @@ function onTouchEnd(e) {
         </div>
 
         <!-- Grid -->
-        <div class="grid grid-cols-3 gap-0.5 px-0.5">
+        <div ref="grid" class="grid grid-cols-3 gap-0.5 px-0.5">
             <div
                 v-for="(photo, i) in galleries"
                 :key="photo.id"
-                class="aspect-square overflow-hidden cursor-pointer relative group"
+                class="reveal-scale item aspect-square overflow-hidden cursor-pointer relative group"
                 @click="openLightbox(i)"
             >
                 <img
                     :src="photo.image_url"
                     :alt="photo.caption || `Foto ${i + 1}`"
-                    class="w-full h-full object-cover transition-transform duration-500 group-active:scale-105"
+                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 group-active:scale-105"
                     loading="lazy"
                 />
-                <div class="absolute inset-0 bg-black/0 group-active:bg-black/20 transition-colors"/>
+                <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 group-active:bg-black/20 transition-colors"/>
             </div>
         </div>
 

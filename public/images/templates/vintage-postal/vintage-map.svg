@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600" preserveAspectRatio="none">
+  <defs>
+    <filter id="mapTex" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.6 0.6" numOctaves="3" seed="9" stitchTiles="stitch" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 0.55  0 0 0 0 0.45  0 0 0 0 0.30  0 0 0 0.10 0"/>
+    </filter>
+    <radialGradient id="mapVig" cx="50%" cy="50%" r="75%">
+      <stop offset="55%" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#3a2d1f" stop-opacity="0.20"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="600" fill="#e6d6b2"/>
+  <!-- lat / long graticule -->
+  <g stroke="#5c4a3a" stroke-opacity="0.22" stroke-width="1" fill="none">
+    <line x1="0" y1="75" x2="800" y2="75"/>
+    <line x1="0" y1="150" x2="800" y2="150"/>
+    <line x1="0" y1="225" x2="800" y2="225"/>
+    <line x1="0" y1="300" x2="800" y2="300"/>
+    <line x1="0" y1="375" x2="800" y2="375"/>
+    <line x1="0" y1="450" x2="800" y2="450"/>
+    <line x1="0" y1="525" x2="800" y2="525"/>
+    <line x1="100" y1="0" x2="100" y2="600"/>
+    <line x1="200" y1="0" x2="200" y2="600"/>
+    <line x1="300" y1="0" x2="300" y2="600"/>
+    <line x1="400" y1="0" x2="400" y2="600"/>
+    <line x1="500" y1="0" x2="500" y2="600"/>
+    <line x1="600" y1="0" x2="600" y2="600"/>
+    <line x1="700" y1="0" x2="700" y2="600"/>
+  </g>
+  <!-- coastline hint -->
+  <path d="M60,470 C150,430 200,460 270,420 C340,380 380,410 470,360 C560,310 620,350 740,300"
+        fill="none" stroke="#8b3a3a" stroke-opacity="0.30" stroke-width="2.5"/>
+  <path d="M40,540 C120,520 190,545 260,505 C360,450 430,495 540,440 C630,395 700,430 780,395"
+        fill="none" stroke="#5c4a3a" stroke-opacity="0.25" stroke-width="1.5"/>
+  <!-- dashed travel route -->
+  <path d="M150,400 Q330,180 560,250 T740,160"
+        fill="none" stroke="#8b3a3a" stroke-opacity="0.45" stroke-width="2" stroke-dasharray="6 8"/>
+  <circle cx="150" cy="400" r="5" fill="#8b3a3a" fill-opacity="0.55"/>
+  <circle cx="740" cy="160" r="5" fill="#8b3a3a" fill-opacity="0.55"/>
+  <!-- compass rose -->
+  <g transform="translate(660,470)" stroke="#5c4a3a" stroke-opacity="0.45" fill="#5c4a3a" fill-opacity="0.35">
+    <circle r="42" fill="none" stroke-width="1.5"/>
+    <circle r="30" fill="none" stroke-width="1"/>
+    <polygon points="0,-40 7,0 0,40 -7,0" fill="#8b3a3a" fill-opacity="0.45" stroke="none"/>
+    <polygon points="-40,0 0,7 40,0 0,-7" fill="#5c4a3a" fill-opacity="0.30" stroke="none"/>
+    <text x="0" y="-46" font-family="Georgia, serif" font-size="14" text-anchor="middle" fill="#5c4a3a" fill-opacity="0.6" stroke="none">N</text>
+  </g>
+  <rect width="800" height="600" filter="url(#mapTex)"/>
+  <rect width="800" height="600" fill="url(#mapVig)"/>
+</svg>

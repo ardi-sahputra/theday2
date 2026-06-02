@@ -5,7 +5,7 @@ import { useInvitationTemplate } from '@/Composables/useInvitationTemplate'
 import AlbumCover    from './photo-album/AlbumCover.vue'
 import AlbumSpread   from './photo-album/AlbumSpread.vue'
 import DustOverlay   from './photo-album/DustOverlay.vue'
-import TheDayLogo    from './netflix/TheDayLogo.vue'
+import BrandWatermark    from './BrandWatermark.vue'
 
 const props = defineProps({
     invitation: { type: Object,  required: true },
@@ -252,7 +252,7 @@ onBeforeUnmount(() => window.removeEventListener('resize', checkMobile))
                             @message-submit="submitMessage"
                         >
                             <template #watermark>
-                                <TheDayLogo
+                                <BrandWatermark
                                     v-if="currentSpread === 'closing' && !invitation.user?.activeSubscription"
                                     class="pa-watermark"
                                     :height="20"

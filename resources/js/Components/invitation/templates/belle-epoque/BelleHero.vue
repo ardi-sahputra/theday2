@@ -20,7 +20,7 @@ defineProps({
 
         <img
             class="bp-hero-wash"
-            src="/images/templates/belle-epoque/wash-blush.webp"
+            src="/images/templates/belle-epoque/wash-blush.svg"
             alt=""
             aria-hidden="true"
             loading="eager"

@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useInvitationTemplate } from '@/Composables/useInvitationTemplate'
-import TheDayLogo      from './netflix/TheDayLogo.vue'
+import BrandWatermark      from './BrandWatermark.vue'
 import VelvetEnvelope  from './velvet-burgundy/VelvetEnvelope.vue'
 import VelvetCover     from './velvet-burgundy/VelvetCover.vue'
 import VelvetHero      from './velvet-burgundy/VelvetHero.vue'
@@ -441,7 +441,7 @@ const lightboxUrl = ref(null)
                     <p class="vb-closing-signature" :style="{ fontFamily: fontTitle }">
                         {{ groomName }} &amp; {{ brideName }}
                     </p>
-                    <TheDayLogo
+                    <BrandWatermark
                         v-if="showWatermark"
                         class="vb-closing-brand"
                         :height="22"
@@ -503,7 +503,7 @@ const lightboxUrl = ref(null)
     border-bottom: 1px solid rgba(168,122,74,0.18);
 }
 .vb-section--paper {
-    background-image: url('/images/templates/velvet-burgundy/paper-cream.webp');
+    background-image: url('/images/templates/velvet-burgundy/paper-cream.svg');
     background-size: cover;
     color: var(--vb-burgundy-deep);
 }

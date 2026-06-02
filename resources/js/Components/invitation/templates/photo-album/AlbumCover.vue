@@ -93,7 +93,7 @@ function onOpen() {
     position: absolute;
     inset: 0;
     background-color: #1a1410;
-    background-image: url('/images/templates/photo-album/black-paper.webp');
+    background-image: url('/images/templates/photo-album/black-paper.svg');
     background-size: 600px 600px;
     border: 1px solid #5a3818;
     border-radius: 4px;

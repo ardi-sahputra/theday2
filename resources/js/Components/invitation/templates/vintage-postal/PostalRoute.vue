@@ -103,7 +103,7 @@ onMounted(() => {
     width: 100%;
     aspect-ratio: 3/2;
     background:
-        url('/images/templates/vintage-postal/vintage-map.webp') center/cover no-repeat,
+        url('/images/templates/vintage-postal/vintage-map.svg') center/cover no-repeat,
         #d8c8a0;
     border: 1px solid rgba(92, 74, 58, 0.4);
     overflow: hidden;

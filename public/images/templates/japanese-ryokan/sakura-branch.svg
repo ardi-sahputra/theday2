@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 300" fill="none">
+  <!-- sumi-e ink branch -->
+  <g stroke="#1c2e4a" stroke-linecap="round" fill="none">
+    <path d="M360 20 C300 34 250 60 206 104 C168 142 138 192 120 252" stroke-width="7" opacity="0.92"/>
+    <path d="M232 88 C216 70 196 62 168 60" stroke-width="4" opacity="0.85"/>
+    <path d="M188 122 C170 118 150 122 132 138" stroke-width="4" opacity="0.85"/>
+    <path d="M150 188 C140 168 124 156 100 152" stroke-width="3.5" opacity="0.8"/>
+    <path d="M276 56 C266 44 252 40 236 42" stroke-width="3.2" opacity="0.78"/>
+    <path d="M132 138 C124 124 110 118 96 120" stroke-width="2.8" opacity="0.72"/>
+  </g>
+  <!-- sakura blossoms: 5-petal -->
+  <g>
+    <g transform="translate(166 58) scale(1.05)">
+      <g fill="#e8b4b8" fill-opacity="0.95" stroke="#c98ca0" stroke-width="0.8">
+        <path d="M0 -16 C7 -12 7 -3 0 2 C-7 -3 -7 -12 0 -16 Z"/>
+        <path d="M0 -16 C7 -12 7 -3 0 2 C-7 -3 -7 -12 0 -16 Z" transform="rotate(72)"/>
+        <path d="M0 -16 C7 -12 7 -3 0 2 C-7 -3 -7 -12 0 -16 Z" transform="rotate(144)"/>
+        <path d="M0 -16 C7 -12 7 -3 0 2 C-7 -3 -7 -12 0 -16 Z" transform="rotate(216)"/>
+        <path d="M0 -16 C7 -12 7 -3 0 2 C-7 -3 -7 -12 0 -16 Z" transform="rotate(288)"/>
+      </g>
+      <circle r="2.4" fill="#8c6b3f"/>
+    </g>
+    <g transform="translate(126 142) scale(0.9)">
+      <g fill="#f0c8cc" fill-opacity="0.95" stroke="#c98ca0" stroke-width="0.8">
+        <path d="M0 -16 C7 -12 7 -3 0 2 C-7 -3 -7 -12 0 -16 Z"/>
+        <path d="M0 -16 C7 -12 7 -3 0 2 C-7 -3 -7 -12 0 -16 Z" transform="rotate(72)"/>
+        <path d="M0 -16 C7 -12 7 -3 0 2 C-7 -3 -7 -12 0 -16 Z" transform="rotate(144)"/>
+        <path d="M0 -16 C7 -12 7 -3 0 2 C-7 -3 -7 -12 0 -16 Z" transform="rotate(216)"/>
+        <path d="M0 -16 C7 -12 7 -3 0 2 C-7 -3 -7 -12 0 -16 Z" transform="rotate(288)"/>
+      </g>
+      <circle r="2.2" fill="#8c6b3f"/>
+    </g>
+    <g transform="translate(94 150) scale(0.78)">
+      <g fill="#e8b4b8" fill-opacity="0.95" stroke="#c98ca0" stroke-width="0.9">
+        <path d="M0 -16 C7 -12 7 -3 0 2 C-7 -3 -7 -12 0 -16 Z"/>
+        <path d="M0 -16 C7 -12 7 -3 0 2 C-7 -3 -7 -12 0 -16 Z" transform="rotate(72)"/>
+        <path d="M0 -16 C7 -12 7 -3 0 2 C-7 -3 -7 -12 0 -16 Z" transform="rotate(144)"/>
+        <path d="M0 -16 C7 -12 7 -3 0 2 C-7 -3 -7 -12 0 -16 Z" transform="rotate(216)"/>
+        <path d="M0 -16 C7 -12 7 -3 0 2 C-7 -3 -7 -12 0 -16 Z" transform="rotate(288)"/>
+      </g>
+      <circle r="2" fill="#8c6b3f"/>
+    </g>
+    <g transform="translate(238 42) scale(0.7)">
+      <g fill="#f0c8cc" fill-opacity="0.92" stroke="#c98ca0" stroke-width="1">
+        <path d="M0 -16 C7 -12 7 -3 0 2 C-7 -3 -7 -12 0 -16 Z"/>
+        <path d="M0 -16 C7 -12 7 -3 0 2 C-7 -3 -7 -12 0 -16 Z" transform="rotate(72)"/>
+        <path d="M0 -16 C7 -12 7 -3 0 2 C-7 -3 -7 -12 0 -16 Z" transform="rotate(144)"/>
+        <path d="M0 -16 C7 -12 7 -3 0 2 C-7 -3 -7 -12 0 -16 Z" transform="rotate(216)"/>
+        <path d="M0 -16 C7 -12 7 -3 0 2 C-7 -3 -7 -12 0 -16 Z" transform="rotate(288)"/>
+      </g>
+      <circle r="1.8" fill="#8c6b3f"/>
+    </g>
+    <!-- falling buds -->
+    <circle cx="150" cy="200" r="3.4" fill="#e8b4b8" fill-opacity="0.7"/>
+    <circle cx="110" cy="118" r="3" fill="#f0c8cc" fill-opacity="0.6"/>
+    <circle cx="200" cy="96" r="2.6" fill="#e8b4b8" fill-opacity="0.55"/>
+  </g>
+</svg>

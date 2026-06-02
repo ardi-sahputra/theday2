@@ -12,9 +12,9 @@ const VALID = ['striped','polka-dot','floral']
 const patternUrl = computed(() => {
     const slug = VALID.includes(props.pattern) ? props.pattern.replace('-dot','') : 'striped'
     const map = {
-        'striped': '/images/templates/vintage-postal/washi-tape-striped.png',
-        'polka':   '/images/templates/vintage-postal/washi-tape-polka.png',
-        'floral':  '/images/templates/vintage-postal/washi-tape-floral.png',
+        'striped': '/images/templates/vintage-postal/washi-tape-striped.svg',
+        'polka':   '/images/templates/vintage-postal/washi-tape-polka.svg',
+        'floral':  '/images/templates/vintage-postal/washi-tape-floral.svg',
     }
     return map[slug] ?? map.striped
 })

@@ -149,7 +149,7 @@ function scrollToRsvp() { rsvpRef.value?.scrollIntoView({ behavior: 'smooth' }) 
                 >
                     <BelleFloralCorner position="tl" :palette="floralPalette" size="md"/>
                     <BelleFloralCorner position="br" :palette="floralPalette" size="md"/>
-                    <img src="/images/templates/belle-epoque/peony-divider.webp" alt="" class="bp-peony-divider" loading="lazy"/>
+                    <img src="/images/templates/belle-epoque/peony-divider.svg" alt="" class="bp-peony-divider" loading="lazy"/>
                     <h2 class="bp-h-smallcaps">Le Couple</h2>
                     <div class="bp-couple-grid">
                         <article class="bp-person">
@@ -377,7 +377,7 @@ function scrollToRsvp() { rsvpRef.value?.scrollIntoView({ behavior: 'smooth' }) 
                     <img
                         v-if="eiffelVisible"
                         class="bp-closing-eiffel"
-                        src="/images/templates/belle-epoque/eiffel-front.webp"
+                        src="/images/templates/belle-epoque/eiffel-front.svg"
                         alt="" aria-hidden="true" loading="lazy"
                     />
                     <h2 class="bp-closing-names">{{ groomName }} &amp; {{ brideName }}</h2>
@@ -438,7 +438,7 @@ function scrollToRsvp() { rsvpRef.value?.scrollIntoView({ behavior: 'smooth' }) 
 .bp-section--cream       { background: var(--bp-cream); }
 .bp-section--cream-light { background: var(--bp-cream-light); }
 .bp-section--paper {
-    background-image: url('/images/templates/belle-epoque/paper-cream.webp');
+    background-image: url('/images/templates/belle-epoque/paper-cream.svg');
     background-size: 512px;
     background-repeat: repeat;
 }

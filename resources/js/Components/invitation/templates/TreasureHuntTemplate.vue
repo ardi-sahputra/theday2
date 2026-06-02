@@ -11,7 +11,7 @@
                          :compass-style="compassStyle" :zoom-default="zoomDefault"
                          @poi-tap="onPoiTap">
                     <template #watermark>
-                        <TheDayLogo v-if="!isPremium" :height="16" :muted="true"/>
+                        <BrandWatermark v-if="!isPremium" :height="16" :muted="true"/>
                     </template>
                 </IsleMap>
                 <PaperGrain/>
@@ -49,7 +49,7 @@ import PoiModal       from './treasure-hunt/PoiModal.vue'
 import PaperGrain     from './treasure-hunt/PaperGrain.vue'
 import TreasureChest  from './treasure-hunt/TreasureChest.vue'
 import SectionContent from './treasure-hunt/SectionContent.vue'
-import TheDayLogo     from './netflix/TheDayLogo.vue'
+import BrandWatermark     from './BrandWatermark.vue'
 
 const props = defineProps({
     invitation: { type: Object,  required: true },

@@ -255,7 +255,7 @@ const showWatermark = computed(() => !hasActiveSub.value)
                     :style="bgStyle(sectionBg('love_story'))"
                 >
                     <img
-                        src="/images/templates/japanese-ryokan/sakura-branch.webp"
+                        src="/images/templates/japanese-ryokan/sakura-branch.svg"
                         alt=""
                         class="ryokan-love-branch"
                         aria-hidden="true"

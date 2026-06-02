@@ -8,7 +8,7 @@ import BotanicalCover        from './botanical/BotanicalCover.vue'
 import BotanicalHero         from './botanical/BotanicalHero.vue'
 import BotanicalMonogram     from './botanical/BotanicalMonogram.vue'
 import BotanicalIllustration from './botanical/BotanicalIllustration.vue'
-import TheDayLogo            from './netflix/TheDayLogo.vue'
+import BrandWatermark            from './BrandWatermark.vue'
 
 const props = defineProps({
     invitation: { type: Object,  required: true },
@@ -424,7 +424,7 @@ function scrollToRsvp() { rsvpRef.value?.scrollIntoView({ behavior: 'smooth' }) 
                         <span class="bot-rule bot-rule--center" aria-hidden="true"/>
                         <p class="bot-closing__text">{{ closingText }}</p>
                         <p class="bot-closing__date">{{ firstEventDate }}</p>
-                        <TheDayLogo v-if="!isSubscribed" class="bot-watermark" :height="20" :muted="true"/>
+                        <BrandWatermark v-if="!isSubscribed" class="bot-watermark" :height="20" :muted="true"/>
                     </div>
                 </section>
 

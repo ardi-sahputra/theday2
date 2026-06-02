@@ -175,7 +175,7 @@ onMounted(ensureFonts)
                 <TuscanyCypressParallax v-if="landscapeOn" :density="cypressDensity"/>
                 <img
                     class="tv-flare-bg tv-sun-flare"
-                    src="/images/templates/tuscany-vineyard/sun-flare.png"
+                    src="/images/templates/tuscany-vineyard/sun-flare.svg"
                     :style="{ opacity: flareIntensity === 'subtle' ? 0.35 : flareIntensity === 'strong' ? 0.75 : 0.55 }"
                     alt="" aria-hidden="true" draggable="false"
                 />
@@ -257,7 +257,7 @@ onMounted(ensureFonts)
                     >
                         <img
                             class="tv-event-corner"
-                            src="/images/templates/tuscany-vineyard/grapevine-corner.webp"
+                            src="/images/templates/tuscany-vineyard/grapevine-corner.svg"
                             alt="" aria-hidden="true"
                         />
                         <header class="tv-event-strip">
@@ -567,7 +567,7 @@ onMounted(ensureFonts)
 .tv-hills {
     position: fixed; inset: 0;
     z-index: -2;
-    background: url('/images/templates/tuscany-vineyard/hills-blur.webp') center/cover no-repeat;
+    background: url('/images/templates/tuscany-vineyard/hills-blur.svg') center/cover no-repeat;
     opacity: 0.6;
     pointer-events: none;
 }

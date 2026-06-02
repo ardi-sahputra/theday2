@@ -41,19 +41,19 @@ onBeforeUnmount(() => {
 <template>
     <div ref="wrap" class="bp-eiffel-parallax" aria-hidden="true">
         <img
-            src="/images/templates/belle-epoque/eiffel-back.webp"
+            src="/images/templates/belle-epoque/eiffel-back.svg"
             class="bp-eiffel bp-eiffel--back"
             alt=""
             loading="lazy" decoding="async"
         />
         <img
-            src="/images/templates/belle-epoque/eiffel-mid.webp"
+            src="/images/templates/belle-epoque/eiffel-mid.svg"
             class="bp-eiffel bp-eiffel--mid"
             alt=""
             loading="lazy" decoding="async"
         />
         <img
-            src="/images/templates/belle-epoque/eiffel-front.webp"
+            src="/images/templates/belle-epoque/eiffel-front.svg"
             class="bp-eiffel bp-eiffel--front"
             alt=""
             loading="lazy" decoding="async"

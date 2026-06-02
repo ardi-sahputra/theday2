@@ -11,7 +11,7 @@ import AhCartouche    from './ayat-hadits/AhCartouche.vue'
 import AhParchmentBg  from './ayat-hadits/AhParchmentBg.vue'
 import AhCalligraphy  from './ayat-hadits/AhCalligraphy.vue'
 import AhHaditsCard   from './ayat-hadits/AhHaditsCard.vue'
-import TheDayLogo     from './netflix/TheDayLogo.vue'
+import BrandWatermark     from './BrandWatermark.vue'
 
 const props = defineProps({
     invitation: { type: Object,  required: true },
@@ -476,7 +476,7 @@ function scrollToRsvp() { rsvpRef.value?.scrollIntoView({ behavior: 'smooth' }) 
                             </p>
                             <p class="ah-closing__date">{{ firstEventDate }}</p>
                             <p v-if="closingText" class="ah-closing__text">{{ closingText }}</p>
-                            <TheDayLogo v-if="!isSubscribed" class="ah-watermark" :height="20" :muted="true"/>
+                            <BrandWatermark v-if="!isSubscribed" class="ah-watermark" :height="20" :muted="true"/>
                         </div>
                     </AhParchmentBg>
                 </section>

@@ -22,7 +22,7 @@ defineEmits(['open'])
 
         <img
             class="bp-cover-wash"
-            src="/images/templates/belle-epoque/wash-blush.webp"
+            src="/images/templates/belle-epoque/wash-blush.svg"
             alt=""
             aria-hidden="true"
             loading="eager"
@@ -43,7 +43,7 @@ defineEmits(['open'])
         <img
             v-if="eiffelVisible"
             class="bp-cover-eiffel"
-            src="/images/templates/belle-epoque/eiffel-front.webp"
+            src="/images/templates/belle-epoque/eiffel-front.svg"
             alt=""
             aria-hidden="true"
             loading="lazy"

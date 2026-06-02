@@ -98,8 +98,10 @@ function handleOpen() {
 </script>
 
 <template>
-    <!-- Full-screen opening gate — position:fixed so it sits above content -->
+    <!-- Full-screen opening gate — position:fixed so it sits above content.
+         Only while closed; once opened the host renderer shows the content. -->
     <div
+        v-if="!opened"
         class="fixed inset-0 z-50 flex flex-col overflow-hidden"
         :class="[contentJustify]"
         :style="{ fontFamily }"
@@ -113,15 +115,15 @@ function handleOpen() {
         <!-- Decorative ornament circles (no-photo fallback) -->
         <template v-if="showOrnament && !bgImage">
             <div
-                class="absolute -top-24 -right-24 w-72 h-72 rounded-full opacity-10 pointer-events-none"
+                class="inv-float-x absolute -top-24 -right-24 w-72 h-72 rounded-full opacity-10 pointer-events-none"
                 :style="{ backgroundColor: primaryColor }"
             />
             <div
-                class="absolute top-1/3 -left-12 w-48 h-48 rounded-full opacity-8 pointer-events-none"
+                class="inv-float absolute top-1/3 -left-12 w-48 h-48 rounded-full opacity-[0.08] pointer-events-none"
                 :style="{ backgroundColor: primaryColor }"
             />
             <div
-                class="absolute -bottom-16 right-1/4 w-40 h-40 rounded-full opacity-6 pointer-events-none"
+                class="inv-float-x absolute -bottom-16 right-1/4 w-40 h-40 rounded-full opacity-[0.06] pointer-events-none"
                 :style="{ backgroundColor: primaryColor }"
             />
         </template>
@@ -152,7 +154,7 @@ function handleOpen() {
             <!-- Divider ornament -->
             <div :class="['flex items-center gap-3', textAlign === 'center' ? 'justify-center' : textAlign === 'right' ? 'justify-end' : 'justify-start']">
                 <div class="h-px w-10" :style="{ backgroundColor: divColor }"/>
-                <svg class="w-3 h-3 opacity-60" viewBox="0 0 24 24" fill="currentColor" :style="{ color: divColor }">
+                <svg class="inv-breathe w-3 h-3 opacity-60" viewBox="0 0 24 24" fill="currentColor" :style="{ color: divColor }">
                     <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
                 </svg>
                 <div class="h-px w-10" :style="{ backgroundColor: divColor }"/>
@@ -188,17 +190,17 @@ function handleOpen() {
             <!-- CTA button -->
             <button
                 @click="handleOpen"
-                class="w-full py-4 rounded-2xl text-white text-sm font-semibold tracking-wide transition-all active:scale-95 shadow-lg mt-2"
+                class="inv-breathe w-full py-4 rounded-2xl text-white text-sm font-semibold tracking-wide transition-all hover:opacity-90 active:scale-95 shadow-lg mt-2"
                 :style="{ backgroundColor: primaryColor }"
             >
                 {{ buttonText }}
-                <svg class="inline-block w-4 h-4 ml-2 -mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg class="inline-block w-4 h-4 ml-2 -mt-0.5 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                 </svg>
             </button>
         </div>
     </div>
 
-    <!-- Spacer so layout below doesn't collapse -->
-    <div class="h-screen w-full"/>
+    <!-- Spacer so layout below doesn't collapse (only while the fixed gate shows) -->
+    <div v-if="!opened" class="h-screen w-full"/>
 </template>

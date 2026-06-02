@@ -29,7 +29,7 @@ defineProps({
 
 .fl-ember-overlay {
     position: fixed; inset: 0;
-    background: url('/images/templates/flashlight/ember-texture.webp') repeat;
+    background: url('/images/templates/flashlight/ember-texture.svg') repeat;
     background-size: 512px 512px;
     mix-blend-mode: overlay;
     opacity: 0.05;

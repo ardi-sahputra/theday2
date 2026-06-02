@@ -1,7 +1,7 @@
 <!-- AI: see docs/superpowers/specs/premium-templates/ig-stories-design.md before editing -->
 <script setup>
 import StoryFrame from './StoryFrame.vue'
-import TheDayLogo from '../netflix/TheDayLogo.vue'
+import BrandWatermark from '../BrandWatermark.vue'
 
 defineProps({
     brandName:     { type: String, default: 'Theday' },
@@ -38,7 +38,7 @@ const emit = defineEmits(['replay', 'share'])
                 </button>
             </div>
             <div v-if="showWatermark" class="igs-outro-watermark">
-                <TheDayLogo :height="16" :muted="true"/>
+                <BrandWatermark :height="16" :muted="true"/>
             </div>
         </div>
     </StoryFrame>

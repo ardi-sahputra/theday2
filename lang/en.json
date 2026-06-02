@@ -290,9 +290,7 @@
                     "ucapan": "wishes",
                     "copy": "Copy link",
                     "copied": "Copied!",
-                    "open": "Open",
-                    "empty": "No invitation yet",
-                    "emptyCta": "Add Invitation"
+                    "open": "Open"
                 },
                 "budget": {
                     "title": "Wedding Budget",
@@ -349,6 +347,65 @@
                 "title": "After The Day",
                 "badge": "Coming Soon",
                 "desc": "We're preparing features for your life after the wedding."
+            },
+            "nextAction": {
+                "eyebrow": {
+                    "urgent": "Needs attention",
+                    "info": "Just in",
+                    "progress": "Next step",
+                    "start": "Let's begin"
+                },
+                "noInvitation": {
+                    "title": "Pick your invitation design",
+                    "body": "Your details are saved — just choose a theme you love.",
+                    "cta": "Choose Design"
+                },
+                "overdueTask": {
+                    "title": "A task is overdue: {task}",
+                    "body": "Wrap it up now to keep your prep on track.",
+                    "cta": "Open Checklist"
+                },
+                "publishSoon": {
+                    "title": "D-{days} — invitation not published yet",
+                    "body": "Publish now so guests have time to RSVP.",
+                    "cta": "Publish Now"
+                },
+                "newRsvp": {
+                    "title": "{count} new RSVPs since yesterday",
+                    "body": "See who's just confirmed their attendance.",
+                    "cta": "View RSVPs"
+                },
+                "setDate": {
+                    "title": "Set your wedding date",
+                    "body": "So we can count down and time your checklist right.",
+                    "cta": "Set Date"
+                },
+                "publishDraft": {
+                    "title": "Your invitation is ready — let's publish",
+                    "body": "Preview once more, then share it with your guests.",
+                    "cta": "Continue to Publish"
+                },
+                "shareInvite": {
+                    "title": "Published! Now share it with your guests",
+                    "body": "Copy the link and send it via WhatsApp or social media.",
+                    "cta": "Copy Link"
+                },
+                "checklistDue": {
+                    "title": "{count} tasks due this week",
+                    "body": "Tick them off one by one to keep prep light.",
+                    "cta": "Open Checklist"
+                },
+                "checklistInit": {
+                    "title": "Set up your prep checklist",
+                    "body": "We'll build a task list automatically around your date.",
+                    "cta": "Enable Checklist"
+                },
+                "steady": {
+                    "title": "Your prep is {progress}% there 🎉",
+                    "body": "Keep it steady — check your next task in the checklist.",
+                    "cta": "View Progress"
+                },
+                "shareCopied": "Invitation link copied!"
             },
             "stats": {
                 "totalInvitations": "Total Invitations",

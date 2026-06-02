@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 360" fill="none" preserveAspectRatio="none">
+  <defs>
+    <linearGradient id="norenL" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#24395c"/>
+      <stop offset="0.5" stop-color="#1c2e4a"/>
+      <stop offset="1" stop-color="#162640"/>
+    </linearGradient>
+  </defs>
+  <!-- wooden rod -->
+  <rect x="-6" y="0" width="166" height="14" rx="3" fill="#8c6b3f"/>
+  <rect x="-6" y="0" width="166" height="5" rx="2.5" fill="#a4824f"/>
+  <!-- fabric panel: full on left edge, seam toward the center on the right -->
+  <rect x="0" y="14" width="156" height="346" fill="url(#norenL)"/>
+  <!-- subtle center-split slit near right (seam) -->
+  <path d="M152 14 V360" stroke="#0f1c30" stroke-width="3" opacity="0.5"/>
+  <!-- crest (kamon) — half of a stylized sakura, on inner side -->
+  <g transform="translate(108 150)" stroke="#f3ede4" stroke-width="2.4" fill="none" opacity="0.82" stroke-linecap="round">
+    <circle cx="0" cy="0" r="34"/>
+    <path d="M0 -22 C12 -10 12 6 0 22"/>
+    <path d="M0 -22 C-12 -10 -12 6 0 22" opacity="0.55"/>
+    <path d="M-20 -10 C-6 -4 6 -4 20 -10" opacity="0.7"/>
+  </g>
+  <!-- faint vertical weave lines -->
+  <g stroke="#2b4368" stroke-width="1" opacity="0.4">
+    <line x1="40" y1="20" x2="40" y2="356"/>
+    <line x1="80" y1="20" x2="80" y2="356"/>
+    <line x1="120" y1="20" x2="120" y2="356"/>
+  </g>
+</svg>

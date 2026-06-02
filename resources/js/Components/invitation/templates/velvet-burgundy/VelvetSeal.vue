@@ -20,9 +20,9 @@ const isCracking = computed(() => props.state === 'cracking')
 const isCracked  = computed(() => props.state === 'cracked')
 
 // motif kept for future asset switch; v1 uses same wax-seal.png regardless
-const sealSrc      = computed(() => `/images/templates/velvet-burgundy/wax-seal.png`)
-const sealLeftSrc  = computed(() => `/images/templates/velvet-burgundy/wax-seal-left.png`)
-const sealRightSrc = computed(() => `/images/templates/velvet-burgundy/wax-seal-right.png`)
+const sealSrc      = computed(() => `/images/templates/velvet-burgundy/wax-seal.svg`)
+const sealLeftSrc  = computed(() => `/images/templates/velvet-burgundy/wax-seal-left.svg`)
+const sealRightSrc = computed(() => `/images/templates/velvet-burgundy/wax-seal-right.svg`)
 </script>
 
 <template>

@@ -2,7 +2,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useInvitationTemplate } from '@/Composables/useInvitationTemplate'
-import TheDayLogo     from './netflix/TheDayLogo.vue'
+import BrandWatermark     from './BrandWatermark.vue'
 import CardIntro      from './pokemon-tcg/CardIntro.vue'
 import TrainerCard    from './pokemon-tcg/TrainerCard.vue'
 import EvolutionChain from './pokemon-tcg/EvolutionChain.vue'
@@ -447,7 +447,7 @@ const showCountdown = computed(() => sectionEnabled('countdown') && targetDate.v
                         size="lg"
                     />
                     <p class="tcg-catch-line">CATCH YOU AT THE WEDDING.</p>
-                    <TheDayLogo v-if="showWatermark" class="tcg-watermark" :height="20" muted/>
+                    <BrandWatermark v-if="showWatermark" class="tcg-watermark" :height="20" muted/>
                 </section>
 
                 <!-- Floating music button -->

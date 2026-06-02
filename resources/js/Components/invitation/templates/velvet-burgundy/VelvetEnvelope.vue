@@ -78,7 +78,7 @@ function onCrack() {
     max-width: 360px;
     aspect-ratio: 3 / 4;
     background: var(--vb-cream, #f8f1e7);
-    background-image: url('/images/templates/velvet-burgundy/paper-cream.webp');
+    background-image: url('/images/templates/velvet-burgundy/paper-cream.svg');
     background-size: cover;
     box-shadow: 0 18px 60px var(--vb-shadow, #2d0507);
     border: 1px solid rgba(168,122,74,0.25);

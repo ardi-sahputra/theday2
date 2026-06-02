@@ -526,7 +526,7 @@ const showWatermark = computed(() => !hasActiveSub.value)
 .vp-content {
     position: relative;
     background:
-        url('/images/templates/vintage-postal/kraft.webp') center top/600px repeat,
+        url('/images/templates/vintage-postal/kraft.svg') center top/600px repeat,
         var(--vp-cream);
     padding-bottom: 48px;
 }

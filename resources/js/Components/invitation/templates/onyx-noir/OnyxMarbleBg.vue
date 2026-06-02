@@ -52,7 +52,7 @@ onBeforeUnmount(() => {
 }
 .onyx-marble-base {
     position: absolute; inset: 0;
-    background: url('/images/templates/onyx-noir/marble-bg.webp') center/cover no-repeat, #0a0a0a;
+    background: url('/images/templates/onyx-noir/marble-bg.svg') center/cover no-repeat, #0a0a0a;
     will-change: opacity;
 }
 .onyx-marble-vein {

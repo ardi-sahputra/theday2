@@ -290,9 +290,7 @@
                     "ucapan": "ucapan",
                     "copy": "Salin link",
                     "copied": "Tersalin!",
-                    "open": "Buka",
-                    "empty": "Belum ada undangan",
-                    "emptyCta": "Tambah Undangan"
+                    "open": "Buka"
                 },
                 "budget": {
                     "title": "Anggaran Pernikahan",
@@ -349,6 +347,65 @@
                 "title": "Setelah Hari H",
                 "badge": "Segera Hadir",
                 "desc": "Kami sedang menyiapkan fitur untuk kehidupan setelah pernikahan kamu."
+            },
+            "nextAction": {
+                "eyebrow": {
+                    "urgent": "Perlu perhatian",
+                    "info": "Baru aja",
+                    "progress": "Langkah berikutnya",
+                    "start": "Ayo mulai"
+                },
+                "noInvitation": {
+                    "title": "Yuk pilih desain undangan kalian",
+                    "body": "Data kalian sudah kami simpan — tinggal pilih tema favorit.",
+                    "cta": "Pilih Desain"
+                },
+                "overdueTask": {
+                    "title": "Ada tugas yang telat: {task}",
+                    "body": "Selesaikan sekarang biar persiapan tetap on track.",
+                    "cta": "Buka Checklist"
+                },
+                "publishSoon": {
+                    "title": "H-{days} — undangan belum terbit",
+                    "body": "Terbitkan sekarang biar tamu sempat konfirmasi kehadiran.",
+                    "cta": "Terbitkan Sekarang"
+                },
+                "newRsvp": {
+                    "title": "{count} RSVP baru sejak kemarin",
+                    "body": "Lihat siapa saja yang sudah konfirmasi kehadiran.",
+                    "cta": "Lihat RSVP"
+                },
+                "setDate": {
+                    "title": "Tentukan tanggal pernikahan kalian",
+                    "body": "Biar kami bisa hitung mundur & susun checklist tepat waktu.",
+                    "cta": "Atur Tanggal"
+                },
+                "publishDraft": {
+                    "title": "Undangan kalian siap — terbitkan yuk",
+                    "body": "Pratinjau sekali lagi, lalu bagikan ke tamu.",
+                    "cta": "Lanjut Terbitkan"
+                },
+                "shareInvite": {
+                    "title": "Undangan sudah terbit! Bagikan ke tamu",
+                    "body": "Salin tautan dan sebar lewat WhatsApp atau media sosial.",
+                    "cta": "Salin Tautan"
+                },
+                "checklistDue": {
+                    "title": "{count} tugas menunggu minggu ini",
+                    "body": "Selesaikan satu per satu biar persiapan terasa ringan.",
+                    "cta": "Buka Checklist"
+                },
+                "checklistInit": {
+                    "title": "Siapkan checklist persiapan kalian",
+                    "body": "Kami susun daftar tugas otomatis sesuai tanggal pernikahan.",
+                    "cta": "Aktifkan Checklist"
+                },
+                "steady": {
+                    "title": "Persiapan kalian {progress}% jalan 🎉",
+                    "body": "Tetap konsisten — cek tugas berikutnya di checklist.",
+                    "cta": "Lihat Progress"
+                },
+                "shareCopied": "Tautan undangan tersalin!"
             },
             "stats": {
                 "totalInvitations": "Total Undangan",

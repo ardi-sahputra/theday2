@@ -93,7 +93,19 @@
       "Bash(xargs echo \"non-build files remaining:\")",
       "Bash(php -l app/Http/Controllers/Dashboard/SubscriptionController.php)",
       "Bash(unzip -o \"c:/laragon/www/theday2/theday\\(9\\).zip\" \"onboardflow.jsx\" -d theday9)",
-      "Bash(php -l app/Actions/CreateInvitationFromTemplateAction.php)"
+      "Bash(php -l app/Actions/CreateInvitationFromTemplateAction.php)",
+      "Bash(node -e \"JSON.parse\\(require\\('fs'\\).readFileSync\\('lang/id.json','utf8'\\)\\);JSON.parse\\(require\\('fs'\\).readFileSync\\('lang/en.json','utf8'\\)\\);console.log\\('JSON OK'\\)\")",
+      "Bash(grep -nE 'defineProps|onMounted\\\\\\(|axios\\\\.\\(get|post\\)|loading\\\\s*=\\\\s*ref|const loading' resources/js/Pages/Dashboard/__TRACKED_VAR__.vue)",
+      "Bash(grep -nE \"axios|fetch\\\\\\(|route\\\\\\(|window\\\\.|Ziggy|Inertia|\\\\$\\\\\\(\" resources/views/landing.blade.php)",
+      "Bash(node -e \"const m=require\\('./public/build/manifest.json'\\); const k=Object.keys\\(m\\).find\\(x=>x.includes\\('css/app.css'\\)\\); console.log\\(k, '->', m[k]?.file\\)\")",
+      "Bash(node -e \"require\\('./lang/id.json'\\); require\\('./lang/en.json'\\); console.log\\('lang JSON OK'\\)\")",
+      "Bash(php -l app/Http/Controllers/TemplateGalleryController.php)",
+      "Bash(php -l database/seeders/TemplateSeeder.php)",
+      "Bash(php -l app/Models/Template.php)",
+      "Bash(python -c \"d=open\\('resources/js/Pages/Dashboard/Templates.vue','rb'\\).read\\(\\); print\\('CRLF' if b'\\\\r\\\\n' in d else 'LF'\\); print\\('lines', d.count\\(b'\\\\n'\\)+1\\)\")",
+      "Bash(python -)",
+      "Bash(python -c \"from PIL import Image; im=Image.open\\('public/images/templates/letterpress/thumbnail.jpg'\\); print\\('letterpress thumb:', im.size, im.format\\)\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://127.0.0.1:8000/templates)"
     ],
     "defaultMode": "bypassPermissions",
     "additionalDirectories": [

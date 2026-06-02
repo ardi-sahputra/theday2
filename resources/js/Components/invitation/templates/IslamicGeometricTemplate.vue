@@ -9,7 +9,7 @@ import IsgCartouche    from './islamic-geometric/IsgCartouche.vue'
 import IsgKhatam       from './islamic-geometric/IsgKhatam.vue'
 import IsgArabesqueBg  from './islamic-geometric/IsgArabesqueBg.vue'
 import IsgKhattName    from './islamic-geometric/IsgKhattName.vue'
-import TheDayLogo      from './netflix/TheDayLogo.vue'
+import BrandWatermark      from './BrandWatermark.vue'
 
 const props = defineProps({
     invitation: { type: Object,  required: true },
@@ -416,7 +416,7 @@ onMounted(() => {
                     <p v-if="closingText" class="isg-closing-text">{{ closingText }}</p>
                     <p class="isg-closing-doa-ar" dir="rtl" lang="ar">{{ closingDoaArabic }}</p>
                     <p class="isg-closing-doa-trans">{{ closingDoaTrans }}</p>
-                    <TheDayLogo v-if="showWatermark" class="isg-watermark" :height="18" muted />
+                    <BrandWatermark v-if="showWatermark" class="isg-watermark" :height="18" muted />
                 </section>
 
                 <Transition name="isg-toast">

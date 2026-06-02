@@ -2,7 +2,7 @@
 <script setup>
 defineProps({
     username:   { type: String, default: 'thedaywedding' },
-    avatarUrl:  { type: String, default: '/images/templates/ig-stories/avatar-default.webp' },
+    avatarUrl:  { type: String, default: '/images/templates/ig-stories/avatar-default.svg' },
     ringStyle:  { type: String, default: 'gradient' }, // 'gradient' | 'solid'
     timestamp:  { type: String, default: 'now' },
 })

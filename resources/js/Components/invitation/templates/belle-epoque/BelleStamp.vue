@@ -12,7 +12,7 @@ const props = defineProps({
     rotate: { type: Number, default: 0 },
 })
 
-const imgSrc = computed(() => `/images/templates/belle-epoque/stamp-${props.motif}.png`)
+const imgSrc = computed(() => `/images/templates/belle-epoque/stamp-${props.motif}.svg`)
 const root   = ref(null)
 
 let io = null

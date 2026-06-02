@@ -2,7 +2,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { useInvitationTemplate } from '@/Composables/useInvitationTemplate'
-import TheDayLogo    from './netflix/TheDayLogo.vue'
+import BrandWatermark    from './BrandWatermark.vue'
 import VeilOverlay   from './silk-veil/VeilOverlay.vue'
 import LaceTrim      from './silk-veil/LaceTrim.vue'
 import PearlDecor    from './silk-veil/PearlDecor.vue'
@@ -561,7 +561,7 @@ const showWatermark = computed(() => {
                 <LaceTrim variant="closing-divider" :density="laceDensity" class="sv-closing-divider"/>
                 <p class="sv-closing-text">{{ closingText }}</p>
                 <PearlDecor variant="strand-horizontal" :count="10" :size="6" class="sv-closing-bot-pearls"/>
-                <TheDayLogo v-if="showWatermark" class="sv-watermark" :height="20" muted/>
+                <BrandWatermark v-if="showWatermark" class="sv-watermark" :height="20" muted/>
             </section>
         </VeilOverlay>
 

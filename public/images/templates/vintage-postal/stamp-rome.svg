@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="96" height="112" viewBox="0 0 96 112">
+  <defs>
+    <filter id="sr" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.5" numOctaves="2" seed="27" stitchTiles="stitch" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 0.5 0 0 0 0 0.4 0 0 0 0 0.26 0 0 0 0.07 0"/>
+    </filter>
+  </defs>
+  <rect width="96" height="112" fill="#f4ead5"/>
+  <rect x="6" y="6" width="84" height="100" fill="#e8dcc4"/>
+  <rect x="6" y="6" width="84" height="100" fill="none" stroke="#f4ead5" stroke-width="3"
+        stroke-dasharray="0.1 6" stroke-linecap="round"/>
+  <rect x="12" y="12" width="72" height="88" fill="none" stroke="#8b3a3a" stroke-width="1.5"/>
+  <!-- motif: Colosseum arches -->
+  <g transform="translate(26,30)" stroke="#3a2d1f" stroke-width="1.6" fill="none">
+    <rect x="0" y="0" width="44" height="46" rx="3"/>
+    <!-- two tiers of arches -->
+    <g>
+      <path d="M5 22 v-8 a4 4 0 0 1 8 0 v8 Z"/>
+      <path d="M18 22 v-8 a4 4 0 0 1 8 0 v8 Z"/>
+      <path d="M31 22 v-8 a4 4 0 0 1 8 0 v8 Z"/>
+    </g>
+    <line x1="0" y1="23" x2="44" y2="23"/>
+    <g>
+      <path d="M5 44 v-10 a4 4 0 0 1 8 0 v10 Z"/>
+      <path d="M18 44 v-10 a4 4 0 0 1 8 0 v10 Z"/>
+      <path d="M31 44 v-10 a4 4 0 0 1 8 0 v10 Z"/>
+    </g>
+  </g>
+  <text x="48" y="92" font-family="Georgia, serif" font-size="9" text-anchor="middle" fill="#3a2d1f" letter-spacing="2">ROMA</text>
+  <rect width="96" height="112" filter="url(#sr)"/>
+</svg>
