@@ -603,7 +603,7 @@ watch(activeKey, async (key) => {
                                 <template v-if="section.key === 'music'">
                                     <p class="text-xs text-stone-500">{{ t('dashboard.invitations.customize.musicInfo') }}</p>
                                     <Link
-                                        :href="route('dashboard.invitations.edit', invitation.id)"
+                                        :href="route('dashboard.invitations.customize-v2', invitation.id)"
                                         class="inline-block text-xs px-3 py-2 rounded-lg border border-stone-200 text-stone-600 hover:bg-stone-50"
                                     >
                                         {{ t('dashboard.invitations.customize.openMusicEditor') }}

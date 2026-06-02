@@ -30,11 +30,10 @@ const statusText = { saved: 'tersimpan', saving: 'menyimpan…', error: 'gagal s
       </div>
     </header>
 
-    <!-- Tab nav (pills) -->
-    <nav class="flex gap-1 px-3 lg:px-6 py-2 border-b border-stone-200 bg-white overflow-x-auto">
+    <!-- Tab nav (underline) -->
+    <nav class="ev2-tabs px-3 lg:px-6 bg-white">
       <button v-for="t in tabs" :key="t" type="button" @click="emit('update:activeTab', t)"
-              :class="['px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-colors',
-                       activeTab === t ? 'bg-[#1F2A2E] text-white' : 'text-stone-500 hover:bg-stone-100']">
+              :class="['ev2-tab', activeTab === t ? 'active' : '']">
         {{ t }}
       </button>
     </nav>

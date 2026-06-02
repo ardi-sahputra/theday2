@@ -200,7 +200,7 @@ function goToDashboard() {
                 </div>
                 <div class="flex flex-col sm:flex-row gap-2 justify-center">
                     <a v-if="invitationId"
-                       :href="route('dashboard.invitations.customize', { invitation: invitationId })"
+                       :href="route('dashboard.invitations.customize-v2', { invitation: invitationId })"
                        class="px-5 py-2 rounded-xl text-sm font-semibold text-white transition-all inline-block text-center"
                        style="background-color: #92A89C">
                         {{ t('dashboard.invitations.stepPublikasi.customizeInvitation') }}
@@ -413,7 +413,7 @@ function goToDashboard() {
                         </button>
                         <a
                             v-else-if="invitationId"
-                            :href="route('dashboard.invitations.customize', { invitation: invitationId })"
+                            :href="route('dashboard.invitations.customize-v2', { invitation: invitationId })"
                             class="flex-1 flex items-center justify-center gap-2 px-5 py-3 rounded-xl text-sm font-semibold text-white transition-all"
                             style="background-color: #92A89C"
                         >

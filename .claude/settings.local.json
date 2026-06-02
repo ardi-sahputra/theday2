@@ -105,7 +105,12 @@
       "Bash(python -c \"d=open\\('resources/js/Pages/Dashboard/Templates.vue','rb'\\).read\\(\\); print\\('CRLF' if b'\\\\r\\\\n' in d else 'LF'\\); print\\('lines', d.count\\(b'\\\\n'\\)+1\\)\")",
       "Bash(python -)",
       "Bash(python -c \"from PIL import Image; im=Image.open\\('public/images/templates/letterpress/thumbnail.jpg'\\); print\\('letterpress thumb:', im.size, im.format\\)\")",
-      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://127.0.0.1:8000/templates)"
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://127.0.0.1:8000/templates)",
+      "Bash(pwd -W)",
+      "Bash(cygpath -w __TRACKED_VAR__/Undangan.html)",
+      "Bash(grep -oE \">[A-Z][a-zA-Z &/]{3,30}<\" ueditor.jsx)",
+      "Bash(npx eslint *)",
+      "Bash(grep -vE \"^$\")"
     ],
     "defaultMode": "bypassPermissions",
     "additionalDirectories": [

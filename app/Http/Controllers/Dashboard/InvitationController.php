@@ -244,7 +244,7 @@ class InvitationController extends Controller
             InvitationSection::initializeForInvitation($invitation->id);
         }
 
-        return redirect()->route('dashboard.invitations.edit', $invitation);
+        return redirect()->route('dashboard.invitations.customize-v2', $invitation);
     }
 
     public function edit(Invitation $invitation): Response
@@ -761,7 +761,7 @@ class InvitationController extends Controller
             'id'       => $clone->id,
             'title'    => $clone->title,
             'slug'     => $clone->slug,
-            'edit_url' => route('dashboard.invitations.edit', $clone->id),
+            'edit_url' => route('dashboard.invitations.customize-v2', $clone->id),
         ], 201);
     }
 

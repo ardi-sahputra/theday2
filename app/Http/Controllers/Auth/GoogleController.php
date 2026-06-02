@@ -61,7 +61,7 @@ class GoogleController extends Controller
         if ($pendingTemplate) {
             $invitation = $createInvitation->execute($user, $pendingTemplate);
             if ($invitation) {
-                return redirect()->route('dashboard.invitations.edit', $invitation)
+                return redirect()->route('dashboard.invitations.customize-v2', $invitation)
                     ->with('flash', ['type' => 'success', 'message' => 'Selamat datang! Template sudah dipilih.']);
             }
         }

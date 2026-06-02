@@ -29,6 +29,26 @@ class InvitationCustomizeController extends Controller
     {
         abort_unless($invitation->user_id === EffectiveUser::resolve()->id, 403);
 
+        // Heal drafts created before names had a durable source: if this
+        // invitation has no couple names but the user's CoupleProfile does,
+        // copy them in so the editor isn't blank.
+        $cp = $invitation->user?->coupleProfile;
+        if ($cp && ($cp->groom_name || $cp->bride_name)) {
+            $details = $invitation->details()->firstOrCreate(['invitation_id' => $invitation->id]);
+            if (! $details->groom_name && ! $details->bride_name) {
+                $details->update([
+                    'groom_name'     => $cp->groom_name,
+                    'groom_nickname' => $cp->groom_nickname,
+                    'bride_name'     => $cp->bride_name,
+                    'bride_nickname' => $cp->bride_nickname,
+                ]);
+                if (! $invitation->title) {
+                    $invitation->update(['title' => trim(($cp->groom_name ?? '') . ' & ' . ($cp->bride_name ?? ''))]);
+                }
+                $invitation->refresh();
+            }
+        }
+
         $props = $this->buildEditorProps($request, $invitation);
 
         $props['templates'] = Template::active()

@@ -192,7 +192,7 @@ async function doDuplicate() {
                         <!-- Row 1: primary -->
                         <div class="flex gap-2">
                             <Link
-                                :href="route('dashboard.invitations.edit', inv.id)"
+                                :href="route('dashboard.invitations.customize-v2', inv.id)"
                                 class="flex-1 text-center py-2 rounded-xl text-xs font-semibold border border-stone-200 text-stone-600 hover:bg-stone-50 transition-colors"
                             >
                                 {{ t('dashboard.invitations.actionEdit') }}
@@ -211,7 +211,7 @@ async function doDuplicate() {
                         <!-- Row 2: secondary -->
                         <div class="flex gap-2">
                             <Link
-                                :href="route('dashboard.invitations.customize', inv.id)"
+                                :href="route('dashboard.invitations.customize-v2', inv.id)"
                                 class="flex-1 text-center py-2 rounded-xl text-xs font-semibold border border-[#92A89C]/50 text-[#73877C] hover:bg-[#92A89C]/10 transition-colors"
                                 :title="t('dashboard.invitations.titleCustomize')"
                             >

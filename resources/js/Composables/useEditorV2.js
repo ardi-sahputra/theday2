@@ -21,6 +21,27 @@ export function useEditorV2(invitation, { http = axios } = {}) {
     musicEnabled:      isMusicEnabled(invitation),
   })
 
+  // ── Content state (Konten / Acara / Bagian / Bagikan tabs) ────────────────
+  const details = reactive({
+    groom_name:         invitation.details?.groom_name         ?? '',
+    bride_name:         invitation.details?.bride_name         ?? '',
+    groom_parent_names: invitation.details?.groom_parent_names ?? '',
+    bride_parent_names: invitation.details?.bride_parent_names ?? '',
+    groom_photo_url:    invitation.details?.groom_photo_url    ?? null,
+    bride_photo_url:    invitation.details?.bride_photo_url    ?? null,
+  })
+
+  const events = ref([...(invitation.events ?? [])])
+
+  // Per-section { data, is_enabled }. Seed quote so the Konten tab can bind it.
+  const sectionsData = reactive(JSON.parse(JSON.stringify({
+    quote: { data: { text: '', source: '' }, is_enabled: true },
+    ...(invitation.sections ?? {}),
+  })))
+
+  // Editable copy of custom_config (WA share template lives here).
+  const config = reactive({ ...(invitation.config ?? {}) })
+
   const saveStatus = ref('saved') // 'saved' | 'saving' | 'error'
 
   async function run(fn) {
@@ -29,6 +50,7 @@ export function useEditorV2(invitation, { http = axios } = {}) {
     catch (e) { saveStatus.value = 'error'; throw e }
   }
 
+  // ── Music / template (existing) ───────────────────────────────────────────
   async function setMusicEnabled(val) {
     state.musicEnabled = val
     await run(() => http.patch(`/dashboard/invitations/${id}/config`, {
@@ -65,13 +87,119 @@ export function useEditorV2(invitation, { http = axios } = {}) {
     state.template_thumb    = tpl.thumbnail_url ?? null
   }
 
+  // ── Couple details (POST /details, accepts text + photo files) ────────────
+  async function saveDetails() {
+    await run(async () => {
+      const fd = new FormData()
+      const fields = ['groom_name', 'bride_name', 'groom_parent_names', 'bride_parent_names']
+      fields.forEach(f => { if (details[f] != null) fd.append(f, details[f]) })
+      const res = await http.post(`/api/invitations/${id}/details`, fd, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      })
+      Object.assign(details, res.data.data ?? {})
+    })
+  }
+
+  async function uploadCouplePhoto(side, file) {
+    await run(async () => {
+      const fd = new FormData()
+      fd.append(`${side}_photo`, file) // 'groom' | 'bride'
+      const res = await http.post(`/api/invitations/${id}/details`, fd, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      })
+      Object.assign(details, res.data.data ?? {})
+    })
+  }
+
+  // ── Events (REST CRUD) ────────────────────────────────────────────────────
+  function eventPayload(e) {
+    return {
+      event_name:    e.event_name    || '',
+      event_date:    e.event_date    || null,
+      start_time:    e.start_time    || null,
+      end_time:      e.end_time      || null,
+      venue_name:    e.venue_name    || '',
+      venue_address: e.venue_address || null,
+      maps_url:      e.maps_url       || null,
+    }
+  }
+
+  async function addEvent() {
+    await run(async () => {
+      const res = await http.post(`/api/invitations/${id}/events`, eventPayload({
+        event_name: '', venue_name: '',
+      }))
+      events.value = [...events.value, res.data.data]
+    })
+  }
+
+  async function saveEvent(ev) {
+    await run(async () => {
+      await http.put(`/api/invitations/${id}/events/${ev.id}`, eventPayload(ev))
+      events.value = events.value.map(e => (e.id === ev.id ? { ...ev } : e))
+    })
+  }
+
+  async function deleteEvent(ev) {
+    await run(async () => {
+      await http.delete(`/api/invitations/${id}/events/${ev.id}`)
+      events.value = events.value.filter(e => e.id !== ev.id)
+    })
+  }
+
+  // ── Quote (lives in the `quote` section) ──────────────────────────────────
+  async function saveQuote() {
+    const data = sectionsData.quote?.data ?? {}
+    await run(() => http.patch(`/api/invitations/${id}/sections/quote`, {
+      data,
+      status: data.text?.trim() ? 'complete' : 'empty',
+      is_enabled: true,
+    }))
+  }
+
+  // ── Section toggle (Bagian tab) ───────────────────────────────────────────
+  async function toggleSection(key) {
+    await run(async () => {
+      const res = await http.patch(`/api/invitations/${id}/sections/${key}/toggle`)
+      if (!sectionsData[key]) sectionsData[key] = { data: {}, is_enabled: false }
+      sectionsData[key].is_enabled = res.data.is_enabled
+    })
+  }
+
+  // ── Share / custom_config (WA template, etc.) ─────────────────────────────
+  async function saveConfig(patch) {
+    Object.assign(config, patch)
+    await run(() => http.put(`/api/invitations/${id}`, { custom_config: patch }))
+  }
+
+  // ── Debounced autosave helper for free-text fields ────────────────────────
+  const timers = {}
+  function debounce(key, fn, ms = 1500) {
+    clearTimeout(timers[key])
+    timers[key] = setTimeout(fn, ms)
+  }
+
   // Data shape fed to the live template component in the preview.
   const previewInvitation = computed(() => ({
     ...invitation,
     template_slug: state.template_slug,
     music: state.musicEnabled ? state.music : null,
-    config: { ...invitation.config, music_enabled: state.musicEnabled },
+    config: { ...invitation.config, ...config, music_enabled: state.musicEnabled },
+    details: { ...invitation.details, ...details },
+    events: events.value,
+    sections: { ...invitation.sections, ...sectionsData },
   }))
 
-  return { state, saveStatus, setMusicEnabled, selectPresetMusic, uploadMusic, applyTemplate, previewInvitation }
+  return {
+    // template + music
+    state, saveStatus, setMusicEnabled, selectPresetMusic, uploadMusic, applyTemplate,
+    // content
+    details, events, sectionsData, config,
+    saveDetails, uploadCouplePhoto,
+    addEvent, saveEvent, deleteEvent,
+    saveQuote, toggleSection, saveConfig,
+    debounce,
+    // preview
+    previewInvitation,
+  }
 }

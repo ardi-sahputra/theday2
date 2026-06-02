@@ -284,3 +284,80 @@
         scroll-behavior: auto !important;
     }
 }
+
+/* ════════════════════════════════════════════════════════════════
+   Editor V2 — design-system primitives (from Undangan.html prototype)
+   Scope everything under .ev2 so it never leaks into other UI.
+   ════════════════════════════════════════════════════════════════ */
+.ev2 {
+  --sage: var(--d-sage); --sage-dark: var(--d-sage-dark); --sage-deep: var(--d-sage-deep);
+  --sage-soft: var(--d-sage-soft); --line: var(--d-line); --line-2: var(--d-line-2);
+  --ink: var(--d-ink); --ink-2: var(--d-ink-2); --muted: #6C7A75;
+  --surface: #F6F8F3; --surface-2: #FBFCF9; --white: #FBFCF9; --blush: #D9B5B0; --gold: #C9A45B;
+  color: var(--ink);
+}
+.ev2 .serif{ font-family:'Cormorant','Cormorant Garamond',serif; font-weight:500; }
+
+/* Tabs — underline style */
+.ev2-tabs{ display:flex; gap:4px; overflow-x:auto; border-bottom:1px solid var(--d-line); }
+.ev2-tab{ padding:10px 14px; font-size:12.5px; color:var(--d-muted,#6C7A75); border:none; border-bottom:2px solid transparent; background:transparent; cursor:pointer; font-weight:500; white-space:nowrap; font-family:inherit; }
+.ev2-tab:hover{ color:var(--d-ink-2); }
+.ev2-tab.active{ color:var(--d-ink); border-bottom-color:var(--d-sage); font-weight:600; }
+
+/* Section blocks */
+.ev2 .section-block{ padding:20px 0; border-bottom:1px solid var(--line); }
+.ev2 .section-block:last-child{ border-bottom:none; }
+.ev2 .section-block h4{ font-family:'Cormorant','Cormorant Garamond',serif; font-size:18px; font-weight:600; margin:0 0 4px; color:var(--ink); letter-spacing:-0.01em; }
+.ev2 .section-block .desc{ font-size:12px; color:var(--muted); margin-bottom:14px; }
+
+/* Fields */
+.ev2 .field{ margin-bottom:16px; }
+.ev2 .field-row{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.ev2 .field-row-3{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; }
+.ev2 .label{ display:block; font-size:11.5px; font-weight:600; color:var(--ink-2); margin-bottom:6px; letter-spacing:0.02em; }
+.ev2 .input, .ev2 .textarea{ width:100%; background:var(--white); border:1px solid var(--line-2); border-radius:10px; padding:9px 12px; font-size:13px; color:var(--ink); font-family:inherit; outline:none; transition:border-color .12s; }
+.ev2 .input:focus, .ev2 .textarea:focus{ border-color:var(--sage); }
+.ev2 .textarea{ resize:vertical; min-height:70px; line-height:1.5; }
+.ev2 .help{ font-size:11px; color:var(--muted); margin-top:4px; }
+
+/* Toggle rows */
+.ev2 .toggle{ display:flex; align-items:center; gap:10px; padding:10px 12px; background:var(--white); border:1px solid var(--line); border-radius:10px; margin-bottom:6px; }
+.ev2 .toggle .name{ flex:1; font-size:13px; color:var(--ink); font-weight:500; }
+.ev2 .toggle .sub{ font-size:11px; color:var(--muted); }
+.ev2 .toggle-sw{ position:relative; width:34px; height:20px; background:var(--line-2); border-radius:999px; transition:background .15s; cursor:pointer; flex-shrink:0; border:none; }
+.ev2 .toggle-sw.on{ background:var(--sage); }
+.ev2 .toggle-sw::after{ content:''; position:absolute; left:2px; top:2px; width:16px; height:16px; background:#fff; border-radius:50%; transition:transform .15s; box-shadow:0 1px 3px rgba(0,0,0,0.2); }
+.ev2 .toggle-sw.on::after{ transform:translateX(14px); }
+
+/* Swatches & font picks */
+.ev2 .swatch-row{ display:flex; gap:8px; flex-wrap:wrap; }
+.ev2 .swatch{ display:flex; gap:3px; padding:6px; border-radius:10px; border:2px solid var(--line-2); cursor:pointer; transition:all .12s; background:var(--white); }
+.ev2 .swatch.active{ border-color:var(--sage-dark); box-shadow:0 0 0 2px rgba(111,130,112,0.15); }
+.ev2 .swatch span{ width:16px; height:28px; border-radius:4px; display:block; }
+.ev2 .font-pick{ display:grid; gap:6px; }
+.ev2 .font-pick button{ text-align:left; background:var(--white); border:1px solid var(--line-2); padding:9px 12px; border-radius:10px; cursor:pointer; font-family:inherit; transition:all .12s; display:flex; justify-content:space-between; align-items:baseline; }
+.ev2 .font-pick button.active{ border-color:var(--sage-dark); background:var(--sage-soft); }
+.ev2 .font-pick .name{ font-family:'Cormorant','Cormorant Garamond',serif; font-size:18px; color:var(--ink); }
+.ev2 .font-pick .lbl{ font-size:10.5px; color:var(--muted); letter-spacing:0.08em; text-transform:uppercase; }
+
+/* Buttons & icon buttons */
+.ev2 .btn{ display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:9px 16px; border-radius:999px; font-weight:600; font-size:13px; border:1px solid transparent; cursor:pointer; font-family:inherit; transition:background .12s, transform .12s; }
+.ev2 .btn-primary{ background:var(--sage); color:#fff; }
+.ev2 .btn-primary:hover{ background:var(--sage-dark); }
+.ev2 .btn-ghost{ background:transparent; color:var(--sage-deep); border-color:var(--line-2); }
+.ev2 .btn-ghost:hover{ background:var(--sage-soft); }
+.ev2 .icon-btn{ width:36px; height:36px; border-radius:10px; background:var(--surface-2); border:1px solid var(--line); display:grid; place-items:center; cursor:pointer; color:var(--muted); }
+
+/* Card (event item etc.) */
+.ev2 .ev-card{ background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:14px; margin-bottom:10px; }
+.ev2 .uploader{ aspect-ratio:1; border-radius:12px; border:1.5px dashed var(--line-2); background:var(--surface); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; cursor:pointer; font-family:inherit; }
+
+/* Preview pieces */
+.ev2 .preview-toolbar{ display:flex; align-items:center; gap:8px; background:var(--surface-2); border:1px solid var(--line); border-radius:999px; padding:6px 8px; font-size:12px; }
+.ev2 .preview-toolbar .url{ flex:1; padding:4px 10px; font-family:'JetBrains Mono',monospace; font-size:11.5px; color:var(--muted); }
+.ev2 .preview-toolbar .url strong{ color:var(--ink); font-weight:600; }
+.ev2 .preview-toolbar .device-btn{ width:26px; height:26px; border-radius:50%; background:transparent; border:none; display:grid; place-items:center; cursor:pointer; color:var(--muted); }
+.ev2 .preview-toolbar .device-btn.active{ background:var(--sage-soft); color:var(--sage-deep); }
+.ev2 .preview-stats{ display:flex; gap:6px; font-size:11px; color:var(--muted); flex-wrap:wrap; justify-content:center; }
+.ev2 .preview-stats span{ background:var(--surface-2); border:1px solid var(--line); padding:5px 10px; border-radius:999px; }
+.ev2 .preview-stats strong{ color:var(--ink); font-weight:700; }

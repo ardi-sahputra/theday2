@@ -89,22 +89,26 @@ class OnboardingController extends Controller
             $user->update(['phone' => $data['phone']]);
         }
 
+        // Persist couple identity to the durable profile for EVERY user
+        // (preparing or married). This is the source of truth for the couple's
+        // names, so any invitation created later — even after the onboarding
+        // session is gone — can pre-fill them. See CreateInvitationFromTemplateAction.
+        \App\Models\CoupleProfile::updateOrCreate(
+            ['user_id' => $user->id],
+            [
+                'groom_name'     => $data['groom_name'],
+                'groom_nickname' => $data['groom_nickname'] ?? null,
+                'bride_name'     => $data['bride_name'],
+                'bride_nickname' => $data['bride_nickname'] ?? null,
+                'wedding_date'   => $noDate ? null : ($data['wedding_date'] ?? null),
+            ],
+        );
+
         $isMarried = ($data['marital_status'] ?? null) === 'sudah';
 
         if ($isMarried) {
-            // Already married → no wedding invitation to send. Persist couple
-            // data (names + wedding date) to the profile as the anniversary
-            // foundation; they can create event invitations later if they want.
-            \App\Models\CoupleProfile::updateOrCreate(
-                ['user_id' => $user->id],
-                [
-                    'groom_name'     => $data['groom_name'],
-                    'groom_nickname' => $data['groom_nickname'] ?? null,
-                    'bride_name'     => $data['bride_name'],
-                    'bride_nickname' => $data['bride_nickname'] ?? null,
-                    'wedding_date'   => $noDate ? null : ($data['wedding_date'] ?? null),
-                ],
-            );
+            // Already married → no wedding invitation to send; the profile above
+            // is the anniversary foundation. Event invitations can come later.
             $needsDesign = false;
         } else {
             // Preparing for the wedding. Only create the invitation now if a
@@ -170,23 +174,20 @@ class OnboardingController extends Controller
         // Mark onboarding as complete
         $user->update(['onboarding_completed_at' => now()]);
 
-        // Routing: Premium intent → checkout. Else, if no design chosen yet →
-        // template gallery to pick one. Otherwise the dashboard.
+        // Routing: Premium intent → checkout. Everyone else → dashboard, where
+        // the next-action hero guides them (pick a design if none chosen yet).
         if (($data['intended_plan'] ?? null) === 'premium') {
             return redirect()->route('dashboard.paket', ['checkout' => 'premium'])
                 ->with('flash', ['type' => 'success', 'message' => 'Setup selesai — lanjut pilih paket Premium.']);
-        }
-
-        if ($needsDesign) {
-            return redirect()->route('dashboard.templates')
-                ->with('flash', ['type' => 'success', 'message' => 'Sip! Sekarang pilih desain undangan kalian.']);
         }
 
         return redirect()->route('dashboard')->with('flash', [
             'type'    => 'success',
             'message' => $isMarried
                 ? 'Selamat! Profil pasangan kalian tersimpan.'
-                : 'Selamat! Setup selesai. Undanganmu siap dikustomisasi.',
+                : ($needsDesign
+                    ? 'Sip! Tinggal pilih desain undangan kalian dari dashboard.'
+                    : 'Selamat! Setup selesai. Undanganmu siap dikustomisasi.'),
         ]);
     }
 

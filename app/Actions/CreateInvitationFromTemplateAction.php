@@ -55,21 +55,35 @@ class CreateInvitationFromTemplateAction
 
     /**
      * Pre-fill the invitation with couple data stashed during onboarding
-     * (template-first flow), then clear it.
+     * (template-first flow). Falls back to the durable CoupleProfile when the
+     * onboarding session is gone (e.g. invitation created days later), so names
+     * are never lost. Clears the session afterwards.
      */
     private function applyPendingCoupleData(Invitation $invitation): void
     {
         $pending = session('pending_couple_data');
+
+        // Fallback: no session data → pull from the couple's durable profile.
         if (! is_array($pending)) {
-            return;
+            $cp = $invitation->user?->coupleProfile;
+            if (! $cp || (! $cp->groom_name && ! $cp->bride_name)) {
+                return;
+            }
+            $pending = [
+                'groom_name'     => $cp->groom_name,
+                'groom_nickname' => $cp->groom_nickname,
+                'bride_name'     => $cp->bride_name,
+                'bride_nickname' => $cp->bride_nickname,
+                'wedding_date'   => optional($cp->wedding_date)->format('Y-m-d'),
+            ];
         }
 
         $invitation->update([
             'title'          => trim(($pending['groom_name'] ?? '') . ' & ' . ($pending['bride_name'] ?? '')),
-            'marital_status' => $pending['marital_status'] ?? null,
-            'wedding_type'   => $pending['wedding_type'] ?? null,
-            'city'           => $pending['city'] ?? null,
-            'intended_plan'  => $pending['intended_plan'] ?? null,
+            'marital_status' => $pending['marital_status'] ?? $invitation->marital_status,
+            'wedding_type'   => $pending['wedding_type']   ?? $invitation->wedding_type,
+            'city'           => $pending['city']           ?? $invitation->city,
+            'intended_plan'  => $pending['intended_plan']  ?? $invitation->intended_plan,
         ]);
 
         $invitation->details()->update([

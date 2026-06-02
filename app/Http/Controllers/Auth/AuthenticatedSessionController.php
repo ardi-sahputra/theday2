@@ -62,7 +62,7 @@ class AuthenticatedSessionController extends Controller
             $invitation = $createInvitation->execute($user, $pendingTemplate);
 
             if ($invitation) {
-                $url = route('dashboard.invitations.edit', $invitation);
+                $url = route('dashboard.invitations.customize-v2', $invitation);
                 if ($request->wantsJson()) {
                     return response()->json(['redirect' => $url]);
                 }

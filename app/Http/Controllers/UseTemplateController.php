@@ -38,7 +38,7 @@ class UseTemplateController extends Controller
                 ->with('flash', ['type' => 'error', 'message' => 'Template tidak ditemukan.']);
         }
 
-        return redirect()->route('dashboard.invitations.edit', $invitation)
+        return redirect()->route('dashboard.invitations.customize-v2', $invitation)
             ->with('flash', ['type' => 'success', 'message' => 'Template dipilih. Mulai buat undanganmu!']);
     }
 }
