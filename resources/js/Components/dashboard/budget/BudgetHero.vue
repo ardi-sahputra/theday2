@@ -1,14 +1,17 @@
 <script setup>
 import { computed } from 'vue';
-import DemoBadge from '@/Components/dashboard/DemoBadge.vue';
 import { useLocale } from '@/Composables/useLocale';
 
 const props = defineProps({ summary: { type: Object, required: true } });
 const { t } = useLocale();
 
-const overBudget  = computed(() => !!props.summary?.is_total_overbudget);
-const pct         = computed(() => props.summary?.usage_percentage ?? 0);
-const f           = computed(() => props.summary?.formatted ?? {});
+const hasBudget    = computed(() => !!props.summary?.has_budget);
+const forecastOver = computed(() => !!props.summary?.is_forecast_over);
+// Badge is forward-looking: warns when the projected total exceeds the ceiling,
+// not only after money is already overspent. Falls back to actual-over.
+const overBudget   = computed(() => forecastOver.value || !!props.summary?.is_total_overbudget);
+const pct          = computed(() => props.summary?.usage_percentage ?? 0);
+const f            = computed(() => props.summary?.formatted ?? {});
 </script>
 
 <template>
@@ -40,8 +43,15 @@ const f           = computed(() => props.summary?.formatted ?? {});
         <div class="mt-3.5 h-1.5 rounded-full overflow-hidden" style="background:rgba(251,252,249,0.12);">
           <div class="h-full rounded-full" :style="{ width: Math.min(pct,100) + '%', background: overBudget ? '#C19089' : 'linear-gradient(90deg, #9CAB8E, #C7D3BC)' }" />
         </div>
-        <div class="text-[11px] mt-1.5 inline-flex items-center gap-1.5" style="color:rgba(251,252,249,0.55);">
-          {{ t('dashboard.budget.hero.forecast') }} <DemoBadge />
+        <div class="mt-3">
+          <div class="text-[10px] tracking-[0.16em] uppercase font-semibold" style="color:rgba(251,252,249,0.45);">{{ t('dashboard.budget.hero.forecast') }}</div>
+          <div class="font-cormorant font-medium text-[22px] leading-none mt-1"
+               :style="{ color: overBudget ? '#E8C4B8' : '#DCE4D3' }">{{ f.forecast_total ?? '—' }}</div>
+          <div class="text-[11px] mt-1" style="color:rgba(251,252,249,0.55);">
+            <template v-if="hasBudget && forecastOver">{{ t('dashboard.budget.hero.forecastOver', { amount: f.forecast_over_amount }) }}</template>
+            <template v-else-if="hasBudget">{{ t('dashboard.budget.hero.forecastUnder', { amount: f.forecast_vs_budget }) }}</template>
+            <template v-else>{{ t('dashboard.budget.hero.forecastBasis') }}</template>
+          </div>
         </div>
       </div>
     </div>

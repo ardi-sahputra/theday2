@@ -18,6 +18,10 @@ class StoreBudgetItemRequest extends FormRequest
     {
         return [
             'category_id'    => ['required', 'integer', Rule::exists('wedding_budget_categories', 'id')],
+            'vendor_id'         => ['nullable', 'uuid', Rule::exists('vendors', 'id')],
+            // Write-through to the linked vendor (not stored on the item).
+            'vendor_total_cost'  => ['nullable', 'integer', 'min:0'],
+            'vendor_paid_amount' => ['nullable', 'integer', 'min:0'],
             'title'          => ['required', 'string', 'max:200'],
             'vendor_name'    => ['nullable', 'string', 'max:100'],
             'notes'          => ['nullable', 'string', 'max:1000'],

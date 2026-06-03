@@ -16,6 +16,7 @@ class WeddingBudgetItem extends Model
     protected $fillable = [
         'budget_id',
         'category_id',
+        'vendor_id',
         'invitation_id',
         'title',
         'vendor_name',
@@ -50,10 +51,16 @@ class WeddingBudgetItem extends Model
     ];
 
     /**
-     * Computed terpakai: actual_amount as override, else sum of paid dp + final.
+     * Computed terpakai. When linked to a vendor, the vendor is the source of
+     * truth for what's been paid. Otherwise: actual_amount override, else sum of
+     * paid dp + final.
      */
     public function getTerpakaiAttribute(): int
     {
+        if ($this->isLinkedToVendor()) {
+            return (int) ($this->vendor->paid_amount ?? 0);
+        }
+
         if ($this->actual_amount !== null) {
             return $this->actual_amount;
         }
@@ -70,11 +77,33 @@ class WeddingBudgetItem extends Model
     }
 
     /**
+     * True when this item mirrors a vendor that still exists.
+     * Guards against a dangling vendor_id whose vendor was hard-deleted.
+     */
+    public function isLinkedToVendor(): bool
+    {
+        return $this->vendor_id !== null && $this->vendor !== null;
+    }
+
+    /**
      * Computed payment status based on dp/final fields when set.
      * Falls back to stored payment_status for backward compat.
      */
     public function getComputedPaymentStatusAttribute(): string
     {
+        // Linked to a vendor → derive status from the vendor's payment progress.
+        if ($this->isLinkedToVendor()) {
+            $total = (int) ($this->vendor->total_cost ?? 0);
+            $paid  = (int) ($this->vendor->paid_amount ?? 0);
+            if ($total > 0 && $paid >= $total) {
+                return 'paid';
+            }
+            if ($paid > 0) {
+                return 'dp';
+            }
+            return 'unpaid';
+        }
+
         // Use new dp/final fields if either is set
         if ($this->dp_amount !== null || $this->final_amount !== null) {
             if ($this->final_paid) {
@@ -97,5 +126,10 @@ class WeddingBudgetItem extends Model
     public function category(): BelongsTo
     {
         return $this->belongsTo(WeddingBudgetCategory::class, 'category_id');
+    }
+
+    public function vendor(): BelongsTo
+    {
+        return $this->belongsTo(Vendor::class);
     }
 }

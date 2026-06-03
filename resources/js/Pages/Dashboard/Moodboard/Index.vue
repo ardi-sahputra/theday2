@@ -299,9 +299,9 @@ const TAG_LABEL = { dekor: 'Dekor', bunga: 'Bunga', gaun: 'Gaun', suasana: 'Suas
 .mb-hero-name { font: 600 30px/1.12 'Cormorant Garamond','Playfair Display',Georgia,serif; margin: 9px 0 7px; }
 .mb-hero-note { font: italic 14px/1.55 'Cormorant Garamond',Georgia,serif; color: rgba(255,255,255,.86); max-width: 480px; }
 .mb-hero-note--empty { font-style: normal; opacity: .65; cursor: pointer; font-size: 12.5px; }
-.mb-hero-name-input { width: 100%; max-width: 480px; background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.25); border-radius: 10px; padding: 8px 12px; color: #fff; font: 600 22px 'Cormorant Garamond',Georgia,serif; margin: 9px 0 8px; outline: none; }
+.mb-hero-name-input { display: block; width: 100%; max-width: 520px; background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.25); border-radius: 10px; padding: 9px 13px; color: #fff; font: 600 22px 'Cormorant Garamond',Georgia,serif; margin: 9px 0 8px; outline: none; }
 .mb-hero-name-input::placeholder { color: rgba(255,255,255,.5); }
-.mb-hero-note-input { width: 100%; max-width: 480px; background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.25); border-radius: 10px; padding: 8px 12px; color: #fff; font: 13px system-ui; outline: none; resize: vertical; }
+.mb-hero-note-input { display: block; width: 100%; max-width: 520px; background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.25); border-radius: 10px; padding: 9px 13px; color: #fff; font: 13px system-ui; outline: none; resize: vertical; }
 .mb-hero-note-input::placeholder { color: rgba(255,255,255,.5); }
 .mb-hero-stats { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 16px; font: 600 11.5px system-ui; color: rgba(255,255,255,.82); }
 .mb-hero-stats b { color: #fff; }
