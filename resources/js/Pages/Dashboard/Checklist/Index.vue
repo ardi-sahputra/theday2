@@ -4,6 +4,7 @@ import { ref, computed, reactive, onMounted, watch } from 'vue';
 import axios from 'axios';
 import { useLocale } from '@/Composables/useLocale';
 import ChecklistProgressHero from '@/Components/dashboard/checklist/ChecklistProgressHero.vue';
+import PlannerPanel from '@/Components/dashboard/checklist/PlannerPanel.vue';
 import ChecklistStatStrip from '@/Components/dashboard/checklist/ChecklistStatStrip.vue';
 import ChecklistFilterChips from '@/Components/dashboard/checklist/ChecklistFilterChips.vue';
 import ChecklistViewToggle from '@/Components/dashboard/checklist/ChecklistViewToggle.vue';
@@ -22,6 +23,7 @@ const { t, locale } = useLocale();
 
 const props = defineProps({
     weddingPlan: Object,
+    plannerPanel: { type: Object, default: () => ({ facts: {}, enabled: true, insights: [], fresh: true }) },
 });
 
 const SUMMARY_DEFAULT = { total: 0, todo: 0, done: 0, archived: 0, progress: 0, overdue: 0, upcoming_7d: 0, has_event_date: false };
@@ -872,6 +874,7 @@ const currentPickerDate = computed(() =>
 
 <template>
     <DashboardLayout>
+        <PlannerPanel :initial="plannerPanel" />
         <template #header>
             <h1 class="text-base font-semibold text-stone-800">{{ t('dashboard.checklist.header.title') }}</h1>
         </template>

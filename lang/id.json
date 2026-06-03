@@ -1124,6 +1124,24 @@
                 "notes": { "title": "Diskusi Pasangan", "sub": "{count} catatan", "placeholder": "Tulis catatan…", "send": "Kirim" }
             }
         },
+        "planner": {
+            "title": "AI Wedding Planner",
+            "refresh": "Segarkan",
+            "open": "Buka →",
+            "empty": "Belum cukup data untuk arahan. Lengkapi tanggal, checklist, atau vendor dulu.",
+            "limited": "Batas arahan harian tercapai. Coba lagi besok.",
+            "disclaimer": "Arahan dibuat AI dari datamu — selalu cek ulang.",
+            "strip": {
+                "daysToGo": "H-{days}",
+                "done": "{done} task selesai",
+                "forecast": "forecast {amount}"
+            },
+            "facts": {
+                "dueThisWeek": "{n} task minggu ini",
+                "overdue": "{n} overdue",
+                "paymentsDue": "{n} pembayaran jatuh tempo"
+            }
+        },
         "guests": {
             "title": "Guest List",
             "loadError": "Gagal memuat data. Silakan muat ulang halaman.",

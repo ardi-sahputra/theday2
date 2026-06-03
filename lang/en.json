@@ -1122,6 +1122,24 @@
                 "notes": { "title": "Couple Notes", "sub": "{count} notes", "placeholder": "Write a note…", "send": "Send" }
             }
         },
+        "planner": {
+            "title": "AI Wedding Planner",
+            "refresh": "Refresh",
+            "open": "Open →",
+            "empty": "Not enough data for guidance yet. Set a date, checklist, or vendor first.",
+            "limited": "Daily guidance limit reached. Try again tomorrow.",
+            "disclaimer": "AI-generated from your data — always double-check.",
+            "strip": {
+                "daysToGo": "{days} days to go",
+                "done": "{done} tasks done",
+                "forecast": "forecast {amount}"
+            },
+            "facts": {
+                "dueThisWeek": "{n} tasks this week",
+                "overdue": "{n} overdue",
+                "paymentsDue": "{n} payments due"
+            }
+        },
         "guests": {
             "title": "Guest List",
             "loadError": "Failed to load data. Please refresh the page.",
