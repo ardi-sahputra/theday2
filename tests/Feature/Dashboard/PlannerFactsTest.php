@@ -45,7 +45,7 @@ class PlannerFactsTest extends TestCase
 
         $this->assertTrue($facts['has_event_date']);
         $this->assertSame(70, $facts['days_to_go']);
-        $this->assertSame(2, $facts['checklist']['total']); // done + todo, archived excluded
+        $this->assertSame(3, $facts['checklist']['total']); // 1 done + 2 todo, archived excluded
         $this->assertSame(1, $facts['checklist']['overdue']);
         $this->assertSame(1, $facts['checklist']['due_this_week']);
         $this->assertSame(1, $facts['checklist']['done']);

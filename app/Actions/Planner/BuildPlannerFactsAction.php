@@ -61,8 +61,7 @@ final class BuildPlannerFactsAction
             ->whereDate('due_date', '<', $today)
             ->count();
 
-        // total = done + non-overdue todo (overdue items are tracked separately)
-        $total = $done + ($todo - $overdue);
+        $total = $done + $todo;
 
         $dueThisWeek = (clone $base)
             ->where('status', ChecklistTaskStatus::Todo->value)
