@@ -65,8 +65,8 @@ onMounted(() => {
       <WidgetIcon name="sparkle" :size="16" stroke="#C7D3BC" />
       <h3 class="font-cormorant font-medium text-[20px] tracking-tight">{{ t('dashboard.planner.title') }}</h3>
       <div class="ml-auto flex items-center gap-3">
-        <button v-if="enabled && !loading && !collapsed" @click="refresh" class="text-[11px] opacity-60 hover:opacity-100">{{ t('dashboard.planner.refresh') }}</button>
-        <button @click="toggleCollapse" class="text-[11px] opacity-60 hover:opacity-100">{{ collapsed ? t('dashboard.planner.show') : t('dashboard.planner.hide') }}</button>
+        <button v-if="enabled && !loading && !collapsed" @click="refresh" class="text-[11px] font-medium opacity-90 hover:opacity-100" style="color:#C7D3BC;">{{ t('dashboard.planner.refresh') }}</button>
+        <button @click="toggleCollapse" class="text-[11px] font-medium opacity-90 hover:opacity-100" style="color:#C7D3BC;">{{ collapsed ? t('dashboard.planner.show') : t('dashboard.planner.hide') }}</button>
       </div>
     </div>
 
