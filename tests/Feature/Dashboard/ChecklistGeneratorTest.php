@@ -73,4 +73,51 @@ class ChecklistGeneratorTest extends TestCase
         $fitting = collect($out['tasks'])->firstWhere('title', 'Fitting Busana');
         $this->assertNotNull($fitting['due_date']);
     }
+
+    public function test_draft_endpoint_returns_tasks(): void
+    {
+        config(['services.deepseek.key' => 'k']);
+        $this->fakeDraft([
+            ['title' => 'Fitting Busana', 'category' => 'busana', 'priority' => 'medium', 'day_offset' => -60],
+        ]);
+        $user = User::factory()->create(['onboarding_completed_at' => now()]);
+
+        $res = $this->actingAs($user)->postJson(route('dashboard.checklist.ai-draft'), [
+            'adat' => 'Jawa', 'skala' => 'sedang', 'gaya' => 'formal',
+        ]);
+
+        $res->assertOk()->assertJsonPath('enabled', true)->assertJsonCount(1, 'tasks');
+    }
+
+    public function test_apply_endpoint_creates_selected_tasks(): void
+    {
+        $user = User::factory()->create(['onboarding_completed_at' => now()]);
+
+        $res = $this->actingAs($user)->postJson(route('dashboard.checklist.ai-apply'), [
+            'tasks' => [
+                ['title' => 'Fitting Busana', 'category' => 'busana', 'priority' => 'medium', 'due_date' => now()->addDays(140)->format('Y-m-d')],
+                ['title' => 'Bad Cat',        'category' => 'nonsense','priority' => 'low',   'due_date' => null],
+            ],
+        ]);
+
+        $res->assertOk()->assertJsonPath('created', 2);
+        $this->assertDatabaseHas('checklist_tasks', ['title' => 'Fitting Busana', 'category' => 'busana']);
+        $this->assertDatabaseHas('checklist_tasks', ['title' => 'Bad Cat', 'category' => 'lainnya']);
+    }
+
+    public function test_apply_skips_duplicates(): void
+    {
+        $user = User::factory()->create(['onboarding_completed_at' => now()]);
+        $plan = \App\Models\WeddingPlan::firstOrCreate(['user_id' => $user->id]);
+        $plan->checklistTasks()->create([
+            'source' => 'system', 'title' => 'Fitting Busana', 'category' => 'busana',
+            'priority' => 'high', 'status' => 'todo',
+        ]);
+
+        $res = $this->actingAs($user)->postJson(route('dashboard.checklist.ai-apply'), [
+            'tasks' => [['title' => 'Fitting Busana', 'category' => 'busana', 'priority' => 'medium', 'due_date' => null]],
+        ]);
+
+        $res->assertOk()->assertJsonPath('created', 0);
+    }
 }

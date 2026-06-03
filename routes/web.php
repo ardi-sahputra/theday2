@@ -282,6 +282,8 @@ Route::middleware(['auth', 'verified', 'onboarding', 'couple'])->prefix('dashboa
     Route::get( '/checklist/planner-insights', [\App\Http\Controllers\Dashboard\PlannerInsightController::class, 'index'])->middleware('throttle:20,1')->name('checklist.planner-insights');
     Route::get(   '/checklist/export.ics',               [ChecklistController::class, 'exportCalendar'])->name('checklist.export');
     Route::patch( '/checklist/event-date',               [ChecklistController::class, 'updateEventDate'])->name('checklist.event-date');
+    Route::post( '/checklist/ai-draft', [\App\Http\Controllers\Dashboard\ChecklistAiController::class, 'draft'])->middleware('throttle:10,1')->name('checklist.ai-draft');
+    Route::post( '/checklist/ai-apply', [\App\Http\Controllers\Dashboard\ChecklistAiController::class, 'apply'])->middleware('throttle:20,1')->name('checklist.ai-apply');
     Route::get(   '/checklist/tasks/{taskId}/subtasks',              [ChecklistController::class, 'subtasks'])->name('checklist.tasks.subtasks.index');
     Route::post(  '/checklist/tasks/{taskId}/subtasks',              [ChecklistController::class, 'storeSubtask'])->name('checklist.tasks.subtasks.store');
     Route::patch( '/checklist/tasks/{taskId}/subtasks/{subtaskId}',  [ChecklistController::class, 'updateSubtask'])->name('checklist.tasks.subtasks.update');
