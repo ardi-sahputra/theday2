@@ -33,6 +33,13 @@ const targetHref = (tg) => (tg && TARGET_ROUTE[tg] ? route(TARGET_ROUTE[tg]) : n
 const c = computed(() => facts.value.checklist ?? {});
 const b = computed(() => facts.value.budget ?? {});
 
+// Collapse state persists per-browser so the couple can tuck the panel away.
+const collapsed = ref(typeof localStorage !== 'undefined' && localStorage.getItem('plannerPanelCollapsed') === '1');
+function toggleCollapse() {
+  collapsed.value = !collapsed.value;
+  try { localStorage.setItem('plannerPanelCollapsed', collapsed.value ? '1' : '0'); } catch { /* ignore */ }
+}
+
 async function refresh() {
   loading.value = true;
   try {
@@ -54,12 +61,16 @@ onMounted(() => {
 
 <template>
   <section class="rounded-[18px] p-5 mb-5" style="background: linear-gradient(135deg, #2B3A33 0%, #1F2A2E 100%); color:#FBFCF9;">
-    <div class="flex items-center gap-2 mb-3">
+    <div class="flex items-center gap-2" :class="collapsed ? '' : 'mb-3'">
       <WidgetIcon name="sparkle" :size="16" stroke="#C7D3BC" />
       <h3 class="font-cormorant font-medium text-[20px] tracking-tight">{{ t('dashboard.planner.title') }}</h3>
-      <button v-if="enabled && !loading" @click="refresh" class="ml-auto text-[11px] opacity-60 hover:opacity-100">{{ t('dashboard.planner.refresh') }}</button>
+      <div class="ml-auto flex items-center gap-3">
+        <button v-if="enabled && !loading && !collapsed" @click="refresh" class="text-[11px] opacity-60 hover:opacity-100">{{ t('dashboard.planner.refresh') }}</button>
+        <button @click="toggleCollapse" class="text-[11px] opacity-60 hover:opacity-100">{{ collapsed ? t('dashboard.planner.show') : t('dashboard.planner.hide') }}</button>
+      </div>
     </div>
 
+    <template v-if="!collapsed">
     <!-- Momentum strip (deterministic, positive framing) -->
     <p class="text-[12.5px] mb-3" style="color:rgba(251,252,249,0.7);">
       <template v-if="facts.has_event_date">{{ t('dashboard.planner.strip.daysToGo', { days: facts.days_to_go }) }} · </template>
@@ -94,5 +105,6 @@ onMounted(() => {
         <p class="text-[10.5px] pt-1 opacity-60">{{ t('dashboard.planner.disclaimer') }}</p>
       </div>
     </div>
+    </template>
   </section>
 </template>
