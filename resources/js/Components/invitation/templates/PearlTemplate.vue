@@ -1,6 +1,7 @@
 <script setup>
 import { computed, onMounted } from 'vue';
 import { useInvitationTemplate } from '@/Composables/useInvitationTemplate';
+import GallerySection from '@/Components/invitation/sections/GallerySection.vue';
 
 const SECTION_BG_DEFAULTS = {
     cover:   { type: 'image', value: '/image/demo-image/bride-groom.png', opacity: 0.75 },
@@ -23,7 +24,7 @@ const {
     fontTitle, fontHeading, fontBody,
     groomName, brideName, groomNick, brideNick,
     coverPhotoUrl, coverTextColor,
-    details, events, galleries,
+    details, events, galleries, galleryLayout,
     sectionEnabled, sectionData,
     openingText, closingText,
     firstEvent, firstEventDate,
@@ -356,15 +357,7 @@ onMounted(() => {
                     Gallery
                     <span class="pearl-line" :style="{ background: primary }"></span>
                 </div>
-                <div class="pearl-gallery__grid">
-                    <div
-                        v-for="(img, i) in galleries"
-                        :key="img.id ?? i"
-                        class="pearl-gallery__item"
-                    >
-                        <img :src="img.file_url" :alt="img.caption ?? ''" loading="lazy" />
-                    </div>
-                </div>
+                <GallerySection :galleries="galleries" :layout="galleryLayout" :primary-color="'#8B6914'" />
             </section>
 
             <!-- ── Video embed ── -->

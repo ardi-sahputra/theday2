@@ -21,12 +21,13 @@ const ALL_ROWS = [
   ['live_streaming', 'Live Streaming', 'YouTube live untuk tamu jauh',      'liveStreaming'],
 ];
 
-// Show a row only if the template supports it AND the section exists on this invitation.
-const ROWS = computed(() => ALL_ROWS.filter(([key, , , capKey]) =>
-  props.caps[capKey] !== false && props.sectionsData?.[key] != null
-));
+// Show every section the template supports. The section row need NOT exist yet —
+// the toggle endpoint upserts (initializeForInvitation) on first toggle.
+const ROWS = computed(() => ALL_ROWS.filter(([, , , capKey]) => props.caps[capKey] !== false));
 
-function isOn(key) { return !!props.sectionsData?.[key]?.is_enabled; }
+// Default to ON when there's no record yet — matches the renderer, which shows
+// these sections unless an explicit is_enabled:false record exists.
+function isOn(key) { return props.sectionsData?.[key]?.is_enabled ?? true; }
 </script>
 
 <template>

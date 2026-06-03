@@ -11,8 +11,6 @@ import ContentPanelV2 from '@/Components/editor/v2/panels/ContentPanelV2.vue';
 import EventsPanelV2 from '@/Components/editor/v2/panels/EventsPanelV2.vue';
 import SectionsPanelV2 from '@/Components/editor/v2/panels/SectionsPanelV2.vue';
 import SharePanelV2 from '@/Components/editor/v2/panels/SharePanelV2.vue';
-import MobileEditorTopNav from '@/Components/editor/v2/MobileEditorTopNav.vue';
-import MobilePreviewOverlay from '@/Components/editor/v2/MobilePreviewOverlay.vue';
 import { useEditorV2 } from '@/Composables/useEditorV2';
 import { useMediaQuery } from '@/Composables/useMediaQuery';
 import { templateCaps } from '@/Components/invitation/templates/capabilities';
@@ -26,12 +24,15 @@ const props = defineProps({
 });
 
 const TABS        = ['Desain', 'Konten', 'Acara', 'Bagian', 'Bagikan'];
-const MOBILE_TABS = ['Desain', 'Konten', 'Acara', 'Bagian'];
+const MOBILE_TABS = ['Desain', 'Konten', 'Acara', 'Bagian', 'Bagikan'];
 const activeTab   = ref('Desain');
-const previewOpen = ref(false);
+const mobileView  = ref('edit');   // mobile only: 'edit' (isi info) | 'preview'
 
 const isMobile = useMediaQuery('(max-width: 767px)');
 const editor = useEditorV2(props.invitation);
+
+// Live publish status (drives the share-panel "link aktif" banner).
+const invStatus = ref(props.invitation.status ?? 'draft');
 
 // Which inputs to show, per the active template's capabilities (reactive to template switch).
 const caps = computed(() => templateCaps(editor.state.template_slug));
@@ -42,14 +43,17 @@ const statusSubtitle = computed(() => `Live · ${statusText[editor.saveStatus.va
 function openPreview() { window.open(`/${props.invitation.slug}`, '_blank'); }
 function goBack() { router.visit(route('dashboard.invitations.index')); }
 async function publish() {
-  try { await axios.put(`/api/invitations/${props.invitation.id}/publish`); } catch (_) {}
+  try {
+    await axios.put(`/api/invitations/${props.invitation.id}/publish`);
+    invStatus.value = 'published';
+  } catch (_) {}
 }
 
 // ── Content panel handlers (debounced free-text saves) ──────────────────────
 function saveDetails()      { editor.debounce('details', () => editor.saveDetails().catch(() => {})); }
 function saveQuote()        { editor.debounce('quote',   () => editor.saveQuote().catch(() => {})); }
 function saveEvent(ev)      { editor.debounce(`event-${ev.id}`, () => editor.saveEvent(ev).catch(() => {})); }
-function uploadPhoto(side, file) { editor.uploadCouplePhoto(side, file).catch(() => {}); }
+function uploadPhoto(side, file) { return editor.uploadCouplePhoto(side, file).catch(() => {}); }
 function addEvent()         { editor.addEvent().catch(() => {}); }
 function deleteEvent(ev)    { editor.deleteEvent(ev).catch(() => {}); }
 function toggleSection(key) { editor.toggleSection(key).catch(() => {}); }
@@ -68,7 +72,7 @@ function saveConfig(patch)  { editor.saveConfig(patch).catch(() => {}); }
       <EditorV2Shell
         :tabs="TABS" v-model:active-tab="activeTab"
         :slug="invitation.slug" :save-status="editor.saveStatus.value"
-        :status="invitation.status ?? 'draft'"
+        :status="invStatus"
         @preview="openPreview" @publish="publish" @share="activeTab = 'Bagikan'"
       />
       <div class="md:grid md:grid-cols-[380px_minmax(0,1fr)]">
@@ -84,8 +88,12 @@ function saveConfig(patch)  { editor.saveConfig(patch).catch(() => {}); }
             />
             <ContentPanelV2
               v-else-if="activeTab === 'Konten'"
-              :details="editor.details" :sections-data="editor.sectionsData" :events="editor.events.value" :caps="caps"
+              :details="editor.details" :sections-data="editor.sectionsData" :events="editor.events.value"
+              :galleries="editor.galleries.value" :caps="caps"
+              :on-upload-photo="uploadPhoto" :on-add-gallery="editor.addGalleryPhoto" :on-delete-gallery="editor.deleteGalleryPhoto"
+              :gallery-layout="editor.config.gallery_layout || 'grid'" @set-gallery-layout="v => editor.saveConfig({ gallery_layout: v })"
               @save-details="saveDetails" @upload-photo="uploadPhoto" @save-quote="saveQuote" @save-event="saveEvent"
+              @toggle-section="toggleSection"
             />
             <EventsPanelV2
               v-else-if="activeTab === 'Acara'"
@@ -99,7 +107,8 @@ function saveConfig(patch)  { editor.saveConfig(patch).catch(() => {}); }
             />
             <SharePanelV2
               v-else-if="activeTab === 'Bagikan'"
-              :slug="invitation.slug" :config="editor.config"
+              :slug="editor.slug.value" :invitation-id="invitation.id" :on-update-slug="editor.updateSlug" :config="editor.config"
+              :status="invStatus" @publish="publish"
               @save-config="saveConfig"
             />
           </div>
@@ -115,16 +124,46 @@ function saveConfig(patch)  { editor.saveConfig(patch).catch(() => {}); }
 
     <!-- ===== MOBILE shell ===== -->
     <div v-else class="ev2 -m-4">
-      <MobileEditorTopNav title="Editor Undangan" :subtitle="statusSubtitle"
-        @back="goBack" @preview="previewOpen = true" @publish="publish" />
-
-      <!-- mini preview -->
-      <div class="px-4 py-4 bg-[#F6F8F3] border-b border-stone-200 flex justify-center">
-        <PreviewPaneV2 :preview-invitation="editor.previewInvitation.value" :slug="editor.state.template_slug" :stats="null" />
+      <!-- Top-level toggle: Isi info ↔ Preview (like v1). No editor topbar — the
+           DashboardLayout header already provides title + menu. -->
+      <div class="sticky top-0 z-20 bg-white border-b border-stone-200 px-3 py-2">
+        <div class="flex gap-1 p-1 bg-stone-100 rounded-xl">
+          <button type="button" @click="mobileView = 'edit'"
+                  :class="['flex-1 py-2 rounded-lg text-xs font-semibold transition-colors',
+                           mobileView === 'edit' ? 'bg-white text-stone-800 shadow-sm' : 'text-stone-500']">
+            Isi Undangan
+          </button>
+          <button type="button" @click="mobileView = 'preview'"
+                  :class="['flex-1 py-2 rounded-lg text-xs font-semibold transition-colors',
+                           mobileView === 'preview' ? 'bg-white text-stone-800 shadow-sm' : 'text-stone-500']">
+            Preview
+          </button>
+        </div>
       </div>
 
+      <!-- ── PREVIEW mode ── -->
+      <div v-if="mobileView === 'preview'" class="min-h-[calc(100vh-56px)]" style="background:#F4F1E8;">
+        <!-- Actions moved here from the old topbar: Lihat (buka halaman tamu) + Publish -->
+        <div class="flex items-center gap-2 px-4 pt-6 pb-1">
+          <button type="button" @click="openPreview"
+                  class="flex-1 inline-flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-semibold bg-white border border-stone-200 text-[#3D4A4D]">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>
+            Lihat
+          </button>
+          <button type="button" @click="publish"
+                  class="flex-1 py-2.5 rounded-xl text-sm font-semibold text-white" style="background:#1F2A2E;">
+            {{ invStatus === 'published' ? 'Terpublikasi' : 'Publish' }}
+          </button>
+        </div>
+        <div class="px-4 pb-6 pt-2 flex justify-center">
+          <PreviewPaneV2 :preview-invitation="editor.previewInvitation.value" :slug="editor.state.template_slug" :stats="stats" />
+        </div>
+      </div>
+
+      <!-- ── EDIT mode (isi info) ── -->
+      <template v-else>
       <!-- pill tabs (4) -->
-      <nav class="sticky top-[60px] z-10 flex gap-1 px-3 py-2 bg-white border-b border-stone-200 overflow-x-auto">
+      <nav class="sticky top-[56px] z-10 flex gap-1 px-3 py-2 bg-white border-b border-stone-200 overflow-x-auto">
         <button v-for="t in MOBILE_TABS" :key="t" type="button" @click="activeTab = t"
                 :class="['px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-colors',
                          activeTab === t ? 'bg-[#1F2A2E] text-white' : 'text-stone-500 hover:bg-stone-100']">
@@ -143,33 +182,30 @@ function saveConfig(patch)  { editor.saveConfig(patch).catch(() => {}); }
         <ContentPanelV2
           v-else-if="activeTab === 'Konten'"
           :details="editor.details" :sections-data="editor.sectionsData" :events="editor.events.value"
+          :galleries="editor.galleries.value" :caps="caps"
+          :on-upload-photo="uploadPhoto" :on-add-gallery="editor.addGalleryPhoto" :on-delete-gallery="editor.deleteGalleryPhoto"
+          :gallery-layout="editor.config.gallery_layout || 'grid'" @set-gallery-layout="v => editor.saveConfig({ gallery_layout: v })"
           @save-details="saveDetails" @upload-photo="uploadPhoto" @save-quote="saveQuote" @save-event="saveEvent"
+          @toggle-section="toggleSection"
         />
         <EventsPanelV2
           v-else-if="activeTab === 'Acara'"
-          :events="editor.events.value" :config="editor.config"
+          :events="editor.events.value" :config="editor.config" :caps="caps"
           @add-event="addEvent" @save-event="saveEvent" @delete-event="deleteEvent" @save-config="saveConfig"
         />
         <SectionsPanelV2
           v-else-if="activeTab === 'Bagian'"
-          :sections-data="editor.sectionsData"
+          :sections-data="editor.sectionsData" :caps="caps"
           @toggle-section="toggleSection"
         />
         <SharePanelV2
           v-else-if="activeTab === 'Bagikan'"
-          :slug="invitation.slug" :config="editor.config"
+          :slug="editor.slug.value" :invitation-id="invitation.id" :on-update-slug="editor.updateSlug" :config="editor.config"
+          :status="invStatus" @publish="publish"
           @save-config="saveConfig"
         />
       </div>
+      </template>
     </div>
-
-    <!-- Fullscreen preview overlay (mobile 👁) -->
-    <MobilePreviewOverlay
-      :open="previewOpen"
-      :preview-invitation="editor.previewInvitation.value"
-      :slug="editor.state.template_slug"
-      :stats="stats"
-      @close="previewOpen = false"
-    />
   </DashboardLayout>
 </template>

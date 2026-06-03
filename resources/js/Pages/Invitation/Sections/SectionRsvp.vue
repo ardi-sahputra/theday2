@@ -95,8 +95,8 @@ async function submit() {
                 Ini hanya demo — formulir tidak dapat dikirim.
             </div>
 
-            <!-- Form -->
-            <form v-else @submit.prevent="submit" class="space-y-4">
+            <!-- Form (shown in demo too, so the couple sees what guests get; submit is gated) -->
+            <form v-if="!submitted" @submit.prevent="submit" class="space-y-4">
 
                 <!-- Name -->
                 <div class="space-y-1.5">
@@ -133,14 +133,13 @@ async function submit() {
                             type="button"
                             @click="form.attendance = opt.value"
                             :class="[
-                                'py-3 rounded-2xl border text-xs font-medium transition-all active:scale-95 flex flex-col items-center gap-1',
+                                'py-3 rounded-2xl border text-xs font-medium transition-all active:scale-95 flex items-center justify-center',
                                 form.attendance === opt.value
                                     ? 'border-transparent text-white'
                                     : 'border-stone-200 text-stone-600 bg-white',
                             ]"
                             :style="form.attendance === opt.value ? { backgroundColor: primaryColor } : {}"
                         >
-                            <span class="text-lg">{{ opt.emoji }}</span>
                             {{ opt.label }}
                         </button>
                     </div>
@@ -181,15 +180,15 @@ async function submit() {
                 <!-- Submit -->
                 <button
                     type="submit"
-                    :disabled="submitting"
-                    class="w-full py-4 rounded-2xl text-white text-sm font-semibold transition-all active:scale-95 disabled:opacity-60"
+                    :disabled="submitting || isDemo"
+                    class="w-full py-4 rounded-2xl text-white text-sm font-semibold transition-all active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed"
                     :style="{ backgroundColor: primaryColor }"
                 >
                     <svg v-if="submitting" class="inline w-4 h-4 animate-spin mr-1 -mt-0.5" fill="none" viewBox="0 0 24 24">
                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
                         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
                     </svg>
-                    {{ submitting ? 'Mengirim…' : 'Kirim Konfirmasi' }}
+                    {{ isDemo ? 'Pratinjau — tidak aktif' : (submitting ? 'Mengirim…' : 'Kirim Konfirmasi') }}
                 </button>
             </form>
         </div>

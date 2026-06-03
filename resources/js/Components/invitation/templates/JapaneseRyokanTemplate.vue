@@ -9,6 +9,7 @@ import RyokanSakuraPetals  from './japanese-ryokan/RyokanSakuraPetals.vue'
 import RyokanSectionHeader from './japanese-ryokan/RyokanSectionHeader.vue'
 import RyokanSumiStroke    from './japanese-ryokan/RyokanSumiStroke.vue'
 import RyokanTategaki      from './japanese-ryokan/RyokanTategaki.vue'
+import GallerySection      from '@/Components/invitation/sections/GallerySection.vue'
 
 const props = defineProps({
     invitation: { type: Object,  required: true },
@@ -31,6 +32,7 @@ const {
     msgForm,  msgSubmitting,  msgSuccess,  msgError,  submitMessage, localMessages,
     copyToClipboard, copiedAccount,
     vReveal,
+    galleryLayout,
 } = useInvitationTemplate(props, {
     galleryLayout: 'grid',
     openingStyle:  'fade',
@@ -310,17 +312,7 @@ const showWatermark = computed(() => !hasActiveSub.value)
                             :show-kanji="kanjiHeaders"
                             :variant="5"
                         />
-                        <div class="ryokan-gallery-grid">
-                            <button
-                                v-for="img in galleries"
-                                :key="img.id ?? (img.image_url ?? img.file_url)"
-                                type="button"
-                                class="ryokan-gallery-item"
-                                @click="lightboxUrl = (img.image_url ?? img.file_url)"
-                            >
-                                <img :src="(img.image_url ?? img.file_url)" :alt="img.caption ?? ''" loading="lazy" />
-                            </button>
-                        </div>
+                        <GallerySection :galleries="galleries" :layout="galleryLayout" :primary-color="'#8c6b3f'" />
                     </div>
                 </section>
 

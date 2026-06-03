@@ -7,6 +7,7 @@ import VeilOverlay   from './silk-veil/VeilOverlay.vue'
 import LaceTrim      from './silk-veil/LaceTrim.vue'
 import PearlDecor    from './silk-veil/PearlDecor.vue'
 import PetalConfetti from './silk-veil/PetalConfetti.vue'
+import GallerySection from '@/Components/invitation/sections/GallerySection.vue'
 
 const props = defineProps({
     invitation: { type: Object,  required: true },
@@ -19,7 +20,7 @@ const props = defineProps({
 const {
     groomName, brideName, groomNick, brideNick,
     coverPhotoUrl,
-    details, events, galleries,
+    details, events, galleries, galleryLayout,
     sectionEnabled, sectionData, sectionBg, bgStyle,
     openingText, closingText,
     firstEventDate, countdown, targetDate, pad,
@@ -382,17 +383,7 @@ const showWatermark = computed(() => {
                     <h2 class="sv-section-title">Moments</h2>
                     <LaceTrim variant="header-flank" side="right" :density="laceDensity"/>
                 </header>
-                <div class="sv-gallery-grid">
-                    <button
-                        v-for="(g, idx) in galleries"
-                        :key="g.id ?? idx"
-                        type="button"
-                        class="sv-gallery-item"
-                        @click="openLightbox(g.image_url ?? g.file_url)"
-                    >
-                        <img :src="g.image_url ?? g.file_url" alt="" class="sv-gallery-photo"/>
-                    </button>
-                </div>
+                <GallerySection :galleries="galleries" :layout="galleryLayout" :primary-color="'#C9A961'" />
             </section>
         </VeilOverlay>
 

@@ -9,6 +9,7 @@ import TuscanyCypressParallax from './tuscany-vineyard/TuscanyCypressParallax.vu
 import TuscanyOliveDivider    from './tuscany-vineyard/TuscanyOliveDivider.vue'
 import TuscanyAmbientLeaves   from './tuscany-vineyard/TuscanyAmbientLeaves.vue'
 import TuscanyWineCheers      from './tuscany-vineyard/TuscanyWineCheers.vue'
+import GallerySection         from '@/Components/invitation/sections/GallerySection.vue'
 
 const props = defineProps({
     invitation: { type: Object,  required: true },
@@ -21,7 +22,7 @@ const props = defineProps({
 const {
     primary, accent, fontTitle, fontHeading, fontBody,
     groomName, brideName, groomNick, brideNick,
-    coverPhotoUrl, details, events, galleries,
+    coverPhotoUrl, details, events, galleries, galleryLayout,
     openingText, closingText,
     firstEventDate, countdown, targetDate, pad,
     sectionEnabled, sectionData,
@@ -366,17 +367,7 @@ onMounted(ensureFonts)
                         <h2 class="tv-section-title">Kenangan</h2>
                         <TuscanyOliveDivider :width="160"/>
                     </header>
-                    <div class="tv-gallery-grid">
-                        <img
-                            v-for="img in galleries"
-                            :key="img.id ?? img.file_url"
-                            :src="img.image_url ?? img.file_url"
-                            :alt="img.caption ?? ''"
-                            class="tv-gallery-img"
-                            loading="lazy"
-                            @click="lightboxUrl = img.image_url ?? img.file_url"
-                        />
-                    </div>
+                    <GallerySection :galleries="galleries" :layout="galleryLayout" :primary-color="'#c97b4a'" />
                 </section>
 
                 <!-- RSVP — Il Brindisi (with wine cheers on success) -->

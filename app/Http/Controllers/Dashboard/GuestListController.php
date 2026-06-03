@@ -18,6 +18,7 @@ use App\Support\SectionAccess;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 use Inertia\Response;
 use Maatwebsite\Excel\Facades\Excel;
@@ -162,7 +163,7 @@ class GuestListController extends Controller
     {
         if (! SectionAccess::isPremium(EffectiveUser::resolve())) abort(403);
         $data = $request->validate([
-            'invitation_id' => 'nullable|exists:invitations,id',
+            'invitation_id' => ['nullable', Rule::exists('invitations', 'id')->where('user_id', EffectiveUser::resolve()->id)],
             'name'          => 'required|string|max:150',
             'phone_number'  => 'required|string|max:30',
             'category'      => 'nullable|string|max:50',
@@ -208,7 +209,7 @@ class GuestListController extends Controller
         $this->authorizeGuest($guest);
 
         $data = $request->validate([
-            'invitation_id' => 'nullable|exists:invitations,id',
+            'invitation_id' => ['nullable', Rule::exists('invitations', 'id')->where('user_id', EffectiveUser::resolve()->id)],
             'name'          => 'sometimes|string|max:150',
             'phone_number'  => 'sometimes|string|max:30',
             'category'      => 'nullable|string|max:50',

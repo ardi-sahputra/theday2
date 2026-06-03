@@ -353,7 +353,13 @@
 
 /* Card (event item etc.) */
 .ev2 .ev-card{ background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:14px; margin-bottom:10px; }
-.ev2 .uploader{ aspect-ratio:1; border-radius:12px; border:1.5px dashed var(--line-2); background:var(--surface); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; cursor:pointer; font-family:inherit; }
+.ev2 .ev-note{ display:flex; gap:8px; align-items:flex-start; margin:0 0 10px; padding:10px 12px; border-radius:10px; background:rgba(217,162,74,0.1); border:1px solid rgba(217,162,74,0.3); color:#8a6322; font-size:12px; line-height:1.45; }
+.ev2 .ev-note strong{ color:#6b4d18; font-weight:600; }
+.ev2 .uploader{ position:relative; overflow:hidden; aspect-ratio:1; border-radius:12px; border:1.5px dashed var(--line-2); background:var(--surface); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; cursor:pointer; font-family:inherit; }
+.ev2 .uploader:disabled{ cursor:default; }
+.ev2 .uploader-busy{ position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; background:rgba(251,252,249,0.82); backdrop-filter:blur(2px); font-size:11px; color:var(--sage-deep); font-weight:600; }
+.ev2 .ev-spin{ width:22px; height:22px; border-radius:50%; border:2.5px solid var(--sage-soft); border-top-color:var(--sage-dark); animation:ev-spin .7s linear infinite; }
+@keyframes ev-spin{ to{ transform:rotate(360deg); } }
 
 /* Preview pieces */
 .ev2 .preview-toolbar{ display:flex; align-items:center; gap:8px; background:var(--surface-2); border:1px solid var(--line); border-radius:999px; padding:6px 8px; font-size:12px; }

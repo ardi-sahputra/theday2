@@ -2,6 +2,7 @@
 import { ref, onMounted, computed } from 'vue'
 import TarotCard    from './TarotCard.vue'
 import MysticalAura from './MysticalAura.vue'
+import GallerySection from '@/Components/invitation/sections/GallerySection.vue'
 
 const props = defineProps({
     card:          { type: Object, required: true },   // { key, roman, name, sectionKey, illustrationKey, legendary, foilTier }
@@ -18,6 +19,7 @@ const props = defineProps({
     closingText:   { type: String, default: '' },
     events:        { type: Array,  default: () => [] },
     galleries:     { type: Array,  default: () => [] },
+    layout:        { type: String, default: 'grid' },
     countdown:     { type: Object, default: () => ({ days: 0, hours: 0, minutes: 0, seconds: 0 }) },
     targetDate:    { type: String, default: null },
     loveStories:   { type: Array,  default: () => [] },
@@ -166,17 +168,12 @@ const effectiveHolo = computed(() => props.card.legendary ? 'legendary' : props.
                 <!-- VI — gallery (legendary) -->
                 <template v-else-if="card.sectionKey === 'gallery'">
                     <div class="tr-reveal__section tr-reveal__section--gallery">
-                        <div v-if="galleries.length" class="tr-gallery-grid">
-                            <img
-                                v-for="(img, idx) in galleries.slice(0, 9)"
-                                :key="idx"
-                                :src="img.image_url ?? img.file_url"
-                                :alt="`Foto ${idx + 1}`"
-                                class="tr-gallery__img"
-                                draggable="false"
-                                loading="lazy"
-                            />
-                        </div>
+                        <GallerySection
+                            v-if="galleries.length"
+                            :galleries="galleries"
+                            :layout="layout"
+                            :primary-color="'#D4AF37'"
+                        />
                         <p v-else class="tr-reveal__empty">Belum ada foto.</p>
                     </div>
                 </template>

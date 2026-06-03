@@ -37,6 +37,8 @@ export function useEditorV2(invitation, { http = axios } = {}) {
   })
 
   const events = ref([...(invitation.events ?? [])])
+  const galleries = ref([...(invitation.galleries ?? [])])
+  const slug = ref(invitation.slug ?? '')
 
   // Per-section { data, is_enabled }. Seed quote so the Konten tab can bind it.
   const sectionsData = reactive(JSON.parse(JSON.stringify({
@@ -132,8 +134,11 @@ export function useEditorV2(invitation, { http = axios } = {}) {
 
   async function addEvent() {
     await run(async () => {
+      // event_name / event_date / venue_name are required by StoreEventRequest,
+      // so seed sensible defaults; the user edits them in the card afterwards.
+      const today = new Date().toISOString().slice(0, 10)
       const res = await http.post(`/api/invitations/${id}/events`, eventPayload({
-        event_name: '', venue_name: '',
+        event_name: 'Acara Baru', venue_name: 'Lokasi acara', event_date: today,
       }))
       events.value = [...events.value, res.data.data]
     })
@@ -185,14 +190,46 @@ export function useEditorV2(invitation, { http = axios } = {}) {
     timers[key] = setTimeout(fn, ms)
   }
 
+  // ── Gallery (REST CRUD; photos compressed client-side before upload) ──────
+  async function addGalleryPhoto(file) {
+    return run(async () => {
+      const compressed = await compressImage(file, { maxEdge: 1600, quality: 0.82 })
+      const fd = new FormData()
+      fd.append('image', compressed)
+      const res = await http.post(`/api/invitations/${id}/galleries`, fd, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      })
+      galleries.value = [...galleries.value, res.data.data]
+    })
+  }
+  async function deleteGalleryPhoto(g) {
+    return run(async () => {
+      await http.delete(`/api/invitations/${id}/galleries/${g.id}`)
+      galleries.value = galleries.value.filter(x => x.id !== g.id)
+    })
+  }
+  async function reorderGalleries(ids) {
+    galleries.value = ids.map(i => galleries.value.find(g => g.id === i)).filter(Boolean)
+    return run(() => http.put(`/api/invitations/${id}/galleries/reorder`, { ids }))
+  }
+
+  // ── Custom slug (validated + old slug kept as redirect alias) ─────────────
+  async function updateSlug(newSlug) {
+    const res = await http.put(`/api/invitations/${id}/slug`, { slug: newSlug })
+    slug.value = res.data.slug
+    return res.data.slug
+  }
+
   // Data shape fed to the live template component in the preview.
   const previewInvitation = computed(() => ({
     ...invitation,
+    slug: slug.value,
     template_slug: state.template_slug,
     music: state.musicEnabled ? state.music : null,
     config: { ...invitation.config, ...config, music_enabled: state.musicEnabled },
     details: { ...invitation.details, ...details },
     events: events.value,
+    galleries: galleries.value,
     sections: { ...invitation.sections, ...sectionsData },
   }))
 
@@ -200,9 +237,11 @@ export function useEditorV2(invitation, { http = axios } = {}) {
     // template + music
     state, saveStatus, setMusicEnabled, selectPresetMusic, uploadMusic, applyTemplate,
     // content
-    details, events, sectionsData, config,
+    details, events, galleries, slug, sectionsData, config,
+    updateSlug,
     saveDetails, uploadCouplePhoto,
     addEvent, saveEvent, deleteEvent,
+    addGalleryPhoto, deleteGalleryPhoto, reorderGalleries,
     saveQuote, toggleSection, saveConfig,
     debounce,
     // preview

@@ -6,6 +6,7 @@ import DecoCover         from './art-deco-gatsby/DecoCover.vue'
 import DecoHero          from './art-deco-gatsby/DecoHero.vue'
 import DecoSunburst      from './art-deco-gatsby/DecoSunburst.vue'
 import DecoSectionHeader from './art-deco-gatsby/DecoSectionHeader.vue'
+import GallerySection from '@/Components/invitation/sections/GallerySection.vue'
 
 if (typeof document !== 'undefined' && !document.getElementById('deco-fonts')) {
     const link = document.createElement('link')
@@ -25,7 +26,7 @@ const props = defineProps({
 
 const {
     groomName, brideName, groomNick, brideNick, coverPhotoUrl,
-    details, events, galleries, sectionEnabled, sectionData,
+    details, events, galleries, galleryLayout, sectionEnabled, sectionData,
     openingText, closingText, firstEventDate, countdown, targetDate, pad,
     audioEl, musicPlaying, toggleMusic, toastMsg, toastVisible,
     copiedAccount, copyToClipboard,
@@ -271,17 +272,7 @@ const lightboxUrl = ref(null)
                 :ref="el => vReveal(el)"
             >
                 <DecoSectionHeader title="THE GALLERY" :chevron-density="decoChevronDensity"/>
-                <div class="deco-gallery">
-                    <button
-                        v-for="img in galleries"
-                        :key="img.id ?? (img.image_url ?? img.file_url)"
-                        type="button"
-                        class="deco-gallery-item"
-                        @click="lightboxUrl = (img.image_url ?? img.file_url)"
-                    >
-                        <img :src="(img.image_url ?? img.file_url)" :alt="img.caption ?? ''" loading="lazy"/>
-                    </button>
-                </div>
+                <GallerySection :galleries="galleries" :layout="galleryLayout" :primary-color="'#c9a961'" />
             </section>
 
             <!-- RSVP -->

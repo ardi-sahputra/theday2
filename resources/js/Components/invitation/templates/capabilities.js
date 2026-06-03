@@ -68,7 +68,10 @@ export const TEMPLATE_CAPS = {
     'spotify-wrapped':   { quote: false },
     'year-scrubber':     { quote: false },
     'comic-book':        { quote: false },
-    'bunga-abadi':       { quote: false },
+    // Default-renderer template: renders cover/opening/events/gallery/rsvp/
+    // wishes/closing only. No couple photos, and no love_story/quote/gift/
+    // envelope sections — so don't offer toggles the renderer can't honor.
+    'bunga-abadi':       { quote: false, photos: false, loveStory: false, gift: false, envelope: false },
     // No-photo (text/illustration) templates
     'letterpress':       { photos: false },
     'islamic-geometric': { photos: false },

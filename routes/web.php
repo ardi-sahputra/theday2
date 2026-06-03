@@ -8,6 +8,11 @@ use App\Http\Controllers\Dashboard\BudgetPlanner\BudgetPlannerPageController;
 use App\Http\Controllers\Dashboard\BudgetPlanner\InitializeBudgetPlannerController;
 use App\Http\Controllers\Dashboard\BudgetPlanner\UpdateBudgetController;
 use App\Http\Controllers\Dashboard\ChecklistController;
+use App\Http\Controllers\Dashboard\Moodboard\MoodboardController;
+use App\Http\Controllers\Dashboard\Moodboard\MoodboardItemController;
+use App\Http\Controllers\Dashboard\Moodboard\MoodboardPageController;
+use App\Http\Controllers\Dashboard\Vendor\VendorController;
+use App\Http\Controllers\Dashboard\Vendor\VendorPageController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Dashboard\BukuTamuHubController;
 use App\Http\Controllers\Dashboard\DashboardGuestMessageController;
@@ -215,6 +220,20 @@ Route::middleware(['auth', 'verified', 'onboarding', 'couple'])->prefix('dashboa
 
     Route::post(  '/budget-planner/notes',          [\App\Http\Controllers\Dashboard\BudgetPlanner\BudgetNoteController::class, 'store'])->name('budget-planner.notes.store');
     Route::delete('/budget-planner/notes/{note}',   [\App\Http\Controllers\Dashboard\BudgetPlanner\BudgetNoteController::class, 'destroy'])->name('budget-planner.notes.destroy');
+
+    // ── Moodboard ────────────────────────────────────────────────────────
+    Route::get(   '/moodboard',               [MoodboardPageController::class, 'index'])->name('moodboard.index');
+    Route::patch( '/moodboard',               [MoodboardController::class, 'update'])->name('moodboard.update');
+    Route::post(  '/moodboard/items',         [MoodboardItemController::class, 'store'])->name('moodboard.items.store');
+    Route::put(   '/moodboard/items/reorder', [MoodboardItemController::class, 'reorder'])->name('moodboard.items.reorder');
+    Route::patch( '/moodboard/items/{item}',  [MoodboardItemController::class, 'update'])->name('moodboard.items.update');
+    Route::delete('/moodboard/items/{item}',  [MoodboardItemController::class, 'destroy'])->name('moodboard.items.destroy');
+
+    // ── Vendor Tracker ───────────────────────────────────────────────────
+    Route::get(   '/vendor',          [VendorPageController::class, 'index'])->name('vendor.index');
+    Route::post(  '/vendor',          [VendorController::class, 'store'])->name('vendor.store');
+    Route::patch( '/vendor/{vendor}', [VendorController::class, 'update'])->name('vendor.update');
+    Route::delete('/vendor/{vendor}', [VendorController::class, 'destroy'])->name('vendor.destroy');
 
     // ── Guest List ───────────────────────────────────────────────────────
     Route::get(   '/guest-list',                              [GuestListController::class, 'index'])->name('guest-list.index');

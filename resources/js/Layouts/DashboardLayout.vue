@@ -26,6 +26,7 @@ const page = usePage();
 const user = computed(() => page.props.auth.user);
 const plan = computed(() => page.props.auth.subscription);
 const flash = computed(() => page.props.flash);
+const hasPublishedInvitation = computed(() => !!page.props.has_published_invitation);
 
 const sidebarOpen = ref(false);
 const moreMenuOpen = ref(false);
@@ -61,6 +62,22 @@ const menuGroups = computed(() => [
                 route: 'dashboard.budget-planner.index',
                 icon: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                     d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>`,
+            },
+            {
+                id: 'moodboard',
+                label: t('nav.moodboard'),
+                route: 'dashboard.moodboard.index',
+                activePattern: 'dashboard.moodboard.*',
+                icon: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/>`,
+            },
+            {
+                id: 'vendor',
+                label: t('nav.vendor'),
+                route: 'dashboard.vendor.index',
+                activePattern: 'dashboard.vendor.*',
+                icon: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M3 9l1-5h16l1 5M4 9v10a1 1 0 001 1h14a1 1 0 001-1V9M4 9h16M9 13h6"/>`,
             },
         ],
     },
@@ -501,8 +518,8 @@ const handleClickOutsideAvatar = (e) => {
 
                 <!-- Right actions -->
                 <div class="flex flex-1 justify-end items-center gap-2">
-                    <!-- Share invitation button -->
-                    <a :href="route('dashboard.invitations.index')"
+                    <!-- Share invitation button — only once something is live to share -->
+                    <a v-if="hasPublishedInvitation" :href="route('dashboard.invitations.index')"
                        class="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-full text-[13px] font-semibold text-white transition-transform active:scale-95"
                        style="background:#1F2A2E;">
                       <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="1.8">

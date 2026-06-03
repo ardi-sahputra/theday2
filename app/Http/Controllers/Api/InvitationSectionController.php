@@ -52,9 +52,20 @@ class InvitationSectionController extends Controller
             \App\Models\InvitationSection::initializeForInvitation($invitation->id);
         }
 
-        $section = $invitation->sections()
-            ->where('section_key', $sectionKey)
-            ->firstOrFail();
+        // Default-renderer templates (e.g. bunga-abadi) have no TemplateSection
+        // rows, so sync creates nothing — create the row on demand. It starts
+        // enabled (matching the renderer's "show by default") then gets toggled.
+        $section = $invitation->sections()->firstOrCreate(
+            ['section_key' => $sectionKey],
+            [
+                'section_type'      => $sectionKey,
+                'label'             => \Illuminate\Support\Str::headline($sectionKey),
+                'is_enabled'        => true,
+                'is_required'       => false,
+                'completion_status' => 'empty',
+                'data_json'         => [],
+            ],
+        );
 
         if ($section->is_required) {
             return response()->json(['message' => 'Bagian wajib tidak dapat dinonaktifkan.'], 422);

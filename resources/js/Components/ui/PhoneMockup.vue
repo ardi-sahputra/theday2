@@ -87,6 +87,8 @@ function onPointerEnd(e) {
                     transformOrigin: 'top left',
                     width: '375px',
                     minHeight: `${Math.round(560 / effectiveScale)}px`,
+                    display: 'flex',
+                    flexDirection: 'column',
                 }"
             >
                 <slot />

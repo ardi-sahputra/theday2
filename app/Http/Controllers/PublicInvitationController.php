@@ -35,7 +35,16 @@ class PublicInvitationController extends Controller
                 'template:id,name,slug,default_config',
                 'user.activeSubscription.plan',
             ])
-            ->firstOrFail();
+            ->first();
+
+        // Slug renamed? An old (aliased) link 301-redirects to the current slug.
+        if (! $invitation) {
+            $alias = \App\Models\InvitationSlugAlias::where('slug', $slug)->first();
+            if ($alias && ($current = Invitation::find($alias->invitation_id))) {
+                return redirect('/' . $current->slug, 301);
+            }
+            abort(404);
+        }
 
         // ── Gate checks ───────────────────────────────────────────
         if (! $invitation->isPublished()) {
@@ -57,6 +66,31 @@ class PublicInvitationController extends Controller
             $invitation->template->default_config ?? [],
             $invitation->custom_config             ?? []
         );
+
+        // ── Locked: serve ONLY the gate, never the protected content ──
+        // (Inertia embeds all props in the page HTML, so the gate must NOT
+        //  receive details/events/galleries/music/messages until unlocked.)
+        if ($needPassword) {
+            return Inertia::render('Invitation/Show', [
+                'invitation' => [
+                    'id'         => $invitation->id,
+                    'title'      => $invitation->title,
+                    'slug'       => $invitation->slug,
+                    'event_type' => $invitation->event_type->value,
+                    'details'    => $invitation->details ? [
+                        'cover_photo_url' => $invitation->details->cover_photo_url,
+                    ] : null,
+                    'config'     => [
+                        'primary_color' => $config['primary_color'] ?? null,
+                        'font_title'    => $config['font_title']    ?? null,
+                        'font'          => $config['font']          ?? null,
+                    ],
+                ],
+                'messages'      => [],
+                'needPassword'  => true,
+                'showWatermark' => ! ($invitation->user->activeSubscription?->plan?->remove_watermark ?? false),
+            ]);
+        }
 
         // ── Load visible messages (pinned first) ──────────────────
         $messages = $invitation->guestMessages()
@@ -263,9 +297,19 @@ class PublicInvitationController extends Controller
 
     // ─── GET /{slug}/messages ─────────────────────────────────────
 
-    public function messages(string $slug): JsonResponse
+    public function messages(Request $request, string $slug): JsonResponse
     {
         $invitation = Invitation::where('slug', $slug)->firstOrFail();
+
+        if (! $invitation->isPublished()) {
+            return response()->json(['message' => 'Undangan tidak tersedia.'], 404);
+        }
+
+        // Respect the password gate — don't leak messages on a locked invitation.
+        if ($invitation->is_password_protected
+            && ! $request->session()->get("inv_unlocked_{$invitation->id}")) {
+            return response()->json(['data' => []]);
+        }
 
         $messages = $invitation->guestMessages()
             ->visible()

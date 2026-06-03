@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from 'vue';
+import DateTimeField from '@/Components/ui/DateTimeField.vue';
 
 const props = defineProps({
   events: { type: Array,  required: true }, // [{ id, event_name, event_date, start_time, end_time, venue_name, venue_address, maps_url }]
@@ -35,18 +36,16 @@ function toggleLivestream() { emit('save-config', { livestream_enabled: !livestr
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#C19089" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg>
           </button>
         </div>
-        <div class="field-row" style="margin-bottom:8px;">
-          <div class="field" style="margin-bottom:0;">
-            <label class="label">Tanggal</label>
-            <input class="input" type="date" v-model="ev.event_date" @input="onField(ev)" />
-          </div>
-          <div class="field" style="margin-bottom:0;">
-            <label class="label">Waktu</label>
-            <div style="display:flex;gap:6px;">
-              <input class="input" type="time" v-model="ev.start_time" @input="onField(ev)" />
-              <input class="input" type="time" v-model="ev.end_time" @input="onField(ev)" />
-            </div>
-          </div>
+        <div class="field" style="margin-bottom:8px;">
+          <label class="label">Tanggal &amp; Waktu Mulai</label>
+          <DateTimeField :date="ev.event_date || ''" :time="ev.start_time || ''" show-time label="Tanggal acara"
+                         @update:date="v => { ev.event_date = v; onField(ev); }"
+                         @update:time="v => { ev.start_time = v; onField(ev); }" />
+        </div>
+        <div class="field" style="margin-bottom:8px;">
+          <label class="label">Waktu Selesai <span style="font-weight:400;color:var(--muted);">opsional</span></label>
+          <DateTimeField time-only :time="ev.end_time || ''" placeholder="Pilih waktu selesai" label="Waktu selesai"
+                         @update:time="v => { ev.end_time = v; onField(ev); }" />
         </div>
         <div class="field" style="margin-bottom:8px;">
           <label class="label">Lokasi</label>
@@ -63,6 +62,11 @@ function toggleLivestream() { emit('save-config', { livestream_enabled: !livestr
       </div>
 
       <p v-if="!events.length" class="help" style="text-align:center;padding:8px 0 14px;">Belum ada acara.</p>
+
+      <div v-if="events.length > 2" class="ev-note">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:1px;"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+        <span>Lebih dari 2 acara bisa bikin undangan terasa penuh & kurang rapi. Idealnya cukup 2 (mis. <strong>Akad</strong> &amp; <strong>Resepsi</strong>) untuk tampilan paling estetis.</span>
+      </div>
 
       <button type="button" class="btn btn-ghost" style="width:100%;justify-content:center;" @click="emit('add-event')">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>

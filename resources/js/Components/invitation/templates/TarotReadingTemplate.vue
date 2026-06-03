@@ -19,6 +19,7 @@ const {
     groomName, brideName, groomNick, brideNick,
     coverPhotoUrl,
     details, events, galleries,
+    galleryLayout,
     sectionEnabled, sectionData,
     openingText, closingText,
     firstEventDate, countdown, targetDate, pad,
@@ -238,6 +239,7 @@ const quoteText = computed(() => {
                 :closing-text="closingText"
                 :events="events"
                 :galleries="galleries"
+                :layout="galleryLayout"
                 :countdown="countdown"
                 :target-date="targetDate"
                 :love-stories="loveStories"

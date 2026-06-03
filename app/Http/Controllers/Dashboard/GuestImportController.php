@@ -18,6 +18,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 
 class GuestImportController extends Controller
 {
@@ -33,7 +34,7 @@ class GuestImportController extends Controller
     {
         $request->validate([
             'mode'          => 'required|in:paste,csv',
-            'invitation_id' => 'nullable|exists:invitations,id',
+            'invitation_id' => ['nullable', Rule::exists('invitations', 'id')->where('user_id', EffectiveUser::resolve()->id)],
             'raw_text'      => 'required_if:mode,paste|nullable|string',
             'file'          => 'required_if:mode,csv|nullable|file|mimes:csv,txt|max:2048',
         ]);
@@ -83,7 +84,7 @@ class GuestImportController extends Controller
     public function store(Request $request): JsonResponse
     {
         $request->validate([
-            'invitation_id' => 'nullable|exists:invitations,id',
+            'invitation_id' => ['nullable', Rule::exists('invitations', 'id')->where('user_id', EffectiveUser::resolve()->id)],
             'rows'          => 'required|array|min:1|max:500',
             'rows.*.name'   => 'required|string|max:150',
             'rows.*.phone'  => 'required|string|max:30',

@@ -32,6 +32,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // ── Slug availability check ───────────────────────────────────
     Route::get('/invitations/check-slug', [InvitationController::class, 'checkSlug']);
+    Route::put('/invitations/{invitation}/slug', [InvitationController::class, 'updateSlug']);
 
     // ── Invitation ────────────────────────────────────────────────
     Route::post(   '/invitations',               [InvitationController::class, 'store']);

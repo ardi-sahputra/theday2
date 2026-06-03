@@ -60,6 +60,33 @@ class PersonalizedInvitationController extends Controller
             $invitation->custom_config             ?? []
         );
 
+        // ── Locked: serve ONLY the gate, never the protected content ──
+        if ($needPassword) {
+            return Inertia::render('Invitation/Show', [
+                'invitation' => [
+                    'id'         => $invitation->id,
+                    'title'      => $invitation->title,
+                    'slug'       => $invitation->slug,
+                    'event_type' => $invitation->event_type->value,
+                    'details'    => $invitation->details ? [
+                        'cover_photo_url' => $invitation->details->cover_photo_url,
+                    ] : null,
+                    'config'     => [
+                        'primary_color' => $config['primary_color'] ?? null,
+                        'font_title'    => $config['font_title']    ?? null,
+                        'font'          => $config['font']          ?? null,
+                    ],
+                ],
+                'guest' => [
+                    'name'     => $guest?->name ?? \Illuminate\Support\Str::of($guestSlug)->replace('-', ' ')->title()->toString(),
+                    'greeting' => $guest?->greeting,
+                    'slug'     => $guestSlug,
+                ],
+                'messages'     => [],
+                'needPassword' => true,
+            ]);
+        }
+
         $messages = $invitation->guestMessages()
             ->visible()
             ->orderByDesc('is_pinned')

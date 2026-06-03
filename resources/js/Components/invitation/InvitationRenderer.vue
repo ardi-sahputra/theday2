@@ -36,6 +36,15 @@ const fontFamily   = computed(() => cfg.value.font_title    ?? cfg.value.font ??
 // Background music only plays when a track exists AND it isn't disabled in config
 const musicOn = computed(() => isMusicEnabled(props.invitation));
 
+// Section visibility: respect the per-section toggle. Handles both shapes
+// (public: { enabled }, editor preview: { is_enabled }); no record / null
+// sections → show (default), so legacy invitations keep rendering everything.
+function sectionEnabled(key) {
+    const s = props.invitation.sections?.[key];
+    if (!s) return true;
+    return s.enabled ?? s.is_enabled ?? true;
+}
+
 // ── Open / reveal state ────────────────────────────────────────────────────
 // Demo still shows the opening gate (auto-open is the explicit override).
 // isDemo only changes RSVP/message behaviour, not whether the gate is skipped.
@@ -183,7 +192,10 @@ onUnmounted(() => observer?.disconnect());
     </Transition>
 
     <!-- ── Main scrolling content ────────────────────────────────── -->
-    <div v-if="opened" class="relative">
+    <!-- flex column + flex:1 so short invitations still fill the phone/preview
+         screen; the trailing filler paints the leftover in the closing tint so
+         there's no stark blank gap below the last section. -->
+    <div v-if="opened" class="relative flex flex-col" :style="{ flex: '1 0 auto' }">
 
         <!-- Floating music button -->
         <button
@@ -211,11 +223,11 @@ onUnmounted(() => observer?.disconnect());
             <SectionEvents :events="invitation.events" :primary-color="primaryColor" :font-family="fontFamily"/>
         </div>
 
-        <div v-if="invitation.galleries?.length" data-section="gallery" :ref="setSectionRef('gallery')">
-            <SectionGallery :galleries="invitation.galleries" :primary-color="primaryColor"/>
+        <div v-if="invitation.galleries?.length && sectionEnabled('gallery')" data-section="gallery" :ref="setSectionRef('gallery')">
+            <SectionGallery :galleries="invitation.galleries" :primary-color="primaryColor" :layout="invitation.config?.gallery_layout ?? 'grid'"/>
         </div>
 
-        <div data-section="rsvp" :ref="setSectionRef('rsvp')">
+        <div v-if="sectionEnabled('rsvp')" data-section="rsvp" :ref="setSectionRef('rsvp')">
             <SectionRsvp
                 :slug="invitation.slug"
                 :primary-color="primaryColor"
@@ -224,7 +236,7 @@ onUnmounted(() => observer?.disconnect());
             />
         </div>
 
-        <div data-section="messages" :ref="setSectionRef('messages')">
+        <div v-if="sectionEnabled('wishes')" data-section="messages" :ref="setSectionRef('messages')">
             <SectionMessages
                 :slug="invitation.slug"
                 :messages="localMessages"
@@ -238,6 +250,10 @@ onUnmounted(() => observer?.disconnect());
         <div data-section="closing" :ref="setSectionRef('closing')">
             <SectionClosing :invitation="invitation" :primary-color="primaryColor" :font-family="fontFamily"/>
         </div>
+
+        <!-- Trailing filler: grows to fill any leftover screen height below the
+             last section, painted in the closing tint so no blank-white gap. -->
+        <div aria-hidden="true" :style="{ flex: '1 0 auto', backgroundColor: primaryColor + '10' }"></div>
     </div>
 
     </template><!-- /v-else default renderer -->

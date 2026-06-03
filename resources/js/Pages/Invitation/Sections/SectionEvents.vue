@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, watch, nextTick } from 'vue';
 import { useReveal, useStaggerReveal } from '@/Composables/useReveal.js';
 
 const props = defineProps({
@@ -12,6 +12,14 @@ const heading   = ref(null);
 const container = ref(null);
 useReveal(heading);
 useStaggerReveal(container, '.event-card', 120);
+
+// The stagger observer fires once then disconnects, so cards added later (live
+// editor preview) would stay at opacity:0. Reveal any new card on list change.
+watch(() => props.events.length, () => {
+    nextTick(() => {
+        container.value?.querySelectorAll('.event-card').forEach((el) => el.classList.add('visible'));
+    });
+});
 </script>
 
 <template>

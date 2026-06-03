@@ -19,22 +19,44 @@ class GoogleController extends Controller
 {
     public function redirect(): RedirectResponse
     {
-        return Socialite::driver('google')->stateless()->redirect();
+        // Stateful: Socialite stores a CSRF `state` nonce in the session and
+        // verifies it on callback, preventing OAuth login-CSRF.
+        return Socialite::driver('google')->redirect();
     }
 
     public function callback(
         AssignFreeSubscriptionAction $assignFreeSubscription,
         CreateInvitationFromTemplateAction $createInvitation,
     ): RedirectResponse {
-        $googleUser = Socialite::driver('google')->stateless()->user();
+        $googleUser = Socialite::driver('google')->user();
 
-        $user = User::where('google_id', $googleUser->getId())->first()
-            ?? User::where('email', $googleUser->getEmail())->first();
+        // Did Google assert this email is verified? (OIDC `email_verified`.)
+        $emailVerified = (bool) ($googleUser->user['email_verified']
+            ?? $googleUser->user['verified_email']
+            ?? false);
+
+        // Match an existing identity by Google id first.
+        $user = User::where('google_id', $googleUser->getId())->first();
+
+        // Fall back to email — but only auto-link to a pre-existing (possibly
+        // password-only) account when Google has VERIFIED the email. Otherwise an
+        // attacker controlling an unverified-email Google account could take over.
+        if (! $user) {
+            $existing = User::where('email', $googleUser->getEmail())->first();
+            if ($existing) {
+                if (! $emailVerified) {
+                    return redirect('/login')->withErrors([
+                        'email' => 'Email Google ini belum terverifikasi. Masuk dengan password, lalu hubungkan akun Google dari profil.',
+                    ]);
+                }
+                $user = $existing;
+            }
+        }
 
         if ($user) {
             $updates = [];
             if (! $user->google_id) $updates['google_id'] = $googleUser->getId();
-            if (! $user->email_verified_at) $updates['email_verified_at'] = now();
+            if (! $user->email_verified_at && $emailVerified) $updates['email_verified_at'] = now();
             if ($updates) $user->update($updates);
         } else {
             $user = User::create([
@@ -42,7 +64,7 @@ class GoogleController extends Controller
                 'email'             => $googleUser->getEmail(),
                 'google_id'         => $googleUser->getId(),
                 'avatar_url'        => $googleUser->getAvatar(),
-                'email_verified_at' => now(),
+                'email_verified_at' => $emailVerified ? now() : null,
                 'locale'            => app()->getLocale(),
             ]);
 

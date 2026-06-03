@@ -6,6 +6,7 @@ import VelvetEnvelope  from './velvet-burgundy/VelvetEnvelope.vue'
 import VelvetCover     from './velvet-burgundy/VelvetCover.vue'
 import VelvetHero      from './velvet-burgundy/VelvetHero.vue'
 import VelvetFiligree  from './velvet-burgundy/VelvetFiligree.vue'
+import GallerySection from '@/Components/invitation/sections/GallerySection.vue'
 
 const props = defineProps({
     invitation: { type: Object,  required: true },
@@ -19,7 +20,7 @@ const {
     primary, accent, fontTitle, fontHeading, fontBody,
     groomName, brideName, groomNick, brideNick,
     coverPhotoUrl,
-    details, events, galleries,
+    details, events, galleries, galleryLayout,
     sectionEnabled, sectionData, sectionBg, bgStyle,
     openingText, closingText,
     firstEventDate, countdown, targetDate, pad,
@@ -301,17 +302,7 @@ const lightboxUrl = ref(null)
                         src="/images/templates/velvet-burgundy/filigree-divider.svg"
                         alt="" aria-hidden="true" class="vb-divider"
                     />
-                    <div class="vb-gallery">
-                        <img
-                            v-for="img in galleries"
-                            :key="img.id ?? (img.image_url ?? img.file_url)"
-                            :src="(img.image_url ?? img.file_url)"
-                            :alt="img.caption ?? ''"
-                            class="vb-gallery-img"
-                            loading="lazy"
-                            @click="lightboxUrl = (img.image_url ?? img.file_url)"
-                        />
-                    </div>
+                    <GallerySection :galleries="galleries" :layout="galleryLayout" :primary-color="'#d4a574'" />
                 </section>
 
                 <!-- ── rsvp ── -->
