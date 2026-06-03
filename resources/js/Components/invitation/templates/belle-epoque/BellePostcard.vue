@@ -44,7 +44,7 @@ function mail() {
             />
 
             <div class="bp-postcard-floral" aria-hidden="true">
-                <img src="/images/templates/belle-epoque/peony-divider.webp" alt="" loading="lazy"/>
+                <img src="/images/templates/belle-epoque/peony-divider.svg" alt="" loading="lazy"/>
             </div>
 
             <h1 class="bp-postcard-bonjour">Bonjour &amp; Bienvenue</h1>
@@ -64,7 +64,7 @@ function mail() {
 .bp-postcard-stage {
     position: fixed; inset: 0; z-index: 40;
     background:
-        url('/images/templates/belle-epoque/paper-cream.webp') center/512px repeat,
+        url('/images/templates/belle-epoque/paper-cream.svg') center/512px repeat,
         #f7e9dc;
     display: flex; align-items: center; justify-content: center;
     padding: 24px;

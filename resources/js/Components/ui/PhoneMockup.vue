@@ -11,12 +11,13 @@ const props = defineProps({
 });
 
 const dims = computed(() => {
+    // Modern frame: 8px bezel padding → screen width = frame − 16.
     if (props.size === 'lg') {
-        // 334px screen (340 – 6 border) / 375 content ≈ 0.891
-        return { width: 340, height: 700, defaultScale: 0.891 };
+        // (340 − 16) / 375 ≈ 0.864
+        return { width: 340, height: 700, defaultScale: 0.864 };
     }
-    // 254px screen (260 – 6 border) / 375 content ≈ 0.677
-    return { width: 260, height: 540, defaultScale: 0.677 };
+    // (260 − 16) / 375 ≈ 0.651
+    return { width: 260, height: 540, defaultScale: 0.651 };
 });
 
 const effectiveScale = computed(() => props.scale ?? dims.value.defaultScale);
@@ -65,12 +66,10 @@ function onPointerEnd(e) {
         Inner screen hosts a 375-px-wide slot that is CSS-scaled down.
     -->
     <div class="phone-frame" :style="{ width: dims.width + 'px', height: dims.height + 'px' }">
-        <!-- Status bar / notch row -->
-        <div class="phone-status-bar">
-            <div class="phone-notch" />
-        </div>
+        <!-- Dynamic-Island-style notch, floating over the screen -->
+        <div class="phone-island" />
 
-        <!-- Screen — overflow-hidden so scaled content stays inside -->
+        <!-- Screen — fills the frame, overflow-hidden so scaled content stays inside -->
         <div
             ref="screenRef"
             class="phone-screen"
@@ -88,57 +87,49 @@ function onPointerEnd(e) {
                     transformOrigin: 'top left',
                     width: '375px',
                     minHeight: `${Math.round(560 / effectiveScale)}px`,
+                    display: 'flex',
+                    flexDirection: 'column',
                 }"
             >
                 <slot />
             </div>
         </div>
-
-        <!-- Home bar -->
-        <div class="phone-home-bar" />
     </div>
 </template>
 
 <style scoped>
 .phone-frame {
-    border-radius: 44px;
-    border: 3px solid #1C1C1E;
-    background: #1C1C1E;
-    padding: 0;
+    border-radius: 48px;
+    background: #0F1618;
+    padding: 8px;
     display: flex;
-    flex-direction: column;
     box-shadow:
-        0 0 0 1px #3A3A3C,
-        0 20px 60px rgba(0, 0, 0, 0.5),
-        inset 0 0 0 2px #2C2C2E;
+        0 0 0 2px #2C2C2E,
+        0 30px 70px -20px rgba(0, 0, 0, 0.55);
     flex-shrink: 0;
     position: relative;
     overflow: hidden;
 }
 
-.phone-status-bar {
-    height: 28px;
-    background: #1C1C1E;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    border-radius: 44px 44px 0 0;
-}
-
-.phone-notch {
-    width: 88px;
-    height: 18px;
-    background: #1C1C1E;
-    border-radius: 0 0 16px 16px;
-    position: relative;
-    z-index: 2;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+/* Dynamic-Island pill, floating over the screen */
+.phone-island {
+    position: absolute;
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 34%;
+    max-width: 110px;
+    height: 22px;
+    background: #0F1618;
+    border-radius: 999px;
+    z-index: 3;
+    pointer-events: none;
 }
 
 .phone-screen {
     flex: 1 1 0;
     min-height: 0;
+    width: 100%;
     background: white;
     overflow-y: auto;
     overflow-x: hidden;
@@ -148,7 +139,12 @@ function onPointerEnd(e) {
     /* Hide scrollbar for clean look */
     scrollbar-width: none;
     -ms-overflow-style: none;
-    border-radius: 2px;
+    border-radius: 40px;
+    /* Force a paint layer so border-radius actually clips the transform-scaled
+       content inside (Chrome won't clip transformed children otherwise → the
+       white content corners poke past the rounded screen). */
+    transform: translateZ(0);
+    -webkit-mask-image: -webkit-radial-gradient(white, black);
 }
 
 .phone-screen::-webkit-scrollbar {
@@ -162,23 +158,5 @@ function onPointerEnd(e) {
 
 .phone-content-scaler {
     display: block;
-}
-
-.phone-home-bar {
-    height: 22px;
-    background: #1C1C1E;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    border-radius: 0 0 44px 44px;
-}
-
-.phone-home-bar::after {
-    content: '';
-    width: 100px;
-    height: 4px;
-    background: #48484A;
-    border-radius: 2px;
 }
 </style>

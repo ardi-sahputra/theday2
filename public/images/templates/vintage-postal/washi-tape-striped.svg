@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="28" viewBox="0 0 240 28" preserveAspectRatio="none">
+  <defs>
+    <clipPath id="tornS">
+      <path d="M3,1 L8,3 L4,6 L9,9 L4,13 L8,17 L4,21 L9,25 L5,27
+               L235,27 L231,23 L236,19 L231,15 L236,11 L231,7 L236,3 L232,1 Z"/>
+    </clipPath>
+    <pattern id="stripes" width="16" height="28" patternUnits="userSpaceOnUse" patternTransform="rotate(0)">
+      <rect width="16" height="28" fill="#a04848"/>
+      <rect x="0" width="8" height="28" fill="#8b3a3a"/>
+    </pattern>
+  </defs>
+  <g clip-path="url(#tornS)" opacity="0.78">
+    <rect width="240" height="28" fill="#d8c8a0"/>
+    <rect width="240" height="28" fill="url(#stripes)" opacity="0.7"/>
+    <rect width="240" height="6" fill="#ffffff" opacity="0.18"/>
+  </g>
+</svg>

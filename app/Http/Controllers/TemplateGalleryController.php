@@ -21,6 +21,12 @@ class TemplateGalleryController extends Controller
             ->ordered()
             ->get(['id', 'name', 'name_en', 'slug']);
 
+        // Curated heroes (best free + premium) always lead, so the gallery
+        // opens with our strongest work regardless of the viewer's plan.
+        // Premium viewers then get premium nudged up; free/guests get a
+        // tier-neutral mix below the heroes (no "free-only" burial of premium).
+        $isPremiumViewer = (bool) $request->user()?->isPremium();
+
         $templates = Template::active()
             ->with('category:id,name,name_en,slug')
             ->when($request->category, fn ($q) => $q->whereHas(
@@ -28,7 +34,19 @@ class TemplateGalleryController extends Controller
                 fn ($q) => $q->where('slug', $request->category)
             ))
             ->when($request->tier && $request->tier !== 'all', fn ($q) => $q->where('tier', $request->tier))
-            ->ordered()
+            // A featured "hero" only boosts the tier that matches the viewer:
+            //  - premium viewer → only premium heroes float, then the rest of premium,
+            //    free (even if featured) stays in the free block below.
+            //  - free / guest   → all heroes (free + premium) lead, premium acting as
+            //    aspiration, then a tier-neutral mix.
+            ->when(
+                $isPremiumViewer,
+                fn ($q) => $q->orderByRaw("(is_featured and tier = 'premium') desc")
+                              ->orderByRaw("tier = 'premium' desc"),
+                fn ($q) => $q->orderByRaw('is_featured desc')
+            )
+            ->orderBy('sort_order')
+            ->orderBy('name')
             ->get()
             ->map(fn ($t) => [
                 'id'             => $t->id,

@@ -68,8 +68,12 @@ async function confirmChange() {
 </script>
 
 <template>
-    <!-- Backdrop -->
-    <div class="fixed inset-0 z-50 flex flex-col bg-stone-50" @keydown.esc="$emit('close')">
+  <Teleport to="body">
+    <!-- Dim backdrop (klik untuk tutup); preview undangan tetap terlihat di belakang -->
+    <div class="tpl-backdrop fixed inset-0 z-[80] bg-stone-900/25" @click="$emit('close')"></div>
+
+    <!-- Right-side drawer beside the invitation preview -->
+    <div class="tpl-drawer fixed right-0 top-0 bottom-0 z-[90] w-[380px] max-w-[88vw] flex flex-col bg-stone-50 shadow-2xl" @keydown.esc="$emit('close')">
 
         <!-- Header -->
         <div class="flex items-center justify-between px-4 py-3 bg-white border-b border-stone-100 shadow-sm flex-shrink-0">
@@ -82,7 +86,7 @@ async function confirmChange() {
         </div>
 
         <!-- Filters -->
-        <div class="flex items-center gap-3 px-4 py-3 bg-white border-b border-stone-100 flex-shrink-0">
+        <div class="flex flex-col gap-2 px-4 py-3 bg-white border-b border-stone-100 flex-shrink-0">
             <!-- Search -->
             <div class="relative flex-1">
                 <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -96,7 +100,7 @@ async function confirmChange() {
                 />
             </div>
             <!-- Tier filter -->
-            <div class="flex gap-1">
+            <div class="flex gap-1 self-start">
                 <button v-for="opt in [{ val: 'all', label: 'Semua' }, { val: 'free', label: 'Gratis' }, { val: 'premium', label: 'Premium' }]"
                     :key="opt.val"
                     @click="tierFilter = opt.val"
@@ -120,7 +124,7 @@ async function confirmChange() {
                 <p class="text-sm">Tidak ada template ditemukan</p>
             </div>
 
-            <div v-else class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+            <div v-else class="grid grid-cols-2 gap-3">
                 <div
                     v-for="t in filtered"
                     :key="t.id"
@@ -178,7 +182,7 @@ async function confirmChange() {
 
         <!-- Confirm Dialog -->
         <Teleport to="body">
-            <div v-if="pending" class="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/50">
+            <div v-if="pending" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/50">
                 <div class="bg-white rounded-2xl shadow-xl w-full max-w-sm p-6">
                     <h3 class="text-base font-semibold text-stone-800 mb-2">
                         Ganti ke template <span class="text-[#73877C]">{{ pending.name }}</span>?
@@ -212,7 +216,7 @@ async function confirmChange() {
             </div>
 
             <!-- Upgrade prompt -->
-            <div v-if="showUpgrade" class="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/50">
+            <div v-if="showUpgrade" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/50">
                 <div class="bg-white rounded-2xl shadow-xl w-full max-w-sm p-6 text-center">
                     <div class="w-12 h-12 rounded-full bg-[#92A89C]/20 flex items-center justify-center mx-auto mb-4">
                         <svg class="w-6 h-6 text-[#73877C]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -236,4 +240,12 @@ async function confirmChange() {
             </div>
         </Teleport>
     </div>
+  </Teleport>
 </template>
+
+<style scoped>
+.tpl-backdrop { animation: tpl-fade .18s ease-out; }
+.tpl-drawer   { animation: tpl-slide .22s cubic-bezier(.32,.72,0,1); }
+@keyframes tpl-fade  { from { opacity: 0; } to { opacity: 1; } }
+@keyframes tpl-slide { from { transform: translateX(100%); } to { transform: translateX(0); } }
+</style>

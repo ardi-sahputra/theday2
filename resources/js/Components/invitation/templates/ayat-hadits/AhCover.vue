@@ -49,7 +49,11 @@ const emit = defineEmits(['open', 'toggle-music'])
 <style scoped>
 .ah-cover-screen { position: fixed; inset: 0; z-index: 30; overflow: hidden; }
 .ah-cover {
-    min-height: 100%;
+    /* Percentage heights don't chain through the parchment wrapper (no
+       definite height), so anchor to the viewport — the cover screen is
+       position:fixed inset:0, so 100vh == its full height. */
+    min-height: 100vh;
+    min-height: 100dvh;
     display: flex; align-items: center; justify-content: center;
     padding: 32px 24px;
     color: var(--ah-ink);

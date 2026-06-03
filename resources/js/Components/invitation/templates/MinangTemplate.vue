@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue';
-import SectionGallery from '@/Pages/Invitation/Sections/SectionGallery.vue';
+import GallerySection from '@/Components/invitation/sections/GallerySection.vue';
 
 const props = defineProps({
   invitation: { type: Object, required: true },
@@ -17,6 +17,7 @@ const galleries = computed(() => props.invitation.galleries ?? []);
 const storyItems = computed(() => details.value.love_story ?? []);
 const giftAccounts = computed(() => details.value.gift_accounts ?? []);
 const additionalInfo = computed(() => details.value.additional_info ?? []);
+const galleryLayout = computed(() => cfg.value.gallery_layout ?? 'grid');
 
 const primary = computed(() => cfg.value.primary_color ?? '#7A1F2B');
 const primaryLight = computed(() => cfg.value.primary_color_light ?? '#D4A63A');
@@ -368,7 +369,7 @@ onUnmounted(() => clearInterval(cdTimer));
         <section v-if="sectionEnabled('gallery', true) && galleries.length" class="p-section p-light" :style="{ background: bgColor }">
           <div class="p-section-inner">
             <div class="p-title-block"><div class="p-divider small"></div><h2 class="p-title" :style="{ color: darkBg, fontFamily: fontHeading }">Galeri Kami</h2></div>
-            <SectionGallery :galleries="galleries" :primary-color="primary" />
+            <GallerySection :galleries="galleries" :layout="galleryLayout" :primary-color="'#D4A63A'" />
           </div>
         </section>
 

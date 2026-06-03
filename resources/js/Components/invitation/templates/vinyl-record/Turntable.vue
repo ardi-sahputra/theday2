@@ -167,7 +167,7 @@ const headerSubtitle = computed(() => props.currentTrack
 }
 .vr-plinth-wood {
     position: absolute; inset: 0;
-    background: #5C3A21 url('/images/templates/vinyl-record/wood-grain.webp') center/cover no-repeat;
+    background: #5C3A21 url('/images/templates/vinyl-record/wood-grain.svg') center/cover no-repeat;
 }
 .vr-plinth-top {
     position: absolute;

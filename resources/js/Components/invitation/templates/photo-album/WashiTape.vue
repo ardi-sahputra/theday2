@@ -19,7 +19,7 @@ const resolvedPattern = computed(() => {
     return 'striped'
 })
 
-const tapeUrl = computed(() => `/images/templates/photo-album/washi-${resolvedPattern.value}.png`)
+const tapeUrl = computed(() => `/images/templates/photo-album/washi-${resolvedPattern.value}.svg`)
 
 const defaultRotate = {
     'top-left':         -12,

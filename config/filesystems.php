@@ -47,7 +47,9 @@ return [
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
-            'url' => rtrim(env('APP_URL', 'http://localhost'), '/').'/storage',
+            // Root-relative so uploaded URLs resolve on any host (127.0.0.1, LAN
+            // IP, prod) without breaking when APP_URL changes. Prod uses the r2 disk.
+            'url' => '/storage',
             'visibility' => 'public',
             'throw' => false,
             'report' => false,

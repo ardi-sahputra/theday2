@@ -88,6 +88,9 @@ class HandleInertiaRequests extends Middleware
                 'effective_user'  => \App\Support\EffectiveUser::resolve(),
                 'couple_link'     => $this->coupleLinkPayload($request),
             ],
+            'has_published_invitation' => fn () => ($user instanceof \App\Models\User)
+                ? $user->invitations()->where('status', 'published')->exists()
+                : false,
             'can_create_invitation' => fn () => ($user instanceof \App\Models\User) ? (function () use ($user) {
                 $base   = $user->currentPlan()?->max_invitations
                     ?? \App\Models\Plan::where('slug', 'free')->value('max_invitations')

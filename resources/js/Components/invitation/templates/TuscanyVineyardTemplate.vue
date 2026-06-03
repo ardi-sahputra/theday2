@@ -9,6 +9,7 @@ import TuscanyCypressParallax from './tuscany-vineyard/TuscanyCypressParallax.vu
 import TuscanyOliveDivider    from './tuscany-vineyard/TuscanyOliveDivider.vue'
 import TuscanyAmbientLeaves   from './tuscany-vineyard/TuscanyAmbientLeaves.vue'
 import TuscanyWineCheers      from './tuscany-vineyard/TuscanyWineCheers.vue'
+import GallerySection         from '@/Components/invitation/sections/GallerySection.vue'
 
 const props = defineProps({
     invitation: { type: Object,  required: true },
@@ -21,7 +22,7 @@ const props = defineProps({
 const {
     primary, accent, fontTitle, fontHeading, fontBody,
     groomName, brideName, groomNick, brideNick,
-    coverPhotoUrl, details, events, galleries,
+    coverPhotoUrl, details, events, galleries, galleryLayout,
     openingText, closingText,
     firstEventDate, countdown, targetDate, pad,
     sectionEnabled, sectionData,
@@ -175,7 +176,7 @@ onMounted(ensureFonts)
                 <TuscanyCypressParallax v-if="landscapeOn" :density="cypressDensity"/>
                 <img
                     class="tv-flare-bg tv-sun-flare"
-                    src="/images/templates/tuscany-vineyard/sun-flare.png"
+                    src="/images/templates/tuscany-vineyard/sun-flare.svg"
                     :style="{ opacity: flareIntensity === 'subtle' ? 0.35 : flareIntensity === 'strong' ? 0.75 : 0.55 }"
                     alt="" aria-hidden="true" draggable="false"
                 />
@@ -257,7 +258,7 @@ onMounted(ensureFonts)
                     >
                         <img
                             class="tv-event-corner"
-                            src="/images/templates/tuscany-vineyard/grapevine-corner.webp"
+                            src="/images/templates/tuscany-vineyard/grapevine-corner.svg"
                             alt="" aria-hidden="true"
                         />
                         <header class="tv-event-strip">
@@ -366,17 +367,7 @@ onMounted(ensureFonts)
                         <h2 class="tv-section-title">Kenangan</h2>
                         <TuscanyOliveDivider :width="160"/>
                     </header>
-                    <div class="tv-gallery-grid">
-                        <img
-                            v-for="img in galleries"
-                            :key="img.id ?? img.file_url"
-                            :src="img.image_url ?? img.file_url"
-                            :alt="img.caption ?? ''"
-                            class="tv-gallery-img"
-                            loading="lazy"
-                            @click="lightboxUrl = img.image_url ?? img.file_url"
-                        />
-                    </div>
+                    <GallerySection :galleries="galleries" :layout="galleryLayout" :primary-color="'#c97b4a'" />
                 </section>
 
                 <!-- RSVP — Il Brindisi (with wine cheers on success) -->
@@ -567,7 +558,7 @@ onMounted(ensureFonts)
 .tv-hills {
     position: fixed; inset: 0;
     z-index: -2;
-    background: url('/images/templates/tuscany-vineyard/hills-blur.webp') center/cover no-repeat;
+    background: url('/images/templates/tuscany-vineyard/hills-blur.svg') center/cover no-repeat;
     opacity: 0.6;
     pointer-events: none;
 }

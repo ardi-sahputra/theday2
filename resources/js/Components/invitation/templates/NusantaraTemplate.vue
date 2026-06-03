@@ -6,7 +6,7 @@ import SulurDivider   from '@/Components/invitation/ornaments/SulurDivider.vue';
 import MandalaBg      from '@/Components/invitation/ornaments/MandalaBg.vue';
 import JavaneseGate   from '@/Components/invitation/ornaments/JavaneseGate.vue';
 import WayangBorder   from '@/Components/invitation/ornaments/WayangBorder.vue';
-import SectionGallery from '@/Pages/Invitation/Sections/SectionGallery.vue';
+import GallerySection from '@/Components/invitation/sections/GallerySection.vue';
 
 const SECTION_BG_DEFAULTS = {
     cover:   { type: 'color', value: '#2C1810' },
@@ -29,7 +29,7 @@ const {
     fontTitle, fontHeading, fontBody,
     groomName, brideName, groomNick, brideNick,
     coverPhotoUrl, coverTextColor,
-    details, events, galleries,
+    details, events, galleries, galleryLayout,
     sectionEnabled, sectionData,
     openingText, closingText,
     firstEvent, firstEventDate,
@@ -673,9 +673,10 @@ onMounted(() => {
                         </h2>
                     </div>
 
-                    <SectionGallery
+                    <GallerySection
                         :galleries="galleries"
-                        :primary-color="primary"
+                        :layout="galleryLayout"
+                        :primary-color="'#C9A84C'"
                     />
 
                     <SulurDivider :color="primary"/>

@@ -15,11 +15,11 @@ const props = defineProps({
 
 const paperUrl = computed(() => {
     const map = {
-        'cream':   '/images/templates/vintage-postal/kraft.webp',
-        'aged-1':  '/images/templates/vintage-postal/paper-aged-1.webp',
-        'aged-2':  '/images/templates/vintage-postal/paper-aged-2.webp',
-        'aged-3':  '/images/templates/vintage-postal/paper-aged-3.webp',
-        'light':   '/images/templates/vintage-postal/paper-aged-1.webp',
+        'cream':   '/images/templates/vintage-postal/kraft.svg',
+        'aged-1':  '/images/templates/vintage-postal/paper-aged-1.svg',
+        'aged-2':  '/images/templates/vintage-postal/paper-aged-2.svg',
+        'aged-3':  '/images/templates/vintage-postal/paper-aged-3.svg',
+        'light':   '/images/templates/vintage-postal/paper-aged-1.svg',
     }
     return map[props.paper] ?? map.cream
 })

@@ -74,7 +74,7 @@ const initials = (props.groomNick?.[0] ?? 'A') + '&' + (props.brideNick?.[0] ?? 
                 <span class="vp-env-paper-text">{{ groomNick }} &amp; {{ brideNick }}</span>
             </span>
             <span class="vp-envelope-seal" aria-hidden="true">
-                <img src="/images/templates/vintage-postal/wax-seal.png" alt="" draggable="false"/>
+                <img src="/images/templates/vintage-postal/wax-seal.svg" alt="" draggable="false"/>
                 <span class="vp-env-seal-tag">{{ initials }}</span>
             </span>
         </button>
@@ -85,7 +85,7 @@ const initials = (props.groomNick?.[0] ?? 'A') + '&' + (props.brideNick?.[0] ?? 
 .vp-envelope-screen {
     position: fixed; inset: 0; z-index: 40;
     background:
-        url('/images/templates/vintage-postal/paper-aged-1.webp') center/cover no-repeat,
+        url('/images/templates/vintage-postal/paper-aged-1.svg') center/cover no-repeat,
         #e8dcc4;
     display: flex; flex-direction: column;
     align-items: center; justify-content: center;
@@ -167,7 +167,7 @@ const initials = (props.groomNick?.[0] ?? 'A') + '&' + (props.brideNick?.[0] ?? 
     position: absolute;
     top: 12px; left: 12px; right: 12px; bottom: 12px;
     background:
-        url('/images/templates/vintage-postal/paper-aged-2.webp') center/cover no-repeat,
+        url('/images/templates/vintage-postal/paper-aged-2.svg') center/cover no-repeat,
         #f4ead5;
     border: 1px solid rgba(92, 74, 58, 0.4);
     display: flex; align-items: center; justify-content: center;

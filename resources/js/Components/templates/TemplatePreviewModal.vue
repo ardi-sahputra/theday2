@@ -9,9 +9,21 @@ const { locale, t } = useLocale();
 const props = defineProps({
     isOpen:   { type: Boolean, required: true },
     template: { type: Object,  default: null  },
+    // Premium gating (dashboard). Public gallery leaves these at defaults,
+    // so its behaviour is unchanged: always show "use", never a spinner.
+    canUsePremium: { type: Boolean, default: true },
+    creatingId:    { type: [String, Number], default: null },
 });
 
-const emit = defineEmits(['close', 'use-template']);
+const emit = defineEmits(['close', 'use-template', 'upgrade']);
+
+// Whether the viewer can actually use THIS template (free always; premium gated)
+const canUseThis = computed(() =>
+    props.template?.tier === 'free' || props.canUsePremium
+);
+const isCreating = computed(() =>
+    props.template != null && props.creatingId === props.template.id
+);
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 const cfg   = computed(() => props.template?.default_config ?? {});
@@ -314,10 +326,25 @@ onUnmounted(() => document.removeEventListener('keydown', onKey));
                                         </svg>
                                         {{ t('public.templateModal.viewFullDemo') }}
                                     </a>
-                                    <button @click="emit('use-template', template.id)"
-                                            class="w-full py-3 rounded-xl text-sm font-bold text-white transition-all hover:opacity-90 active:scale-[0.98]"
+                                    <button v-if="canUseThis"
+                                            @click="emit('use-template', template.id)"
+                                            :disabled="isCreating"
+                                            class="w-full flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-bold text-white transition-all hover:opacity-90 active:scale-[0.98] disabled:opacity-60"
                                             :style="`background:${primary}`">
-                                        {{ t('public.templateModal.useThisTemplate') }}
+                                        <svg v-if="isCreating" class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
+                                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
+                                        </svg>
+                                        {{ isCreating ? t('dashboard.templates.creating') : t('public.templateModal.useThisTemplate') }}
+                                    </button>
+                                    <button v-else
+                                            @click="emit('upgrade', template)"
+                                            class="w-full flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-bold bg-stone-800 text-[#C4D0C9] hover:bg-stone-700 transition-colors">
+                                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                  d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                                        </svg>
+                                        {{ t('dashboard.templates.upgradeToPremium') }}
                                     </button>
                                 </div>
                             </div>

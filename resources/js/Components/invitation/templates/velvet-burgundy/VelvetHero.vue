@@ -38,7 +38,7 @@ defineProps({
     border-bottom: 1px solid rgba(168,122,74,0.2);
 }
 .vb-hero--paper {
-    background-image: url('/images/templates/velvet-burgundy/paper-cream.webp');
+    background-image: url('/images/templates/velvet-burgundy/paper-cream.svg');
     background-size: cover;
     color: var(--vb-burgundy-deep, #3a0c0e);
 }

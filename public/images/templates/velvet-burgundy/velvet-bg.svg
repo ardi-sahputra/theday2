@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="800" viewBox="0 0 600 800" preserveAspectRatio="none">
+  <defs>
+    <filter id="velvetNoise" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.7 0.7" numOctaves="5" seed="13" stitchTiles="stitch" result="noise"/>
+      <feColorMatrix in="noise" type="matrix"
+        values="0 0 0 0 0.18
+                0 0 0 0 0.04
+                0 0 0 0 0.04
+                0 0 0 0.10 0"/>
+      <feComposite operator="over" in2="SourceGraphic"/>
+    </filter>
+    <radialGradient id="velvetSheen" cx="50%" cy="38%" r="80%">
+      <stop offset="0%" stop-color="#5c1a1b" stop-opacity="0.55"/>
+      <stop offset="55%" stop-color="#3a0c0e" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#2d0507" stop-opacity="0.65"/>
+    </radialGradient>
+  </defs>
+  <rect width="600" height="800" fill="#3a0c0e"/>
+  <rect width="600" height="800" fill="#3a0c0e" filter="url(#velvetNoise)"/>
+  <rect width="600" height="800" fill="url(#velvetSheen)"/>
+</svg>

@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024" fill="none">
+  <defs>
+    <linearGradient id="onx-leaf-gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f3d27a"/>
+      <stop offset="40%" stop-color="#d4af37"/>
+      <stop offset="75%" stop-color="#b8860b"/>
+      <stop offset="100%" stop-color="#8a6608"/>
+    </linearGradient>
+  </defs>
+
+  <g stroke="url(#onx-leaf-gold)" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <!-- central stem -->
+    <path d="M512 880 C512 720 512 540 512 360 C512 280 528 200 580 150"
+          stroke-width="6"/>
+
+    <!-- left fronds -->
+    <g stroke-width="4.5">
+      <path d="M512 800 C430 760 360 770 300 720"/>
+      <path d="M512 700 C420 660 340 668 276 612"/>
+      <path d="M512 600 C428 562 356 568 300 516"/>
+      <path d="M512 500 C440 466 376 470 326 426"/>
+      <path d="M512 410 C452 380 400 382 360 348"/>
+    </g>
+
+    <!-- right fronds -->
+    <g stroke-width="4.5">
+      <path d="M512 800 C594 760 664 770 724 720"/>
+      <path d="M512 700 C604 660 684 668 748 612"/>
+      <path d="M512 600 C596 562 668 568 724 516"/>
+      <path d="M512 500 C584 466 648 470 698 426"/>
+      <path d="M512 410 C572 380 624 382 664 348"/>
+    </g>
+
+    <!-- leaves (filled) at frond tips -->
+    <g fill="url(#onx-leaf-gold)" stroke="none">
+      <path d="M300 720 C282 700 280 676 296 658 C314 676 316 700 300 720 Z"/>
+      <path d="M276 612 C258 592 256 568 272 550 C290 568 292 592 276 612 Z"/>
+      <path d="M724 720 C742 700 744 676 728 658 C710 676 708 700 724 720 Z"/>
+      <path d="M748 612 C766 592 768 568 752 550 C734 568 732 592 748 612 Z"/>
+    </g>
+
+    <!-- crowning bud -->
+    <g stroke-width="4.5">
+      <path d="M580 150 C600 120 596 86 564 72 C548 104 556 132 580 150 Z" fill="url(#onx-leaf-gold)" stroke="none"/>
+      <circle cx="600" cy="118" r="6" fill="url(#onx-leaf-gold)" stroke="none"/>
+    </g>
+
+    <!-- decorative flourish curls at base -->
+    <g stroke-width="3.5">
+      <path d="M512 880 C476 900 432 896 412 864 C440 856 484 860 512 880"/>
+      <path d="M512 880 C548 900 592 896 612 864 C584 856 540 860 512 880"/>
+    </g>
+  </g>
+</svg>

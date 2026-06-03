@@ -11,9 +11,10 @@ const props = defineProps({
 const el = ref(null);
 useReveal(el);
 
-const details = props.invitation.details ?? {};
-const closingText = details.closing_text
-    ?? 'Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir. Atas kehadiran dan doa restu Anda, kami ucapkan terima kasih.';
+// Computed so the live editor preview reflects edits as the user types.
+const details = computed(() => props.invitation.details ?? {});
+const closingText = computed(() => details.value.closing_text
+    ?? 'Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir. Atas kehadiran dan doa restu Anda, kami ucapkan terima kasih.');
 
 // ── Countdown ────────────────────────────────────────────────────────────────
 // Target = first upcoming event date
@@ -59,9 +60,9 @@ const pad = (n) => String(n).padStart(2, '0');
         :style="{ backgroundColor: primaryColor + '10' }"
     >
         <!-- Background decoration -->
-        <div class="absolute -bottom-20 -right-20 w-64 h-64 rounded-full opacity-10"
+        <div class="inv-float-x absolute -bottom-20 -right-20 w-64 h-64 rounded-full opacity-10"
              :style="{ backgroundColor: primaryColor }"/>
-        <div class="absolute -top-16 -left-16 w-48 h-48 rounded-full opacity-8"
+        <div class="inv-float absolute -top-16 -left-16 w-48 h-48 rounded-full opacity-[0.08]"
              :style="{ backgroundColor: primaryColor }"/>
 
         <div ref="el" class="reveal relative z-10 max-w-sm mx-auto space-y-10">
@@ -70,7 +71,7 @@ const pad = (n) => String(n).padStart(2, '0');
             <div class="space-y-4">
                 <div class="flex items-center justify-center gap-2">
                     <div class="h-px w-10" :style="{ backgroundColor: primaryColor }"/>
-                    <svg class="w-4 h-4" :style="{ color: primaryColor }" fill="currentColor" viewBox="0 0 24 24">
+                    <svg class="inv-breathe w-4 h-4" :style="{ color: primaryColor }" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
                     </svg>
                     <div class="h-px w-10" :style="{ backgroundColor: primaryColor }"/>
@@ -96,11 +97,11 @@ const pad = (n) => String(n).padStart(2, '0');
                     <div
                         v-for="(item, label) in { hari: countdown.days, jam: countdown.hours, menit: countdown.minutes, detik: countdown.seconds }"
                         :key="label"
-                        class="rounded-2xl py-3 px-1"
+                        class="rounded-2xl py-3 px-1 transition-transform duration-300 hover:scale-105"
                         :style="{ backgroundColor: primaryColor + '15' }"
                     >
-                        <p class="text-2xl font-bold text-stone-800" :style="{ fontFamily }">
-                            {{ pad(item) }}
+                        <p class="text-2xl font-bold text-stone-800 tabular-nums" :style="{ fontFamily }">
+                            <span :key="pad(item)" class="inv-tick inline-block">{{ pad(item) }}</span>
                         </p>
                         <p class="text-xs text-stone-400 mt-0.5">{{ label }}</p>
                     </div>

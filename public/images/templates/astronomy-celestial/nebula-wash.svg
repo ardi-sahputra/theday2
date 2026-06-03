@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1600" viewBox="0 0 1200 1600" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <radialGradient id="acn-a" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#7d6f9b" stop-opacity="0.55"/>
+      <stop offset="55%" stop-color="#5a4f86" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#5a4f86" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="acn-b" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#4a6fb0" stop-opacity="0.5"/>
+      <stop offset="60%" stop-color="#33548f" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#33548f" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="acn-c" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#2f8f9b" stop-opacity="0.42"/>
+      <stop offset="60%" stop-color="#1f6f7a" stop-opacity="0.16"/>
+      <stop offset="100%" stop-color="#1f6f7a" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="acn-d" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#9a6fb5" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#9a6fb5" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="acn-blur" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="80"/>
+    </filter>
+  </defs>
+
+  <g filter="url(#acn-blur)">
+    <ellipse cx="380" cy="420" rx="520" ry="440" fill="url(#acn-a)"/>
+    <ellipse cx="880" cy="640" rx="560" ry="480" fill="url(#acn-b)"/>
+    <ellipse cx="540" cy="1080" rx="600" ry="520" fill="url(#acn-c)"/>
+    <ellipse cx="980" cy="1280" rx="460" ry="420" fill="url(#acn-d)"/>
+    <ellipse cx="180" cy="980" rx="420" ry="380" fill="url(#acn-d)" opacity="0.7"/>
+  </g>
+</svg>

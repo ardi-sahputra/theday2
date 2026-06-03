@@ -19,6 +19,7 @@ use App\Models\Template;
 use App\Models\WeddingPlan;
 use App\Services\ChecklistService;
 use App\Support\EffectiveUser;
+use App\Support\NextActionResolver;
 use App\Support\SectionAccess;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -190,6 +191,35 @@ class DashboardController extends Controller
             ];
         }
 
+        // ── Next-action hero: the single most important step for this couple ──
+        $overdueTask  = $upcomingTasks->firstWhere('is_overdue', true);
+        $newRsvpCount = Rsvp::whereIn('invitation_id', $invitationIds)
+            ->where('created_at', '>=', now()->subDay())
+            ->count();
+        $dueSoonCount = $plan->checklistTasks()
+            ->where('status', ChecklistTaskStatus::Todo)
+            ->whereNotNull('due_date')
+            ->whereBetween('due_date', [now()->startOfDay(), now()->addDays(7)->endOfDay()])
+            ->count();
+
+        $nextAction = NextActionResolver::resolve([
+            'is_married'            => (bool) ($countdown['is_past'] ?? false),
+            'has_invitation'        => $invitations->isNotEmpty(),
+            'invitation_id'         => $primaryInvitation?->id,
+            'invitation_status'     => $primaryInvitation
+                ? ($primaryInvitation->status instanceof InvitationStatus ? $primaryInvitation->status->value : $primaryInvitation->status)
+                : null,
+            'published_count'       => $stats['published_count'],
+            'has_wedding_date'      => (bool) $weddingDate,
+            'days_until'            => $countdown['days_until'] ?? null,
+            'overdue_task_title'    => $overdueTask['title'] ?? null,
+            'new_rsvp_count'        => $newRsvpCount,
+            'primary_view_count'    => (int) ($primaryInvitation->view_count ?? 0),
+            'due_soon_count'        => $dueSoonCount,
+            'checklist_initialized' => $plan->isChecklistInitialized(),
+            'checklist_progress'    => (int) $checklistSummary['progress'],
+        ]);
+
         $canUsePremium = SectionAccess::isPremium($request->user());
         $templates     = Template::active()
             ->with('category:id,name,slug')
@@ -244,6 +274,7 @@ class DashboardController extends Controller
             'couple'      => $coupleData,
             'recentRsvps' => $recentRsvps,
             'inviteShare' => $inviteShare,
+            'nextAction'  => $nextAction,
         ]);
     }
 }

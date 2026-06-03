@@ -27,6 +27,14 @@ use Illuminate\Support\Str;
 
 class InvitationController extends Controller
 {
+    /** Slugs that may never be used by an invitation (collide with app routes). */
+    private const RESERVED_SLUGS = [
+        'login', 'register', 'logout', 'dashboard', 'admin', 'templates',
+        'editor', 'use-template', 'onboarding', 'profile', 'up', 'i',
+        'verify-email', 'confirm-password', 'forgot-password',
+        'reset-password', 'email', 'sitemap', 'api', 'storage', 'blog', 'upgrade',
+    ];
+
     // ─── GET /api/invitations/check-slug ─────────────────────────
 
     public function checkSlug(Request $request): JsonResponse
@@ -39,9 +47,13 @@ class InvitationController extends Controller
         $slug      = $request->slug;
         $excludeId = $request->exclude_id;
 
-        $taken = \App\Models\Invitation::where('slug', $slug)
-            ->when($excludeId, fn ($q) => $q->where('id', '!=', $excludeId))
-            ->exists();
+        $taken = in_array($slug, self::RESERVED_SLUGS, true)
+            || \App\Models\Invitation::withTrashed()->where('slug', $slug)
+                ->when($excludeId, fn ($q) => $q->where('id', '!=', $excludeId))
+                ->exists()
+            || \App\Models\InvitationSlugAlias::where('slug', $slug)
+                ->when($excludeId, fn ($q) => $q->where('invitation_id', '!=', $excludeId))
+                ->exists();
 
         $suggestion = null;
         if ($taken) {
@@ -63,6 +75,47 @@ class InvitationController extends Controller
             'available'  => !$taken,
             'suggestion' => $suggestion,
         ]);
+    }
+
+    // ─── PUT /api/invitations/{invitation}/slug ──────────────────
+    // Change the public slug. The old slug is kept as an alias so links that
+    // were already shared keep working (public route redirects alias → current).
+    public function updateSlug(Request $request, Invitation $invitation): JsonResponse
+    {
+        $this->authorize('update', $invitation);
+
+        $data = $request->validate([
+            'slug' => ['required', 'string', 'min:3', 'max:100', 'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/'],
+        ]);
+        $slug = $data['slug'];
+        $old  = $invitation->slug;
+
+        if ($slug === $old) {
+            return response()->json(['slug' => $old]);
+        }
+
+        $taken = in_array($slug, self::RESERVED_SLUGS, true)
+            || Invitation::withTrashed()->where('slug', $slug)->where('id', '!=', $invitation->id)->exists()
+            || \App\Models\InvitationSlugAlias::where('slug', $slug)->where('invitation_id', '!=', $invitation->id)->exists();
+
+        if ($taken) {
+            return response()->json(['message' => 'Slug ini sudah dipakai. Coba yang lain.'], 422);
+        }
+
+        try {
+            \Illuminate\Support\Facades\DB::transaction(function () use ($invitation, $slug, $old) {
+                // Keep the old slug as a redirect alias (skip random system slugs is fine — harmless).
+                \App\Models\InvitationSlugAlias::updateOrCreate(['slug' => $old], ['invitation_id' => $invitation->id]);
+                // The new slug becomes live — drop any alias that pointed here.
+                \App\Models\InvitationSlugAlias::where('slug', $slug)->delete();
+                $invitation->update(['slug' => $slug]);
+            });
+        } catch (\Illuminate\Database\QueryException $e) {
+            // Unique constraint race — someone grabbed it a moment ago.
+            return response()->json(['message' => 'Slug baru saja diambil orang lain. Coba yang lain.'], 422);
+        }
+
+        return response()->json(['slug' => $invitation->slug]);
     }
 
     // ─── POST /api/invitations ────────────────────────────────────

@@ -35,10 +35,10 @@ function part() {
                 :aria-label="parting ? 'Membuka undangan' : 'Buka undangan'"
             >
                 <span class="ryokan-noren-half ryokan-noren-left">
-                    <img src="/images/templates/japanese-ryokan/noren-left.png" alt="" draggable="false" />
+                    <img src="/images/templates/japanese-ryokan/noren-left.svg" alt="" draggable="false" />
                 </span>
                 <span class="ryokan-noren-half ryokan-noren-right">
-                    <img src="/images/templates/japanese-ryokan/noren-right.png" alt="" draggable="false" />
+                    <img src="/images/templates/japanese-ryokan/noren-right.svg" alt="" draggable="false" />
                 </span>
                 <span class="ryokan-noren-kanji">{{ kanji }}</span>
             </button>

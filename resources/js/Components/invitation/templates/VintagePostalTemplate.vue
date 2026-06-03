@@ -11,6 +11,7 @@ import PostalPostmark   from './vintage-postal/PostalPostmark.vue'
 import PostalTypewriter from './vintage-postal/PostalTypewriter.vue'
 import PostalRoute      from './vintage-postal/PostalRoute.vue'
 import PostalWashiTape  from './vintage-postal/PostalWashiTape.vue'
+import GallerySection    from '@/Components/invitation/sections/GallerySection.vue'
 
 const props = defineProps({
     invitation: { type: Object,  required: true },
@@ -34,7 +35,7 @@ const {
     rsvpForm, rsvpSubmitting, rsvpSuccess, rsvpError, submitRsvp,
     vReveal,
 } = useInvitationTemplate(props, {
-    galleryLayout: 'masonry',
+    galleryLayout: 'polaroid',
     openingStyle:  'gate',
     revealClass:   'vp-visible',
 })
@@ -293,39 +294,11 @@ const showWatermark = computed(() => !hasActiveSub.value)
                         <template #header>
                             <h2 class="vp-section-title">GALLERY</h2>
                         </template>
-                        <div class="vp-gallery-masonry">
-                            <div
-                                v-for="(img, idx) in galleries"
-                                :key="img.id ?? (img.image_url ?? img.file_url) + idx"
-                                class="vp-gallery-item"
-                                :class="`vp-gallery-item--v${idx % 3}`"
-                                @click="lightboxUrl = img.image_url ?? img.file_url"
-                            >
-                                <img
-                                    :src="img.image_url ?? img.file_url"
-                                    :alt="img.caption ?? ''"
-                                    loading="lazy"
-                                />
-                                <p v-if="img.caption && (idx % 3 === 0)" class="vp-gallery-caption">
-                                    {{ img.caption }}
-                                </p>
-                                <PostalWashiTape
-                                    v-if="idx % 3 === 2"
-                                    pattern="floral"
-                                    position="free"
-                                    class="vp-gallery-tape"
-                                    :length="100"
-                                    :rotate="-15"
-                                />
-                                <PostalStamp
-                                    v-if="idx % 3 === 1"
-                                    class="vp-gallery-stamp"
-                                    theme="love"
-                                    :rotate="-8"
-                                    size="tiny"
-                                />
-                            </div>
-                        </div>
+                        <GallerySection
+                            :galleries="galleries"
+                            :layout="galleryLayout"
+                            :primary-color="'#8b3a3a'"
+                        />
                     </PostalCard>
                 </section>
 
@@ -526,7 +499,7 @@ const showWatermark = computed(() => !hasActiveSub.value)
 .vp-content {
     position: relative;
     background:
-        url('/images/templates/vintage-postal/kraft.webp') center top/600px repeat,
+        url('/images/templates/vintage-postal/kraft.svg') center top/600px repeat,
         var(--vp-cream);
     padding-bottom: 48px;
 }

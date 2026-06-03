@@ -40,7 +40,7 @@ const dateParts = computed(() => {
         <div class="tv-cover-vignette" aria-hidden="true"/>
         <img
             class="tv-cover-flare tv-sun-flare"
-            src="/images/templates/tuscany-vineyard/sun-flare.png"
+            src="/images/templates/tuscany-vineyard/sun-flare.svg"
             :style="{ opacity: flareOpacity }"
             alt="" draggable="false"
         />

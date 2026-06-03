@@ -535,6 +535,14 @@ Atau, kalau memang hex template-specific yang sengaja FIXED (kayak Netflix red `
 
 **Correct:** Watermark di-render conditional berdasarkan plan (lihat `<TheDayLogo>` watermark pattern di `NetflixTemplate.vue`).
 
+### Rule 6b — Daftarkan kapabilitas field ke `capabilities.js`
+
+**Forbidden:** Bikin/ubah template tanpa update `resources/js/Components/invitation/templates/capabilities.js`.
+
+**Reason:** Editor v2 nyembunyiin input yang template-nya nggak render (mis. no-photo template → upload foto hilang, template tanpa Instagram → field IG hilang). Sumbernya **cuma** map ini — nggak auto-detect dari kode template.
+
+**Correct:** Setelah template selesai, tambah/sesuaikan entri di `TEMPLATE_CAPS` untuk slug itu. Field yang nggak di-render → set `false` (`photos`, `instagram`, `parents`, `quote`, `liveStreaming`, dst). Kalau nambah field gateable baru: tambah key-nya di `DEFAULT_CAPS` + gate input editor dengan `v-if="caps.<key>"`.
+
 ### Rule 7 — JANGAN deploy tanpa animation minimum
 
 **Forbidden:** Template static tanpa reveal-on-scroll, ga ada motion sama sekali.

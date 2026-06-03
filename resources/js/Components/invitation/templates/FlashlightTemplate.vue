@@ -9,7 +9,7 @@ import SectionAnchor from './flashlight/SectionAnchor.vue'
 import DustMotes     from './flashlight/DustMotes.vue'
 import MiniMap       from './flashlight/MiniMap.vue'
 import LightTrail    from './flashlight/LightTrail.vue'
-import TheDayLogo    from './netflix/TheDayLogo.vue'
+import BrandWatermark    from './BrandWatermark.vue'
 import FlSectionRsvp   from './flashlight/sections/FlSectionRsvp.vue'
 import FlSectionWishes from './flashlight/sections/FlSectionWishes.vue'
 
@@ -210,7 +210,7 @@ onBeforeUnmount(() => {
                                 </div>
                                 <div v-else-if="a.key==='closing'" class="fl-section fl-section--closing fl-reveal" :ref="el=>vReveal(el)">
                                     <p class="fl-closing-text">{{ closingText }}</p><p class="fl-closing-script">with love,</p><h3 class="fl-closing-names">{{ groomName }} &amp; {{ brideName }}</h3>
-                                    <TheDayLogo v-if="showWatermark" class="fl-watermark" :height="16" muted/>
+                                    <BrandWatermark v-if="showWatermark" class="fl-watermark" :height="16" muted/>
                                 </div>
                             </SectionAnchor>
                         </template>

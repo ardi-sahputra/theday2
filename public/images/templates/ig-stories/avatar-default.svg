@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120" role="img" aria-label="Default profile photo">
+  <defs>
+    <linearGradient id="igsBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3a3a3f"/>
+      <stop offset="1" stop-color="#1a1a1d"/>
+    </linearGradient>
+    <linearGradient id="igsFig" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f4f4f6"/>
+      <stop offset="1" stop-color="#d6d6dc"/>
+    </linearGradient>
+  </defs>
+  <rect width="120" height="120" fill="url(#igsBg)"/>
+  <!-- person silhouette: head + shoulders, centered for circular crop -->
+  <circle cx="60" cy="46" r="20" fill="url(#igsFig)"/>
+  <path d="M24 110c0-19.9 16.1-36 36-36s36 16.1 36 36z" fill="url(#igsFig)"/>
+</svg>

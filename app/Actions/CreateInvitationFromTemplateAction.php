@@ -37,12 +37,19 @@ class CreateInvitationFromTemplateAction
                 []
             );
         } else {
+            // Derive a clean slug from the couple's names (session stash or the
+            // durable CoupleProfile); fall back to random only if no names exist.
+            $pending = session('pending_couple_data');
+            $cp      = $user->coupleProfile;
+            $groom   = $pending['groom_nickname'] ?? $pending['groom_name'] ?? $cp?->groom_nickname ?? $cp?->groom_name;
+            $bride   = $pending['bride_nickname'] ?? $pending['bride_name'] ?? $cp?->bride_nickname ?? $cp?->bride_name;
+
             $invitation = Invitation::create([
                 'user_id'     => $user->id,
                 'template_id' => $template->id,
                 'title'       => '',
                 'event_type'  => 'pernikahan',
-                'slug'        => $this->generateUniqueSlug(),
+                'slug'        => $this->generateUniqueSlug($groom, $bride),
                 'status'      => 'draft',
             ]);
             $invitation->details()->create(['invitation_id' => $invitation->id]);
@@ -55,21 +62,35 @@ class CreateInvitationFromTemplateAction
 
     /**
      * Pre-fill the invitation with couple data stashed during onboarding
-     * (template-first flow), then clear it.
+     * (template-first flow). Falls back to the durable CoupleProfile when the
+     * onboarding session is gone (e.g. invitation created days later), so names
+     * are never lost. Clears the session afterwards.
      */
     private function applyPendingCoupleData(Invitation $invitation): void
     {
         $pending = session('pending_couple_data');
+
+        // Fallback: no session data → pull from the couple's durable profile.
         if (! is_array($pending)) {
-            return;
+            $cp = $invitation->user?->coupleProfile;
+            if (! $cp || (! $cp->groom_name && ! $cp->bride_name)) {
+                return;
+            }
+            $pending = [
+                'groom_name'     => $cp->groom_name,
+                'groom_nickname' => $cp->groom_nickname,
+                'bride_name'     => $cp->bride_name,
+                'bride_nickname' => $cp->bride_nickname,
+                'wedding_date'   => optional($cp->wedding_date)->format('Y-m-d'),
+            ];
         }
 
         $invitation->update([
             'title'          => trim(($pending['groom_name'] ?? '') . ' & ' . ($pending['bride_name'] ?? '')),
-            'marital_status' => $pending['marital_status'] ?? null,
-            'wedding_type'   => $pending['wedding_type'] ?? null,
-            'city'           => $pending['city'] ?? null,
-            'intended_plan'  => $pending['intended_plan'] ?? null,
+            'marital_status' => $pending['marital_status'] ?? $invitation->marital_status,
+            'wedding_type'   => $pending['wedding_type']   ?? $invitation->wedding_type,
+            'city'           => $pending['city']           ?? $invitation->city,
+            'intended_plan'  => $pending['intended_plan']  ?? $invitation->intended_plan,
         ]);
 
         $invitation->details()->update([
@@ -95,12 +116,36 @@ class CreateInvitationFromTemplateAction
         session()->forget('pending_couple_data');
     }
 
-    private function generateUniqueSlug(): string
+    private function generateUniqueSlug(?string $groom = null, ?string $bride = null): string
     {
-        do {
-            $slug = Str::random(8);
-        } while (Invitation::withTrashed()->where('slug', $slug)->exists());
+        $g = Str::slug((string) $groom);
+        $b = Str::slug((string) $bride);
+        $base = ($g && $b) ? "{$b}-{$g}" : ($b ?: ($g ?: null));
 
-        return $slug;
+        // No names → fall back to a short random slug.
+        if (! $base) {
+            do {
+                $slug = Str::random(8);
+            } while ($this->slugTaken($slug));
+            return $slug;
+        }
+
+        if (! $this->slugTaken($base)) {
+            return $base;
+        }
+        // Collision → meaningful suffix (year), then increment.
+        $year = (int) date('Y');
+        foreach (["{$base}-{$year}", ...array_map(fn ($i) => "{$base}-{$i}", range(2, 9))] as $candidate) {
+            if (! $this->slugTaken($candidate)) {
+                return $candidate;
+            }
+        }
+        return "{$base}-" . Str::lower(Str::random(4));
+    }
+
+    private function slugTaken(string $slug): bool
+    {
+        return Invitation::withTrashed()->where('slug', $slug)->exists()
+            || \App\Models\InvitationSlugAlias::where('slug', $slug)->exists();
     }
 }

@@ -10,7 +10,7 @@ export default {
             x: 25, y: 23,
             label:        'Gallery',
             section:      'gallery',
-            illustration: '/images/templates/garden/objects/polaroid.png',
+            illustration: '/images/templates/garden/objects/gallery-easel.svg',
             animation:    'pulse',
             size:         76,
         },

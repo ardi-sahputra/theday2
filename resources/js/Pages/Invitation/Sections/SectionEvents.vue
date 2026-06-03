@@ -1,6 +1,6 @@
 <script setup>
-import { ref } from 'vue';
-import { useStaggerReveal } from '@/Composables/useReveal.js';
+import { ref, watch, nextTick } from 'vue';
+import { useReveal, useStaggerReveal } from '@/Composables/useReveal.js';
 
 const props = defineProps({
     events:       { type: Array,  default: () => [] },
@@ -8,8 +8,18 @@ const props = defineProps({
     fontFamily:   { type: String, default: 'Playfair Display' },
 });
 
+const heading   = ref(null);
 const container = ref(null);
+useReveal(heading);
 useStaggerReveal(container, '.event-card', 120);
+
+// The stagger observer fires once then disconnects, so cards added later (live
+// editor preview) would stay at opacity:0. Reveal any new card on list change.
+watch(() => props.events.length, () => {
+    nextTick(() => {
+        container.value?.querySelectorAll('.event-card').forEach((el) => el.classList.add('visible'));
+    });
+});
 </script>
 
 <template>
@@ -20,10 +30,10 @@ useStaggerReveal(container, '.event-card', 120);
         <div class="max-w-sm mx-auto space-y-8">
 
             <!-- Heading -->
-            <div class="text-center space-y-2">
+            <div ref="heading" class="reveal-blur text-center space-y-2">
                 <div class="flex items-center justify-center gap-2">
                     <div class="h-px w-10" :style="{ backgroundColor: primaryColor }"/>
-                    <svg class="w-4 h-4" :style="{ color: primaryColor }" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg class="inv-float w-4 h-4" :style="{ color: primaryColor }" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                               d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                     </svg>
@@ -39,11 +49,14 @@ useStaggerReveal(container, '.event-card', 120);
                 <div
                     v-for="event in events"
                     :key="event.id"
-                    class="event-card reveal rounded-3xl overflow-hidden bg-white shadow-sm border"
+                    class="event-card reveal-scale rounded-3xl overflow-hidden bg-white shadow-sm border transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
                     :style="{ borderColor: primaryColor + '30' }"
                 >
-                    <!-- Color strip -->
-                    <div class="h-1.5" :style="{ backgroundColor: primaryColor }"/>
+                    <!-- Color strip (with sweeping shimmer) -->
+                    <div
+                        class="inv-shimmer h-1.5"
+                        :style="{ backgroundImage: `linear-gradient(90deg, ${primaryColor}, ${primaryColor}55, ${primaryColor})` }"
+                    />
 
                     <div class="p-5 space-y-4">
                         <!-- Event name -->

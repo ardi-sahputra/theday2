@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="28" viewBox="0 0 240 28" preserveAspectRatio="none">
+  <defs>
+    <clipPath id="tornF">
+      <path d="M3,1 L8,3 L4,6 L9,9 L4,13 L8,17 L4,21 L9,25 L5,27
+               L235,27 L231,23 L236,19 L231,15 L236,11 L231,7 L236,3 L232,1 Z"/>
+    </clipPath>
+    <g id="flower">
+      <circle cx="0" cy="-3.2" r="2" fill="#a04848"/>
+      <circle cx="3" cy="1.6" r="2" fill="#a04848"/>
+      <circle cx="-3" cy="1.6" r="2" fill="#a04848"/>
+      <circle cx="0" cy="0" r="1.6" fill="#d8c8a0"/>
+    </g>
+    <pattern id="floral" width="30" height="28" patternUnits="userSpaceOnUse">
+      <use href="#flower" x="8" y="9"/>
+      <use href="#flower" x="23" y="20"/>
+      <g stroke="#2c4a3e" stroke-opacity="0.5" stroke-width="0.8" fill="none">
+        <path d="M8 14 q3 4 6 4"/>
+        <path d="M23 16 q-3 3 -6 4"/>
+      </g>
+    </pattern>
+  </defs>
+  <g clip-path="url(#tornF)" opacity="0.82">
+    <rect width="240" height="28" fill="#f1e6cf"/>
+    <rect width="240" height="28" fill="url(#floral)"/>
+    <rect width="240" height="6" fill="#ffffff" opacity="0.2"/>
+  </g>
+</svg>

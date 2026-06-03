@@ -57,7 +57,7 @@ function trigger() {
 }
 .tv-gate-bg {
     position: absolute; inset: 0;
-    background: url('/images/templates/tuscany-vineyard/terracotta-bg.webp') center/cover repeat;
+    background: url('/images/templates/tuscany-vineyard/terracotta-bg.svg') center/cover repeat;
     opacity: 0.08;
     pointer-events: none;
 }

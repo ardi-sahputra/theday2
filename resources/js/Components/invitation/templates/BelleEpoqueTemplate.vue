@@ -6,6 +6,7 @@ import BelleCover        from './belle-epoque/BelleCover.vue'
 import BelleHero         from './belle-epoque/BelleHero.vue'
 import BelleStamp        from './belle-epoque/BelleStamp.vue'
 import BelleFloralCorner from './belle-epoque/BelleFloralCorner.vue'
+import GallerySection     from '@/Components/invitation/sections/GallerySection.vue'
 
 const props = defineProps({
     invitation: { type: Object,  required: true },
@@ -21,7 +22,7 @@ const {
     // data
     groomName, brideName, groomNick, brideNick,
     coverPhotoUrl, coverTextColor,
-    details, events, galleries,
+    details, events, galleries, galleryLayout,
     openingText, closingText,
     firstEventDate, countdown, targetDate, pad,
     // sections
@@ -149,7 +150,7 @@ function scrollToRsvp() { rsvpRef.value?.scrollIntoView({ behavior: 'smooth' }) 
                 >
                     <BelleFloralCorner position="tl" :palette="floralPalette" size="md"/>
                     <BelleFloralCorner position="br" :palette="floralPalette" size="md"/>
-                    <img src="/images/templates/belle-epoque/peony-divider.webp" alt="" class="bp-peony-divider" loading="lazy"/>
+                    <img src="/images/templates/belle-epoque/peony-divider.svg" alt="" class="bp-peony-divider" loading="lazy"/>
                     <h2 class="bp-h-smallcaps">Le Couple</h2>
                     <div class="bp-couple-grid">
                         <article class="bp-person">
@@ -269,16 +270,7 @@ function scrollToRsvp() { rsvpRef.value?.scrollIntoView({ behavior: 'smooth' }) 
                     <BelleFloralCorner position="tr" :palette="floralPalette" size="sm"/>
                     <BelleFloralCorner position="bl" :palette="floralPalette" size="sm"/>
                     <h2 class="bp-h-smallcaps">Galerie de Souvenirs</h2>
-                    <div class="bp-gallery-grid">
-                        <button
-                            v-for="g in galleries"
-                            :key="g.id ?? g.file_url"
-                            class="bp-gallery-tile"
-                            @click="lightboxUrl = g.file_url ?? g.image_url"
-                        >
-                            <img :src="g.file_url ?? g.image_url" :alt="g.caption ?? ''" loading="lazy"/>
-                        </button>
-                    </div>
+                    <GallerySection :galleries="galleries" :layout="galleryLayout" :primary-color="'#b8860b'" />
                 </section>
 
                 <!-- ── RSVP ── -->
@@ -377,7 +369,7 @@ function scrollToRsvp() { rsvpRef.value?.scrollIntoView({ behavior: 'smooth' }) 
                     <img
                         v-if="eiffelVisible"
                         class="bp-closing-eiffel"
-                        src="/images/templates/belle-epoque/eiffel-front.webp"
+                        src="/images/templates/belle-epoque/eiffel-front.svg"
                         alt="" aria-hidden="true" loading="lazy"
                     />
                     <h2 class="bp-closing-names">{{ groomName }} &amp; {{ brideName }}</h2>
@@ -438,7 +430,7 @@ function scrollToRsvp() { rsvpRef.value?.scrollIntoView({ behavior: 'smooth' }) 
 .bp-section--cream       { background: var(--bp-cream); }
 .bp-section--cream-light { background: var(--bp-cream-light); }
 .bp-section--paper {
-    background-image: url('/images/templates/belle-epoque/paper-cream.webp');
+    background-image: url('/images/templates/belle-epoque/paper-cream.svg');
     background-size: 512px;
     background-repeat: repeat;
 }

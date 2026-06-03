@@ -8,6 +8,7 @@ import CelestialCosmos     from './astronomy-celestial/CelestialCosmos.vue'
 import CelestialCover      from './astronomy-celestial/CelestialCover.vue'
 import CelestialHero       from './astronomy-celestial/CelestialHero.vue'
 import { ZODIAC_LABEL }    from './astronomy-celestial/zodiac.js'
+import GallerySection      from '@/Components/invitation/sections/GallerySection.vue'
 
 const props = defineProps({
     invitation: { type: Object,  required: true },
@@ -22,7 +23,7 @@ const {
     fontTitle, fontHeading, fontBody,
     groomName, brideName, groomNick, brideNick,
     coverPhotoUrl,
-    details, events, galleries,
+    details, events, galleries, galleryLayout,
     openingText, closingText,
     firstEvent, firstEventDate,
     countdown, targetDate, pad,
@@ -300,17 +301,7 @@ const showWatermark = computed(() => !hasActiveSub.value)
                             <h2 class="ac-section-title">MOMENTS</h2>
                             <CelestialOrnament variant="comet"/>
                         </header>
-                        <div class="ac-gallery-grid">
-                            <button
-                                v-for="img in galleries"
-                                :key="img.id ?? (img.image_url ?? img.file_url)"
-                                type="button"
-                                class="ac-gallery-cell"
-                                @click="lightboxUrl = (img.image_url ?? img.file_url)"
-                            >
-                                <img :src="(img.image_url ?? img.file_url)" :alt="img.caption ?? ''" loading="lazy"/>
-                            </button>
-                        </div>
+                        <GallerySection :galleries="galleries" :layout="galleryLayout" :primary-color="'#d4af37'" />
                     </div>
                 </section>
 

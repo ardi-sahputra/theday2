@@ -25,7 +25,7 @@ const props = defineProps({
 .pa-page {
     position: relative;
     background-color: #1a1410;
-    background-image: url('/images/templates/photo-album/black-paper.webp');
+    background-image: url('/images/templates/photo-album/black-paper.svg');
     background-size: 600px 600px;
     background-repeat: repeat;
     color: #f4ead5;

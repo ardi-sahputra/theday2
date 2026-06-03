@@ -43,7 +43,7 @@ onMounted(() => {
     animation-fill-mode: forwards;
 }
 .ac-cosmos-galaxy {
-    background: url('/images/templates/astronomy-celestial/galaxy.webp') center/cover no-repeat, #02060c;
+    background: url('/images/templates/astronomy-celestial/galaxy.svg') center/cover no-repeat, #02060c;
     opacity: 0.5;
     animation: ac-cosmos-1 2.4s ease-in-out;
 }

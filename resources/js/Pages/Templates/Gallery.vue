@@ -34,6 +34,11 @@ const showPreview     = ref(false);
 const openPreview  = (tpl) => { previewTemplate.value = tpl; showPreview.value = true; };
 const closePreview = () => { showPreview.value = false; };
 
+// Thumbnails whose file 404s — fall back to the styled mock card instead of a blank box.
+const brokenThumbs = ref([]);
+const markThumbBroken = (id) => { if (!brokenThumbs.value.includes(id)) brokenThumbs.value.push(id); };
+const hasThumb = (tpl) => !!tpl.thumbnail_url && !brokenThumbs.value.includes(tpl.id);
+
 // ── Helpers ───────────────────────────────────────────────────────
 const tierConfig = {
     free:    { label: 'Gratis',  bg: '#D1FAE5', color: '#065F46' },
@@ -214,10 +219,11 @@ const tTier  = (tier) => tier === 'free' ? t('public.gallery.free') : 'Premium';
                         :style="`background: linear-gradient(160deg, ${secondaryColor(template)}, ${primaryColor(template)}33)`"
                     >
                         <img
-                            v-if="template.thumbnail_url"
+                            v-if="hasThumb(template)"
                             :src="template.thumbnail_url"
                             :alt="template.name"
                             class="w-full h-full object-cover"
+                            @error="markThumbBroken(template.id)"
                         />
                         <template v-else>
                             <div class="absolute -top-8 -right-8 w-32 h-32 rounded-full opacity-20"

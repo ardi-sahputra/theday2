@@ -6,6 +6,7 @@ import axios from 'axios';
 import { computed, ref } from 'vue';
 import { useLocale } from '@/Composables/useLocale';
 import CountdownHero    from '@/Components/dashboard/widgets/CountdownHero.vue';
+import NextActionHero    from '@/Components/dashboard/widgets/NextActionHero.vue';
 import QuickStats        from '@/Components/dashboard/widgets/QuickStats.vue';
 import ChecklistCard     from '@/Components/dashboard/widgets/ChecklistCard.vue';
 import InviteShareCard   from '@/Components/dashboard/widgets/InviteShareCard.vue';
@@ -30,7 +31,19 @@ const props = defineProps({
     couple:            { type: Object,  default: null },
     recentRsvps:       { type: Array,   default: () => [] },
     inviteShare:       { type: Object,  default: null },
+    nextAction:        { type: Object,  default: null },
 });
+
+// ── Next-action hero "share" action: copy invite link + toast ──────────
+const copyToast = ref(false);
+async function copyInviteLink() {
+    if (!props.inviteShare?.url) return;
+    try {
+        await navigator.clipboard.writeText(props.inviteShare.url);
+        copyToast.value = true;
+        setTimeout(() => { copyToast.value = false; }, 2500);
+    } catch (_) {}
+}
 
 // ── Delete ────────────────────────────────────────────────────────────
 const confirmTarget = ref(null);
@@ -183,6 +196,8 @@ function saveWeddingDate() {
         <div class="w-full space-y-5">
           <CountdownHero :couple="couple" :countdown="countdown" :invite-url="inviteShare?.url ?? ''" @set-date="openDateModal" />
 
+          <NextActionHero :next-action="nextAction" @set-date="openDateModal" @share="copyInviteLink" />
+
           <QuickStats :stats="stats" :budget-widget="budgetWidget" :checklist-widget="checklistWidget" />
 
           <InviteShareCard :invite-share="inviteShare" />
@@ -307,7 +322,7 @@ function saveWeddingDate() {
                             <!-- Row 1: primary -->
                             <div class="flex gap-2">
                                 <Link
-                                    :href="route('dashboard.invitations.edit', inv.id)"
+                                    :href="route('dashboard.invitations.customize-v2', inv.id)"
                                     class="flex-1 text-center py-2 rounded-xl text-xs font-semibold border border-stone-200 text-stone-600 hover:bg-stone-50 transition-colors"
                                 >
                                     {{ t('dashboard.index.recentInvitations.edit') }}
@@ -326,7 +341,7 @@ function saveWeddingDate() {
                             <!-- Row 2: secondary -->
                             <div class="flex gap-2">
                                 <Link
-                                    :href="route('dashboard.invitations.customize', inv.id)"
+                                    :href="route('dashboard.invitations.customize-v2', inv.id)"
                                     class="flex-1 text-center py-2 rounded-xl text-xs font-semibold border border-[#92A89C]/50 text-[#73877C] hover:bg-[#92A89C]/10 transition-colors"
                                     :title="t('dashboard.index.recentInvitations.customizeTitle')"
                                 >
@@ -555,6 +570,19 @@ function saveWeddingDate() {
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                     </svg>
                 </button>
+            </div>
+        </Transition>
+
+        <!-- Invite link copied toast (from NextActionHero share) -->
+        <Transition name="toast">
+            <div v-if="copyToast"
+                 class="fixed bottom-20 lg:bottom-6 right-6 z-50 bg-white rounded-2xl shadow-xl border border-stone-100 p-4 flex items-center gap-3 max-w-xs">
+                <div class="w-8 h-8 rounded-xl bg-green-50 flex items-center justify-center flex-shrink-0">
+                    <svg class="w-4 h-4 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                    </svg>
+                </div>
+                <p class="text-sm font-semibold text-stone-800">{{ t('dashboard.index.nextAction.shareCopied') }}</p>
             </div>
         </Transition>
 

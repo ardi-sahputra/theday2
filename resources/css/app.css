@@ -232,6 +232,47 @@
   }
 }
 
+/* ── Invitation scroll-reveal variants ──────────────────────── */
+/* All variants share the `.visible` trigger added by useReveal /
+   useStaggerReveal, so any element can mix-and-match a base class.   */
+.reveal,
+.reveal-up      { opacity: 0; transform: translateY(28px); transition: opacity .7s ease, transform .7s ease; }
+.reveal.visible,
+.reveal-up.visible { opacity: 1; transform: translateY(0); }
+
+.reveal-left    { opacity: 0; transform: translateX(-34px); transition: opacity .7s ease, transform .7s ease; }
+.reveal-left.visible  { opacity: 1; transform: translateX(0); }
+
+.reveal-right   { opacity: 0; transform: translateX(34px); transition: opacity .7s ease, transform .7s ease; }
+.reveal-right.visible { opacity: 1; transform: translateX(0); }
+
+/* Springy pop-in */
+.reveal-scale   { opacity: 0; transform: scale(.86); transition: opacity .6s ease, transform .7s cubic-bezier(.34, 1.56, .64, 1); }
+.reveal-scale.visible { opacity: 1; transform: scale(1); }
+
+/* Soft focus-in */
+.reveal-blur    { opacity: 0; filter: blur(10px); transform: translateY(14px); transition: opacity .8s ease, filter .8s ease, transform .8s ease; }
+.reveal-blur.visible  { opacity: 1; filter: blur(0); transform: translateY(0); }
+
+/* ── Ambient loops (decoration only) ────────────────────────── */
+@keyframes inv-float    { 0%, 100% { transform: translateY(0); }       50% { transform: translateY(-9px); } }
+@keyframes inv-float-x  { 0%, 100% { transform: translate(0, 0); }     50% { transform: translate(7px, -12px); } }
+@keyframes inv-breathe  { 0%, 100% { transform: scale(1); }            50% { transform: scale(1.045); } }
+@keyframes inv-pulse    { 0%, 100% { opacity: .5; }                    50% { opacity: 1; } }
+@keyframes inv-shimmer  { 0% { background-position: -150% 0; }         100% { background-position: 250% 0; } }
+@keyframes inv-spin-slow{ to { transform: rotate(360deg); } }
+@keyframes inv-tick     { from { transform: translateY(-5px); opacity: .35; } to { transform: translateY(0); opacity: 1; } }
+
+.inv-float     { animation: inv-float 5s ease-in-out infinite; }
+.inv-float-x   { animation: inv-float-x 9s ease-in-out infinite; }
+.inv-breathe   { animation: inv-breathe 3.6s ease-in-out infinite; }
+.inv-pulse     { animation: inv-pulse 2.4s ease-in-out infinite; }
+.inv-spin-slow { animation: inv-spin-slow 16s linear infinite; }
+.inv-tick      { animation: inv-tick .45s ease-out; }
+
+/* Sweeping highlight — put on a thin bar that already has a gradient bg */
+.inv-shimmer   { background-size: 200% 100%; animation: inv-shimmer 3.2s linear infinite; }
+
 /* ── Reduced-motion support ─────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
     *,
@@ -243,3 +284,89 @@
         scroll-behavior: auto !important;
     }
 }
+
+/* ════════════════════════════════════════════════════════════════
+   Editor V2 — design-system primitives (from Undangan.html prototype)
+   Scope everything under .ev2 so it never leaks into other UI.
+   ════════════════════════════════════════════════════════════════ */
+.ev2 {
+  --sage: var(--d-sage); --sage-dark: var(--d-sage-dark); --sage-deep: var(--d-sage-deep);
+  --sage-soft: var(--d-sage-soft); --line: var(--d-line); --line-2: var(--d-line-2);
+  --ink: var(--d-ink); --ink-2: var(--d-ink-2); --muted: #6C7A75;
+  --surface: #F6F8F3; --surface-2: #FBFCF9; --white: #FBFCF9; --blush: #D9B5B0; --gold: #C9A45B;
+  color: var(--ink);
+}
+.ev2 .serif{ font-family:'Cormorant','Cormorant Garamond',serif; font-weight:500; }
+
+/* Tabs — underline style */
+.ev2-tabs{ display:flex; gap:4px; overflow-x:auto; border-bottom:1px solid var(--d-line); }
+.ev2-tab{ padding:10px 14px; font-size:12.5px; color:var(--d-muted,#6C7A75); border:none; border-bottom:2px solid transparent; background:transparent; cursor:pointer; font-weight:500; white-space:nowrap; font-family:inherit; }
+.ev2-tab:hover{ color:var(--d-ink-2); }
+.ev2-tab.active{ color:var(--d-ink); border-bottom-color:var(--d-sage); font-weight:600; }
+
+/* Section blocks */
+.ev2 .section-block{ padding:20px 0; border-bottom:1px solid var(--line); }
+.ev2 .section-block:last-child{ border-bottom:none; }
+.ev2 .section-block h4{ font-family:'Cormorant','Cormorant Garamond',serif; font-size:18px; font-weight:600; margin:0 0 4px; color:var(--ink); letter-spacing:-0.01em; }
+.ev2 .section-block .desc{ font-size:12px; color:var(--muted); margin-bottom:14px; }
+
+/* Fields */
+.ev2 .field{ margin-bottom:16px; }
+.ev2 .field-row{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.ev2 .field-row-3{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; }
+.ev2 .label{ display:block; font-size:11.5px; font-weight:600; color:var(--ink-2); margin-bottom:6px; letter-spacing:0.02em; }
+.ev2 .input, .ev2 .textarea{ width:100%; background:var(--white); border:1px solid var(--line-2); border-radius:10px; padding:9px 12px; font-size:13px; color:var(--ink); font-family:inherit; outline:none; transition:border-color .12s; }
+.ev2 .input:focus, .ev2 .textarea:focus{ border-color:var(--sage); }
+.ev2 .textarea{ resize:vertical; min-height:70px; line-height:1.5; }
+.ev2 .help{ font-size:11px; color:var(--muted); margin-top:4px; }
+
+/* Toggle rows */
+.ev2 .toggle{ display:flex; align-items:center; gap:10px; padding:10px 12px; background:var(--white); border:1px solid var(--line); border-radius:10px; margin-bottom:6px; }
+.ev2 .toggle .name{ flex:1; font-size:13px; color:var(--ink); font-weight:500; }
+.ev2 .toggle .sub{ font-size:11px; color:var(--muted); }
+.ev2 .toggle-sw{ position:relative; width:34px; height:20px; background:var(--line-2); border-radius:999px; transition:background .15s; cursor:pointer; flex-shrink:0; border:none; }
+.ev2 .toggle-sw.on{ background:var(--sage); }
+.ev2 .toggle-sw::after{ content:''; position:absolute; left:2px; top:2px; width:16px; height:16px; background:#fff; border-radius:50%; transition:transform .15s; box-shadow:0 1px 3px rgba(0,0,0,0.2); }
+.ev2 .toggle-sw.on::after{ transform:translateX(14px); }
+
+/* Swatches & font picks */
+.ev2 .swatch-row{ display:flex; gap:8px; flex-wrap:wrap; }
+.ev2 .swatch{ display:flex; gap:3px; padding:6px; border-radius:10px; border:2px solid var(--line-2); cursor:pointer; transition:all .12s; background:var(--white); }
+.ev2 .swatch.active{ border-color:var(--sage-dark); box-shadow:0 0 0 2px rgba(111,130,112,0.15); }
+.ev2 .swatch span{ width:16px; height:28px; border-radius:4px; display:block; }
+.ev2 .font-pick{ display:grid; gap:6px; }
+.ev2 .font-pick button{ text-align:left; background:var(--white); border:1px solid var(--line-2); padding:9px 12px; border-radius:10px; cursor:pointer; font-family:inherit; transition:all .12s; display:flex; justify-content:space-between; align-items:baseline; }
+.ev2 .font-pick button.active{ border-color:var(--sage-dark); background:var(--sage-soft); }
+.ev2 .font-pick .name{ font-family:'Cormorant','Cormorant Garamond',serif; font-size:18px; color:var(--ink); }
+.ev2 .font-pick .lbl{ font-size:10.5px; color:var(--muted); letter-spacing:0.08em; text-transform:uppercase; }
+
+/* Buttons & icon buttons */
+.ev2 .btn{ display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:9px 16px; border-radius:999px; font-weight:600; font-size:13px; border:1px solid transparent; cursor:pointer; font-family:inherit; transition:background .12s, transform .12s; }
+.ev2 .btn-primary{ background:var(--sage); color:#fff; }
+.ev2 .btn-primary:hover{ background:var(--sage-dark); }
+.ev2 .btn-ghost{ background:transparent; color:var(--sage-deep); border-color:var(--line-2); }
+.ev2 .btn-ghost:hover{ background:var(--sage-soft); }
+.ev2 .btn-dark{ background:var(--ink); color:#fff; }
+.ev2 .btn-dark:hover{ background:#16201f; }
+.ev2 .btn-sm{ padding:6px 12px; font-size:12px; }
+.ev2 .icon-btn{ width:36px; height:36px; border-radius:10px; background:var(--surface-2); border:1px solid var(--line); display:grid; place-items:center; cursor:pointer; color:var(--muted); }
+
+/* Card (event item etc.) */
+.ev2 .ev-card{ background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:14px; margin-bottom:10px; }
+.ev2 .ev-note{ display:flex; gap:8px; align-items:flex-start; margin:0 0 10px; padding:10px 12px; border-radius:10px; background:rgba(217,162,74,0.1); border:1px solid rgba(217,162,74,0.3); color:#8a6322; font-size:12px; line-height:1.45; }
+.ev2 .ev-note strong{ color:#6b4d18; font-weight:600; }
+.ev2 .uploader{ position:relative; overflow:hidden; aspect-ratio:1; border-radius:12px; border:1.5px dashed var(--line-2); background:var(--surface); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; cursor:pointer; font-family:inherit; }
+.ev2 .uploader:disabled{ cursor:default; }
+.ev2 .uploader-busy{ position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; background:rgba(251,252,249,0.82); backdrop-filter:blur(2px); font-size:11px; color:var(--sage-deep); font-weight:600; }
+.ev2 .ev-spin{ width:22px; height:22px; border-radius:50%; border:2.5px solid var(--sage-soft); border-top-color:var(--sage-dark); animation:ev-spin .7s linear infinite; }
+@keyframes ev-spin{ to{ transform:rotate(360deg); } }
+
+/* Preview pieces */
+.ev2 .preview-toolbar{ display:flex; align-items:center; gap:8px; background:var(--surface-2); border:1px solid var(--line); border-radius:999px; padding:6px 8px; font-size:12px; }
+.ev2 .preview-toolbar .url{ flex:1; padding:4px 10px; font-family:'JetBrains Mono',monospace; font-size:11.5px; color:var(--muted); }
+.ev2 .preview-toolbar .url strong{ color:var(--ink); font-weight:600; }
+.ev2 .preview-toolbar .device-btn{ width:26px; height:26px; border-radius:50%; background:transparent; border:none; display:grid; place-items:center; cursor:pointer; color:var(--muted); }
+.ev2 .preview-toolbar .device-btn.active{ background:var(--sage-soft); color:var(--sage-deep); }
+.ev2 .preview-stats{ display:flex; gap:6px; font-size:11px; color:var(--muted); flex-wrap:wrap; justify-content:center; }
+.ev2 .preview-stats span{ background:var(--surface-2); border:1px solid var(--line); padding:5px 10px; border-radius:999px; }
+.ev2 .preview-stats strong{ color:var(--ink); font-weight:700; }

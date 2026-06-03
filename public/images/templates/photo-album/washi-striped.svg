@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 24" width="100" height="24" preserveAspectRatio="none">
+  <defs>
+    <linearGradient id="ws-sheen" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.35"/>
+      <stop offset="0.5" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="1" stop-color="#000000" stop-opacity="0.12"/>
+    </linearGradient>
+    <pattern id="ws-stripes" width="9" height="24" patternUnits="userSpaceOnUse" patternTransform="rotate(18)">
+      <rect width="9" height="24" fill="#e8c79a" fill-opacity="0.78"/>
+      <rect x="0" width="4.5" height="24" fill="#c98f56" fill-opacity="0.85"/>
+    </pattern>
+    <!-- torn / deckled left & right edges -->
+    <clipPath id="ws-torn">
+      <path d="M3,0.8 L97,0 L99,4 L96.5,8 L99,12 L96.5,16 L99,20 L97,23.6
+               L3,24 L1,20 L3.2,16 L0.8,12 L3.2,8 L1,4 Z"/>
+    </clipPath>
+  </defs>
+  <g clip-path="url(#ws-torn)">
+    <rect width="100" height="24" fill="url(#ws-stripes)"/>
+    <rect width="100" height="24" fill="url(#ws-sheen)"/>
+  </g>
+</svg>

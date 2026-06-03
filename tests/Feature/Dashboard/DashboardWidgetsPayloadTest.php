@@ -46,6 +46,7 @@ class DashboardWidgetsPayloadTest extends TestCase
                 ->has('budgetWidget.categories')
                 ->has('recentRsvps', 2)
                 ->has('inviteShare')
+                ->has('nextAction')
             );
     }
 }

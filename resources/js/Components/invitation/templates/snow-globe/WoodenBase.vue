@@ -1,6 +1,6 @@
 <script setup>
 import { computed } from 'vue'
-import TheDayLogo from '../netflix/TheDayLogo.vue'
+import BrandWatermark from '../BrandWatermark.vue'
 
 const props = defineProps({
     material:     { type: String,  default: 'wood' },   // wood | gold | silver | crystal
@@ -57,7 +57,7 @@ const baseDark = computed(() => darkMap[props.material] ?? darkMap.wood)
             <!-- Watermark (free tier only) -->
             <foreignObject v-if="showWatermark" x="495" y="108" width="85" height="20">
                 <div xmlns="http://www.w3.org/1999/xhtml" class="sg-watermark">
-                    <TheDayLogo :height="14" muted/>
+                    <BrandWatermark :height="14" muted/>
                 </div>
             </foreignObject>
         </svg>

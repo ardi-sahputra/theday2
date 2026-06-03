@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { Head, router } from '@inertiajs/vue3';
 import InvitationRenderer from '@/Components/invitation/InvitationRenderer.vue';
 
@@ -11,6 +11,10 @@ const props = defineProps({
 });
 
 const primary = computed(() => props.invitation.config?.primary_color ?? '#92A89C');
+
+// Bottom CTA only shows once the visitor has opened the invitation —
+// otherwise it collides with the fixed opening gate (which has 0 in-flow height).
+const opened = ref(false);
 
 function useTemplate() {
     router.visit(`/use-template/${props.template.id}`);
@@ -66,10 +70,12 @@ function useTemplate() {
         :messages="messages"
         :is-demo="true"
         :auto-open="false"
+        @opened="v => opened = v"
     />
 
-    <!-- ── Bottom CTA banner ─────────────────────────────────────── -->
+    <!-- ── Bottom CTA banner (only after the gate is opened) ─────── -->
     <div
+        v-if="opened"
         class="py-8 px-6 text-center"
         style="background: linear-gradient(180deg, transparent, #2C1A0E22)"
     >

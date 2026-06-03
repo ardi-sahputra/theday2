@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue';
+import { ref, computed, watch, onMounted, onUnmounted } from 'vue';
 import SectionCover    from '@/Pages/Invitation/Sections/SectionCover.vue';
 import SectionOpening  from '@/Pages/Invitation/Sections/SectionOpening.vue';
 import SectionEvents   from '@/Pages/Invitation/Sections/SectionEvents.vue';
@@ -20,6 +20,9 @@ const props = defineProps({
     autoOpen:   { type: Boolean, default: false },
 });
 
+// Let the host (e.g. demo page) react to open state — bottom CTA, etc.
+const emit = defineEmits(['opened']);
+
 // Check if this invitation uses a premium template with its own renderer
 const premiumTemplate = computed(() =>
     TEMPLATE_MAP[props.invitation.template_slug] ?? null
@@ -33,8 +36,20 @@ const fontFamily   = computed(() => cfg.value.font_title    ?? cfg.value.font ??
 // Background music only plays when a track exists AND it isn't disabled in config
 const musicOn = computed(() => isMusicEnabled(props.invitation));
 
+// Section visibility: respect the per-section toggle. Handles both shapes
+// (public: { enabled }, editor preview: { is_enabled }); no record / null
+// sections → show (default), so legacy invitations keep rendering everything.
+function sectionEnabled(key) {
+    const s = props.invitation.sections?.[key];
+    if (!s) return true;
+    return s.enabled ?? s.is_enabled ?? true;
+}
+
 // ── Open / reveal state ────────────────────────────────────────────────────
-const opened = ref(props.isDemo || props.autoOpen);
+// Demo still shows the opening gate (auto-open is the explicit override).
+// isDemo only changes RSVP/message behaviour, not whether the gate is skipped.
+const opened = ref(props.autoOpen);
+watch(opened, (v) => emit('opened', v), { immediate: true });
 
 function openInvitation() { opened.value = true; }
 
@@ -157,11 +172,11 @@ onUnmounted(() => observer?.disconnect());
 
                 <button
                     @click="handleOpenAndPlay"
-                    class="w-full py-4 rounded-2xl text-white text-sm font-semibold tracking-wide transition-all active:scale-95 shadow-lg"
+                    class="inv-breathe w-full py-4 rounded-2xl text-white text-sm font-semibold tracking-wide transition-all hover:opacity-90 active:scale-95 shadow-lg"
                     :style="{ backgroundColor: primaryColor }"
                 >
                     Buka Undangan
-                    <svg class="inline-block w-4 h-4 ml-2 -mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg class="inline-block w-4 h-4 ml-2 -mt-0.5 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                     </svg>
                 </button>
@@ -177,7 +192,10 @@ onUnmounted(() => observer?.disconnect());
     </Transition>
 
     <!-- ── Main scrolling content ────────────────────────────────── -->
-    <div v-if="opened" class="relative">
+    <!-- flex column + flex:1 so short invitations still fill the phone/preview
+         screen; the trailing filler paints the leftover in the closing tint so
+         there's no stark blank gap below the last section. -->
+    <div v-if="opened" class="relative flex flex-col" :style="{ flex: '1 0 auto' }">
 
         <!-- Floating music button -->
         <button
@@ -194,7 +212,7 @@ onUnmounted(() => observer?.disconnect());
         </button>
 
         <div data-section="cover" :ref="setSectionRef('cover')">
-            <SectionCover :invitation="invitation" :primary-color="primaryColor" :font-family="fontFamily"/>
+            <SectionCover :invitation="invitation" :primary-color="primaryColor" :font-family="fontFamily" :opened="opened"/>
         </div>
 
         <div data-section="opening" :ref="setSectionRef('opening')">
@@ -205,11 +223,11 @@ onUnmounted(() => observer?.disconnect());
             <SectionEvents :events="invitation.events" :primary-color="primaryColor" :font-family="fontFamily"/>
         </div>
 
-        <div v-if="invitation.galleries?.length" data-section="gallery" :ref="setSectionRef('gallery')">
-            <SectionGallery :galleries="invitation.galleries" :primary-color="primaryColor"/>
+        <div v-if="invitation.galleries?.length && sectionEnabled('gallery')" data-section="gallery" :ref="setSectionRef('gallery')">
+            <SectionGallery :galleries="invitation.galleries" :primary-color="primaryColor" :layout="invitation.config?.gallery_layout ?? 'grid'"/>
         </div>
 
-        <div data-section="rsvp" :ref="setSectionRef('rsvp')">
+        <div v-if="sectionEnabled('rsvp')" data-section="rsvp" :ref="setSectionRef('rsvp')">
             <SectionRsvp
                 :slug="invitation.slug"
                 :primary-color="primaryColor"
@@ -218,7 +236,7 @@ onUnmounted(() => observer?.disconnect());
             />
         </div>
 
-        <div data-section="messages" :ref="setSectionRef('messages')">
+        <div v-if="sectionEnabled('wishes')" data-section="messages" :ref="setSectionRef('messages')">
             <SectionMessages
                 :slug="invitation.slug"
                 :messages="localMessages"
@@ -232,6 +250,10 @@ onUnmounted(() => observer?.disconnect());
         <div data-section="closing" :ref="setSectionRef('closing')">
             <SectionClosing :invitation="invitation" :primary-color="primaryColor" :font-family="fontFamily"/>
         </div>
+
+        <!-- Trailing filler: grows to fill any leftover screen height below the
+             last section, painted in the closing tint so no blank-white gap. -->
+        <div aria-hidden="true" :style="{ flex: '1 0 auto', backgroundColor: primaryColor + '10' }"></div>
     </div>
 
     </template><!-- /v-else default renderer -->

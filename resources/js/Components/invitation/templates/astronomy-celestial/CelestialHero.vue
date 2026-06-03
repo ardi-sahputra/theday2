@@ -71,7 +71,7 @@ const fallbackMode = computed(() => props.dateTime ? null : 'generic')
     text-align: center;
     background-image:
         radial-gradient(circle at 50% 30%, rgba(125, 111, 155, 0.18), transparent 60%),
-        url('/images/templates/astronomy-celestial/nebula-wash.webp');
+        url('/images/templates/astronomy-celestial/nebula-wash.svg');
     background-size: cover;
     background-position: center;
     background-color: var(--ac-navy-deep, #0a1929);

@@ -1,6 +1,6 @@
 <script setup>
-import { ref } from 'vue';
-import { Head } from '@inertiajs/vue3';
+import { computed } from 'vue';
+import { Head, router } from '@inertiajs/vue3';
 import PasswordGate       from './PasswordGate.vue';
 import InvitationRenderer from '@/Components/invitation/InvitationRenderer.vue';
 
@@ -13,7 +13,13 @@ const props = defineProps({
     showWatermark: { type: Boolean, default: false },
 });
 
-const unlocked = ref(! props.needPassword);
+// Locked invitations ship only the gate payload; unlocking reloads the page
+// so the server (now session-unlocked) returns the full invitation.
+const unlocked = computed(() => ! props.needPassword);
+
+function onUnlocked() {
+    router.reload();
+}
 </script>
 
 <template>
@@ -48,7 +54,7 @@ const unlocked = ref(! props.needPassword);
         :primary-color="invitation.config?.primary_color ?? '#92A89C'"
         :font-family="invitation.config?.font_title ?? invitation.config?.font ?? 'Playfair Display'"
         :cover-url="invitation.details?.cover_photo_url"
-        @unlocked="unlocked = true"
+        @unlocked="onUnlocked"
     />
 
     <!-- Full invitation renderer -->

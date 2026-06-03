@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="96" height="112" viewBox="0 0 96 112">
+  <defs>
+    <filter id="sp" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.5" numOctaves="2" seed="21" stitchTiles="stitch" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 0.5 0 0 0 0 0.4 0 0 0 0 0.26 0 0 0 0.07 0"/>
+    </filter>
+  </defs>
+  <rect width="96" height="112" fill="#f4ead5"/>
+  <rect x="6" y="6" width="84" height="100" fill="#e8dcc4"/>
+  <rect x="6" y="6" width="84" height="100" fill="none" stroke="#f4ead5" stroke-width="3"
+        stroke-dasharray="0.1 6" stroke-linecap="round"/>
+  <rect x="12" y="12" width="72" height="88" fill="none" stroke="#8b3a3a" stroke-width="1.5"/>
+  <!-- motif: Eiffel Tower -->
+  <g transform="translate(48,18)" stroke="#3a2d1f" stroke-width="2" fill="none" stroke-linecap="round">
+    <path d="M-13 64 L-4 6 Q0 1 4 6 L13 64"/>
+    <path d="M0 4 L0 64"/>
+    <path d="M-7 30 L7 30"/>
+    <path d="M-10 48 L10 48"/>
+    <path d="M-5 18 Q0 16 5 18"/>
+    <path d="M-13 64 L-9 56 M13 64 L9 56"/>
+  </g>
+  <text x="48" y="92" font-family="Georgia, serif" font-size="9" text-anchor="middle" fill="#3a2d1f" letter-spacing="2">PARIS</text>
+  <rect width="96" height="112" filter="url(#sp)"/>
+</svg>

@@ -6,6 +6,7 @@ import NetflixIntro       from './netflix/NetflixIntro.vue'
 import NetflixCover       from './netflix/NetflixCover.vue'
 import NetflixHero        from './netflix/NetflixHero.vue'
 import TheDayLogo         from './netflix/TheDayLogo.vue'
+import GallerySection     from '@/Components/invitation/sections/GallerySection.vue'
 
 const props = defineProps({
     invitation: { type: Object,  required: true },
@@ -293,14 +294,7 @@ function onRemindMe() {
             <!-- Gallery -->
             <section v-if="sectionEnabled('gallery') && galleries.length" class="nf-section nf-reveal" :ref="el => vReveal(el)">
                 <h2 class="nf-section-title">GALLERY</h2>
-                <div class="nf-gallery-grid">
-                    <img
-                        v-for="img in galleries" :key="img.id"
-                        :src="img.image_url ?? img.file_url" :alt="img.caption ?? ''"
-                        class="nf-gallery-img" loading="lazy"
-                        @click="lightboxUrl = img.image_url ?? img.file_url"
-                    />
-                </div>
+                <GallerySection :galleries="galleries" :layout="galleryLayout" :primary-color="'#E50914'" />
             </section>
 
             <!-- RSVP -->

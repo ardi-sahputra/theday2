@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import axios from 'axios';
+import { compressImage } from '@/utils/imageCompress';
 
 const props = defineProps({
     modelValue:    { type: String,  default: '' },       // current URL
@@ -18,17 +19,22 @@ const uploadError = ref('');
 const fileInput  = ref(null);
 
 async function onFileChange(e) {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    // client-side size check (5 MB)
-    if (file.size > 5 * 1024 * 1024) {
-        uploadError.value = 'Ukuran file maksimal 5 MB.';
-        return;
-    }
+    const original = e.target.files?.[0];
+    if (!original) return;
 
     uploadError.value = '';
     uploading.value   = true;
+
+    // Resize + WebP-compress in the browser before upload (big perf win).
+    const file = await compressImage(original);
+
+    // Safety: server caps at 5 MB. After compression this is rarely hit.
+    if (file.size > 5 * 1024 * 1024) {
+        uploadError.value = 'Ukuran file maksimal 5 MB.';
+        uploading.value = false;
+        if (fileInput.value) fileInput.value.value = '';
+        return;
+    }
 
     const form = new FormData();
     form.append('file', file);

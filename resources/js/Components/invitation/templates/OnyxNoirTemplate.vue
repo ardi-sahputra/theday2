@@ -7,6 +7,7 @@ import OnyxCover    from './onyx-noir/OnyxCover.vue'
 import OnyxHero     from './onyx-noir/OnyxHero.vue'
 import OnyxMonogram from './onyx-noir/OnyxMonogram.vue'
 import OnyxMarbleBg from './onyx-noir/OnyxMarbleBg.vue'
+import GallerySection from '@/Components/invitation/sections/GallerySection.vue'
 
 const props = defineProps({
     invitation: { type: Object,  required: true },
@@ -19,7 +20,7 @@ const props = defineProps({
 const {
     groomName, brideName, groomNick, brideNick,
     coverPhotoUrl,
-    details, events, galleries,
+    details, events, galleries, galleryLayout,
     openingText, closingText,
     firstEventDate, countdown, targetDate, pad,
     sectionEnabled, sectionData,
@@ -267,16 +268,7 @@ const showWatermark = computed(() => !hasActiveSub.value)
                             <h2 class="onyx-section-title">GALLERY</h2>
                             <span class="onyx-rule"/>
                         </header>
-                        <div class="onyx-gallery-grid">
-                            <img
-                                v-for="img in galleries"
-                                :key="img.id ?? (img.image_url ?? img.file_url)"
-                                :src="(img.image_url ?? img.file_url)" :alt="img.caption ?? ''"
-                                class="onyx-gallery-img"
-                                loading="lazy"
-                                @click="lightboxUrl = (img.image_url ?? img.file_url)"
-                            />
-                        </div>
+                        <GallerySection :galleries="galleries" :layout="galleryLayout" :primary-color="'#d4af37'" />
                     </div>
                 </section>
 

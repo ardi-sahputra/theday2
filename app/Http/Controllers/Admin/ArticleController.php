@@ -136,7 +136,7 @@ class ArticleController extends Controller
             'meta_title'       => 'nullable|string|max:255',
             'meta_description' => 'nullable|string|max:320',
             'canonical_url'    => 'nullable|url|max:255',
-            'cover_image'      => 'nullable|image|max:2048',
+            'cover_image'      => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
     }
 

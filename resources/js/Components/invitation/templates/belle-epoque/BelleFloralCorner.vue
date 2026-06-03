@@ -11,7 +11,7 @@ const props = defineProps({
     size:    { type: String, default: 'md' },    // sm | md | lg
 })
 
-const imgSrc = computed(() => `/images/templates/belle-epoque/floral-corner-${props.position}.webp`)
+const imgSrc = computed(() => `/images/templates/belle-epoque/floral-corner-${props.position}.svg`)
 
 const delay = computed(() => {
     const map = { tl: 0, tr: 0.15, bl: 0.3, br: 0.45 }

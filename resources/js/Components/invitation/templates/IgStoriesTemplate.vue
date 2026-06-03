@@ -50,7 +50,7 @@ const igStoryOrder    = computed(() => cfg.value.ig_story_order ?? [
 ])
 const igShowOverview  = computed(() => cfg.value.ig_show_overview ?? true)
 
-const avatarUrl     = computed(() => coverPhotoUrl.value || '/images/templates/ig-stories/avatar-default.webp')
+const avatarUrl     = computed(() => coverPhotoUrl.value || '/images/templates/ig-stories/avatar-default.svg')
 const hasActiveSub  = computed(() => !!props.invitation.user?.activeSubscription)
 const showWatermark = computed(() => !hasActiveSub.value)
 
