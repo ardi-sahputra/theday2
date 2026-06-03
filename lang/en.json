@@ -881,12 +881,27 @@
                     "sub": "Add a ready-made preset",
                     "standard": "Standard 12-Month Pack",
                     "standardSub": "Core prep tasks",
-                    "applied": "Already applied"
+                    "applied": "Already applied",
+                    "aiTitle": "Generate with AI",
+                    "aiSub": "A personal checklist for your wedding"
                 },
                 "pic": {
                     "title": "Task Split",
                     "sub": "Your & partner's load"
                 }
+            },
+            "ai": {
+                "title": "Generate Checklist with AI",
+                "adat": "Tradition / culture",
+                "scale": "Guest scale",
+                "style": "Style (optional)",
+                "generate": "Generate",
+                "generating": "Building your checklist…",
+                "add": "Add selected",
+                "allExist": "Your checklist is already complete — no new suggestions.",
+                "disabled": "AI feature is not enabled.",
+                "limited": "Daily generation limit reached. Try again tomorrow.",
+                "failed": "Failed to generate. Please try again."
             },
             "mobile": {
                 "filter": "Filter",

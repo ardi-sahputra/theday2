@@ -883,12 +883,27 @@
                     "sub": "Tambah preset siap pakai",
                     "standard": "Paket Standar 12 Bulan",
                     "standardSub": "Tugas dasar persiapan",
-                    "applied": "Sudah diterapkan"
+                    "applied": "Sudah diterapkan",
+                    "aiTitle": "Buatkan dengan AI",
+                    "aiSub": "Checklist personal sesuai pernikahanmu"
                 },
                 "pic": {
                     "title": "Pembagian Tugas",
                     "sub": "Beban kamu & pasangan"
                 }
+            },
+            "ai": {
+                "title": "Buat Checklist dengan AI",
+                "adat": "Adat / budaya",
+                "scale": "Skala tamu",
+                "style": "Gaya (opsional)",
+                "generate": "Buatkan",
+                "generating": "Menyusun checklist untukmu…",
+                "add": "Tambahkan terpilih",
+                "allExist": "Checklist kamu sudah lengkap — tidak ada usulan baru.",
+                "disabled": "Fitur AI belum aktif.",
+                "limited": "Batas pembuatan harian tercapai. Coba lagi besok.",
+                "failed": "Gagal membuat checklist. Coba lagi."
             },
             "mobile": {
                 "filter": "Filter",

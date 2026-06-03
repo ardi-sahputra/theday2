@@ -11,6 +11,7 @@ import ChecklistViewToggle from '@/Components/dashboard/checklist/ChecklistViewT
 import TaskKanban from '@/Components/dashboard/checklist/TaskKanban.vue';
 import ReminderRail from '@/Components/dashboard/checklist/rail/ReminderRail.vue';
 import TemplatePresetsRail from '@/Components/dashboard/checklist/rail/TemplatePresetsRail.vue';
+import AiChecklistModal from '@/Components/dashboard/checklist/AiChecklistModal.vue';
 import PicSplitRail from '@/Components/dashboard/checklist/rail/PicSplitRail.vue';
 import WidgetIcon from '@/Components/dashboard/WidgetIcon.vue';
 import MobileChecklist  from '@/Components/dashboard/checklist/mobile/MobileChecklist.vue';
@@ -804,6 +805,7 @@ const DAYS_ID = computed(() => [
     t('dashboard.checklist.days.sat'),
 ]);
 
+const showAiModal    = ref(false);
 const showDatePicker = ref(false);
 const datePickerMode = ref('');
 const calToday       = new Date();
@@ -1421,7 +1423,7 @@ const currentPickerDate = computed(() =>
                     <!-- ── Right rail (desktop only) ───────────────── -->
                     <aside class="hidden lg:flex flex-col gap-4">
                         <ReminderRail :reminders="reminders" />
-                        <TemplatePresetsRail :initialized="hasSystemTasks" @apply="applyStandardTemplate" />
+                        <TemplatePresetsRail :initialized="hasSystemTasks" @apply="applyStandardTemplate" @ai-generate="showAiModal = true" />
                         <PicSplitRail :bride-pct="picSplit.bridePct" :groom-pct="picSplit.groomPct" :bride-count="picSplit.brideCount" :groom-count="picSplit.groomCount" />
                     </aside>
 
@@ -1593,6 +1595,9 @@ const currentPickerDate = computed(() =>
                 </div>
             </div>
         </Transition>
+
+        <!-- ── AI Checklist Modal ────────────────────────────────── -->
+        <AiChecklistModal v-if="showAiModal" @close="showAiModal = false" @applied="showAiModal = false; loadTasks(); loadSummary();" />
 
         <!-- ── Date Picker Modal ──────────────────────────────────── -->
         <Teleport to="body">
