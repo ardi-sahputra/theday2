@@ -105,7 +105,7 @@ async function apply() {
       <div class="px-5 py-4 border-t border-stone-100 flex gap-2">
         <button @click="emit('close')" class="flex-1 py-2.5 text-sm text-stone-600 border border-stone-200 rounded-xl">{{ t('common.cancel') }}</button>
         <button v-if="step === 'input'" @click="generate" class="flex-1 py-2.5 text-sm font-semibold text-white rounded-xl" style="background:#92A89C">{{ t('dashboard.checklist.ai.generate') }}</button>
-        <button v-else-if="step === 'preview' && tasks.length" @click="apply" :disabled="applying" class="flex-1 py-2.5 text-sm font-semibold text-white rounded-xl" style="background:#92A89C">{{ t('dashboard.checklist.ai.add') }}</button>
+        <button v-else-if="step === 'preview' && tasks.length" @click="apply" :disabled="applying || !tasks.some(x => x._checked)" class="flex-1 py-2.5 text-sm font-semibold text-white rounded-xl disabled:opacity-50" style="background:#92A89C">{{ t('dashboard.checklist.ai.add') }}</button>
       </div>
     </div>
   </div>
