@@ -279,6 +279,7 @@ Route::middleware(['auth', 'verified', 'onboarding', 'couple'])->prefix('dashboa
     Route::patch( '/checklist/tasks/{id}/restore',       [ChecklistController::class, 'restore'])->name('checklist.tasks.restore');
     Route::delete('/checklist/tasks/{id}',               [ChecklistController::class, 'destroy'])->name('checklist.tasks.destroy');
     Route::get(   '/checklist/summary',                  [ChecklistController::class, 'summary'])->name('checklist.summary');
+    Route::get( '/checklist/planner-insights', [\App\Http\Controllers\Dashboard\PlannerInsightController::class, 'index'])->middleware('throttle:20,1')->name('checklist.planner-insights');
     Route::get(   '/checklist/export.ics',               [ChecklistController::class, 'exportCalendar'])->name('checklist.export');
     Route::patch( '/checklist/event-date',               [ChecklistController::class, 'updateEventDate'])->name('checklist.event-date');
     Route::get(   '/checklist/tasks/{taskId}/subtasks',              [ChecklistController::class, 'subtasks'])->name('checklist.tasks.subtasks.index');

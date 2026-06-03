@@ -6,6 +6,8 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Dashboard;
 
+use App\Actions\Planner\BuildPlannerFactsAction;
+use App\Actions\Planner\BuildPlannerInsightAction;
 use App\Http\Controllers\Controller;
 use App\Models\ChecklistSubtask;
 use App\Models\ChecklistTask;
@@ -23,8 +25,10 @@ class ChecklistController extends Controller
 
     // ─── Page ─────────────────────────────────────────────────────
 
-    public function index(): Response
-    {
+    public function index(
+        BuildPlannerFactsAction $facts,
+        BuildPlannerInsightAction $insights,
+    ): Response {
         $plan = $this->resolveOrCreatePlan();
 
         return Inertia::render('Dashboard/Checklist/Index', [
@@ -32,6 +36,11 @@ class ChecklistController extends Controller
                 'id'          => $plan->id,
                 'event_date'  => $plan->event_date?->format('Y-m-d'),
                 'initialized' => $plan->isChecklistInitialized(),
+            ],
+            'plannerPanel' => [
+                'facts'    => $facts->execute($plan),
+                // No AI on page load; client refreshes if `fresh:false`.
+                ...$insights->execute($plan, generate: false),
             ],
         ]);
     }
