@@ -50,7 +50,7 @@ const showForm       = ref(false);
 const editingTask    = ref(null);
 const togglingId     = ref(null);
 const moveDoneToBottom = ref(false);
-const view           = ref('timeline');  // 'timeline' | 'list' | 'kanban'
+const view           = ref('kanban');  // 'timeline' | 'list' | 'kanban'
 const activeChip     = ref('all');
 
 // ── Planner tab: 'tugas' | 'dokumen' (deep-linked via ?tab) ──────────────
