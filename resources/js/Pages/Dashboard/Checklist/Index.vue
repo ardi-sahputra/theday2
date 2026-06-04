@@ -19,6 +19,7 @@ import MobileFilterSheet from '@/Components/dashboard/checklist/mobile/MobileFil
 import MobileTaskSheet   from '@/Components/dashboard/checklist/mobile/MobileTaskSheet.vue';
 import { useMediaQuery } from '@/Composables/useMediaQuery';
 import { checklistCache } from '@/Composables/checklistCache';
+import DocumentsTab from '@/Components/dashboard/documents/DocumentsTab.vue';
 
 const { t, locale } = useLocale();
 
@@ -51,6 +52,17 @@ const togglingId     = ref(null);
 const moveDoneToBottom = ref(false);
 const view           = ref('timeline');  // 'timeline' | 'list' | 'kanban'
 const activeChip     = ref('all');
+
+// ── Planner tab: 'tugas' | 'dokumen' (deep-linked via ?tab) ──────────────
+const activeTab = ref(new URLSearchParams(window.location.search).get('tab') === 'dokumen' ? 'dokumen' : 'tugas');
+
+function setTab(tab) {
+    activeTab.value = tab;
+    const url = new URL(window.location.href);
+    if (tab === 'dokumen') url.searchParams.set('tab', 'dokumen');
+    else url.searchParams.delete('tab');
+    window.history.replaceState({}, '', url);
+}
 
 // ── First-run setup choice ────────────────────────────────────────────────
 // The plan is "initialized" once the couple picks standard template OR blank.
@@ -916,6 +928,25 @@ const currentPickerDate = computed(() =>
 
         <template v-else>
 
+            <!-- ── Tugas | Dokumen segmented tab switch ──────────── -->
+            <div class="mb-4 inline-flex gap-0.5 p-[3px] rounded-full"
+                 style="background:#F6F8F3; border:1px solid #D8DFD2;">
+                <button type="button" @click="setTab('tugas')"
+                        class="px-4 py-1.5 rounded-full text-[12px] font-semibold transition-colors"
+                        :style="activeTab === 'tugas' ? 'background:#1F2A2E; color:#FBFCF9;' : 'background:transparent; color:#6C7A75;'">
+                    {{ t('dashboard.documents.tabTugas') }}
+                </button>
+                <button type="button" @click="setTab('dokumen')"
+                        class="px-4 py-1.5 rounded-full text-[12px] font-semibold transition-colors"
+                        :style="activeTab === 'dokumen' ? 'background:#1F2A2E; color:#FBFCF9;' : 'background:transparent; color:#6C7A75;'">
+                    {{ t('dashboard.documents.tabDokumen') }}
+                </button>
+            </div>
+
+            <DocumentsTab v-if="activeTab === 'dokumen'" />
+
+            <div v-show="activeTab === 'tugas'">
+
             <!-- ── First-run setup choice ─────────────────────────── -->
             <div v-if="!initialized" class="max-w-2xl mx-auto py-10 sm:py-16 px-1">
                 <div class="text-center mb-7">
@@ -1454,6 +1485,8 @@ const currentPickerDate = computed(() =>
                 @close="closeMobileTask" @toggle-done="(tk) => { toggle(tk); }" @edit="mobileEdit"
                 @add-subtask="addSubtask(mobileTask)" @toggle-subtask="(s) => toggleSubtask(mobileTask, s)"
                 @delete-subtask="(s) => deleteSubtask(mobileTask, s)" />
+
+            </div><!-- end v-show="activeTab === 'tugas'" -->
 
         </template>
 
