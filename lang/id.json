@@ -937,6 +937,32 @@
                 }
             }
         },
+        "documents": {
+            "tabTugas": "Tugas",
+            "tabDokumen": "Dokumen",
+            "title": "Dokumen Nikah",
+            "progress": "{done}/{total} dokumen beres",
+            "choosePath": "Pilih jalur pengurusan dulu",
+            "pathKua": "Islam / KUA",
+            "pathSipil": "Sipil / Disdukcapil",
+            "flags": {
+                "beda_domisili": "Beda domisili",
+                "under21": "Usia < 21",
+                "under19": "Usia < 19",
+                "widowed": "Duda / janda",
+                "tni_polri": "TNI / Polri / PNS",
+                "late_register": "Daftar < 10 hari"
+            },
+            "status": { "belum": "Belum", "proses": "Proses", "beres": "Beres" },
+            "required": "Wajib",
+            "optional": "Jika perlu",
+            "upload": "Unggah",
+            "replace": "Ganti",
+            "remove": "Hapus",
+            "guideWhere": "Di mana urus",
+            "guideReq": "Syarat",
+            "fileError": "Gagal unggah. Coba lagi (JPG/PNG/PDF, maks 5 MB)."
+        },
         "budget": {
             "pageTitle": "Anggaran Pernikahan",
             "pageSub": "Pantau setiap rupiah — dari rencana sampai pelunasan.",

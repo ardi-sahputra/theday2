@@ -935,6 +935,32 @@
                 }
             }
         },
+        "documents": {
+            "tabTugas": "Tasks",
+            "tabDokumen": "Documents",
+            "title": "Marriage Documents",
+            "progress": "{done}/{total} documents done",
+            "choosePath": "Choose your registration path first",
+            "pathKua": "Muslim / KUA",
+            "pathSipil": "Civil / Disdukcapil",
+            "flags": {
+                "beda_domisili": "Different domicile",
+                "under21": "Age < 21",
+                "under19": "Age < 19",
+                "widowed": "Widow / widower",
+                "tni_polri": "TNI / Police / civil servant",
+                "late_register": "Registering < 10 days"
+            },
+            "status": { "belum": "Not started", "proses": "In progress", "beres": "Done" },
+            "required": "Required",
+            "optional": "If needed",
+            "upload": "Upload",
+            "replace": "Replace",
+            "remove": "Remove",
+            "guideWhere": "Where to get it",
+            "guideReq": "Requirements",
+            "fileError": "Upload failed. Try again (JPG/PNG/PDF, max 5 MB)."
+        },
         "budget": {
             "pageTitle": "Wedding Budget",
             "pageSub": "Track every rupiah — from plan to final payment.",
