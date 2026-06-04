@@ -27,6 +27,7 @@ use App\Http\Controllers\Dashboard\AddonController;
 use App\Http\Controllers\Dashboard\SubscriptionController;
 use App\Http\Controllers\Dashboard\TransactionController;
 use App\Http\Controllers\Dashboard\TemplateController;
+use App\Http\Controllers\Dashboard\WeddingDocumentController;
 use App\Http\Controllers\PaymentReturnController;
 use App\Http\Controllers\WebhookController;
 use App\Http\Controllers\Dashboard\WhatsAppTemplateController;
@@ -288,6 +289,14 @@ Route::middleware(['auth', 'verified', 'onboarding', 'couple'])->prefix('dashboa
     Route::post(  '/checklist/tasks/{taskId}/subtasks',              [ChecklistController::class, 'storeSubtask'])->name('checklist.tasks.subtasks.store');
     Route::patch( '/checklist/tasks/{taskId}/subtasks/{subtaskId}',  [ChecklistController::class, 'updateSubtask'])->name('checklist.tasks.subtasks.update');
     Route::delete('/checklist/tasks/{taskId}/subtasks/{subtaskId}',  [ChecklistController::class, 'destroySubtask'])->name('checklist.tasks.subtasks.destroy');
+
+    // ── Dokumen Nikah ──────────────────────────────────────────────────────
+    Route::get(   '/documents/data',             [WeddingDocumentController::class, 'data'])->name('documents.data');
+    Route::patch( '/documents/context',          [WeddingDocumentController::class, 'context'])->name('documents.context');
+    Route::patch( '/documents/{key}/status',     [WeddingDocumentController::class, 'status'])->name('documents.status');
+    Route::post(  '/documents/{key}/file',       [WeddingDocumentController::class, 'storeFile'])->name('documents.file.store');
+    Route::delete('/documents/{key}/file',       [WeddingDocumentController::class, 'destroyFile'])->name('documents.file.destroy');
+    Route::get(   '/documents/{key}/file/{plan}',[WeddingDocumentController::class, 'showFile'])->name('documents.file.show');
 });
 
 // ── Payment return & status polling (no onboarding guard) ───────────────────
