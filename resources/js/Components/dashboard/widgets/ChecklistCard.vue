@@ -30,11 +30,18 @@ function hLabel(task) {
           {{ t('dashboard.index.widgets.checklist.sub', { done: checklistWidget.done, total: checklistWidget.total }) }}
         </div>
       </div>
-      <Link :href="route('dashboard.checklist.index')"
-            class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold"
-            style="color:#4A5A4C; border:1px solid #C7D0BE;">
-        <WidgetIcon name="plus" :size="12" stroke="#4A5A4C" /> {{ t('dashboard.index.widgets.checklist.add') }}
-      </Link>
+      <div class="flex items-center gap-2">
+        <Link :href="route('dashboard.checklist.index')"
+              class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold"
+              style="color:#4A5A4C; border:1px solid #C7D0BE;">
+          <WidgetIcon name="plus" :size="12" stroke="#4A5A4C" /> {{ t('dashboard.index.widgets.checklist.add') }}
+        </Link>
+        <Link :href="route('dashboard.checklist.index') + '?tab=dokumen'"
+              class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold"
+              style="color:#4A5A4C; border:1px solid #C7D0BE;">
+          {{ t('dashboard.documents.title') }}
+        </Link>
+      </div>
     </div>
 
     <div v-if="tasks.length" class="px-0 py-0">
