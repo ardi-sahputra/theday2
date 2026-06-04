@@ -48,4 +48,29 @@ class WeddingDocumentCatalogTest extends TestCase
             $this->assertArrayHasKey('where', $entry['guidance']);
         }
     }
+
+    public function test_service_filters_by_path_and_flags(): void
+    {
+        $service = app(\App\Services\WeddingDocumentService::class);
+
+        // KUA path, no flags → includes n1, excludes pemberkatan + conditional n5.
+        $kua = collect($service->resolveCatalog('kua', []))->pluck('key');
+        $this->assertContains('ktp', $kua);
+        $this->assertContains('n1', $kua);
+        $this->assertNotContains('pemberkatan', $kua);
+        $this->assertNotContains('n5', $kua);
+
+        // KUA path + under21 flag → n5 now included.
+        $kuaU21 = collect($service->resolveCatalog('kua', ['under21' => true]))->pluck('key');
+        $this->assertContains('n5', $kuaU21);
+
+        // KUA + beda_domisili → numpang_nikah included.
+        $kuaBeda = collect($service->resolveCatalog('kua', ['beda_domisili' => true]))->pluck('key');
+        $this->assertContains('numpang_nikah', $kuaBeda);
+
+        // Sipil path → pemberkatan in, n1 out.
+        $sipil = collect($service->resolveCatalog('sipil', []))->pluck('key');
+        $this->assertContains('pemberkatan', $sipil);
+        $this->assertNotContains('n1', $sipil);
+    }
 }
