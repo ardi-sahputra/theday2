@@ -5,6 +5,7 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\DeviceController;
 use App\Http\Controllers\Api\InvitationController;
 use App\Http\Controllers\Api\InvitationSectionController;
 use App\Models\User;
@@ -37,6 +38,10 @@ Route::middleware('auth:sanctum')->group(function () {
     // ── Token auth ────────────────────────────────────────────────
     Route::get('/me',             [AuthController::class, 'me']);
     Route::post('/auth/logout',   [AuthController::class, 'logout']);
+
+    // ── Device tokens (FCM push) ──────────────────────────────────
+    Route::post('/devices',   [DeviceController::class, 'store']);
+    Route::delete('/devices', [DeviceController::class, 'destroy']);
 
     // ── Slug availability check ───────────────────────────────────
     Route::get('/invitations/check-slug', [InvitationController::class, 'checkSlug']);
