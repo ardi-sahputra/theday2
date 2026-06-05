@@ -4,6 +4,7 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\InvitationController;
 use App\Http\Controllers\Api\InvitationSectionController;
 use App\Models\User;
@@ -20,6 +21,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 // ── Public utility endpoints ──────────────────────────────────────────────
+Route::post('/auth/login',    [AuthController::class, 'login']);
+Route::post('/auth/register', [AuthController::class, 'register']);
+
 Route::post('/auth/check-email', function (Request $request) {
     $request->validate(['email' => ['required', 'email']]);
     return response()->json([
@@ -29,6 +33,10 @@ Route::post('/auth/check-email', function (Request $request) {
 
 // ── Authenticated Routes ───────────────────────────────────────────────────
 Route::middleware('auth:sanctum')->group(function () {
+
+    // ── Token auth ────────────────────────────────────────────────
+    Route::get('/me',             [AuthController::class, 'me']);
+    Route::post('/auth/logout',   [AuthController::class, 'logout']);
 
     // ── Slug availability check ───────────────────────────────────
     Route::get('/invitations/check-slug', [InvitationController::class, 'checkSlug']);
