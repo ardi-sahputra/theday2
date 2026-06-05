@@ -1,13 +1,8 @@
 <template>
   <ion-app>
-    <div class="boot">TheDay</div>
+    <ion-router-outlet />
   </ion-app>
 </template>
-
 <script setup>
-import { IonApp } from '@ionic/vue';
+import { IonApp, IonRouterOutlet } from '@ionic/vue';
 </script>
-
-<style>
-.boot { padding: 24px; font-family: system-ui, sans-serif; }
-</style>
