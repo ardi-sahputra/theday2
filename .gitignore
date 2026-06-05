@@ -39,3 +39,9 @@ Thumbs.db
 .env.bak.localnet
 /Moodboard (standalone).html
 /Landing Page.html
+
+# Capacitor build artifacts (committed source kept, build outputs ignored)
+/app-dist
+/android/app/build
+/android/.gradle
+/android/build
