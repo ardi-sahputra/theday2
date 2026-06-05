@@ -297,6 +297,9 @@ Route::middleware(['auth', 'verified', 'onboarding', 'couple'])->prefix('dashboa
     Route::post(  '/documents/{key}/file',       [WeddingDocumentController::class, 'storeFile'])->name('documents.file.store');
     Route::delete('/documents/{key}/file',       [WeddingDocumentController::class, 'destroyFile'])->name('documents.file.destroy');
     Route::get(   '/documents/{key}/file/{plan}',[WeddingDocumentController::class, 'showFile'])->name('documents.file.show');
+
+    // ── Shared-module parity demo ─────────────────────────────────────────────
+    Route::get('/home-summary-demo', fn () => inertia('Dashboard/HomeSummaryDemo'))->name('home-summary-demo');
 });
 
 // ── Payment return & status polling (no onboarding guard) ───────────────────
