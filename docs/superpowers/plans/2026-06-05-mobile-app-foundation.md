@@ -1360,7 +1360,7 @@ Create `resources/js/app-mobile/composables/useResource.test.js`:
 
 ```js
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { nextTick } from 'vue';
+import { flushPromises } from '@vue/test-utils';
 
 const store = new Map();
 vi.mock('@capacitor/preferences', () => ({
@@ -1376,17 +1376,22 @@ import { useResource } from './useResource';
 describe('useResource', () => {
   beforeEach(() => store.clear());
 
-  it('shows cached data immediately then revalidates', async () => {
+  it('surfaces cached data instantly then revalidates within one load()', async () => {
     store.set('cache.items', JSON.stringify([{ id: 1 }]));
-    const fetcher = vi.fn(async () => [{ id: 1 }, { id: 2 }]);
+    // Deferred fetcher so we can observe the stale value before fresh resolves.
+    let resolveFetch;
+    const fetcher = vi.fn(() => new Promise((res) => { resolveFetch = res; }));
 
     const r = useResource('items', fetcher);
-    await r.load();
-    // cached value surfaced
-    expect(r.data.value).toEqual([{ id: 1 }]);
-    await r.load(); // revalidate resolves
-    await nextTick();
-    expect(r.data.value).toEqual([{ id: 1 }, { id: 2 }]);
+    const pending = r.load(); // do not await yet
+
+    await flushPromises(); // cache read resolves, fetcher invoked but still pending
+    expect(r.data.value).toEqual([{ id: 1 }]); // stale surfaced
+    expect(fetcher).toHaveBeenCalledOnce();
+
+    resolveFetch([{ id: 1 }, { id: 2 }]);
+    await pending;
+    expect(r.data.value).toEqual([{ id: 1 }, { id: 2 }]); // revalidated
   });
 
   it('optimistic mutate applies locally then reconciles', async () => {
