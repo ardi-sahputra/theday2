@@ -488,7 +488,7 @@ const handleClickOutsideAvatar = (e) => {
         <div class="flex-1 flex flex-col min-w-0 pb-20 lg:pb-0">
 
             <!-- Top bar -->
-            <header :class="['z-10 px-4 lg:px-6 h-20 flex items-center gap-4', stickyHeader ? 'sticky top-0' : '']"
+            <header :class="['z-20 px-4 lg:px-6 h-20 flex items-center gap-4', stickyHeader ? 'sticky top-0' : '']"
                     style="background: rgba(238,242,234,0.78); backdrop-filter: blur(10px); border-bottom: 1px solid #D8DFD2;">
                 <!-- Mobile hamburger — opens full sidebar drawer (bottom nav stays too) -->
                 <button
