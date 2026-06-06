@@ -67,7 +67,8 @@ const PILL_T_OUT = 'width 0.50s cubic-bezier(0.34,1.56,0.64,1)';
 
 <template>
     <nav
-        class="fixed bottom-0 inset-x-0 z-30 lg:hidden flex items-end justify-center"
+        class="fixed bottom-0 inset-x-0 z-30 lg:hidden flex items-end"
+        :class="isScrolling ? 'justify-start' : 'justify-center'"
         style="padding-bottom: max(env(safe-area-inset-bottom), 10px);"
         role="navigation"
         aria-label="Mobile navigation"
