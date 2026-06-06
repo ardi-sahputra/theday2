@@ -3,6 +3,9 @@ import WidgetIcon from '@/Components/dashboard/WidgetIcon.vue';
 import DemoBadge from '@/Components/dashboard/DemoBadge.vue';
 import MobileTaskCard from '@/Components/dashboard/checklist/mobile/MobileTaskCard.vue';
 import { useLocale } from '@/Composables/useLocale';
+import { useNavScroll } from '@/Composables/useNavScroll';
+
+const { isScrolling } = useNavScroll();
 
 defineProps({
   progress:     { type: Number, default: 0 },
@@ -92,9 +95,26 @@ const stampColor = (cat) => ({ overdue: '#C19089', today: '#C19089', week: '#D9A
     </button>
 
     <button type="button" @click="emit('addTask')"
-            class="fixed bottom-24 right-5 z-20 inline-flex items-center gap-2 px-4 py-3 rounded-full text-[13px] font-semibold text-white"
-            style="background:#1F2A2E; box-shadow: 0 16px 32px -10px rgba(31,42,46,0.5);">
-      <WidgetIcon name="plus" :size="16" stroke="#fff" /> {{ t('dashboard.checklist.mobile.addTask') }}
+            class="fixed z-20 inline-flex items-center justify-center gap-2 font-semibold text-white rounded-full overflow-hidden"
+            :style="{
+                background: '#1F2A2E',
+                boxShadow: '0 16px 32px -10px rgba(31,42,46,0.5)',
+                bottom: isScrolling ? 'max(env(safe-area-inset-bottom), 10px)' : '6rem',
+                right: '12px',
+                padding: isScrolling ? '14px' : '12px 16px',
+                transition: isScrolling
+                    ? 'bottom 0.20s ease-in, padding 0.20s ease-in'
+                    : 'bottom 0.50s cubic-bezier(0.34,1.56,0.64,1), padding 0.40s ease-out',
+            }">
+      <WidgetIcon name="plus" :size="16" stroke="#fff" />
+      <span class="overflow-hidden whitespace-nowrap text-[13px]"
+            :style="{
+                maxWidth: isScrolling ? '0' : '120px',
+                opacity: isScrolling ? 0 : 1,
+                transition: isScrolling
+                    ? 'max-width 0.16s ease-in, opacity 0.12s ease-in'
+                    : 'max-width 0.45s ease-out 0.08s, opacity 0.30s ease-out 0.12s',
+            }">{{ t('dashboard.checklist.mobile.addTask') }}</span>
     </button>
   </div>
 </template>

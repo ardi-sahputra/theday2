@@ -103,12 +103,6 @@ const pad = (n) => String(n).padStart(2, '0');
             {{ countdown.date_label }}
           </p>
 
-          <button v-if="!countdown" @click="emit('set-date')"
-                  class="mt-5 w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full text-[13.5px] font-semibold transition-transform active:scale-95"
-                  style="background:#FBFCF9; color:#1F2A2E;">
-            <WidgetIcon name="cal" :size="14" stroke="#1F2A2E" />
-            {{ t('dashboard.index.widgets.hero.setDate') }}
-          </button>
         </div>
 
         <!-- Countdown boxes: full-width row below on mobile, fixed at right on desktop -->

@@ -292,7 +292,8 @@
                     "ucapan": "ucapan",
                     "copy": "Salin link",
                     "copied": "Tersalin!",
-                    "open": "Buka"
+                    "open": "Buka",
+                    "edit": "Edit undangan"
                 },
                 "budget": {
                     "title": "Anggaran Pernikahan",
@@ -312,10 +313,19 @@
                 },
                 "vendor": {
                     "title": "Vendor",
-                    "sub": "contoh data vendor"
+                    "sub": "Vendor yang sudah kamu booking",
+                    "empty": "Belum ada vendor tersimpan",
+                    "addCta": "Tambah vendor"
                 },
                 "activity": {
-                    "title": "Aktivitas Terbaru"
+                    "title": "Aktivitas Terbaru",
+                    "empty": "Belum ada aktivitas",
+                    "someone": "Seseorang",
+                    "rsvpAttending": "{name} konfirmasi hadir",
+                    "rsvpDeclined": "{name} konfirmasi tidak hadir",
+                    "ucapan": "{name} menulis ucapan",
+                    "taskDone": "{title} ditandai selesai",
+                    "vendorBooked": "Vendor {name} di-booking"
                 },
                 "beyond": {
                     "eyebrow": "Beyond · pratinjau",

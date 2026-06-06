@@ -290,7 +290,8 @@
                     "ucapan": "wishes",
                     "copy": "Copy link",
                     "copied": "Copied!",
-                    "open": "Open"
+                    "open": "Open",
+                    "edit": "Edit invitation"
                 },
                 "budget": {
                     "title": "Wedding Budget",
@@ -310,10 +311,19 @@
                 },
                 "vendor": {
                     "title": "Vendors",
-                    "sub": "sample vendor data"
+                    "sub": "Vendors you've booked",
+                    "empty": "No vendors saved yet",
+                    "addCta": "Add vendor"
                 },
                 "activity": {
-                    "title": "Recent Activity"
+                    "title": "Recent Activity",
+                    "empty": "No activity yet",
+                    "someone": "Someone",
+                    "rsvpAttending": "{name} confirmed attendance",
+                    "rsvpDeclined": "{name} declined attendance",
+                    "ucapan": "{name} left a message",
+                    "taskDone": "{title} marked done",
+                    "vendorBooked": "Vendor {name} booked"
                 },
                 "beyond": {
                     "eyebrow": "Beyond · preview",
