@@ -3,6 +3,7 @@ import DashboardLayout from '@/Layouts/DashboardLayout.vue';
 import { ref, computed, reactive, onMounted, watch } from 'vue';
 import axios from 'axios';
 import { useLocale } from '@/Composables/useLocale';
+import { useFocusHighlight } from '@/Composables/useFocusHighlight';
 import ChecklistProgressHero from '@/Components/dashboard/checklist/ChecklistProgressHero.vue';
 import PlannerPanel from '@/Components/dashboard/checklist/PlannerPanel.vue';
 import ChecklistStatStrip from '@/Components/dashboard/checklist/ChecklistStatStrip.vue';
@@ -22,6 +23,7 @@ import { checklistCache } from '@/Composables/checklistCache';
 import DocumentsTab from '@/Components/dashboard/documents/DocumentsTab.vue';
 
 const { t, locale } = useLocale();
+useFocusHighlight();
 
 const props = defineProps({
     weddingPlan: Object,
@@ -1186,7 +1188,7 @@ const currentPickerDate = computed(() =>
                                 >
                                 <div v-show="expandedGroups.has(group.cat)" class="space-y-1.5 pb-3 pl-6">
 
-                            <div v-for="task in group.tasks" :key="task.id"
+                            <div v-for="task in group.tasks" :key="task.id" :data-focus-id="task.id"
                                  class="relative overflow-hidden rounded-xl"
                                  @click.self="closeSwipe(task.id)">
 

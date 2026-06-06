@@ -4,6 +4,9 @@ import { Head } from '@inertiajs/vue3';
 import DashboardLayout from '@/Layouts/DashboardLayout.vue';
 import { useVendors } from '@/Composables/useVendors';
 import VendorModal from '@/Components/dashboard/vendor/VendorModal.vue';
+import { useFocusHighlight } from '@/Composables/useFocusHighlight';
+
+useFocusHighlight();
 
 const props = defineProps({
   vendors:       { type: Array, default: () => [] },
@@ -133,7 +136,7 @@ async function onDelete(v) {
 
           <!-- vendor cards -->
           <div v-else class="vp-cards">
-            <div v-for="v in filtered" :key="v.id" class="vp-card">
+            <div v-for="v in filtered" :key="v.id" :data-focus-id="v.id" class="vp-card">
               <div class="vp-card-top">
                 <div class="vp-logo" :style="{ background: catMeta(v.category).color }">{{ catMeta(v.category).emoji }}</div>
                 <div style="flex:1; min-width:0;">

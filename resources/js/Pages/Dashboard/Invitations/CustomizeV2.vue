@@ -40,7 +40,14 @@ const caps = computed(() => templateCaps(editor.state.template_slug));
 const statusText = { saved: 'tersimpan', saving: 'menyimpan…', error: 'gagal simpan' };
 const statusSubtitle = computed(() => `Live · ${statusText[editor.saveStatus.value] ?? ''}`);
 
-function openPreview() { window.open(`/${props.invitation.slug}`, '_blank'); }
+function openPreview() {
+  // Draft 404s on the public URL → use the owner-only preview route.
+  // Published → open the real public guest page.
+  const url = invStatus.value === 'published'
+    ? `/${props.invitation.slug}`
+    : route('dashboard.invitations.preview', props.invitation.id);
+  window.open(url, '_blank');
+}
 function goBack() { router.visit(route('dashboard.invitations.index')); }
 async function publish() {
   try {
@@ -78,7 +85,7 @@ function saveConfig(patch)  { editor.saveConfig(patch).catch(() => {}); }
       <div class="md:grid md:grid-cols-[380px_minmax(0,1fr)]">
         <!-- Left: editor panel (380px) -->
         <div class="md:border-r border-stone-200 bg-[#FBFCF9] md:sticky md:top-0 md:max-h-screen md:overflow-y-auto">
-          <div class="px-5 lg:px-6 py-4">
+          <div class="px-5 lg:px-6 pt-7 pb-4">
             <DesignPanelV2
               v-if="activeTab === 'Desain'"
               :state="editor.state" :templates="templates" :default-music="defaultMusic"
@@ -171,7 +178,7 @@ function saveConfig(patch)  { editor.saveConfig(patch).catch(() => {}); }
         </button>
       </nav>
 
-      <div class="p-4">
+      <div class="px-4 pt-6 pb-4">
         <DesignPanelV2
           v-if="activeTab === 'Desain'"
           :state="editor.state" :templates="templates" :default-music="defaultMusic"

@@ -1836,7 +1836,40 @@
             },
             "searchPlaceholder": "Search guests, vendors, docs...",
             "searchSoon": "Search coming soon",
-            "shareInvite": "Share invitation"
+            "shareInvite": "Share invitation",
+            "language": "Language"
+        },
+        "search": {
+            "placeholder": "Search guests, vendors, invitations, tasks…",
+            "loading": "Searching…",
+            "empty": "No results",
+            "groups": {
+                "guest": "Guests",
+                "vendor": "Vendors",
+                "invitation": "Invitations",
+                "task": "Tasks",
+                "nav": "Go to page",
+                "action": "Quick actions"
+            },
+            "nav": {
+                "invitations": "Invitations",
+                "guests": "Guest List",
+                "rsvp": "RSVP",
+                "bukuTamu": "Guestbook",
+                "budget": "Budget Planner",
+                "planner": "Wedding Planner",
+                "moodboard": "Moodboard",
+                "vendor": "Vendors",
+                "templates": "Templates",
+                "paket": "Plans & Billing",
+                "transactions": "Payment History"
+            },
+            "actions": {
+                "newInvitation": "Create new invitation",
+                "addGuest": "Add guest",
+                "addVendor": "Add vendor",
+                "addExpense": "Add expense"
+            }
         }
     },
     "auth": {

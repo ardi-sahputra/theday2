@@ -131,7 +131,16 @@
       "PowerShell($p = Get-CimInstance Win32_Process -Filter \"name='AppHelperCap.exe'\"; $p | Format-List ProcessId, ParentProcessId, ExecutablePath, CommandLine; $pp = Get-CimInstance Win32_Process -Filter \"ProcessId=$\\($p.ParentProcessId\\)\"; \"PARENT:\"; $pp | Format-List Name, ProcessId, ExecutablePath, CommandLine)",
       "Bash(php -r \"json_decode\\(file_get_contents\\('lang/id.json'\\),true\\); echo 'id:'.json_last_error_msg\\(\\).PHP_EOL; json_decode\\(file_get_contents\\('lang/en.json'\\),true\\); echo 'en:'.json_last_error_msg\\(\\).PHP_EOL;\")",
       "Bash(php -r \"json_decode\\(file_get_contents\\('lang/id.json'\\)\\); echo 'id:'.json_last_error_msg\\(\\).PHP_EOL; json_decode\\(file_get_contents\\('lang/en.json'\\)\\); echo 'en:'.json_last_error_msg\\(\\).PHP_EOL;\")",
-      "Bash(php -r \"json_decode\\(file_get_contents\\('lang/id.json'\\)\\); echo 'id:'.json_last_error_msg\\(\\); json_decode\\(file_get_contents\\('lang/en.json'\\)\\); echo ' en:'.json_last_error_msg\\(\\).PHP_EOL;\")"
+      "Bash(php -r \"json_decode\\(file_get_contents\\('lang/id.json'\\)\\); echo 'id:'.json_last_error_msg\\(\\); json_decode\\(file_get_contents\\('lang/en.json'\\)\\); echo ' en:'.json_last_error_msg\\(\\).PHP_EOL;\")",
+      "Bash(python3 \"C:\\\\Users\\\\Ardi\\\\.claude\\\\plugins\\\\marketplaces\\\\ui-ux-pro-max-skill\\\\.claude\\\\skills\\\\ui-ux-pro-max\\\\scripts\\\\search.py\" \"liquid glass frosted blur mobile tab bar navigation\" --domain style -n 3)",
+      "Bash(php -l app/Http/Controllers/Dashboard/InvitationController.php)",
+      "Bash(php -l app/Http/Controllers/Dashboard/GlobalSearchController.php)",
+      "Bash(rtk read *)",
+      "Bash(php -r \"json_decode\\(file_get_contents\\('lang/id.json'\\)\\); echo 'id: '.json_last_error_msg\\(\\).PHP_EOL; json_decode\\(file_get_contents\\('lang/en.json'\\)\\); echo 'en: '.json_last_error_msg\\(\\).PHP_EOL;\")",
+      "Bash(php -l app/Http/Controllers/Api/InvitationController.php)",
+      "Bash(powershell -Command \"Get-Content storage/logs/laravel.log -Tail 40 | Select-String -Pattern 'check-slug|checkSlug|InvitationController|SQLSTATE|slug' -Context 1,3\")",
+      "Bash(powershell -Command \"Get-Content storage/logs/laravel.log -Tail 60\")",
+      "Bash(powershell -Command \"Get-Content storage/logs/laravel.log | Select-String -Pattern 'production.ERROR|local.ERROR' | Select-Object -Last 5\")"
     ],
     "defaultMode": "bypassPermissions",
     "additionalDirectories": [

@@ -79,7 +79,7 @@ class NextActionResolverTest extends TestCase
         $this->assertSame('publish_soon', $result['key']);
         $this->assertSame('urgent', $result['level']);
         $this->assertSame(5, $result['params']->days);
-        $this->assertSame('dashboard.invitations.edit', $result['action']['route']);
+        $this->assertSame('dashboard.invitations.customize-v2', $result['action']['route']);
         $this->assertSame(42, $result['action']['param']);
     }
 
@@ -115,7 +115,7 @@ class NextActionResolverTest extends TestCase
         ]));
 
         $this->assertSame('publish_draft', $result['key']);
-        $this->assertSame('dashboard.invitations.edit', $result['action']['route']);
+        $this->assertSame('dashboard.invitations.customize-v2', $result['action']['route']);
     }
 
     public function test_share_invite_when_published_but_never_viewed(): void

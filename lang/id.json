@@ -1838,7 +1838,40 @@
             },
             "searchPlaceholder": "Cari tamu, vendor, dokumen...",
             "searchSoon": "Pencarian segera hadir",
-            "shareInvite": "Bagikan undangan"
+            "shareInvite": "Bagikan undangan",
+            "language": "Bahasa"
+        },
+        "search": {
+            "placeholder": "Cari tamu, vendor, undangan, tugas…",
+            "loading": "Mencari…",
+            "empty": "Tidak ada hasil",
+            "groups": {
+                "guest": "Tamu",
+                "vendor": "Vendor",
+                "invitation": "Undangan",
+                "task": "Tugas",
+                "nav": "Buka halaman",
+                "action": "Aksi cepat"
+            },
+            "nav": {
+                "invitations": "Undangan",
+                "guests": "Daftar Tamu",
+                "rsvp": "RSVP",
+                "bukuTamu": "Buku Tamu",
+                "budget": "Budget Planner",
+                "planner": "Wedding Planner",
+                "moodboard": "Moodboard",
+                "vendor": "Vendor",
+                "templates": "Template",
+                "paket": "Paket & Langganan",
+                "transactions": "Riwayat Pembayaran"
+            },
+            "actions": {
+                "newInvitation": "Buat undangan baru",
+                "addGuest": "Tambah tamu",
+                "addVendor": "Tambah vendor",
+                "addExpense": "Tambah pengeluaran"
+            }
         }
     },
     "auth": {

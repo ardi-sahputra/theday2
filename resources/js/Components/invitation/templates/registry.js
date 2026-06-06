@@ -64,3 +64,12 @@ export const TEMPLATE_MAP = {
     'botanical':           BotanicalTemplate,
     'ayat-hadits':         AyatHaditsTemplate,
 }
+
+// Full-bleed scene templates (SceneTemplate-based, fixed 9:16 art with
+// positioned hotspots). The preview hosts these with `fill` so the scene
+// covers the screen instead of leaving a white gap below.
+export const SCENE_FILL_SLUGS = ['beach', 'garden', 'night-sky'];
+
+export function isSceneFillTemplate(slug) {
+    return SCENE_FILL_SLUGS.includes(slug);
+}

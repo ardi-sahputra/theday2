@@ -85,7 +85,7 @@ const stampColor = (cat) => ({ overdue: '#C19089', today: '#C19089', week: '#D9A
         <span class="font-cormorant font-semibold text-[17px]" style="color:#1F2A2E;">{{ g.label }}</span>
         <span class="ml-auto text-[10.5px]" style="color:#6C7A75;">{{ g.tasks.length }} {{ t('dashboard.checklist.mobile.tasks') }}</span>
       </div>
-      <MobileTaskCard v-for="tk in g.tasks" :key="tk.id" :task="tk" @tap="emit('openTask', $event)" @toggle="emit('toggle', $event)" />
+      <MobileTaskCard v-for="tk in g.tasks" :key="tk.id" :data-focus-id="tk.id" :task="tk" @tap="emit('openTask', $event)" @toggle="emit('toggle', $event)" />
     </div>
 
     <button v-if="doneCount" type="button" @click="emit('showDone')" class="w-full flex items-center gap-2.5 py-3 mt-1" style="border-top:1px solid #D8DFD2;">

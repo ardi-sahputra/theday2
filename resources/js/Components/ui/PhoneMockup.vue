@@ -8,6 +8,9 @@ const props = defineProps({
     scale:      { type: Number,  default: null },
     screenBg:   { type: String,  default: 'white' },
     scrollable: { type: Boolean, default: true },
+    // Immersive/full-bleed content (e.g. scene templates): give the slot the
+    // exact screen height so height:100% children fill it with no scroll/gap.
+    fill:       { type: Boolean, default: false },
 });
 
 const dims = computed(() => {
@@ -21,6 +24,10 @@ const dims = computed(() => {
 });
 
 const effectiveScale = computed(() => props.scale ?? dims.value.defaultScale);
+
+// Exact screen height in unscaled (375-coordinate) space, so a fill slot maps
+// 1:1 to the visible screen after the CSS scale is applied.
+const fillHeight = computed(() => Math.round((dims.value.height - 16) / effectiveScale.value));
 
 // ── Click-and-drag scroll (mouse swipe) ───────────────────────────────────────
 const screenRef = ref(null);
@@ -73,7 +80,7 @@ function onPointerEnd(e) {
         <div
             ref="screenRef"
             class="phone-screen"
-            :style="{ background: screenBg, overflowY: scrollable ? 'auto' : 'hidden', cursor: scrollable ? 'grab' : 'default' }"
+            :style="{ background: screenBg, overflowY: (scrollable && !fill) ? 'auto' : 'hidden', cursor: (scrollable && !fill) ? 'grab' : 'default' }"
             :class="{ 'is-dragging': drag.active }"
             @pointerdown="onPointerDown"
             @pointermove="onPointerMove"
@@ -86,7 +93,8 @@ function onPointerEnd(e) {
                     transform: `scale(${effectiveScale})`,
                     transformOrigin: 'top left',
                     width: '375px',
-                    minHeight: `${Math.round(560 / effectiveScale)}px`,
+                    height: fill ? `${fillHeight}px` : undefined,
+                    minHeight: fill ? undefined : `${Math.round(560 / effectiveScale)}px`,
                     display: 'flex',
                     flexDirection: 'column',
                 }"

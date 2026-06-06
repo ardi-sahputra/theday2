@@ -152,6 +152,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 Route::middleware(['auth', 'verified', 'onboarding', 'couple'])->prefix('dashboard')->name('dashboard.')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('index');
+    Route::get('/search', \App\Http\Controllers\Dashboard\GlobalSearchController::class)->name('search');
     Route::patch('/wedding-date', [DashboardController::class, 'updateWeddingDate'])->name('wedding-date.update');
     Route::get('/templates', [TemplateController::class, 'index'])->name('templates');
     Route::get('/buku-tamu', [BukuTamuHubController::class, 'index'])->name('buku-tamu.index');
@@ -164,7 +165,6 @@ Route::middleware(['auth', 'verified', 'onboarding', 'couple'])->prefix('dashboa
     // Invitation list & wizard
     Route::get(   '/invitations',                    [InvitationController::class, 'index'])->name('invitations.index');
     Route::get(   '/invitations/create',             [InvitationController::class, 'create'])->name('invitations.create');
-    Route::get(   '/invitations/{invitation}/edit',    [InvitationController::class, 'edit'])->name('invitations.edit');
     Route::get(   '/invitations/{invitation}/preview', [InvitationController::class, 'preview'])->name('invitations.preview');
     Route::post(  '/invitations/from-template',      [InvitationController::class, 'createFromTemplate'])->name('invitations.from-template');
     Route::delete('/invitations/{invitation}',        [InvitationController::class, 'destroy'])->name('invitations.destroy');

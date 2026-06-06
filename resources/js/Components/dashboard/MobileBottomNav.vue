@@ -42,8 +42,10 @@ const isActive = (patterns) => {
 };
 
 const morePatterns = [
-    'dashboard.rsvp.*', 'dashboard.guest-list.*', 'dashboard.buku-tamu.*',
-    'dashboard.templates', 'dashboard.paket', 'dashboard.transactions.*', 'profile.*',
+    'dashboard.vendor.*', 'dashboard.moodboard.*',
+    'dashboard.guest-list.*', 'dashboard.rsvp.*', 'dashboard.buku-tamu.*',
+    'dashboard.templates', 'dashboard.gifts.*',
+    'dashboard.paket', 'dashboard.transactions.*', 'profile.*',
 ];
 const isMoreActive = computed(() => {
     try { return morePatterns.some(p => route().current(p)); } catch { return false; }
@@ -61,8 +63,8 @@ const scrollVisibleIdx = computed(() => {
 // ── Transition timing tokens ──────────────────────────────────────────
 const T_IN  = 'max-width 0.20s ease-in, opacity 0.15s ease-in, padding 0.20s ease-in, min-height 0.20s ease-in';
 const T_OUT = 'max-width 0.50s cubic-bezier(0.34,1.56,0.64,1), opacity 0.30s ease-out 0.05s, padding 0.40s ease-out, min-height 0.40s ease-out';
-const PILL_T_IN  = 'width 0.20s ease-in';
-const PILL_T_OUT = 'width 0.50s cubic-bezier(0.34,1.56,0.64,1)';
+const PILL_T_IN  = 'width 0.20s ease-in, height 0.20s ease-in, border-radius 0.20s ease-in';
+const PILL_T_OUT = 'width 0.50s cubic-bezier(0.34,1.56,0.64,1), height 0.40s ease-out, border-radius 0.40s ease-out';
 </script>
 
 <template>
@@ -75,10 +77,12 @@ const PILL_T_OUT = 'width 0.50s cubic-bezier(0.34,1.56,0.64,1)';
     >
         <!-- Pill container — shrinks to 60px (active icon only) when scrolling -->
         <div
-            class="flex rounded-[26px] overflow-hidden relative"
+            class="flex overflow-hidden relative"
             :style="{
                 margin: '0 12px',
-                width: isScrolling ? '60px' : 'calc(100% - 24px)',
+                width: isScrolling ? '56px' : 'calc(100% - 24px)',
+                height: isScrolling ? '56px' : 'auto',
+                borderRadius: isScrolling ? '9999px' : '26px',
                 background: 'rgba(255, 255, 255, 0.38)',
                 backdropFilter: 'blur(32px) saturate(2.0) brightness(1.06)',
                 WebkitBackdropFilter: 'blur(32px) saturate(2.0) brightness(1.06)',

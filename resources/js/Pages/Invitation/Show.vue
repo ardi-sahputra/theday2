@@ -3,6 +3,7 @@ import { computed } from 'vue';
 import { Head, router } from '@inertiajs/vue3';
 import PasswordGate       from './PasswordGate.vue';
 import InvitationRenderer from '@/Components/invitation/InvitationRenderer.vue';
+import { isSceneFillTemplate } from '@/Components/invitation/templates/registry';
 
 const props = defineProps({
     invitation:    { type: Object,  required: true },
@@ -12,6 +13,10 @@ const props = defineProps({
     guest:         { type: Object,  default: null },
     showWatermark: { type: Boolean, default: false },
 });
+
+// Full-bleed scene templates sit behind the floating glass banner (no spacer);
+// normal templates get a spacer so their content isn't hidden under it.
+const isScene = computed(() => isSceneFillTemplate(props.invitation.template_slug));
 
 // Locked invitations ship only the gate payload; unlocking reloads the page
 // so the server (now session-unlocked) returns the full invitation.
@@ -35,17 +40,18 @@ function onUnlocked() {
 
     <!-- Preview banner -->
     <div v-if="isPreview"
-         style="position:fixed;top:0;left:0;right:0;z-index:9999;background:#1A2720;color:#B8C7BF;font-family:Arial,sans-serif;font-size:13px;font-weight:600;text-align:center;padding:10px 16px;display:flex;align-items:center;justify-content:center;gap:10px;box-shadow:0 2px 8px rgba(0,0,0,0.3);">
-        <span style="color:#92A89C;">👁</span>
-        Mode Preview — Undangan ini masih berstatus <strong style="color:#fff;">Draft</strong> dan belum dipublikasikan.
-        <a :href="`/dashboard/invitations/${invitation.id}/edit`"
-           style="margin-left:8px;padding:4px 12px;background:#92A89C;color:#fff;border-radius:8px;text-decoration:none;font-size:12px;">
+         style="position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(15,20,17,0.45);backdrop-filter:blur(20px) saturate(1.6);-webkit-backdrop-filter:blur(20px) saturate(1.6);border-bottom:1px solid rgba(255,255,255,0.14);color:#EAF0EC;font-family:Arial,sans-serif;font-size:13px;font-weight:600;line-height:1.5;text-align:center;padding:9px 16px;text-shadow:0 1px 3px rgba(0,0,0,0.55);box-shadow:0 2px 12px rgba(0,0,0,0.2);">
+        <span style="color:#B7CDBF;">👁</span>
+        Mode Preview — undangan masih <strong style="color:#fff;">Draft</strong>, belum dipublikasikan.
+        <a :href="`/dashboard/invitations/${invitation.id}/customize-v2`"
+           style="display:inline-block;vertical-align:middle;margin-left:6px;padding:3px 12px;background:rgba(146,168,156,0.9);color:#fff;border-radius:8px;text-decoration:none;font-size:12px;white-space:nowrap;text-shadow:none;">
             Edit →
         </a>
     </div>
 
-    <!-- Spacer agar konten tidak tertutup banner -->
-    <div v-if="isPreview" style="height:41px;"></div>
+    <!-- Spacer agar konten tidak tertutup banner (scene full-bleed: banner
+         mengambang sebagai liquid glass, jadi tak perlu spacer). -->
+    <div v-if="isPreview && !isScene" style="height:41px;"></div>
 
     <!-- Password gate -->
     <PasswordGate
