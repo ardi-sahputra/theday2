@@ -129,16 +129,25 @@ class GuestListController extends Controller
             $base->where('invitation_id', $invId);
         }
 
-        $total = (clone $base)->count();
+        // One pass — conditional aggregation instead of 7 round-trips.
+        $row = $base->selectRaw(<<<'SQL'
+            COUNT(*) AS total,
+            SUM(CASE WHEN send_status = 'not_sent'      THEN 1 ELSE 0 END) AS not_sent,
+            SUM(CASE WHEN send_status = 'sent'          THEN 1 ELSE 0 END) AS sent,
+            SUM(CASE WHEN send_status = 'opened'        THEN 1 ELSE 0 END) AS opened,
+            SUM(CASE WHEN rsvp_status = 'attending'     THEN 1 ELSE 0 END) AS attending,
+            SUM(CASE WHEN rsvp_status = 'not_attending' THEN 1 ELSE 0 END) AS not_attending,
+            SUM(CASE WHEN rsvp_status = 'pending'       THEN 1 ELSE 0 END) AS pending_rsvp
+        SQL)->first();
 
         return response()->json([
-            'total'        => $total,
-            'not_sent'     => (clone $base)->where('send_status', 'not_sent')->count(),
-            'sent'         => (clone $base)->where('send_status', 'sent')->count(),
-            'opened'       => (clone $base)->where('send_status', 'opened')->count(),
-            'attending'    => (clone $base)->where('rsvp_status', 'attending')->count(),
-            'not_attending'=> (clone $base)->where('rsvp_status', 'not_attending')->count(),
-            'pending_rsvp' => (clone $base)->where('rsvp_status', 'pending')->count(),
+            'total'         => (int) $row->total,
+            'not_sent'      => (int) $row->not_sent,
+            'sent'          => (int) $row->sent,
+            'opened'        => (int) $row->opened,
+            'attending'     => (int) $row->attending,
+            'not_attending' => (int) $row->not_attending,
+            'pending_rsvp'  => (int) $row->pending_rsvp,
         ]);
     }
 

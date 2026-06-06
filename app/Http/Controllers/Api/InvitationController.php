@@ -352,9 +352,15 @@ class InvitationController extends Controller
             return response()->json(['message' => 'Beberapa foto tidak ditemukan.'], 422);
         }
 
-        foreach ($ids as $order => $id) {
-            $invitation->galleries()->where('id', $id)->update(['sort_order' => $order]);
-        }
+        // Single UPDATE with a CASE map instead of one query per photo.
+        // (ids are validated `uuid` → safe to inline; no injection surface.)
+        $caseSql = collect($ids)
+            ->map(fn ($id, $order) => "WHEN id = '{$id}' THEN " . (int) $order)
+            ->implode(' ');
+
+        $invitation->galleries()
+            ->whereIn('id', $ids)
+            ->update(['sort_order' => \Illuminate\Support\Facades\DB::raw("CASE {$caseSql} END")]);
 
         return response()->json([
             'data' => $invitation->galleries()->get()->map(fn ($g) => [
