@@ -1,6 +1,18 @@
 <script setup>
-import { computed } from 'vue';
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import { Link } from '@inertiajs/vue3';
+
+const isScrolling = ref(false);
+let scrollTimer = null;
+
+function onScroll() {
+    isScrolling.value = true;
+    clearTimeout(scrollTimer);
+    scrollTimer = setTimeout(() => { isScrolling.value = false; }, 320);
+}
+
+onMounted(() => window.addEventListener('scroll', onScroll, { passive: true }));
+onBeforeUnmount(() => { window.removeEventListener('scroll', onScroll); clearTimeout(scrollTimer); });
 
 const emit = defineEmits(['toggle-more']);
 
@@ -75,17 +87,18 @@ const isMoreActive = computed(() => {
     >
         <div
             class="mx-3 w-full flex rounded-[26px] overflow-visible relative"
-            style="
-                background: rgba(255, 255, 255, 0.38);
-                backdrop-filter: blur(32px) saturate(2.0) brightness(1.06);
-                -webkit-backdrop-filter: blur(32px) saturate(2.0) brightness(1.06);
-                border: 1px solid rgba(255, 255, 255, 0.70);
-                box-shadow:
-                    0 4px 32px rgba(31, 42, 46, 0.16),
-                    0 1px 8px rgba(31, 42, 46, 0.08),
-                    inset 0 1.5px 0 rgba(255, 255, 255, 0.95),
-                    inset 0 -0.5px 0 rgba(31, 42, 46, 0.04);
-            "
+            :style="{
+                background: 'rgba(255, 255, 255, 0.38)',
+                backdropFilter: 'blur(32px) saturate(2.0) brightness(1.06)',
+                WebkitBackdropFilter: 'blur(32px) saturate(2.0) brightness(1.06)',
+                border: '1px solid rgba(255, 255, 255, 0.70)',
+                boxShadow: '0 4px 32px rgba(31,42,46,0.16), 0 1px 8px rgba(31,42,46,0.08), inset 0 1.5px 0 rgba(255,255,255,0.95), inset 0 -0.5px 0 rgba(31,42,46,0.04)',
+                transform: isScrolling ? 'scale(0.84) translateY(4px)' : 'scale(1) translateY(0)',
+                opacity: isScrolling ? '0.72' : '1',
+                transition: isScrolling
+                    ? 'transform 0.18s ease-in, opacity 0.15s ease-in'
+                    : 'transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.35s ease-out',
+            }"
         >
             <!-- Specular top sheen -->
             <div class="absolute inset-x-0 top-0 h-px rounded-full pointer-events-none"
