@@ -100,7 +100,7 @@ const PILL_T_OUT = 'width 0.50s cubic-bezier(0.34,1.56,0.64,1)';
                 :aria-current="isActive(['dashboard']) ? 'page' : undefined"
                 class="flex-1 flex flex-col justify-center text-[10px]"
                 :class="[isActive(['dashboard']) ? 'font-semibold' : 'font-medium', isScrolling ? 'items-start' : 'items-center']"
-                :style="{ color: isActive(['dashboard']) ? '#1F2A2E' : 'rgba(31,42,46,0.42)', minHeight: '56px', padding: isScrolling ? '8px 0 8px 10px' : '8px 0' }"
+                :style="{ color: isActive(['dashboard']) ? '#1F2A2E' : 'rgba(31,42,46,0.42)', minHeight: '56px', padding: '8px 0' }"
             >
                 <span
                     class="grid place-items-center w-12 h-7 rounded-full transition-all duration-200"
