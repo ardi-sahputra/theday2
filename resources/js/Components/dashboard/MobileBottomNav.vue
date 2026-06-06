@@ -66,46 +66,76 @@ const isMoreActive = computed(() => {
 </script>
 
 <template>
+    <!-- Liquid glass floating nav — iOS 26 style -->
     <nav
-        class="fixed bottom-0 inset-x-0 z-30 lg:hidden bg-white border-t border-stone-200 flex"
-        style="padding-bottom: env(safe-area-inset-bottom)"
+        class="fixed bottom-0 inset-x-0 z-30 lg:hidden flex items-end justify-center"
+        style="padding-bottom: max(env(safe-area-inset-bottom), 10px);"
         role="navigation"
         aria-label="Mobile navigation"
     >
-        <Link
-            v-for="tab in tabs"
-            :key="tab.routeName"
-            :href="route(tab.routeName)"
-            prefetch="mount"
-            cache-for="1m"
-            :aria-label="tab.label"
-            :aria-current="isActive(tab.activePatterns) ? 'page' : undefined"
-            class="flex-1 flex flex-col items-center justify-center py-1.5 min-h-[56px] text-[10px] transition-colors"
-            :class="isActive(tab.activePatterns) ? 'text-[#1F2A2E] font-semibold' : 'text-stone-400 font-medium'"
+        <div
+            class="mx-3 w-full flex rounded-[26px] overflow-visible relative"
+            style="
+                background: rgba(251, 252, 249, 0.68);
+                backdrop-filter: blur(28px) saturate(1.85) brightness(1.04);
+                -webkit-backdrop-filter: blur(28px) saturate(1.85) brightness(1.04);
+                border: 1px solid rgba(255, 255, 255, 0.60);
+                box-shadow:
+                    0 4px 28px rgba(31, 42, 46, 0.13),
+                    0 1px 6px rgba(31, 42, 46, 0.07),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.90),
+                    inset 0 -0.5px 0 rgba(31, 42, 46, 0.05);
+            "
         >
-            <span class="grid place-items-center w-12 h-7 rounded-full mb-0.5 transition-colors"
-                  :class="isActive(tab.activePatterns) ? 'bg-[#92A89C]/30' : 'bg-transparent'">
-                <svg class="w-[22px] h-[22px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" v-html="tab.icon" />
-            </span>
-            <span>{{ tab.label }}</span>
-        </Link>
+            <!-- Specular top sheen -->
+            <div class="absolute inset-x-0 top-0 h-px rounded-full pointer-events-none"
+                 style="background: linear-gradient(90deg, transparent 5%, rgba(255,255,255,0.85) 30%, rgba(255,255,255,0.85) 70%, transparent 95%);" />
 
-        <button
-            type="button"
-            :aria-label="'More menu'"
-            :aria-expanded="moreOpen"
-            :aria-current="isMoreActive ? 'page' : undefined"
-            class="flex-1 flex flex-col items-center justify-center py-1.5 min-h-[56px] text-[10px] transition-colors cursor-pointer"
-            :class="(moreOpen || isMoreActive) ? 'text-[#1F2A2E] font-semibold' : 'text-stone-400 font-medium'"
-            @click="emit('toggle-more')"
-        >
-            <span class="grid place-items-center w-12 h-7 rounded-full mb-0.5 transition-colors"
-                  :class="(moreOpen || isMoreActive) ? 'bg-[#92A89C]/30' : 'bg-transparent'">
-                <svg class="w-[22px] h-[22px]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"/>
-                </svg>
-            </span>
-            <span>More</span>
-        </button>
+            <Link
+                v-for="tab in tabs"
+                :key="tab.routeName"
+                :href="route(tab.routeName)"
+                prefetch="mount"
+                cache-for="1m"
+                :aria-label="tab.label"
+                :aria-current="isActive(tab.activePatterns) ? 'page' : undefined"
+                class="flex-1 flex flex-col items-center justify-center py-2 min-h-[56px] text-[10px] transition-all duration-200"
+                :class="isActive(tab.activePatterns) ? 'text-[#1F2A2E] font-semibold' : 'font-medium'"
+                :style="isActive(tab.activePatterns) ? 'color:#1F2A2E;' : 'color:rgba(31,42,46,0.42);'"
+            >
+                <span
+                    class="grid place-items-center w-12 h-7 rounded-full mb-0.5 transition-all duration-200"
+                    :style="isActive(tab.activePatterns)
+                        ? 'background:rgba(146,168,156,0.28); border:1px solid rgba(255,255,255,0.65); box-shadow: inset 0 1px 0 rgba(255,255,255,0.75), 0 2px 8px rgba(146,168,156,0.22);'
+                        : 'background:transparent; border:1px solid transparent;'"
+                >
+                    <svg class="w-[21px] h-[21px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" v-html="tab.icon" />
+                </span>
+                <span>{{ tab.label }}</span>
+            </Link>
+
+            <button
+                type="button"
+                :aria-label="'More menu'"
+                :aria-expanded="moreOpen"
+                :aria-current="isMoreActive ? 'page' : undefined"
+                class="flex-1 flex flex-col items-center justify-center py-2 min-h-[56px] text-[10px] transition-all duration-200 cursor-pointer"
+                :class="(moreOpen || isMoreActive) ? 'font-semibold' : 'font-medium'"
+                :style="(moreOpen || isMoreActive) ? 'color:#1F2A2E;' : 'color:rgba(31,42,46,0.42);'"
+                @click="emit('toggle-more')"
+            >
+                <span
+                    class="grid place-items-center w-12 h-7 rounded-full mb-0.5 transition-all duration-200"
+                    :style="(moreOpen || isMoreActive)
+                        ? 'background:rgba(146,168,156,0.28); border:1px solid rgba(255,255,255,0.65); box-shadow: inset 0 1px 0 rgba(255,255,255,0.75), 0 2px 8px rgba(146,168,156,0.22);'
+                        : 'background:transparent; border:1px solid transparent;'"
+                >
+                    <svg class="w-[21px] h-[21px]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"/>
+                    </svg>
+                </span>
+                <span>More</span>
+            </button>
+        </div>
     </nav>
 </template>

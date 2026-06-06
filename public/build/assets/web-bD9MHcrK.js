@@ -1,0 +1,1 @@
+import{W as n}from"./main-D6oNyASs.js";import"./runtime-dom.esm-bundler-CXMRN-yr.js";import"./_plugin-vue_export-helper-DlAUqK2U.js";import"./HomeSummary-Bjqdaq-q.js";class p extends n{async show(e){}async hide(e){}}export{p as SplashScreenWeb};
