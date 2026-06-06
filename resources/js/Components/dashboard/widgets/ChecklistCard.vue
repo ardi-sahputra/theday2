@@ -11,6 +11,10 @@ const props = defineProps({
 const { t } = useLocale();
 
 const tasks = computed(() => props.checklistWidget?.upcoming_tasks ?? []);
+const isAllDone = computed(() =>
+    (props.checklistWidget?.total ?? 0) > 0 &&
+    props.checklistWidget?.done === props.checklistWidget?.total
+);
 
 function hLabel(task) {
   if (!props.countdown?.target || !task.due_date) return '';
@@ -23,6 +27,8 @@ function hLabel(task) {
 
 <template>
   <div class="rounded-[18px]" style="background:#FBFCF9; border:1px solid #D8DFD2;">
+
+    <!-- Header — title + progress only, no action buttons -->
     <div class="flex items-center justify-between px-5 py-[18px]" style="border-bottom:1px solid #D8DFD2;">
       <div>
         <h3 class="font-cormorant font-medium text-[22px] tracking-tight" style="color:#1F2A2E;">{{ t('dashboard.index.widgets.checklist.title') }}</h3>
@@ -30,13 +36,15 @@ function hLabel(task) {
           {{ t('dashboard.index.widgets.checklist.sub', { done: checklistWidget.done, total: checklistWidget.total }) }}
         </div>
       </div>
+      <!-- Lihat semua — subtle link -->
       <Link :href="route('dashboard.checklist.index')"
-            class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold"
-            style="color:#4A5A4C; border:1px solid #C7D0BE;">
-        <WidgetIcon name="plus" :size="12" stroke="#4A5A4C" /> {{ t('dashboard.index.widgets.checklist.add') }}
+            class="text-xs font-semibold"
+            style="color:#92A89C;">
+        Lihat semua →
       </Link>
     </div>
 
+    <!-- Task list -->
     <div v-if="tasks.length" class="px-0 py-0">
       <div v-for="(it, i) in tasks" :key="it.id"
            class="flex items-center gap-3.5 px-5 py-3.5"
@@ -48,9 +56,40 @@ function hLabel(task) {
         <span v-if="it.is_overdue" class="text-[10px] font-semibold px-1.5 py-0.5 rounded-full"
               style="color:#C19089; background: rgba(217,181,176,0.2);">{{ t('dashboard.index.widgets.checklist.urgent') }}</span>
       </div>
+
+      <!-- Footer actions when tasks are visible -->
+      <div class="flex items-center gap-2 px-5 py-4" style="border-top:1px solid #D8DFD2;">
+        <Link :href="route('dashboard.checklist.index')"
+              class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold"
+              style="background:#1F2A2E; color:#FBFCF9;">
+          <WidgetIcon name="plus" :size="12" stroke="#FBFCF9" /> {{ t('dashboard.index.widgets.checklist.add') }}
+        </Link>
+        <Link :href="route('dashboard.checklist.index') + '?tab=dokumen'"
+              class="text-xs font-semibold"
+              style="color:#6C7A75;">
+          {{ t('dashboard.documents.title') }} →
+        </Link>
+      </div>
     </div>
-    <div v-else class="px-5 py-8 text-center text-sm" style="color:#6C7A75;">
-      {{ checklistWidget.initialized ? t('dashboard.index.widgets.checklist.allDone') : t('dashboard.index.widgets.checklist.empty') }}
+
+    <!-- Empty / all-done state -->
+    <div v-else class="px-5 py-7 text-center">
+      <p class="text-sm mb-5" style="color:#6C7A75;">
+        {{ isAllDone ? t('dashboard.index.widgets.checklist.allDone') : t('dashboard.index.widgets.checklist.empty') }}
+      </p>
+      <div class="flex items-center justify-center gap-3">
+        <Link :href="route('dashboard.checklist.index')"
+              class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full text-xs font-semibold"
+              style="background:#1F2A2E; color:#FBFCF9;">
+          <WidgetIcon name="plus" :size="12" stroke="#FBFCF9" /> {{ t('dashboard.index.widgets.checklist.add') }}
+        </Link>
+        <Link :href="route('dashboard.checklist.index') + '?tab=dokumen'"
+              class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full text-xs font-semibold"
+              style="color:#4A5A4C; border:1px solid #C7D0BE;">
+          {{ t('dashboard.documents.title') }}
+        </Link>
+      </div>
     </div>
+
   </div>
 </template>

@@ -14,7 +14,9 @@ function close() {
 </script>
 
 <template>
-    <Teleport to="body">
+    <!-- Positioned within the scene viewport (not teleported) so it centers on
+         the scene frame — correct on a real device AND in the editor preview. -->
+    <div>
         <!-- Backdrop -->
         <Transition name="backdrop-fade">
             <div
@@ -51,12 +53,12 @@ function close() {
                 </div>
             </div>
         </Transition>
-    </Teleport>
+    </div>
 </template>
 
 <style scoped>
 .modal-backdrop {
-    position:   fixed;
+    position:   absolute;
     inset:      0;
     background: rgba(30, 15, 5, 0.6);
     backdrop-filter: blur(2px);
@@ -65,13 +67,13 @@ function close() {
 }
 
 .modal-sheet {
-    position:       fixed;
+    position:       absolute;
     top:            50%;
     left:           50%;
     transform:      translate(-50%, -50%);
     width:          calc(100% - 32px);
     max-width:      420px;
-    max-height:     82vh;
+    max-height:     82%;
     background:
         url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"),
         linear-gradient(170deg, #fdf6e3 0%, #f7ead0 40%, #f2e0c8 70%, #f5e6d3 100%);

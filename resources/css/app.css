@@ -370,3 +370,11 @@
 .ev2 .preview-stats{ display:flex; gap:6px; font-size:11px; color:var(--muted); flex-wrap:wrap; justify-content:center; }
 .ev2 .preview-stats span{ background:var(--surface-2); border:1px solid var(--line); padding:5px 10px; border-radius:999px; }
 .ev2 .preview-stats strong{ color:var(--ink); font-weight:700; }
+
+/* Global search deep-link highlight */
+.focus-pulse{ animation:focus-pulse 2.4s ease-out; border-radius:12px; }
+@keyframes focus-pulse{
+  0%,100%{ box-shadow:0 0 0 0 rgba(146,168,156,0); }
+  12%{ box-shadow:0 0 0 3px rgba(146,168,156,0.55); background:rgba(146,168,156,0.10); }
+  60%{ box-shadow:0 0 0 3px rgba(146,168,156,0.25); }
+}

@@ -21,6 +21,8 @@ class WeddingPlan extends Model
         'primary_invitation_id',
         'event_date',
         'checklist_initialized_at',
+        'document_path',
+        'document_flags',
     ];
 
     protected function casts(): array
@@ -28,6 +30,7 @@ class WeddingPlan extends Model
         return [
             'event_date'               => 'date',
             'checklist_initialized_at' => 'datetime',
+            'document_flags'           => 'array',
         ];
     }
 
@@ -46,6 +49,11 @@ class WeddingPlan extends Model
     public function checklistTasks(): HasMany
     {
         return $this->hasMany(ChecklistTask::class);
+    }
+
+    public function weddingDocuments(): HasMany
+    {
+        return $this->hasMany(WeddingDocument::class);
     }
 
     // ─── Business Logic ───────────────────────────────────────────

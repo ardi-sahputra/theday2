@@ -3,6 +3,7 @@ import DashboardLayout from '@/Layouts/DashboardLayout.vue';
 import { router } from '@inertiajs/vue3';
 import { computed, ref, watch } from 'vue';
 import { useLocale } from '@/Composables/useLocale';
+import { useNavScroll } from '@/Composables/useNavScroll';
 import axios from 'axios';
 
 // ── New widget imports ─────────────────────────────────────────────────────
@@ -16,6 +17,7 @@ import CoupleNotesRail       from '@/Components/dashboard/budget/rail/CoupleNote
 import WidgetIcon            from '@/Components/dashboard/WidgetIcon.vue';
 
 const { t, locale } = useLocale();
+const { isScrolling } = useNavScroll();
 
 const props = defineProps({
     budget:            Object,
@@ -683,16 +685,30 @@ const upcomingPayments = computed(() =>
         </div>
 
         <!-- ── Mobile FAB ──────────────────────────────────────────────────── -->
-        <div class="fixed bottom-20 right-4 sm:hidden z-20">
-            <button @click="openAddItem()"
-                class="flex items-center gap-2 px-5 py-3 text-white text-sm font-semibold rounded-2xl shadow-lg transition-opacity hover:opacity-90"
-                style="background-color: #92A89C">
-                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/>
-                </svg>
-                {{ t('dashboard.budget.header.addItem') }}
-            </button>
-        </div>
+        <button @click="openAddItem()"
+            class="fixed z-20 sm:hidden inline-flex items-center justify-center gap-2 text-white font-semibold rounded-full overflow-hidden"
+            :style="{
+                background: '#92A89C',
+                boxShadow: '0 16px 32px -10px rgba(146,168,156,0.55)',
+                bottom: isScrolling ? 'max(env(safe-area-inset-bottom), 10px)' : '6rem',
+                right: '12px',
+                padding: isScrolling ? '14px' : '12px 20px',
+                transition: isScrolling
+                    ? 'bottom 0.20s ease-in, padding 0.20s ease-in'
+                    : 'bottom 0.50s cubic-bezier(0.34,1.56,0.64,1), padding 0.40s ease-out',
+            }">
+            <svg class="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/>
+            </svg>
+            <span class="overflow-hidden whitespace-nowrap text-sm"
+                  :style="{
+                      maxWidth: isScrolling ? '0' : '120px',
+                      opacity: isScrolling ? 0 : 1,
+                      transition: isScrolling
+                          ? 'max-width 0.16s ease-in, opacity 0.12s ease-in'
+                          : 'max-width 0.45s ease-out 0.08s, opacity 0.30s ease-out 0.12s',
+                  }">{{ t('dashboard.budget.header.addItem') }}</span>
+        </button>
 
         <!-- ════════════════ MODALS ════════════════════════════════════════ -->
 

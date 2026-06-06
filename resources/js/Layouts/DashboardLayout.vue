@@ -3,7 +3,7 @@ import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import { Link, router, usePage } from '@inertiajs/vue3';
 import axios from 'axios';
 import MobileBottomNav from '@/Components/dashboard/MobileBottomNav.vue';
-import MoreMenuPopover from '@/Components/dashboard/MoreMenuPopover.vue';
+import GlobalSearch from '@/Components/dashboard/GlobalSearch.vue';
 import LanguageSwitcher from '@/Components/LanguageSwitcher.vue';
 import NotificationBell from '@/Components/Notifications/NotificationBell.vue';
 import PartnerModeBanner from '@/Components/PartnerModeBanner.vue';
@@ -20,7 +20,7 @@ const props = defineProps({
 
 const isMobile = useMediaQuery('(max-width: 767px)');
 
-const { t } = useLocale();
+const { t, locale, toggleLocale } = useLocale();
 
 const page = usePage();
 const user = computed(() => page.props.auth.user);
@@ -29,9 +29,18 @@ const flash = computed(() => page.props.flash);
 const hasPublishedInvitation = computed(() => !!page.props.has_published_invitation);
 
 const sidebarOpen = ref(false);
-const moreMenuOpen = ref(false);
 const sidebarCollapsed = ref(false);
+let removeNavListener = null;
 const expandedGroups = ref({});
+
+// ── Global search (Cmd/Ctrl+K) ──────────────────────────────────────────
+const searchOpen = ref(false);
+function onSearchHotkey(e) {
+    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        searchOpen.value = !searchOpen.value;
+    }
+}
 
 const menuGroups = computed(() => [
     {
@@ -237,10 +246,15 @@ onMounted(() => {
     });
 
     document.addEventListener('click', handleClickOutsideAvatar);
+    window.addEventListener('keydown', onSearchHotkey);
+    // Close the mobile drawer on any navigation (covers all nav links).
+    removeNavListener = router.on('navigate', () => { sidebarOpen.value = false; });
 });
 
 onBeforeUnmount(() => {
     document.removeEventListener('click', handleClickOutsideAvatar);
+    window.removeEventListener('keydown', onSearchHotkey);
+    removeNavListener?.();
 });
 
 const logout = async () => {
@@ -485,11 +499,18 @@ const handleClickOutsideAvatar = (e) => {
         </aside>
 
         <!-- ── Main content ─────────────────────────────────────── -->
-        <div class="flex-1 flex flex-col min-w-0 pb-16 lg:pb-0">
+        <div class="flex-1 flex flex-col min-w-0 pb-20 lg:pb-0">
 
             <!-- Top bar -->
-            <header :class="['z-10 px-4 lg:px-6 h-20 flex items-center gap-4', stickyHeader ? 'sticky top-0' : '']"
-                    style="background: rgba(238,242,234,0.78); backdrop-filter: blur(10px); border-bottom: 1px solid #D8DFD2;">
+            <header :class="['relative z-20 px-4 lg:px-6 h-20 flex items-center gap-4', stickyHeader ? 'sticky top-0' : '']"
+                    style="background: rgba(245,248,242,0.55);
+                           backdrop-filter: blur(28px) saturate(1.9) brightness(1.04);
+                           -webkit-backdrop-filter: blur(28px) saturate(1.9) brightness(1.04);
+                           border-bottom: 1px solid rgba(255,255,255,0.45);
+                           box-shadow: 0 1px 12px rgba(31,42,46,0.05), inset 0 1px 0 rgba(255,255,255,0.65);">
+                <!-- Specular bottom sheen (liquid glass edge) -->
+                <div class="absolute inset-x-0 bottom-0 h-px pointer-events-none"
+                     style="background: linear-gradient(90deg, transparent 3%, rgba(255,255,255,0.7) 30%, rgba(255,255,255,0.7) 70%, transparent 97%);" />
                 <!-- Mobile hamburger — opens full sidebar drawer (bottom nav stays too) -->
                 <button
                     class="flex lg:hidden p-2 -ml-1 rounded-lg text-stone-500 hover:bg-stone-100 transition-colors cursor-pointer"
@@ -505,19 +526,28 @@ const handleClickOutsideAvatar = (e) => {
                     <slot name="header" />
                 </div>
 
-                <!-- Search pill (desktop only) -->
-                <div class="hidden lg:flex self-center items-center gap-2.5 rounded-full px-4 py-2.5 w-80"
-                     style="background:#FBFCF9; border:1px solid #D8DFD2;"
-                     :title="t('dashboard.layout.searchSoon')">
+                <!-- Search pill (desktop only) — opens the command palette -->
+                <button type="button" @click="searchOpen = true"
+                     class="hidden lg:flex self-center items-center gap-2.5 rounded-full px-4 py-2.5 w-80 transition-colors hover:bg-stone-50 cursor-pointer text-left"
+                     style="background:#FBFCF9; border:1px solid #D8DFD2;">
                   <svg class="w-4 h-4 flex-shrink-0" style="color:#6C7A75;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
                     <circle cx="11" cy="11" r="7" /><path d="M21 21l-4.3-4.3" stroke-linecap="round" />
                   </svg>
-                  <input disabled :placeholder="t('dashboard.layout.searchPlaceholder')"
-                         class="flex-1 min-w-0 border-0 bg-transparent p-0 outline-none focus:ring-0 text-sm cursor-default" style="color:#1F2A2E;" />
-                </div>
+                  <span class="flex-1 min-w-0 text-sm truncate" style="color:#6C7A75;">{{ t('dashboard.layout.searchPlaceholder') }}</span>
+                  <kbd class="text-[10px] font-jet px-1.5 py-0.5 rounded shrink-0"
+                       style="color:#6C7A75; background:#EEF2EA; border:1px solid #D8DFD2;">⌘K</kbd>
+                </button>
 
                 <!-- Right actions -->
                 <div class="flex flex-1 justify-end items-center gap-2">
+                    <!-- Mobile search trigger (desktop uses the pill) -->
+                    <button type="button" @click="searchOpen = true"
+                            :aria-label="t('dashboard.search.placeholder')"
+                            class="lg:hidden w-9 h-9 rounded-full grid place-items-center text-stone-500 hover:bg-stone-100 transition-colors cursor-pointer">
+                      <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                        <circle cx="11" cy="11" r="7" /><path d="M21 21l-4.3-4.3" stroke-linecap="round" />
+                      </svg>
+                    </button>
                     <!-- Share invitation button — only once something is live to share -->
                     <a v-if="hasPublishedInvitation" :href="route('dashboard.invitations.index')"
                        class="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-full text-[13px] font-semibold text-white transition-transform active:scale-95"
@@ -538,8 +568,10 @@ const handleClickOutsideAvatar = (e) => {
                         </div>
                     </Transition>
 
-                    <!-- Language switcher -->
-                    <LanguageSwitcher />
+                    <!-- Language switcher (desktop — on mobile it's in the avatar menu) -->
+                    <div class="hidden lg:block">
+                        <LanguageSwitcher />
+                    </div>
 
                     <!-- Support icon (mobile only) -->
                     <SupportHeaderIcon v-if="isMobile" />
@@ -566,6 +598,24 @@ const handleClickOutsideAvatar = (e) => {
                                     <p class="text-sm font-medium text-stone-800 truncate">{{ user?.name }}</p>
                                     <p class="text-xs text-stone-400 truncate">{{ user?.email }}</p>
                                 </div>
+                                <!-- Language toggle (mobile only — desktop has the top-bar switcher) -->
+                                <button
+                                    type="button"
+                                    @click="toggleLocale"
+                                    class="lg:hidden w-full flex items-center justify-between gap-2.5 px-4 py-2 text-sm text-stone-600 hover:bg-stone-50 transition-colors cursor-pointer border-b border-stone-100"
+                                >
+                                    <span class="flex items-center gap-2.5">
+                                        <svg class="w-4 h-4 text-stone-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <circle cx="12" cy="12" r="9" stroke-width="2"/>
+                                            <path stroke-width="2" d="M3 12h18M12 3a14 14 0 010 18M12 3a14 14 0 000 18"/>
+                                        </svg>
+                                        {{ t('dashboard.layout.language') }}
+                                    </span>
+                                    <span class="flex items-center gap-1 text-xs font-semibold" style="color:#73877C;">
+                                        <span>{{ locale === 'id' ? '🇮🇩' : '🇬🇧' }}</span>
+                                        <span>{{ locale === 'id' ? 'ID' : 'EN' }}</span>
+                                    </span>
+                                </button>
                                 <!-- Profile link -->
                                 <Link
                                     :href="route('profile.edit')"
@@ -700,14 +750,13 @@ const handleClickOutsideAvatar = (e) => {
         </Transition>
     </Teleport>
 
+        <!-- Global command palette -->
+        <GlobalSearch :open="searchOpen" @close="searchOpen = false" />
+
         <!-- Mobile bottom navigation -->
         <MobileBottomNav
-            :more-open="moreMenuOpen"
-            @toggle-more="moreMenuOpen = !moreMenuOpen"
-        />
-        <MoreMenuPopover
-            :open="moreMenuOpen"
-            @close="moreMenuOpen = false"
+            :more-open="sidebarOpen"
+            @toggle-more="sidebarOpen = !sidebarOpen"
         />
 
         <!-- Support chat bubble (desktop only) -->

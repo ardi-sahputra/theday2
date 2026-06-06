@@ -1,15 +1,9 @@
 <script setup>
-import DemoBadge from '@/Components/dashboard/DemoBadge.vue';
 import WidgetIcon from '@/Components/dashboard/WidgetIcon.vue';
 import { useLocale } from '@/Composables/useLocale';
 defineProps({ initialized: { type: Boolean, default: false } });
-const emit = defineEmits(['apply']);
+const emit = defineEmits(['apply', 'ai-generate']);
 const { t } = useLocale();
-const dummies = [
-  { n: 'Adat Jawa',          s: '12 tugas tradisi' },
-  { n: 'Intimate / 50 tamu', s: '9 tugas ringan' },
-  { n: 'Destination · Bali', s: '15 tugas perjalanan' },
-];
 </script>
 
 <template>
@@ -28,14 +22,14 @@ const dummies = [
         </div>
         <WidgetIcon name="plus" :size="14" stroke="#8E6515" />
       </button>
-      <div v-for="d in dummies" :key="d.n"
-           class="flex items-center justify-between rounded-[10px] px-3 py-2.5 opacity-70 cursor-default"
-           style="background: rgba(255,255,255,0.45); border:1px solid rgba(0,0,0,0.05);">
+      <button type="button" @click="emit('ai-generate')"
+              class="flex items-center justify-between rounded-[10px] px-3 py-2.5 text-left"
+              style="background: linear-gradient(135deg, #2B3A33, #1F2A2E);">
         <div>
-          <div class="text-[13px] font-semibold flex items-center gap-2" style="color:#1F2A2E;">{{ d.n }} <DemoBadge /></div>
-          <div class="text-[11px]" style="color:#8E6515;">{{ d.s }}</div>
+          <div class="text-[13px] font-semibold flex items-center gap-2" style="color:#FBFCF9;">✨ {{ t('dashboard.checklist.rail.templates.aiTitle') }}</div>
+          <div class="text-[11px]" style="color:rgba(251,252,249,0.6);">{{ t('dashboard.checklist.rail.templates.aiSub') }}</div>
         </div>
-      </div>
+      </button>
     </div>
   </div>
 </template>

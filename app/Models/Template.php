@@ -44,6 +44,14 @@ class Template extends Model
         ];
     }
 
+    protected static function booted(): void
+    {
+        // Keep the cached dashboard template list fresh when admins edit templates.
+        $forget = fn () => \Illuminate\Support\Facades\Cache::forget('dashboard.templates.list.v1');
+        static::saved($forget);
+        static::deleted($forget);
+    }
+
     // ─── Relationships ────────────────────────────────────────────
 
     public function category(): BelongsTo

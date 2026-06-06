@@ -4,8 +4,10 @@ import { ref, reactive, computed, onMounted, watch } from 'vue';
 import axios from 'axios';
 import { useLocale } from '@/Composables/useLocale';
 import { guestListCache } from '@/Composables/guestListCache';
+import { useFocusHighlight } from '@/Composables/useFocusHighlight';
 
 const { t } = useLocale();
+useFocusHighlight();
 
 // ── Props ──────────────────────────────────────────────────────────────────
 const props = defineProps({
@@ -924,7 +926,7 @@ function sendLabel(guest) {
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-stone-50">
-                            <tr v-for="guest in guests" :key="guest.id"
+                            <tr v-for="guest in guests" :key="guest.id" :data-focus-id="guest.id"
                                 class="hover:bg-stone-50/30 transition-colors">
                                 <td class="px-4 py-3.5">
                                     <input type="checkbox" :checked="selected.includes(guest.id)"
@@ -1009,7 +1011,7 @@ function sendLabel(guest) {
 
                 <!-- ── Mobile card list ───────────────────────────── -->
                 <div class="md:hidden space-y-2.5">
-                    <div v-for="guest in guests" :key="guest.id"
+                    <div v-for="guest in guests" :key="guest.id" :data-focus-id="guest.id"
                          class="bg-white border border-stone-100 rounded-xl p-4">
                         <!-- Row 1: name + send status -->
                         <div class="flex items-start justify-between gap-2 mb-1.5">

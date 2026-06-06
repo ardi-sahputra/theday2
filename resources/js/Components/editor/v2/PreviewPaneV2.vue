@@ -2,12 +2,16 @@
 import { ref, computed } from 'vue';
 import PhoneMockup from '@/Components/ui/PhoneMockup.vue';
 import InvitationRenderer from '@/Components/invitation/InvitationRenderer.vue';
+import { isSceneFillTemplate } from '@/Components/invitation/templates/registry';
 
 const props = defineProps({
   previewInvitation: { type: Object, required: true },
   slug:              { type: String, default: '' },
   stats:             { type: Object, default: null },
 });
+
+// Full-bleed scene templates need the host to give them the whole screen.
+const isScene = computed(() => isSceneFillTemplate(props.previewInvitation.template_slug));
 
 const device = ref('phone'); // 'phone' | 'tablet' | 'desktop'
 
@@ -40,14 +44,19 @@ const frameStyle = computed(() => ({
   height: spec.value.dispH + 'px',
   borderRadius: spec.value.radius + 'px',
 }));
-const scalerStyle = computed(() => ({
-  width: spec.value.w + 'px',
-  minHeight: Math.round(spec.value.dispH / scale.value) + 'px',
-  transform: `scale(${scale.value})`,
-  transformOrigin: 'top left',
-  display: 'flex',
-  flexDirection: 'column',
-}));
+const scalerStyle = computed(() => {
+  const h = Math.round(spec.value.dispH / scale.value) + 'px';
+  return {
+    width: spec.value.w + 'px',
+    // Scene templates need a definite height so the 9:16 stage can center
+    // (contain) within the wide frame; others just need a min floor.
+    ...(isScene.value ? { height: h } : { minHeight: h }),
+    transform: `scale(${scale.value})`,
+    transformOrigin: 'top left',
+    display: 'flex',
+    flexDirection: 'column',
+  };
+});
 
 const DEVICES = [
   { key: 'phone',   label: 'Ponsel' },
@@ -73,12 +82,24 @@ const DEVICES = [
     </div>
 
     <!-- Phone → nice phone frame -->
-    <PhoneMockup v-if="device === 'phone'" size="lg" :screen-bg="screenBg">
+    <PhoneMockup v-if="device === 'phone'" size="lg" :screen-bg="screenBg" :fill="isScene">
       <InvitationRenderer
         :key="previewInvitation.template_slug + '-' + bump"
         :invitation="previewInvitation" :is-demo="true" :auto-open="true"
       />
     </PhoneMockup>
+
+    <!-- Scene template on tablet/desktop → real phone frame centered on a wide
+         black panel. Storybook is a phone-portrait experience (no wide layout),
+         and the phone frame keeps hotspots/FAB at their authored proportions. -->
+    <div v-else-if="isScene" class="scene-dev" :style="{ width: spec.dispW + 'px' }">
+      <PhoneMockup size="lg" :screen-bg="screenBg" :fill="true">
+        <InvitationRenderer
+          :key="device + previewInvitation.template_slug + '-' + bump"
+          :invitation="previewInvitation" :is-demo="true" :auto-open="true"
+        />
+      </PhoneMockup>
+    </div>
 
     <!-- Tablet / Desktop → scaled device frame -->
     <div v-else class="dev-frame" :style="frameStyle">
@@ -120,4 +141,15 @@ const DEVICES = [
   scrollbar-width: none;
 }
 .dev-screen::-webkit-scrollbar { display: none; }
+
+/* Scene template on tablet/desktop: phone frame centered on a black panel. */
+.scene-dev {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #0F1115;
+  border-radius: 20px;
+  padding: 28px 0;
+  box-shadow: 0 0 0 2px #2C2C2E, 0 30px 70px -20px rgba(0,0,0,0.55);
+}
 </style>

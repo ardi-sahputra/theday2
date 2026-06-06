@@ -35,7 +35,7 @@ function fmt(n) { return 'Rp ' + (n / 1_000_000).toFixed(1).replace('.0', '') + 
 </script>
 
 <template>
-  <div class="rounded-[18px]" style="background:#FBFCF9; border:1px solid #D8DFD2;">
+  <div class="rounded-[18px] overflow-hidden" style="background:#FBFCF9; border:1px solid #D8DFD2;">
     <div class="flex items-center justify-between px-5 py-[18px]" style="border-bottom:1px solid #D8DFD2;">
       <div>
         <h3 class="font-cormorant font-medium text-[22px] tracking-tight" style="color:#1F2A2E;">{{ t('dashboard.index.widgets.budget.title') }}</h3>
@@ -47,8 +47,8 @@ function fmt(n) { return 'Rp ' + (n / 1_000_000).toFixed(1).replace('.0', '') + 
       </Link>
     </div>
 
-    <div v-if="cats.length" class="p-5 grid gap-6 items-center" style="grid-template-columns: 160px 1fr;">
-      <div class="relative w-40 h-40">
+    <div v-if="cats.length" class="p-5 flex flex-col gap-5 sm:grid sm:gap-6 sm:items-center" style="grid-template-columns: 160px 1fr;">
+      <div class="relative w-32 h-32 sm:w-40 sm:h-40 mx-auto sm:mx-0">
         <svg viewBox="0 0 100 100" class="w-full h-full" style="transform: rotate(-90deg);">
           <circle cx="50" cy="50" :r="R" fill="none" stroke="#DCE4D3" stroke-width="12" />
           <circle v-for="(a, i) in arcs" :key="i" cx="50" cy="50" :r="R" fill="none"

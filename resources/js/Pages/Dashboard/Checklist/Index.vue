@@ -3,13 +3,16 @@ import DashboardLayout from '@/Layouts/DashboardLayout.vue';
 import { ref, computed, reactive, onMounted, watch } from 'vue';
 import axios from 'axios';
 import { useLocale } from '@/Composables/useLocale';
+import { useFocusHighlight } from '@/Composables/useFocusHighlight';
 import ChecklistProgressHero from '@/Components/dashboard/checklist/ChecklistProgressHero.vue';
+import PlannerPanel from '@/Components/dashboard/checklist/PlannerPanel.vue';
 import ChecklistStatStrip from '@/Components/dashboard/checklist/ChecklistStatStrip.vue';
 import ChecklistFilterChips from '@/Components/dashboard/checklist/ChecklistFilterChips.vue';
 import ChecklistViewToggle from '@/Components/dashboard/checklist/ChecklistViewToggle.vue';
 import TaskKanban from '@/Components/dashboard/checklist/TaskKanban.vue';
 import ReminderRail from '@/Components/dashboard/checklist/rail/ReminderRail.vue';
 import TemplatePresetsRail from '@/Components/dashboard/checklist/rail/TemplatePresetsRail.vue';
+import AiChecklistModal from '@/Components/dashboard/checklist/AiChecklistModal.vue';
 import PicSplitRail from '@/Components/dashboard/checklist/rail/PicSplitRail.vue';
 import WidgetIcon from '@/Components/dashboard/WidgetIcon.vue';
 import MobileChecklist  from '@/Components/dashboard/checklist/mobile/MobileChecklist.vue';
@@ -17,11 +20,14 @@ import MobileFilterSheet from '@/Components/dashboard/checklist/mobile/MobileFil
 import MobileTaskSheet   from '@/Components/dashboard/checklist/mobile/MobileTaskSheet.vue';
 import { useMediaQuery } from '@/Composables/useMediaQuery';
 import { checklistCache } from '@/Composables/checklistCache';
+import DocumentsTab from '@/Components/dashboard/documents/DocumentsTab.vue';
 
 const { t, locale } = useLocale();
+useFocusHighlight();
 
 const props = defineProps({
     weddingPlan: Object,
+    plannerPanel: { type: Object, default: () => ({ facts: {}, enabled: true, insights: [], fresh: true }) },
 });
 
 const SUMMARY_DEFAULT = { total: 0, todo: 0, done: 0, archived: 0, progress: 0, overdue: 0, upcoming_7d: 0, has_event_date: false };
@@ -48,6 +54,17 @@ const togglingId     = ref(null);
 const moveDoneToBottom = ref(false);
 const view           = ref('timeline');  // 'timeline' | 'list' | 'kanban'
 const activeChip     = ref('all');
+
+// ── Planner tab: 'tugas' | 'dokumen' (deep-linked via ?tab) ──────────────
+const activeTab = ref(new URLSearchParams(window.location.search).get('tab') === 'dokumen' ? 'dokumen' : 'tugas');
+
+function setTab(tab) {
+    activeTab.value = tab;
+    const url = new URL(window.location.href);
+    if (tab === 'dokumen') url.searchParams.set('tab', 'dokumen');
+    else url.searchParams.delete('tab');
+    window.history.replaceState({}, '', url);
+}
 
 // ── First-run setup choice ────────────────────────────────────────────────
 // The plan is "initialized" once the couple picks standard template OR blank.
@@ -802,6 +819,7 @@ const DAYS_ID = computed(() => [
     t('dashboard.checklist.days.sat'),
 ]);
 
+const showAiModal    = ref(false);
 const showDatePicker = ref(false);
 const datePickerMode = ref('');
 const calToday       = new Date();
@@ -872,6 +890,7 @@ const currentPickerDate = computed(() =>
 
 <template>
     <DashboardLayout>
+        <PlannerPanel :initial="plannerPanel" />
         <template #header>
             <h1 class="text-base font-semibold text-stone-800">{{ t('dashboard.checklist.header.title') }}</h1>
         </template>
@@ -910,6 +929,25 @@ const currentPickerDate = computed(() =>
         </div>
 
         <template v-else>
+
+            <!-- ── Tugas | Dokumen segmented tab switch ──────────── -->
+            <div class="mb-4 inline-flex gap-0.5 p-[3px] rounded-full"
+                 style="background:#F6F8F3; border:1px solid #D8DFD2;">
+                <button type="button" @click="setTab('tugas')"
+                        class="px-4 py-1.5 rounded-full text-[12px] font-semibold transition-colors"
+                        :style="activeTab === 'tugas' ? 'background:#1F2A2E; color:#FBFCF9;' : 'background:transparent; color:#6C7A75;'">
+                    {{ t('dashboard.documents.tabTugas') }}
+                </button>
+                <button type="button" @click="setTab('dokumen')"
+                        class="px-4 py-1.5 rounded-full text-[12px] font-semibold transition-colors"
+                        :style="activeTab === 'dokumen' ? 'background:#1F2A2E; color:#FBFCF9;' : 'background:transparent; color:#6C7A75;'">
+                    {{ t('dashboard.documents.tabDokumen') }}
+                </button>
+            </div>
+
+            <DocumentsTab v-if="activeTab === 'dokumen'" />
+
+            <div v-show="activeTab === 'tugas'">
 
             <!-- ── First-run setup choice ─────────────────────────── -->
             <div v-if="!initialized" class="max-w-2xl mx-auto py-10 sm:py-16 px-1">
@@ -1150,7 +1188,7 @@ const currentPickerDate = computed(() =>
                                 >
                                 <div v-show="expandedGroups.has(group.cat)" class="space-y-1.5 pb-3 pl-6">
 
-                            <div v-for="task in group.tasks" :key="task.id"
+                            <div v-for="task in group.tasks" :key="task.id" :data-focus-id="task.id"
                                  class="relative overflow-hidden rounded-xl"
                                  @click.self="closeSwipe(task.id)">
 
@@ -1418,7 +1456,7 @@ const currentPickerDate = computed(() =>
                     <!-- ── Right rail (desktop only) ───────────────── -->
                     <aside class="hidden lg:flex flex-col gap-4">
                         <ReminderRail :reminders="reminders" />
-                        <TemplatePresetsRail :initialized="hasSystemTasks" @apply="applyStandardTemplate" />
+                        <TemplatePresetsRail :initialized="hasSystemTasks" @apply="applyStandardTemplate" @ai-generate="showAiModal = true" />
                         <PicSplitRail :bride-pct="picSplit.bridePct" :groom-pct="picSplit.groomPct" :bride-count="picSplit.brideCount" :groom-count="picSplit.groomCount" />
                     </aside>
 
@@ -1449,6 +1487,8 @@ const currentPickerDate = computed(() =>
                 @close="closeMobileTask" @toggle-done="(tk) => { toggle(tk); }" @edit="mobileEdit"
                 @add-subtask="addSubtask(mobileTask)" @toggle-subtask="(s) => toggleSubtask(mobileTask, s)"
                 @delete-subtask="(s) => deleteSubtask(mobileTask, s)" />
+
+            </div><!-- end v-show="activeTab === 'tugas'" -->
 
         </template>
 
@@ -1590,6 +1630,9 @@ const currentPickerDate = computed(() =>
                 </div>
             </div>
         </Transition>
+
+        <!-- ── AI Checklist Modal ────────────────────────────────── -->
+        <AiChecklistModal v-if="showAiModal" @close="showAiModal = false" @applied="showAiModal = false; loadTasks(); loadSummary();" />
 
         <!-- ── Date Picker Modal ──────────────────────────────────── -->
         <Teleport to="body">

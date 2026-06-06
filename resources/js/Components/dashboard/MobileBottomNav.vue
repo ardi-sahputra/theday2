@@ -1,15 +1,10 @@
 <script setup>
 import { computed } from 'vue';
 import { Link } from '@inertiajs/vue3';
+import { useNavScroll } from '@/Composables/useNavScroll';
 
 const emit = defineEmits(['toggle-more']);
-
-defineProps({
-    moreOpen: {
-        type: Boolean,
-        default: false,
-    },
-});
+defineProps({ moreOpen: { type: Boolean, default: false } });
 
 const tabs = [
     {
@@ -38,74 +33,155 @@ const tabs = [
     },
 ];
 
+// ── Scroll detection (shared singleton via composable) ────────────────
+const { isScrolling } = useNavScroll();
+
+// ── Active helpers ────────────────────────────────────────────────────
 const isActive = (patterns) => {
-    try {
-        return patterns.some(p => route().current(p));
-    } catch {
-        return false;
-    }
+    try { return patterns.some(p => route().current(p)); } catch { return false; }
 };
 
 const morePatterns = [
-    'dashboard.rsvp.*',
-    'dashboard.guest-list.*',
-    'dashboard.buku-tamu.*',
-    'dashboard.templates',
-    'dashboard.paket',
-    'dashboard.transactions.*',
-    'profile.*',
+    'dashboard.vendor.*', 'dashboard.moodboard.*',
+    'dashboard.guest-list.*', 'dashboard.rsvp.*', 'dashboard.buku-tamu.*',
+    'dashboard.templates', 'dashboard.gifts.*',
+    'dashboard.paket', 'dashboard.transactions.*', 'profile.*',
 ];
-
 const isMoreActive = computed(() => {
-    try {
-        return morePatterns.some(p => route().current(p));
-    } catch {
-        return false;
-    }
+    try { return morePatterns.some(p => route().current(p)); } catch { return false; }
 });
+
+// Index of the tab that stays visible when scrolling.
+// tabs.length = More button. Falls back to 0 (Home) if nothing active.
+const scrollVisibleIdx = computed(() => {
+    const idx = tabs.findIndex(t => isActive(t.activePatterns));
+    if (idx !== -1) return idx;
+    if (isMoreActive.value) return tabs.length; // More
+    return 0; // fallback Home
+});
+
+// ── Transition timing tokens ──────────────────────────────────────────
+const T_IN  = 'max-width 0.20s ease-in, opacity 0.15s ease-in, padding 0.20s ease-in, min-height 0.20s ease-in';
+const T_OUT = 'max-width 0.50s cubic-bezier(0.34,1.56,0.64,1), opacity 0.30s ease-out 0.05s, padding 0.40s ease-out, min-height 0.40s ease-out';
+const PILL_T_IN  = 'width 0.20s ease-in, height 0.20s ease-in, border-radius 0.20s ease-in';
+const PILL_T_OUT = 'width 0.50s cubic-bezier(0.34,1.56,0.64,1), height 0.40s ease-out, border-radius 0.40s ease-out';
 </script>
 
 <template>
     <nav
-        class="fixed bottom-0 inset-x-0 z-30 lg:hidden bg-white border-t border-stone-200 flex"
-        style="padding-bottom: env(safe-area-inset-bottom)"
+        class="fixed bottom-0 inset-x-0 z-30 lg:hidden flex items-end"
+        :style="{ justifyContent: isScrolling ? 'flex-start' : 'center' }"
+        style="padding-bottom: max(env(safe-area-inset-bottom), 10px);"
         role="navigation"
         aria-label="Mobile navigation"
     >
-        <Link
-            v-for="tab in tabs"
-            :key="tab.routeName"
-            :href="route(tab.routeName)"
-            prefetch="mount"
-            cache-for="1m"
-            :aria-label="tab.label"
-            :aria-current="isActive(tab.activePatterns) ? 'page' : undefined"
-            class="flex-1 flex flex-col items-center justify-center py-1.5 min-h-[56px] text-[10px] transition-colors"
-            :class="isActive(tab.activePatterns) ? 'text-[#1F2A2E] font-semibold' : 'text-stone-400 font-medium'"
+        <!-- Pill container — shrinks to 60px (active icon only) when scrolling -->
+        <div
+            class="flex overflow-hidden relative"
+            :style="{
+                margin: '0 12px',
+                width: isScrolling ? '56px' : 'calc(100% - 24px)',
+                height: isScrolling ? '56px' : 'auto',
+                borderRadius: isScrolling ? '9999px' : '26px',
+                background: 'rgba(255, 255, 255, 0.38)',
+                backdropFilter: 'blur(32px) saturate(2.0) brightness(1.06)',
+                WebkitBackdropFilter: 'blur(32px) saturate(2.0) brightness(1.06)',
+                border: '1px solid rgba(255, 255, 255, 0.70)',
+                boxShadow: '0 4px 32px rgba(31,42,46,0.16), 0 1px 8px rgba(31,42,46,0.08), inset 0 1.5px 0 rgba(255,255,255,0.95), inset 0 -0.5px 0 rgba(31,42,46,0.04)',
+                transition: isScrolling ? PILL_T_IN : PILL_T_OUT,
+            }"
         >
-            <span class="grid place-items-center w-12 h-7 rounded-full mb-0.5 transition-colors"
-                  :class="isActive(tab.activePatterns) ? 'bg-[#92A89C]/30' : 'bg-transparent'">
-                <svg class="w-[22px] h-[22px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" v-html="tab.icon" />
-            </span>
-            <span>{{ tab.label }}</span>
-        </Link>
+            <!-- Specular top sheen -->
+            <div class="absolute inset-x-0 top-0 h-px pointer-events-none"
+                 style="background: linear-gradient(90deg, transparent 5%, rgba(255,255,255,0.85) 30%, rgba(255,255,255,0.85) 70%, transparent 95%);" />
 
-        <button
-            type="button"
-            :aria-label="'More menu'"
-            :aria-expanded="moreOpen"
-            :aria-current="isMoreActive ? 'page' : undefined"
-            class="flex-1 flex flex-col items-center justify-center py-1.5 min-h-[56px] text-[10px] transition-colors cursor-pointer"
-            :class="(moreOpen || isMoreActive) ? 'text-[#1F2A2E] font-semibold' : 'text-stone-400 font-medium'"
-            @click="emit('toggle-more')"
-        >
-            <span class="grid place-items-center w-12 h-7 rounded-full mb-0.5 transition-colors"
-                  :class="(moreOpen || isMoreActive) ? 'bg-[#92A89C]/30' : 'bg-transparent'">
-                <svg class="w-[22px] h-[22px]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"/>
-                </svg>
-            </span>
-            <span>More</span>
-        </button>
+            <!-- ── All 4 tabs — same collapse logic ──────────────────── -->
+            <Link
+                v-for="(tab, idx) in tabs"
+                :key="tab.routeName"
+                :href="route(tab.routeName)"
+                prefetch="mount"
+                cache-for="1m"
+                :aria-label="tab.label"
+                :aria-current="isActive(tab.activePatterns) ? 'page' : undefined"
+                class="flex flex-col items-center justify-center text-[10px] overflow-hidden"
+                :class="isActive(tab.activePatterns) ? 'font-semibold' : 'font-medium'"
+                :style="{
+                    color: isActive(tab.activePatterns) ? '#1F2A2E' : 'rgba(31,42,46,0.42)',
+                    flex: 1,
+                    maxWidth: isScrolling && scrollVisibleIdx !== idx ? '0' : '200px',
+                    opacity: isScrolling && scrollVisibleIdx !== idx ? 0 : 1,
+                    pointerEvents: isScrolling && scrollVisibleIdx !== idx ? 'none' : 'auto',
+                    minHeight: isScrolling && scrollVisibleIdx !== idx ? '0' : '56px',
+                    padding: isScrolling && scrollVisibleIdx !== idx ? '0' : '8px 0',
+                    transition: isScrolling ? T_IN : T_OUT,
+                }"
+            >
+                <!-- Icon — no active style while scrolling -->
+                <span
+                    class="grid place-items-center w-12 h-7 rounded-full transition-all duration-200"
+                    :class="isScrolling ? '' : 'mb-0.5'"
+                    :style="!isScrolling && isActive(tab.activePatterns)
+                        ? 'background:rgba(146,168,156,0.28); border:1px solid rgba(255,255,255,0.65); box-shadow:inset 0 1px 0 rgba(255,255,255,0.75),0 2px 8px rgba(146,168,156,0.22);'
+                        : 'background:transparent; border:1px solid transparent;'"
+                >
+                    <svg class="w-[21px] h-[21px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" v-html="tab.icon" />
+                </span>
+                <!-- Label — fades out when scrolling -->
+                <span
+                    style="overflow:hidden; white-space:nowrap;"
+                    :style="{
+                        maxHeight: isScrolling ? '0' : '16px',
+                        opacity: isScrolling ? 0 : 1,
+                        transition: isScrolling
+                            ? 'max-height 0.18s ease-in, opacity 0.12s ease-in'
+                            : 'max-height 0.40s ease-out, opacity 0.28s ease-out 0.10s',
+                    }"
+                >{{ tab.label }}</span>
+            </Link>
+
+            <!-- ── More — same collapse logic ────────────────────────── -->
+            <button
+                type="button"
+                aria-label="More menu"
+                :aria-expanded="moreOpen"
+                :aria-current="isMoreActive ? 'page' : undefined"
+                class="flex flex-col items-center justify-center text-[10px] overflow-hidden cursor-pointer"
+                :class="(moreOpen || isMoreActive) ? 'font-semibold' : 'font-medium'"
+                :style="{
+                    color: (moreOpen || isMoreActive) ? '#1F2A2E' : 'rgba(31,42,46,0.42)',
+                    flex: 1,
+                    maxWidth: isScrolling && scrollVisibleIdx !== tabs.length ? '0' : '200px',
+                    opacity: isScrolling && scrollVisibleIdx !== tabs.length ? 0 : 1,
+                    pointerEvents: isScrolling && scrollVisibleIdx !== tabs.length ? 'none' : 'auto',
+                    minHeight: isScrolling && scrollVisibleIdx !== tabs.length ? '0' : '56px',
+                    padding: isScrolling && scrollVisibleIdx !== tabs.length ? '0' : '8px 0',
+                    transition: isScrolling ? T_IN : T_OUT,
+                }"
+                @click="emit('toggle-more')"
+            >
+                <span
+                    class="grid place-items-center w-12 h-7 rounded-full transition-all duration-200"
+                    :class="isScrolling ? '' : 'mb-0.5'"
+                    :style="!isScrolling && (moreOpen || isMoreActive)
+                        ? 'background:rgba(146,168,156,0.28); border:1px solid rgba(255,255,255,0.65); box-shadow:inset 0 1px 0 rgba(255,255,255,0.75),0 2px 8px rgba(146,168,156,0.22);'
+                        : 'background:transparent; border:1px solid transparent;'"
+                >
+                    <svg class="w-[21px] h-[21px]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"/>
+                    </svg>
+                </span>
+                <span
+                    style="overflow:hidden; white-space:nowrap;"
+                    :style="{
+                        maxHeight: isScrolling ? '0' : '16px',
+                        opacity: isScrolling ? 0 : 1,
+                        transition: isScrolling
+                            ? 'max-height 0.18s ease-in, opacity 0.12s ease-in'
+                            : 'max-height 0.40s ease-out, opacity 0.28s ease-out 0.10s',
+                    }"
+                >More</span>
+            </button>
+        </div>
     </nav>
 </template>

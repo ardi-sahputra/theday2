@@ -19,11 +19,12 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Contracts\Translation\HasLocalePreference;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable implements MustVerifyEmail, HasLocalePreference
 {
     /** @use HasFactory<UserFactory> */
-    use HasFactory, HasUuids, Notifiable, SoftDeletes;
+    use HasFactory, HasUuids, Notifiable, SoftDeletes, HasApiTokens;
 
     protected $fillable = [
         'name',
@@ -265,5 +266,10 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
     public function notificationPreference(): HasOne
     {
         return $this->hasOne(\App\Models\NotificationPreference::class);
+    }
+
+    public function deviceTokens(): HasMany
+    {
+        return $this->hasMany(\App\Models\DeviceToken::class);
     }
 }
