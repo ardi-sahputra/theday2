@@ -76,15 +76,15 @@ const isMoreActive = computed(() => {
         <div
             class="mx-3 w-full flex rounded-[26px] overflow-visible relative"
             style="
-                background: rgba(251, 252, 249, 0.68);
-                backdrop-filter: blur(28px) saturate(1.85) brightness(1.04);
-                -webkit-backdrop-filter: blur(28px) saturate(1.85) brightness(1.04);
-                border: 1px solid rgba(255, 255, 255, 0.60);
+                background: rgba(255, 255, 255, 0.38);
+                backdrop-filter: blur(32px) saturate(2.0) brightness(1.06);
+                -webkit-backdrop-filter: blur(32px) saturate(2.0) brightness(1.06);
+                border: 1px solid rgba(255, 255, 255, 0.70);
                 box-shadow:
-                    0 4px 28px rgba(31, 42, 46, 0.13),
-                    0 1px 6px rgba(31, 42, 46, 0.07),
-                    inset 0 1px 0 rgba(255, 255, 255, 0.90),
-                    inset 0 -0.5px 0 rgba(31, 42, 46, 0.05);
+                    0 4px 32px rgba(31, 42, 46, 0.16),
+                    0 1px 8px rgba(31, 42, 46, 0.08),
+                    inset 0 1.5px 0 rgba(255, 255, 255, 0.95),
+                    inset 0 -0.5px 0 rgba(31, 42, 46, 0.04);
             "
         >
             <!-- Specular top sheen -->

@@ -485,7 +485,7 @@ const handleClickOutsideAvatar = (e) => {
         </aside>
 
         <!-- ── Main content ─────────────────────────────────────── -->
-        <div class="flex-1 flex flex-col min-w-0 pb-24 lg:pb-0">
+        <div class="flex-1 flex flex-col min-w-0 pb-20 lg:pb-0">
 
             <!-- Top bar -->
             <header :class="['z-10 px-4 lg:px-6 h-20 flex items-center gap-4', stickyHeader ? 'sticky top-0' : '']"
