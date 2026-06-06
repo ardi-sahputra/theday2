@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Dashboard\Vendor;
 
+use App\Actions\BudgetPlanner\SyncVendorToBudgetItemAction;
 use App\Http\Controllers\Controller;
 use App\Models\Vendor;
 use App\Support\EffectiveUser;
@@ -14,6 +15,10 @@ use Illuminate\Support\Facades\Storage;
 
 class VendorController extends Controller
 {
+    public function __construct(
+        private readonly SyncVendorToBudgetItemAction $syncToBudget,
+    ) {}
+
     public function store(Request $request): JsonResponse
     {
         $user = EffectiveUser::resolve();
@@ -28,6 +33,9 @@ class VendorController extends Controller
         }
 
         $vendor->save();
+
+        // Auto-create the matching budget line (second door onto the same data).
+        $this->syncToBudget->execute($vendor);
 
         return response()->json(['vendor' => self::vendorResource($vendor)], 201);
     }
@@ -50,6 +58,9 @@ class VendorController extends Controller
         }
 
         $vendor->save();
+
+        // Keep the linked budget line in sync (category, visibility).
+        $this->syncToBudget->execute($vendor);
 
         return response()->json(['vendor' => self::vendorResource($vendor)]);
     }

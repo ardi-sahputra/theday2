@@ -3,6 +3,7 @@ import DashboardLayout from '@/Layouts/DashboardLayout.vue';
 import { router } from '@inertiajs/vue3';
 import { computed, ref, watch } from 'vue';
 import { useLocale } from '@/Composables/useLocale';
+import { useNavScroll } from '@/Composables/useNavScroll';
 import axios from 'axios';
 
 // ── New widget imports ─────────────────────────────────────────────────────
@@ -16,6 +17,7 @@ import CoupleNotesRail       from '@/Components/dashboard/budget/rail/CoupleNote
 import WidgetIcon            from '@/Components/dashboard/WidgetIcon.vue';
 
 const { t, locale } = useLocale();
+const { isScrolling } = useNavScroll();
 
 const props = defineProps({
     budget:            Object,
@@ -23,6 +25,8 @@ const props = defineProps({
     categoryBreakdown: Array,
     items:             Array,
     categories:        Array,
+    vendors:           { type: Array, default: () => [] },
+    budgetInsights:    { type: Object, default: () => ({ enabled: true, insights: [], fresh: true }) },
     filters:           Object,
     budgetNotes:       { type: Array, default: () => [] },
 });
@@ -58,7 +62,10 @@ const budgetForm = ref({
 const blankItemForm = () => ({
     title:          '',
     category_id:    '',
+    vendor_id:      '',
     vendor_name:    '',
+    vendor_total_cost:  '',
+    vendor_paid_amount: '',
     planned_amount: '',
     actual_amount:  '',
     dp_amount:      '',
@@ -75,6 +82,42 @@ const blankItemForm = () => ({
 const itemForm   = ref(blankItemForm());
 const itemErrors = ref({});
 const categoryForm = ref({ name: '' });
+
+// ─── Vendor linking ─────────────────────────────────────────────────────────
+
+// Vendors selectable for the current form: any not already linked to ANOTHER
+// item, plus the one this item is currently linked to (so edit keeps showing it).
+const availableVendors = computed(() => {
+    const editingId = editingItem.value?.id ?? null;
+    return props.vendors.filter(v =>
+        !v.linked_item_id || v.linked_item_id === editingId
+    );
+});
+
+const selectedVendor = computed(() =>
+    props.vendors.find(v => v.id === itemForm.value.vendor_id) ?? null
+);
+
+// Prefill the editable cost/paid fields from the vendor when one is picked, so
+// the budget form is a true "second door" onto the same numbers.
+watch(() => itemForm.value.vendor_id, (id, prev) => {
+    if (id === prev) return;
+    const v = props.vendors.find(x => x.id === id);
+    if (v) {
+        itemForm.value.vendor_total_cost  = v.total_cost || '';
+        itemForm.value.vendor_paid_amount = v.paid_amount || '';
+    } else {
+        itemForm.value.vendor_total_cost  = '';
+        itemForm.value.vendor_paid_amount = '';
+    }
+});
+
+function vendorStatusLabel(v) {
+    if (!v) return '';
+    if (v.total_cost > 0 && v.paid_amount >= v.total_cost) return t('dashboard.budget.modal.addItem.vendorStatusPaid');
+    if (v.paid_amount > 0) return t('dashboard.budget.modal.addItem.vendorStatusDp');
+    return t('dashboard.budget.modal.addItem.vendorStatusBooked');
+}
 
 // ─── Category colors (brand palette) ─────────────────────────────────────────
 
@@ -260,6 +303,7 @@ function openEditItem(item) {
     itemForm.value = {
         title:           item.title,
         category_id:     item.category_id ?? item.category?.id ?? '',
+        vendor_id:       item.vendor_id ?? '',
         vendor_name:     item.vendor_name ?? '',
         planned_amount:  item.planned_amount ?? '',
         actual_amount:   item.actual_amount ?? '',
@@ -284,13 +328,24 @@ async function saveItem() {
     const payload = {
         title:          f.title,
         category_id:    f.category_id,
-        vendor_name:    f.vendor_name || null,
+        vendor_id:      f.vendor_id || null,
+        vendor_name:    f.vendor_id ? null : (f.vendor_name || null),
         notes:          f.notes || null,
         planned_amount: parseRupiah(f.planned_amount) ?? 0,
         due_date:       f.due_date || null,
     };
 
-    if (f.use_dp_tracking) {
+    // Linked to a vendor: cost & payment live on the vendor. Send them as
+    // write-through fields; the server saves them to the vendor, not the item.
+    if (f.vendor_id) {
+        payload.vendor_total_cost  = parseRupiah(f.vendor_total_cost) ?? 0;
+        payload.vendor_paid_amount = parseRupiah(f.vendor_paid_amount) ?? 0;
+        payload.actual_amount = null;
+        payload.dp_amount     = null;
+        payload.dp_paid       = false;
+        payload.final_amount  = null;
+        payload.final_paid    = false;
+    } else if (f.use_dp_tracking) {
         payload.dp_amount    = parseRupiah(f.dp_amount) ?? null;
         payload.dp_paid      = f.dp_paid;
         payload.final_amount = parseRupiah(f.final_amount) ?? null;
@@ -620,7 +675,7 @@ const upcomingPayments = computed(() =>
                     <!-- RIGHT: rail (full height) -->
                     <aside class="flex flex-col gap-4">
                         <UpcomingPaymentsRail :payments="upcomingPayments" />
-                        <AiInsightRail />
+                        <AiInsightRail :initial="budgetInsights" />
                         <CoupleNotesRail :notes="notes" @post="postNote" @delete="deleteNote" />
                     </aside>
                 </div>
@@ -630,16 +685,30 @@ const upcomingPayments = computed(() =>
         </div>
 
         <!-- ── Mobile FAB ──────────────────────────────────────────────────── -->
-        <div class="fixed bottom-20 right-4 sm:hidden z-20">
-            <button @click="openAddItem()"
-                class="flex items-center gap-2 px-5 py-3 text-white text-sm font-semibold rounded-2xl shadow-lg transition-opacity hover:opacity-90"
-                style="background-color: #92A89C">
-                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/>
-                </svg>
-                {{ t('dashboard.budget.header.addItem') }}
-            </button>
-        </div>
+        <button @click="openAddItem()"
+            class="fixed z-20 sm:hidden inline-flex items-center justify-center gap-2 text-white font-semibold rounded-full overflow-hidden"
+            :style="{
+                background: '#92A89C',
+                boxShadow: '0 16px 32px -10px rgba(146,168,156,0.55)',
+                bottom: isScrolling ? 'max(env(safe-area-inset-bottom), 10px)' : '6rem',
+                right: '12px',
+                padding: isScrolling ? '14px' : '12px 20px',
+                transition: isScrolling
+                    ? 'bottom 0.20s ease-in, padding 0.20s ease-in'
+                    : 'bottom 0.50s cubic-bezier(0.34,1.56,0.64,1), padding 0.40s ease-out',
+            }">
+            <svg class="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/>
+            </svg>
+            <span class="overflow-hidden whitespace-nowrap text-sm"
+                  :style="{
+                      maxWidth: isScrolling ? '0' : '120px',
+                      opacity: isScrolling ? 0 : 1,
+                      transition: isScrolling
+                          ? 'max-width 0.16s ease-in, opacity 0.12s ease-in'
+                          : 'max-width 0.45s ease-out 0.08s, opacity 0.30s ease-out 0.12s',
+                  }">{{ t('dashboard.budget.header.addItem') }}</span>
+        </button>
 
         <!-- ════════════════ MODALS ════════════════════════════════════════ -->
 
@@ -712,7 +781,23 @@ const upcomingPayments = computed(() =>
                             <p v-if="itemErrors.category_id" class="mt-1 text-xs text-rose-500">{{ itemErrors.category_id[0] }}</p>
                         </div>
 
-                        <!-- Planned amount -->
+                        <!-- Hubungkan ke vendor (sumber harga & pembayaran) -->
+                        <div v-if="vendors.length">
+                            <label class="block text-xs font-medium text-stone-600 mb-1">{{ t('dashboard.budget.modal.addItem.labelLinkVendor') }}</label>
+                            <select v-model="itemForm.vendor_id"
+                                class="w-full px-3 py-2.5 text-sm border rounded-xl focus:outline-none focus:ring-2 focus:border-transparent bg-white"
+                                :class="itemErrors.vendor_id ? 'border-rose-300' : 'border-stone-200'"
+                                style="--tw-ring-color: #92A89C">
+                                <option value="">{{ t('dashboard.budget.modal.addItem.vendorNone') }}</option>
+                                <option v-for="v in availableVendors" :key="v.id" :value="v.id">
+                                    {{ v.name }} · {{ v.category_label }}
+                                </option>
+                            </select>
+                            <p v-if="itemErrors.vendor_id" class="mt-1 text-xs text-rose-500">{{ itemErrors.vendor_id[0] }}</p>
+                            <p v-else class="mt-1 text-xs text-stone-400">{{ t('dashboard.budget.modal.addItem.linkVendorHint') }}</p>
+                        </div>
+
+                        <!-- Planned amount (target — tetap bisa diisi walau ter-link) -->
                         <div>
                             <label class="block text-xs font-medium text-stone-600 mb-1">{{ t('dashboard.budget.modal.addItem.labelPlannedAmount') }}</label>
                             <input
@@ -723,7 +808,40 @@ const upcomingPayments = computed(() =>
                                 style="--tw-ring-color: #92A89C" />
                         </div>
 
-                        <!-- Payment tracking mode toggle -->
+                        <!-- Ter-link vendor: edit biaya & bayar di sini, tersimpan ke vendor (write-through) -->
+                        <div v-if="selectedVendor" class="rounded-xl border border-[#92A89C]/30 bg-[#92A89C]/5 p-3 space-y-3">
+                            <div class="flex items-center gap-1.5 text-xs font-medium text-[#5e6f64]">
+                                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 010 5.656l-3 3a4 4 0 01-5.656-5.656l1.5-1.5m6.828-6.828a4 4 0 015.656 5.656l-1.5 1.5"/>
+                                </svg>
+                                {{ t('dashboard.budget.modal.addItem.vendorLinkedNotice') }}
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-stone-600 mb-1">{{ t('dashboard.budget.modal.addItem.vendorTotalCost') }}</label>
+                                <input
+                                    :value="itemForm.vendor_total_cost !== '' ? formatRupiah(itemForm.vendor_total_cost) : ''"
+                                    @input="itemForm.vendor_total_cost = $event.target.value.replace(/\D/g, '')"
+                                    type="text" inputmode="numeric" placeholder="Rp 0"
+                                    class="w-full px-3 py-2.5 text-sm border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:border-transparent bg-white"
+                                    style="--tw-ring-color: #92A89C" />
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-stone-600 mb-1">{{ t('dashboard.budget.modal.addItem.vendorPaid') }}</label>
+                                <input
+                                    :value="itemForm.vendor_paid_amount !== '' ? formatRupiah(itemForm.vendor_paid_amount) : ''"
+                                    @input="itemForm.vendor_paid_amount = $event.target.value.replace(/\D/g, '')"
+                                    type="text" inputmode="numeric" placeholder="Rp 0"
+                                    class="w-full px-3 py-2.5 text-sm border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:border-transparent bg-white"
+                                    style="--tw-ring-color: #92A89C" />
+                            </div>
+                            <p class="text-xs text-stone-400">{{ t('dashboard.budget.modal.addItem.writeThroughHint') }}</p>
+                            <a :href="route('dashboard.vendor.index')" class="inline-flex items-center gap-1 text-xs text-[#5e6f64] underline hover:opacity-80">
+                                {{ t('dashboard.budget.modal.addItem.openVendorTab') }}
+                            </a>
+                        </div>
+
+                        <!-- Payment tracking mode toggle (disembunyikan saat ter-link vendor) -->
+                        <template v-if="!itemForm.vendor_id">
                         <div class="flex items-center justify-between">
                             <label class="text-xs font-medium text-stone-600">{{ t('dashboard.budget.modal.addItem.labelDpTracking') }}</label>
                             <button
@@ -828,6 +946,7 @@ const upcomingPayments = computed(() =>
                                 </div>
                             </div>
                         </template>
+                        </template>
 
                         <!-- Jatuh tempo -->
                         <div>
@@ -847,8 +966,8 @@ const upcomingPayments = computed(() =>
                             </div>
                         </div>
 
-                        <!-- Vendor -->
-                        <div>
+                        <!-- Vendor name bebas (hanya untuk item tanpa link vendor) -->
+                        <div v-if="!itemForm.vendor_id">
                             <label class="block text-xs font-medium text-stone-600 mb-1">{{ t('dashboard.budget.modal.addItem.labelVendor') }}</label>
                             <input v-model="itemForm.vendor_name" type="text" :placeholder="t('dashboard.budget.modal.addItem.vendorPlaceholder')"
                                 class="w-full px-3 py-2.5 text-sm border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:border-transparent"

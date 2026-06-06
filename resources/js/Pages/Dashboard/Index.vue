@@ -32,6 +32,8 @@ const props = defineProps({
     recentRsvps:       { type: Array,   default: () => [] },
     inviteShare:       { type: Object,  default: null },
     nextAction:        { type: Object,  default: null },
+    vendorWidget:      { type: Array,   default: () => [] },
+    activityFeed:      { type: Array,   default: () => [] },
 });
 
 // ── Next-action hero "share" action: copy invite link + toast ──────────
@@ -210,9 +212,9 @@ function saveWeddingDate() {
           </div>
 
           <div class="grid gap-5 lg:grid-cols-3">
-            <VendorLineupCard />
+            <VendorLineupCard :vendor-widget="vendorWidget" />
             <BeyondPeekCard />
-            <ActivityFeedCard />
+            <ActivityFeedCard :activity-feed="activityFeed" />
           </div>
 
           <!-- Recent Invitations (kept — real & useful) -->

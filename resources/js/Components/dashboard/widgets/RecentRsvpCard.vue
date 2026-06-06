@@ -18,7 +18,7 @@ const rows = computed(() => props.recentRsvps.map((r, i) => ({
 </script>
 
 <template>
-  <div class="rounded-[18px]" style="background:#FBFCF9; border:1px solid #D8DFD2;">
+  <div class="rounded-[18px] overflow-hidden" style="background:#FBFCF9; border:1px solid #D8DFD2;">
     <div class="flex items-center justify-between px-5 py-[18px]" style="border-bottom:1px solid #D8DFD2;">
       <div>
         <h3 class="font-cormorant font-medium text-[22px] tracking-tight" style="color:#1F2A2E;">{{ t('dashboard.index.widgets.rsvp.title') }}</h3>

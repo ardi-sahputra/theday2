@@ -27,6 +27,7 @@ use App\Http\Controllers\Dashboard\AddonController;
 use App\Http\Controllers\Dashboard\SubscriptionController;
 use App\Http\Controllers\Dashboard\TransactionController;
 use App\Http\Controllers\Dashboard\TemplateController;
+use App\Http\Controllers\Dashboard\WeddingDocumentController;
 use App\Http\Controllers\PaymentReturnController;
 use App\Http\Controllers\WebhookController;
 use App\Http\Controllers\Dashboard\WhatsAppTemplateController;
@@ -151,6 +152,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 Route::middleware(['auth', 'verified', 'onboarding', 'couple'])->prefix('dashboard')->name('dashboard.')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('index');
+    Route::get('/search', \App\Http\Controllers\Dashboard\GlobalSearchController::class)->name('search');
     Route::patch('/wedding-date', [DashboardController::class, 'updateWeddingDate'])->name('wedding-date.update');
     Route::get('/templates', [TemplateController::class, 'index'])->name('templates');
     Route::get('/buku-tamu', [BukuTamuHubController::class, 'index'])->name('buku-tamu.index');
@@ -163,7 +165,6 @@ Route::middleware(['auth', 'verified', 'onboarding', 'couple'])->prefix('dashboa
     // Invitation list & wizard
     Route::get(   '/invitations',                    [InvitationController::class, 'index'])->name('invitations.index');
     Route::get(   '/invitations/create',             [InvitationController::class, 'create'])->name('invitations.create');
-    Route::get(   '/invitations/{invitation}/edit',    [InvitationController::class, 'edit'])->name('invitations.edit');
     Route::get(   '/invitations/{invitation}/preview', [InvitationController::class, 'preview'])->name('invitations.preview');
     Route::post(  '/invitations/from-template',      [InvitationController::class, 'createFromTemplate'])->name('invitations.from-template');
     Route::delete('/invitations/{invitation}',        [InvitationController::class, 'destroy'])->name('invitations.destroy');
@@ -204,6 +205,7 @@ Route::middleware(['auth', 'verified', 'onboarding', 'couple'])->prefix('dashboa
     // ── Budget Planner ───────────────────────────────────────────────────
     Route::get( '/budget-planner',                    [BudgetPlannerPageController::class, 'index'])->name('budget-planner.index');
     Route::get( '/budget-planner/export.csv',         [BudgetPlannerPageController::class, 'exportCsv'])->name('budget-planner.export');
+    Route::get( '/budget-planner/insights',           [\App\Http\Controllers\Dashboard\BudgetPlanner\BudgetInsightController::class, 'index'])->middleware('throttle:20,1')->name('budget-planner.insights');
     Route::post('/budget-planner/initialize',         [InitializeBudgetPlannerController::class, 'store'])->name('budget-planner.initialize');
     Route::patch('/budget-planner/budget',            [UpdateBudgetController::class, 'update'])->name('budget-planner.budget.update');
 
@@ -278,12 +280,26 @@ Route::middleware(['auth', 'verified', 'onboarding', 'couple'])->prefix('dashboa
     Route::patch( '/checklist/tasks/{id}/restore',       [ChecklistController::class, 'restore'])->name('checklist.tasks.restore');
     Route::delete('/checklist/tasks/{id}',               [ChecklistController::class, 'destroy'])->name('checklist.tasks.destroy');
     Route::get(   '/checklist/summary',                  [ChecklistController::class, 'summary'])->name('checklist.summary');
+    Route::get( '/checklist/planner-insights', [\App\Http\Controllers\Dashboard\PlannerInsightController::class, 'index'])->middleware('throttle:20,1')->name('checklist.planner-insights');
     Route::get(   '/checklist/export.ics',               [ChecklistController::class, 'exportCalendar'])->name('checklist.export');
     Route::patch( '/checklist/event-date',               [ChecklistController::class, 'updateEventDate'])->name('checklist.event-date');
+    Route::post( '/checklist/ai-draft', [\App\Http\Controllers\Dashboard\ChecklistAiController::class, 'draft'])->middleware('throttle:10,1')->name('checklist.ai-draft');
+    Route::post( '/checklist/ai-apply', [\App\Http\Controllers\Dashboard\ChecklistAiController::class, 'apply'])->middleware('throttle:20,1')->name('checklist.ai-apply');
     Route::get(   '/checklist/tasks/{taskId}/subtasks',              [ChecklistController::class, 'subtasks'])->name('checklist.tasks.subtasks.index');
     Route::post(  '/checklist/tasks/{taskId}/subtasks',              [ChecklistController::class, 'storeSubtask'])->name('checklist.tasks.subtasks.store');
     Route::patch( '/checklist/tasks/{taskId}/subtasks/{subtaskId}',  [ChecklistController::class, 'updateSubtask'])->name('checklist.tasks.subtasks.update');
     Route::delete('/checklist/tasks/{taskId}/subtasks/{subtaskId}',  [ChecklistController::class, 'destroySubtask'])->name('checklist.tasks.subtasks.destroy');
+
+    // ── Dokumen Nikah ──────────────────────────────────────────────────────
+    Route::get(   '/documents/data',             [WeddingDocumentController::class, 'data'])->name('documents.data');
+    Route::patch( '/documents/context',          [WeddingDocumentController::class, 'context'])->name('documents.context');
+    Route::patch( '/documents/{key}/status',     [WeddingDocumentController::class, 'status'])->name('documents.status');
+    Route::post(  '/documents/{key}/file',       [WeddingDocumentController::class, 'storeFile'])->name('documents.file.store');
+    Route::delete('/documents/{key}/file',       [WeddingDocumentController::class, 'destroyFile'])->name('documents.file.destroy');
+    Route::get(   '/documents/{key}/file/{plan}',[WeddingDocumentController::class, 'showFile'])->name('documents.file.show');
+
+    // ── Shared-module parity demo ─────────────────────────────────────────────
+    Route::get('/home-summary-demo', fn () => inertia('Dashboard/HomeSummaryDemo'))->name('home-summary-demo');
 });
 
 // ── Payment return & status polling (no onboarding guard) ───────────────────

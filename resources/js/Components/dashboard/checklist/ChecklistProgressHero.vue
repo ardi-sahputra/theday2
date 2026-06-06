@@ -1,5 +1,4 @@
 <script setup>
-import DemoBadge from '@/Components/dashboard/DemoBadge.vue';
 import { useLocale } from '@/Composables/useLocale';
 
 defineProps({
@@ -52,10 +51,6 @@ const { t } = useLocale();
             {{ t('dashboard.checklist.hero.noDate') }}
           </div>
         </div>
-        <span class="inline-flex items-center gap-2 px-3 py-2 rounded-full text-[12px] font-semibold cursor-default"
-              style="background:#FBFCF9; color:#1F2A2E;" :title="t('dashboard.checklist.hero.aiSoon')">
-          {{ t('dashboard.checklist.hero.aiSuggest') }} <DemoBadge />
-        </span>
       </div>
     </div>
   </section>

@@ -45,7 +45,10 @@ watch(draft, (v) => {
       if (draft.value !== v) return;            // outdated response
       status.value = data.available ? 'ok' : 'taken';
       suggestion.value = data.suggestion;
-    } catch { status.value = 'idle'; }
+    } catch {
+      status.value = 'error';
+      errorMsg.value = 'Gagal cek ketersediaan. Coba lagi.';
+    }
   }, 400);
 });
 
@@ -93,40 +96,69 @@ async function copyLink() {
     <!-- Link Undangan (custom slug) -->
     <div class="section-block">
       <h4>Link Undangan</h4>
-      <div class="desc">Klik untuk ubah jadi nama kalian — gampang diingat & dibagikan.</div>
 
-      <label class="label" style="display:block;margin-bottom:6px;">Link kustom</label>
-      <div class="slugbox" :class="status" @click="focusSlug">
-        <span class="slug-host">theday.id/</span>
-        <input ref="slugInput" class="slug-input" :value="draft" @input="sanitize"
-               spellcheck="false" autocapitalize="off" autocomplete="off" placeholder="ayu-rizki" />
-        <span class="slug-ic">
-          <svg v-if="status==='checking'||status==='saving'" class="ev-spin" style="width:15px;height:15px;border-width:2px;"></svg>
-          <svg v-else-if="status==='ok'||status==='saved'" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3f8a5c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-11"/></svg>
-          <svg v-else-if="status==='taken'||status==='invalid'||status==='error'" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c0625a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18L18 6M6 6l12 12"/></svg>
-          <svg v-else width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#9aa6a0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>
-        </span>
-        <button type="button" class="slug-copy" @click.stop="copyLink" :title="copied ? 'Tersalin' : 'Salin link'">
-          <svg v-if="!copied" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6F8270" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-          <svg v-else width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6F8270" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-11"/></svg>
+      <!-- DRAFT: editable. Link is only changeable before publish. -->
+      <template v-if="!isLive">
+        <div class="desc">Klik untuk ubah jadi nama kalian — gampang diingat & dibagikan.</div>
+
+        <label class="label" style="display:block;margin-bottom:6px;">Link kustom</label>
+        <div class="slugbox" :class="status" @click="focusSlug">
+          <span class="slug-host">theday.id/</span>
+          <input ref="slugInput" class="slug-input" :value="draft" @input="sanitize" @keyup.enter="saveSlug"
+                 spellcheck="false" autocapitalize="off" autocomplete="off" placeholder="ayu-rizki" />
+          <span class="slug-ic">
+            <svg v-if="status==='checking'||status==='saving'" class="ev-spin" style="width:15px;height:15px;border-width:2px;"></svg>
+            <svg v-else-if="status==='ok'||status==='saved'" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3f8a5c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-11"/></svg>
+            <svg v-else-if="status==='taken'||status==='invalid'||status==='error'" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c0625a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18L18 6M6 6l12 12"/></svg>
+            <svg v-else width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#9aa6a0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>
+          </span>
+          <button type="button" class="slug-copy" @click.stop="copyLink" :title="copied ? 'Tersalin' : 'Salin link'">
+            <svg v-if="!copied" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6F8270" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            <svg v-else width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6F8270" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-11"/></svg>
+          </button>
+        </div>
+
+        <div class="slug-msg">
+          <span v-if="status==='checking'" style="color:var(--muted);">Mengecek ketersediaan…</span>
+          <span v-else-if="status==='ok'" style="color:#3f8a5c;">✓ Tersedia — klik <strong>Simpan link</strong></span>
+          <span v-else-if="status==='saved'" style="color:#3f8a5c;">✓ Link tersimpan</span>
+          <span v-else-if="status==='invalid'" style="color:#c0625a;">Min 3 karakter · huruf kecil, angka, atau dash.</span>
+          <span v-else-if="status==='error'" style="color:#c0625a;">{{ errorMsg }}</span>
+          <span v-else-if="status==='taken'" style="color:#c0625a;">
+            Sudah dipakai.<template v-if="suggestion"> Coba: <button type="button" class="slug-sugg" @click="useSuggestion">{{ suggestion }}</button></template>
+          </span>
+          <span v-else style="color:var(--muted);">Atur sekarang — <strong>link terkunci setelah publish</strong>. Ganti slug akan mematikan link lama.</span>
+        </div>
+
+        <button type="button" class="btn btn-primary btn-sm"
+                style="margin-top:10px;width:100%;justify-content:center;"
+                :disabled="status!=='ok' && status!=='saving'"
+                :style="(status!=='ok' && status!=='saving') ? 'opacity:.45;cursor:not-allowed;' : ''"
+                @click="saveSlug">
+          {{ status==='saving' ? 'Menyimpan…' : (status==='saved' ? '✓ Tersimpan' : 'Simpan link') }}
         </button>
-      </div>
+      </template>
 
-      <div class="slug-msg">
-        <span v-if="status==='checking'" style="color:var(--muted);">Mengecek ketersediaan…</span>
-        <span v-else-if="status==='ok'" style="color:#3f8a5c;">✓ Tersedia — klik <strong>Simpan link</strong></span>
-        <span v-else-if="status==='saved'" style="color:#3f8a5c;">✓ Link tersimpan</span>
-        <span v-else-if="status==='invalid'" style="color:#c0625a;">Min 3 karakter · huruf kecil, angka, atau dash.</span>
-        <span v-else-if="status==='error'" style="color:#c0625a;">{{ errorMsg }}</span>
-        <span v-else-if="status==='taken'" style="color:#c0625a;">
-          Sudah dipakai.<template v-if="suggestion"> Coba: <button type="button" class="slug-sugg" @click="useSuggestion">{{ suggestion }}</button></template>
-        </span>
-        <span v-else style="color:var(--muted);">Ketik untuk ganti link. Link lama tetap aktif (auto-redirect).</span>
-      </div>
+      <!-- PUBLISHED: locked. Already shared → must stay stable. -->
+      <template v-else>
+        <div class="desc">Sudah dipublish — link final & dibagikan ke tamu, tidak bisa diubah lagi.</div>
 
-      <button v-if="status==='ok' || status==='saving'" type="button" class="btn btn-primary btn-sm" style="margin-top:10px;width:100%;justify-content:center;" :disabled="status==='saving'" @click="saveSlug">
-        {{ status==='saving' ? 'Menyimpan…' : 'Simpan link' }}
-      </button>
+        <label class="label" style="display:block;margin-bottom:6px;">Link kustom</label>
+        <div class="slugbox locked">
+          <span class="slug-host">theday.id/</span>
+          <span class="slug-input" style="opacity:.85;">{{ slug }}</span>
+          <span class="slug-ic">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#9aa6a0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+          </span>
+          <button type="button" class="slug-copy" @click.stop="copyLink" :title="copied ? 'Tersalin' : 'Salin link'">
+            <svg v-if="!copied" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6F8270" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            <svg v-else width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6F8270" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-11"/></svg>
+          </button>
+        </div>
+        <div class="slug-msg">
+          <span style="color:var(--muted);">🔒 Link terkunci setelah publish supaya link yang sudah disebar ke tamu tidak rusak.</span>
+        </div>
+      </template>
     </div>
 
     <!-- Kelola tamu & sebar personal → semua diurus di menu Tamu -->

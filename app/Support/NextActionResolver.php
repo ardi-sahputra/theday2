@@ -67,7 +67,7 @@ final class NextActionResolver
         if ($daysUntil !== null && $daysUntil >= 0 && $daysUntil <= 7 && $published === 0) {
             return self::make('publish_soon', 'urgent', 'bell',
                 params: ['days' => $daysUntil],
-                cta: ['kind' => 'route', 'route' => 'dashboard.invitations.edit', 'param' => $id]);
+                cta: ['kind' => 'route', 'route' => 'dashboard.invitations.customize-v2', 'param' => $id]);
         }
 
         // 4. New RSVPs since yesterday → "what changed", momentum.
@@ -86,7 +86,7 @@ final class NextActionResolver
         // 6. Still a draft → review & publish.
         if ($published === 0 && ($ctx['invitation_status'] ?? null) === 'draft') {
             return self::make('publish_draft', 'progress', 'sparkle',
-                cta: ['kind' => 'route', 'route' => 'dashboard.invitations.edit', 'param' => $id]);
+                cta: ['kind' => 'route', 'route' => 'dashboard.invitations.customize-v2', 'param' => $id]);
         }
 
         // 7. Published but never viewed → share it.

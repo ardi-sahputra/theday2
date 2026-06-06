@@ -85,7 +85,7 @@ const visibleHotspots = computed(() =>
 </script>
 
 <template>
-    <div>
+    <div class="scene-root">
         <!-- Audio -->
         <audio
             v-if="invitation.music?.file_url && sectionEnabled('music')"
@@ -96,10 +96,15 @@ const visibleHotspots = computed(() =>
             class="sr-only"
         />
 
+        <!-- Viewport: fills the host; the 9:16 stage covers (phone) or
+             centers with a themed backdrop (tablet/desktop) inside it. -->
+        <div class="scene-viewport" :class="{ 'is-live': !isDemo }"
+             style="background:#0F1115;">
+
         <!-- ── Cover / Gate ── -->
         <div
             v-if="!gateOpen"
-            class="scene-cover"
+            class="scene-stage scene-cover"
             :style="{
                 backgroundImage: invitation.config?.section_backgrounds?.cover?.type === 'image' && invitation.config.section_backgrounds.cover.value
                     ? `url(${invitation.config.section_backgrounds.cover.value}), ${sceneConfig.fallbackBg}`
@@ -134,7 +139,7 @@ const visibleHotspots = computed(() =>
         </div>
 
         <!-- ── Scene ── -->
-        <div v-if="contentOpen" class="scene-container">
+        <div v-if="contentOpen" class="scene-stage scene-content">
             <!-- Background image -->
             <img
                 :src="sceneConfig.background"
@@ -151,37 +156,39 @@ const visibleHotspots = computed(() =>
                 :index="i"
                 @click="openSection"
             />
-
-            <!-- Bottom-left: FAB cluster -->
-            <div class="action-cluster">
-                <!-- Sub buttons -->
-                <Transition name="fab-items">
-                    <div v-if="clusterOpen" class="cluster-items">
-                        <button class="cluster-btn" aria-label="Info" @click="openSection('couple'); clusterOpen = false">ⓘ</button>
-                        <button
-                            v-if="sectionEnabled('music') && (invitation.music?.file_url || isDemo)"
-                            class="cluster-btn"
-                            :aria-label="musicPlaying ? 'Pause musik' : 'Play musik'"
-                            @click="toggleMusic"
-                        >{{ musicPlaying ? '🎵' : '🎶' }}</button>
-                        <template v-if="sectionEnabled('wishes')">
-                            <button class="cluster-btn" aria-label="Tulis ucapan" @click="openGuestbookForm(); clusterOpen = false">✍️</button>
-                            <button class="cluster-btn" aria-label="Lihat ucapan" @click="openGuestbookList(); clusterOpen = false">💬</button>
-                        </template>
-                    </div>
-                </Transition>
-
-                <!-- Main FAB toggle -->
-                <button
-                    class="cluster-btn cluster-fab"
-                    :class="{ 'is-open': clusterOpen }"
-                    @click="clusterOpen = !clusterOpen"
-                    aria-label="Menu"
-                >{{ clusterOpen ? '✕' : '✦' }}</button>
-            </div>
         </div>
 
-        <!-- ── Modal ── -->
+        <!-- Bottom-left: FAB cluster — pinned to the VIEWPORT (visible screen)
+             so it isn't clipped by the cover-zoom crop of the stage. -->
+        <div v-if="contentOpen" class="action-cluster">
+            <!-- Sub buttons -->
+            <Transition name="fab-items">
+                <div v-if="clusterOpen" class="cluster-items">
+                    <button class="cluster-btn" aria-label="Info" @click="openSection('couple'); clusterOpen = false">ⓘ</button>
+                    <button
+                        v-if="sectionEnabled('music') && (invitation.music?.file_url || isDemo)"
+                        class="cluster-btn"
+                        :aria-label="musicPlaying ? 'Pause musik' : 'Play musik'"
+                        @click="toggleMusic"
+                    >{{ musicPlaying ? '🎵' : '🎶' }}</button>
+                    <template v-if="sectionEnabled('wishes')">
+                        <button class="cluster-btn" aria-label="Tulis ucapan" @click="openGuestbookForm(); clusterOpen = false">✍️</button>
+                        <button class="cluster-btn" aria-label="Lihat ucapan" @click="openGuestbookList(); clusterOpen = false">💬</button>
+                    </template>
+                </div>
+            </Transition>
+
+            <!-- Main FAB toggle -->
+            <button
+                class="cluster-btn cluster-fab"
+                :class="{ 'is-open': clusterOpen }"
+                @click="clusterOpen = !clusterOpen"
+                aria-label="Menu"
+            >{{ clusterOpen ? '✕' : '✦' }}</button>
+        </div>
+
+        <!-- ── Modal ── (inside viewport so it centers on the scene frame,
+             not the whole browser, in the editor preview) -->
         <SceneModal
             :modelValue="modalOpen"
             :title="modalTitle"
@@ -235,23 +242,69 @@ const visibleHotspots = computed(() =>
             />
         </SceneModal>
 
+        </div><!-- /.scene-viewport -->
+
         <!-- Toast -->
         <Transition name="toast-fade">
             <div v-if="toastVisible" class="scene-toast">{{ toastMsg }}</div>
         </Transition>
+
+        <!-- Rotate hint — portrait-only experience; shown on phone landscape.
+             (Browsers can't force orientation, so we ask the guest to rotate.) -->
+        <div class="scene-rotate">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="7" y="2" width="10" height="20" rx="2"/>
+                <path d="M11 18h2"/>
+                <path d="M2 9a9 9 0 0 1 4-5M22 15a9 9 0 0 1-4 5"/>
+            </svg>
+            <p class="scene-rotate-title" :style="{ fontFamily: sceneConfig.fontTitle ?? fontTitle }">Putar HP ke posisi tegak</p>
+            <p class="scene-rotate-sub" :style="{ fontFamily: fontHeading }">Undangan ini paling indah dibuka dalam mode potret.</p>
+        </div>
     </div>
 </template>
 
 <style scoped>
-/* ── Container ── */
-.scene-container {
+/* Root fills the (definite-height) preview host so the viewport can too.
+   On live, the viewport uses 100dvh, so this is a harmless no-op. */
+.scene-root { height: 100%; }
+
+/* ── Viewport + stage ──
+   The viewport fills the host. The stage keeps the authored 9:16 ratio and is
+   sized with container-query units so it COVERS a portrait host (phone) — the
+   whole scene (bg + hotspots) scales as one unit, so hotspots stay aligned —
+   and CONTAINS (centers, themed backdrop) on a wider host (tablet/desktop). */
+.scene-viewport {
+    position:        relative;
+    width:           100%;
+    height:          100%;          /* preview: fill the definite-height host */
+    overflow:        hidden;
+    container-type:  size;
+    display:         flex;
+    align-items:     center;
+    justify-content: center;
+}
+.scene-viewport.is-live {
+    height:     100dvh;             /* live: fill the real viewport */
+    min-height: 100dvh;
+}
+.scene-stage {
     position:     relative;
-    width:        100%;
-    max-width:    480px;
+    flex:         none;
     aspect-ratio: 9 / 16;
-    margin:       0 auto;
     overflow:     hidden;
-    background:   #111;
+    /* Default = CONTAIN: fit fully inside (centered, themed backdrop shows). */
+    height:       min(100cqh, 100cqw * 16 / 9);
+}
+/* Host narrower than 9:16 (phones) → COVER: fill the screen, crop the edges. */
+@container (max-aspect-ratio: 9 / 16) {
+    .scene-stage {
+        height: max(100cqh, 100cqw * 16 / 9);
+    }
+}
+
+/* ── Container ── */
+.scene-content {
+    background: #111;
 }
 
 .scene-bg {
@@ -266,11 +319,6 @@ const visibleHotspots = computed(() =>
 
 /* ── Cover ── */
 .scene-cover {
-    position:            relative;
-    width:               100%;
-    max-width:           480px;
-    aspect-ratio:        9 / 16;
-    margin:              0 auto;
     background-size:     cover;
     background-position: center;
     cursor:              pointer;
@@ -347,11 +395,14 @@ const visibleHotspots = computed(() =>
     backdrop-filter: blur(4px);
 }
 
-/* ── FAB Cluster ── */
+/* ── FAB Cluster ──
+   Pinned to the viewport, but clamped to the visible scene column's left edge:
+   on wide screens (contain) the scene is centered with black bars, so push the
+   FAB in by half the bar width; on phones (cover) the bar width is 0 → 16px. */
 .action-cluster {
     position:       absolute;
     bottom:         16px;
-    left:           16px;
+    left:           calc(16px + max(0px, (100cqw - 100cqh * 9 / 16) / 2));
     z-index:        20;
     display:        flex;
     flex-direction: column-reverse;
@@ -410,6 +461,33 @@ const visibleHotspots = computed(() =>
 .fab-items-leave-to {
     opacity:   0;
     transform: translateY(12px) scale(0.85);
+}
+
+/* ── Rotate hint (phone landscape only) ── */
+.scene-rotate {
+    display: none;
+}
+@media (orientation: landscape) and (max-height: 540px) {
+    .scene-rotate {
+        position:        fixed;
+        inset:           0;
+        z-index:         200;
+        background:      #0F1115;
+        display:         flex;
+        flex-direction:  column;
+        align-items:     center;
+        justify-content: center;
+        gap:             14px;
+        padding:         24px;
+        text-align:      center;
+    }
+    .scene-rotate svg { animation: rotate-tilt 2.4s ease-in-out infinite; }
+    .scene-rotate-title { font-size: 19px; font-weight: 700; color: #fff; }
+    .scene-rotate-sub   { font-size: 13px; color: rgba(255,255,255,0.7); max-width: 280px; line-height: 1.5; }
+}
+@keyframes rotate-tilt {
+    0%, 100% { transform: rotate(0deg); }
+    50%       { transform: rotate(-90deg); }
 }
 
 /* ── Toast ── */

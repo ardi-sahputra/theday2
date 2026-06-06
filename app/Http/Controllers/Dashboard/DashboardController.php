@@ -16,7 +16,9 @@ use App\Models\CoupleProfile;
 use App\Models\GuestMessage;
 use App\Models\Rsvp;
 use App\Models\Template;
+use App\Models\Vendor;
 use App\Models\WeddingPlan;
+use App\Support\VendorCategories;
 use App\Services\ChecklistService;
 use App\Support\EffectiveUser;
 use App\Support\NextActionResolver;
@@ -57,7 +59,10 @@ class DashboardController extends Controller
             'activeSubscription.plan',
         ]);
 
-        $invitations = $effectiveUser->invitations()->withCount(['rsvps', 'views'])->get();
+        $invitations = $effectiveUser->invitations()
+            ->with('template')
+            ->withCount(['rsvps', 'views'])
+            ->get();
 
         $coupleProfile = $effectiveUser->coupleProfile;
 
@@ -69,21 +74,24 @@ class DashboardController extends Controller
         $ucapanCount   = GuestMessage::whereIn('invitation_id', $invitationIds)
             ->where('is_approved', true)->count();
 
-        $recentRsvps = Rsvp::whereIn('invitation_id', $invitationIds)
+        // Fetch once, reuse for both the RSVP card (5) and the activity feed (6).
+        $recentRsvpModels = Rsvp::whereIn('invitation_id', $invitationIds)
             ->with('invitation:id,title')
             ->latest()
-            ->limit(5)
-            ->get()
-            ->map(fn ($r) => [
-                'guest_name'       => $r->guest_name,
-                'attendance'       => $r->attendance instanceof AttendanceStatus ? $r->attendance->value : $r->attendance,
-                'guest_count'      => $r->guest_count,
-                'created_at_human' => $r->created_at?->diffForHumans(),
-                'invitation_title' => $r->invitation?->title,
-            ]);
+            ->limit(6)
+            ->get();
+
+        $recentRsvps = $recentRsvpModels->take(5)->map(fn ($r) => [
+            'guest_name'       => $r->guest_name,
+            'attendance'       => $r->attendance instanceof AttendanceStatus ? $r->attendance->value : $r->attendance,
+            'guest_count'      => $r->guest_count,
+            'created_at_human' => $r->created_at?->diffForHumans(),
+            'invitation_title' => $r->invitation?->title,
+        ])->values();
 
         $primaryInvitation = $invitations->sortByDesc('view_count')->first();
         $inviteShare = $primaryInvitation ? [
+            'id'           => $primaryInvitation->id,
             'slug'         => $primaryInvitation->slug,
             'url'          => url('/'.$primaryInvitation->slug),
             'view_count'   => $primaryInvitation->view_count,
@@ -110,12 +118,12 @@ class DashboardController extends Controller
             'ucapan_count'      => $ucapanCount,
         ];
 
-        $recentInvitations = $effectiveUser->invitations()
-            ->with('template')
-            ->withCount('rsvps')
-            ->latest()
-            ->limit(3)
-            ->get()
+        // Derive the 3 most recent from the already-loaded collection (template +
+        // rsvps_count already eager-loaded above) — no extra queries.
+        $recentInvitations = $invitations
+            ->sortByDesc('created_at')
+            ->take(3)
+            ->values()
             ->map(fn ($inv) => [
                 'id'          => $inv->id,
                 'title'       => $inv->title,
@@ -166,9 +174,9 @@ class DashboardController extends Controller
         $weddingDate   = $coupleProfile?->wedding_date;
 
         if (! $weddingDate) {
-            $weddingDate = $effectiveUser->invitations()
-                ->with('events')
-                ->get()
+            // Reuse the loaded collection — one whereIn for events, no re-query of invitations.
+            $weddingDate = $invitations
+                ->load('events')
                 ->flatMap(fn ($inv) => $inv->events)
                 ->pluck('event_date')
                 ->filter()
@@ -220,23 +228,116 @@ class DashboardController extends Controller
             'checklist_progress'    => (int) $checklistSummary['progress'],
         ]);
 
+        // Vendor lineup widget — up to 5 most recent real vendors
+        $vendorModels = Vendor::query()
+            ->where('user_id', $effectiveUser?->id)
+            ->orderByDesc('booked_at')
+            ->orderBy('created_at')
+            ->limit(5)
+            ->get();
+
+        $vendorWidget = $vendorModels->map(function (Vendor $v) {
+            $total = (int) ($v->total_cost ?? 0);
+            $paid  = (int) ($v->paid_amount ?? 0);
+            $paidPct = $total > 0 ? (int) min(100, round($paid / $total * 100)) : 0;
+
+            if ($total > 0 && $paid >= $total) {
+                $status = 'Lunas';
+                $color  = '#92A89C';
+            } elseif ($paid > 0) {
+                $status = "DP {$paidPct}%";
+                $color  = '#D9A24A';
+            } else {
+                $status = 'Booked';
+                $color  = '#D9B5B0';
+            }
+
+            return [
+                'name'   => $v->name,
+                'cat'    => VendorCategories::label($v->category) ?? $v->category,
+                'status' => $status,
+                'color'  => $color,
+            ];
+        })->values();
+
+        // ── Activity feed — real recent events, merged & sorted ──────────────
+        $activity = collect();
+
+        // Recent RSVPs — reuse the already-fetched models (no extra query)
+        foreach ($recentRsvpModels as $r) {
+            $attending = ($r->attendance instanceof AttendanceStatus ? $r->attendance->value : $r->attendance)
+                === AttendanceStatus::Hadir->value;
+            $activity->push([
+                'type' => $attending ? 'rsvp_attending' : 'rsvp_declined',
+                'name' => $r->guest_name,
+                'ts'   => $r->created_at,
+                'time' => $r->created_at?->diffForHumans(),
+            ]);
+        }
+
+        // Recent guest messages (ucapan)
+        foreach (GuestMessage::whereIn('invitation_id', $invitationIds)
+            ->where('is_approved', true)->latest()->limit(6)->get() as $m) {
+            $activity->push([
+                'type' => 'ucapan',
+                'name' => $m->is_anonymous ? null : $m->name,
+                'ts'   => $m->created_at,
+                'time' => $m->created_at?->diffForHumans(),
+            ]);
+        }
+
+        // Recently completed checklist tasks
+        foreach ($plan->checklistTasks()
+            ->where('status', ChecklistTaskStatus::Done->value)
+            ->whereNotNull('completed_at')
+            ->latest('completed_at')->limit(6)->get() as $tk) {
+            $activity->push([
+                'type'  => 'task_done',
+                'title' => $tk->title,
+                'ts'    => $tk->completed_at,
+                'time'  => $tk->completed_at?->diffForHumans(),
+            ]);
+        }
+
+        // Recently booked vendors
+        foreach ($vendorModels->whereNotNull('booked_at') as $v) {
+            $activity->push([
+                'type'  => 'vendor_booked',
+                'name'  => $v->name,
+                'ts'    => $v->booked_at,
+                'time'  => $v->booked_at?->diffForHumans(),
+            ]);
+        }
+
+        $activityFeed = $activity
+            ->filter(fn ($a) => $a['ts'] !== null)
+            ->sortByDesc(fn ($a) => $a['ts']->getTimestamp())
+            ->take(6)
+            ->map(fn ($a) => collect($a)->except('ts')->all())
+            ->values();
+
         $canUsePremium = SectionAccess::isPremium($request->user());
-        $templates     = Template::active()
-            ->with('category:id,name,slug')
-            ->ordered()
-            ->get()
-            ->map(fn ($t) => [
-                'id'            => $t->id,
-                'name'          => $t->name,
-                'slug'          => $t->slug,
-                'thumbnail_url' => $t->thumbnail_url,
-                'tier'          => $t->tier->value,
-                'category'      => $t->category ? [
-                    'name' => $t->category->name,
-                    'slug' => $t->category->slug,
-                ] : null,
-            ])
-            ->toArray();
+        // Global, user-independent list — cache it; the gallery rarely changes.
+        $templates = \Illuminate\Support\Facades\Cache::remember(
+            'dashboard.templates.list.v1',
+            now()->addHour(),
+            fn () => Template::active()
+                ->with('category:id,name,slug')
+                ->ordered()
+                ->get()
+                ->map(fn ($t) => [
+                    'id'            => $t->id,
+                    'name'          => $t->name,
+                    'slug'          => $t->slug,
+                    'thumbnail_url' => $t->thumbnail_url,
+                    'tier'          => $t->tier->value,
+                    'category'      => $t->category ? [
+                        'name' => $t->category->name,
+                        'slug' => $t->category->slug,
+                    ] : null,
+                ])
+                ->toArray()
+        );
 
         return Inertia::render('Dashboard/Index', [
             'stats'             => $stats,
@@ -271,6 +372,8 @@ class DashboardController extends Controller
                 'formatted'                   => $budgetSummary['formatted'],
                 'categories'                  => $budgetSummary['categories'],
             ],
+            'vendorWidget'  => $vendorWidget,
+            'activityFeed'  => $activityFeed,
             'couple'      => $coupleData,
             'recentRsvps' => $recentRsvps,
             'inviteShare' => $inviteShare,

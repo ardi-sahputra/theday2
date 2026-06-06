@@ -1,5 +1,6 @@
 <script setup>
 import { ref, computed } from 'vue';
+import { Link } from '@inertiajs/vue3';
 import WidgetIcon from '@/Components/dashboard/WidgetIcon.vue';
 import { useLocale } from '@/Composables/useLocale';
 
@@ -14,6 +15,8 @@ const displayUrl = computed(() => {
   if (u) return u.replace(/^https?:\/\//, '').replace(/\/$/, '');
   return `theday.id/${props.inviteShare?.slug ?? ''}`;
 });
+
+const isDraft = computed(() => props.inviteShare?.status !== 'published');
 
 const copied = ref(false);
 async function copy() {
@@ -42,9 +45,18 @@ async function copy() {
         </div>
       </div>
 
-      <!-- Icon-only actions: share + preview -->
+      <!-- Icon-only actions: primary = edit (draft) / share (published), + preview -->
       <div class="flex items-center gap-2 shrink-0">
-        <button @click="copy" type="button"
+        <!-- Draft → Edit -->
+        <Link v-if="isDraft" :href="route('dashboard.invitations.customize-v2', inviteShare.id)"
+              :title="t('dashboard.index.widgets.invite.edit')"
+              :aria-label="t('dashboard.index.widgets.invite.edit')"
+              class="w-9 h-9 rounded-full grid place-items-center text-white transition-transform active:scale-90"
+              style="background:#92A89C;">
+          <WidgetIcon name="edit" :size="16" stroke="#fff" />
+        </Link>
+        <!-- Published → Share/copy -->
+        <button v-else @click="copy" type="button"
                 :title="copied ? t('dashboard.index.widgets.invite.copied') : t('dashboard.index.widgets.invite.copy')"
                 :aria-label="t('dashboard.index.widgets.invite.copy')"
                 class="w-9 h-9 rounded-full grid place-items-center text-white transition-transform active:scale-90"

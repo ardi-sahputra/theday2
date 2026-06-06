@@ -74,4 +74,27 @@ class VendorCategories
 
         return null;
     }
+
+    /**
+     * Map a vendor category key to the budget category slug it should land in
+     * (see config/budget_categories.php). Falls back to 'lainnya'.
+     */
+    public static function budgetSlug(string $key): string
+    {
+        return [
+            'venue'             => 'venue',
+            'catering'          => 'catering',
+            'foto_video'        => 'dokumentasi',
+            'dekorasi'          => 'dekorasi',
+            'mua'               => 'makeup-beauty',
+            'busana'            => 'busana',
+            'mc'                => 'hiburan',
+            'wedding_organizer' => 'lainnya',
+            'sound_system'      => 'hiburan',
+            'mobil_pengantin'   => 'transportasi',
+            'hiburan'           => 'hiburan',
+            'souvenir'          => 'souvenir',
+            'lainnya'           => 'lainnya',
+        ][$key] ?? 'lainnya';
+    }
 }

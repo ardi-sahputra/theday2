@@ -13,7 +13,7 @@ final class GetBudgetItemsTableAction
     public function execute(WeddingBudget $budget, array $filters = []): array
     {
         $query = $budget->activeItems()
-            ->with('category')
+            ->with(['category', 'vendor'])
             ->whereNull('deleted_at');
 
         // Search
@@ -81,10 +81,14 @@ final class GetBudgetItemsTableAction
             }
         }
 
+        $isLinked = $item->isLinkedToVendor();
+
         return [
             'id'                    => $item->id,
             'title'                 => $item->title,
-            'vendor_name'           => $item->vendor_name,
+            'vendor_name'           => $isLinked ? $item->vendor->name : $item->vendor_name,
+            'vendor_id'             => $item->vendor_id,
+            'is_linked'             => $isLinked,
             'notes'                 => $item->notes,
             'category'              => $item->category ? [
                 'id'   => $item->category->id,

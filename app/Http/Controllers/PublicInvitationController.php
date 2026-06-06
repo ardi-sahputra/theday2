@@ -183,11 +183,24 @@ class PublicInvitationController extends Controller
             return response()->json(['success' => true]);
         }
 
+        // ── Brute-force guard: max 5 wrong tries per IP per invitation / minute ──
+        $throttleKey = "unlock.{$invitation->id}." . $request->ip();
+        if (RateLimiter::tooManyAttempts($throttleKey, 5)) {
+            $seconds = RateLimiter::availableIn($throttleKey);
+            return response()->json([
+                'message' => "Terlalu banyak percobaan. Coba lagi dalam {$seconds} detik.",
+            ], 429);
+        }
+
         $password = $request->input('password', '');
 
         if (! Hash::check($password, $invitation->password)) {
+            RateLimiter::hit($throttleKey, 60);
             return response()->json(['message' => 'Password salah.'], 422);
         }
+
+        // Correct password — reset the counter.
+        RateLimiter::clear($throttleKey);
 
         $request->session()->put("inv_unlocked_{$invitation->id}", true);
 
@@ -206,6 +219,15 @@ class PublicInvitationController extends Controller
         if (! $invitation->isPublished()) {
             return response()->json(['message' => 'Undangan tidak tersedia.'], 404);
         }
+
+        // ── Spam guard: max 8 RSVPs per IP per invitation / hour ──────────
+        $rateLimitKey = "rsvp.{$invitation->id}." . $request->ip();
+        if (RateLimiter::tooManyAttempts($rateLimitKey, 8)) {
+            return response()->json([
+                'message' => 'Terlalu banyak kiriman RSVP. Coba lagi nanti.',
+            ], 429);
+        }
+        RateLimiter::hit($rateLimitKey, 3600);
 
         $data = $request->validate([
             'guest_name'  => 'required|string|max:255',
@@ -341,14 +363,23 @@ class PublicInvitationController extends Controller
 
         $request->session()->put($sessionViewKey, true);
 
-        InvitationView::create([
-            'invitation_id' => $invitation->id,
-            'ip_address'    => $request->ip(),
-            'user_agent'    => $request->userAgent(),
-            'referrer'      => $request->header('referer'),
-            'viewed_at'     => now(),
-        ]);
+        // Persist the view AFTER the response is flushed — the visitor never
+        // waits on these two writes (insert + counter bump).
+        $invitationId = $invitation->id;
+        $ip           = $request->ip();
+        $userAgent    = $request->userAgent();
+        $referrer     = $request->header('referer');
 
-        $invitation->increment('view_count');
+        defer(function () use ($invitationId, $ip, $userAgent, $referrer) {
+            InvitationView::create([
+                'invitation_id' => $invitationId,
+                'ip_address'    => $ip,
+                'user_agent'    => $userAgent,
+                'referrer'      => $referrer,
+                'viewed_at'     => now(),
+            ]);
+
+            Invitation::whereKey($invitationId)->increment('view_count');
+        });
     }
 }

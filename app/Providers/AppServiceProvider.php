@@ -25,6 +25,10 @@ class AppServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
+     * Note: Sanctum v4 uses publishesMigrations() (not loadMigrationsFrom), so its
+     * bigint migration is never auto-loaded. No ignoreMigrations() call needed.
+     * We ship our own 2026_06_05_000001_create_personal_access_tokens_table.php
+     * with uuidMorphs because User uses HasUuids.
      */
     public function register(): void
     {

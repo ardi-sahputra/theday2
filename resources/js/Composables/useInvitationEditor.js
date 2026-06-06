@@ -357,7 +357,7 @@ export function useInvitationEditor(template, invitation = null) {
                 publish.slug       = res.data.data.slug;
                 window.history.replaceState(
                     null, '',
-                    `/dashboard/invitations/${invitationId.value}/edit`
+                    `/dashboard/invitations/${invitationId.value}/customize-v2`
                 );
                 await axios.put(apiUrl(`/invitations/${invitationId.value}`), { current_step: 1 });
             } else {

@@ -35,7 +35,7 @@ final class BuildCategoryBreakdownAction
     public function execute(WeddingBudget $budget): array
     {
         $categories = $budget->activeCategories()
-            ->with(['activeItems'])
+            ->with(['activeItems.vendor'])
             ->get();
 
         $fallbackIdx = 0;
@@ -102,10 +102,14 @@ final class BuildCategoryBreakdownAction
             }
         }
 
+        $isLinked = $item->isLinkedToVendor();
+
         return [
             'id'              => $item->id,
             'title'           => $item->title,
-            'vendor_name'     => $item->vendor_name,
+            'vendor_name'     => $isLinked ? $item->vendor->name : $item->vendor_name,
+            'vendor_id'       => $item->vendor_id,
+            'is_linked'       => $isLinked,
             'notes'           => $item->notes,
             'planned_amount'  => $item->planned_amount,
             'terpakai'        => $terpakai,

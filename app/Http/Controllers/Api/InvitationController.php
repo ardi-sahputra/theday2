@@ -14,6 +14,7 @@ use App\Http\Requests\Invitation\StoreEventRequest;
 use App\Http\Requests\Invitation\StoreGalleryRequest;
 use App\Http\Requests\Invitation\StoreInvitationRequest;
 use App\Http\Requests\Invitation\StoreMusicRequest;
+use App\Enums\InvitationStatus;
 use App\Http\Requests\Invitation\UpdateEventRequest;
 use App\Http\Requests\Invitation\UpdateInvitationRequest;
 use App\Models\Invitation;
@@ -21,6 +22,7 @@ use App\Models\InvitationEvent;
 use App\Models\InvitationGallery;
 use App\Models\InvitationSection;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -78,11 +80,19 @@ class InvitationController extends Controller
     }
 
     // ─── PUT /api/invitations/{invitation}/slug ──────────────────
-    // Change the public slug. The old slug is kept as an alias so links that
-    // were already shared keep working (public route redirects alias → current).
+    // Change the public slug — only allowed while the invitation is still a
+    // draft (not yet shared). Once published the link is locked. Changing a
+    // draft slug frees the old one (no alias) since it was never shared, which
+    // avoids piling up many URLs for one invitation.
     public function updateSlug(Request $request, Invitation $invitation): JsonResponse
     {
         $this->authorize('update', $invitation);
+
+        // Locked after publish — already-shared links must stay stable.
+        $status = $invitation->status instanceof InvitationStatus ? $invitation->status : InvitationStatus::from($invitation->status);
+        if ($status !== InvitationStatus::Draft) {
+            return response()->json(['message' => 'Undangan sudah dipublish — link tidak bisa diubah lagi.'], 422);
+        }
 
         $data = $request->validate([
             'slug' => ['required', 'string', 'min:3', 'max:100', 'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/'],
@@ -103,10 +113,10 @@ class InvitationController extends Controller
         }
 
         try {
-            \Illuminate\Support\Facades\DB::transaction(function () use ($invitation, $slug, $old) {
-                // Keep the old slug as a redirect alias (skip random system slugs is fine — harmless).
-                \App\Models\InvitationSlugAlias::updateOrCreate(['slug' => $old], ['invitation_id' => $invitation->id]);
-                // The new slug becomes live — drop any alias that pointed here.
+            \Illuminate\Support\Facades\DB::transaction(function () use ($invitation, $slug) {
+                // Draft slug was never shared → no alias kept; old slug is freed.
+                // Also clear any stale aliases owned by this invitation.
+                \App\Models\InvitationSlugAlias::where('invitation_id', $invitation->id)->delete();
                 \App\Models\InvitationSlugAlias::where('slug', $slug)->delete();
                 $invitation->update(['slug' => $slug]);
             });
@@ -352,9 +362,15 @@ class InvitationController extends Controller
             return response()->json(['message' => 'Beberapa foto tidak ditemukan.'], 422);
         }
 
-        foreach ($ids as $order => $id) {
-            $invitation->galleries()->where('id', $id)->update(['sort_order' => $order]);
-        }
+        // Single UPDATE with a CASE map instead of one query per photo.
+        // (ids are validated `uuid` → safe to inline; no injection surface.)
+        $caseSql = collect($ids)
+            ->map(fn ($id, $order) => "WHEN id = '{$id}' THEN " . (int) $order)
+            ->implode(' ');
+
+        $invitation->galleries()
+            ->whereIn('id', $ids)
+            ->update(['sort_order' => \Illuminate\Support\Facades\DB::raw("CASE {$caseSql} END")]);
 
         return response()->json([
             'data' => $invitation->galleries()->get()->map(fn ($g) => [

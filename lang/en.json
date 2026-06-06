@@ -290,7 +290,8 @@
                     "ucapan": "wishes",
                     "copy": "Copy link",
                     "copied": "Copied!",
-                    "open": "Open"
+                    "open": "Open",
+                    "edit": "Edit invitation"
                 },
                 "budget": {
                     "title": "Wedding Budget",
@@ -310,10 +311,19 @@
                 },
                 "vendor": {
                     "title": "Vendors",
-                    "sub": "sample vendor data"
+                    "sub": "Vendors you've booked",
+                    "empty": "No vendors saved yet",
+                    "addCta": "Add vendor"
                 },
                 "activity": {
-                    "title": "Recent Activity"
+                    "title": "Recent Activity",
+                    "empty": "No activity yet",
+                    "someone": "Someone",
+                    "rsvpAttending": "{name} confirmed attendance",
+                    "rsvpDeclined": "{name} declined attendance",
+                    "ucapan": "{name} left a message",
+                    "taskDone": "{title} marked done",
+                    "vendorBooked": "Vendor {name} booked"
                 },
                 "beyond": {
                     "eyebrow": "Beyond · preview",
@@ -825,7 +835,7 @@
                 "done": "done",
                 "remaining": "left",
                 "urgent": "urgent",
-                "toTheday": "until the day",
+                "toTheDay": "until the day",
                 "daysLeft": "{days} days",
                 "noDate": "set a date",
                 "aiSuggest": "AI suggestions",
@@ -879,14 +889,29 @@
                 "templates": {
                     "title": "Theday Templates",
                     "sub": "Add a ready-made preset",
-                    "standard": "Standard 12-Month Pack",
-                    "standardSub": "Core prep tasks",
-                    "applied": "Already applied"
+                    "standard": "Use the standard checklist",
+                    "standardSub": "Add ready-made tasks for your wedding type",
+                    "applied": "Already applied",
+                    "aiTitle": "Generate with AI",
+                    "aiSub": "A personal checklist for your wedding"
                 },
                 "pic": {
                     "title": "Task Split",
                     "sub": "Your & partner's load"
                 }
+            },
+            "ai": {
+                "title": "Generate Checklist with AI",
+                "adat": "Tradition / culture",
+                "scale": "Guest scale",
+                "style": "Style (optional)",
+                "generate": "Generate",
+                "generating": "Building your checklist…",
+                "add": "Add selected",
+                "allExist": "Your checklist is already complete — no new suggestions.",
+                "disabled": "AI feature is not enabled.",
+                "limited": "Daily generation limit reached. Try again tomorrow.",
+                "failed": "Failed to generate. Please try again."
             },
             "mobile": {
                 "filter": "Filter",
@@ -919,6 +944,32 @@
                     "markUndone": "Mark Undone"
                 }
             }
+        },
+        "documents": {
+            "tabTugas": "Tasks",
+            "tabDokumen": "Documents",
+            "title": "Marriage Documents",
+            "progress": "{done}/{total} documents done",
+            "choosePath": "Choose your registration path first",
+            "pathKua": "Muslim / KUA",
+            "pathSipil": "Civil / Disdukcapil",
+            "flags": {
+                "beda_domisili": "Different domicile",
+                "under21": "Age < 21",
+                "under19": "Age < 19",
+                "widowed": "Widow / widower",
+                "tni_polri": "TNI / Police / civil servant",
+                "late_register": "Registering < 10 days"
+            },
+            "status": { "belum": "Not started", "proses": "In progress", "beres": "Done" },
+            "required": "Required",
+            "optional": "If needed",
+            "upload": "Upload",
+            "replace": "Replace",
+            "remove": "Remove",
+            "guideWhere": "Where to get it",
+            "guideReq": "Requirements",
+            "fileError": "Upload failed. Try again (JPG/PNG/PDF, max 5 MB)."
         },
         "budget": {
             "pageTitle": "Wedding Budget",
@@ -1054,8 +1105,21 @@
                     "settlementSection": "Settlement",
                     "dpPlaceholder": "Rp 0 (optional)",
                     "labelDueDate": "Due Date (optional)",
-                    "labelVendor": "Vendor (optional)",
+                    "labelVendor": "Vendor name (manual)",
                     "vendorPlaceholder": "Vendor name",
+                    "labelLinkVendor": "Link to vendor",
+                    "vendorNone": "— No vendor (enter manually) —",
+                    "linkVendorHint": "Cost & payment follow the Vendor Tracker. No manual entry needed.",
+                    "vendorLinkedNotice": "Linked to vendor — changes save to the Vendor Tracker",
+                    "vendorTotalCost": "Total cost",
+                    "vendorPaid": "Paid",
+                    "writeThroughHint": "This cost & payment save to the vendor record. Editable here or in the Vendor tab.",
+                    "openVendorTab": "Open in Vendor Tracker →",
+                    "vendorStatus": "Status",
+                    "vendorStatusPaid": "Paid off",
+                    "vendorStatusDp": "Deposit",
+                    "vendorStatusBooked": "Booked",
+                    "editInVendor": "Edit in Vendor Tracker →",
                     "labelNotes": "Notes (optional)",
                     "notesPlaceholder": "Additional notes",
                     "cancel": "Cancel",
@@ -1099,14 +1163,34 @@
                 "categoryArchived": "Category archived successfully.",
                 "categoryArchiveError": "Failed to archive category."
             },
-            "hero": { "total": "Total Budget", "used": "Spent", "remaining": "Remaining", "status": "Status", "ofBudget": "{pct}% of budget", "onTrack": "On track — within timeline", "overBudget": "Over budget", "forecast": "Final forecast" },
+            "hero": { "total": "Total Budget", "used": "Spent", "remaining": "Remaining", "status": "Status", "ofBudget": "{pct}% of budget", "onTrack": "On track — within timeline", "overBudget": "Over budget", "forecast": "Final forecast", "forecastOver": "Projected {amount} over", "forecastUnder": "Projected {amount} left", "forecastBasis": "from current commitments" },
             "donut": { "title": "Distribution", "sub": "Spend composition", "used": "spent", "empty": "No category data yet" },
             "bars": { "title": "Per Category", "sub": "Budget vs spent", "empty": "No categories yet" },
             "table": { "expense": "Expense", "category": "Category", "vendor": "Vendor", "date": "Date", "amount": "Amount", "status": "Status", "empty": "No expenses yet" },
             "rail": {
                 "upcoming": { "title": "Up Next Payments", "sub": "Nearest due", "empty": "No scheduled payments" },
-                "ai": { "title": "AI Insight", "sample": "MUA & Attire is barely used — couples usually start fittings around H-60. Check vendor estimates now?", "cta": "See recommendations" },
+                "ai": { "title": "AI Insight", "sample": "MUA & Attire is barely used — couples usually start fittings around H-60. Check vendor estimates now?", "cta": "See recommendations", "refresh": "Refresh", "loading": "Analyzing your budget…", "empty": "Not enough data for insights yet. Add a vendor or expense first.", "limited": "Daily insight limit reached. Try again tomorrow.", "disclaimer": "AI-generated from your data — always double-check." },
                 "notes": { "title": "Couple Notes", "sub": "{count} notes", "placeholder": "Write a note…", "send": "Send" }
+            }
+        },
+        "planner": {
+            "title": "AI Wedding Planner",
+            "refresh": "Refresh",
+            "hide": "Hide",
+            "show": "Show",
+            "open": "Open →",
+            "empty": "Not enough data for guidance yet. Set a date, checklist, or vendor first.",
+            "limited": "Daily guidance limit reached. Try again tomorrow.",
+            "disclaimer": "AI-generated from your data — always double-check.",
+            "strip": {
+                "daysToGo": "{days} days to go",
+                "done": "{done} tasks done",
+                "forecast": "forecast {amount}"
+            },
+            "facts": {
+                "dueThisWeek": "{n} tasks this week",
+                "overdue": "{n} overdue",
+                "paymentsDue": "{n} payments due"
             }
         },
         "guests": {
@@ -1752,7 +1836,40 @@
             },
             "searchPlaceholder": "Search guests, vendors, docs...",
             "searchSoon": "Search coming soon",
-            "shareInvite": "Share invitation"
+            "shareInvite": "Share invitation",
+            "language": "Language"
+        },
+        "search": {
+            "placeholder": "Search guests, vendors, invitations, tasks…",
+            "loading": "Searching…",
+            "empty": "No results",
+            "groups": {
+                "guest": "Guests",
+                "vendor": "Vendors",
+                "invitation": "Invitations",
+                "task": "Tasks",
+                "nav": "Go to page",
+                "action": "Quick actions"
+            },
+            "nav": {
+                "invitations": "Invitations",
+                "guests": "Guest List",
+                "rsvp": "RSVP",
+                "bukuTamu": "Guestbook",
+                "budget": "Budget Planner",
+                "planner": "Wedding Planner",
+                "moodboard": "Moodboard",
+                "vendor": "Vendors",
+                "templates": "Templates",
+                "paket": "Plans & Billing",
+                "transactions": "Payment History"
+            },
+            "actions": {
+                "newInvitation": "Create new invitation",
+                "addGuest": "Add guest",
+                "addVendor": "Add vendor",
+                "addExpense": "Add expense"
+            }
         }
     },
     "auth": {

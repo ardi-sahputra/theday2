@@ -292,7 +292,8 @@
                     "ucapan": "ucapan",
                     "copy": "Salin link",
                     "copied": "Tersalin!",
-                    "open": "Buka"
+                    "open": "Buka",
+                    "edit": "Edit undangan"
                 },
                 "budget": {
                     "title": "Anggaran Pernikahan",
@@ -312,10 +313,19 @@
                 },
                 "vendor": {
                     "title": "Vendor",
-                    "sub": "contoh data vendor"
+                    "sub": "Vendor yang sudah kamu booking",
+                    "empty": "Belum ada vendor tersimpan",
+                    "addCta": "Tambah vendor"
                 },
                 "activity": {
-                    "title": "Aktivitas Terbaru"
+                    "title": "Aktivitas Terbaru",
+                    "empty": "Belum ada aktivitas",
+                    "someone": "Seseorang",
+                    "rsvpAttending": "{name} konfirmasi hadir",
+                    "rsvpDeclined": "{name} konfirmasi tidak hadir",
+                    "ucapan": "{name} menulis ucapan",
+                    "taskDone": "{title} ditandai selesai",
+                    "vendorBooked": "Vendor {name} di-booking"
                 },
                 "beyond": {
                     "eyebrow": "Beyond · pratinjau",
@@ -827,7 +837,7 @@
                 "done": "selesai",
                 "remaining": "tersisa",
                 "urgent": "mendesak",
-                "toTheday": "menuju hari H",
+                "toTheDay": "menuju hari H",
                 "daysLeft": "{days} hari",
                 "noDate": "atur tanggal",
                 "aiSuggest": "Saran AI",
@@ -881,14 +891,29 @@
                 "templates": {
                     "title": "Template Theday",
                     "sub": "Tambah preset siap pakai",
-                    "standard": "Paket Standar 12 Bulan",
-                    "standardSub": "Tugas dasar persiapan",
-                    "applied": "Sudah diterapkan"
+                    "standard": "Pakai checklist standar",
+                    "standardSub": "Tambah tugas siap pakai sesuai tipe pernikahanmu",
+                    "applied": "Sudah diterapkan",
+                    "aiTitle": "Buatkan dengan AI",
+                    "aiSub": "Checklist personal sesuai pernikahanmu"
                 },
                 "pic": {
                     "title": "Pembagian Tugas",
                     "sub": "Beban kamu & pasangan"
                 }
+            },
+            "ai": {
+                "title": "Buat Checklist dengan AI",
+                "adat": "Adat / budaya",
+                "scale": "Skala tamu",
+                "style": "Gaya (opsional)",
+                "generate": "Buatkan",
+                "generating": "Menyusun checklist untukmu…",
+                "add": "Tambahkan terpilih",
+                "allExist": "Checklist kamu sudah lengkap — tidak ada usulan baru.",
+                "disabled": "Fitur AI belum aktif.",
+                "limited": "Batas pembuatan harian tercapai. Coba lagi besok.",
+                "failed": "Gagal membuat checklist. Coba lagi."
             },
             "mobile": {
                 "filter": "Filter",
@@ -921,6 +946,32 @@
                     "markUndone": "Batalkan Selesai"
                 }
             }
+        },
+        "documents": {
+            "tabTugas": "Tugas",
+            "tabDokumen": "Dokumen",
+            "title": "Dokumen Nikah",
+            "progress": "{done}/{total} dokumen beres",
+            "choosePath": "Pilih jalur pengurusan dulu",
+            "pathKua": "Islam / KUA",
+            "pathSipil": "Sipil / Disdukcapil",
+            "flags": {
+                "beda_domisili": "Beda domisili",
+                "under21": "Usia < 21",
+                "under19": "Usia < 19",
+                "widowed": "Duda / janda",
+                "tni_polri": "TNI / Polri / PNS",
+                "late_register": "Daftar < 10 hari"
+            },
+            "status": { "belum": "Belum", "proses": "Proses", "beres": "Beres" },
+            "required": "Wajib",
+            "optional": "Jika perlu",
+            "upload": "Unggah",
+            "replace": "Ganti",
+            "remove": "Hapus",
+            "guideWhere": "Di mana urus",
+            "guideReq": "Syarat",
+            "fileError": "Gagal unggah. Coba lagi (JPG/PNG/PDF, maks 5 MB)."
         },
         "budget": {
             "pageTitle": "Anggaran Pernikahan",
@@ -1056,8 +1107,21 @@
                     "settlementSection": "Pelunasan",
                     "dpPlaceholder": "Rp 0 (opsional)",
                     "labelDueDate": "Jatuh Tempo (opsional)",
-                    "labelVendor": "Vendor (opsional)",
+                    "labelVendor": "Nama vendor (manual)",
                     "vendorPlaceholder": "Nama vendor",
+                    "labelLinkVendor": "Hubungkan ke vendor",
+                    "vendorNone": "— Tanpa vendor (isi manual) —",
+                    "linkVendorHint": "Harga & pembayaran ikut data di Vendor Tracker. Tidak perlu isi manual.",
+                    "vendorLinkedNotice": "Terhubung ke vendor — perubahan tersimpan ke Vendor Tracker",
+                    "vendorTotalCost": "Total biaya",
+                    "vendorPaid": "Terbayar",
+                    "writeThroughHint": "Biaya & pembayaran ini tersimpan ke data vendor. Bisa diedit dari sini atau dari tab Vendor.",
+                    "openVendorTab": "Buka di Vendor Tracker →",
+                    "vendorStatus": "Status",
+                    "vendorStatusPaid": "Lunas",
+                    "vendorStatusDp": "DP",
+                    "vendorStatusBooked": "Booked",
+                    "editInVendor": "Ubah di Vendor Tracker →",
                     "labelNotes": "Catatan (opsional)",
                     "notesPlaceholder": "Catatan tambahan",
                     "cancel": "Batal",
@@ -1101,14 +1165,34 @@
                 "categoryArchived": "Kategori berhasil diarsipkan.",
                 "categoryArchiveError": "Gagal mengarsipkan kategori."
             },
-            "hero": { "total": "Total Budget", "used": "Terpakai", "remaining": "Sisa", "status": "Status", "ofBudget": "{pct}% dari budget", "onTrack": "On track — sesuai timeline", "overBudget": "Melebihi budget", "forecast": "Forecast akhir" },
+            "hero": { "total": "Total Budget", "used": "Terpakai", "remaining": "Sisa", "status": "Status", "ofBudget": "{pct}% dari budget", "onTrack": "On track — sesuai timeline", "overBudget": "Melebihi budget", "forecast": "Forecast akhir", "forecastOver": "Diproyeksi lewat {amount}", "forecastUnder": "Diproyeksi sisa {amount}", "forecastBasis": "dari komitmen saat ini" },
             "donut": { "title": "Distribusi", "sub": "Komposisi terpakai", "used": "terpakai", "empty": "Belum ada data kategori" },
             "bars": { "title": "Per Kategori", "sub": "Bandingkan budget vs terpakai", "empty": "Belum ada kategori" },
             "table": { "expense": "Pengeluaran", "category": "Kategori", "vendor": "Vendor", "date": "Tanggal", "amount": "Jumlah", "status": "Status", "empty": "Belum ada pengeluaran" },
             "rail": {
                 "upcoming": { "title": "Pembayaran Berikutnya", "sub": "Jatuh tempo terdekat", "empty": "Tidak ada pembayaran terjadwal" },
-                "ai": { "title": "Insight AI", "sample": "Kategori MUA & Busana baru terpakai sedikit — biasanya pasangan mulai fitting H-60. Cek estimasi vendor sekarang?", "cta": "Lihat rekomendasi" },
+                "ai": { "title": "Insight AI", "sample": "Kategori MUA & Busana baru terpakai sedikit — biasanya pasangan mulai fitting H-60. Cek estimasi vendor sekarang?", "cta": "Lihat rekomendasi", "refresh": "Segarkan", "loading": "Menganalisis anggaranmu…", "empty": "Belum cukup data untuk insight. Tambah vendor atau pengeluaran dulu.", "limited": "Batas insight harian tercapai. Coba lagi besok.", "disclaimer": "Insight dibuat AI dari datamu — selalu cek ulang." },
                 "notes": { "title": "Diskusi Pasangan", "sub": "{count} catatan", "placeholder": "Tulis catatan…", "send": "Kirim" }
+            }
+        },
+        "planner": {
+            "title": "AI Wedding Planner",
+            "refresh": "Segarkan",
+            "hide": "Sembunyikan",
+            "show": "Tampilkan",
+            "open": "Buka →",
+            "empty": "Belum cukup data untuk arahan. Lengkapi tanggal, checklist, atau vendor dulu.",
+            "limited": "Batas arahan harian tercapai. Coba lagi besok.",
+            "disclaimer": "Arahan dibuat AI dari datamu — selalu cek ulang.",
+            "strip": {
+                "daysToGo": "H-{days}",
+                "done": "{done} task selesai",
+                "forecast": "forecast {amount}"
+            },
+            "facts": {
+                "dueThisWeek": "{n} task minggu ini",
+                "overdue": "{n} overdue",
+                "paymentsDue": "{n} pembayaran jatuh tempo"
             }
         },
         "guests": {
@@ -1754,7 +1838,40 @@
             },
             "searchPlaceholder": "Cari tamu, vendor, dokumen...",
             "searchSoon": "Pencarian segera hadir",
-            "shareInvite": "Bagikan undangan"
+            "shareInvite": "Bagikan undangan",
+            "language": "Bahasa"
+        },
+        "search": {
+            "placeholder": "Cari tamu, vendor, undangan, tugas…",
+            "loading": "Mencari…",
+            "empty": "Tidak ada hasil",
+            "groups": {
+                "guest": "Tamu",
+                "vendor": "Vendor",
+                "invitation": "Undangan",
+                "task": "Tugas",
+                "nav": "Buka halaman",
+                "action": "Aksi cepat"
+            },
+            "nav": {
+                "invitations": "Undangan",
+                "guests": "Daftar Tamu",
+                "rsvp": "RSVP",
+                "bukuTamu": "Buku Tamu",
+                "budget": "Budget Planner",
+                "planner": "Wedding Planner",
+                "moodboard": "Moodboard",
+                "vendor": "Vendor",
+                "templates": "Template",
+                "paket": "Paket & Langganan",
+                "transactions": "Riwayat Pembayaran"
+            },
+            "actions": {
+                "newInvitation": "Buat undangan baru",
+                "addGuest": "Tambah tamu",
+                "addVendor": "Tambah vendor",
+                "addExpense": "Tambah pengeluaran"
+            }
         }
     },
     "auth": {
