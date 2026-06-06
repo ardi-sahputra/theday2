@@ -1,6 +1,7 @@
 <script setup>
-import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
+import { computed } from 'vue';
 import { Link } from '@inertiajs/vue3';
+import { useNavScroll } from '@/Composables/useNavScroll';
 
 const emit = defineEmits(['toggle-more']);
 defineProps({ moreOpen: { type: Boolean, default: false } });
@@ -32,18 +33,8 @@ const tabs = [
     },
 ];
 
-// ── Scroll detection ──────────────────────────────────────────────────
-const isScrolling = ref(false);
-let scrollTimer = null;
-
-function onScroll() {
-    isScrolling.value = true;
-    clearTimeout(scrollTimer);
-    scrollTimer = setTimeout(() => { isScrolling.value = false; }, 350);
-}
-
-onMounted(() => window.addEventListener('scroll', onScroll, { passive: true }));
-onBeforeUnmount(() => { window.removeEventListener('scroll', onScroll); clearTimeout(scrollTimer); });
+// ── Scroll detection (shared singleton via composable) ────────────────
+const { isScrolling } = useNavScroll();
 
 // ── Active helpers ────────────────────────────────────────────────────
 const isActive = (patterns) => {
@@ -58,6 +49,15 @@ const isMoreActive = computed(() => {
     try { return morePatterns.some(p => route().current(p)); } catch { return false; }
 });
 
+// Index of the tab that stays visible when scrolling.
+// tabs.length = More button. Falls back to 0 (Home) if nothing active.
+const scrollVisibleIdx = computed(() => {
+    const idx = tabs.findIndex(t => isActive(t.activePatterns));
+    if (idx !== -1) return idx;
+    if (isMoreActive.value) return tabs.length; // More
+    return 0; // fallback Home
+});
+
 // ── Transition timing tokens ──────────────────────────────────────────
 const T_IN  = 'max-width 0.20s ease-in, opacity 0.15s ease-in, padding 0.20s ease-in, min-height 0.20s ease-in';
 const T_OUT = 'max-width 0.50s cubic-bezier(0.34,1.56,0.64,1), opacity 0.30s ease-out 0.05s, padding 0.40s ease-out, min-height 0.40s ease-out';
@@ -68,12 +68,12 @@ const PILL_T_OUT = 'width 0.50s cubic-bezier(0.34,1.56,0.64,1)';
 <template>
     <nav
         class="fixed bottom-0 inset-x-0 z-30 lg:hidden flex items-end"
-        :class="isScrolling ? 'justify-start' : 'justify-center'"
+        :style="{ justifyContent: isScrolling ? 'flex-start' : 'center' }"
         style="padding-bottom: max(env(safe-area-inset-bottom), 10px);"
         role="navigation"
         aria-label="Mobile navigation"
     >
-        <!-- Pill container — shrinks to 60px when scrolling -->
+        <!-- Pill container — shrinks to 60px (active icon only) when scrolling -->
         <div
             class="flex rounded-[26px] overflow-hidden relative"
             :style="{
@@ -91,44 +91,9 @@ const PILL_T_OUT = 'width 0.50s cubic-bezier(0.34,1.56,0.64,1)';
             <div class="absolute inset-x-0 top-0 h-px pointer-events-none"
                  style="background: linear-gradient(90deg, transparent 5%, rgba(255,255,255,0.85) 30%, rgba(255,255,255,0.85) 70%, transparent 95%);" />
 
-            <!-- ── Home — always visible ───────────────────────────── -->
+            <!-- ── All 4 tabs — same collapse logic ──────────────────── -->
             <Link
-                :href="route('dashboard')"
-                prefetch="mount"
-                cache-for="1m"
-                aria-label="Home"
-                :aria-current="isActive(['dashboard']) ? 'page' : undefined"
-                class="flex-1 flex flex-col justify-center text-[10px]"
-                :class="[isActive(['dashboard']) ? 'font-semibold' : 'font-medium', isScrolling ? 'items-start' : 'items-center']"
-                :style="{ color: isActive(['dashboard']) ? '#1F2A2E' : 'rgba(31,42,46,0.42)', minHeight: '56px', padding: '8px 0' }"
-            >
-                <span
-                    class="grid place-items-center w-12 h-7 rounded-full transition-all duration-200"
-                    :class="isScrolling ? '' : 'mb-0.5'"
-                    :style="isActive(['dashboard'])
-                        ? 'background:rgba(146,168,156,0.28); border:1px solid rgba(255,255,255,0.65); box-shadow:inset 0 1px 0 rgba(255,255,255,0.75),0 2px 8px rgba(146,168,156,0.22);'
-                        : 'background:transparent; border:1px solid transparent;'"
-                >
-                    <svg class="w-[21px] h-[21px]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
-                    </svg>
-                </span>
-                <!-- Label fades out independently when scrolling -->
-                <span
-                    style="overflow:hidden; white-space:nowrap;"
-                    :style="{
-                        maxHeight: isScrolling ? '0' : '16px',
-                        opacity: isScrolling ? 0 : 1,
-                        transition: isScrolling
-                            ? 'max-height 0.18s ease-in, opacity 0.12s ease-in'
-                            : 'max-height 0.40s ease-out, opacity 0.28s ease-out 0.10s',
-                    }"
-                >Home</span>
-            </Link>
-
-            <!-- ── Undangan / Budget / Planner — collapse on scroll ── -->
-            <Link
-                v-for="tab in tabs.slice(1)"
+                v-for="(tab, idx) in tabs"
                 :key="tab.routeName"
                 :href="route(tab.routeName)"
                 prefetch="mount"
@@ -140,26 +105,38 @@ const PILL_T_OUT = 'width 0.50s cubic-bezier(0.34,1.56,0.64,1)';
                 :style="{
                     color: isActive(tab.activePatterns) ? '#1F2A2E' : 'rgba(31,42,46,0.42)',
                     flex: 1,
-                    maxWidth: isScrolling ? '0' : '200px',
-                    opacity: isScrolling ? 0 : 1,
-                    pointerEvents: isScrolling ? 'none' : 'auto',
-                    minHeight: isScrolling ? '0' : '56px',
-                    padding: isScrolling ? '0' : '8px 0',
+                    maxWidth: isScrolling && scrollVisibleIdx !== idx ? '0' : '200px',
+                    opacity: isScrolling && scrollVisibleIdx !== idx ? 0 : 1,
+                    pointerEvents: isScrolling && scrollVisibleIdx !== idx ? 'none' : 'auto',
+                    minHeight: isScrolling && scrollVisibleIdx !== idx ? '0' : '56px',
+                    padding: isScrolling && scrollVisibleIdx !== idx ? '0' : '8px 0',
                     transition: isScrolling ? T_IN : T_OUT,
                 }"
             >
+                <!-- Icon — no active style while scrolling -->
                 <span
-                    class="grid place-items-center w-12 h-7 rounded-full mb-0.5 transition-all duration-200"
-                    :style="isActive(tab.activePatterns)
+                    class="grid place-items-center w-12 h-7 rounded-full transition-all duration-200"
+                    :class="isScrolling ? '' : 'mb-0.5'"
+                    :style="!isScrolling && isActive(tab.activePatterns)
                         ? 'background:rgba(146,168,156,0.28); border:1px solid rgba(255,255,255,0.65); box-shadow:inset 0 1px 0 rgba(255,255,255,0.75),0 2px 8px rgba(146,168,156,0.22);'
                         : 'background:transparent; border:1px solid transparent;'"
                 >
                     <svg class="w-[21px] h-[21px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" v-html="tab.icon" />
                 </span>
-                <span>{{ tab.label }}</span>
+                <!-- Label — fades out when scrolling -->
+                <span
+                    style="overflow:hidden; white-space:nowrap;"
+                    :style="{
+                        maxHeight: isScrolling ? '0' : '16px',
+                        opacity: isScrolling ? 0 : 1,
+                        transition: isScrolling
+                            ? 'max-height 0.18s ease-in, opacity 0.12s ease-in'
+                            : 'max-height 0.40s ease-out, opacity 0.28s ease-out 0.10s',
+                    }"
+                >{{ tab.label }}</span>
             </Link>
 
-            <!-- ── More — collapse on scroll ────────────────────────── -->
+            <!-- ── More — same collapse logic ────────────────────────── -->
             <button
                 type="button"
                 aria-label="More menu"
@@ -170,18 +147,19 @@ const PILL_T_OUT = 'width 0.50s cubic-bezier(0.34,1.56,0.64,1)';
                 :style="{
                     color: (moreOpen || isMoreActive) ? '#1F2A2E' : 'rgba(31,42,46,0.42)',
                     flex: 1,
-                    maxWidth: isScrolling ? '0' : '200px',
-                    opacity: isScrolling ? 0 : 1,
-                    pointerEvents: isScrolling ? 'none' : 'auto',
-                    minHeight: isScrolling ? '0' : '56px',
-                    padding: isScrolling ? '0' : '8px 0',
+                    maxWidth: isScrolling && scrollVisibleIdx !== tabs.length ? '0' : '200px',
+                    opacity: isScrolling && scrollVisibleIdx !== tabs.length ? 0 : 1,
+                    pointerEvents: isScrolling && scrollVisibleIdx !== tabs.length ? 'none' : 'auto',
+                    minHeight: isScrolling && scrollVisibleIdx !== tabs.length ? '0' : '56px',
+                    padding: isScrolling && scrollVisibleIdx !== tabs.length ? '0' : '8px 0',
                     transition: isScrolling ? T_IN : T_OUT,
                 }"
                 @click="emit('toggle-more')"
             >
                 <span
-                    class="grid place-items-center w-12 h-7 rounded-full mb-0.5 transition-all duration-200"
-                    :style="(moreOpen || isMoreActive)
+                    class="grid place-items-center w-12 h-7 rounded-full transition-all duration-200"
+                    :class="isScrolling ? '' : 'mb-0.5'"
+                    :style="!isScrolling && (moreOpen || isMoreActive)
                         ? 'background:rgba(146,168,156,0.28); border:1px solid rgba(255,255,255,0.65); box-shadow:inset 0 1px 0 rgba(255,255,255,0.75),0 2px 8px rgba(146,168,156,0.22);'
                         : 'background:transparent; border:1px solid transparent;'"
                 >
@@ -189,7 +167,16 @@ const PILL_T_OUT = 'width 0.50s cubic-bezier(0.34,1.56,0.64,1)';
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"/>
                     </svg>
                 </span>
-                <span>More</span>
+                <span
+                    style="overflow:hidden; white-space:nowrap;"
+                    :style="{
+                        maxHeight: isScrolling ? '0' : '16px',
+                        opacity: isScrolling ? 0 : 1,
+                        transition: isScrolling
+                            ? 'max-height 0.18s ease-in, opacity 0.12s ease-in'
+                            : 'max-height 0.40s ease-out, opacity 0.28s ease-out 0.10s',
+                    }"
+                >More</span>
             </button>
         </div>
     </nav>
