@@ -68,8 +68,16 @@ class DashboardController extends Controller
 
         $invitationIds = $invitations->pluck('id');
 
-        $rsvpAttending = Rsvp::whereIn('invitation_id', $invitationIds)
-            ->where('attendance', AttendanceStatus::Hadir->value)->count();
+        // Single pass for both RSVP aggregates (attending + last-24h) instead of
+        // two separate COUNT queries over the same rows.
+        $rsvpStats = Rsvp::whereIn('invitation_id', $invitationIds)
+            ->selectRaw(
+                'sum(case when attendance = ? then 1 else 0 end) as attending, '
+                .'sum(case when created_at >= ? then 1 else 0 end) as recent',
+                [AttendanceStatus::Hadir->value, now()->subDay()->toDateTimeString()]
+            )->first();
+        $rsvpAttending = (int) ($rsvpStats->attending ?? 0);
+        $newRsvpCount  = (int) ($rsvpStats->recent ?? 0);
         $rsvpTotal     = (int) $invitations->sum('rsvps_count');
         $ucapanCount   = GuestMessage::whereIn('invitation_id', $invitationIds)
             ->where('is_approved', true)->count();
@@ -201,9 +209,7 @@ class DashboardController extends Controller
 
         // ── Next-action hero: the single most important step for this couple ──
         $overdueTask  = $upcomingTasks->firstWhere('is_overdue', true);
-        $newRsvpCount = Rsvp::whereIn('invitation_id', $invitationIds)
-            ->where('created_at', '>=', now()->subDay())
-            ->count();
+        // $newRsvpCount computed above alongside $rsvpAttending (single query).
         $dueSoonCount = $plan->checklistTasks()
             ->where('status', ChecklistTaskStatus::Todo)
             ->whereNotNull('due_date')

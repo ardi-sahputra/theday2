@@ -32,7 +32,10 @@ final class InitializeWeddingBudgetAction
                 }
             }
 
-            return $budget->fresh();
+            // firstOrCreate already returns a fully-hydrated model when the
+            // budget exists (the common path); only re-fetch when we just
+            // created it, saving a query on every dashboard/budget load.
+            return $budget->wasRecentlyCreated ? $budget->fresh() : $budget;
         });
     }
 }
