@@ -316,6 +316,18 @@
             animation: heroRise 0.75s cubic-bezier(0.22, 1, 0.36, 1) forwards;
         }
 
+        /* The hero H1 is the LCP element. A fade-in (opacity:0) delays LCP
+           because the text isn't "painted" until the animation runs. Keep the
+           slide-up motion but paint it visible immediately. */
+        @keyframes heroSlide {
+            from { transform: translateY(26px); }
+            to   { transform: translateY(0); }
+        }
+        h1.hero-anim.font-hero-display {
+            opacity: 1;
+            animation-name: heroSlide;
+        }
+
         .hero-illustration {
             opacity: 0;
             animation: heroScale 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.3s forwards;
