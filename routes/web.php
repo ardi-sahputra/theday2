@@ -52,25 +52,33 @@ Route::get('/maintenance', function (\Illuminate\Http\Request $request) {
 $renderLanding = function (string $locale) {
     app()->setLocale($locale);
 
-    $featuredArticles = \App\Models\Article::published()
-        ->with('category')
-        ->orderByRaw('featured DESC, published_at DESC')
-        ->limit(3)
-        ->get()
-        ->map(fn ($a) => [
-            'title'           => $a->title,
-            'slug'            => $a->slug,
-            'excerpt'         => $a->excerpt,
-            'cover_image_url' => $a->cover_image_url,
-            'published_at'    => $a->published_at?->toDateString(),
-            'reading_time'    => $a->reading_time,
-            'category'        => $a->category ? ['name' => $a->category->name, 'slug' => $a->category->slug] : null,
-        ]);
+    // Landing data changes rarely; cache to cut per-request DB round-trips
+    // (TTFB) on the highest-traffic page. Articles are locale-dependent.
+    $featuredArticles = \Illuminate\Support\Facades\Cache::remember(
+        "landing.featured_articles.{$locale}", now()->addMinutes(10),
+        fn () => \App\Models\Article::published()
+            ->with('category')
+            ->orderByRaw('featured DESC, published_at DESC')
+            ->limit(3)
+            ->get()
+            ->map(fn ($a) => [
+                'title'           => $a->title,
+                'slug'            => $a->slug,
+                'excerpt'         => $a->excerpt,
+                'cover_image_url' => $a->cover_image_url,
+                'published_at'    => $a->published_at?->toDateString(),
+                'reading_time'    => $a->reading_time,
+                'category'        => $a->category ? ['name' => $a->category->name, 'slug' => $a->category->slug] : null,
+            ])
+    );
 
-    $plans = \App\Models\Plan::where('is_active', true)
-        ->orderBy('sort_order')
-        ->get()
-        ->keyBy('slug');
+    $plans = \Illuminate\Support\Facades\Cache::remember(
+        'landing.plans', now()->addMinutes(10),
+        fn () => \App\Models\Plan::where('is_active', true)
+            ->orderBy('sort_order')
+            ->get()
+            ->keyBy('slug')
+    );
 
     return view('landing', [
         'featuredArticles' => $featuredArticles,
