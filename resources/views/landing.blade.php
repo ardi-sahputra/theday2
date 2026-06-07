@@ -173,7 +173,10 @@
 
         /* Gold button */
         .btn-primary {
-            background-color: var(--color-primary);
+            /* Deeper sage than --color-primary (#92A89C) so white text clears
+               WCAG 4.5:1 (5.4:1). Kept literal so the lighter sage accent used
+               elsewhere via --color-primary is unaffected. */
+            background-color: #5C6F64;
             color: white;
             padding: 0.75rem 2rem;
             border-radius: 0.5rem;
@@ -186,7 +189,7 @@
         }
 
         .btn-primary:hover {
-            background-color: var(--color-primary-dark);
+            background-color: #4F5F55;
             transform: translateY(-1px);
             box-shadow: 0 8px 25px rgba(146, 168, 156, 0.35);
         }
@@ -662,9 +665,8 @@
             {{-- CTA + Lang switcher --}}
             <div class="hidden md:flex items-center gap-3">
                 {{-- Language Toggle --}}
-                <button id="lang-toggle-desktop" onclick="toggleLanguage()" class="lang-btn"
-                    aria-label="Switch language">
-                    <span id="lang-flag-desktop">🇮🇩</span>
+                <button id="lang-toggle-desktop" onclick="toggleLanguage()" class="lang-btn">
+                    <span id="lang-flag-desktop" aria-hidden="true">🇮🇩</span>
                     <span id="lang-label-desktop">ID</span>
                 </button>
 
@@ -689,13 +691,13 @@
 
             {{-- Mobile: lang toggle + hamburger --}}
             <div class="flex md:hidden items-center gap-2">
-                <button id="lang-toggle-mobile" onclick="toggleLanguage()" class="lang-btn"
-                    aria-label="Switch language">
-                    <span id="lang-flag-mobile">🇮🇩</span>
+                <button id="lang-toggle-mobile" onclick="toggleLanguage()" class="lang-btn">
+                    <span id="lang-flag-mobile" aria-hidden="true">🇮🇩</span>
                     <span id="lang-label-mobile">ID</span>
                 </button>
-                <button id="mobile-menu-btn" class="p-2 rounded-lg text-gray-600 hover:bg-gray-100">
-                    <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <button id="mobile-menu-btn" class="p-2 rounded-lg text-gray-600 hover:bg-gray-100"
+                    aria-label="Menu">
+                    <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M4 6h16M4 12h16M4 18h16" />
                     </svg>
@@ -1711,12 +1713,12 @@
                     </p>
                     <div class="flex items-center gap-3">
                         @foreach (['instagram', 'tiktok', 'whatsapp'] as $social)
-                            <a href="#"
+                            <a href="#" aria-label="{{ ucfirst($social) }}"
                                 class="w-9 h-9 rounded-full flex items-center justify-center transition-colors"
                                 style="background: rgba(255,255,255,0.08)"
                                 onmouseover="this.style.background='rgba(146,168,156,0.3)'"
                                 onmouseout="this.style.background='rgba(255,255,255,0.08)'">
-                                <svg class="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                     @if ($social === 'instagram')
                                         <path
                                             d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" />
@@ -1777,8 +1779,8 @@
                 @endphp
                 @foreach ($footerLinks as $section)
                     <div>
-                        <h4 class="text-white font-semibold text-sm mb-4" data-id="{{ $section['id_cat'] }}"
-                            data-en="{{ $section['en_cat'] }}">{{ $section['id_cat'] }}</h4>
+                        <h3 class="text-white font-semibold text-sm mb-4" data-id="{{ $section['id_cat'] }}"
+                            data-en="{{ $section['en_cat'] }}">{{ $section['id_cat'] }}</h3>
                         <ul class="space-y-3">
                             @foreach ($section['links'] as $link)
                                 <li>
