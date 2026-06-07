@@ -849,7 +849,7 @@
 
                             <img src="{{ asset('images/landing/hero-journey.webp') }}"
                                 alt="Perjalanan pasangan dari persiapan, hari pernikahan, sampai kehidupan bersama"
-                                width="1672" height="941" loading="eager" fetchpriority="high" decoding="async"
+                                width="1100" height="619" loading="eager" fetchpriority="high" decoding="async"
                                 style="position:relative; width:100%; height:100%; object-fit:cover; display:block;">
 
                             {{-- dashed border accent --}}
@@ -939,7 +939,7 @@
                     {{-- Card 1: Sebelum --}}
                     <div class="reveal-fade rounded-2xl border p-6 md:p-8 hover:shadow-lg hover:-translate-y-1 transition-all duration-200"
                         style="border-color: rgba(146,168,156,0.2); background-color: #FFFCF7">
-                        <img src="{{ asset('images/landing/phase-1.webp') }}" loading="lazy"
+                        <img src="{{ asset('images/landing/phase-1.webp') }}" loading="lazy" width="760" height="760"
                             class="aspect-square w-full rounded-xl object-cover mb-5"
                             alt="Pasangan menyiapkan pernikahan — checklist, anggaran, daftar tamu">
                         <span class="inline-block px-2.5 py-1 rounded-full text-xs font-semibold mb-3"
@@ -980,7 +980,7 @@
                     {{-- Card 2: Hari H (FLAGSHIP — emphasized) --}}
                     <div class="reveal-fade rounded-2xl p-6 md:p-8 shadow-lg transition-all duration-200 md:scale-[1.02] hover:shadow-xl"
                         style="border: 2px solid #92A89C; background: white; animation-delay: 0.12s">
-                        <img src="{{ asset('images/landing/phase-2.webp') }}" loading="lazy"
+                        <img src="{{ asset('images/landing/phase-2.webp') }}" loading="lazy" width="760" height="760"
                             class="aspect-square w-full rounded-xl object-cover mb-5"
                             alt="Hari pernikahan — undangan digital, RSVP, manajemen tamu">
                         <span class="inline-block px-2.5 py-1 rounded-full text-xs font-semibold text-white mb-3"
@@ -1021,7 +1021,7 @@
                     {{-- Card 3: Setelah (coming soon) --}}
                     <div class="reveal-fade rounded-2xl border p-6 md:p-8 hover:shadow-lg hover:-translate-y-1 transition-all duration-200"
                         style="border-color: rgba(146,168,156,0.2); background-color: rgba(255,252,247,0.6); animation-delay: 0.24s">
-                        <img src="{{ asset('images/landing/phase-3.webp') }}" loading="lazy"
+                        <img src="{{ asset('images/landing/phase-3.webp') }}" loading="lazy" width="760" height="760"
                             class="aspect-square w-full rounded-xl object-cover mb-5"
                             alt="Kehidupan setelah menikah — anniversary, album kenangan, perjalanan bersama">
                         <span class="inline-block px-2.5 py-1 rounded-full text-xs font-semibold mb-3"
@@ -1374,7 +1374,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                     {{-- Step 1 --}}
                     <div class="text-center reveal">
-                        <img src="{{ asset('images/landing/step-1.webp') }}" alt="Daftar Gratis" loading="lazy"
+                        <img src="{{ asset('images/landing/step-1.webp') }}" alt="Daftar Gratis" loading="lazy" width="600" height="600"
                             class="w-28 h-28 mx-auto rounded-2xl object-contain mb-4">
                         <div class="w-8 h-8 mx-auto rounded-full text-white flex items-center justify-center font-bold mb-3 text-sm"
                             style="background-color: #92A89C">1</div>
@@ -1387,7 +1387,7 @@
                     </div>
                     {{-- Step 2 --}}
                     <div class="text-center reveal">
-                        <img src="{{ asset('images/landing/step-2.webp') }}" alt="Atur Tanggal & Lokasi" loading="lazy"
+                        <img src="{{ asset('images/landing/step-2.webp') }}" alt="Atur Tanggal & Lokasi" loading="lazy" width="600" height="600"
                             class="w-28 h-28 mx-auto rounded-2xl object-contain mb-4">
                         <div class="w-8 h-8 mx-auto rounded-full text-white flex items-center justify-center font-bold mb-3 text-sm"
                             style="background-color: #92A89C">2</div>
@@ -1400,7 +1400,7 @@
                     </div>
                     {{-- Step 3 --}}
                     <div class="text-center reveal">
-                        <img src="{{ asset('images/landing/step-3.webp') }}" alt="Mulai dari Fase Mana Aja" loading="lazy"
+                        <img src="{{ asset('images/landing/step-3.webp') }}" alt="Mulai dari Fase Mana Aja" loading="lazy" width="600" height="600"
                             class="w-28 h-28 mx-auto rounded-2xl object-contain mb-4">
                         <div class="w-8 h-8 mx-auto rounded-full text-white flex items-center justify-center font-bold mb-3 text-sm"
                             style="background-color: #92A89C">3</div>
