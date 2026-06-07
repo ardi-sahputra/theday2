@@ -76,18 +76,52 @@
     </script>
     @endguest
 
-    {{-- ── Fonts ─────────────────────────────────────────────────── --}}
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap"
-        rel="stylesheet">
+    {{-- ── Fonts (self-hosted, latin subset, variable woff2) ──────────
+         Self-hosted to drop the render-blocking round-trip to Google's two
+         extra origins (googleapis + gstatic) — the main LCP win on slow 4G.
+         @font-face lives inline so it's discovered in the initial HTML and
+         doesn't wait on app.css. Critical above-the-fold faces are preloaded. --}}
+    <link rel="preload" as="font" type="font/woff2" href="{{ asset('fonts/montserrat-latin.woff2') }}" crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="{{ asset('fonts/cormorant-latin.woff2') }}" crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="{{ asset('fonts/cormorant-italic-latin.woff2') }}" crossorigin>
+    <link rel="preload" as="image" href="{{ asset('images/landing/hero-journey.webp') }}" fetchpriority="high">
 
     {{-- Landing is pure Blade + vanilla JS (no Inertia/Vue mount), so it only
          needs the compiled CSS — not the ~900KB app bundle. --}}
     @vite(['resources/css/app.css'])
 
     <style>
+        /* Self-hosted variable fonts (latin). One woff2 per family covers the
+           full weight range, so all weights below resolve to a single file. */
+        @font-face {
+            font-family: 'Montserrat';
+            font-style: normal;
+            font-weight: 300 700;
+            font-display: swap;
+            src: url('{{ asset('fonts/montserrat-latin.woff2') }}') format('woff2');
+        }
+        @font-face {
+            font-family: 'Cormorant';
+            font-style: normal;
+            font-weight: 500 700;
+            font-display: swap;
+            src: url('{{ asset('fonts/cormorant-latin.woff2') }}') format('woff2');
+        }
+        @font-face {
+            font-family: 'Cormorant';
+            font-style: italic;
+            font-weight: 500 600;
+            font-display: swap;
+            src: url('{{ asset('fonts/cormorant-italic-latin.woff2') }}') format('woff2');
+        }
+        @font-face {
+            font-family: 'Playfair Display';
+            font-style: normal;
+            font-weight: 600 700;
+            font-display: swap;
+            src: url('{{ asset('fonts/playfair-display-latin.woff2') }}') format('woff2');
+        }
+
         :root {
             --color-primary: #92A89C;
             --color-primary-dark: #73877C;
