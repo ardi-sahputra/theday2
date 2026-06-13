@@ -10,6 +10,7 @@ import ChecklistStatStrip from '@/Components/dashboard/checklist/ChecklistStatSt
 import ChecklistFilterChips from '@/Components/dashboard/checklist/ChecklistFilterChips.vue';
 import ChecklistViewToggle from '@/Components/dashboard/checklist/ChecklistViewToggle.vue';
 import TaskKanban from '@/Components/dashboard/checklist/TaskKanban.vue';
+import { selectFocusTasks } from './selectFocusTasks';
 import ReminderRail from '@/Components/dashboard/checklist/rail/ReminderRail.vue';
 import TemplatePresetsRail from '@/Components/dashboard/checklist/rail/TemplatePresetsRail.vue';
 import AiChecklistModal from '@/Components/dashboard/checklist/AiChecklistModal.vue';
@@ -328,6 +329,25 @@ function urgencyInfo(task) {
 const activeTasks   = computed(() => tasks.value.filter(t => t.status !== 'archived'));
 const archivedTasks = computed(() => tasks.value.filter(t => t.status === 'archived'));
 
+const focusScope = ref(
+  typeof localStorage !== 'undefined' && localStorage.getItem('checklistFocusScope') === 'all'
+    ? 'all'
+    : 'focus',
+);
+function setFocusScope(scope) {
+  focusScope.value = scope;
+  try { localStorage.setItem('checklistFocusScope', scope); } catch { /* ignore */ }
+}
+
+const focusResult = computed(() => selectFocusTasks(activeTasks.value, { now: new Date() }));
+
+// Honest momentum line: progress count + an overdue-driven status (no fabricated schedule).
+const focusStatus = computed(() =>
+  summary.value.overdue > 0
+    ? { key: 'behind', params: { n: summary.value.overdue } }
+    : { key: 'onTrack', params: {} },
+);
+
 const priorityOrder = { high: 0, medium: 1, low: 2 };
 
 const baseList = computed(() => {
@@ -517,6 +537,11 @@ function onChip(key) {
 }
 const H_STAMP = { overdue: 'LEWAT', today: 'TODAY', week: '7 HARI', month: 'BULAN INI', later: 'NANTI', done: '✓' };
 const displayList = computed(() => {
+    // Focus scope: show only the curated focus set (timeline view then groups
+    // it by deadline automatically — no separate card markup needed).
+    if (focusScope.value === 'focus' && activeChip.value === 'all') {
+        return focusResult.value.tasks;
+    }
     let list = baseList.value;
     if (activeChip.value === 'urgent') list = list.filter(isUrgentTask);
     return list;
@@ -1063,7 +1088,28 @@ const currentPickerDate = computed(() =>
                             :done-this-month="doneThisMonth"
                             :pic-split="picSplit"
                         />
-                        <ChecklistFilterChips :chips="filterChips" :active="activeChip" @select="onChip" />
+                        <!-- Fokus Sekarang vs Semua -->
+                        <div class="flex items-center justify-between gap-3 mb-3 flex-wrap">
+                            <div class="inline-flex rounded-xl p-0.5" style="background:#EFE7D6;">
+                                <button type="button" @click="setFocusScope('focus')"
+                                        class="px-3 py-1.5 rounded-[10px] text-[12px] font-semibold transition-colors"
+                                        :style="focusScope === 'focus' ? 'background:#1F2A2E; color:#FBFCF9;' : 'color:#6C7A75;'">
+                                    {{ t('dashboard.checklist.focus.tab') }}
+                                </button>
+                                <button type="button" @click="setFocusScope('all')"
+                                        class="px-3 py-1.5 rounded-[10px] text-[12px] font-semibold transition-colors"
+                                        :style="focusScope === 'all' ? 'background:#1F2A2E; color:#FBFCF9;' : 'color:#6C7A75;'">
+                                    {{ t('dashboard.checklist.focus.tabAll') }}
+                                </button>
+                            </div>
+                            <p v-if="focusScope === 'focus'" class="text-[12.5px]" style="color:#6C7A75;">
+                                <span style="color:#1F2A2E; font-weight:600;">{{ t('dashboard.checklist.focus.progress', { done: summary.done, total: summary.total }) }}</span>
+                                · {{ t('dashboard.checklist.focus.' + focusStatus.key, focusStatus.params) }}
+                            </p>
+                        </div>
+                        <ChecklistFilterChips v-if="focusScope === 'all'" :chips="filterChips" :active="activeChip" @select="onChip" />
+                        <p v-else-if="focusResult.mode === 'relaxed'" class="text-[12.5px] mb-3" style="color:#8E6515;">{{ t('dashboard.checklist.focus.relaxed') }}</p>
+                        <p v-else-if="focusResult.mode === 'overdueHeavy'" class="text-[12.5px] mb-3" style="color:#B4524A;">{{ t('dashboard.checklist.focus.overdueHeavy') }}</p>
 
                         <!-- ── All done celebration ───────────────── -->
                         <Transition name="slide-down">
@@ -1449,6 +1495,11 @@ const currentPickerDate = computed(() =>
                                 </Transition>
                             </div>
                         </div>
+                        <button v-if="focusScope === 'focus'" type="button" @click="setFocusScope('all')"
+                                class="w-full mt-2 py-3 rounded-xl text-[13px] font-semibold transition-colors"
+                                style="background:#FBFCF9; border:1px solid #D8DFD2; color:#4A5A4C;">
+                            {{ t('dashboard.checklist.focus.seeAll', { total: activeTasks.length }) }}
+                        </button>
 
                         </template><!-- end timeline/list view -->
                     </div><!-- end main column -->
