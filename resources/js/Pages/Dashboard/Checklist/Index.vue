@@ -1472,7 +1472,7 @@ const currentPickerDate = computed(() =>
                     :has-system-tasks="hasSystemTasks"
                     @select="onChip" @open-filter="showMobileFilter = true" @add-task="openCreate"
                     @open-task="openMobileTask" @toggle="toggle" @show-done="onChip('done')"
-                    @apply-template="applyStandardTemplate" />
+                    @apply-template="applyStandardTemplate" @ai-generate="showAiModal = true" />
             </template>
 
             <MobileFilterSheet
@@ -1632,7 +1632,7 @@ const currentPickerDate = computed(() =>
         </Transition>
 
         <!-- ── AI Checklist Modal ────────────────────────────────── -->
-        <AiChecklistModal v-if="showAiModal" @close="showAiModal = false" @applied="showAiModal = false; loadTasks(); loadSummary();" />
+        <AiChecklistModal v-if="showAiModal" :has-existing="summary.total > 0" @close="showAiModal = false" @applied="showAiModal = false; loadTasks(); loadSummary();" />
 
         <!-- ── Date Picker Modal ──────────────────────────────────── -->
         <Teleport to="body">

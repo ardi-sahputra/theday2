@@ -909,11 +909,18 @@
                 "style": "Gaya (opsional)",
                 "generate": "Buatkan",
                 "generating": "Menyusun checklist untukmu…",
+                "generatingSub": "AI lagi menyesuaikan dengan adat & skala acaramu",
                 "add": "Tambahkan terpilih",
                 "allExist": "Checklist kamu sudah lengkap — tidak ada usulan baru.",
+                "allExistMerge": "Semua usulan sudah ada di checklist-mu. Pilih \"Ganti total\" untuk menyusun ulang dari AI.",
                 "disabled": "Fitur AI belum aktif.",
                 "limited": "Batas pembuatan harian tercapai. Coba lagi besok.",
-                "failed": "Gagal membuat checklist. Coba lagi."
+                "failed": "Gagal membuat checklist. Coba lagi.",
+                "modeMerge": "Tambah yang kurang",
+                "modeMergeSub": "Hanya tugas baru",
+                "modeReplace": "Ganti total",
+                "modeReplaceSub": "Mulai dari AI",
+                "replaceWarn": "Checklist lama akan diarsipkan (bisa dipulihkan)."
             },
             "mobile": {
                 "filter": "Filter",
@@ -928,7 +935,7 @@
                     "priority": "Mendesak dulu",
                     "newest": "Terbaru"
                 },
-                "aiHint": "4 tugas baru berdasarkan progress kamu",
+                "aiHint": "Checklist personal sesuai pernikahanmu",
                 "applyStandardSub": "Tambah tugas siap pakai sesuai tipe pernikahanmu",
                 "tasks": "tugas",
                 "doneTasks": "Tugas selesai",

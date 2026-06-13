@@ -907,11 +907,18 @@
                 "style": "Style (optional)",
                 "generate": "Generate",
                 "generating": "Building your checklist…",
+                "generatingSub": "AI is tailoring it to your tradition & guest scale",
                 "add": "Add selected",
                 "allExist": "Your checklist is already complete — no new suggestions.",
+                "allExistMerge": "Every suggestion is already in your checklist. Pick \"Replace all\" to rebuild from AI.",
                 "disabled": "AI feature is not enabled.",
                 "limited": "Daily generation limit reached. Try again tomorrow.",
-                "failed": "Failed to generate. Please try again."
+                "failed": "Failed to generate. Please try again.",
+                "modeMerge": "Add what's missing",
+                "modeMergeSub": "New tasks only",
+                "modeReplace": "Replace all",
+                "modeReplaceSub": "Start from AI",
+                "replaceWarn": "Existing checklist will be archived (recoverable)."
             },
             "mobile": {
                 "filter": "Filter",
@@ -926,7 +933,7 @@
                     "priority": "Urgent first",
                     "newest": "Newest"
                 },
-                "aiHint": "4 new tasks based on your progress",
+                "aiHint": "A personal checklist for your wedding",
                 "applyStandardSub": "Add ready-made tasks for your wedding type",
                 "tasks": "tasks",
                 "doneTasks": "Completed tasks",

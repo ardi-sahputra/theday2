@@ -1,6 +1,5 @@
 <script setup>
 import WidgetIcon from '@/Components/dashboard/WidgetIcon.vue';
-import DemoBadge from '@/Components/dashboard/DemoBadge.vue';
 import MobileTaskCard from '@/Components/dashboard/checklist/mobile/MobileTaskCard.vue';
 import { useLocale } from '@/Composables/useLocale';
 import { useNavScroll } from '@/Composables/useNavScroll';
@@ -21,7 +20,7 @@ defineProps({
   doneCount:    { type: Number, default: 0 },
   hasSystemTasks: { type: Boolean, default: true },
 });
-const emit = defineEmits(['select', 'openFilter', 'addTask', 'openTask', 'toggle', 'showDone', 'applyTemplate']);
+const emit = defineEmits(['select', 'openFilter', 'addTask', 'openTask', 'toggle', 'showDone', 'applyTemplate', 'aiGenerate']);
 const { t } = useLocale();
 
 const stampColor = (cat) => ({ overdue: '#C19089', today: '#C19089', week: '#D9A24A' }[cat] || '#92A89C');
@@ -60,11 +59,16 @@ const stampColor = (cat) => ({ overdue: '#C19089', today: '#C19089', week: '#D9A
       <WidgetIcon name="plus" :size="16" stroke="#8E6515" />
     </button>
 
-    <div class="rounded-[12px] px-3.5 py-2.5 mb-3.5 flex items-center gap-2.5" style="background:#F4EDDC; border:1px solid #E0D2BD;">
+    <button type="button" @click="emit('aiGenerate')"
+            class="w-full rounded-[12px] px-3.5 py-2.5 mb-3.5 flex items-center gap-2.5 text-left active:opacity-80"
+            style="background:#F4EDDC; border:1px solid #E0D2BD;">
       <div class="w-7 h-7 rounded-lg grid place-items-center flex-shrink-0" style="background:#fff; color:#8E6515;"><WidgetIcon name="sparkle" :size="15" stroke="#8E6515" /></div>
-      <div class="flex-1 text-[12px] leading-snug" style="color:#5A4B1A;"><strong>{{ t('dashboard.checklist.hero.aiSuggest') }}</strong> · {{ t('dashboard.checklist.mobile.aiHint') }}</div>
-      <DemoBadge />
-    </div>
+      <div class="flex-1 min-w-0">
+        <div class="text-[12px] font-semibold leading-snug" style="color:#5A4B1A;">{{ t('dashboard.checklist.hero.aiSuggest') }}</div>
+        <div class="text-[11px] leading-snug" style="color:#8E6515;">{{ t('dashboard.checklist.mobile.aiHint') }}</div>
+      </div>
+      <WidgetIcon name="arrow" :size="16" stroke="#8E6515" />
+    </button>
 
     <div class="flex items-center gap-2 mb-3.5">
       <div class="flex gap-1.5 overflow-x-auto flex-1" style="-webkit-overflow-scrolling:touch;">
