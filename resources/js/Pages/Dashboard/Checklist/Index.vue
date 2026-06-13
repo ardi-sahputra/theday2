@@ -1521,6 +1521,10 @@ const currentPickerDate = computed(() =>
                     :urgent-count="urgentCount" :upcoming7d="summary.upcoming_7d" :days-until="daysUntil" :has-event-date="summary.has_event_date"
                     :chips="filterChips" :active-chip="activeChip" :buckets="mobileBuckets" :done-count="mobileDoneCount"
                     :has-system-tasks="hasSystemTasks"
+                    :focus-scope="focusScope"
+                    :focus-progress="t('dashboard.checklist.focus.progress', { done: summary.done, total: summary.total })"
+                    :focus-status="t('dashboard.checklist.focus.' + focusStatus.key, focusStatus.params)"
+                    @set-focus-scope="setFocusScope"
                     @select="onChip" @open-filter="showMobileFilter = true" @add-task="openCreate"
                     @open-task="openMobileTask" @toggle="toggle" @show-done="onChip('done')"
                     @apply-template="applyStandardTemplate" @ai-generate="showAiModal = true" />
