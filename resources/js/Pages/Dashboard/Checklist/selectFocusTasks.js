@@ -2,6 +2,9 @@
 // it is trivially unit-testable. Mirrors the deadline bucketing used by
 // Index.vue's deadlineGroups (overdue / today / week / month / later).
 
+// Mirrors Index.vue's `priorityOrder`. The `?? 1` fallback below treats an
+// unknown/missing priority as medium, matching that file's convention — task
+// priority is enum-validated server-side, so unknowns are not expected.
 const PRIORITY_ORDER = { high: 0, medium: 1, low: 2 };
 
 function byDueThenPriority(a, b) {
@@ -22,7 +25,11 @@ function byPriority(a, b) {
 
 /**
  * @param {Array} tasks  active task objects ({ id, due_date, status, priority })
- * @param {object} opts  { now, minCount, displayCap, overdueOnlyCap }
+ * @param {object} opts
+ * @param {Date}   opts.now            reference "today" (injected for testability)
+ * @param {number} opts.minCount       min due-soon tasks before topping up from the month bucket
+ * @param {number} opts.displayCap     hard cap on returned tasks
+ * @param {number} opts.overdueOnlyCap cap used when overdue alone exceeds displayCap
  * @returns {{ tasks: Array, mode: 'normal'|'overdueHeavy'|'relaxed' }}
  */
 export function selectFocusTasks(tasks, opts = {}) {
@@ -39,6 +46,8 @@ export function selectFocusTasks(tasks, opts = {}) {
   const buckets = { overdue: [], today: [], week: [], month: [], later: [] };
 
   for (const t of tasks) {
+    // Exclude done AND archived (the full timeline view in Index.vue only
+    // excludes done; the focus view should never surface archived tasks).
     if (t.status === 'done' || t.status === 'archived') continue;
     if (!t.due_date) { buckets.later.push(t); continue; }
     const due = new Date(t.due_date + 'T00:00:00');
@@ -64,6 +73,8 @@ export function selectFocusTasks(tasks, opts = {}) {
 
   if (dueSoon.length > 0) {
     // Top up from the next window so the list never looks sparse/anxious.
+    // First slice limits how many month tasks are appended (keep all dueSoon +
+    // enough to reach minCount); second slice enforces the hard displayCap.
     const topUp = [...buckets.month].sort(byDueThenPriority);
     const combined = [...dueSoon, ...topUp].slice(0, Math.max(minCount, dueSoon.length));
     return { tasks: combined.slice(0, displayCap), mode: 'normal' };
