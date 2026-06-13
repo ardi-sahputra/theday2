@@ -1495,7 +1495,7 @@ const currentPickerDate = computed(() =>
                                 </Transition>
                             </div>
                         </div>
-                        <button v-if="focusScope === 'focus'" type="button" @click="setFocusScope('all')"
+                        <button v-if="focusScope === 'focus' && activeTasks.length > 0" type="button" @click="setFocusScope('all')"
                                 class="w-full mt-2 py-3 rounded-xl text-[13px] font-semibold transition-colors"
                                 style="background:#FBFCF9; border:1px solid #D8DFD2; color:#4A5A4C;">
                             {{ t('dashboard.checklist.focus.seeAll', { total: activeTasks.length }) }}
