@@ -19,8 +19,11 @@ defineProps({
   buckets:      { type: Array, default: () => [] },
   doneCount:    { type: Number, default: 0 },
   hasSystemTasks: { type: Boolean, default: true },
+  focusScope:    { type: String, default: 'focus' },
+  focusProgress: { type: String, default: '' },
+  focusStatus:   { type: String, default: '' },
 });
-const emit = defineEmits(['select', 'openFilter', 'addTask', 'openTask', 'toggle', 'showDone', 'applyTemplate', 'aiGenerate']);
+const emit = defineEmits(['select', 'openFilter', 'addTask', 'openTask', 'toggle', 'showDone', 'applyTemplate', 'aiGenerate', 'setFocusScope']);
 const { t } = useLocale();
 
 const stampColor = (cat) => ({ overdue: '#C19089', today: '#C19089', week: '#D9A24A' }[cat] || '#92A89C');
@@ -70,7 +73,25 @@ const stampColor = (cat) => ({ overdue: '#C19089', today: '#C19089', week: '#D9A
       <WidgetIcon name="arrow" :size="16" stroke="#8E6515" />
     </button>
 
-    <div class="flex items-center gap-2 mb-3.5">
+    <div class="mb-3.5">
+      <div class="inline-flex rounded-xl p-0.5 w-full" style="background:#EFE7D6;">
+        <button type="button" @click="emit('setFocusScope', 'focus')"
+                class="flex-1 px-3 py-2 rounded-[10px] text-[12px] font-semibold"
+                :style="focusScope === 'focus' ? 'background:#1F2A2E; color:#FBFCF9;' : 'color:#6C7A75;'">
+          {{ t('dashboard.checklist.focus.tab') }}
+        </button>
+        <button type="button" @click="emit('setFocusScope', 'all')"
+                class="flex-1 px-3 py-2 rounded-[10px] text-[12px] font-semibold"
+                :style="focusScope === 'all' ? 'background:#1F2A2E; color:#FBFCF9;' : 'color:#6C7A75;'">
+          {{ t('dashboard.checklist.focus.tabAll') }}
+        </button>
+      </div>
+      <p v-if="focusScope === 'focus' && focusProgress" class="mt-2 text-[12px]" style="color:#6C7A75;">
+        <span style="color:#1F2A2E; font-weight:600;">{{ focusProgress }}</span> · {{ focusStatus }}
+      </p>
+    </div>
+
+    <div v-if="focusScope === 'all'" class="flex items-center gap-2 mb-3.5">
       <div class="flex gap-1.5 overflow-x-auto flex-1" style="-webkit-overflow-scrolling:touch;">
         <button v-for="c in chips" :key="c.key" type="button" @click="emit('select', c.key)"
                 class="flex-shrink-0 px-3 py-1.5 rounded-full text-[12px] font-semibold inline-flex items-center gap-1.5"

@@ -920,6 +920,17 @@
                 "modeReplaceSub": "Start from AI",
                 "replaceWarn": "Existing checklist will be archived (recoverable)."
             },
+            "focus": {
+                "tab": "Focus Now",
+                "tabAll": "All",
+                "heading": "Focus Now",
+                "progress": "{done} of {total} done",
+                "onTrack": "You're on track ✓",
+                "behind": "{n} tasks overdue — let's catch up",
+                "relaxed": "Quiet week 🎉 — coming up next:",
+                "overdueHeavy": "A lot is overdue — start with these.",
+                "seeAll": "See all {total} tasks →"
+            },
             "mobile": {
                 "filter": "Filter",
                 "sortLabel": "Sort by",
