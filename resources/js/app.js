@@ -45,3 +45,16 @@ router.on('success', (event) => {
         setI18nMessages(props.locale, props.translations);
     }
 });
+
+// Google Analytics 4 page_view on Inertia client-side navigation.
+// The first (server-rendered) load is tracked by gtag('config') in the
+// blade head; this covers every SPA visit after that.
+router.on('navigate', (event) => {
+    if (typeof window.gtag !== 'function') return;
+    const page = event.detail?.page;
+    window.gtag('event', 'page_view', {
+        page_path: page?.url ?? window.location.pathname,
+        page_location: window.location.href,
+        page_title: document.title,
+    });
+});
