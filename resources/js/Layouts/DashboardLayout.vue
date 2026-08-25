@@ -289,7 +289,7 @@ const handleClickOutsideAvatar = (e) => {
         <Transition name="fade">
             <div
                 v-if="sidebarOpen"
-                class="fixed inset-0 z-20 bg-black/40 lg:hidden"
+                class="fixed inset-0 z-30 bg-black/40 lg:hidden"
                 @click="sidebarOpen = false"
             />
         </Transition>
@@ -297,7 +297,7 @@ const handleClickOutsideAvatar = (e) => {
         <!-- ── Sidebar ──────────────────────────────────────────── -->
         <aside
             :class="[
-                'fixed top-0 left-0 h-full z-30 flex flex-col transition-all duration-300',
+                'fixed top-0 left-0 h-full z-40 flex flex-col transition-all duration-300',
                 'border-r shadow-sm',
                 sidebarOpen ? 'translate-x-0' : '-translate-x-full',
                 'lg:translate-x-0 lg:sticky lg:top-0 lg:h-screen lg:z-auto',
@@ -502,7 +502,7 @@ const handleClickOutsideAvatar = (e) => {
         <div class="flex-1 flex flex-col min-w-0 pb-20 lg:pb-0">
 
             <!-- Top bar -->
-            <header :class="['relative z-20 px-4 lg:px-6 h-20 flex items-center gap-4', stickyHeader ? 'sticky top-0' : '']"
+            <header :class="['relative z-30 px-4 lg:px-6 h-20 flex items-center gap-4', stickyHeader ? 'sticky top-0' : '']"
                     style="background: rgba(245,248,242,0.55);
                            backdrop-filter: blur(28px) saturate(1.9) brightness(1.04);
                            -webkit-backdrop-filter: blur(28px) saturate(1.9) brightness(1.04);
