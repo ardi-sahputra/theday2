@@ -101,21 +101,26 @@ Konvensi: `u144336260_theday_stg`.
 | `SSH_PORT` | `65002` |
 | `SSH_PRIVATE_KEY` | isi `~/.ssh/id_ed25519_deploy` (private key, bukan `.pub`) |
 
-Kedua workflow **key-only**. `SSH_PASSWORD` tidak dipakai lagi: server ini
-menolak password auth, dan membiarkannya sebagai fallback bikin kegagalan key
-jadi diam-diam.
+Plus salah satu metode auth:
 
-Set key-nya begini (jangan lewat paste di UI — newline gampang hilang):
+| Secret | Catatan |
+|---|---|
+| `SSH_PRIVATE_KEY` | **Dipilih duluan.** Isi `~/.ssh/id_ed25519_deploy` (private, bukan `.pub`) |
+| `SSH_PASSWORD` | Cadangan, dipakai kalau key kosong/rusak |
+
+Set key lewat file, jangan paste di UI — newline gampang hilang dan key jadi
+tidak terbaca tanpa error yang jelas:
 
 ```bash
+# verifikasi dulu key-nya memang jalan
+ssh -i ~/.ssh/id_ed25519_deploy -p 65002 u144336260@46.202.138.29 whoami
+
 gh secret set SSH_PRIVATE_KEY --repo ardi-sahputra/theday2 < ~/.ssh/id_ed25519_deploy
 ```
 
-Verifikasi key-nya memang jalan sebelum di-set:
-
-```bash
-ssh -i ~/.ssh/id_ed25519_deploy -p 65002 u144336260@46.202.138.29 whoami
-```
+Password server pernah diganti tanpa `SSH_PASSWORD` ikut di-update — itu yang
+bikin deploy diam-diam mati sejak 7 Juni. Kalau ganti password server, update
+secret-nya di menit yang sama.
 
 ### 4. Server — jalankan bootstrap
 

@@ -21,9 +21,11 @@ jobs:
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
-          # Key-only. Password auth ditolak server ini — kalau dibiarkan sebagai
-          # fallback, kegagalan key jadi diam-diam dan errornya menyesatkan.
+          # Key dulu, password sebagai cadangan. Kalau SSH_PRIVATE_KEY kosong
+          # atau formatnya rusak, action diam-diam jatuh ke password — cek
+          # docs/DEPLOYMENT.md kalau lognya bilang "attempted methods [none password]".
           key: ${{ secrets.SSH_PRIVATE_KEY }}
+          password: ${{ secrets.SSH_PASSWORD }}
           port: ${{ secrets.SSH_PORT || 22 }}
           command_timeout: 20m
           script: |
