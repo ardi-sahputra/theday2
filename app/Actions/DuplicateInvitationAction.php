@@ -6,8 +6,8 @@ namespace App\Actions;
 
 use App\Models\Invitation;
 use App\Models\InvitationSection;
+use App\Support\InvitationSlug;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 
 final class DuplicateInvitationAction
 {
@@ -16,7 +16,7 @@ final class DuplicateInvitationAction
         return DB::transaction(function () use ($source) {
             $source->load(['details', 'events', 'galleries', 'music', 'sections']);
 
-            $newSlug  = $this->generateUniqueSlug($source->slug ?? Str::random(8));
+            $newSlug  = InvitationSlug::unique(($source->slug ?? 'undangan') . '-salinan');
             $newTitle = $this->generateUniqueTitle($source->title ?? '', $source->user_id);
 
             /** @var Invitation $clone */
@@ -107,21 +107,6 @@ final class DuplicateInvitationAction
 
             return $clone;
         });
-    }
-
-    private function generateUniqueSlug(string $sourceSlug): string
-    {
-        $base  = $sourceSlug . '-salinan';
-        $slug  = $base;
-        $count = 2;
-
-        // withTrashed() so soft-deleted records still block slug reuse
-        while (Invitation::withTrashed()->where('slug', $slug)->exists()) {
-            $slug = "{$base}-{$count}";
-            $count++;
-        }
-
-        return $slug;
     }
 
     private function generateUniqueTitle(string $sourceTitle, string $userId): string

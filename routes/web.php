@@ -402,7 +402,14 @@ Route::post('/gift/claim/{code}', [\App\Http\Controllers\GiftClaimController::cl
 // ── Public invitation pages ─────────────────────────────────────────────
 // IMPORTANT: keep this LAST so /{slug} doesn't swallow other routes.
 // The where() constraint excludes known top-level paths.
-$slugExclusion = '^(?!login|register|logout|dashboard|admin|templates|editor|use-template|profile|up|verify-email|confirm-password|forgot-password|reset-password|email|sitemap|blog|kebijakan-privasi|syarat-ketentuan|kebijakan-cookie|kontak|auth|couple).*';
+// Derived from InvitationSlug::RESERVED so a slug we hand out can never be
+// swallowed by an app route, and vice versa. The (?:/|$) boundary matches a
+// reserved word only as a whole path segment, so "intan-budi" is not blocked
+// by the reserved word "i" while "/admin/login" still reaches the admin routes
+// registered after this file.
+$slugExclusion = '^(?!(?:'
+    . implode('|', array_map(fn (string $w) => preg_quote($w, '/'), \App\Support\InvitationSlug::RESERVED))
+    . ')(?:/|$)).*';
 
 // Two-segment literal routes defined BEFORE wildcard so they take precedence.
 Route::post('/{slug}/unlock',   [PublicInvitationController::class, 'unlock'])->where('slug', $slugExclusion)->name('invitation.unlock');
