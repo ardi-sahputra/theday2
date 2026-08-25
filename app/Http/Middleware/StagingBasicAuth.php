@@ -6,21 +6,55 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Gerbang untuk environment non-produksi.
+ *
+ * - Menutup staging di balik HTTP basic auth supaya tidak bisa diakses publik.
+ * - Menambahkan X-Robots-Tag agar mesin pencari tidak pernah mengindeks
+ *   staging sebagai konten duplikat dari theday.id.
+ *
+ * Path yang dikecualikan dari basic auth: health check dan webhook pembayaran
+ * (dipanggil server lain yang tidak bisa mengirim kredensial).
+ */
 class StagingBasicAuth
 {
+    /** Path yang tetap terbuka walau staging digembok. */
+    private const OPEN_PATHS = [
+        'up',
+        'webhooks/*',
+    ];
+
     public function handle(Request $request, Closure $next): Response
     {
-        if (app()->environment('staging')) {
-            $user = config('staging.basic_auth.user');
-            $password = config('staging.basic_auth.password');
-
-            if ($request->getUser() !== $user || $request->getPassword() !== $password) {
-                return response('Unauthorized', 401, [
-                    'WWW-Authenticate' => 'Basic realm="Staging"',
-                ]);
-            }
+        if (! app()->environment('staging')) {
+            return $next($request);
         }
 
-        return $next($request);
+        if (! $request->is(...self::OPEN_PATHS) && ! $this->authenticated($request)) {
+            return response('Unauthorized', 401, [
+                'WWW-Authenticate' => 'Basic realm="TheDay Staging"',
+                'X-Robots-Tag' => 'noindex, nofollow',
+            ]);
+        }
+
+        $response = $next($request);
+        $response->headers->set('X-Robots-Tag', 'noindex, nofollow');
+
+        return $response;
+    }
+
+    private function authenticated(Request $request): bool
+    {
+        $user = (string) config('staging.basic_auth.user');
+        $password = (string) config('staging.basic_auth.password');
+
+        // Password kosong = gerbang belum dikonfigurasi. Tolak semua, jangan
+        // diam-diam membuka staging ke publik.
+        if ($password === '') {
+            return false;
+        }
+
+        return hash_equals($user, (string) $request->getUser())
+            && hash_equals($password, (string) $request->getPassword());
     }
 }

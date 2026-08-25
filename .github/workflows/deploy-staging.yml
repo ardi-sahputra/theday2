@@ -1,20 +1,20 @@
-name: Deploy Production
+name: Deploy Staging
 
 on:
   push:
-    branches: [main]
+    branches: [develop]
   workflow_dispatch:
 
 concurrency:
-  group: deploy-production
+  group: deploy-staging
   cancel-in-progress: false
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     environment:
-      name: production
-      url: https://theday.id
+      name: staging
+      url: https://staging.theday.id
     steps:
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1
@@ -27,8 +27,8 @@ jobs:
           command_timeout: 20m
           script: |
             set -e
-            cd /home/u144336260/domains/theday.id/public_html
+            cd /home/u144336260/domains/staging.theday.id/public_html
             PREV_SHA=$(git rev-parse HEAD)
-            git fetch origin main
-            git reset --hard origin/main
-            DEPLOY_PREVIOUS_SHA=$PREV_SHA bash scripts/deploy.sh production
+            git fetch origin develop
+            git reset --hard origin/develop
+            DEPLOY_PREVIOUS_SHA=$PREV_SHA bash scripts/deploy.sh staging
