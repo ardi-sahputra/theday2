@@ -101,8 +101,21 @@ Konvensi: `u144336260_theday_stg`.
 | `SSH_PORT` | `65002` |
 | `SSH_PRIVATE_KEY` | isi `~/.ssh/id_ed25519_deploy` (private key, bukan `.pub`) |
 
-`SSH_PRIVATE_KEY` lebih dipilih daripada `SSH_PASSWORD` — password auth ditolak
-server ini, key auth jalan.
+Kedua workflow **key-only**. `SSH_PASSWORD` tidak dipakai lagi: server ini
+menolak password auth, dan membiarkannya sebagai fallback bikin kegagalan key
+jadi diam-diam.
+
+Set key-nya begini (jangan lewat paste di UI — newline gampang hilang):
+
+```bash
+gh secret set SSH_PRIVATE_KEY --repo ardi-sahputra/theday2 < ~/.ssh/id_ed25519_deploy
+```
+
+Verifikasi key-nya memang jalan sebelum di-set:
+
+```bash
+ssh -i ~/.ssh/id_ed25519_deploy -p 65002 u144336260@46.202.138.29 whoami
+```
 
 ### 4. Server — jalankan bootstrap
 
@@ -190,6 +203,10 @@ gunzip < storage/backups/production-<timestamp>.sql.gz | mysql -u <user> -p <db>
 ---
 
 ## Troubleshooting
+
+**`ssh: handshake failed ... attempted methods [none password]`** — secret
+`SSH_PRIVATE_KEY` kosong atau formatnya rusak, jadi action jatuh ke password.
+Set ulang dari file, jangan paste manual (lihat [GitHub — secrets](#3-github--secrets)).
 
 **Deploy sukses tapi UI kode lama** — lupa `npm run build` + commit `public/build`.
 
