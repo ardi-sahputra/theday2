@@ -30,7 +30,10 @@ jobs:
           command_timeout: 20m
           script: |
             set -e
-            cd /home/u144336260/domains/staging.theday.id/public_html
+            # Docroot subdomain staging dibuat Hostinger nested di dalam
+            # public_html prod. Repo-nya terpisah penuh (git + .env sendiri);
+            # prod meng-ignore folder ini lewat .gitignore.
+            cd /home/u144336260/domains/theday.id/public_html/staging
             PREV_SHA=$(git rev-parse HEAD)
             git fetch origin develop
             git reset --hard origin/develop

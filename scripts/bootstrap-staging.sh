@@ -16,15 +16,15 @@ set -euo pipefail
 
 REPO="https://github.com/ardi-sahputra/theday2.git"
 BRANCH="develop"
-STAGING_ROOT="$HOME/domains/staging.theday.id/public_html"
+STAGING_ROOT="$HOME/domains/theday.id/public_html/staging"
 
 log()  { printf '\n\033[1;36m==>\033[0m %s\n' "$*"; }
 die()  { printf '\033[1;31m[fail]\033[0m %s\n' "$*" >&2; exit 1; }
 
 # --------------------------------------------------------------------------
 log "Cek subdomain"
-[ -d "$HOME/domains/staging.theday.id" ] \
-    || die "Folder $HOME/domains/staging.theday.id belum ada. Buat subdomain 'staging' untuk theday.id di hPanel dulu."
+[ -d "$STAGING_ROOT" ] \
+    || die "Docroot $STAGING_ROOT belum ada. Buat subdomain 'staging' untuk theday.id di hPanel dulu."
 
 mkdir -p "$STAGING_ROOT"
 

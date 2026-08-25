@@ -6,10 +6,10 @@ Dua environment, satu skrip deploy, dua workflow GitHub Actions.
 |---|---|---|
 | URL | `https://staging.theday.id` | `https://theday.id` |
 | Branch | `develop` | `main` |
-| Path server | `~/domains/staging.theday.id/public_html` | `~/domains/theday.id/public_html` |
+| Path server | `~/domains/theday.id/public_html/staging` | `~/domains/theday.id/public_html` |
 | `APP_ENV` | `staging` | `production` |
 | `APP_DEBUG` | `true` | **`false`** |
-| Database | `u144336260_theday_stg` | database prod (terpisah) |
+| Database | `u144336260_staging_theday` | database prod (terpisah) |
 | Akses | HTTP basic auth + `X-Robots-Tag: noindex` | publik |
 | Email | `MAIL_MAILER=log` (tidak terkirim) | SMTP asli |
 | Midtrans | sandbox | production |
@@ -85,10 +85,19 @@ SKIP_BACKUP=1 SKIP_HEALTHCHECK=1 bash scripts/deploy.sh staging
 Hostinger → **Domains → Subdomains** → subdomain `staging` untuk `theday.id`.
 Pastikan SSL aktif (**SSL → Install** untuk `staging.theday.id`).
 
+Hostinger menaruh docroot subdomain **nested di dalam public_html prod**:
+`~/domains/theday.id/public_html/staging`. Repo-nya tetap terpisah penuh —
+`.git` dan `.env` sendiri — dan prod meng-ignore folder itu lewat `.gitignore`
+(`/staging/`), jadi `git reset --hard` di prod tidak pernah menyentuhnya.
+
+Efek sampingnya: staging juga kebuka lewat `https://theday.id/staging/`.
+Basic auth dan `X-Robots-Tag: noindex` berlaku di kedua host, jadi tidak bocor
+maupun terindeks — tapi jangan kaget kalau lihat URL itu di log.
+
 ### 2. hPanel — bikin database
 
 **Databases → MySQL Databases**. Catat nama DB, user, password.
-Konvensi: `u144336260_theday_stg`.
+Sekarang dipakai: `u144336260_staging_theday`.
 
 ### 3. GitHub — secrets
 
@@ -99,13 +108,7 @@ Konvensi: `u144336260_theday_stg`.
 | `SSH_HOST` | `46.202.138.29` |
 | `SSH_USER` | `u144336260` |
 | `SSH_PORT` | `65002` |
-| `SSH_PRIVATE_KEY` | isi `~/.ssh/id_ed25519_deploy` (private key, bukan `.pub`) |
-
-Plus salah satu metode auth:
-
-| Secret | Catatan |
-|---|---|
-| `SSH_PRIVATE_KEY` | **Dipilih duluan.** Isi `~/.ssh/id_ed25519_deploy` (private, bukan `.pub`) |
+| `SSH_PRIVATE_KEY` | **Dicoba duluan.** Isi `~/.ssh/id_ed25519_deploy` (private, bukan `.pub`) |
 | `SSH_PASSWORD` | Cadangan, dipakai kalau key kosong/rusak |
 
 Set key lewat file, jangan paste di UI — newline gampang hilang dan key jadi
@@ -131,7 +134,7 @@ bash scripts/bootstrap-staging.sh
 ```
 
 Jalan pertama akan berhenti setelah membuat `.env` dari template. Isi nilai
-`<...>`-nya (`nano ~/domains/staging.theday.id/public_html/.env`), lalu jalankan
+`<...>`-nya (`nano ~/domains/theday.id/public_html/staging/.env`), lalu jalankan
 ulang skrip yang sama. Skrip idempotent.
 
 ### 5. Layanan eksternal
@@ -176,7 +179,7 @@ mysqldump --single-transaction --no-tablespaces \
 gunzip < /tmp/prod.sql.gz | mysql -u <stg_user> -p <stg_db>
 rm /tmp/prod.sql.gz
 
-cd ~/domains/staging.theday.id/public_html
+cd ~/domains/theday.id/public_html/staging
 php artisan optimize:clear && php artisan config:cache
 ```
 
