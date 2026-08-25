@@ -227,8 +227,18 @@ cache basi: `php artisan optimize:clear && php artisan config:cache`.
 **Workflow gagal di `git reset --hard`** — ada perubahan tak ter-commit di
 server. `git status` di server, `git stash` atau buang.
 
-**Staging balas 401 terus** — `STAGING_AUTH_PASSWORD` kosong di `.env`.
-Fail closed by design.
+**Staging balas 401 walau password benar** — cek panjangnya dulu:
+
+```bash
+php artisan tinker --execute="echo strlen((string) config('staging.basic_auth.password'));"
+```
+
+Kalau lebih pendek dari yang kamu ketik, ada `#` di dalam nilainya. Parser
+`.env` memperlakukannya sebagai awal komentar dan memotong nilai tanpa error —
+`Rahasia#2026` diam-diam jadi `Rahasia`. Pakai huruf/angka/dash saja, atau
+kutip seluruh nilainya.
+
+**Staging balas 401 terus, password memang kosong** — fail closed by design.
 
 **Deploy "salah target"** — `APP_ENV` di `.env` server tidak cocok dengan
 argumen `deploy.sh`. Ini pengaman; perbaiki `.env`-nya, jangan skrip-nya.
