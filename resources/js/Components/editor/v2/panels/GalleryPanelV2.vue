@@ -39,7 +39,7 @@ async function remove(g) {
     <div :class="bare ? '' : 'section-block'">
       <template v-if="!bare">
         <h4>Galeri Foto</h4>
-        <div class="desc">Foto pre-wedding atau momen kalian. Auto-kompres ke WebP · maks 5MB/foto.</div>
+        <div class="desc">Foto pre-wedding atau momen kalian. Maks 5MB/foto.</div>
       </template>
 
       <div class="gal-grid">
