@@ -36,6 +36,8 @@
 //   envelope     — digital envelope (QRIS / rekening)
 //   wishes       — public guestbook
 //   liveStreaming— YouTube live stream
+//   video        — prewedding / after-movie video block
+//   additionalInfo— free-text notes (dress code, protokol)
 //   music        — background music
 
 export const DEFAULT_CAPS = {
@@ -50,6 +52,8 @@ export const DEFAULT_CAPS = {
     envelope: true,
     wishes: true,
     liveStreaming: false, // only templates that render a stream opt in
+    video: false,          // only templates that render a video block opt in
+    additionalInfo: false, // only templates that render free-text notes opt in
     music: true,
 };
 
@@ -57,8 +61,8 @@ export const DEFAULT_CAPS = {
 // Source: audit of each template component (what it actually renders).
 export const TEMPLATE_CAPS = {
     // Live streaming sections
-    'nusantara':         { liveStreaming: true },
-    'pearl':             { liveStreaming: true },
+    'nusantara':         { liveStreaming: true, video: true, additionalInfo: true },
+    'pearl':             { liveStreaming: true, video: true, additionalInfo: true },
     // Templates that DO show Instagram handles
     'beach':             { instagram: true },
     'garden':            { instagram: true },

@@ -109,10 +109,11 @@ class InvitationCustomizeController extends Controller
                     ]
                 );
             }
-            $invitation->load([
-                'sections' => fn ($q) => $q->whereIn('section_key', ['love_story', 'gift', 'rsvp']),
-            ]);
         }
+
+        // Load every section: the editor's Bagian tab needs each one's saved data
+        // and enabled flag, not just the storybook trio seeded above.
+        $invitation->load('sections');
 
         $config = array_merge(
             $invitation->template->default_config ?? [],

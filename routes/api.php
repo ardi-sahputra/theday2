@@ -76,6 +76,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // ── Sections ──────────────────────────────────────────────────
     Route::get(  '/invitations/{invitation}/sections',                     [InvitationSectionController::class, 'index']);
+    Route::post( '/invitations/{invitation}/sections/media',               [InvitationSectionController::class, 'storeMedia']);
     Route::patch('/invitations/{invitation}/sections/{sectionKey}/toggle', [InvitationSectionController::class, 'toggle']);
     Route::patch('/invitations/{invitation}/sections/{sectionKey}',        [InvitationSectionController::class, 'updateData']);
 

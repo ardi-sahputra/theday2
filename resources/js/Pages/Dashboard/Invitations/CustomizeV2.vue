@@ -64,6 +64,10 @@ function uploadPhoto(side, file) { return editor.uploadCouplePhoto(side, file).c
 function addEvent()         { editor.addEvent().catch(() => {}); }
 function deleteEvent(ev)    { editor.deleteEvent(ev).catch(() => {}); }
 function toggleSection(key) { editor.toggleSection(key).catch(() => {}); }
+// Section content (Bagian tab). Debounced per key so typing in one card never
+// cancels a pending save for another.
+function saveSection(key)  { editor.debounce(`section-${key}`, () => editor.saveSection(key, editor.sectionsData[key]?.data ?? {}).catch(() => {})); }
+function uploadSectionImage(file) { return editor.uploadSectionImage(file).catch(() => null); }
 function saveConfig(patch)  { editor.saveConfig(patch).catch(() => {}); }
 </script>
 
@@ -98,8 +102,9 @@ function saveConfig(patch)  { editor.saveConfig(patch).catch(() => {}); }
               :details="editor.details" :sections-data="editor.sectionsData" :events="editor.events.value"
               :galleries="editor.galleries.value" :caps="caps"
               :on-upload-photo="uploadPhoto" :on-add-gallery="editor.addGalleryPhoto" :on-delete-gallery="editor.deleteGalleryPhoto"
+              :on-upload-image="uploadSectionImage"
               :gallery-layout="editor.config.gallery_layout || 'grid'" @set-gallery-layout="v => editor.saveConfig({ gallery_layout: v })"
-              @save-details="saveDetails" @upload-photo="uploadPhoto" @save-quote="saveQuote" @save-event="saveEvent"
+              @save-details="saveDetails" @upload-photo="uploadPhoto" @save-quote="saveQuote" @save-event="saveEvent" @save-section="saveSection"
               @toggle-section="toggleSection"
             />
             <EventsPanelV2
@@ -191,8 +196,9 @@ function saveConfig(patch)  { editor.saveConfig(patch).catch(() => {}); }
           :details="editor.details" :sections-data="editor.sectionsData" :events="editor.events.value"
           :galleries="editor.galleries.value" :caps="caps"
           :on-upload-photo="uploadPhoto" :on-add-gallery="editor.addGalleryPhoto" :on-delete-gallery="editor.deleteGalleryPhoto"
+          :on-upload-image="uploadSectionImage"
           :gallery-layout="editor.config.gallery_layout || 'grid'" @set-gallery-layout="v => editor.saveConfig({ gallery_layout: v })"
-          @save-details="saveDetails" @upload-photo="uploadPhoto" @save-quote="saveQuote" @save-event="saveEvent"
+          @save-details="saveDetails" @upload-photo="uploadPhoto" @save-quote="saveQuote" @save-event="saveEvent" @save-section="saveSection"
           @toggle-section="toggleSection"
         />
         <EventsPanelV2
