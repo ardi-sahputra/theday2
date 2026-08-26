@@ -10,7 +10,7 @@ Dua environment, satu skrip deploy, dua workflow GitHub Actions.
 | `APP_ENV` | `staging` | `production` |
 | `APP_DEBUG` | `true` | **`false`** |
 | Database | `u144336260_staging_theday` | database prod (terpisah) |
-| Akses | HTTP basic auth + `X-Robots-Tag: noindex` | publik |
+| Akses | terbuka + `X-Robots-Tag: noindex` (basic auth opsional) | publik |
 | Email | `MAIL_MAILER=log` (tidak terkirim) | SMTP asli |
 | Midtrans | sandbox | production |
 | Workflow | `.github/workflows/deploy-staging.yml` | `.github/workflows/deploy.yml` |
@@ -148,15 +148,31 @@ ulang skrip yang sama. Skrip idempotent.
 
 ## Basic auth staging
 
-`app/Http/Middleware/StagingBasicAuth.php` menggembok seluruh app saat
-`APP_ENV=staging`, dan menambah `X-Robots-Tag: noindex, nofollow` di semua
-response supaya staging tidak pernah muncul di Google.
+`app/Http/Middleware/StagingBasicAuth.php` menambah `X-Robots-Tag: noindex,
+nofollow` di semua response saat `APP_ENV=staging`, supaya staging tidak pernah
+muncul di Google. Ini selalu jalan, digembok maupun tidak.
 
-Kredensial dari `.env`: `STAGING_AUTH_USER` / `STAGING_AUTH_PASSWORD`.
-**Password kosong = semua request ditolak** (fail closed, bukan fail open).
+Gemboknya sendiri **opsional dan default mati**. Selama pra-launch staging
+dibuka supaya bisa dicoba tanpa kredensial.
 
-Dikecualikan dari gembok, karena dipanggil server lain yang tidak bisa kirim
-kredensial:
+| `STAGING_AUTH_ENABLED` | Perilaku |
+|---|---|
+| tidak diisi / `false` (default) | staging terbuka, tetap noindex |
+| `true` + password terisi | basic auth, seperti sebelumnya |
+| `true` + password kosong | semua request ditolak (fail closed, bukan fail open) |
+
+Menyalakan lagi menjelang launch — di `.env` server staging:
+
+```
+STAGING_AUTH_ENABLED=true
+STAGING_AUTH_USER=staging
+STAGING_AUTH_PASSWORD=<password-kuat-tanpa-pagar>
+```
+
+Lalu `php artisan config:clear` (deploy.sh sudah melakukannya).
+
+Dikecualikan dari gembok saat menyala, karena dipanggil server lain yang tidak
+bisa kirim kredensial:
 
 - `/up` — health check
 - `/webhooks/*` — callback pembayaran

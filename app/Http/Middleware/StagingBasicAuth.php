@@ -9,9 +9,11 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * Gerbang untuk environment non-produksi.
  *
- * - Menutup staging di balik HTTP basic auth supaya tidak bisa diakses publik.
  * - Menambahkan X-Robots-Tag agar mesin pencari tidak pernah mengindeks
- *   staging sebagai konten duplikat dari theday.id.
+ *   staging sebagai konten duplikat dari theday.id. Ini SELALU jalan, digembok
+ *   maupun terbuka — justru yang terbuka paling butuh.
+ * - Opsional: menutup staging di balik HTTP basic auth, lewat
+ *   STAGING_AUTH_ENABLED. Default mati selama pra-launch.
  *
  * Path yang dikecualikan dari basic auth: health check dan webhook pembayaran
  * (dipanggil server lain yang tidak bisa mengirim kredensial).
@@ -30,7 +32,10 @@ class StagingBasicAuth
             return $next($request);
         }
 
-        if (! $request->is(...self::OPEN_PATHS) && ! $this->authenticated($request)) {
+        if ($this->gateEnabled()
+            && ! $request->is(...self::OPEN_PATHS)
+            && ! $this->authenticated($request)
+        ) {
             return response('Unauthorized', 401, [
                 'WWW-Authenticate' => 'Basic realm="TheDay Staging"',
                 'X-Robots-Tag' => 'noindex, nofollow',
@@ -41,6 +46,12 @@ class StagingBasicAuth
         $response->headers->set('X-Robots-Tag', 'noindex, nofollow');
 
         return $response;
+    }
+
+    /** Gembok mati = staging terbuka untuk siapa saja, tapi tetap noindex. */
+    private function gateEnabled(): bool
+    {
+        return (bool) config('staging.basic_auth.enabled');
     }
 
     private function authenticated(Request $request): bool

@@ -55,7 +55,8 @@ else
     echo "  .env dibuat dari template. ISI DULU nilai <...> sebelum lanjut:"
     echo "    nano $STAGING_ROOT/.env"
     echo ""
-    echo "  Yang wajib: DB_DATABASE, DB_USERNAME, DB_PASSWORD, STAGING_AUTH_PASSWORD"
+    echo "  Yang wajib: DB_DATABASE, DB_USERNAME, DB_PASSWORD"
+    echo "  (STAGING_AUTH_* cuma perlu kalau STAGING_AUTH_ENABLED=true)"
     echo "  Lalu jalankan ulang skrip ini."
     exit 0
 fi
@@ -94,5 +95,5 @@ else
     echo "    sudah ada data — dilewati. Untuk seed ulang: php artisan db:seed --force"
 fi
 
-log "Selesai. Buka https://staging.theday.id (login basic auth pakai STAGING_AUTH_*)"
+log "Selesai. Buka https://staging.theday.id (kalau STAGING_AUTH_ENABLED=true, login pakai STAGING_AUTH_*)"
 echo "   Health check: curl -u \$USER:\$PASS -o /dev/null -w '%{http_code}\\n' https://staging.theday.id/up"

@@ -38,12 +38,25 @@ class StagingBasicAuthTest extends TestCase
      */
     private const PLACEHOLDER_PASSWORD = 'example-placeholder-not-a-secret';
 
+    /** Staging dengan gembok menyala. */
     private function asStaging(string $user = 'staging', ?string $password = null): void
     {
         $this->app->instance('env', 'staging');
         config([
+            'staging.basic_auth.enabled' => true,
             'staging.basic_auth.user' => $user,
             'staging.basic_auth.password' => $password ?? self::PLACEHOLDER_PASSWORD,
+        ]);
+    }
+
+    /** Staging pra-launch: gembok mati, siapa saja boleh masuk. */
+    private function asOpenStaging(): void
+    {
+        $this->app->instance('env', 'staging');
+        config([
+            'staging.basic_auth.enabled' => false,
+            'staging.basic_auth.user' => 'staging',
+            'staging.basic_auth.password' => self::PLACEHOLDER_PASSWORD,
         ]);
     }
 
@@ -115,5 +128,42 @@ class StagingBasicAuthTest extends TestCase
         $response = $this->pass($this->request('/up'));
 
         $this->assertSame('noindex, nofollow', $response->headers->get('X-Robots-Tag'));
+    }
+
+    /**
+     * Pra-launch staging sengaja dibuka supaya bisa dicoba tanpa kredensial.
+     * Password boleh tetap ada di .env — yang menentukan cuma flag enabled.
+     */
+    public function test_disabled_gate_lets_anyone_in(): void
+    {
+        $this->asOpenStaging();
+
+        $this->assertSame(200, $this->pass($this->request('/'))->getStatusCode());
+        $this->assertSame(200, $this->pass($this->request('/dashboard'))->getStatusCode());
+    }
+
+    /**
+     * Justru staging yang terbuka paling butuh noindex: tanpa ini Google bisa
+     * mengindeksnya sebagai duplikat theday.id.
+     */
+    public function test_open_staging_is_still_marked_noindex(): void
+    {
+        $this->asOpenStaging();
+
+        $response = $this->pass($this->request('/'));
+
+        $this->assertSame('noindex, nofollow', $response->headers->get('X-Robots-Tag'));
+    }
+
+    public function test_gate_can_be_switched_back_on(): void
+    {
+        $this->asOpenStaging();
+        config(['staging.basic_auth.enabled' => true]);
+
+        $this->assertSame(401, $this->pass($this->request('/'))->getStatusCode());
+        $this->assertSame(
+            200,
+            $this->pass($this->request('/', 'staging', self::PLACEHOLDER_PASSWORD))->getStatusCode(),
+        );
     }
 }
