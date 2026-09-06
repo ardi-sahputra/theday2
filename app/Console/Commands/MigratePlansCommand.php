@@ -65,7 +65,7 @@ class MigratePlansCommand extends Command
                 'name'                => 'Premium',
                 'price'               => 49000,
                 'original_price'      => 199000,
-                'duration_days'       => 365,
+                'duration_days'       => 0, // lifetime
                 'max_invitations'     => 9999,
                 'max_gallery_photos'  => 9999,
                 'custom_music'        => true,
@@ -73,7 +73,8 @@ class MigratePlansCommand extends Command
                 'custom_domain'       => true,
                 'analytics_access'    => true,
                 'features'            => [
-                    'Undangan tidak terbatas',
+                    'Sekali bayar, aktif selamanya',
+                    '2 undangan aktif (tambah lewat add-on)',
                     'Semua template (50+)',
                     'Upload musik sendiri',
                     'Foto galeri tidak terbatas',

@@ -96,7 +96,7 @@ class HandleInertiaRequests extends Middleware
                     ?? \App\Models\Plan::where('slug', 'free')->value('max_invitations')
                     ?? 1;
                 $addons = $user->invitationAddons()
-                    ->where('expires_at', '>', now())
+                    ->active()
                     ->sum('quantity');
                 return $user->invitations()->count() < ($base + $addons);
             })() : true,

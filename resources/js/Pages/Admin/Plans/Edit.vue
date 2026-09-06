@@ -37,7 +37,7 @@ const originalPricePreview = computed(() => {
 
 const durationPreview = computed(() => {
     const d = Number(form.duration_days) || 0;
-    if (!d) return '—';
+    if (!d) return t('admin.plans.edit.durationLifetime');
     if (d === 365) return '1 tahun';
     if (d % 365 === 0) return `${d / 365} tahun`;
     if (d === 30) return '1 bulan';
@@ -111,7 +111,7 @@ function submit() {
                     </div>
                     <div>
                         <label class="text-sm font-medium">{{ t('admin.plans.edit.field_duration') }}</label>
-                        <input v-model.number="form.duration_days" type="number" min="1" max="3650" class="mt-1 w-full h-10 px-3 rounded-md border border-border bg-background text-sm" />
+                        <input v-model.number="form.duration_days" type="number" min="0" max="3650" class="mt-1 w-full h-10 px-3 rounded-md border border-border bg-background text-sm" />
                         <p class="text-xs text-muted-foreground mt-1">= {{ durationPreview }}</p>
                         <p v-if="form.errors.duration_days" class="text-xs text-red-600 mt-1">{{ form.errors.duration_days }}</p>
                     </div>

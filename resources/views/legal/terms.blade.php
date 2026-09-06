@@ -114,12 +114,10 @@
             setidaknya 14 hari sebelum perubahan harga berlaku.
         </li>
         <li>
-            <strong>Masa aktif paket</strong> — paket berbayar berlaku selama 30 hari sejak tanggal pembayaran
-            berhasil dikonfirmasi.
-        </li>
-        <li>
-            <strong>Tidak ada perpanjangan otomatis</strong> — Theday menggunakan sistem pembayaran sekali bayar
-            (one-time payment). Tidak ada langganan berulang otomatis.
+            <strong>Masa aktif paket</strong> — paket Premium berlaku <strong>selamanya</strong> setelah pembayaran
+            berhasil dikonfirmasi: sekali bayar, tidak ada tagihan berulang dan tidak pernah kedaluwarsa.
+            Paket Premium mencakup 2 undangan aktif; kalau butuh lebih, tersedia add-on Rp15.000 per undangan
+            tambahan (juga berlaku selamanya, tidak ada tagihan berulang untuk add-on).
         </li>
         <li>
             <strong>Garansi uang kembali</strong> — jika kamu tidak puas dalam <strong>7 hari pertama</strong>

@@ -69,6 +69,37 @@ class SubscriptionCheckoutTest extends TestCase
             ->assertJsonPath('error', 'Paket kamu masih aktif lebih dari 14 hari.');
     }
 
+    public function test_checkout_blocked_for_lifetime_premium(): void
+    {
+        $lifetimePlan = Plan::create([
+            'name'          => 'Premium',
+            'slug'          => 'premium-lifetime-dup',
+            'price'         => 49000,
+            'duration_days' => 0,
+        ]);
+        // Simulate the canonical premium plan being lifetime — checkout()
+        // resolves the plan by slug 'premium', so update this fixture's slug
+        // instead of creating a second 'premium' row.
+        $this->plan->delete();
+        $lifetimePlan->update(['slug' => 'premium']);
+
+        $user = User::factory()->create(['onboarding_completed_at' => now()]);
+
+        \App\Models\Subscription::create([
+            'user_id'    => $user->id,
+            'plan_id'    => $lifetimePlan->id,
+            'status'     => 'active',
+            'starts_at'  => now()->subDays(1),
+            'expires_at' => null,
+        ]);
+
+        $response = $this->actingAs($user)
+            ->postJson(route('dashboard.subscriptions.checkout'));
+
+        $response->assertStatus(422)
+            ->assertJsonPath('error', 'Paket Premium kamu sudah aktif selamanya.');
+    }
+
     public function test_checkout_returns_error_when_mayar_api_fails(): void
     {
         $user = User::factory()->create(['onboarding_completed_at' => now()]);

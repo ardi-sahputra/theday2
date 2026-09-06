@@ -57,16 +57,20 @@ const faqs = computed(() => [
 
 // ── Computed ──────────────────────────────────────────────────────────────────
 const isPremium    = computed(() => props.currentPlan.is_premium);
+const isLifetime   = computed(() => props.currentPlan.is_lifetime ?? false);
 const daysLeft     = computed(() => props.currentPlan.days_remaining ?? null);
 const expiresAt    = computed(() => props.currentPlan.expires_at);
-const expiryWarn   = computed(() => isPremium.value && daysLeft.value !== null && daysLeft.value <= 7);
+const expiryWarn   = computed(() => isPremium.value && !isLifetime.value && daysLeft.value !== null && daysLeft.value <= 7);
 
 const premiumCtaLabel = computed(() => {
     if (!isPremium.value) return t('dashboard.paket.ctaUpgrade');
+    if (isLifetime.value) return t('dashboard.paket.ctaAlreadyPremium');
     if (daysLeft.value !== null && daysLeft.value <= 14) return t('dashboard.paket.ctaRenew');
     return t('dashboard.paket.ctaAlreadyPremium');
 });
-const premiumCtaDisabled = computed(() => isPremium.value && daysLeft.value !== null && daysLeft.value > 14);
+const premiumCtaDisabled = computed(() =>
+    isPremium.value && (isLifetime.value || (daysLeft.value !== null && daysLeft.value > 14))
+);
 
 // ── Checkout ──────────────────────────────────────────────────────────────────
 const startCheckout = async () => {
@@ -93,7 +97,7 @@ onMounted(() => {
 
 // ── Feature comparison rows ───────────────────────────────────────────────────
 const features = computed(() => [
-    { label: t('dashboard.paket.featureLabelInvitation'),      free: '1',  premium: 'Unlimited' },
+    { label: t('dashboard.paket.featureLabelInvitation'),      free: '1',  premium: '2 + add-on' },
     { label: t('dashboard.paket.featureLabelPhoto'),           free: '5',  premium: 'Unlimited' },
     { label: t('dashboard.paket.featureLabelTemplatePremium'), free: false, premium: true },
     { label: t('dashboard.paket.featureLabelMusic'),           free: false, premium: true },
@@ -160,8 +164,15 @@ const paymentMethods = computed(() => [
                             {{ isPremium ? t('dashboard.paket.planNamePremium') : t('dashboard.paket.planNameFree') }}
                         </h2>
 
-                        <!-- Premium: expiry info -->
-                        <template v-if="isPremium && expiresAt">
+                        <!-- Premium: lifetime badge -->
+                        <template v-if="isPremium && isLifetime">
+                            <span class="inline-flex items-center gap-1 mt-1 text-xs font-semibold px-2 py-0.5 rounded-full bg-[#92A89C]/20 text-[#73877C]">
+                                ✓ {{ t('dashboard.paket.lifetimeActive') }}
+                            </span>
+                        </template>
+
+                        <!-- Premium: expiry info (legacy term-based subscriptions only) -->
+                        <template v-else-if="isPremium && expiresAt">
                             <p class="text-sm mt-1" :class="expiryWarn ? 'text-[#2C2417]' : 'text-stone-500'">
                                 {{ t('dashboard.paket.activeUntil') }} <strong>{{ expiresAt }}</strong>
                             </p>

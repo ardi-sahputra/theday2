@@ -48,12 +48,14 @@ class SubscriptionController extends Controller
                 'name'           => $plan->name,
                 'slug'           => $plan->slug,
                 'is_premium'     => $plan->slug === 'premium',
+                'is_lifetime'    => $sub !== null && $sub->expires_at === null,
                 'expires_at'     => $sub?->expires_at?->format('d M Y'),
-                'days_remaining' => $sub ? $sub->daysRemaining() : null,
+                'days_remaining' => ($sub && $sub->expires_at !== null) ? $sub->daysRemaining() : null,
             ] : [
                 'name'           => 'Gratis',
                 'slug'           => 'free',
                 'is_premium'     => false,
+                'is_lifetime'    => false,
                 'expires_at'     => null,
                 'days_remaining' => null,
             ],
@@ -75,8 +77,15 @@ class SubscriptionController extends Controller
         $plan = Plan::where('slug', 'premium')->firstOrFail();
 
         $sub = $user->activeSubscription;
-        if ($sub && $sub->plan->slug === 'premium' && $sub->daysRemaining() > 14) {
-            return response()->json(['error' => 'Paket kamu masih aktif lebih dari 14 hari.'], 422);
+        if ($sub && $sub->plan->slug === 'premium' && $sub->isActive()) {
+            // Lifetime (expires_at null) never needs renewal — block outright.
+            if ($sub->expires_at === null) {
+                return response()->json(['error' => 'Paket Premium kamu sudah aktif selamanya.'], 422);
+            }
+            // A term-based sub can still renew within its last 14 days.
+            if ($sub->daysRemaining() > 14) {
+                return response()->json(['error' => 'Paket kamu masih aktif lebih dari 14 hari.'], 422);
+            }
         }
 
         $existing = Transaction::where('user_id', $user->id)
@@ -102,7 +111,8 @@ class SubscriptionController extends Controller
             $discountSuffix = $plan->hasActiveDiscount()
                 ? " - Diskon {$plan->currentDiscount()->percent}%"
                 : '';
-            $itemName = "Paket {$plan->name} TheDay ({$plan->duration_days} hari){$discountSuffix}";
+            $durationLabel = $plan->duration_days > 0 ? "{$plan->duration_days} hari" : 'selamanya';
+            $itemName = "Paket {$plan->name} TheDay ({$durationLabel}){$discountSuffix}";
             $result = $this->mayarService->createInvoice($transaction, $user, $itemName);
             $transaction->update(['payment_gateway_id' => $result['mayar_invoice_id']]);
 

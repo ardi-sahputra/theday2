@@ -356,7 +356,7 @@ class DashboardController extends Controller
                 'slug'             => $activePlan?->slug ?? 'free',
                 'name'             => $activePlan?->name ?? 'Free',
                 'max_invitations'  => ($activePlan?->max_invitations ?? 1)
-                    + $effectiveUser->invitationAddons()->where('expires_at', '>', now())->sum('quantity'),
+                    + $effectiveUser->invitationAddons()->active()->sum('quantity'),
                 'analytics_access' => $activePlan?->analytics_access ?? false,
                 'remove_watermark' => $activePlan?->remove_watermark ?? false,
             ],
