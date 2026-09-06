@@ -115,9 +115,16 @@
         </li>
         <li>
             <strong>Masa aktif paket</strong> — paket Premium berlaku <strong>selamanya</strong> setelah pembayaran
-            berhasil dikonfirmasi: sekali bayar, tidak ada tagihan berulang dan tidak pernah kedaluwarsa.
-            Paket Premium mencakup 2 undangan aktif; kalau butuh lebih, tersedia add-on Rp15.000 per undangan
-            tambahan (juga berlaku selamanya, tidak ada tagihan berulang untuk add-on).
+            berhasil dikonfirmasi: sekali bayar, tidak ada tagihan berulang dan tidak pernah kedaluwarsa selama
+            kamu menggunakan Theday. Paket Premium mencakup 2 undangan aktif; kalau butuh lebih, tersedia add-on
+            Rp15.000 per undangan tambahan (juga berlaku selamanya, tidak ada tagihan berulang untuk add-on).
+        </li>
+        <li>
+            <strong>Arti "selamanya"</strong> — masa berlaku ini terikat pada keberlangsungan Theday sebagai
+            layanan, bukan jaminan bahwa situs ini akan ada selama-lamanya tanpa batas. Kalau Theday harus
+            menghentikan layanan, ketentuan pemberitahuan dan ekspor data di bagian 8 (Penghentian Layanan)
+            yang berlaku — bukan pengembalian dana, karena akses "selamanya" sudah kamu terima sejak
+            pembayaran hingga hari layanan berhenti.
         </li>
         <li>
             <strong>Garansi uang kembali</strong> — jika kamu tidak puas dalam <strong>7 hari pertama</strong>
@@ -216,7 +223,9 @@
         <li>
             <strong>Oleh Theday</strong> — jika Theday memutuskan untuk menghentikan layanan secara keseluruhan,
             kami akan memberikan pemberitahuan minimal 30 hari sebelumnya melalui email terdaftar,
-            sehingga kamu punya waktu untuk mengunduh data undanganmu.
+            sehingga kamu punya waktu untuk mengunduh data undanganmu. Ini juga berlaku untuk pengguna Premium:
+            akses "selamanya" pada bagian 4 berarti selamanya selama Theday beroperasi, dan penghentian layanan
+            dengan pemberitahuan ini bukan pelanggaran atas janji tersebut.
         </li>
         <li>
             <strong>Retensi data setelah penghapusan</strong> — setelah akun dihapus, data pribadimu akan

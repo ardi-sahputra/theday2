@@ -51,4 +51,19 @@ class LegalPagesTest extends TestCase
         $this->assertStringContainsString('Google Analytics', $body);
         $this->assertStringNotContainsString('belum menggunakan layanan analitik', $body);
     }
+
+    /**
+     * "Lifetime" premium (see PaymentActivationServiceLifetimeTest) must be
+     * defined as bounded by Theday's own operating lifespan, not read as an
+     * absolute eternal guarantee — and must not promise a refund if Theday
+     * ever shuts down (that scenario is already covered by the 30-day notice
+     * + data-export clause in bagian 8).
+     */
+    public function test_terms_defines_lifetime_as_bounded_by_service_lifespan(): void
+    {
+        $body = $this->get('/syarat-ketentuan')->assertOk()->getContent();
+
+        $this->assertStringContainsString('Arti "selamanya"', $body);
+        $this->assertStringContainsString('bukan pelanggaran atas janji tersebut', $body);
+    }
 }
