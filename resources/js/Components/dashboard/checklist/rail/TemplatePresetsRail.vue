@@ -9,7 +9,7 @@ const { t } = useLocale();
 <template>
   <div class="rounded-[16px]" style="background: linear-gradient(135deg, #F4EDDC, #E9DFC4); border:1px solid #E0D2BD;">
     <div class="px-5 pt-4 pb-3">
-      <h3 class="font-cormorant font-medium text-[20px] tracking-tight" style="color:#1F2A2E;">{{ t('dashboard.checklist.rail.templates.title') }}</h3>
+      <h3 class="font-medium text-[20px] tracking-tight" style="color:#1F2A2E;">{{ t('dashboard.checklist.rail.templates.title') }}</h3>
       <p class="text-[11.5px] mt-0.5" style="color:#8E6515;">{{ t('dashboard.checklist.rail.templates.sub') }}</p>
     </div>
     <div class="px-5 pb-4 flex flex-col gap-1.5">

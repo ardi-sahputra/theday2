@@ -24,6 +24,7 @@ class UpdatePlanRequest extends FormRequest
         return [
             'name'               => ['required', 'string', 'max:100'],
             'price'              => ['required', 'integer', 'min:0'],
+            'original_price'     => ['nullable', 'integer', 'min:0', 'gt:price'],
             'duration_days'      => ['required', 'integer', 'min:1', 'max:3650'],
             'max_invitations'    => ['required', 'integer', 'min:0'],
             'max_gallery_photos' => ['required', 'integer', 'min:1'],

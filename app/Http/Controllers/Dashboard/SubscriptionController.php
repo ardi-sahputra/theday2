@@ -59,10 +59,10 @@ class SubscriptionController extends Controller
             ],
             'premiumPlan' => $premiumPlan ? [
                 'price'            => $premiumPlan->effectivePrice(),
-                'original_price'   => (int) $premiumPlan->price,
+                'original_price'   => $premiumPlan->hasVisibleDiscount() ? (int) $premiumPlan->original_price : null,
                 'duration_days'    => $premiumPlan->duration_days,
-                'has_discount'     => $premiumPlan->hasActiveDiscount(),
-                'discount_percent' => $premiumPlan->currentDiscount()?->percent,
+                'has_discount'     => $premiumPlan->hasVisibleDiscount(),
+                'discount_percent' => $premiumPlan->discountPercentOff(),
             ] : null,
             // Set when arriving from onboarding with a Premium choice → auto-start checkout.
             'autoCheckout' => $request->query('checkout') === 'premium',

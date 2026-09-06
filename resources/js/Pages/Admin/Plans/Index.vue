@@ -63,7 +63,10 @@ function fmtDuration(days) {
                     </span>
                 </div>
 
-                <div class="text-lg font-bold tabular-nums text-foreground">{{ fmtPrice(plan.price) }}</div>
+                <div class="flex items-baseline gap-2">
+                    <span v-if="plan.original_price > plan.price" class="text-xs text-muted-foreground line-through tabular-nums">{{ fmtPrice(plan.original_price) }}</span>
+                    <span class="text-lg font-bold tabular-nums text-foreground">{{ fmtPrice(plan.price) }}</span>
+                </div>
 
                 <div class="pt-2 border-t border-border">
                     <Link
@@ -93,7 +96,10 @@ function fmtDuration(days) {
                 <tbody>
                     <tr v-for="plan in plans" :key="plan.id" class="border-t border-border">
                         <td class="px-5 py-4 font-medium">{{ plan.name }}</td>
-                        <td class="px-5 py-4 tabular-nums">{{ fmtPrice(plan.price) }}</td>
+                        <td class="px-5 py-4 tabular-nums">
+                            <span v-if="plan.original_price > plan.price" class="text-xs text-muted-foreground line-through mr-1.5">{{ fmtPrice(plan.original_price) }}</span>
+                            {{ fmtPrice(plan.price) }}
+                        </td>
                         <td class="px-5 py-4">{{ fmtDuration(plan.duration_days) }}</td>
                         <td class="px-5 py-4">
                             <span v-if="plan.is_active" class="inline-flex items-center gap-1.5 text-green-700">

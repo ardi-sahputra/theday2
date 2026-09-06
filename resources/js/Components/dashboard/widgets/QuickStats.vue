@@ -60,7 +60,7 @@ const cards = computed(() => {
         <span v-if="s.demo" class="ml-auto text-[9.5px] font-semibold px-1.5 py-0.5 rounded-full shrink-0"
               style="background: rgba(217,162,74,0.16); color:#B07D2A;">{{ t('dashboard.index.widgets.demoBadge') }}</span>
       </div>
-      <div class="font-cormorant font-medium leading-none tracking-tight text-[28px]" style="color:#1F2A2E;">{{ s.value }}</div>
+      <div class="font-medium leading-none tracking-tight text-[28px]" style="color:#1F2A2E;">{{ s.value }}</div>
       <div class="text-xs mt-1" style="color:#6C7A75;">{{ s.sub }}</div>
     </div>
   </div>

@@ -27,7 +27,7 @@ const cards = computed(() => [
         <WidgetIcon :name="c.icon" :size="16" :stroke="c.fg" />
       </div>
       <div class="min-w-0">
-        <div class="font-cormorant font-medium text-[24px] leading-none" style="color:#1F2A2E;">{{ c.value }}</div>
+        <div class="font-medium text-[24px] leading-none" style="color:#1F2A2E;">{{ c.value }}</div>
         <div class="text-[11.5px] mt-1 truncate" style="color:#6C7A75;">{{ c.label }}</div>
       </div>
     </div>

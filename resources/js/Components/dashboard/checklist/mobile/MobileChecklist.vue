@@ -36,7 +36,7 @@ const stampColor = (cat) => ({ overdue: '#C19089', today: '#C19089', week: '#D9A
       <div class="relative">
         <div class="text-[10px] tracking-[0.2em] uppercase font-semibold" style="color:rgba(251,252,249,0.55);">{{ t('dashboard.checklist.hero.overall') }}</div>
         <div class="flex items-baseline gap-3 mt-1.5">
-          <div class="font-cormorant font-medium text-[44px] leading-none">{{ progress }}%</div>
+          <div class="font-medium text-[44px] leading-none">{{ progress }}%</div>
           <div class="text-[12px]" style="color:rgba(251,252,249,0.7);">{{ t('dashboard.checklist.hero.doneOfTotal', { done, total }) }}</div>
         </div>
         <div class="mt-3 h-1.5 rounded-full overflow-hidden" style="background:rgba(251,252,249,0.12);">
@@ -107,7 +107,7 @@ const stampColor = (cat) => ({ overdue: '#C19089', today: '#C19089', week: '#D9A
     <div v-for="g in buckets" :key="g.cat" class="mb-1">
       <div class="flex items-center gap-2.5 py-2">
         <span class="font-jet text-[10px] font-bold tracking-wide px-2 py-0.5 rounded-full text-white" :style="{ background: stampColor(g.cat) }">{{ g.stamp }}</span>
-        <span class="font-cormorant font-semibold text-[17px]" style="color:#1F2A2E;">{{ g.label }}</span>
+        <span class="font-semibold text-[17px]" style="color:#1F2A2E;">{{ g.label }}</span>
         <span class="ml-auto text-[10.5px]" style="color:#6C7A75;">{{ g.tasks.length }} {{ t('dashboard.checklist.mobile.tasks') }}</span>
       </div>
       <MobileTaskCard v-for="tk in g.tasks" :key="tk.id" :data-focus-id="tk.id" :task="tk" @tap="emit('openTask', $event)" @toggle="emit('toggle', $event)" />

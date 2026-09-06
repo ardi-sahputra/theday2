@@ -27,7 +27,7 @@ function jt(n) { return 'Rp ' + Math.round((n || 0) / 1_000_000) + 'jt'; }
 <template>
   <div class="rounded-[16px]" style="background:#FBFCF9; border:1px solid #D8DFD2;">
     <div class="px-5 pt-4 pb-3">
-      <h3 class="font-cormorant font-medium text-[20px] tracking-tight" style="color:#1F2A2E;">{{ t('dashboard.budget.donut.title') }}</h3>
+      <h3 class="font-medium text-[20px] tracking-tight" style="color:#1F2A2E;">{{ t('dashboard.budget.donut.title') }}</h3>
       <p class="text-[11.5px] mt-0.5" style="color:#6C7A75;">{{ t('dashboard.budget.donut.sub') }}</p>
     </div>
     <div class="px-5 pb-5">
@@ -40,7 +40,7 @@ function jt(n) { return 'Rp ' + Math.round((n || 0) / 1_000_000) + 'jt'; }
         </svg>
         <div class="absolute inset-0 flex flex-col items-center justify-center">
           <div class="text-[10.5px] uppercase tracking-wide font-semibold" style="color:#6C7A75;">{{ t('dashboard.budget.donut.used') }}</div>
-          <div class="font-cormorant font-medium text-[38px] leading-none" style="color:#1F2A2E;">{{ pct }}%</div>
+          <div class="font-medium text-[38px] leading-none" style="color:#1F2A2E;">{{ pct }}%</div>
           <div class="text-[12px] mt-1" style="color:#6C7A75;">{{ jt(totalActual) }} / {{ jt(totalPlanned) }}</div>
         </div>
       </div>

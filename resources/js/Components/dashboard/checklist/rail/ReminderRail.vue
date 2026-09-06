@@ -8,7 +8,7 @@ const AV = { bride: '#C7D3BC', groom: '#D9B5B0' };
 <template>
   <div class="rounded-[16px]" style="background:#FBFCF9; border:1px solid #D8DFD2;">
     <div class="px-5 pt-4 pb-3">
-      <h3 class="font-cormorant font-medium text-[20px] tracking-tight" style="color:#1F2A2E;">{{ t('dashboard.checklist.rail.reminders.title') }}</h3>
+      <h3 class="font-medium text-[20px] tracking-tight" style="color:#1F2A2E;">{{ t('dashboard.checklist.rail.reminders.title') }}</h3>
       <p class="text-[11.5px] mt-0.5" style="color:#6C7A75;">{{ t('dashboard.checklist.rail.reminders.sub') }}</p>
     </div>
     <div class="px-5 pb-4">
@@ -19,7 +19,7 @@ const AV = { bride: '#C7D3BC', groom: '#D9B5B0' };
             <div class="font-jet text-[10.5px] font-semibold tracking-wide" :style="{ color: r.urgent ? '#C19089' : '#6C7A75' }">{{ r.when }}</div>
             <div class="text-[13px] mt-0.5 font-medium truncate" style="color:#1F2A2E;">{{ r.title }}</div>
           </div>
-          <div v-if="r.who" class="w-5 h-5 rounded-full grid place-items-center text-[9px] font-bold font-cormorant flex-shrink-0"
+          <div v-if="r.who" class="w-5 h-5 rounded-full grid place-items-center text-[9px] font-bold flex-shrink-0"
                :style="{ background: AV[r.who] || '#DCE4D3', color:'#1F2A2E' }">{{ r.who === 'groom' ? 'R' : 'A' }}</div>
         </div>
       </template>

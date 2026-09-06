@@ -24,7 +24,7 @@ const { t } = useLocale();
           {{ t('dashboard.checklist.hero.overall') }}
         </div>
         <div class="flex items-baseline gap-4 mt-2.5">
-          <div class="font-cormorant font-medium leading-none tracking-tight text-[58px] text-white">{{ progress }}%</div>
+          <div class="font-medium leading-none tracking-tight text-[58px] text-white">{{ progress }}%</div>
           <div class="text-sm" style="color: rgba(251,252,249,0.7);">
             {{ t('dashboard.checklist.hero.doneOfTotal', { done, total }) }}
           </div>
@@ -44,10 +44,10 @@ const { t } = useLocale();
           <div class="text-[11.5px] tracking-[0.18em] uppercase font-semibold" style="color: rgba(251,252,249,0.6);">
             {{ t('dashboard.checklist.hero.toTheDay') }}
           </div>
-          <div v-if="hasEventDate && daysUntil !== null" class="font-cormorant italic text-[28px] text-white mt-1.5 font-medium">
+          <div v-if="hasEventDate && daysUntil !== null" class="italic text-[28px] text-white mt-1.5 font-medium">
             {{ t('dashboard.checklist.hero.daysLeft', { days: daysUntil }) }}
           </div>
-          <div v-else class="font-cormorant italic text-[22px] mt-1.5 font-medium" style="color: rgba(251,252,249,0.6);">
+          <div v-else class="italic text-[22px] mt-1.5 font-medium" style="color: rgba(251,252,249,0.6);">
             {{ t('dashboard.checklist.hero.noDate') }}
           </div>
         </div>

@@ -20,6 +20,7 @@ class Plan extends Model
         'name',
         'slug',
         'price',
+        'original_price',
         'duration_days',
         'max_invitations',
         'max_gallery_photos',
@@ -36,6 +37,7 @@ class Plan extends Model
     {
         return [
             'price'              => 'decimal:2',
+            'original_price'     => 'decimal:2',
             'duration_days'      => 'integer',
             'max_invitations'    => 'integer',
             'max_gallery_photos' => 'integer',
@@ -113,5 +115,23 @@ class Plan extends Model
             return (int) $this->price;
         }
         return (int) round((int) $this->price * (1 - $discount->percent / 100));
+    }
+
+    /**
+     * Static "coret harga" anchor for pricing pages (e.g. Rp199.000 struck
+     * through next to a Rp49.000 price). Independent of the time-boxed
+     * percent discounts in plan_discounts — this never expires on its own.
+     */
+    public function hasVisibleDiscount(): bool
+    {
+        return $this->original_price !== null && (float) $this->original_price > (float) $this->price;
+    }
+
+    public function discountPercentOff(): ?int
+    {
+        if (! $this->hasVisibleDiscount()) {
+            return null;
+        }
+        return (int) round((1 - (float) $this->price / (float) $this->original_price) * 100);
     }
 }

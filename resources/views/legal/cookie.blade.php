@@ -4,7 +4,7 @@
 @section('meta_description', 'Kebijakan Cookie Theday — pelajari cookie apa saja yang kami gunakan dan bagaimana mengatur preferensimu.')
 @section('breadcrumb', 'Kebijakan Cookie')
 @section('page_title', 'Kebijakan Cookie')
-@section('last_updated', '16 April 2026')
+@section('last_updated', '6 September 2026')
 
 @section('toc')
     <a href="#apa-itu-cookie"       class="toc-link">1. Apa itu Cookie?</a>
@@ -29,8 +29,9 @@
         membantu website memberikan pengalaman yang lebih baik dan personal untukmu.
     </p>
     <p>
-        Theday menggunakan cookie seminimal mungkin — hanya yang benar-benar diperlukan untuk menjalankan
-        layanan dan meningkatkan pengalamanmu.
+        Theday menggunakan cookie seminimal mungkin: cookie wajib untuk menjalankan layanan, ditambah
+        cookie analitik Google Analytics untuk mengukur penggunaan situs. Kami tidak memasang cookie
+        iklan dan tidak melacakmu di situs lain.
     </p>
 </section>
 
@@ -44,7 +45,7 @@
     </p>
     <ul>
         <li>
-            <strong>theday_session</strong> — menyimpan sesi login kamu. Tanpa cookie ini, kamu tidak bisa
+            <strong>theday2_session</strong> — menyimpan sesi login kamu. Tanpa cookie ini, kamu tidak bisa
             masuk ke akun dan menggunakan fitur Theday. Cookie ini dihapus otomatis saat kamu menutup
             browser (kecuali kamu memilih "Ingat Saya").
         </li>
@@ -65,19 +66,25 @@
         </li>
     </ul>
 
-    <h3>Cookie Analitik (Opsional)</h3>
+    <h3>Cookie Analitik</h3>
     <p>
-        Cookie ini membantu kami memahami cara pengguna menggunakan Theday, sehingga kami dapat
-        terus meningkatkan produk. Data analitik bersifat anonim dan tidak digunakan untuk
-        mengidentifikasi dirimu secara personal.
+        Theday menggunakan <strong>Google Analytics 4</strong> untuk memahami cara pengguna memakai
+        layanan ini — halaman mana yang paling sering dibuka, dari perangkat apa, dan di mana orang
+        berhenti — supaya kami tahu bagian mana yang perlu diperbaiki. Kami tidak mengirimkan nama,
+        email, atau isi undanganmu ke Google Analytics.
     </p>
     <ul>
         <li>
-            Saat ini Theday belum menggunakan layanan analitik pihak ketiga seperti Google Analytics.
-            Jika kami menambahkan layanan ini di masa mendatang, kebijakan ini akan diperbarui
-            dan kamu akan diberitahu.
+            <strong>_ga</strong> dan <strong>_ga_&lt;ID&gt;</strong> — dipasang oleh Google Analytics untuk
+            membedakan satu pengunjung dari yang lain. Berisi ID acak, bukan identitas kamu.
         </li>
     </ul>
+    <p>
+        Cookie ini tidak wajib. Kamu bisa menolaknya lewat pengaturan browser (lihat bagian berikutnya),
+        lewat mode "Do Not Track"/pemblokir skrip, atau lewat
+        <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener">add-on penolakan
+        Google Analytics</a>. Menolaknya tidak memengaruhi satu pun fitur Theday.
+    </p>
 </section>
 
 {{-- 3 --}}

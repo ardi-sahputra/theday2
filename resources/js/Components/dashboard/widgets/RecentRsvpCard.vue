@@ -21,7 +21,7 @@ const rows = computed(() => props.recentRsvps.map((r, i) => ({
   <div class="rounded-[18px] overflow-hidden" style="background:#FBFCF9; border:1px solid #D8DFD2;">
     <div class="flex items-center justify-between px-5 py-[18px]" style="border-bottom:1px solid #D8DFD2;">
       <div>
-        <h3 class="font-cormorant font-medium text-[22px] tracking-tight" style="color:#1F2A2E;">{{ t('dashboard.index.widgets.rsvp.title') }}</h3>
+        <h3 class="font-medium text-[22px] tracking-tight" style="color:#1F2A2E;">{{ t('dashboard.index.widgets.rsvp.title') }}</h3>
         <div class="text-xs mt-0.5" style="color:#6C7A75;">{{ t('dashboard.index.widgets.rsvp.sub') }}</div>
       </div>
       <Link :href="route('dashboard.rsvp.index')" class="text-[12.5px] font-semibold" style="color:#6F8270;">
@@ -31,7 +31,7 @@ const rows = computed(() => props.recentRsvps.map((r, i) => ({
     <div v-if="rows.length">
       <div v-for="(g, i) in rows" :key="i" class="flex items-center gap-3 px-5 py-3.5"
            :style="i < rows.length - 1 ? 'border-bottom:1px solid #D8DFD2;' : ''">
-        <div class="w-9 h-9 rounded-full grid place-items-center text-[11px] font-bold font-cormorant flex-shrink-0"
+        <div class="w-9 h-9 rounded-full grid place-items-center text-[11px] font-bold flex-shrink-0"
              :style="{ background: g.color, color:'#1F2A2E' }">{{ g.initials }}</div>
         <div class="flex-1 min-w-0">
           <div class="text-[13.5px] font-semibold truncate" style="color:#1F2A2E;">{{ g.guest_name }}</div>

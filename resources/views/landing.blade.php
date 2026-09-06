@@ -1484,9 +1484,9 @@
                             $premiumDuration = $premiumPlan->duration_days ?? 365;
                         @endphp
                         <div class="mb-6">
-                            @if ($premiumPlan && $premiumPlan->hasActiveDiscount())
+                            @if ($premiumPlan && $premiumPlan->hasVisibleDiscount())
                                 <span class="text-base text-gray-400 line-through">Rp
-                                    {{ number_format((int) $premiumPlan->price, 0, ',', '.') }}</span>
+                                    {{ number_format((int) $premiumPlan->original_price, 0, ',', '.') }}</span>
                             @endif
                             <p class="text-3xl font-bold" style="color: #C8A26B">Rp
                                 {{ number_format($premiumPrice, 0, ',', '.') }}</p>

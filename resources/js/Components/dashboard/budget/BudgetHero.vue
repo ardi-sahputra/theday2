@@ -22,16 +22,16 @@ const f            = computed(() => props.summary?.formatted ?? {});
     <div class="relative z-10 grid gap-7 sm:grid-cols-2 lg:grid-cols-[1fr_1fr_1fr_1.4fr]">
       <div>
         <div class="text-[10.5px] tracking-[0.18em] uppercase font-semibold" style="color:rgba(251,252,249,0.55);">{{ t('dashboard.budget.hero.total') }}</div>
-        <div class="font-cormorant font-medium text-[36px] mt-2 leading-none tracking-tight">{{ f.total_budget ?? '—' }}</div>
+        <div class="font-medium text-[36px] mt-2 leading-none tracking-tight">{{ f.total_budget ?? '—' }}</div>
       </div>
       <div>
         <div class="text-[10.5px] tracking-[0.18em] uppercase font-semibold" style="color:rgba(251,252,249,0.55);">{{ t('dashboard.budget.hero.used') }}</div>
-        <div class="font-cormorant font-medium text-[36px] mt-2 leading-none tracking-tight" style="color:#C7D3BC;">{{ f.total_actual ?? '—' }}</div>
+        <div class="font-medium text-[36px] mt-2 leading-none tracking-tight" style="color:#C7D3BC;">{{ f.total_actual ?? '—' }}</div>
         <div class="text-[11.5px] mt-1.5" style="color:rgba(251,252,249,0.6);">{{ t('dashboard.budget.hero.ofBudget', { pct }) }}</div>
       </div>
       <div>
         <div class="text-[10.5px] tracking-[0.18em] uppercase font-semibold" style="color:rgba(251,252,249,0.55);">{{ t('dashboard.budget.hero.remaining') }}</div>
-        <div class="font-cormorant font-medium text-[36px] mt-2 leading-none tracking-tight">{{ f.remaining_budget ?? '—' }}</div>
+        <div class="font-medium text-[36px] mt-2 leading-none tracking-tight">{{ f.remaining_budget ?? '—' }}</div>
       </div>
       <div class="sm:border-l sm:pl-6" style="border-color: rgba(251,252,249,0.12);">
         <div class="text-[10.5px] tracking-[0.18em] uppercase font-semibold" style="color:rgba(251,252,249,0.55);">{{ t('dashboard.budget.hero.status') }}</div>
@@ -45,7 +45,7 @@ const f            = computed(() => props.summary?.formatted ?? {});
         </div>
         <div class="mt-3">
           <div class="text-[10px] tracking-[0.16em] uppercase font-semibold" style="color:rgba(251,252,249,0.45);">{{ t('dashboard.budget.hero.forecast') }}</div>
-          <div class="font-cormorant font-medium text-[22px] leading-none mt-1"
+          <div class="font-medium text-[22px] leading-none mt-1"
                :style="{ color: overBudget ? '#E8C4B8' : '#DCE4D3' }">{{ f.forecast_total ?? '—' }}</div>
           <div class="text-[11px] mt-1" style="color:rgba(251,252,249,0.55);">
             <template v-if="hasBudget && forecastOver">{{ t('dashboard.budget.hero.forecastOver', { amount: f.forecast_over_amount }) }}</template>

@@ -12,7 +12,7 @@ Dua environment, satu skrip deploy, dua workflow GitHub Actions.
 | Database | `u144336260_staging_theday` | database prod (terpisah) |
 | Akses | terbuka + `X-Robots-Tag: noindex` (basic auth opsional) | publik |
 | Email | `MAIL_MAILER=log` (tidak terkirim) | SMTP asli |
-| Midtrans | sandbox | production |
+| Mayar | sandbox | production |
 | Workflow | `.github/workflows/deploy-staging.yml` | `.github/workflows/deploy.yml` |
 
 Server: Hostinger shared, `u144336260@46.202.138.29:65002`. PHP 8.4, Composer 2.9,
@@ -141,7 +141,9 @@ ulang skrip yang sama. Skrip idempotent.
 
 - **Google OAuth** — tambahkan `https://staging.theday.id/auth/google/callback`
   ke Authorized redirect URIs.
-- **Midtrans** — pakai sandbox key, set webhook ke `https://staging.theday.id/webhooks/...`.
+- **Mayar** — pakai sandbox key (`MAYAR_IS_PRODUCTION=false`), set webhook ke
+  `https://staging.theday.id/webhooks/mayar` dan isi `MAYAR_WEBHOOK_TOKEN` dengan
+  token dari dashboard Mayar. Selama token kosong, webhook menolak semua callback (503).
 - **R2/S3** — bucket terpisah supaya upload staging tidak mengotori prod.
 
 ---

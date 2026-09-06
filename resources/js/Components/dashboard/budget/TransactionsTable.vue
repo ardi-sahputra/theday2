@@ -40,7 +40,7 @@ const isUpcoming = (it) => it.payment_status !== 'paid' && !!it.due_date;
           <WidgetIcon v-if="it.vendor_name" name="vendor" :size="12" stroke="#6F8270" /> <span class="truncate">{{ it.vendor_name || '—' }}</span>
         </div>
         <div class="font-jet text-[11.5px]" :style="{ color: isUpcoming(it) ? '#D9A24A' : '#6C7A75' }">{{ it.due_date_label || it.payment_date_label || '—' }}</div>
-        <div class="text-right font-cormorant text-[18px] font-medium" style="color:#1F2A2E;">{{ it.formatted?.terpakai }}</div>
+        <div class="text-right text-[18px] font-medium" style="color:#1F2A2E;">{{ it.formatted?.terpakai }}</div>
         <div class="text-right">
           <span class="inline-flex items-center gap-1.5 text-[11px] font-semibold px-2 py-0.5 rounded-full"
                 :style="{ background: (STATUS[it.payment_status] || STATUS.unpaid).bg, color: (STATUS[it.payment_status] || STATUS.unpaid).fg }">

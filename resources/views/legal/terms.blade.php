@@ -4,7 +4,7 @@
 @section('meta_description', 'Syarat dan Ketentuan penggunaan Theday — platform undangan pernikahan digital Indonesia.')
 @section('breadcrumb', 'Syarat & Ketentuan')
 @section('page_title', 'Syarat & Ketentuan')
-@section('last_updated', '16 April 2026')
+@section('last_updated', '6 September 2026')
 
 @section('toc')
     <a href="#pendahuluan"          class="toc-link">1. Pendahuluan</a>
@@ -105,8 +105,9 @@
     <h2>4. Pembayaran dan Langganan</h2>
     <ul>
         <li>
-            <strong>Pemrosesan pembayaran</strong> — semua transaksi diproses melalui <strong>Midtrans</strong>,
-            payment gateway berlisensi Bank Indonesia. Theday tidak menyimpan data kartu kreditmu.
+            <strong>Pemrosesan pembayaran</strong> — semua transaksi diproses melalui <strong>Mayar</strong>,
+            penyedia payment gateway pihak ketiga. Theday tidak menyimpan data kartu kreditmu; yang kami
+            simpan hanya catatan transaksi (nomor invoice, jumlah, status, dan ID transaksi dari Mayar).
         </li>
         <li>
             <strong>Harga</strong> — harga dapat berubah sewaktu-waktu, namun kami akan memberikan pemberitahuan

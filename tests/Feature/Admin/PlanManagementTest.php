@@ -141,6 +141,57 @@ class PlanManagementTest extends TestCase
             ->assertSessionHasErrors('price');
     }
 
+    public function test_admin_can_set_original_price_anchor(): void
+    {
+        $premium = Plan::factory()->premium()->create(['price' => 35000]);
+
+        $payload = [
+            'name'               => 'Premium',
+            'price'              => 49000,
+            'original_price'     => 199000,
+            'duration_days'      => 365,
+            'max_invitations'    => 2,
+            'max_gallery_photos' => 9999,
+            'custom_music'       => true,
+            'remove_watermark'   => true,
+            'custom_domain'      => true,
+            'analytics_access'   => true,
+            'features'           => ['Undangan tidak terbatas', 'Tanpa watermark'],
+            'is_active'          => true,
+        ];
+
+        $this->actingAs($this->admin(), 'admin')
+            ->patch("/admin/plans/{$premium->id}", $payload)
+            ->assertRedirect('/admin/plans');
+
+        $premium->refresh();
+        $this->assertSame(49000, (int) $premium->price);
+        $this->assertSame(199000, (int) $premium->original_price);
+        $this->assertTrue($premium->hasVisibleDiscount());
+    }
+
+    public function test_validation_rejects_original_price_not_greater_than_price(): void
+    {
+        $premium = Plan::factory()->premium()->create();
+
+        $this->actingAs($this->admin(), 'admin')
+            ->patch("/admin/plans/{$premium->id}", [
+                'name'               => 'Premium',
+                'price'              => 49000,
+                'original_price'     => 49000,
+                'duration_days'      => 365,
+                'max_invitations'    => 2,
+                'max_gallery_photos' => 9999,
+                'custom_music'       => true,
+                'remove_watermark'   => true,
+                'custom_domain'      => true,
+                'analytics_access'   => true,
+                'features'           => ['x'],
+                'is_active'          => true,
+            ])
+            ->assertSessionHasErrors('original_price');
+    }
+
     public function test_validation_rejects_empty_features(): void
     {
         $premium = Plan::factory()->premium()->create();

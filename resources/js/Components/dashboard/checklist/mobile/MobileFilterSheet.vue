@@ -42,7 +42,7 @@ const pill = (active) => active
         <div class="rounded-t-[24px] pb-7 pt-3 max-h-[82%] flex flex-col" style="background:#FBFCF9;">
           <div class="w-9 h-1 rounded-full mx-auto mb-4" style="background:#C7D0BE;" />
           <div class="flex items-center justify-between px-6 pb-4">
-            <div class="font-cormorant font-semibold text-[22px]" style="color:#1F2A2E;">{{ t('dashboard.checklist.mobile.filter') }}</div>
+            <div class="font-semibold text-[22px]" style="color:#1F2A2E;">{{ t('dashboard.checklist.mobile.filter') }}</div>
             <button type="button" @click="emit('close')" class="w-8 h-8 rounded-full grid place-items-center" style="background:#F6F8F3; border:1px solid #D8DFD2;">
               <WidgetIcon name="plus" :size="16" stroke="#3D4A4D" class="rotate-45" />
             </button>

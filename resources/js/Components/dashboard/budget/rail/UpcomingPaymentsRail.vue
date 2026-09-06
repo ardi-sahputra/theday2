@@ -8,7 +8,7 @@ const { t } = useLocale();
 <template>
   <div class="rounded-[16px]" style="background:#FBFCF9; border:1px solid #D8DFD2;">
     <div class="px-5 pt-4 pb-3">
-      <h3 class="font-cormorant font-medium text-[20px] tracking-tight" style="color:#1F2A2E;">{{ t('dashboard.budget.rail.upcoming.title') }}</h3>
+      <h3 class="font-medium text-[20px] tracking-tight" style="color:#1F2A2E;">{{ t('dashboard.budget.rail.upcoming.title') }}</h3>
       <p class="text-[11.5px] mt-0.5" style="color:#6C7A75;">{{ t('dashboard.budget.rail.upcoming.sub') }}</p>
     </div>
     <div class="px-5 pb-4">
@@ -21,7 +21,7 @@ const { t } = useLocale();
             <div class="text-[13px] font-semibold truncate" style="color:#1F2A2E;">{{ p.title }}</div>
             <div class="text-[11px] mt-0.5 truncate" style="color:#6C7A75;">{{ p.vendor_name || p.due_date_label }}</div>
           </div>
-          <div class="font-cormorant text-[18px] font-medium" style="color:#1F2A2E;">{{ p.formatted?.terpakai }}</div>
+          <div class="text-[18px] font-medium" style="color:#1F2A2E;">{{ p.formatted?.terpakai }}</div>
         </div>
       </template>
       <p v-else class="text-[12.5px] py-2" style="color:#6C7A75;">{{ t('dashboard.budget.rail.upcoming.empty') }}</p>

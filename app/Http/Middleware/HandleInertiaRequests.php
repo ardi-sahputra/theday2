@@ -111,6 +111,9 @@ class HandleInertiaRequests extends Middleware
             ],
             'locale' => $locale,
             'translations' => $translations,
+            'features' => [
+                'beyond' => (bool) config('features.beyond'),
+            ],
         ];
     }
 

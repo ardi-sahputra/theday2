@@ -4,7 +4,7 @@
 @section('meta_description', 'Kebijakan Privasi Theday — pelajari bagaimana kami mengumpulkan, menggunakan, dan melindungi data pribadimu.')
 @section('breadcrumb', 'Kebijakan Privasi')
 @section('page_title', 'Kebijakan Privasi')
-@section('last_updated', '16 April 2026')
+@section('last_updated', '6 September 2026')
 
 @section('toc')
     <a href="#pendahuluan"          class="toc-link">1. Pendahuluan</a>
@@ -88,9 +88,10 @@
 
     <h3>Data Pembayaran</h3>
     <p>
-        Transaksi pembayaran diproses sepenuhnya oleh <strong>Midtrans</strong>, payment gateway terpercaya
-        yang telah berlisensi Bank Indonesia. <strong>Theday tidak menyimpan data kartu kredit, nomor kartu,
-        atau informasi pembayaran sensitif lainnya</strong> di server kami.
+        Transaksi pembayaran diproses sepenuhnya oleh <strong>Mayar</strong>, penyedia payment gateway
+        pihak ketiga yang kami gunakan. <strong>Theday tidak menyimpan data kartu kredit, nomor kartu,
+        atau informasi pembayaran sensitif lainnya</strong> di server kami. Yang kami simpan hanya catatan
+        transaksi: nomor invoice, jumlah, status pembayaran, dan ID transaksi dari Mayar.
     </p>
 </section>
 
@@ -100,7 +101,7 @@
     <p>Data yang kami kumpulkan digunakan untuk:</p>
     <ul>
         <li><strong>Menyediakan layanan</strong> — membuat, mengelola, dan menampilkan undangan digitalmu</li>
-        <li><strong>Memproses pembayaran</strong> — mengirimkan data yang diperlukan ke Midtrans untuk transaksi</li>
+        <li><strong>Memproses pembayaran</strong> — mengirimkan data yang diperlukan ke Mayar untuk transaksi</li>
         <li><strong>Notifikasi layanan</strong> — email konfirmasi akun, info perubahan layanan, pengingat RSVP (bukan email marketing)</li>
         <li><strong>Meningkatkan produk</strong> — memahami fitur yang paling sering digunakan agar kami bisa terus membaik</li>
         <li><strong>Keamanan akun</strong> — mendeteksi aktivitas mencurigakan dan melindungi akunmu</li>
@@ -121,24 +122,31 @@
     </p>
     <ul>
         <li>
-            <strong>Midtrans</strong> — memproses pembayaran. Data yang dibagikan: nama, email, dan detail transaksi.
-            Kebijakan privasi Midtrans berlaku untuk data yang mereka proses.
+            <strong>Mayar</strong> — memproses pembayaran. Data yang dibagikan: nama, email, dan detail transaksi.
+            Kebijakan privasi Mayar berlaku untuk data yang mereka proses.
         </li>
         <li>
-            <strong>DigitalOcean Spaces</strong> — menyimpan file dan foto yang kamu unggah (foto undangan, musik, dll.)
-            di server yang aman.
+            <strong>Hostinger</strong> — penyedia server tempat aplikasi dan database Theday berjalan,
+            sekaligus mengirimkan email transaksional kami (konfirmasi akun, reset password, notifikasi
+            pembayaran) lewat layanan SMTP mereka.
         </li>
         <li>
-            <strong>Pusher / Soketi</strong> — mengaktifkan fitur real-time seperti notifikasi RSVP langsung.
-            Tidak ada data profil yang dibagikan, hanya sinyal event.
+            <strong>Cloudflare R2</strong> — menyimpan file dan foto yang kamu unggah (foto undangan, musik, dll.).
         </li>
         <li>
-            <strong>Resend / Postmark</strong> — mengirimkan email transaksional (konfirmasi daftar, reset password, dll.).
-            Email provider hanya menerima alamat email tujuan dan konten email.
+            <strong>DeepSeek</strong> — menghasilkan saran anggaran dan draf checklist saat kamu memakai fitur
+            berbantuan AI. Yang dikirim hanya data perencanaan: nama kategori anggaran, angka rencana dan
+            realisasi, nama serta biaya vendor yang kamu catat, judul task checklist, dan preferensi acara
+            (adat, skala tamu, gaya). <strong>Nama, email, nomor telepon, dan identitas kamu tidak ikut dikirim.</strong>
+            Fitur ini hanya berjalan saat kamu memicunya sendiri.
         </li>
         <li>
-            <strong>Google</strong> — jika kamu memilih masuk dengan Google, kami menerima nama, email, dan foto profil
-            dari akunmu melalui OAuth. Kami tidak meminta akses ke data Google lainnya.
+            <strong>Google</strong> — tiga layanan terpisah:
+            <em>Google Sign-In</em> (jika kamu memilih masuk dengan Google, kami menerima nama, email, dan foto
+            profil lewat OAuth — kami tidak meminta akses ke data Google lainnya);
+            <em>Google Analytics 4</em> (statistik penggunaan situs — lihat bagian Cookie di bawah);
+            dan <em>Firebase Cloud Messaging</em> (mengirim notifikasi push kalau kamu mengizinkannya di
+            aplikasi — yang dibagikan hanya token perangkat dan isi notifikasi).
         </li>
     </ul>
     <p>
@@ -151,7 +159,7 @@
 <section id="keamanan-data" data-section>
     <h2>5. Penyimpanan dan Keamanan Data</h2>
     <ul>
-        <li>Data disimpan di server yang berlokasi di wilayah Asia Tenggara (Singapore/Amsterdam)</li>
+        <li>Aplikasi dan database berjalan di server Hostinger yang berlokasi di Jakarta, Indonesia. File dan foto yang kamu unggah disimpan di Cloudflare R2, yang mereplikasi data ke beberapa lokasi</li>
         <li>Password disimpan menggunakan algoritma hashing bcrypt — tidak dapat dibaca bahkan oleh tim kami</li>
         <li>Komunikasi antara browsermu dan server Theday dienkripsi menggunakan HTTPS/TLS</li>
         <li>Akses ke database produksi dibatasi hanya untuk tim teknis yang berwenang</li>
@@ -193,7 +201,7 @@
     <ul>
         <li><strong>Cookie sesi (wajib)</strong> — diperlukan untuk proses login dan menjaga keamanan sesimu. Tanpa cookie ini, kamu tidak bisa masuk ke akun.</li>
         <li><strong>Cookie preferensi</strong> — menyimpan pilihan bahasa (Indonesia/English) agar tidak perlu diatur ulang setiap kunjungan.</li>
-        <li><strong>Cookie analitik (opsional)</strong> — membantu kami memahami cara pengguna menggunakan Theday sehingga kami dapat meningkatkan produk.</li>
+        <li><strong>Cookie analitik</strong> — Theday memakai Google Analytics 4 untuk memahami cara pengguna memakai layanan ini. Rinciannya, termasuk cara menolaknya, ada di <a href="{{ route('legal.cookie') }}">Kebijakan Cookie</a>.</li>
     </ul>
     <p>
         Kamu dapat menonaktifkan cookie melalui pengaturan browser. Namun perlu diperhatikan bahwa

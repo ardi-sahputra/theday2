@@ -63,8 +63,9 @@ class MigratePlansCommand extends Command
             ['slug' => 'premium'],
             [
                 'name'                => 'Premium',
-                'price'               => 149000,
-                'duration_days'       => 30,
+                'price'               => 49000,
+                'original_price'      => 199000,
+                'duration_days'       => 365,
                 'max_invitations'     => 9999,
                 'max_gallery_photos'  => 9999,
                 'custom_music'        => true,
