@@ -22,7 +22,9 @@ function useTemplate() {
 </script>
 
 <template>
-    <Head :title="`Demo: ${template.name} — TheDay`"/>
+    <Head :title="`Demo: ${template.name} — TheDay`">
+        <meta name="robots" content="noindex, follow"/>
+    </Head>
 
     <!-- ── Demo banner (sticky top, above everything) ───────────── -->
     <div

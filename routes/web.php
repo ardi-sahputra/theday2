@@ -105,15 +105,12 @@ Route::get('/sitemap.xml', function () {
         ['url' => url('/kebijakan-cookie'),      'priority' => '0.3', 'changefreq' => 'yearly'],
     ];
 
-    // Template demo pages
-    \App\Models\Template::where('is_active', true)->select('slug', 'updated_at')->each(function ($tpl) use (&$pages) {
-        $pages[] = [
-            'url'        => url('/templates/' . $tpl->slug . '/demo'),
-            'priority'   => '0.8',
-            'changefreq' => 'monthly',
-            'lastmod'    => $tpl->updated_at->toDateString(),
-        ];
-    });
+    // Template demo pages are excluded on purpose: every demo renders the
+    // same shared config('demo_data.wedding') text through a different
+    // visual template, so Google reads ~36 near-identical pages ("Duplicate
+    // without user-selected canonical"). They also carry a noindex tag
+    // (resources/js/Pages/Templates/Demo.vue) — the /templates gallery page
+    // above is the canonical, indexable entry point for the catalog.
 
     // Published blog articles
     \App\Models\Article::published()->select('slug', 'updated_at')->each(function ($article) use (&$pages) {
@@ -147,7 +144,7 @@ Route::get('/blog/{slug}',                 [BlogController::class, 'show'])->nam
 
 // ── Guest-accessible public routes (no auth required) ───────────────────────
 Route::get('/templates',              [TemplateGalleryController::class, 'index'])->name('templates.gallery');
-Route::get('/templates/{template:slug}/demo', [TemplateGalleryController::class, 'demo'])->name('templates.demo');
+Route::get('/templates/{template:slug}/demo', [TemplateGalleryController::class, 'demo'])->name('templates.demo')->middleware('noindex');
 
 // Template selection — redirects guests to register, authenticated users to editor
 Route::get('/use-template/{template}', UseTemplateController::class)->name('use-template');
