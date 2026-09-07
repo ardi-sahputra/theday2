@@ -33,6 +33,10 @@ const targetHref = (tg) => (tg && TARGET_ROUTE[tg] ? route(TARGET_ROUTE[tg]) : n
 const c = computed(() => facts.value.checklist ?? {});
 const b = computed(() => facts.value.budget ?? {});
 
+// High-priority insights stay visible even when the panel is collapsed, so the
+// couple never misses a critical nudge (e.g. wedding date not set yet).
+const criticalInsights = computed(() => insights.value.filter((i) => i.severity === 'alert'));
+
 // Collapse state persists per-browser so the couple can tuck the panel away.
 const collapsed = ref(typeof localStorage !== 'undefined' && localStorage.getItem('plannerPanelCollapsed') === '1');
 function toggleCollapse() {
@@ -63,7 +67,7 @@ onMounted(() => {
   <section class="rounded-[18px] p-5 mb-5" style="background: linear-gradient(135deg, #2B3A33 0%, #1F2A2E 100%); color:#FBFCF9;">
     <div class="flex items-center gap-2" :class="collapsed ? '' : 'mb-3'">
       <WidgetIcon name="sparkle" :size="16" stroke="#C7D3BC" />
-      <h3 class="font-cormorant font-medium text-[20px] tracking-tight">{{ t('dashboard.planner.title') }}</h3>
+      <h3 class="font-medium text-[20px] tracking-tight">{{ t('dashboard.planner.title') }}</h3>
       <div class="ml-auto flex items-center gap-3">
         <button v-if="enabled && !loading && !collapsed" @click="refresh" class="text-[11px] font-medium opacity-90 hover:opacity-100" style="color:#C7D3BC;">{{ t('dashboard.planner.refresh') }}</button>
         <button @click="toggleCollapse" class="text-[11px] font-medium opacity-90 hover:opacity-100" style="color:#C7D3BC;">{{ collapsed ? t('dashboard.planner.show') : t('dashboard.planner.hide') }}</button>
@@ -106,5 +110,17 @@ onMounted(() => {
       </div>
     </div>
     </template>
+
+    <!-- Collapsed: surface only high-priority (alert) insights so they're never missed -->
+    <div v-else-if="criticalInsights.length" class="space-y-2.5 mt-3">
+      <div v-for="(ins, i) in criticalInsights" :key="i" class="flex items-start gap-2.5">
+        <span class="flex-shrink-0 mt-1.5 w-1.5 h-1.5 rounded-full" :style="{ background: sev(ins.severity).dot }"></span>
+        <div class="flex-1">
+          <p class="text-[12.5px] font-semibold">{{ ins.title }}</p>
+          <p class="text-[12px] mt-0.5" style="color:rgba(251,252,249,0.72);">{{ ins.body }}</p>
+          <a v-if="targetHref(ins.target)" :href="targetHref(ins.target)" class="inline-block mt-1 text-[11px] underline" style="color:#C7D3BC;">{{ t('dashboard.planner.open') }}</a>
+        </div>
+      </div>
+    </div>
   </section>
 </template>

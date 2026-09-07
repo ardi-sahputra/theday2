@@ -4,7 +4,7 @@
 @section('meta_description', 'Syarat dan Ketentuan penggunaan Theday — platform undangan pernikahan digital Indonesia.')
 @section('breadcrumb', 'Syarat & Ketentuan')
 @section('page_title', 'Syarat & Ketentuan')
-@section('last_updated', '16 April 2026')
+@section('last_updated', '6 September 2026')
 
 @section('toc')
     <a href="#pendahuluan"          class="toc-link">1. Pendahuluan</a>
@@ -105,20 +105,26 @@
     <h2>4. Pembayaran dan Langganan</h2>
     <ul>
         <li>
-            <strong>Pemrosesan pembayaran</strong> — semua transaksi diproses melalui <strong>Midtrans</strong>,
-            payment gateway berlisensi Bank Indonesia. Theday tidak menyimpan data kartu kreditmu.
+            <strong>Pemrosesan pembayaran</strong> — semua transaksi diproses melalui <strong>Mayar</strong>,
+            penyedia payment gateway pihak ketiga. Theday tidak menyimpan data kartu kreditmu; yang kami
+            simpan hanya catatan transaksi (nomor invoice, jumlah, status, dan ID transaksi dari Mayar).
         </li>
         <li>
             <strong>Harga</strong> — harga dapat berubah sewaktu-waktu, namun kami akan memberikan pemberitahuan
             setidaknya 14 hari sebelum perubahan harga berlaku.
         </li>
         <li>
-            <strong>Masa aktif paket</strong> — paket berbayar berlaku selama 30 hari sejak tanggal pembayaran
-            berhasil dikonfirmasi.
+            <strong>Masa aktif paket</strong> — paket Premium berlaku <strong>selamanya</strong> setelah pembayaran
+            berhasil dikonfirmasi: sekali bayar, tidak ada tagihan berulang dan tidak pernah kedaluwarsa selama
+            kamu menggunakan Theday. Paket Premium mencakup 2 undangan aktif; kalau butuh lebih, tersedia add-on
+            Rp15.000 per undangan tambahan (juga berlaku selamanya, tidak ada tagihan berulang untuk add-on).
         </li>
         <li>
-            <strong>Tidak ada perpanjangan otomatis</strong> — Theday menggunakan sistem pembayaran sekali bayar
-            (one-time payment). Tidak ada langganan berulang otomatis.
+            <strong>Arti "selamanya"</strong> — masa berlaku ini terikat pada keberlangsungan Theday sebagai
+            layanan, bukan jaminan bahwa situs ini akan ada selama-lamanya tanpa batas. Kalau Theday harus
+            menghentikan layanan, ketentuan pemberitahuan dan ekspor data di bagian 8 (Penghentian Layanan)
+            yang berlaku — bukan pengembalian dana, karena akses "selamanya" sudah kamu terima sejak
+            pembayaran hingga hari layanan berhenti.
         </li>
         <li>
             <strong>Garansi uang kembali</strong> — jika kamu tidak puas dalam <strong>7 hari pertama</strong>
@@ -217,7 +223,9 @@
         <li>
             <strong>Oleh Theday</strong> — jika Theday memutuskan untuk menghentikan layanan secara keseluruhan,
             kami akan memberikan pemberitahuan minimal 30 hari sebelumnya melalui email terdaftar,
-            sehingga kamu punya waktu untuk mengunduh data undanganmu.
+            sehingga kamu punya waktu untuk mengunduh data undanganmu. Ini juga berlaku untuk pengguna Premium:
+            akses "selamanya" pada bagian 4 berarti selamanya selama Theday beroperasi, dan penghentian layanan
+            dengan pemberitahuan ini bukan pelanggaran atas janji tersebut.
         </li>
         <li>
             <strong>Retensi data setelah penghapusan</strong> — setelah akun dihapus, data pribadimu akan

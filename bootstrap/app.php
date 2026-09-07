@@ -49,6 +49,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'onboarding'         => \App\Http\Middleware\EnsureOnboardingComplete::class,
             'invitation.access'  => \App\Http\Middleware\CheckInvitationAccess::class,
             'couple'             => \App\Http\Middleware\ResolveCoupleContext::class,
+            'noindex'            => \App\Http\Middleware\NoIndexResponse::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

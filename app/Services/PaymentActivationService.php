@@ -95,9 +95,13 @@ class PaymentActivationService
         $user = $transaction->user;
         $plan = $transaction->plan;
 
+        // duration_days = 0 means the plan never expires (same convention as
+        // the Free plan) — Premium ships this way: pay once, active forever.
+        $isLifetime = $plan->duration_days <= 0;
+
         $existingSub = $user->activeSubscription;
 
-        if ($existingSub && $existingSub->plan->slug === 'premium' && $existingSub->expires_at?->isFuture()) {
+        if (! $isLifetime && $existingSub && $existingSub->plan->slug === 'premium' && $existingSub->expires_at?->isFuture()) {
             $oldExpiry = $existingSub->expires_at;
             $newExpiry = $oldExpiry->addDays($plan->duration_days);
             $existingSub->update(['expires_at' => $newExpiry]);
@@ -116,7 +120,7 @@ class PaymentActivationService
                 'plan_id'    => $plan->id,
                 'status'     => 'active',
                 'starts_at'  => now(),
-                'expires_at' => now()->addDays($plan->duration_days),
+                'expires_at' => $isLifetime ? null : now()->addDays($plan->duration_days),
             ]);
         }
 
@@ -127,7 +131,7 @@ class PaymentActivationService
         Log::info('Premium activated', [
             'user_id'         => $user->id,
             'subscription_id' => $subscription->id,
-            'expires_at'      => $subscription->expires_at->toDateString(),
+            'expires_at'      => $subscription->expires_at?->toDateString() ?? 'lifetime',
         ]);
     }
 

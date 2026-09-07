@@ -158,14 +158,48 @@ export function useEditorV2(invitation, { http = axios } = {}) {
     })
   }
 
+  // ── Section data (Konten + Bagian tabs) ───────────────────────────────────
+  // One writer for every section: keeps the local copy, the payload shape and
+  // the completion status in step. `status` defaults to complete/empty based on
+  // whether the caller passed anything.
+  async function saveSection(key, data, status = null) {
+    if (!sectionsData[key]) sectionsData[key] = { data: {}, is_enabled: true }
+    sectionsData[key].data = data
+    await run(() => http.patch(`/api/invitations/${id}/sections/${key}`, {
+      data,
+      status: status ?? (isSectionFilled(data) ? 'complete' : 'empty'),
+      is_enabled: sectionsData[key].is_enabled ?? true,
+    }))
+  }
+
+  // Empty = no text anywhere and no list entries. Mirrors the backend's
+  // completeItems/completeText rules closely enough for the editor's badges.
+  function isSectionFilled(data) {
+    return Object.values(data ?? {}).some(v =>
+      Array.isArray(v) ? v.length > 0 : typeof v === 'string' ? v.trim() !== '' : v != null && v !== false
+    )
+  }
+
+  // Image that belongs to a section's own data (e.g. a Kisah Kami photo).
+  // Separate endpoint from galleries so it never shows up in the gallery grid.
+  async function uploadSectionImage(file) {
+    let url = null
+    await run(async () => {
+      const compressed = await compressImage(file, { maxEdge: 1600, quality: 0.82 })
+      const fd = new FormData()
+      fd.append('image', compressed)
+      const res = await http.post(`/api/invitations/${id}/sections/media`, fd, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      })
+      url = res.data.url
+    })
+    return url
+  }
+
   // ── Quote (lives in the `quote` section) ──────────────────────────────────
   async function saveQuote() {
     const data = sectionsData.quote?.data ?? {}
-    await run(() => http.patch(`/api/invitations/${id}/sections/quote`, {
-      data,
-      status: data.text?.trim() ? 'complete' : 'empty',
-      is_enabled: true,
-    }))
+    return saveSection('quote', data, data.text?.trim() ? 'complete' : 'empty')
   }
 
   // ── Section toggle (Bagian tab) ───────────────────────────────────────────
@@ -242,7 +276,7 @@ export function useEditorV2(invitation, { http = axios } = {}) {
     saveDetails, uploadCouplePhoto,
     addEvent, saveEvent, deleteEvent,
     addGalleryPhoto, deleteGalleryPhoto, reorderGalleries,
-    saveQuote, toggleSection, saveConfig,
+    saveQuote, saveSection, uploadSectionImage, toggleSection, saveConfig,
     debounce,
     // preview
     previewInvitation,

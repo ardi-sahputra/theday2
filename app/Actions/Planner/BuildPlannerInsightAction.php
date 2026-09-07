@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Cache;
 final class BuildPlannerInsightAction
 {
     private const DAILY_GENERATION_CAP = 30;
-    private const PROMPT_VERSION = 'v1';
+    private const PROMPT_VERSION = 'v2';
 
     public function __construct(
         private readonly BuildPlannerFactsAction $facts,
@@ -60,7 +60,7 @@ final class BuildPlannerInsightAction
             $this->systemPrompt(),
             json_encode($context, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT),
         );
-        $insights = $this->normalize($result);
+        $insights = $this->normalize($result, $context['hari_menuju_hari_h'] === null);
 
         PlannerInsight::query()->updateOrCreate(
             ['wedding_plan_id' => $plan->id],
@@ -134,7 +134,8 @@ PRIORITAS:
 ATURAN KETAT (anti-halusinasi):
 - HANYA gunakan angka di data. Dilarang mengarang harga, tanggal, atau kategori.
 - "hari_menuju_hari_h" sudah diberikan. Jangan menebak tanggal pernikahan. Jika null, jangan
-  mengarang timeline — sarankan menetapkan tanggal.
+  mengarang timeline — sarankan menetapkan tanggal, dan beri severity "alert" (tanggal belum
+  ditetapkan = prioritas tertinggi karena memblokir seluruh timeline).
 - "target" WAJIB salah satu dari: "budget", "vendor", "checklist", atau null. Jangan membuat URL.
 - Maks 3 kartu, 1-2 kalimat per kartu. Bahasa Indonesia, hangat, to-the-point.
 - Gabungkan sinyal lintas-domain bila relevan (mis. "pembayaran jatuh tempo DAN banyak task").
@@ -152,7 +153,7 @@ PROMPT;
      * @param  array<string, mixed>|null  $result
      * @return array<int, array<string, mixed>>
      */
-    private function normalize(?array $result): array
+    private function normalize(?array $result, bool $dateNotSet = false): array
     {
         $items = $result['insights'] ?? [];
         if (! is_array($items)) {
@@ -165,12 +166,25 @@ PROMPT;
         return collect($items)
             ->filter(fn ($i) => is_array($i) && ! empty($i['title']) && ! empty($i['body']))
             ->take(3)
-            ->map(fn (array $i) => [
-                'severity' => in_array($i['severity'] ?? '', $allowedSev, true) ? $i['severity'] : 'info',
-                'title'    => mb_substr((string) $i['title'], 0, 60),
-                'body'     => mb_substr((string) $i['body'], 0, 240),
-                'target'   => in_array($i['target'] ?? '', $allowedTarget, true) ? $i['target'] : null,
-            ])
+            ->map(function (array $i) use ($allowedSev, $allowedTarget, $dateNotSet): array {
+                $title    = mb_substr((string) $i['title'], 0, 60);
+                $body     = mb_substr((string) $i['body'], 0, 240);
+                $severity = in_array($i['severity'] ?? '', $allowedSev, true) ? $i['severity'] : 'info';
+
+                // Wedding date unset blocks the whole timeline — force the date
+                // nudge to "alert" so it survives a collapse, regardless of how
+                // the model scored it.
+                if ($dateNotSet && mb_stripos($title.' '.$body, 'tanggal') !== false) {
+                    $severity = 'alert';
+                }
+
+                return [
+                    'severity' => $severity,
+                    'title'    => $title,
+                    'body'     => $body,
+                    'target'   => in_array($i['target'] ?? '', $allowedTarget, true) ? $i['target'] : null,
+                ];
+            })
             ->values()
             ->all();
     }

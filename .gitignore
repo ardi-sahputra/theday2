@@ -16,6 +16,12 @@
 /public/hot
 # /public/build
 /public/storage
+
+# Docroot subdomain staging: Hostinger menaruhnya nested di dalam public_html
+# prod. Repo terpisah dengan .env sendiri — jangan ikut ter-stage di checkout
+# produksi.
+/staging/
+.env.save*
 /storage/*.key
 /storage/pail
 /vendor

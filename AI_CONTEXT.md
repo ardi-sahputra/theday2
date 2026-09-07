@@ -28,7 +28,7 @@
 | Styling | Tailwind CSS | 3.x |
 | Database | MySQL | 8.x |
 | Auth | Laravel Breeze (email + Google OAuth) | — |
-| Payment | Midtrans Snap + Mayar | — |
+| Payment | Mayar | — |
 | File Storage | Spatie Media Library + S3-compatible | 11.x |
 | Roles/Permissions | Spatie Permission | 6.x |
 | Image Processing | Intervention Image | 3.x |
@@ -87,7 +87,7 @@
 ### Subscription & Payment
 - Free plan + Premium plan
 - Addon: tambah kuota undangan
-- Payment via Midtrans Snap + Mayar
+- Payment via Mayar
 - Transaction history dashboard
 
 ### Dashboard User
@@ -174,7 +174,7 @@ checklist_tasks (user_id, ...)
 **Key Enums:**
 - `InvitationStatus`: draft, published, unpublished, archived
 - `PaymentStatus`: pending, paid, failed, expired
-- `PaymentMethod`: midtrans, mayar
+- `PaymentMethod`: mayar
 - `GuestSendStatus`: not_sent, sent, opened
 - `GuestRsvpStatus`: pending, attending, not_attending, maybe
 - `TemplateTier`: free, premium
@@ -265,7 +265,7 @@ npm run make:template <slug>
 - Invitation editor (full flow, semua steps)
 - Template system — Nusantara + Pearl production-ready, registry.js tersedia
 - Guest List Manager — import CSV, WhatsApp blast, RSVP tracking, personalized URL
-- Subscription + Payment — Midtrans Snap + Mayar terintegrasi
+- Subscription + Payment — Mayar terintegrasi
 - Transaction history halaman dashboard
 - Wedding checklist + budget tracker
 - Admin panel — users, plans, templates, transaksi

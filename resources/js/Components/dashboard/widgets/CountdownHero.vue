@@ -20,7 +20,9 @@ const names = computed(() => {
   return null;
 });
 
-// First name of the logged-in user, e.g. "Ardi"
+// First name of the logged-in user — only shown while couple names aren't
+// set yet (avoids "Malam, Ardi" reading redundant once the big title below
+// already shows the couple's names).
 const userName = computed(() => (page.props.auth?.user?.name || '').trim().split(/\s+/)[0]);
 
 // Short time word, e.g. "Sore" (last word of "Selamat sore")
@@ -91,15 +93,15 @@ const pad = (n) => String(n).padStart(2, '0');
           <div class="uppercase tracking-[0.16em] text-[10px] sm:text-[11px] font-semibold mb-1 sm:mb-3" style="color:#E9DFC4;">
             <template v-if="countdown && countdown.is_past">{{ t('dashboard.index.widgets.hero.married') }}</template>
             <template v-else>
-              {{ greetWord }}<template v-if="userName">, {{ userName }}</template><template v-if="countdown && !countdown.is_past"> · D-{{ tdown.d }}</template>
+              {{ greetWord }}<template v-if="userName && !names">, {{ userName }}</template><template v-if="countdown && !countdown.is_past"> · D-{{ tdown.d }}</template>
             </template>
           </div>
 
-          <h1 ref="nameEl" class="font-cormorant font-medium text-white tracking-tight text-[30px] leading-[1.1] sm:text-[52px] sm:leading-none whitespace-nowrap">
+          <h1 ref="nameEl" class="font-medium text-white tracking-tight text-[30px] leading-[1.1] sm:text-[52px] sm:leading-none whitespace-nowrap">
             <template v-if="names">{{ names.a }} <span class="italic" style="color:#D9B5B0;">&amp;</span> {{ names.b }}</template>
             <template v-else>{{ t('dashboard.index.widgets.hero.fallbackTitle') }}</template>
           </h1>
-          <p v-if="countdown" class="font-cormorant italic text-sm mt-1 sm:text-xl sm:mt-1.5" style="color: rgba(251,252,249,0.7);">
+          <p v-if="countdown" class="italic text-sm mt-1 sm:text-xl sm:mt-1.5" style="color: rgba(251,252,249,0.7);">
             {{ countdown.date_label }}
           </p>
 
@@ -115,7 +117,7 @@ const pad = (n) => String(n).padStart(2, '0');
                  :key="box[0]"
                  class="flex-1 lg:flex-none text-center rounded-lg lg:rounded-xl px-2 py-2 lg:px-3 lg:py-3.5 lg:min-w-[72px]"
                  style="background: rgba(251,252,249,0.06); border:1px solid rgba(251,252,249,0.08);">
-              <div class="font-cormorant font-medium text-white leading-none tracking-tight text-[26px] lg:text-[40px]">{{ pad(tdown[box[0]]) }}</div>
+              <div class="font-medium text-white leading-none tracking-tight text-[26px] lg:text-[40px]">{{ pad(tdown[box[0]]) }}</div>
               <div class="text-[9px] lg:text-[10px] mt-1 tracking-wide uppercase" style="color: rgba(251,252,249,0.5);">{{ box[1] }}</div>
             </div>
           </div>

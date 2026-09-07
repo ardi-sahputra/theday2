@@ -51,4 +51,10 @@ return [
         'server_key' => env('FCM_SERVER_KEY'),
     ],
 
+    'ga' => [
+        // Google Analytics 4 Measurement ID (e.g. G-XXXXXXXX).
+        // Leave empty in local/dev to avoid polluting analytics data.
+        'measurement_id' => env('GA_MEASUREMENT_ID'),
+    ],
+
 ];

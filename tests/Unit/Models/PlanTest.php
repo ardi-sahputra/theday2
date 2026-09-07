@@ -49,4 +49,29 @@ class PlanTest extends TestCase
         // 49999 * 0.67 = 33499.33 → round = 33499
         $this->assertSame(33499, $plan->fresh()->effectivePrice());
     }
+
+    public function test_visible_discount_is_independent_of_active_percent_discount(): void
+    {
+        $plan = Plan::factory()->premium()->create(['price' => 49000, 'original_price' => 199000]);
+
+        $this->assertTrue($plan->hasVisibleDiscount());
+        $this->assertSame(75, $plan->discountPercentOff());
+        // The static anchor never affects the amount actually charged.
+        $this->assertSame(49000, $plan->effectivePrice());
+    }
+
+    public function test_no_visible_discount_without_original_price(): void
+    {
+        $plan = Plan::factory()->premium()->create(['price' => 49000, 'original_price' => null]);
+
+        $this->assertFalse($plan->hasVisibleDiscount());
+        $this->assertNull($plan->discountPercentOff());
+    }
+
+    public function test_no_visible_discount_when_original_price_not_higher(): void
+    {
+        $plan = Plan::factory()->premium()->create(['price' => 49000, 'original_price' => 49000]);
+
+        $this->assertFalse($plan->hasVisibleDiscount());
+    }
 }

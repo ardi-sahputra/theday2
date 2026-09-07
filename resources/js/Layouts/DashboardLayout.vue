@@ -27,6 +27,7 @@ const user = computed(() => page.props.auth.user);
 const plan = computed(() => page.props.auth.subscription);
 const flash = computed(() => page.props.flash);
 const hasPublishedInvitation = computed(() => !!page.props.has_published_invitation);
+const featureBeyond = computed(() => !!page.props.features?.beyond);
 
 const sidebarOpen = ref(false);
 const sidebarCollapsed = ref(false);
@@ -146,7 +147,7 @@ const menuGroups = computed(() => [
             },
         ],
     },
-    {
+    ...(featureBeyond.value ? [{
         heading: t('nav.phase.setelah'),
         items: [
             {
@@ -166,7 +167,7 @@ const menuGroups = computed(() => [
                     d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>`,
             },
         ],
-    },
+    }] : []),
     {
         heading: t('nav.phase.akun'),
         items: [
@@ -289,7 +290,7 @@ const handleClickOutsideAvatar = (e) => {
         <Transition name="fade">
             <div
                 v-if="sidebarOpen"
-                class="fixed inset-0 z-20 bg-black/40 lg:hidden"
+                class="fixed inset-0 z-30 bg-black/40 lg:hidden"
                 @click="sidebarOpen = false"
             />
         </Transition>
@@ -297,7 +298,7 @@ const handleClickOutsideAvatar = (e) => {
         <!-- ── Sidebar ──────────────────────────────────────────── -->
         <aside
             :class="[
-                'fixed top-0 left-0 h-full z-30 flex flex-col transition-all duration-300',
+                'fixed top-0 left-0 h-full z-40 flex flex-col transition-all duration-300',
                 'border-r shadow-sm',
                 sidebarOpen ? 'translate-x-0' : '-translate-x-full',
                 'lg:translate-x-0 lg:sticky lg:top-0 lg:h-screen lg:z-auto',
@@ -502,7 +503,7 @@ const handleClickOutsideAvatar = (e) => {
         <div class="flex-1 flex flex-col min-w-0 pb-20 lg:pb-0">
 
             <!-- Top bar -->
-            <header :class="['relative z-20 px-4 lg:px-6 h-20 flex items-center gap-4', stickyHeader ? 'sticky top-0' : '']"
+            <header :class="['relative z-30 px-4 lg:px-6 h-20 flex items-center gap-4', stickyHeader ? 'sticky top-0' : '']"
                     style="background: rgba(245,248,242,0.55);
                            backdrop-filter: blur(28px) saturate(1.9) brightness(1.04);
                            -webkit-backdrop-filter: blur(28px) saturate(1.9) brightness(1.04);

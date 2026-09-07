@@ -38,7 +38,7 @@ function fmt(n) { return 'Rp ' + (n / 1_000_000).toFixed(1).replace('.0', '') + 
   <div class="rounded-[18px] overflow-hidden" style="background:#FBFCF9; border:1px solid #D8DFD2;">
     <div class="flex items-center justify-between px-5 py-[18px]" style="border-bottom:1px solid #D8DFD2;">
       <div>
-        <h3 class="font-cormorant font-medium text-[22px] tracking-tight" style="color:#1F2A2E;">{{ t('dashboard.index.widgets.budget.title') }}</h3>
+        <h3 class="font-medium text-[22px] tracking-tight" style="color:#1F2A2E;">{{ t('dashboard.index.widgets.budget.title') }}</h3>
         <div class="text-xs mt-0.5" style="color:#6C7A75;">{{ t('dashboard.index.widgets.budget.sub', { total: budgetWidget.formatted?.total_budget ?? '-' }) }}</div>
       </div>
       <Link :href="route('dashboard.budget-planner.index')"
@@ -57,7 +57,7 @@ function fmt(n) { return 'Rp ' + (n / 1_000_000).toFixed(1).replace('.0', '') + 
         </svg>
         <div class="absolute inset-0 flex flex-col items-center justify-center">
           <div class="text-[10px] uppercase tracking-wide font-semibold" style="color:#6C7A75;">{{ t('dashboard.index.widgets.budget.used') }}</div>
-          <div class="font-cormorant font-medium text-3xl leading-none" style="color:#1F2A2E;">{{ pct }}%</div>
+          <div class="font-medium text-3xl leading-none" style="color:#1F2A2E;">{{ pct }}%</div>
           <div class="text-[11px] mt-0.5" style="color:#6C7A75;">{{ fmt(totalActual) }}</div>
         </div>
       </div>

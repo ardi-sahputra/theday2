@@ -13,12 +13,12 @@ use App\Models\Invitation;
 use App\Models\InvitationSection;
 use App\Models\Template;
 use App\Support\EffectiveUser;
+use App\Support\InvitationSlug;
 use App\Support\SectionAccess;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 use Carbon\Carbon;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -232,12 +232,18 @@ class InvitationController extends Controller
                 []
             );
         } else {
+            $owner = EffectiveUser::resolve();
+            $cp    = $owner->coupleProfile;
+
             $invitation = Invitation::create([
-                'user_id'     => EffectiveUser::resolve()->id,
+                'user_id'     => $owner->id,
                 'template_id' => $template->id,
                 'title'       => '',
                 'event_type'  => $eventType,
-                'slug'        => $this->generateUniqueSlug(Str::random(8)),
+                'slug'        => InvitationSlug::forCouple(
+                    $cp?->groom_nickname ?? $cp?->groom_name,
+                    $cp?->bride_nickname ?? $cp?->bride_name,
+                ),
                 'status'      => 'draft',
             ]);
             $invitation->details()->create(['invitation_id' => $invitation->id]);
@@ -263,7 +269,7 @@ class InvitationController extends Controller
             'template_id' => $data['template_id'],
             'title'       => $data['title'],
             'event_type'  => $data['event_type'],
-            'slug'        => $this->generateUniqueSlug($data['title']),
+            'slug'        => InvitationSlug::unique($data['title']),
             'status'      => 'draft',
         ]);
 
@@ -674,19 +680,5 @@ class InvitationController extends Controller
         if ($invitation->user_id !== EffectiveUser::resolve()->id) {
             abort(403);
         }
-    }
-
-    private function generateUniqueSlug(string $title): string
-    {
-        $base  = Str::slug($title) ?: 'undangan';
-        $slug  = $base;
-        $count = 1;
-
-        while (Invitation::where('slug', $slug)->exists()) {
-            $slug = "{$base}-{$count}";
-            $count++;
-        }
-
-        return $slug;
     }
 }

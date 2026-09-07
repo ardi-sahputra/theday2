@@ -8,22 +8,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Invitation;
 use App\Models\Template;
+use App\Support\InvitationSlug;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class OnboardingController extends Controller
 {
-    /** Reserved slugs that cannot be used as invitation URLs */
-    private const RESERVED_SLUGS = [
-        'login', 'register', 'logout', 'dashboard', 'admin', 'templates',
-        'editor', 'use-template', 'onboarding', 'profile', 'up',
-        'verify-email', 'confirm-password', 'forgot-password',
-        'reset-password', 'email', 'sitemap', 'api',
-    ];
-
     public function show(Request $request): Response|RedirectResponse
     {
         if ($request->user()->hasCompletedOnboarding()) {
@@ -127,7 +119,10 @@ class OnboardingController extends Controller
                     'wedding_type' => $data['wedding_type'] ?? null,
                     'city'         => $data['city'] ?? null,
                     'intended_plan' => $data['intended_plan'] ?? null,
-                    'slug'        => $this->generateUniqueSlug($data),
+                    'slug'        => InvitationSlug::forCouple(
+                        $data['groom_nickname'] ?? $data['groom_name'],
+                        $data['bride_nickname'] ?? $data['bride_name'],
+                    ),
                     'status'      => 'draft',
                 ]);
 
@@ -189,25 +184,5 @@ class OnboardingController extends Controller
                     ? 'Sip! Tinggal pilih desain undangan kalian dari dashboard.'
                     : 'Selamat! Setup selesai. Undanganmu siap dikustomisasi.'),
         ]);
-    }
-
-    private function generateUniqueSlug(array $data): string
-    {
-        $bride = Str::slug($data['bride_nickname'] ?? explode(' ', $data['bride_name'])[0]);
-        $groom = Str::slug($data['groom_nickname'] ?? explode(' ', $data['groom_name'])[0]);
-        $base  = ($bride && $groom) ? "{$bride}-{$groom}" : ($bride ?: ($groom ?: 'undangan'));
-
-        $slug = $base;
-        $i    = 1;
-
-        while (
-            Invitation::withTrashed()->where('slug', $slug)->exists()
-            || in_array($slug, self::RESERVED_SLUGS, true)
-        ) {
-            $slug = "{$base}-{$i}";
-            $i++;
-        }
-
-        return $slug;
     }
 }

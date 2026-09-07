@@ -320,6 +320,19 @@
 .ev2 .textarea{ resize:vertical; min-height:70px; line-height:1.5; }
 .ev2 .help{ font-size:11px; color:var(--muted); margin-top:4px; }
 
+/* Accordion cards (Konten + Bagian tabs) */
+.ev2 .acc{ border:1px solid var(--d-line,#D8DFD2); border-radius:14px; margin-bottom:10px; background:#fff; overflow:hidden; }
+.ev2 .acc-head{ width:100%; display:flex; align-items:center; gap:10px; padding:13px 14px; background:transparent; border:none; cursor:pointer; font-family:inherit; text-align:left; }
+.ev2 .acc-head:hover{ background:#FBFCF9; }
+.ev2 .acc-head.off .acc-title{ color:#9aa6a0; }
+.ev2 .acc-head.off .acc-sum{ color:#b3bcb4; font-style:italic; }
+.ev2 .acc-titles{ flex:1; min-width:0; display:flex; flex-direction:column; }
+.ev2 .acc-title{ font-family:'Cormorant','Cormorant Garamond',serif; font-size:17px; font-weight:600; color:var(--d-ink,#1F2A2E); line-height:1.1; }
+.ev2 .acc-sum{ font-size:11.5px; color:var(--d-muted,#6C7A75); margin-top:2px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.ev2 .acc-chev{ color:#9aa6a0; flex-shrink:0; transition:transform .2s ease; }
+.ev2 .acc-chev.open{ transform:rotate(180deg); }
+.ev2 .acc-body{ padding:4px 14px 16px; border-top:1px solid #EEF1EC; }
+
 /* Toggle rows */
 .ev2 .toggle{ display:flex; align-items:center; gap:10px; padding:10px 12px; background:var(--white); border:1px solid var(--line); border-radius:10px; margin-bottom:6px; }
 .ev2 .toggle .name{ flex:1; font-size:13px; color:var(--ink); font-weight:500; }

@@ -12,6 +12,7 @@ use App\Models\InvitationSection;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class InvitationSectionController extends Controller
 {
@@ -121,6 +122,28 @@ class InvitationSectionController extends Controller
         $section->update($updates);
 
         return response()->json(['success' => true]);
+    }
+
+    // ─── POST /api/invitations/{invitation}/sections/media ─────────
+    // Image used inside a section's own data (e.g. a Kisah Kami moment photo).
+    // Deliberately NOT a gallery row: those render in the gallery section.
+
+    public function storeMedia(Request $request, Invitation $invitation): JsonResponse
+    {
+        $this->authorizeOwner($invitation);
+
+        $request->validate([
+            'image' => ['required', 'file', 'image', 'mimes:jpg,jpeg,png,webp,gif', 'max:5120'],
+        ], [
+            'image.image' => 'File harus berupa gambar.',
+            'image.mimes' => 'Format gambar harus JPG, PNG, WebP, atau GIF.',
+            'image.max'   => 'Ukuran gambar maksimal 5 MB.',
+        ]);
+
+        $disk = config('filesystems.uploads');
+        $path = $request->file('image')->store("invitations/{$invitation->id}/sections", $disk);
+
+        return response()->json(['url' => Storage::disk($disk)->url($path)], 201);
     }
 
     // ─── Helpers ─────────────────────────────────────────────────

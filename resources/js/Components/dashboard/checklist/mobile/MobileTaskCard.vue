@@ -37,7 +37,7 @@ const whoColor = computed(() => props.task.assignee_type === 'groom' ? '#D9B5B0'
         </span>
         <span v-if="task.due_date" class="font-jet text-[10.5px] px-1.5 py-0.5 rounded"
               :style="urgent ? 'color:#C19089; background:rgba(217,181,176,0.18); border:1px solid #D9B5B0;' : 'color:#6C7A75; background:#F6F8F3; border:1px solid #D8DFD2;'">{{ task.due_date }}</span>
-        <div v-if="who" class="ml-auto w-[22px] h-[22px] rounded-full grid place-items-center text-[10px] font-bold font-cormorant" :style="{ background: whoColor, color:'#1F2A2E' }">{{ who }}</div>
+        <div v-if="who" class="ml-auto w-[22px] h-[22px] rounded-full grid place-items-center text-[10px] font-bold" :style="{ background: whoColor, color:'#1F2A2E' }">{{ who }}</div>
       </div>
     </div>
   </div>

@@ -14,6 +14,7 @@ const props = defineProps({
 const form = useForm({
     name:               props.plan.name,
     price:              props.plan.price,
+    original_price:     props.plan.original_price,
     duration_days:      props.plan.duration_days,
     max_invitations:    props.plan.max_invitations,
     max_gallery_photos: props.plan.max_gallery_photos,
@@ -29,9 +30,14 @@ const pricePreview = computed(() =>
     'Rp ' + new Intl.NumberFormat('id-ID').format(form.price || 0)
 );
 
+const originalPricePreview = computed(() => {
+    if (!form.original_price) return null;
+    return 'Rp ' + new Intl.NumberFormat('id-ID').format(form.original_price);
+});
+
 const durationPreview = computed(() => {
     const d = Number(form.duration_days) || 0;
-    if (!d) return '—';
+    if (!d) return t('admin.plans.edit.durationLifetime');
     if (d === 365) return '1 tahun';
     if (d % 365 === 0) return `${d / 365} tahun`;
     if (d === 30) return '1 bulan';
@@ -98,8 +104,14 @@ function submit() {
                         <p v-if="form.errors.price" class="text-xs text-red-600 mt-1">{{ form.errors.price }}</p>
                     </div>
                     <div>
+                        <label class="text-sm font-medium">{{ t('admin.plans.edit.field_original_price') }}</label>
+                        <input v-model.number="form.original_price" type="number" min="0" class="mt-1 w-full h-10 px-3 rounded-md border border-border bg-background text-sm" />
+                        <p class="text-xs text-muted-foreground mt-1">{{ originalPricePreview ?? t('admin.plans.edit.field_original_price_empty') }}</p>
+                        <p v-if="form.errors.original_price" class="text-xs text-red-600 mt-1">{{ form.errors.original_price }}</p>
+                    </div>
+                    <div>
                         <label class="text-sm font-medium">{{ t('admin.plans.edit.field_duration') }}</label>
-                        <input v-model.number="form.duration_days" type="number" min="1" max="3650" class="mt-1 w-full h-10 px-3 rounded-md border border-border bg-background text-sm" />
+                        <input v-model.number="form.duration_days" type="number" min="0" max="3650" class="mt-1 w-full h-10 px-3 rounded-md border border-border bg-background text-sm" />
                         <p class="text-xs text-muted-foreground mt-1">= {{ durationPreview }}</p>
                         <p v-if="form.errors.duration_days" class="text-xs text-red-600 mt-1">{{ form.errors.duration_days }}</p>
                     </div>

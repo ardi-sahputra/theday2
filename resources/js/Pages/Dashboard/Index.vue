@@ -1,7 +1,7 @@
 <script setup>
 import DashboardLayout from '@/Layouts/DashboardLayout.vue';
 import TemplatePicker from '@/Components/Wizard/TemplatePicker.vue';
-import { Link, router } from '@inertiajs/vue3';
+import { Link, router, usePage } from '@inertiajs/vue3';
 import axios from 'axios';
 import { computed, ref } from 'vue';
 import { useLocale } from '@/Composables/useLocale';
@@ -17,6 +17,7 @@ import BeyondPeekCard    from '@/Components/dashboard/widgets/BeyondPeekCard.vue
 import ActivityFeedCard  from '@/Components/dashboard/widgets/ActivityFeedCard.vue';
 
 const { t, locale } = useLocale();
+const featureBeyond = computed(() => !!usePage().props.features?.beyond);
 
 const props = defineProps({
     stats:             Object,
@@ -213,7 +214,7 @@ function saveWeddingDate() {
 
           <div class="grid gap-5 lg:grid-cols-3">
             <VendorLineupCard :vendor-widget="vendorWidget" />
-            <BeyondPeekCard />
+            <BeyondPeekCard v-if="featureBeyond" />
             <ActivityFeedCard :activity-feed="activityFeed" />
           </div>
 

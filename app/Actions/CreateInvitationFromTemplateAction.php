@@ -9,7 +9,7 @@ namespace App\Actions;
 use App\Models\Invitation;
 use App\Models\Template;
 use App\Models\User;
-use Illuminate\Support\Str;
+use App\Support\InvitationSlug;
 
 class CreateInvitationFromTemplateAction
 {
@@ -49,7 +49,7 @@ class CreateInvitationFromTemplateAction
                 'template_id' => $template->id,
                 'title'       => '',
                 'event_type'  => 'pernikahan',
-                'slug'        => $this->generateUniqueSlug($groom, $bride),
+                'slug'        => InvitationSlug::forCouple($groom, $bride),
                 'status'      => 'draft',
             ]);
             $invitation->details()->create(['invitation_id' => $invitation->id]);
@@ -114,38 +114,5 @@ class CreateInvitationFromTemplateAction
         }
 
         session()->forget('pending_couple_data');
-    }
-
-    private function generateUniqueSlug(?string $groom = null, ?string $bride = null): string
-    {
-        $g = Str::slug((string) $groom);
-        $b = Str::slug((string) $bride);
-        $base = ($g && $b) ? "{$b}-{$g}" : ($b ?: ($g ?: null));
-
-        // No names → fall back to a short random slug.
-        if (! $base) {
-            do {
-                $slug = Str::random(8);
-            } while ($this->slugTaken($slug));
-            return $slug;
-        }
-
-        if (! $this->slugTaken($base)) {
-            return $base;
-        }
-        // Collision → meaningful suffix (year), then increment.
-        $year = (int) date('Y');
-        foreach (["{$base}-{$year}", ...array_map(fn ($i) => "{$base}-{$i}", range(2, 9))] as $candidate) {
-            if (! $this->slugTaken($candidate)) {
-                return $candidate;
-            }
-        }
-        return "{$base}-" . Str::lower(Str::random(4));
-    }
-
-    private function slugTaken(string $slug): bool
-    {
-        return Invitation::withTrashed()->where('slug', $slug)->exists()
-            || \App\Models\InvitationSlugAlias::where('slug', $slug)->exists();
     }
 }

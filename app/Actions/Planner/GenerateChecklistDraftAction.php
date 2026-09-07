@@ -10,6 +10,7 @@ use App\Enums\ChecklistTaskStatus;
 use App\Models\Invitation;
 use App\Models\WeddingPlan;
 use App\Services\DeepSeekClient;
+use App\Support\TaskTitleMatcher;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
 
@@ -95,13 +96,15 @@ final class GenerateChecklistDraftAction
 
         $validCat = array_map(fn ($c) => $c->value, ChecklistTaskCategory::cases());
         $validPri = array_map(fn ($p) => $p->value, ChecklistTaskPriority::cases());
-        $existingLower = array_map(fn ($t) => mb_strtolower(trim($t)), $existing);
 
+        // Keep duplicates but FLAG them. "Merge" hides flagged tasks (they
+        // already exist); "replace" archives the old set and re-adds the full
+        // list, so flagged tasks must survive or the checklist would shrink.
         return collect($items)
             ->filter(fn ($i) => is_array($i) && ! empty(trim((string) ($i['title'] ?? ''))))
-            ->reject(fn ($i) => in_array(mb_strtolower(trim((string) $i['title'])), $existingLower, true))
             ->take(self::MAX_TASKS)
-            ->map(function (array $i) use ($validCat, $validPri, $eventDate): array {
+            ->map(function (array $i) use ($validCat, $validPri, $eventDate, $existing): array {
+                $title = mb_substr(trim((string) $i['title']), 0, 200);
                 $offset = (int) ($i['day_offset'] ?? 0);
                 $offset = max(self::MIN_OFFSET, min(0, $offset));
                 $dueDate = $eventDate !== null
@@ -109,11 +112,12 @@ final class GenerateChecklistDraftAction
                     : null;
 
                 return [
-                    'title'      => mb_substr(trim((string) $i['title']), 0, 200),
-                    'category'   => in_array($i['category'] ?? '', $validCat, true) ? $i['category'] : 'lainnya',
-                    'priority'   => in_array($i['priority'] ?? '', $validPri, true) ? $i['priority'] : 'medium',
-                    'day_offset' => $offset,
-                    'due_date'   => $dueDate,
+                    'title'        => $title,
+                    'category'     => in_array($i['category'] ?? '', $validCat, true) ? $i['category'] : 'lainnya',
+                    'priority'     => in_array($i['priority'] ?? '', $validPri, true) ? $i['priority'] : 'medium',
+                    'day_offset'   => $offset,
+                    'due_date'     => $dueDate,
+                    'is_duplicate' => TaskTitleMatcher::isDuplicate($title, $existing),
                 ];
             })
             ->values()

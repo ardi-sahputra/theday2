@@ -55,7 +55,7 @@ onMounted(() => {
     <div class="px-5 pt-4 pb-3 flex items-center justify-between gap-2">
       <div class="flex items-center gap-2">
         <WidgetIcon name="sparkle" :size="16" stroke="#8E6515" class="flex-shrink-0" />
-        <h3 class="font-cormorant font-medium text-[20px] tracking-tight" style="color:#1F2A2E;">{{ t('dashboard.budget.rail.ai.title') }}</h3>
+        <h3 class="font-medium text-[20px] tracking-tight" style="color:#1F2A2E;">{{ t('dashboard.budget.rail.ai.title') }}</h3>
       </div>
       <button v-if="!loading" @click="refresh" class="text-[11px] font-medium opacity-60 hover:opacity-100 transition-opacity" style="color:#5A4B1A;">
         {{ t('dashboard.budget.rail.ai.refresh') }}

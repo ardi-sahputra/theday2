@@ -30,7 +30,7 @@ const prioLabel = computed(() => ({ high: t('dashboard.checklist.priority.high')
                   <span class="text-[10px] font-bold px-1.5 py-0.5 rounded-full" style="background:rgba(156,171,142,0.18); color:#4A5A4C;">{{ task.category }}</span>
                   <span v-if="task.due_date" class="text-[10px] font-bold px-1.5 py-0.5 rounded-full" style="background:rgba(217,162,74,0.18); color:#8E6515;">{{ task.due_date }}</span>
                 </div>
-                <div class="font-cormorant font-medium text-[24px] leading-[1.15]" style="color:#1F2A2E;">{{ task.title }}</div>
+                <div class="font-medium text-[24px] leading-[1.15]" style="color:#1F2A2E;">{{ task.title }}</div>
               </div>
               <button type="button" @click="emit('close')" class="w-8 h-8 rounded-full grid place-items-center flex-shrink-0" style="background:#F6F8F3; border:1px solid #D8DFD2;">
                 <WidgetIcon name="plus" :size="16" stroke="#3D4A4D" class="rotate-45" />
@@ -57,7 +57,7 @@ const prioLabel = computed(() => ({ high: t('dashboard.checklist.priority.high')
             <div v-if="who" class="mb-4">
               <div class="text-[11px] uppercase font-bold tracking-wide mb-2" style="color:#6C7A75;">{{ t('dashboard.checklist.mobile.detail.pic') }}</div>
               <div class="flex items-center gap-2.5 px-3 py-2.5 rounded-[10px]" style="background:#F6F8F3; border:1px solid #D8DFD2;">
-                <div class="w-8 h-8 rounded-full grid place-items-center text-[13px] font-bold font-cormorant" :style="`background:${who === 'R' ? '#D9B5B0' : '#C7D3BC'}; color:#1F2A2E;`">{{ who }}</div>
+                <div class="w-8 h-8 rounded-full grid place-items-center text-[13px] font-bold" :style="`background:${who === 'R' ? '#D9B5B0' : '#C7D3BC'}; color:#1F2A2E;`">{{ who }}</div>
                 <div class="text-[13px] font-medium" style="color:#1F2A2E;">{{ who === 'R' ? t('dashboard.checklist.assignee.groom') : t('dashboard.checklist.assignee.bride') }}</div>
                 <button type="button" @click="emit('edit', task)" class="ml-auto px-3 py-1.5 rounded-full text-[11.5px] font-semibold" style="border:1px solid #C7D0BE; color:#3D4A4D;">{{ t('dashboard.checklist.mobile.detail.change') }}</button>
               </div>
@@ -82,7 +82,7 @@ const prioLabel = computed(() => ({ high: t('dashboard.checklist.priority.high')
 
             <div v-if="task.description">
               <div class="text-[11px] uppercase font-bold tracking-wide mb-2" style="color:#6C7A75;">{{ t('dashboard.checklist.mobile.detail.note') }}</div>
-              <div class="rounded-[10px] px-3 py-2.5 font-cormorant text-[14px] italic" style="background:#F6F8F3; border:1px solid #D8DFD2; color:#3D4A4D;">{{ task.description }}</div>
+              <div class="rounded-[10px] px-3 py-2.5 text-[14px] italic" style="background:#F6F8F3; border:1px solid #D8DFD2; color:#3D4A4D;">{{ task.description }}</div>
             </div>
           </div>
 

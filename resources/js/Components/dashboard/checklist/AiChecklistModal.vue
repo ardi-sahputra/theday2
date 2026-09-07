@@ -1,7 +1,8 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useLocale } from '@/Composables/useLocale';
 
+const props = defineProps({ hasExisting: { type: Boolean, default: false } });
 const emit = defineEmits(['close', 'applied']);
 const { t } = useLocale();
 
@@ -18,6 +19,13 @@ const form    = ref({ adat: 'Umum', skala: 'sedang', gaya: '' });
 const tasks   = ref([]);
 const error   = ref('');
 const applying = ref(false);
+const mode    = ref('merge'); // 'merge' | 'replace' — only asked when hasExisting
+
+// Merge skips tasks the couple already has (flagged is_duplicate by the API);
+// replace archives the old set, so the full list is shown and re-added.
+const visibleTasks = computed(() =>
+  mode.value === 'replace' ? tasks.value : tasks.value.filter(t => !t.is_duplicate),
+);
 
 async function generate() {
   step.value = 'loading';
@@ -35,11 +43,12 @@ async function generate() {
 }
 
 async function apply() {
-  const selected = tasks.value.filter(x => x._checked);
+  const selected = visibleTasks.value.filter(x => x._checked);
   if (!selected.length) { emit('close'); return; }
   applying.value = true;
   try {
     await window.axios.post(route('dashboard.checklist.ai-apply'), {
+      mode: props.hasExisting ? mode.value : 'merge',
       tasks: selected.map(({ title, category, priority, due_date }) => ({ title, category, priority, due_date })),
     });
     emit('applied');
@@ -84,28 +93,67 @@ async function apply() {
           </div>
         </template>
 
-        <div v-else-if="step === 'loading'" class="py-8 text-center text-sm text-stone-500">
-          {{ t('dashboard.checklist.ai.generating') }}
+        <div v-else-if="step === 'loading'" class="py-6">
+          <div class="flex flex-col items-center text-center mb-5">
+            <div class="relative w-11 h-11 mb-3">
+              <span class="absolute inset-0 rounded-full border-2 border-stone-200"></span>
+              <span class="absolute inset-0 rounded-full border-2 border-transparent animate-spin" style="border-top-color:#92A89C;"></span>
+              <span class="absolute inset-0 flex items-center justify-center text-base animate-pulse">✨</span>
+            </div>
+            <p class="text-sm font-medium text-stone-700">{{ t('dashboard.checklist.ai.generating') }}</p>
+            <p class="text-[11px] text-stone-400 mt-0.5">{{ t('dashboard.checklist.ai.generatingSub') }}</p>
+          </div>
+          <div class="space-y-2">
+            <div v-for="n in 4" :key="n"
+                 class="flex items-center gap-2.5 p-2 rounded-lg bg-stone-50 animate-pulse"
+                 :style="`animation-delay:${n * 120}ms`">
+              <div class="w-4 h-4 rounded bg-stone-200 shrink-0"></div>
+              <div class="flex-1 space-y-1.5">
+                <div class="h-2.5 rounded bg-stone-200" :style="`width:${[82, 68, 90, 74][n - 1]}%`"></div>
+                <div class="h-2 rounded bg-stone-100 w-1/3"></div>
+              </div>
+            </div>
+          </div>
         </div>
 
         <template v-else>
           <p v-if="!tasks.length" class="text-sm text-stone-500">{{ t('dashboard.checklist.ai.allExist') }}</p>
-          <div v-else class="space-y-1.5">
-            <label v-for="(tk, i) in tasks" :key="i" class="flex items-start gap-2.5 p-2 rounded-lg hover:bg-stone-50 cursor-pointer">
-              <input type="checkbox" v-model="tk._checked" class="mt-0.5" />
-              <div>
-                <div class="text-[13px] text-stone-800">{{ tk.title }}</div>
-                <div class="text-[11px] text-stone-400">{{ tk.category }}<span v-if="tk.due_date"> · {{ tk.due_date }}</span></div>
+          <template v-else>
+            <div v-if="hasExisting" class="mb-3">
+              <div class="grid grid-cols-2 gap-2">
+                <button type="button" @click="mode = 'merge'"
+                        :class="['px-3 py-2 text-xs rounded-xl border text-left', mode === 'merge' ? 'border-transparent text-white' : 'border-stone-200 text-stone-600']"
+                        :style="mode === 'merge' ? 'background:#92A89C' : ''">
+                  <div class="font-semibold">{{ t('dashboard.checklist.ai.modeMerge') }}</div>
+                  <div :class="mode === 'merge' ? 'text-white/80' : 'text-stone-400'">{{ t('dashboard.checklist.ai.modeMergeSub') }}</div>
+                </button>
+                <button type="button" @click="mode = 'replace'"
+                        :class="['px-3 py-2 text-xs rounded-xl border text-left', mode === 'replace' ? 'border-transparent text-white' : 'border-stone-200 text-stone-600']"
+                        :style="mode === 'replace' ? 'background:#B5743F' : ''">
+                  <div class="font-semibold">{{ t('dashboard.checklist.ai.modeReplace') }}</div>
+                  <div :class="mode === 'replace' ? 'text-white/80' : 'text-stone-400'">{{ t('dashboard.checklist.ai.modeReplaceSub') }}</div>
+                </button>
               </div>
-            </label>
-          </div>
+              <p v-if="mode === 'replace'" class="mt-2 text-[11px] text-amber-600">{{ t('dashboard.checklist.ai.replaceWarn') }}</p>
+            </div>
+            <p v-if="!visibleTasks.length" class="text-sm text-stone-500">{{ t('dashboard.checklist.ai.allExistMerge') }}</p>
+            <div v-else class="space-y-1.5">
+              <label v-for="(tk, i) in visibleTasks" :key="i" class="flex items-start gap-2.5 p-2 rounded-lg hover:bg-stone-50 cursor-pointer">
+                <input type="checkbox" v-model="tk._checked" class="mt-0.5" />
+                <div>
+                  <div class="text-[13px] text-stone-800">{{ tk.title }}</div>
+                  <div class="text-[11px] text-stone-400">{{ tk.category }}<span v-if="tk.due_date"> · {{ tk.due_date }}</span></div>
+                </div>
+              </label>
+            </div>
+          </template>
         </template>
       </div>
 
       <div class="px-5 py-4 border-t border-stone-100 flex gap-2">
         <button @click="emit('close')" class="flex-1 py-2.5 text-sm text-stone-600 border border-stone-200 rounded-xl">{{ t('common.cancel') }}</button>
         <button v-if="step === 'input'" @click="generate" class="flex-1 py-2.5 text-sm font-semibold text-white rounded-xl" style="background:#92A89C">{{ t('dashboard.checklist.ai.generate') }}</button>
-        <button v-else-if="step === 'preview' && tasks.length" @click="apply" :disabled="applying || !tasks.some(x => x._checked)" class="flex-1 py-2.5 text-sm font-semibold text-white rounded-xl disabled:opacity-50" style="background:#92A89C">{{ t('dashboard.checklist.ai.add') }}</button>
+        <button v-else-if="step === 'preview' && visibleTasks.length" @click="apply" :disabled="applying || !visibleTasks.some(x => x._checked)" class="flex-1 py-2.5 text-sm font-semibold text-white rounded-xl disabled:opacity-50" style="background:#92A89C">{{ t('dashboard.checklist.ai.add') }}</button>
       </div>
     </div>
   </div>

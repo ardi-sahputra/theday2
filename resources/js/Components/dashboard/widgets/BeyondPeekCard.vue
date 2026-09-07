@@ -12,7 +12,7 @@ const { t } = useLocale();
       <div class="inline-flex items-center gap-1.5 text-[10.5px] uppercase tracking-wider font-semibold" style="color: rgba(251,252,249,0.6);">
         <WidgetIcon name="sparkle" :size="12" stroke="#D9B5B0" /> {{ t('dashboard.index.widgets.beyond.eyebrow') }}
       </div>
-      <h3 class="font-cormorant font-medium text-[22px] mt-2.5 mb-2 tracking-tight" style="color:#FBFCF9;">
+      <h3 class="font-medium text-[22px] mt-2.5 mb-2 tracking-tight" style="color:#FBFCF9;">
         {{ t('dashboard.index.widgets.beyond.titlePre') }} <span class="italic" style="color:#D9B5B0;">{{ t('dashboard.index.widgets.beyond.titleEm') }}</span> {{ t('dashboard.index.widgets.beyond.titlePost') }}
       </h3>
       <p class="text-[13px] leading-relaxed m-0" style="color: rgba(251,252,249,0.7);">{{ t('dashboard.index.widgets.beyond.desc') }}</p>

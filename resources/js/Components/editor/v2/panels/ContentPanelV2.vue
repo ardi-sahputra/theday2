@@ -13,9 +13,10 @@ const props = defineProps({
   onAddGallery:  { type: Function, default: null },  // (file) → Promise
   onDeleteGallery:{ type: Function, default: null }, // (gallery) → Promise
   galleryLayout: { type: String, default: 'grid' },
+  onUploadImage: { type: Function, default: null },  // (file) → Promise<url>
 });
 
-const emit = defineEmits(['save-details', 'upload-photo', 'save-quote', 'save-event', 'toggle-section', 'set-gallery-layout']);
+const emit = defineEmits(['save-details', 'upload-photo', 'save-quote', 'save-event', 'toggle-section', 'set-gallery-layout', 'save-section']);
 
 const LAYOUTS = [
   { key: 'grid', label: 'Grid' },
@@ -34,6 +35,11 @@ const cards = computed(() => [
   { key: 'foto',     title: 'Foto Pengantin', show: props.caps.photos !== false },
   { key: 'galeri',   title: 'Galeri Foto', show: props.caps.gallery !== false, toggleKey: 'gallery' },
   { key: 'tanggal',  title: 'Tanggal & Quote', show: true },
+  { key: 'love_story',      title: 'Kisah Kami',    show: props.caps.loveStory     !== false, toggleKey: 'love_story' },
+  { key: 'gift',            title: 'Hadiah',        show: props.caps.gift          !== false, toggleKey: 'gift' },
+  { key: 'live_streaming',  title: 'Live Streaming',show: props.caps.liveStreaming !== false, toggleKey: 'live_streaming' },
+  { key: 'video',           title: 'Video',         show: props.caps.video         !== false, toggleKey: 'video' },
+  { key: 'additional_info', title: 'Info Tambahan', show: props.caps.additionalInfo!== false, toggleKey: 'additional_info' },
 ].filter(c => c.show));
 
 // Section on/off (default ON when no record — matches the renderer).
@@ -57,7 +63,16 @@ const tanggalSummary = computed(() => {
   const [y, m, day] = d.split('-');
   return `${day}-${m}-${y}`;
 });
-const summary = { pasangan: coupleSummary, foto: fotoSummary, galeri: galeriSummary, tanggal: tanggalSummary };
+const storySummary  = computed(() => story.value.stories.length ? `${story.value.stories.length} momen` : 'Belum ada momen');
+const giftSummary   = computed(() => gift.value.accounts.length ? `${gift.value.accounts.length} rekening` : 'Belum ada rekening');
+const streamSummary = computed(() => stream.value.url ? 'Link siaran diisi' : 'Belum ada link');
+const videoSummary  = computed(() => video.value.url ? 'Link video diisi' : 'Belum ada video');
+const infoSummary   = computed(() => extraInfo.value.text?.trim() ? 'Sudah diisi' : 'Belum diisi');
+const summary = {
+  pasangan: coupleSummary, foto: fotoSummary, galeri: galeriSummary, tanggal: tanggalSummary,
+  love_story: storySummary, gift: giftSummary, live_streaming: streamSummary,
+  video: videoSummary, additional_info: infoSummary,
+};
 
 // ── Field handlers ────────────────────────────────────────────────
 function onDetailInput() { emit('save-details'); }
@@ -70,8 +85,73 @@ const quote = computed(() => {
 });
 function onQuoteInput() { emit('save-quote'); }
 
+// ── Section data (Kisah Kami / Hadiah / Live / Video / Info) ──────
+// Seed the shape on first read so v-model has something to bind to. Keys match
+// what the templates read (stories / accounts / url …), not the old form components.
+function sec(key, shape) {
+  if (!props.sectionsData[key]) props.sectionsData[key] = { data: {}, is_enabled: true };
+  if (!props.sectionsData[key].data) props.sectionsData[key].data = {};
+  const d = props.sectionsData[key].data;
+  for (const [field, fallback] of Object.entries(shape)) {
+    if (d[field] === undefined) d[field] = Array.isArray(fallback) ? [] : fallback;
+  }
+  return d;
+}
+
+const story     = computed(() => sec('love_story', { stories: [] }));
+const gift      = computed(() => sec('gift', { accounts: [] }));
+const stream    = computed(() => sec('live_streaming', { platform: 'youtube', url: '' }));
+const video     = computed(() => sec('video', { url: '', caption: '' }));
+const extraInfo = computed(() => sec('additional_info', { text: '' }));
+
+function saveSection(key) { emit('save-section', key); }
+
+// Kisah Kami
+const openStory = ref(null);
+const storyUploading = reactive({});
+const storyError = ref(null);
+
+function addStory() {
+  story.value.stories.push({ date: '', title: '', description: '', photo_url: '' });
+  openStory.value = story.value.stories.length - 1;
+  saveSection('love_story');
+}
+function removeStory(i) { story.value.stories.splice(i, 1); saveSection('love_story'); }
+function moveStory(i, dir) {
+  const arr = story.value.stories;
+  const j = i + dir;
+  if (j < 0 || j >= arr.length) return;
+  [arr[i], arr[j]] = [arr[j], arr[i]];
+  saveSection('love_story');
+}
+async function uploadStoryPhoto(i, e) {
+  const file = e.target.files?.[0];
+  e.target.value = '';
+  if (!file || !props.onUploadImage) return;
+  storyError.value = null;
+  storyUploading[i] = true;
+  try {
+    const url = await props.onUploadImage(file);
+    if (url) { story.value.stories[i].photo_url = url; saveSection('love_story'); }
+    else storyError.value = 'Upload foto gagal. Coba lagi.';
+  } catch {
+    storyError.value = 'Upload foto gagal. Coba lagi.';
+  } finally {
+    storyUploading[i] = false;
+  }
+}
+function clearStoryPhoto(i) { story.value.stories[i].photo_url = ''; saveSection('love_story'); }
+
+// Hadiah
+function addAccount() {
+  gift.value.accounts.push({ bank: '', account_number: '', account_name: '' });
+  saveSection('gift');
+}
+function removeAccount(i) { gift.value.accounts.splice(i, 1); saveSection('gift'); }
+
 // Photos
 const uploading = reactive({ groom: false, bride: false });
+
 const groomInput = ref(null);
 const brideInput = ref(null);
 function pickGroom() { groomInput.value?.click(); }
@@ -148,7 +228,7 @@ function onBrideFile(e) { uploadSide('bride', e); }
 
         <!-- Foto Pengantin -->
         <template v-else-if="c.key === 'foto'">
-          <div class="desc">Unggah maks 5MB · auto-kompres WebP · 1:1 disarankan</div>
+          <div class="desc">Unggah maks 5MB · 1:1 disarankan</div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
             <button type="button" class="uploader" @click="pickGroom" :disabled="uploading.groom"
                     :style="details.groom_photo_url ? `background-image:url(${details.groom_photo_url});background-size:cover;background-position:center;border-style:solid;` : ''">
@@ -197,24 +277,139 @@ function onBrideFile(e) { uploadSide('bride', e); }
             <div class="help">Akan tampil di section Kisah Kami / Quote</div>
           </div>
         </template>
+
+        <!-- Kisah Kami -->
+        <template v-else-if="c.key === 'love_story'">
+          <div v-for="(s, i) in story.stories" :key="i" class="item">
+            <div class="item-head" @click="openStory = openStory === i ? null : i">
+              <span class="item-title">{{ s.title || 'Momen ' + (i + 1) }}</span>
+              <span class="item-actions">
+                <button type="button" class="mini" title="Naikkan" :disabled="i === 0" @click.stop="moveStory(i, -1)">↑</button>
+                <button type="button" class="mini" title="Turunkan" :disabled="i === story.stories.length - 1" @click.stop="moveStory(i, 1)">↓</button>
+                <button type="button" class="mini danger" @click.stop="removeStory(i)">Hapus</button>
+              </span>
+            </div>
+            <div v-show="openStory === i" class="item-body">
+              <div class="field">
+                <label class="label">Judul momen</label>
+                <input class="input" v-model="s.title" @input="saveSection('love_story')" placeholder="mis. Pertama Bertemu" />
+              </div>
+              <div class="field">
+                <label class="label">Tanggal</label>
+                <input class="input" type="date" v-model="s.date" @input="saveSection('love_story')" />
+              </div>
+              <div class="field">
+                <label class="label">Cerita</label>
+                <textarea class="textarea" rows="3" v-model="s.description" @input="saveSection('love_story')"
+                          placeholder="Ceritakan momen ini…"></textarea>
+              </div>
+              <div class="field" style="margin-bottom:0;">
+                <label class="label">Foto (opsional)</label>
+                <div v-if="s.photo_url" class="thumb-row">
+                  <img :src="s.photo_url" alt="" class="thumb" />
+                  <button type="button" class="mini danger" @click="clearStoryPhoto(i)">Hapus foto</button>
+                </div>
+                <label v-else class="upload">
+                  <input type="file" accept="image/*" hidden @change="uploadStoryPhoto(i, $event)" />
+                  {{ storyUploading[i] ? 'Mengunggah…' : '+ Pilih foto' }}
+                </label>
+              </div>
+            </div>
+          </div>
+          <p v-if="storyError" class="err">{{ storyError }}</p>
+          <button type="button" class="add" @click="addStory">+ Tambah Momen</button>
+        </template>
+
+        <!-- Hadiah -->
+        <template v-else-if="c.key === 'gift'">
+          <div v-for="(a, i) in gift.accounts" :key="i" class="item">
+            <div class="item-head static">
+              <span class="item-title">{{ a.bank || 'Rekening ' + (i + 1) }}</span>
+              <button type="button" class="mini danger" @click="removeAccount(i)">Hapus</button>
+            </div>
+            <div class="item-body">
+              <div class="field">
+                <label class="label">Bank / e-wallet</label>
+                <input class="input" v-model="a.bank" @input="saveSection('gift')" placeholder="mis. BCA, GoPay" />
+              </div>
+              <div class="field">
+                <label class="label">Nomor rekening</label>
+                <input class="input" v-model="a.account_number" @input="saveSection('gift')" placeholder="1234567890" />
+              </div>
+              <div class="field" style="margin-bottom:0;">
+                <label class="label">Atas nama</label>
+                <input class="input" v-model="a.account_name" @input="saveSection('gift')" placeholder="Nama pemilik rekening" />
+              </div>
+            </div>
+          </div>
+          <p v-if="!gift.accounts.length" class="hint">Belum ada rekening.</p>
+          <button type="button" class="add" @click="addAccount">+ Tambah Rekening</button>
+        </template>
+
+        <!-- Live streaming -->
+        <template v-else-if="c.key === 'live_streaming'">
+          <div class="field">
+            <label class="label">Platform</label>
+            <select class="input" v-model="stream.platform" @change="saveSection('live_streaming')">
+              <option value="youtube">YouTube</option>
+              <option value="instagram">Instagram</option>
+              <option value="zoom">Zoom</option>
+              <option value="lainnya">Lainnya</option>
+            </select>
+          </div>
+          <div class="field" style="margin-bottom:0;">
+            <label class="label">Link siaran</label>
+            <input class="input" v-model="stream.url" @input="saveSection('live_streaming')" placeholder="https://youtube.com/live/…" />
+            <p class="help">Tamu yang tidak bisa hadir menonton lewat link ini.</p>
+          </div>
+        </template>
+
+        <!-- Video -->
+        <template v-else-if="c.key === 'video'">
+          <div class="field">
+            <label class="label">Link video</label>
+            <input class="input" v-model="video.url" @input="saveSection('video')" placeholder="https://youtube.com/watch?v=…" />
+          </div>
+          <div class="field" style="margin-bottom:0;">
+            <label class="label">Caption (opsional)</label>
+            <input class="input" v-model="video.caption" @input="saveSection('video')" placeholder="mis. Prewedding kami" />
+          </div>
+        </template>
+
+        <!-- Info tambahan -->
+        <template v-else-if="c.key === 'additional_info'">
+          <div class="field" style="margin-bottom:0;">
+            <label class="label">Catatan untuk tamu</label>
+            <textarea class="textarea" rows="4" v-model="extraInfo.text" @input="saveSection('additional_info')"
+                      placeholder="mis. Dress code earth tone, mohon hadir 15 menit lebih awal."></textarea>
+          </div>
+        </template>
       </div>
     </div>
   </div>
 </template>
 
 <style scoped>
-.acc { border:1px solid var(--d-line,#D8DFD2); border-radius:14px; margin-bottom:10px; background:#fff; overflow:hidden; }
-.acc-head { width:100%; display:flex; align-items:center; gap:10px; padding:13px 14px; background:transparent; border:none; cursor:pointer; font-family:inherit; text-align:left; }
-.acc-head:hover { background:#FBFCF9; }
-.acc-head.off .acc-title { color:#9aa6a0; }
-.acc-head.off .acc-sum { color:#b3bcb4; font-style:italic; }
-.acc-titles { flex:1; min-width:0; display:flex; flex-direction:column; }
-.acc-title { font-family:'Cormorant','Cormorant Garamond',serif; font-size:17px; font-weight:600; color:var(--d-ink,#1F2A2E); line-height:1.1; }
-.acc-sum { font-size:11.5px; color:var(--d-muted,#6C7A75); margin-top:2px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-.acc-chev { color:#9aa6a0; flex-shrink:0; transition:transform .2s ease; }
-.acc-chev.open { transform:rotate(180deg); }
-.acc-body { padding:4px 14px 16px; border-top:1px solid #EEF1EC; }
+/* .acc* live in app.css (.ev2 scope) — shared with the Bagian tab. */
+.item { border:1px solid #EEF1EC; border-radius:12px; margin-bottom:8px; background:#FBFCF9; overflow:hidden; }
+.item-head { display:flex; align-items:center; gap:8px; padding:9px 11px; cursor:pointer; }
+.item-head.static { cursor:default; }
+.item-title { flex:1; min-width:0; font-size:12.5px; font-weight:600; color:#1F2A2E; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.item-actions { display:flex; gap:4px; flex-shrink:0; }
+.item-body { padding:2px 11px 10px; }
+.mini { border:1px solid #DDE4DA; background:#fff; border-radius:7px; padding:3px 7px; font-size:11px; color:#6C7A75; cursor:pointer; font-family:inherit; }
+.mini:disabled { opacity:.4; cursor:default; }
+.mini.danger { color:#B4524A; border-color:#EBD5D2; }
+.add { width:100%; padding:9px; border:1px dashed #CBD5C6; border-radius:10px; background:transparent; font-size:12.5px; color:#6C7A75; cursor:pointer; font-family:inherit; }
+.add:hover { border-color:#92A89C; color:#3D4A4D; }
+.hint { font-size:11.5px; color:#9aa6a0; text-align:center; padding:6px 0 10px; }
+.err { font-size:11.5px; color:#B4524A; padding:2px 0 8px; }
+.thumb-row { display:flex; align-items:center; gap:8px; }
+.thumb { width:56px; height:56px; object-fit:cover; border-radius:8px; border:1px solid #E3E9DF; }
+.upload { display:block; text-align:center; padding:9px; border:1px dashed #CBD5C6; border-radius:10px; font-size:12.5px; color:#6C7A75; cursor:pointer; }
+.upload:hover { border-color:#92A89C; }
 .seg { display:flex; gap:4px; background:#F1F4EF; border-radius:10px; padding:3px; }
+
 .seg-btn { flex:1; padding:7px 4px; border:none; background:transparent; border-radius:8px; font-size:12px; font-weight:600; color:#6C7A75; cursor:pointer; font-family:inherit; transition:all .12s; }
 .seg-btn.on { background:#fff; color:#1F2A2E; box-shadow:0 1px 3px rgba(0,0,0,0.08); }
 </style>

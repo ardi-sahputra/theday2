@@ -79,6 +79,19 @@
         })();
     </script>
 
+    {{-- Google Analytics 4 --}}
+    @if($gaId = config('services.ga.measurement_id'))
+        <script async src="https://www.googletagmanager.com/gtag/js?id={{ $gaId }}"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            // Tracks the first (server-rendered) page load. Inertia visits
+            // are tracked manually in app.js on the 'navigate' event.
+            gtag('config', '{{ $gaId }}');
+        </script>
+    @endif
+
     <!-- Scripts -->
     @routes
     @vite(['resources/js/app.js', "resources/js/Pages/{$page['component']}.vue"])

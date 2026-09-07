@@ -647,6 +647,17 @@
       ]
     }
     </script>
+
+    {{-- Google Analytics 4 --}}
+    @if($gaId = config('services.ga.measurement_id'))
+        <script async src="https://www.googletagmanager.com/gtag/js?id={{ $gaId }}"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '{{ $gaId }}');
+        </script>
+    @endif
 </head>
 
 <body>
@@ -1482,20 +1493,30 @@
                         @php
                             $premiumPlan = $plans['premium'] ?? null;
                             $premiumPrice = $premiumPlan ? $premiumPlan->effectivePrice() : 49000;
-                            $premiumDuration = $premiumPlan->duration_days ?? 365;
+                            $premiumIsLifetime = ($premiumPlan->duration_days ?? 0) <= 0;
                         @endphp
                         <div class="mb-6">
-                            @if ($premiumPlan && $premiumPlan->hasActiveDiscount())
+                            @if ($premiumPlan && $premiumPlan->hasVisibleDiscount())
                                 <span class="text-base text-gray-400 line-through">Rp
-                                    {{ number_format((int) $premiumPlan->price, 0, ',', '.') }}</span>
+                                    {{ number_format((int) $premiumPlan->original_price, 0, ',', '.') }}</span>
                             @endif
                             <p class="text-3xl font-bold" style="color: #C8A26B">Rp
                                 {{ number_format($premiumPrice, 0, ',', '.') }}</p>
-                            <p class="text-sm text-gray-400" data-id="untuk {{ $premiumDuration }} hari aktif"
-                                data-en="for {{ $premiumDuration }} active days">untuk {{ $premiumDuration }} hari
-                                aktif</p>
+                            @if ($premiumIsLifetime)
+                                <p class="text-sm text-gray-400" data-id="sekali bayar, aktif selamanya"
+                                    data-en="one-time payment, active for life">sekali bayar, aktif selamanya</p>
+                            @else
+                                <p class="text-sm text-gray-400"
+                                    data-id="untuk {{ $premiumPlan->duration_days }} hari aktif"
+                                    data-en="for {{ $premiumPlan->duration_days }} active days">untuk
+                                    {{ $premiumPlan->duration_days }} hari aktif</p>
+                            @endif
                         </div>
                         <ul class="space-y-3 text-sm text-gray-600 mb-8">
+                            <li class="flex gap-2"><span style="color: #C8A26B">&#10003;</span> <span
+                                    data-id="2 undangan aktif (tambah lewat add-on Rp15.000)"
+                                    data-en="2 active invitations (add more for Rp15,000 each)">2 undangan aktif
+                                    (tambah lewat add-on Rp15.000)</span></li>
                             <li class="flex gap-2"><span style="color: #C8A26B">&#10003;</span> <span
                                     data-id="Semua tema premium (Onyx, Astronomy, dll)"
                                     data-en="All premium themes (Onyx, Astronomy, etc.)">Semua tema premium (Onyx,

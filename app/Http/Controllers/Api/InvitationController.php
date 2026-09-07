@@ -21,22 +21,14 @@ use App\Models\Invitation;
 use App\Models\InvitationEvent;
 use App\Models\InvitationGallery;
 use App\Models\InvitationSection;
+use App\Support\InvitationSlug;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
 class InvitationController extends Controller
 {
-    /** Slugs that may never be used by an invitation (collide with app routes). */
-    private const RESERVED_SLUGS = [
-        'login', 'register', 'logout', 'dashboard', 'admin', 'templates',
-        'editor', 'use-template', 'onboarding', 'profile', 'up', 'i',
-        'verify-email', 'confirm-password', 'forgot-password',
-        'reset-password', 'email', 'sitemap', 'api', 'storage', 'blog', 'upgrade',
-    ];
-
     // ─── GET /api/invitations/check-slug ─────────────────────────
 
     public function checkSlug(Request $request): JsonResponse
@@ -49,29 +41,8 @@ class InvitationController extends Controller
         $slug      = $request->slug;
         $excludeId = $request->exclude_id;
 
-        $taken = in_array($slug, self::RESERVED_SLUGS, true)
-            || \App\Models\Invitation::withTrashed()->where('slug', $slug)
-                ->when($excludeId, fn ($q) => $q->where('id', '!=', $excludeId))
-                ->exists()
-            || \App\Models\InvitationSlugAlias::where('slug', $slug)
-                ->when($excludeId, fn ($q) => $q->where('invitation_id', '!=', $excludeId))
-                ->exists();
-
-        $suggestion = null;
-        if ($taken) {
-            // Try with year suffix first, then increment
-            $year = now()->year;
-            $candidates = ["{$slug}-{$year}", "{$slug}-2", "{$slug}-3", "{$slug}-4"];
-            foreach ($candidates as $candidate) {
-                $exists = \App\Models\Invitation::where('slug', $candidate)
-                    ->when($excludeId, fn ($q) => $q->where('id', '!=', $excludeId))
-                    ->exists();
-                if (!$exists) {
-                    $suggestion = $candidate;
-                    break;
-                }
-            }
-        }
+        $taken      = InvitationSlug::isTaken($slug, $excludeId);
+        $suggestion = $taken ? InvitationSlug::suggest($slug, $excludeId) : null;
 
         return response()->json([
             'available'  => !$taken,
@@ -104,9 +75,7 @@ class InvitationController extends Controller
             return response()->json(['slug' => $old]);
         }
 
-        $taken = in_array($slug, self::RESERVED_SLUGS, true)
-            || Invitation::withTrashed()->where('slug', $slug)->where('id', '!=', $invitation->id)->exists()
-            || \App\Models\InvitationSlugAlias::where('slug', $slug)->where('invitation_id', '!=', $invitation->id)->exists();
+        $taken = InvitationSlug::isTaken($slug, $invitation->id);
 
         if ($taken) {
             return response()->json(['message' => 'Slug ini sudah dipakai. Coba yang lain.'], 422);
@@ -139,7 +108,7 @@ class InvitationController extends Controller
             'template_id' => $request->template_id,
             'title'       => $request->title,
             'event_type'  => $request->event_type,
-            'slug'        => $this->generateUniqueSlug($request->title),
+            'slug'        => InvitationSlug::unique($request->title),
             'status'      => 'draft',
         ]);
 
@@ -528,19 +497,5 @@ class InvitationController extends Controller
             $relativePath = ltrim(str_replace($publicBase, '', $url), '/');
             Storage::disk($disk)->delete($relativePath);
         }
-    }
-
-    private function generateUniqueSlug(string $title): string
-    {
-        $base  = Str::slug($title) ?: 'undangan';
-        $slug  = $base;
-        $count = 1;
-
-        while (Invitation::where('slug', $slug)->exists()) {
-            $slug = "{$base}-{$count}";
-            $count++;
-        }
-
-        return $slug;
     }
 }

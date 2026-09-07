@@ -7,7 +7,7 @@ const { t } = useLocale();
 <template>
   <div class="rounded-[16px]" style="background:#FBFCF9; border:1px solid #D8DFD2;">
     <div class="px-5 pt-4 pb-3">
-      <h3 class="font-cormorant font-medium text-[20px] tracking-tight" style="color:#1F2A2E;">{{ t('dashboard.budget.bars.title') }}</h3>
+      <h3 class="font-medium text-[20px] tracking-tight" style="color:#1F2A2E;">{{ t('dashboard.budget.bars.title') }}</h3>
       <p class="text-[11.5px] mt-0.5" style="color:#6C7A75;">{{ t('dashboard.budget.bars.sub') }}</p>
     </div>
     <div class="px-5 pb-5 flex flex-col gap-3.5">

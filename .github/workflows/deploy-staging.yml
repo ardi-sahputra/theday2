@@ -1,0 +1,40 @@
+name: Deploy Staging
+
+on:
+  push:
+    branches: [develop]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-staging
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: staging
+      url: https://staging.theday.id
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          # Key dulu, password sebagai cadangan. Kalau SSH_PRIVATE_KEY kosong
+          # atau formatnya rusak, action diam-diam jatuh ke password — cek
+          # docs/DEPLOYMENT.md kalau lognya bilang "attempted methods [none password]".
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port: ${{ secrets.SSH_PORT || 22 }}
+          command_timeout: 20m
+          script: |
+            set -e
+            # Docroot subdomain staging dibuat Hostinger nested di dalam
+            # public_html prod. Repo-nya terpisah penuh (git + .env sendiri);
+            # prod meng-ignore folder ini lewat .gitignore.
+            cd /home/u144336260/domains/theday.id/public_html/staging
+            PREV_SHA=$(git rev-parse HEAD)
+            git fetch origin develop
+            git reset --hard origin/develop
+            DEPLOY_PREVIOUS_SHA=$PREV_SHA bash scripts/deploy.sh staging

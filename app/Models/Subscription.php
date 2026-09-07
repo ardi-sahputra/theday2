@@ -54,9 +54,7 @@ class Subscription extends Model
 
     public function activeAddons(): HasMany
     {
-        return $this->hasMany(InvitationAddon::class)
-            ->whereNotNull('paid_at')
-            ->where('expires_at', '>', now());
+        return $this->hasMany(InvitationAddon::class)->active();
     }
 
     // ─── Scopes ───────────────────────────────────────────────────
