@@ -1,7 +1,6 @@
 <script setup>
 import { computed } from 'vue';
 import { Link } from '@inertiajs/vue3';
-import { useNavScroll } from '@/Composables/useNavScroll';
 
 const emit = defineEmits(['toggle-more']);
 defineProps({ moreOpen: { type: Boolean, default: false } });
@@ -33,8 +32,9 @@ const tabs = [
     },
 ];
 
-// ── Scroll detection (shared singleton via composable) ────────────────
-const { isScrolling } = useNavScroll();
+// Auto-hide/shrink-on-scroll disabled per product decision — swap back to
+// `const { isScrolling } = useNavScroll()` to re-enable.
+const isScrolling = false;
 
 // ── Active helpers ────────────────────────────────────────────────────
 const isActive = (patterns) => {
