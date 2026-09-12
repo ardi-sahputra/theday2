@@ -30,6 +30,7 @@ import LetterpressTemplate         from './LetterpressTemplate.vue'
 import IslamicGeometricTemplate    from './IslamicGeometricTemplate.vue'
 import BotanicalTemplate           from './BotanicalTemplate.vue'
 import AyatHaditsTemplate          from './AyatHaditsTemplate.vue'
+import SketchbookTemplate          from './SketchbookTemplate.vue'
 
 export const TEMPLATE_MAP = {
     'nusantara':           NusantaraTemplate,
@@ -63,6 +64,7 @@ export const TEMPLATE_MAP = {
     'islamic-geometric':   IslamicGeometricTemplate,
     'botanical':           BotanicalTemplate,
     'ayat-hadits':         AyatHaditsTemplate,
+    'sketchbook':          SketchbookTemplate,
 }
 
 // Full-bleed scene templates (SceneTemplate-based, fixed 9:16 art with

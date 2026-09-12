@@ -1370,6 +1370,36 @@ class TemplateSeeder extends Seeder
                 'sort_order'     => 33,
                 'is_featured'    => true,
             ],
+
+            // ── Sketchbook (Premium, watercolor journal + draggable magnifier) ──
+            [
+                'category_id'    => $storybook->id,
+                'name'           => 'Sketchbook',
+                'slug'           => 'sketchbook',
+                'thumbnail_url'  => '/images/templates/sketchbook/thumbnail.webp',
+                'description'    => 'Template pernikahan premium bergaya buku sketsa watercolor — galeri foto tampil sebagai halaman buku sketsa yang bisa dibolak-balik, dilengkapi kaca pembesar yang bisa digeser untuk melihat detail foto, kertas bertekstur cream, dan ilustrasi botanical di sudut halaman.',
+                'default_config' => [
+                    'primary_color'   => '#9a6a3e',
+                    'secondary_color' => '#ece7dc',
+                    'accent_color'    => '#9a6a3e',
+                    'dark_bg'         => '#2b2721',
+                    'font_title'      => 'Instrument Serif',
+                    'font_heading'    => 'Instrument Serif',
+                    'font_body'       => 'Newsreader',
+                    'gallery_layout'  => 'grid',
+                    'opening_style'   => 'gate',
+                ],
+                'demo_data'      => array_merge($weddingDemo, ['custom_config' => [
+                    'primary_color'   => '#9a6a3e',
+                    'secondary_color' => '#ece7dc',
+                    'accent_color'    => '#9a6a3e',
+                    'font_title'      => 'Instrument Serif',
+                    'font_body'       => 'Newsreader',
+                ]]),
+                'tier'           => 'premium',
+                'is_active'      => true,
+                'sort_order'     => 34,
+            ],
         ];
 
         foreach ($templates as $template) {
