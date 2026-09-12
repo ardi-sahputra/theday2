@@ -18,25 +18,30 @@ const cards = computed(() => {
     label: t('dashboard.index.widgets.stats.rsvp'),
     value: String(props.stats.rsvp_attending ?? 0),
     sub:   t('dashboard.index.widgets.stats.rsvpSub', { total: props.stats.rsvp_total ?? 0 }),
-    color: '#92A89C', icon: 'guest', demo: false,
+    color: '#92A89C', icon: 'guest', demo: false, progress: null,
   };
   const budget = {
     label: t('dashboard.index.widgets.stats.budget'),
     value: (props.budgetWidget?.usage_percentage ?? 0) + '%',
     sub:   props.budgetWidget?.has_budget ? `${props.budgetWidget.formatted.total_actual} / ${props.budgetWidget.formatted.total_budget}` : t('dashboard.index.widgets.stats.budgetEmpty'),
     color: '#C19089', icon: 'budget', demo: false,
+    progress: props.budgetWidget?.has_budget ? Math.min(100, props.budgetWidget?.usage_percentage ?? 0) : null,
   };
+  const checklistTotal = props.checklistWidget?.total ?? 0;
   const checklist = {
     label: t('dashboard.index.widgets.stats.checklist'),
-    value: String(props.checklistWidget?.done ?? 0),
-    sub:   t('dashboard.index.widgets.stats.checklistSub', { total: props.checklistWidget?.total ?? 0 }),
+    value: `${props.checklistWidget?.done ?? 0}/${checklistTotal}`,
+    sub:   props.checklistWidget?.initialized
+      ? t('dashboard.index.widgets.stats.checklistSub', { total: checklistTotal })
+      : t('dashboard.index.widgets.stats.checklistNotStarted'),
     color: '#D9A24A', icon: 'check', demo: false,
+    progress: checklistTotal > 0 ? Math.round(((props.checklistWidget?.done ?? 0) / checklistTotal) * 100) : null,
   };
   const ucapan = {
     label: t('dashboard.index.widgets.stats.ucapan'),
     value: String(props.stats.ucapan_count ?? 0),
     sub:   t('dashboard.index.widgets.stats.ucapanSub'),
-    color: '#6F8270', icon: 'gift', demo: false,
+    color: '#6F8270', icon: 'gift', demo: false, progress: null,
   };
 
   return hasPublished.value
@@ -50,7 +55,8 @@ const cards = computed(() => {
               lg:grid lg:overflow-visible lg:pb-0"
        :style="{ '--qs-cols': cards.length }">
     <div v-for="(s, i) in cards" :key="i"
-         class="relative overflow-hidden rounded-[16px] px-4 py-3 snap-start shrink-0 w-[76%] sm:w-[44%] lg:w-auto"
+         class="relative overflow-hidden rounded-[16px] px-5 py-3.5 snap-start shrink-0 lg:w-auto"
+         :class="cards.length <= 2 ? 'w-[calc(50%-8px)]' : 'w-[76%] sm:w-[44%]'"
          style="background:#FBFCF9; border:1px solid #D8DFD2;">
       <div class="flex items-center gap-2 mb-2">
         <div class="w-6 h-6 rounded-[7px] grid place-items-center shrink-0" :style="{ background: s.color }">
@@ -62,6 +68,9 @@ const cards = computed(() => {
       </div>
       <div class="font-medium leading-none tracking-tight text-[28px]" style="color:#1F2A2E;">{{ s.value }}</div>
       <div class="text-xs mt-1" style="color:#6C7A75;">{{ s.sub }}</div>
+      <div v-if="s.progress !== null" class="mt-2.5 h-1.5 rounded-full overflow-hidden" style="background:#E7EBE3;">
+        <div class="h-full rounded-full" :style="{ width: s.progress + '%', background: s.color }" />
+      </div>
     </div>
   </div>
 </template>

@@ -26,7 +26,7 @@ const tabs = [
         icon: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>`,
     },
     {
-        label: 'Planner',
+        label: 'Checklist',
         routeName: 'dashboard.checklist.index',
         activePatterns: ['dashboard.checklist.*'],
         icon: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>`,
@@ -180,7 +180,7 @@ const PILL_T_OUT = 'width 0.50s cubic-bezier(0.34,1.56,0.64,1), height 0.40s eas
                             ? 'max-height 0.18s ease-in, opacity 0.12s ease-in'
                             : 'max-height 0.40s ease-out, opacity 0.28s ease-out 0.10s',
                     }"
-                >More</span>
+                >Lainnya</span>
             </button>
         </div>
     </nav>

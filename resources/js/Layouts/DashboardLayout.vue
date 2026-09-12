@@ -503,7 +503,7 @@ const handleClickOutsideAvatar = (e) => {
         <div class="flex-1 flex flex-col min-w-0 pb-20 lg:pb-0">
 
             <!-- Top bar -->
-            <header :class="['relative z-30 px-4 lg:px-6 h-20 flex items-center gap-4', stickyHeader ? 'sticky top-0' : '']"
+            <header :class="['relative z-30 px-4 lg:px-6 h-16 flex items-center gap-4', stickyHeader ? 'sticky top-0' : '']"
                     style="background: rgba(245,248,242,0.55);
                            backdrop-filter: blur(28px) saturate(1.9) brightness(1.04);
                            -webkit-backdrop-filter: blur(28px) saturate(1.9) brightness(1.04);

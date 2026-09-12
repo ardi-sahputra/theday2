@@ -257,7 +257,8 @@
                     "greetEvening": "Selamat sore",
                     "greetNight": "Selamat malam",
                     "married": "Selamat menempuh hidup baru",
-                    "noDate": "Atur tanggal pernikahan kalian",
+                    "noDate": "Belum menentukan tanggal",
+                    "daysLeft": "{days} hari lagi",
                     "fallbackTitle": "Pasangan Bahagia",
                     "toTheday": "menuju hari H",
                     "days": "Hari",
@@ -274,18 +275,22 @@
                     "rsvpSub": "dari {total} RSVP",
                     "budget": "Anggaran Terpakai",
                     "budgetEmpty": "Belum ada anggaran",
-                    "checklist": "Checklist Selesai",
+                    "checklist": "Checklist",
                     "checklistSub": "dari {total} tugas",
+                    "checklistNotStarted": "Belum dimulai",
                     "ucapan": "Ucapan Masuk",
                     "ucapanSub": "ucapan dari tamu"
                 },
                 "checklist": {
                     "title": "Checklist Berikutnya",
+                    "titlePlain": "Checklist Pernikahan",
                     "sub": "{done} dari {total} selesai",
-                    "add": "Tugas baru",
+                    "subNotStarted": "Belum dimulai",
+                    "add": "Tambah tugas",
                     "urgent": "Mendesak",
                     "allDone": "Semua tugas selesai 🎉",
-                    "empty": "Checklist belum diaktifkan"
+                    "empty": "Belum ada checklist yang dimulai",
+                    "emptyBody": "Mulai susun persiapan pernikahan kalian dan tentukan apa yang perlu dikerjakan."
                 },
                 "invite": {
                     "label": "Halaman undangan",
@@ -340,6 +345,11 @@
                     "learn": "Pelajari",
                     "soon": "Segera hadir"
                 }
+            },
+            "sections": {
+                "prep": "Progress persiapan",
+                "more": "Fitur lainnya",
+                "moreHint": "Website, budget detail, RSVP, vendor, dan aktivitas terbaru"
             },
             "pageTitle": "Dashboard",
             "greeting": "Selamat datang kembali",

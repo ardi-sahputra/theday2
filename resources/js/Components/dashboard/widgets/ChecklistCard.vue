@@ -10,6 +10,7 @@ const props = defineProps({
 });
 const { t } = useLocale();
 
+const initialized = computed(() => !!props.checklistWidget?.initialized);
 const tasks = computed(() => props.checklistWidget?.upcoming_tasks ?? []);
 const isAllDone = computed(() =>
     (props.checklistWidget?.total ?? 0) > 0 &&
@@ -31,13 +32,16 @@ function hLabel(task) {
     <!-- Header — title + progress only, no action buttons -->
     <div class="flex items-center justify-between px-5 py-[18px]" style="border-bottom:1px solid #D8DFD2;">
       <div>
-        <h3 class="font-medium text-[22px] tracking-tight" style="color:#1F2A2E;">{{ t('dashboard.index.widgets.checklist.title') }}</h3>
+        <h3 class="font-medium text-[22px] tracking-tight" style="color:#1F2A2E;">
+          {{ initialized ? t('dashboard.index.widgets.checklist.title') : t('dashboard.index.widgets.checklist.titlePlain') }}
+        </h3>
         <div class="text-xs mt-0.5" style="color:#6C7A75;">
-          {{ t('dashboard.index.widgets.checklist.sub', { done: checklistWidget.done, total: checklistWidget.total }) }}
+          <template v-if="initialized">{{ t('dashboard.index.widgets.checklist.sub', { done: checklistWidget.done, total: checklistWidget.total }) }}</template>
+          <template v-else>{{ t('dashboard.index.widgets.checklist.subNotStarted') }}</template>
         </div>
       </div>
-      <!-- Lihat semua — subtle link -->
-      <Link :href="route('dashboard.checklist.index')"
+      <!-- Lihat semua — only once there's something to see -->
+      <Link v-if="initialized" :href="route('dashboard.checklist.index')"
             class="text-xs font-semibold"
             style="color:#92A89C;">
         Lihat semua →
@@ -47,22 +51,26 @@ function hLabel(task) {
     <!-- Task list -->
     <div v-if="tasks.length" class="px-0 py-0">
       <div v-for="(it, i) in tasks" :key="it.id"
-           class="flex items-center gap-3.5 px-5 py-3.5"
+           class="flex items-start gap-3.5 px-5 py-3"
            :style="i < tasks.length - 1 ? 'border-bottom:1px solid #D8DFD2;' : ''">
-        <span class="w-5 h-5 rounded-md grid place-items-center flex-shrink-0"
+        <span class="w-5 h-5 rounded-md grid place-items-center flex-shrink-0 mt-0.5"
               style="border:2px solid #C7D0BE;" />
-        <div class="font-jet text-[11px] min-w-[44px]" style="color:#6C7A75;">{{ hLabel(it) }}</div>
-        <div class="flex-1 text-[13.5px]" style="color:#1F2A2E;">{{ it.title }}</div>
-        <span v-if="it.is_overdue" class="text-[10px] font-semibold px-1.5 py-0.5 rounded-full"
+        <div class="flex-1 min-w-0">
+          <div class="text-[13.5px] leading-snug" style="color:#1F2A2E;">{{ it.title }}</div>
+          <div class="text-[11px] mt-0.5" style="color:#9AA69F;">
+            {{ t('dashboard.index.widgets.checklist.subNotStarted') }}<template v-if="hLabel(it)"> · {{ hLabel(it) }}</template>
+          </div>
+        </div>
+        <span v-if="it.is_overdue" class="text-[10px] font-semibold px-1.5 py-0.5 rounded-full shrink-0"
               style="color:#C19089; background: rgba(217,181,176,0.2);">{{ t('dashboard.index.widgets.checklist.urgent') }}</span>
       </div>
 
       <!-- Footer actions when tasks are visible -->
       <div class="flex items-center gap-2 px-5 py-4" style="border-top:1px solid #D8DFD2;">
         <Link :href="route('dashboard.checklist.index')"
-              class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold"
-              style="background:#1F2A2E; color:#FBFCF9;">
-          <WidgetIcon name="plus" :size="12" stroke="#FBFCF9" /> {{ t('dashboard.index.widgets.checklist.add') }}
+              class="inline-flex min-h-[44px] items-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold"
+              style="background:#FBFCF9; color:#4A5A4C; border:1.5px solid #92A89C;">
+          <WidgetIcon name="plus" :size="12" stroke="#4A5A4C" /> {{ t('dashboard.index.widgets.checklist.add') }}
         </Link>
         <Link :href="route('dashboard.checklist.index') + '?tab=dokumen'"
               class="text-xs font-semibold"
@@ -72,23 +80,21 @@ function hLabel(task) {
       </div>
     </div>
 
-    <!-- Empty / all-done state -->
-    <div v-else class="px-5 py-7 text-center">
-      <p class="text-sm mb-5" style="color:#6C7A75;">
-        {{ isAllDone ? t('dashboard.index.widgets.checklist.allDone') : t('dashboard.index.widgets.checklist.empty') }}
+    <!-- All-done: brief celebratory line, no CTA needed -->
+    <div v-else-if="isAllDone" class="px-5 py-5 text-center text-sm" style="color:#6C7A75;">
+      {{ t('dashboard.index.widgets.checklist.allDone') }}
+    </div>
+
+    <!-- Not started yet: compact empty state, not a big block -->
+    <div v-else class="flex flex-col sm:flex-row sm:items-center gap-3 px-5 py-4">
+      <p class="flex-1 min-w-0 text-[13px] leading-snug" style="color:#6C7A75;">
+        {{ t('dashboard.index.widgets.checklist.emptyBody') }}
       </p>
-      <div class="flex items-center justify-center gap-3">
-        <Link :href="route('dashboard.checklist.index')"
-              class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full text-xs font-semibold"
-              style="background:#1F2A2E; color:#FBFCF9;">
-          <WidgetIcon name="plus" :size="12" stroke="#FBFCF9" /> {{ t('dashboard.index.widgets.checklist.add') }}
-        </Link>
-        <Link :href="route('dashboard.checklist.index') + '?tab=dokumen'"
-              class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full text-xs font-semibold"
-              style="color:#4A5A4C; border:1px solid #C7D0BE;">
-          {{ t('dashboard.documents.title') }}
-        </Link>
-      </div>
+      <Link :href="route('dashboard.checklist.index')"
+            class="shrink-0 inline-flex min-h-[44px] items-center justify-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-semibold"
+            style="background:#FBFCF9; color:#4A5A4C; border:1.5px solid #92A89C;">
+        <WidgetIcon name="plus" :size="12" stroke="#4A5A4C" /> {{ t('dashboard.index.widgets.checklist.add') }}
+      </Link>
     </div>
 
   </div>

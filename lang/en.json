@@ -255,7 +255,8 @@
                     "greetEvening": "Good evening",
                     "greetNight": "Good evening",
                     "married": "Congratulations on your marriage",
-                    "noDate": "Set your wedding date",
+                    "noDate": "Date not set yet",
+                    "daysLeft": "{days} days to go",
                     "fallbackTitle": "Happy Couple",
                     "toTheday": "until the day",
                     "days": "Days",
@@ -272,18 +273,22 @@
                     "rsvpSub": "of {total} RSVPs",
                     "budget": "Budget Used",
                     "budgetEmpty": "No budget yet",
-                    "checklist": "Checklist Done",
+                    "checklist": "Checklist",
                     "checklistSub": "of {total} tasks",
+                    "checklistNotStarted": "Not started",
                     "ucapan": "Wishes Received",
                     "ucapanSub": "wishes from guests"
                 },
                 "checklist": {
                     "title": "Up Next",
+                    "titlePlain": "Wedding Checklist",
                     "sub": "{done} of {total} done",
-                    "add": "New task",
+                    "subNotStarted": "Not started",
+                    "add": "Add task",
                     "urgent": "Urgent",
                     "allDone": "All tasks done 🎉",
-                    "empty": "Checklist not initialized"
+                    "empty": "No checklist started yet",
+                    "emptyBody": "Start planning your wedding prep and decide what needs to get done."
                 },
                 "invite": {
                     "label": "Invitation page",
@@ -338,6 +343,11 @@
                     "learn": "Learn more",
                     "soon": "Coming soon"
                 }
+            },
+            "sections": {
+                "prep": "Prep progress",
+                "more": "Other features",
+                "moreHint": "Website, budget details, RSVP, vendors, and recent activity"
             },
             "pageTitle": "Dashboard",
             "greeting": "Welcome back",

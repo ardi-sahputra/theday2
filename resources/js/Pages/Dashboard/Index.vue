@@ -5,6 +5,7 @@ import { Link, router, usePage } from '@inertiajs/vue3';
 import axios from 'axios';
 import { computed, ref } from 'vue';
 import { useLocale } from '@/Composables/useLocale';
+import WidgetIcon        from '@/Components/dashboard/WidgetIcon.vue';
 import CountdownHero    from '@/Components/dashboard/widgets/CountdownHero.vue';
 import NextActionHero    from '@/Components/dashboard/widgets/NextActionHero.vue';
 import QuickStats        from '@/Components/dashboard/widgets/QuickStats.vue';
@@ -173,6 +174,9 @@ function calDisplayDate(dateStr) {
     return new Date(y, m - 1, d).toLocaleDateString(locale.value === 'id' ? 'id-ID' : 'en-US', { day: 'numeric', month: 'long', year: 'numeric' });
 }
 
+// ── Progressive disclosure: secondary widgets start collapsed ──────────
+const showMore = ref(false);
+
 function saveWeddingDate() {
     if (!weddingDateInput.value) return;
     savingDate.value = true;
@@ -201,21 +205,41 @@ function saveWeddingDate() {
 
           <NextActionHero :next-action="nextAction" @set-date="openDateModal" @share="copyInviteLink" />
 
-          <QuickStats :stats="stats" :budget-widget="budgetWidget" :checklist-widget="checklistWidget" />
-
-          <InviteShareCard :invite-share="inviteShare" />
+          <div>
+            <h3 class="text-sm font-semibold mb-3 px-1" style="color:#3D4A4D;">{{ t('dashboard.index.sections.prep') }}</h3>
+            <QuickStats :stats="stats" :budget-widget="budgetWidget" :checklist-widget="checklistWidget" />
+          </div>
 
           <ChecklistCard :checklist-widget="checklistWidget" :countdown="countdown" />
 
-          <div class="grid gap-5 lg:grid-cols-[1.2fr_1fr]">
-            <BudgetDonutCard :budget-widget="budgetWidget" />
-            <RecentRsvpCard :recent-rsvps="recentRsvps" />
-          </div>
+          <!-- Progressive disclosure: website / budget detail / RSVP / vendor / activity
+               are all real, but not needed on first open — collapsed by default. -->
+          <div>
+            <button type="button" @click="showMore = !showMore"
+                    class="w-full min-h-[44px] flex items-center justify-between gap-3 px-1 rounded-lg transition-colors active:bg-black/[0.03] hover:bg-black/[0.02]"
+                    :aria-expanded="showMore">
+              <span class="text-sm font-semibold" style="color:#3D4A4D;">{{ t('dashboard.index.sections.more') }}</span>
+              <WidgetIcon name="chevron" :size="16" stroke="#6C7A75"
+                          style="transition: transform 0.2s;" :style="showMore ? 'transform:rotate(180deg)' : ''" />
+            </button>
+            <p v-if="!showMore" class="text-xs px-1 -mt-1" style="color:#9AA69F;">
+              {{ t('dashboard.index.sections.moreHint') }}
+            </p>
 
-          <div class="grid gap-5 lg:grid-cols-3">
-            <VendorLineupCard :vendor-widget="vendorWidget" />
-            <BeyondPeekCard v-if="featureBeyond" />
-            <ActivityFeedCard :activity-feed="activityFeed" />
+            <div v-show="showMore" class="space-y-5 mt-3">
+              <InviteShareCard :invite-share="inviteShare" />
+
+              <div class="grid gap-5 lg:grid-cols-[1.2fr_1fr]">
+                <BudgetDonutCard :budget-widget="budgetWidget" />
+                <RecentRsvpCard :recent-rsvps="recentRsvps" />
+              </div>
+
+              <div class="grid gap-5 lg:grid-cols-3">
+                <VendorLineupCard :vendor-widget="vendorWidget" />
+                <BeyondPeekCard v-if="featureBeyond" />
+                <ActivityFeedCard :activity-feed="activityFeed" />
+              </div>
+            </div>
           </div>
 
           <!-- Recent Invitations (kept — real & useful) -->
